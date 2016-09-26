@@ -1,0 +1,19 @@
+{
+    "require": {
+        "silex/silex": "~2.0",
+        "deralex/yaml-config-service-provider": "^1.0",
+        "cweagans/composer-patches": "^1.5"
+    },
+    "extra": {
+        "patches": {
+            "deralex/yaml-config-service-provider": {
+                "Add support for silex 2": "patches/yaml-config-service-provider-2.patch"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "CultuurNet\\ProjectAanvraag\\": ["src", "app"]
+        }
+    }
+}
