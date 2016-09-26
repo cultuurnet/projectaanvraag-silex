@@ -10,21 +10,20 @@ use Silex\ControllerCollection;
 /**
  * @file
  */
-class ProjectControllerProvider implements ControllerProviderInterface {
+class ProjectControllerProvider implements ControllerProviderInterface
+{
 
-  public function connect(Application $app) {
+    public function connect(Application $app)
+    {
 
-    $app['project_controller'] = function (Application $app) {
-      return new ProjectController();
-    };
+        $app['project_controller'] = function (Application $app) {
+            return new ProjectController();
+        };
 
-    /* @var ControllerCollection $controllers */
-    $controllers = $app['controllers_factory'];
-    $controllers->get('/projects', 'project_controller:listing');
+        /* @var ControllerCollection $controllers */
+        $controllers = $app['controllers_factory'];
+        $controllers->get('/projects', 'project_controller:listing');
 
-    return $controllers;
-
-  }
-
-
+        return $controllers;
+    }
 }

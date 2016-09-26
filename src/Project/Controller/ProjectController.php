@@ -7,10 +7,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @file
  */
-class ProjectController {
+class ProjectController
+{
 
-  public function listing() {
-    return new JsonResponse('to implement');
-  }
-
+    public function listing()
+    {
+        return new JsonResponse('to implement');
+    }
 }
