@@ -4,7 +4,6 @@ php:
 - 7.0
 install:
 - composer install
-- npm install
 script:
 - ./vendor/bin/phing test
 after_success:
