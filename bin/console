@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+use CultuurNet\ProjectAanvraag\ConsoleApplication;
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+$app = new ConsoleApplication();
+$consoleApplication = $app['console'];
+$consoleApplication->run();

@@ -1,0 +1,16 @@
+subscribers:
+    synchronous:
+    asynchronous:
+        CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
+            - example_listener
+
+listeners:
+    example_listener:
+        class: \CultuurNet\ProjectAanvraag\ExampleListener
+
+handlers:
+    create_project_handler:
+        command: CultuurNet\ProjectAanvraag\Project\Command\CreateProject
+        class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\CreateProjectCommandHandler
+        arguments:
+            - event_bus
