@@ -8,17 +8,18 @@ namespace CultuurNet\ProjectAanvraag;
 class CallableMock
 {
 
-    private $isCalled = FALSE;
+    private $isCalled = false;
 
     /**
      * Is the callable called.
      */
-    public function isCalled() {
+    public function isCalled()
+    {
         return $this->isCalled;
     }
 
     public function __invoke()
     {
-        $this->isCalled = TRUE;
+        $this->isCalled = true;
     }
 }

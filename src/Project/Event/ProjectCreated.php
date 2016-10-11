@@ -2,10 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
-use CultuurNet\ProjectAanvraag\Core\AsynchronousMessage;
+use CultuurNet\ProjectAanvraag\Core\AsynchronousMessageInterface;
 use JMS\Serializer\Annotation\Type;
 
-class ProjectCreated implements AsynchronousMessage
+class ProjectCreated implements AsynchronousMessageInterface
 {
 
     /**
@@ -17,5 +17,4 @@ class ProjectCreated implements AsynchronousMessage
     {
         $this->id = $id;
     }
-
 }

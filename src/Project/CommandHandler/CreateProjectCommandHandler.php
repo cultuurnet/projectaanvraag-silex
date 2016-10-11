@@ -21,5 +21,4 @@ class CreateProjectCommandHandler
         $projectCreated = new ProjectCreated(1);
         $this->eventBus->handle($projectCreated);
     }
-
 }

@@ -34,17 +34,20 @@ class ApplicationBase extends SilexApplication
     /**
      * Register all service providers.
      */
-    function registerProviders()
+    protected function registerProviders()
     {
         $this->register(new CoreProvider());
         $this->register(new MessageBusProvider());
 
         // Uitid
-        $this->register(new CultureFeedServiceProvider(), [
-            'culturefeed.endpoint' => $this['config']['uitid']['base_url'],
-            'culturefeed.consumer.key' => $this['config']['uitid']['consumer']['key'],
-            'culturefeed.consumer.secret' => $this['config']['uitid']['consumer']['secret'],
-        ]);
+        $this->register(
+            new CultureFeedServiceProvider(),
+            [
+                'culturefeed.endpoint' => $this['config']['uitid']['base_url'],
+                'culturefeed.consumer.key' => $this['config']['uitid']['consumer']['key'],
+                'culturefeed.consumer.secret' => $this['config']['uitid']['consumer']['secret'],
+            ]
+        );
         $this->register(new AuthServiceProvider());
         $this->register(new UserServiceProvider());
     }

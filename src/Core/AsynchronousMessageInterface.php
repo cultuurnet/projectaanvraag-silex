@@ -2,4 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
-interface AsynchronousMessage{}
+interface AsynchronousMessageInterface
+{
+}

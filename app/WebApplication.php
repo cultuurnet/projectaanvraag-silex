@@ -23,7 +23,7 @@ class WebApplication extends ApplicationBase
     /**
      * Register all service providers.
      */
-    function registerProviders()
+    protected function registerProviders()
     {
 
         parent::registerProviders();
@@ -36,7 +36,7 @@ class WebApplication extends ApplicationBase
     /**
      * Register all controllers.
      */
-    function mountControllers()
+    protected function mountControllers()
     {
         $this->mount('/projects', new ProjectControllerProvider());
 
@@ -45,5 +45,4 @@ class WebApplication extends ApplicationBase
             new \CultuurNet\UiTIDProvider\Auth\AuthControllerProvider()
         );
     }
-
 }

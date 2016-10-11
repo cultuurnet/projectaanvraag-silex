@@ -31,12 +31,13 @@ class PublishesAsynchronousMessagesTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function testAsynchronousMessageHandling() {
+    public function testAsynchronousMessageHandling()
+    {
 
         $this->publisher->expects($this->once())->method('publish');
 
         $next = new CallableMock();
-        $message = $this->getMock(AsynchronousMessage::class);
+        $message = $this->getMock(AsynchronousMessageInterface::class);
 
         $this->publishesAsynchronousMessages->handle($message, $next);
 
@@ -46,7 +47,8 @@ class PublishesAsynchronousMessagesTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function testSynchronousMessageHandling() {
+    public function testSynchronousMessageHandling()
+    {
 
         $this->publisher->expects($this->never())->method('publish');
 
@@ -57,5 +59,4 @@ class PublishesAsynchronousMessagesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($next->isCalled());
     }
-
 }

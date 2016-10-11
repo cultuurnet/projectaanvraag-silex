@@ -36,24 +36,26 @@ class ConsoleApplication extends ApplicationBase
     /**
      * Register all service providers.
      */
-    function registerProviders()
+    protected function registerProviders()
     {
         parent::registerProviders();
 
-        $this->register(new ConsoleServiceProvider(), [
-           'console.name' => 'Projectaanvraag',
-            'console.version' => '1.0.0',
-            'console.project_directory' => __DIR__ . '/..',
-        ]);
+        $this->register(
+            new ConsoleServiceProvider(),
+            [
+               'console.name' => 'Projectaanvraag',
+                'console.version' => '1.0.0',
+                'console.project_directory' => __DIR__ . '/..',
+            ]
+        );
     }
 
     /**
      * Register all commands.
      */
-    function registerCommands()
+    protected function registerCommands()
     {
         $consoleApp = $this['console'];
         $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer'));
     }
-
 }

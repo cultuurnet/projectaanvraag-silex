@@ -3,8 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Console\Command;
 
 use Knp\Command\Command;
-use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -38,10 +36,8 @@ class ConsumeCommand extends Command
     {
         $this
             ->addOption('memory-limit', 'l', InputOption::VALUE_OPTIONAL, 'Allowed memory for this process', null)
-            ->addOption('debug', 'd', InputOption::VALUE_NONE, 'Enable Debugging')
-        ;
+            ->addOption('debug', 'd', InputOption::VALUE_NONE, 'Enable Debugging');
     }
-
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -50,7 +46,7 @@ class ConsumeCommand extends Command
         }
 
         $consumer = $this->getInstance($this->consumerId);
-        if (!is_null($input->getOption('memory-limit')) && ctype_digit((string)$input->getOption('memory-limit')) && $input->getOption('memory-limit') > 0) {
+        if (!is_null($input->getOption('memory-limit')) && ctype_digit((string) $input->getOption('memory-limit')) && $input->getOption('memory-limit') > 0) {
             $consumer->setMemoryLimit($input->getOption('memory-limit'));
         }
 
@@ -61,31 +57,30 @@ class ConsumeCommand extends Command
 
         echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
 
-        $callback = function($msg) use ($consumer) {
+        $callback = function ($msg) use ($consumer) {
             try {
                 echo " [x] Received ", $msg->body, "\n";
                 $consumer->execute($msg);
-            }
-            catch (\Throwable $e) {
+            } catch (\Throwable $e) {
                 print $e->getMessage();
             }
         };
 
         $channel->basic_consume('projectaanvraag', '', false, true, false, false, $callback);
 
-        while(count($channel->callbacks)) {
+        while (count($channel->callbacks)) {
             $channel->wait();
         }
 
         $channel->close();
         $connection->close();
-
     }
 
     /**
      * Get a service instance.
      */
-    private function getInstance($serviceId) {
+    private function getInstance($serviceId)
+    {
         $app = $this->getSilexApplication();
 
         if (!isset($app[$serviceId])) {

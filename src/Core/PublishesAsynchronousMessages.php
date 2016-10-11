@@ -27,13 +27,10 @@ class PublishesAsynchronousMessages implements MessageBusMiddleware
      */
     public function handle($message, callable $next)
     {
-        if ($message instanceof AsynchronousMessage) {
+        if ($message instanceof AsynchronousMessageInterface) {
             $this->publisher->publish($message);
-        }
-        else {
+        } else {
             $next($message);
         }
-
-}
-
+    }
 }

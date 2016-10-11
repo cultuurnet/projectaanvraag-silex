@@ -57,7 +57,7 @@ class MessageBusProvider implements ServiceProviderInterface
 
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/messagebus.yml'));
 
-        $pimple['envelope_serializer'] = function(Container $pimple) {
+        $pimple['envelope_serializer'] = function (Container $pimple) {
 
             AnnotationRegistry::registerAutoloadNamespace("JMS\Serializer\Annotation", __DIR__ . '/../../vendor/jms/serializer/src');
 
@@ -70,21 +70,25 @@ class MessageBusProvider implements ServiceProviderInterface
             return new StandardMessageInEnvelopeSerializer(new DefaultEnvelopeFactory(), $objectSerializer);
         } ;
 
-        $pimple['event_bus'] = function (Container $pimple) use($config) {
+        $pimple['event_bus'] = function (Container $pimple) use ($config) {
             $eventBus = new MessageBusSupportingMiddleware();
             $eventBus->appendMiddleware(new PublishesAsynchronousMessages($pimple['publisher']));
 
-            $eventBus->appendMiddleware(new NotifiesMessageSubscribersMiddleware(
-                $this->getEventSubscriberResolver(isset($config['subscribers']['synchronous']) ? $config['subscribers']['synchronous'] : [], $pimple)
-            ));
+            $eventBus->appendMiddleware(
+                new NotifiesMessageSubscribersMiddleware(
+                    $this->getEventSubscriberResolver(isset($config['subscribers']['synchronous']) ? $config['subscribers']['synchronous'] : [], $pimple)
+                )
+            );
             return $eventBus;
         };
 
-        $pimple['event_bus_consumer'] = function (Container $pimple) use($config) {
+        $pimple['event_bus_consumer'] = function (Container $pimple) use ($config) {
             $eventBus = new MessageBusSupportingMiddleware();
-            $eventBus->appendMiddleware(new NotifiesMessageSubscribersMiddleware(
-                $this->getEventSubscriberResolver(isset($config['subscribers']['asynchronous']) ? $config['subscribers']['asynchronous'] : [], $pimple)
-            ));
+            $eventBus->appendMiddleware(
+                new NotifiesMessageSubscribersMiddleware(
+                    $this->getEventSubscriberResolver(isset($config['subscribers']['asynchronous']) ? $config['subscribers']['asynchronous'] : [], $pimple)
+                )
+            );
             return $eventBus;
         };
 
@@ -120,10 +124,12 @@ class MessageBusProvider implements ServiceProviderInterface
         $pimple['publisher'] = function (Container $pimple) {
 
             $producer = new Producer($pimple['rabbit.connection']);
-            $producer->setExchangeOptions([
-                'name' => 'asynchronous_commands',
-                'type' => 'direct'
-            ]);
+            $producer->setExchangeOptions(
+                [
+                    'name' => 'asynchronous_commands',
+                    'type' => 'direct',
+                ]
+            );
             $producer->setQueueOptions(['name' => 'projectaanvraag', 'durable' => false]);
             $routingKeyResolver = new EmptyRoutingKeyResolver();
             $additionalPropertiesResolver = new DelegatingAdditionalPropertiesResolver([]);
@@ -131,7 +137,7 @@ class MessageBusProvider implements ServiceProviderInterface
             return new RabbitMQPublisher($pimple['envelope_serializer'], $producer, $routingKeyResolver, $additionalPropertiesResolver);
         };
 
-        $pimple['rabbit.connection'] = function(Container $pimple) {
+        $pimple['rabbit.connection'] = function (Container $pimple) {
             $amqpConfig = $pimple['config']['rabbitmq'];
             return new AMQPStreamConnection($amqpConfig['host'], $amqpConfig['port'], $amqpConfig['user'], $amqpConfig['password']);
         };
@@ -152,7 +158,8 @@ class MessageBusProvider implements ServiceProviderInterface
      * @param array $subscribers
      *   Subscribers to set.
      */
-    private function getEventSubscriberResolver($subscribers, $pimple) {
+    private function getEventSubscriberResolver($subscribers, $pimple)
+    {
 
         $eventSubscriberCollection = new CallableCollection(
             $subscribers,
@@ -168,20 +175,21 @@ class MessageBusProvider implements ServiceProviderInterface
     /**
      * Register services based on the given yml config.
      */
-    private function registerServices($servicesToCreate, $pimple) {
+    private function registerServices($servicesToCreate, $pimple)
+    {
 
         foreach ($servicesToCreate as $serviceId => $serviceProperties) {
-            $pimple[$serviceId] = function(Container $pimple) use($serviceProperties) {
+            $pimple[$serviceId] = function (Container $pimple) use ($serviceProperties) {
                 if (isset($serviceProperties['arguments'])) {
                     $arguments = [];
-                    foreach($serviceProperties['arguments'] as $argument) {
+                    foreach ($serviceProperties['arguments'] as $argument) {
                         $arguments[] = $pimple[$argument];
                     }
                 }
 
-                return new $serviceProperties['class'](...$arguments);
+                $class = $serviceProperties['class'];
+                return new $class(...$arguments);
             };
-
         }
     }
 }

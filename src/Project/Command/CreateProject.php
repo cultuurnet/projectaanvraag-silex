@@ -11,5 +11,4 @@ class CreateProject
     {
         $this->name = $name;
     }
-
 }
