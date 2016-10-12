@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Core\Schema;
 
-
 interface DatabaseSchemaInstallerInterface
 {
 
@@ -16,5 +15,4 @@ interface DatabaseSchemaInstallerInterface
      * Install the schema.
      */
     public function installSchema();
-
 }

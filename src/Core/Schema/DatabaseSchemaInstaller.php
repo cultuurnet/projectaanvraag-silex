@@ -28,7 +28,8 @@ class DatabaseSchemaInstaller implements DatabaseSchemaInstallerInterface
     /**
      * Add a new schema configurator.
      */
-    public function addSchemaConfigurator(SchemaConfiguratorInterface $schemaConfigurator) {
+    public function addSchemaConfigurator(SchemaConfiguratorInterface $schemaConfigurator)
+    {
         $this->schemaConfigurators[] = $schemaConfigurator;
     }
 

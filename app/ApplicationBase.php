@@ -40,9 +40,11 @@ class ApplicationBase extends SilexApplication
     {
         $this->register(new CoreProvider());
         $this->register(
-            new DoctrineServiceProvider(), [
-            'db.options' => $this['config']['database'],
-        ]);
+            new DoctrineServiceProvider(),
+            [
+                'db.options' => $this['config']['database'],
+            ]
+        );
         $this->register(new MessageBusProvider());
 
         // Project

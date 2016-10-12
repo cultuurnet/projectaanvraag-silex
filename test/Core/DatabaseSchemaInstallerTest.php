@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
-
 use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
 use CultuurNet\ProjectAanvraag\Core\Schema\SchemaConfiguratorInterface;
 use Doctrine\DBAL\Connection;
@@ -52,7 +51,8 @@ class DatabaseSchemaInstallerTest extends \PHPUnit_Framework_TestCase
      * Test unknown service handling
      * @expectedException \Symfony\Component\Security\Core\Exception\ProviderNotFoundException
      */
-    public function testProviderNotFound() {
+    public function testProviderNotFound()
+    {
         $container = new Container();
         $installer = new DatabaseSchemaInstaller($container);
         $installer->installSchema();
@@ -61,7 +61,8 @@ class DatabaseSchemaInstallerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if the schema gets installed.
      */
-    public function testInstallSchema() {
+    public function testInstallSchema()
+    {
 
         $configurator = $this->getMock(SchemaConfiguratorInterface::class);
         $this->installer->addSchemaConfigurator($configurator);
@@ -73,7 +74,8 @@ class DatabaseSchemaInstallerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if the schema gets uninstalled.
      */
-    public function testUninstallSchema() {
+    public function testUninstallSchema()
+    {
 
         $schema = $this->getMock(Schema::class);
         $schema->expects($this->once())
@@ -99,5 +101,4 @@ class DatabaseSchemaInstallerTest extends \PHPUnit_Framework_TestCase
 
         $this->installer->uninstallSchema();
     }
-
 }

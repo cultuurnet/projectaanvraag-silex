@@ -50,4 +50,14 @@
         <phingcall target="unit-tests"/>
         <phingcall target="coding-standards"/>
     </target>
+
+    <!--
+        No PHP lint for precommit untill macs default PHP version raises to 5.6 or higher+
+    -->
+    <target name="precommit">
+        <phingcall target="composer-validate"/>
+        <phingcall target="unit-tests"/>
+        <phingcall target="coding-standards"/>
+    </target>
+
 </project>

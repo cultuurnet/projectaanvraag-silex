@@ -28,17 +28,14 @@ class InstallCommand extends Command
 
         $schemaInstaller = $this->getDatabaseSchemaInstaller();
         if ($input->getOption('reinstall')) {
-
             $helper = $this->getHelper('question');
             $confirmation = new ConfirmationQuestion('You are about to remove all existing database tables. Are you sure? (y/n)', false);
             if ($helper->ask($input, $output, $confirmation) == 'y') {
                 $schemaInstaller->uninstallSchema();
                 $output->writeln('Existing database schema uninstalled.');
-            }
-            else {
+            } else {
                 $output->writeln('Continuing without dropping tables.');
             }
-
         }
 
         $this->getDatabaseSchemaInstaller()->installSchema();
