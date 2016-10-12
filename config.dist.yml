@@ -1,0 +1,25 @@
+# Database settings
+database:
+    driver: pdo_mysql
+    host:
+    user:
+    password:
+    dbname:
+
+# UiTID related settings.
+uitid:
+  consumer:
+    key:
+    secret:
+  base_url: https://acc2.uitid.be/uitid/rest/
+
+# debug settings
+debug: false
+
+# Rabbit MQ settings
+rabbitmq:
+  host:
+  port:
+  user:
+  password: 
+

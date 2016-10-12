@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
+use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
 use CultuurNet\UiTIDProvider\Security\UiTIDSecurityServiceProvider;
@@ -11,6 +12,7 @@ use CultuurNet\UiTIDProvider\Session\SessionConfigurationProvider;
 use CultuurNet\UiTIDProvider\User\UserServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use Silex\Application as SilexApplication;
+use Silex\Provider\DoctrineServiceProvider;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -37,7 +39,14 @@ class ApplicationBase extends SilexApplication
     protected function registerProviders()
     {
         $this->register(new CoreProvider());
+        $this->register(
+            new DoctrineServiceProvider(), [
+            'db.options' => $this['config']['database'],
+        ]);
         $this->register(new MessageBusProvider());
+
+        // Project
+        $this->register(new ProjectProvider());
 
         // Uitid
         $this->register(

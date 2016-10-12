@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
+use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -17,5 +18,9 @@ class CoreProvider implements ServiceProviderInterface
                 return $pimple[$serviceId];
             }
         );
+
+        $pimple['database.installer'] = function (Container $pimple) {
+                return new DatabaseSchemaInstaller($pimple);
+        };
     }
 }

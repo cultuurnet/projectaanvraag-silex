@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
+use CultuurNet\ProjectAanvraag\Console\Command\InstallCommand;
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
@@ -57,5 +58,6 @@ class ConsoleApplication extends ApplicationBase
     {
         $consoleApp = $this['console'];
         $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer'));
+        $consoleApp->add(new InstallCommand());
     }
 }

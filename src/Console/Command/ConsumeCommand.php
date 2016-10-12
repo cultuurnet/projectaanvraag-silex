@@ -55,11 +55,11 @@ class ConsumeCommand extends Command
 
         $channel->queue_declare('projectaanvraag', false, false, false, false);
 
-        echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
+        $output->writeln(' [*] Waiting for messages. To exit press CTRL+C');
 
-        $callback = function ($msg) use ($consumer) {
+        $callback = function ($msg) use ($consumer, $output) {
             try {
-                echo " [x] Received ", $msg->body, "\n";
+                $output->writeln(" [x] Received ", $msg->body);
                 $consumer->execute($msg);
             } catch (\Throwable $e) {
                 print $e->getMessage();
