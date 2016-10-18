@@ -20,7 +20,41 @@ class CoreProvider implements ServiceProviderInterface
         );
 
         $pimple['database.installer'] = function (Container $pimple) {
-                return new DatabaseSchemaInstaller($pimple);
+            return new DatabaseSchemaInstaller($pimple);
+        };
+
+        $pimple['culturefeed_oauth_client'] = $pimple->extend(
+            'culturefeed_oauth_client',
+            function (\CultureFeed_DefaultOAuthClient $OAuthClient, Container $pimple) {
+                $OAuthClient->setHttpClient($pimple['culturefeed_http_client']);
+
+                return $OAuthClient;
+            }
+        );
+
+        /**
+         * Culturefeed HTTP Client adapter for a Guzzle HTTP client.
+         */
+        $pimple['culturefeed_http_client'] = function (Container $pimple) {
+            $httpClient = new \CultuurNet\CulturefeedHttpGuzzle\HttpClient(
+                $pimple['culturefeed_http_client_guzzle']
+            );
+
+            if (isset($pimple['config']['httpclient']) && isset($pimple['config']['httpclient']['timeout'])) {
+                $httpClientTimeOut = $app['config']['httpclient']['timeout'];
+            } else {
+                $httpClientTimeOut = 30;
+            }
+            $httpClient->setTimeout($httpClientTimeOut);
+
+            return $httpClient;
+        };
+
+        /**
+         * Guzzle HTTP client.
+         */
+        $pimple['culturefeed_http_client_guzzle'] = function () {
+            return new \Guzzle\Http\Client();
         };
     }
 }
