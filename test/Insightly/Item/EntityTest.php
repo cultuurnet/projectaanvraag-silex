@@ -7,7 +7,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     /**
      * Test Entity
      */
-    public function testEntity() {
+    public function testEntity()
+    {
         $entity = new Entity();
         $entity->setId(12345);
 
