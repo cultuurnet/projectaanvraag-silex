@@ -4,11 +4,10 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
-use CultuurNet\UiTIDProvider\Security\UiTIDSecurityServiceProvider;
-use CultuurNet\UiTIDProvider\Session\SessionConfigurationProvider;
 use CultuurNet\UiTIDProvider\User\UserServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use Silex\Application as SilexApplication;
@@ -49,7 +48,7 @@ class ApplicationBase extends SilexApplication
         );
         $this->register(new AuthServiceProvider());
         $this->register(new UserServiceProvider());
-
+        
         $this->register(new CoreProvider());
         $this->register(
             new DoctrineServiceProvider(),
@@ -61,5 +60,14 @@ class ApplicationBase extends SilexApplication
 
         // Project
         $this->register(new ProjectProvider());
+
+        // Insightly
+        $this->register(
+          new InsightlyServiceProvider(),
+          [
+            'insightly.host' => $this['config']['insightly']['host'],
+            'insightly.api_key' => $this['config']['insightly']['api_key'],
+          ]
+        );
     }
 }

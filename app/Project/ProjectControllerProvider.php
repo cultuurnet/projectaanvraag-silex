@@ -17,7 +17,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
     {
 
         $app['project_controller'] = function (Application $app) {
-            return new ProjectController($app['command_bus']);
+            return new ProjectController($app['command_bus'], $app['insightly_client']);
         };
 
         /* @var ControllerCollection $controllers */

@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -12,19 +12,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ProjectController
 {
 
-    protected $test;
+    protected $commandBus;
+    protected $insightlyClient;
 
-    public function __construct(MessageBusSupportingMiddleware $commandBus)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, InsightlyClientInterface $insightlyClient)
     {
-            $this->test = $commandBus;
+      $this->commandBus = $commandBus;
+      $this->insightlyClient = $insightlyClient;
     }
 
     public function listing()
     {
-
-        $command = new CreateProject('test');
-
-        $this->test->handle($command);
-        return new JsonResponse('to implement');
+      return new JsonResponse($this->insightlyClient->getProjects());
     }
 }
