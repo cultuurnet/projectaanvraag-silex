@@ -28,6 +28,18 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
     }
 
     /**
+     * Test requesting of pipelines
+     */
+    public function testGetPipelines()
+    {
+        $client = $this->getMockClient('getPipelines.json');
+        $pipelines = $client->getPipelines();
+
+        $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline', $pipelines, 'It only contains instances of Pipeline');
+        $this->assertEquals(6, count($pipelines), 'It contains 6 items');
+    }
+
+    /**
      * Test adding query filters to calls
      */
     public function testQueryFilters()
