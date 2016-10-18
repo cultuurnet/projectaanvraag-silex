@@ -10,21 +10,21 @@ use Guzzle\Http\Message\Response;
  */
 class GetProjectsResult implements ResponseToResultInterface
 {
-  /**
-   * @inheritdoc
-   *
-   * @return EntityList
-   *   Entitylist of parsed projects
-   */
-  public static function parseToResult(Response $response)
-  {
-    $body = json_decode($response->getBody(), TRUE);
+    /**
+     * @inheritdoc
+     *
+     * @return EntityList
+     *   Entitylist of parsed projects
+     */
+    public static function parseToResult(Response $response)
+    {
+        $body = json_decode($response->getBody(), true);
 
-    $projects = new EntityList();
-    foreach ($body as $item) {
-      $projects->append(ProjectParser::parseToResult($item));
+        $projects = new EntityList();
+        foreach ($body as $item) {
+            $projects->append(ProjectParser::parseToResult($item));
+        }
+
+        return $projects;
     }
-
-    return $projects;
-  }
 }

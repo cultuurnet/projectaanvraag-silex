@@ -11,154 +11,143 @@ use Guzzle\Http\Message\Response;
 
 class InsightlyClient implements InsightlyClientInterface
 {
-  /**
-   * @var ClientInterface
-   */
-  protected $guzzleClient;
+    /**
+     * @var ClientInterface
+     */
+    protected $guzzleClient;
 
-  /**
-   * @var string
-   */
-  protected $apiKey;
+    /**
+     * @var string
+     */
+    protected $apiKey;
 
-  /**
-   * @var array
-   */
-  private $responseCache = [];
+    /**
+     * @var array
+     */
+    private $responseCache = [];
 
-  /**
-   * InsightlyClient constructor.
-   * @param ClientInterface $guzzleClient
-   * @param $apiKey
-   */
-  public function __construct(ClientInterface $guzzleClient, $apiKey)
-  {
-    $this->guzzleClient = $guzzleClient;
-    $this->apiKey = $apiKey;
-  }
-
-  /**
-   * Add OData query filters to the query
-   *
-   * Accepted options:
-   *  - top
-   *  - skip
-   *  - orderby
-   *  - an array of filters
-   *
-   * @param ParameterBag $query
-   * @param array $options
-   * @return ParameterBag $query
-   * @link http://www.odata.org/documentation/odata-version-2-0/uri-conventions/
-   */
-  private function buildODataQuery(ParameterBag $query, array $options)
-  {
-    if(!empty($options['top'])){
-      $query->add(['top' => $options['top']]);
+    /**
+     * InsightlyClient constructor.
+     * @param ClientInterface $guzzleClient
+     * @param $apiKey
+     */
+    public function __construct(ClientInterface $guzzleClient, $apiKey)
+    {
+        $this->guzzleClient = $guzzleClient;
+        $this->apiKey = $apiKey;
     }
 
-    if(!empty($options['skip'])){
-      $query->add(['skip'=> $options['skip']]);
+    /**
+     * Add filters to the query
+     *
+     * Accepted options:
+     *  - top (int)
+     *  - skip (int)
+     *  - brief (bool)
+     *  - count_total (int)
+     *
+     * @param ParameterBag $query
+     * @param array $options
+     * @return ParameterBag $query
+     */
+    private function buildODataQuery(ParameterBag $query, array $options)
+    {
+        if (!empty($options['top'])) {
+            $query->add(['top' => $options['top']]);
+        }
+
+        if (!empty($options['skip'])) {
+            $query->add(['skip' => $options['skip']]);
+        }
+
+        if (!empty($options['brief'])) {
+            $query->add(['brief' => $options['brief'] ? 'true' : 'false']);
+        }
+
+        if (!empty($options['count_total'])) {
+            $query->add(['count_total' => $options['count_total'] ? 'true' : 'false']);
+        }
+
+        return $query;
     }
 
-    if(!empty($options['orderby'])){
-      $query->add(['orderby' => $options['orderby']]);
+    /**
+     * Returns a cache key for a given request
+     *
+     * @param $method
+     * @param $uri
+     * @param ParameterBag $query
+     * @return string
+     */
+    private function getRequestCacheKey($method, $uri, ParameterBag $query)
+    {
+        return md5($method . $uri . json_encode($query->all()));
     }
 
-    if(!empty($options['brief'])){
-      $query->add(['brief' => $options['brief'] ? 'true' : 'false']);
+    /**
+     * Send and handle a request.
+     * @param string $method
+     * @param string $uri
+     * @param ParameterBag $query
+     * @param array $body
+     * @return Response
+     */
+    private function request($method, $uri, ParameterBag $query = null, $body = [])
+    {
+        $query = empty($query) ? new ParameterBag() : $query;
+        $cacheKey = $this->getRequestCacheKey($method, $uri, $query);
+
+        if (!isset($this->responseCache[$cacheKey])) {
+            try {
+                $queryParams = !empty($query) ? $query->all() : [];
+                $headers = [
+                    'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':'),
+                    'Content-Type' => 'application/json',
+                ];
+
+                $response = $this->guzzleClient->createRequest($method, $uri, $headers, $body, ['query' => $queryParams])->send();
+            } catch (BadResponseException $e) {
+                $response = $e->getResponse();
+            }
+
+            $this->responseCache[$cacheKey] = $response;
+        }
+
+        return $this->responseCache[$cacheKey];
     }
 
-    if(!empty($options['count_total'])){
-      $query->add(['count_total' => $options['count_total'] ? 'true' : 'false']);
+    /**
+     * {@inheritdoc}
+     */
+    public function getProjects($options = [])
+    {
+        $query = $this->buildODataQuery(new ParameterBag(), $options);
+        return GetProjectsResult::parseToResult($this->request(RequestInterface::GET, 'Projects', $query));
     }
 
-    if(!empty($options['filters']) && is_array($options['filters'])){
-      foreach($options['filters'] as $filter){
-        $filterValue = str_replace(['=', '>', '<'], [' eq ', ' gt ', ' lt '], $filter);
-        $query->add(['filter' => $filterValue]);
-      }
+    public function getPipelines($options = [])
+    {
+        $query = $this->buildODataQuery(new ParameterBag(), $options);
+        return $this->request(RequestInterface::GET, 'Pipelines', $query);
     }
 
-    return $query;
-  }
-
-  /**
-   * Returns a cache key for a given request
-   *
-   * @param $method
-   * @param $uri
-   * @param ParameterBag $query
-   * @return string
-   */
-  private function getRequestCacheKey($method, $uri, ParameterBag $query) {
-    return md5($method . $uri . json_encode($query->all()));
-  }
-
-  /**
-   * Send and handle a request.
-   * @param string $method
-   * @param string $uri
-   * @param ParameterBag $query
-   * @param array $body
-   * @return Response
-   */
-  private function request($method, $uri, ParameterBag $query = null, $body = [])
-  {
-    $query = empty($query) ? new ParameterBag() : $query;
-    $cache_key = $this->getRequestCacheKey($method, $uri, $query);
-
-    if (!isset($this->responseCache[$cache_key])) {
-      try {
-        $queryParams = !empty($query) ? $query->all() : [];
-        $headers = [
-          'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':'),
-          'Content-Type' => 'application/json',
-        ];
-
-        $response = $this->guzzleClient->createRequest($method, $uri, $headers, $body, ['query' => $queryParams])->send();
-      } catch (BadResponseException $e) {
-        $response = $e->getResponse();
-      }
-
-      $this->responseCache[$cache_key] = $response;
+    public function getStages($options = [])
+    {
+        // TODO: Implement getStages() method.
     }
 
-    return $this->responseCache[$cache_key];
-  }
+    public function getContacts($options = [])
+    {
+        // TODO: Implement getContacts() method.
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getProjects($options = [])
-  {
-    $query = $this->buildODataQuery(new ParameterBag(), $options);
-    return GetProjectsResult::parseToResult($this->request(RequestInterface::GET, 'Projects', $query));
-  }
+    public function getProductCategories($options = [])
+    {
+        // TODO: Implement getProductCategories() method.
+    }
 
-  public function getPipelines($options = [])
-  {
-    $query = $this->buildODataQuery(new ParameterBag(), $options);
-    return $this->request(RequestInterface::GET, 'Pipelines', $query);
-  }
-
-  public function getStages($options = [])
-  {
-    // TODO: Implement getStages() method.
-  }
-
-  public function getContacts($options = [])
-  {
-    // TODO: Implement getContacts() method.
-  }
-
-  public function getProductCategories($options = [])
-  {
-    // TODO: Implement getProductCategories() method.
-  }
-
-  public function getOrganisations($options = [])
-  {
-    // TODO: Implement getOrganisations() method.
-  }
+    public function getOrganisations($options = [])
+    {
+        // TODO: Implement getOrganisations() method.
+    }
 }

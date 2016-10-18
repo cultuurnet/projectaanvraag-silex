@@ -17,12 +17,12 @@ class ProjectController
 
     public function __construct(MessageBusSupportingMiddleware $commandBus, InsightlyClientInterface $insightlyClient)
     {
-      $this->commandBus = $commandBus;
-      $this->insightlyClient = $insightlyClient;
+        $this->commandBus = $commandBus;
+        $this->insightlyClient = $insightlyClient;
     }
 
     public function listing()
     {
-      return new JsonResponse($this->insightlyClient->getProjects());
+        return new JsonResponse($this->insightlyClient->getProjects());
     }
 }

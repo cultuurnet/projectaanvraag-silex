@@ -7,11 +7,11 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Parser;
  */
 interface ParserInterface
 {
-  /**
-   * Parse the data to a result.
-   *
-   * @param mixed $data
-   * @return mixed
-   */
-  public static function parseToResult($data);
+    /**
+     * Parse the data to a result.
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public static function parseToResult($data);
 }
