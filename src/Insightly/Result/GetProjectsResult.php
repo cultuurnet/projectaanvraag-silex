@@ -21,8 +21,10 @@ class GetProjectsResult implements ResponseToResultInterface
         $body = json_decode($response->getBody(), true);
 
         $projects = new EntityList();
-        foreach ($body as $item) {
-            $projects->append(ProjectParser::parseToResult($item));
+        if (is_array($body)) {
+            foreach ($body as $item) {
+                $projects->append(ProjectParser::parseToResult($item));
+            }
         }
 
         return $projects;

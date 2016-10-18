@@ -26,8 +26,8 @@ class ProjectParser implements ParserInterface
         $project->setDetails(!empty($data['PROJECT_DETAILS']) ? $data['PROJECT_DETAILS'] : null);
         $project->setOpportunityId(!empty($data['OPPORTUNITY_ID']) ? $data['OPPORTUNITY_ID'] : null);
 
-        $project->setStartedDate(!empty($data['STARTED_DATE']) ? \DateTime::createFromFormat('Y-m-d', $data['OPPORTUNITY_ID']) : null);
-        $project->setCompletedDate(!empty($data['COMPLETED_DATE']) ? \DateTime::createFromFormat('Y-m-d', $data['COMPLETED_DATE']) : null);
+        $project->setStartedDate(!empty($data['STARTED_DATE']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $data['STARTED_DATE']) : null);
+        $project->setCompletedDate(!empty($data['COMPLETED_DATE']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $data['COMPLETED_DATE']) : null);
 
         $project->setImageUrl(!empty($data['IMAGE_URL']) ? $data['IMAGE_URL'] : null);
         $project->setResponsibleUserId(!empty($data['RESPONSIBLE_USER_ID']) ? $data['RESPONSIBLE_USER_ID'] : null);
@@ -42,7 +42,7 @@ class ProjectParser implements ParserInterface
 
         $project->setVisibleTo(!empty($data['VISIBLE_TO']) ? $data['VISIBLE_TO'] : null);
         $project->setVisibleTeamId(!empty($data['VISIBLE_TEAM_ID']) ? $data['VISIBLE_TEAM_ID'] : null);
-        $project->setVisibleUserIds(!empty($data['VISIBLE_USER_IDS']) ? explode(',', $data['VISIBLE_TO']) : null);
+        $project->setVisibleUserIds(!empty($data['VISIBLE_USER_IDS']) ? explode(',', $data['VISIBLE_USER_IDS']) : null);
 
         // Parse Tags
         if (!empty($data['TAGS'])) {

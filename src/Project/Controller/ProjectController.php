@@ -23,6 +23,7 @@ class ProjectController
 
     public function listing()
     {
-        return new JsonResponse($this->insightlyClient->getProjects());
+        $projects = $this->insightlyClient->getProjects();
+        return new JsonResponse($projects);
     }
 }
