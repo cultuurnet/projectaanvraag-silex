@@ -40,7 +40,7 @@ class ProjectTest extends AbstractInsightlyClientTest
 
         $project->setLinks(new EntityList([$link, $link]));
 
-        $this->assertEquals($project->getlabel(), 'Begeleiding ontwikkeling website voor "groote oorlog"', 'It correctly returns the label');
+        $this->assertEquals($project->getName(), 'Begeleiding ontwikkeling website voor "groote oorlog"', 'It correctly returns the label');
         $this->assertEquals($project->getStatus(), Project::STATUS_ABANDONED, 'It correctly returns the status');
         $this->assertEquals($project->getDetails(), 'ConceptPMTesting & oplevering', 'It correctly returns the details');
         $this->assertEquals($project->getOpportunityId(), 1234, 'It correctly returns the opportunity id');

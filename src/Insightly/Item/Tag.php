@@ -7,7 +7,7 @@ class Tag extends Entity
     /**
      * @return string
      */
-    public function getLabel()
+    public function getName()
     {
         return $this->id;
     }

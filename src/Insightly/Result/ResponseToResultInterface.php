@@ -14,6 +14,7 @@ interface ResponseToResultInterface
      *
      * @param Response $response
      *   The response.
+     * @return
      */
     public static function parseToResult(Response $response);
 }

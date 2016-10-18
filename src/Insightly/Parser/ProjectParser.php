@@ -21,7 +21,7 @@ class ProjectParser implements ParserInterface
         $project = new Project();
 
         $project->setId(!empty($data['PROJECT_ID']) ? $data['PROJECT_ID'] : null);
-        $project->setLabel(!empty($data['PROJECT_NAME']) ? $data['PROJECT_NAME'] : null);
+        $project->setName(!empty($data['PROJECT_NAME']) ? $data['PROJECT_NAME'] : null);
         $project->setStatus(!empty($data['STATUS']) ? $data['STATUS'] : null);
         $project->setDetails(!empty($data['PROJECT_DETAILS']) ? $data['PROJECT_DETAILS'] : null);
         $project->setOpportunityId(!empty($data['OPPORTUNITY_ID']) ? $data['OPPORTUNITY_ID'] : null);
