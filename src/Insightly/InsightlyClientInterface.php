@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
-use Symfony\Component\HttpFoundation\Response;
+use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
 
 interface InsightlyClientInterface
 {
@@ -11,7 +11,7 @@ interface InsightlyClientInterface
      *
      * @param array $options
      *  Array of oData options
-     * @return Response
+     * @return EntityList
      */
     public function getProjects($options = []);
 
@@ -20,7 +20,7 @@ interface InsightlyClientInterface
      *
      * @param array $options
      *  Array of oData options
-     * @return Response
+     * @return EntityList
      */
     public function getPipelines($options = []);
 
@@ -29,7 +29,7 @@ interface InsightlyClientInterface
      *
      * @param array $options
      *  Array of oData options
-     * @return Response
+     * @return EntityList
      */
     public function getStages($options = []);
 
@@ -38,7 +38,7 @@ interface InsightlyClientInterface
      *
      * @param array $options
      *  Array of oData options
-     * @return Response
+     * @return EntityList
      */
     public function getContacts($options = []);
 
@@ -47,7 +47,7 @@ interface InsightlyClientInterface
      *
      * @param array $options
      *  Array of oData options
-     * @return Response
+     * @return EntityList
      */
     public function getProductCategories($options = []);
 
@@ -56,7 +56,7 @@ interface InsightlyClientInterface
      *
      * @param array $options
      *  Array of oData options
-     * @return Response
+     * @return EntityList
      */
     public function getOrganisations($options = []);
 }

@@ -4,17 +4,17 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 class Project extends Entity
 {
-    const STATUS_ABANDONED = 'Abandoned';
-    const STATUS_CANCELLED = 'Cancelled';
-    const STATUS_COMPLETED = 'Completed';
-    const STATUS_DEFERRED = 'Deferred';
-    const STATUS_IN_PROGRESS = 'In progress';
-    const STATUS_NOT_STARTED = 'Not started';
+    const STATUS_ABANDONED = 'ABANDONED';
+    const STATUS_CANCELLED = 'CANCELLED';
+    const STATUS_COMPLETED = 'COMPLETED';
+    const STATUS_DEFERRED = 'DEFEREDD';
+    const STATUS_IN_PROGRESS = 'IN PROGRESS';
+    const STATUS_NOT_STARTED = 'NOT STARTED';
 
-    const VISIBILITY_EVERYONE = 'Everyone';
-    const VISIBILITY_OWNER = 'Owner';
-    const VISIBILITY_TEAM = 'Team';
-    const VISIBILITY_INDIVIDUALS = 'Individuals';
+    const VISIBILITY_EVERYONE = 'EVERYONE';
+    const VISIBILITY_OWNER = 'OWNER';
+    const VISIBILITY_TEAM = 'TEAM';
+    const VISIBILITY_INDIVIDUALS = 'INDIVIDUALS';
 
     /**
      * @var string
@@ -153,7 +153,7 @@ class Project extends Entity
      */
     public function setStatus($status)
     {
-        $this->status = $status;
+        $this->status = strtoupper($status);
         return $this;
     }
 
@@ -387,7 +387,7 @@ class Project extends Entity
      */
     public function setVisibleTo($visibleTo)
     {
-        $this->visibleTo = $visibleTo;
+        $this->visibleTo = strtoupper($visibleTo);
         return $this;
     }
 

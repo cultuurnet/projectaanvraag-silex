@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
 use Guzzle\Http\ClientInterface;
-use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Guzzle\Http\Message\Response;
@@ -50,7 +49,7 @@ class InsightlyClient implements InsightlyClientInterface
      * @param array $options
      * @return ParameterBag $query
      */
-    private function buildODataQuery(ParameterBag $query, array $options)
+    private function addQueryFilters(ParameterBag $query, array $options)
     {
         if (!empty($options['top'])) {
             $query->add(['top' => $options['top']]);
@@ -98,19 +97,13 @@ class InsightlyClient implements InsightlyClientInterface
         $cacheKey = $this->getRequestCacheKey($method, $uri, $query);
 
         if (!isset($this->responseCache[$cacheKey])) {
-            try {
-                $queryParams = !empty($query) ? $query->all() : [];
-                $headers = [
-                    'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':'),
-                    'Content-Type' => 'application/json',
-                ];
+            $queryParams = !empty($query) ? $query->all() : [];
+            $headers = [
+                'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':'),
+                'Content-Type' => 'application/json',
+            ];
 
-                $response = $this->guzzleClient->createRequest($method, $uri, $headers, $body, ['query' => $queryParams])->send();
-            } catch (BadResponseException $e) {
-                $response = $e->getResponse();
-            }
-
-            $this->responseCache[$cacheKey] = $response;
+            $this->responseCache[$cacheKey] = $this->guzzleClient->createRequest($method, $uri, $headers, $body, ['query' => $queryParams])->send();
         }
 
         return $this->responseCache[$cacheKey];
@@ -121,13 +114,13 @@ class InsightlyClient implements InsightlyClientInterface
      */
     public function getProjects($options = [])
     {
-        $query = $this->buildODataQuery(new ParameterBag(), $options);
+        $query = $this->addQueryFilters(new ParameterBag(), $options);
         return GetProjectsResult::parseToResult($this->request(RequestInterface::GET, 'Projects', $query));
     }
 
     public function getPipelines($options = [])
     {
-        $query = $this->buildODataQuery(new ParameterBag(), $options);
+        $query = $this->addQueryFilters(new ParameterBag(), $options);
         return $this->request(RequestInterface::GET, 'Pipelines', $query);
     }
 
