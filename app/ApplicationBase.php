@@ -63,11 +63,11 @@ class ApplicationBase extends SilexApplication
 
         // Insightly
         $this->register(
-          new InsightlyServiceProvider(),
-          [
-            'insightly.host' => $this['config']['insightly']['host'],
-            'insightly.api_key' => $this['config']['insightly']['api_key'],
-          ]
+            new InsightlyServiceProvider(),
+            [
+                'insightly.host' => $this['config']['insightly']['host'],
+                'insightly.api_key' => $this['config']['insightly']['api_key'],
+            ]
         );
     }
 }
