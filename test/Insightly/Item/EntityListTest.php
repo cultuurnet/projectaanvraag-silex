@@ -8,7 +8,8 @@ class EntityListTest extends \PHPUnit_Framework_TestCase
      * Test EntityList
      * @expectedException \InvalidArgumentException
      */
-    public function testEntityListExceptionHandling() {
+    public function testEntityListExceptionHandling()
+    {
         $data = [new \stdClass()];
         new EntityList($data);
     }

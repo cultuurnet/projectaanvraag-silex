@@ -12,7 +12,8 @@ class ProjectTest extends AbstractInsightlyClientTest
     /**
      * Test Project
      */
-    public function testProject() {
+    public function testProject()
+    {
         $client = $this->getMockClient('getProjects.json');
         $projects = $client->getProjects();
 
