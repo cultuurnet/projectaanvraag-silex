@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Result\EntityListResultHandler;
+use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\Message\RequestInterface;
@@ -121,7 +123,7 @@ class InsightlyClient implements InsightlyClientInterface
     public function getPipelines($options = [])
     {
         $query = $this->addQueryFilters(new ParameterBag(), $options);
-        return $this->request(RequestInterface::GET, 'Pipelines', $query);
+        return GetPipelinesResult::parseToResult($this->request(RequestInterface::GET, 'Pipelines', $query));
     }
 
     public function getStages($options = [])

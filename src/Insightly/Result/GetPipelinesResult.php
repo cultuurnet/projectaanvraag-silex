@@ -3,13 +3,13 @@
 namespace CultuurNet\ProjectAanvraag\Insightly\Result;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
-use CultuurNet\ProjectAanvraag\Insightly\Parser\ProjectParser;
+use CultuurNet\ProjectAanvraag\Insightly\Parser\PipelineParser;
 use Guzzle\Http\Message\Response;
 
 /**
- * Response handler for the getProjects call.
+ * Response handler for the getPipelines call.
  */
-class GetProjectsResult implements ResponseToResultInterface
+class GetPipelinesResult implements ResponseToResultInterface
 {
     /**
      * @inheritdoc
@@ -21,13 +21,13 @@ class GetProjectsResult implements ResponseToResultInterface
     {
         $body = json_decode($response->getBody(), true);
 
-        $projects = new EntityList();
+        $pipelines = new EntityList();
         if (is_array($body)) {
             foreach ($body as $item) {
-                $projects->append(ProjectParser::parseToResult($item));
+                $pipelines->append(PipelineParser::parseToResult($item));
             }
         }
 
-        return $projects;
+        return $pipelines;
     }
 }

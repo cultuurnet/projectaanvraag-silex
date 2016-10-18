@@ -19,7 +19,7 @@ class Project extends Entity
     /**
      * @var string
      */
-    protected $label;
+    protected $name;
 
     /**
      * @var string
@@ -124,18 +124,18 @@ class Project extends Entity
     /**
      * @return string
      */
-    public function getlabel()
+    public function getName()
     {
-        return $this->label;
+        return $this->name;
     }
 
     /**
-     * @param string $label
+     * @param string $name
      * @return Entity
      */
-    public function setLabel($label)
+    public function setName($name)
     {
-        $this->label = $label;
+        $this->name = $name;
         return $this;
     }
 
