@@ -69,6 +69,5 @@ class ApplicationBase extends SilexApplication
 
         // Project
         $this->register(new ProjectProvider());
-
     }
 }
