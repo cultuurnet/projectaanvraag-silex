@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
 
 interface InsightlyClientInterface
 {
@@ -25,13 +27,13 @@ interface InsightlyClientInterface
     public function getPipelines($options = []);
 
     /**
-     * Gets a list of stages
+     * Gets a list of pipeline stages
      *
      * @param array $options
      *  Array of oData options
      * @return EntityList
      */
-    public function getStages($options = []);
+    public function getPipelineStages($options = []);
 
     /**
      * Gets a list of contacts
@@ -59,4 +61,39 @@ interface InsightlyClientInterface
      * @return EntityList
      */
     public function getOrganisations($options = []);
+
+    /**
+     * Update a pipeline
+     *
+     * @param Pipeline $pipeline
+     */
+    public function updatePipeline(Pipeline $pipeline);
+
+    /**
+     * Update an organisation
+     *
+     * @param EntityInterface $organisation
+     */
+    public function updateOrganisation(EntityInterface $organisation);
+
+    /**
+     * Insert a project
+     *
+     * @param EntityInterface $project
+     */
+    public function insertProject(EntityInterface $project);
+
+    /**
+     * Insert a contact
+     *
+     * @param EntityInterface $contact
+     */
+    public function insertContact(EntityInterface $contact);
+
+    /**
+     * Insert an organisation
+     *
+     * @param EntityInterface $organisation
+     */
+    public function insertOrganisation(EntityInterface $organisation);
 }
