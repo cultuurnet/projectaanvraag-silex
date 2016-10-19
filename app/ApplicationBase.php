@@ -37,18 +37,6 @@ class ApplicationBase extends SilexApplication
      */
     protected function registerProviders()
     {
-        $this->register(new CoreProvider());
-        $this->register(
-            new DoctrineServiceProvider(),
-            [
-                'db.options' => $this['config']['database'],
-            ]
-        );
-        $this->register(new MessageBusProvider());
-
-        // Project
-        $this->register(new ProjectProvider());
-
         // Uitid
         $this->register(
             new CultureFeedServiceProvider(),
@@ -69,5 +57,18 @@ class ApplicationBase extends SilexApplication
                 'insightly.api_key' => $this['config']['insightly']['api_key'],
             ]
         );
+
+        $this->register(new CoreProvider());
+        $this->register(
+            new DoctrineServiceProvider(),
+            [
+                'db.options' => $this['config']['database'],
+            ]
+        );
+        $this->register(new MessageBusProvider());
+
+        // Project
+        $this->register(new ProjectProvider());
+
     }
 }

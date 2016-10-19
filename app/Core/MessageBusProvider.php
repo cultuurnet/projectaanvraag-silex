@@ -68,7 +68,7 @@ class MessageBusProvider implements ServiceProviderInterface
 
             $objectSerializer = new JMSSerializerObjectSerializer($jmsSerializer, 'json');
             return new StandardMessageInEnvelopeSerializer(new DefaultEnvelopeFactory(), $objectSerializer);
-        } ;
+        };
 
         $pimple['event_bus'] = function (Container $pimple) use ($config) {
             $eventBus = new MessageBusSupportingMiddleware();

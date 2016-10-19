@@ -1,3 +1,11 @@
+# Cross-origin resource sharing related settings.
+cors:
+  # Allowed origins. Add one entry for each domain allowed to access the application.
+  # Always include the protocol (http or https) and if not default for the
+  # protocol, also the port number!
+  origins:
+    - http://localhost:9000/
+
 # Database settings
 database:
     driver: pdo_mysql

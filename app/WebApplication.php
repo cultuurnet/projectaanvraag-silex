@@ -3,6 +3,8 @@
 namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
+use CultuurNet\UiTIDProvider\User\UserControllerProvider;
+use JDesrosiers\Silex\Provider\CorsServiceProvider;
 use Silex\Application as SilexApplication;
 use Silex\Provider\RoutingServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -18,6 +20,7 @@ class WebApplication extends ApplicationBase
     {
         parent::__construct();
         $this->mountControllers();
+        $this->after($this['cors']);
     }
 
     /**
@@ -29,6 +32,13 @@ class WebApplication extends ApplicationBase
         parent::registerProviders();
 
         $this->register(new ServiceControllerServiceProvider());
+        $this->register(
+            new CorsServiceProvider(),
+            [
+                'cors.allowOrigin' => implode(' ', $this['config']['cors']['origins']),
+                'cors.allowCredentials' => true,
+            ]
+        );
         $this->register(new SessionServiceProvider());
         $this->register(new RoutingServiceProvider());
     }
@@ -38,8 +48,9 @@ class WebApplication extends ApplicationBase
      */
     protected function mountControllers()
     {
-        $this->mount('/projects', new ProjectControllerProvider());
+        $this->mount('projects', new ProjectControllerProvider());
 
+        $this->mount('uitid', new UserControllerProvider());
         $this->mount(
             'culturefeed/oauth',
             new \CultuurNet\UiTIDProvider\Auth\AuthControllerProvider()
