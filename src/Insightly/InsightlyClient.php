@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
-use CultuurNet\ProjectAanvraag\Insightly\Result\EntityListResultHandler;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
 use Guzzle\Http\ClientInterface;
