@@ -168,8 +168,17 @@ class IntegrationType implements \JsonSerializable
         return $this;
     }
 
-    function jsonSerialize()
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
     {
-        // TODO: Implement jsonSerialize() method.
+        $json = [];
+
+        foreach ($this as $key => $value) {
+            $json[$key] = $value;
+        }
+
+        return $json;
     }
 }
