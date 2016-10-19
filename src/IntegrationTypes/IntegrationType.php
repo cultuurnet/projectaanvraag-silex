@@ -33,7 +33,7 @@ class IntegrationType implements \JsonSerializable
     protected $url;
 
     /**
-     * @var string
+     * @var array
      */
     protected $extraInfo;
 
@@ -133,7 +133,7 @@ class IntegrationType implements \JsonSerializable
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getExtraInfo()
     {
@@ -141,7 +141,7 @@ class IntegrationType implements \JsonSerializable
     }
 
     /**
-     * @param string $extraInfo
+     * @param array $extraInfo
      * @return IntegrationType
      */
     public function setExtraInfo($extraInfo)
