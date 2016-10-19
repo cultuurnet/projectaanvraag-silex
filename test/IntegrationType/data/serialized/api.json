@@ -1,0 +1,12 @@
+{
+  "id":"api",
+  "name":"API",
+  "description":"Met deze API krijg je toegang tot de zoekengine van de UiTdatabank",
+  "price":80,
+  "url":"http:\/\/www.culturefeed.be\/api",
+  "extraInfo":[
+    "Platformonafhankelijk",
+    "Individuele oplossingen op maat zijn mogelijk"
+  ],
+  "groupId":"group_id"
+}

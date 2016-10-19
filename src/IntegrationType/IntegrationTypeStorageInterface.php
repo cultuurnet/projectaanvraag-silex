@@ -1,8 +1,8 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\IntegrationTypes;
+namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
-interface IntegrationTypesStorageInterface
+interface IntegrationTypeStorageInterface
 {
     /**
      * Gets a list of integration types

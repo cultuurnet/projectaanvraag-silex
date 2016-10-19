@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\IntegrationTypes;
+namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 /**
  * Class for integration types

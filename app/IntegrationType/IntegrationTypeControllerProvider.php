@@ -1,18 +1,18 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\IntegrationTypes;
+namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
-use CultuurNet\ProjectAanvraag\IntegrationTypes\Controller\IntegrationTypesController;
+use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
 
-class IntegrationTypesControllerProvider implements ControllerProviderInterface
+class IntegrationTypeControllerProvider implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
         $app['integration_types_controller'] = function (Application $app) {
-            return new IntegrationTypesController($app['integration_types.storage']);
+            return new IntegrationTypeController($app['integration_types.storage']);
         };
 
         /* @var ControllerCollection $controllers */

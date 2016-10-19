@@ -1,10 +1,10 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\IntegrationTypes;
+namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 use Symfony\Component\Yaml\Yaml;
 
-class IntegrationTypesStorage implements IntegrationTypesStorageInterface
+class IntegrationTypeStorage implements IntegrationTypeStorageInterface
 {
     /**
      * @var string

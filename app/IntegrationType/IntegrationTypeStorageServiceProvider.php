@@ -1,11 +1,11 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\IntegrationTypes;
+namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class IntegrationTypesStorageServiceProvider implements ServiceProviderInterface
+class IntegrationTypeStorageServiceProvider implements ServiceProviderInterface
 {
     /**
      * @var string
@@ -23,7 +23,7 @@ class IntegrationTypesStorageServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['integration_types.storage'] = function (Container $app) {
-            return new IntegrationTypesStorage($this->file);
+            return new IntegrationTypeStorage($this->file);
         };
     }
 }

@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
-use CultuurNet\ProjectAanvraag\IntegrationTypes\IntegrationTypesStorageServiceProvider;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
@@ -60,7 +60,7 @@ class ApplicationBase extends SilexApplication
         $this->register(new MessageBusProvider());
 
         // Integration types
-        $this->register(new IntegrationTypesStorageServiceProvider(__DIR__ . '/../integration_types.yml'));
+        $this->register(new IntegrationTypeStorageServiceProvider(__DIR__ . '/../integration_types.yml'));
 
         // Project
         $this->register(new ProjectProvider());
