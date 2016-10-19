@@ -1,0 +1,15 @@
+# Integration types
+integration_1:
+    name: ''
+    description: ''
+    price: 0.0
+    url: ''
+    extra_info: ''
+    group_id: ''
+integration_2:
+    name: ''
+    description: ''
+    price: 0.0
+    url: ''
+    extra_info: ''
+    group_id: ''

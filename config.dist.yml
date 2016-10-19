@@ -5,6 +5,7 @@ cors:
   # protocol, also the port number!
   origins:
     - http://localhost:9000/
+    - http://localhost:9000
 
 # Database settings
 database:
@@ -31,3 +32,7 @@ rabbitmq:
   user:
   password:
 
+# Insightly settings
+insightly:
+  host: https://api.insight.ly/v2.2
+  api_key:

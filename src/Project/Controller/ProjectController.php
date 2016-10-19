@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
+use CultuurNet\ProjectAanvraag\IntegrationTypes\IntegrationTypesStorageInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -11,20 +11,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class ProjectController
 {
+    protected $commandBus;
+    protected $integrationTypesStorage;
 
-    protected $test;
-
-    public function __construct(MessageBusSupportingMiddleware $commandBus)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, IntegrationTypesStorageInterface $integrationTypesStorage)
     {
-            $this->test = $commandBus;
+        $this->commandBus = $commandBus;
+        $this->integrationTypesStorage = $integrationTypesStorage;
     }
 
     public function listing()
     {
+        $types = $this->integrationTypesStorage->getIntegrationTypes();
 
-        $command = new CreateProject('test');
-
-        $this->test->handle($command);
-        return new JsonResponse('to implement');
+        return new JsonResponse($types);
     }
 }
