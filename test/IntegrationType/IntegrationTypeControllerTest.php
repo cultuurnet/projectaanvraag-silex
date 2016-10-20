@@ -4,23 +4,50 @@ namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
+use Silex\WebTestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class IntegrationTypeControllerTest extends \PHPUnit_Framework_TestCase
 {
     use JsonAssertionTrait;
 
     /**
+     * @var IntegrationTypeController
+     */
+    protected $controller;
+
+    /**
+     * @var IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $integrationTypeStorageService;
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp()
+    {
+        $integrationTypesStorageService = $this->getMockBuilder('CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorage')->
+        disableOriginalConstructor()->getMock();
+
+        $this->integrationTypeStorageService = $integrationTypesStorageService;
+        $this->controller = new IntegrationTypeController($this->integrationTypeStorageService);
+    }
+
+    /**
      * Test IntegrationType
      */
     public function testIntegrationTypeController()
     {
-        $integrationTypeStorage = new IntegrationTypeStorage(__DIR__ . '/data/config/integration_types.yml');
-        $integrationTypeController = new IntegrationTypeController($integrationTypeStorage);
+        $json = file_get_contents(__DIR__ . '/data/serialized/integration_types.json');
 
-        $actual = $integrationTypeController->listing();
-        $expected =  new JsonResponse($integrationTypeStorage->getIntegrationTypes());
+        $this->integrationTypeStorageService->expects($this->any())
+            ->method('getIntegrationTypes')
+            ->willReturn(json_decode($json));
 
-        $this->assertEquals($actual, $expected, 'It correctly returns the json response');
+        $response = $this->controller->listing();
+        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/data/serialized/integration_types.json', $response->getContent());
     }
 }

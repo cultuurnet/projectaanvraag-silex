@@ -12,7 +12,8 @@
         "simple-bus/jms-serializer-bridge": "^1.0",
         "doctrine/dbal": "~2.2",
         "jdesrosiers/silex-cors-provider": "~1.0",
-        "cultuurnet/culturefeed-http-guzzle": "dev-master"
+        "cultuurnet/culturefeed-http-guzzle": "dev-master",
+        "symfony/browser-kit": "^3.1"
     },
     "extra": {
         "patches": {
