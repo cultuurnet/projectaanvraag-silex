@@ -56,8 +56,8 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
         $this->integrationTypes = [];
 
         $types = Yaml::parse(file_get_contents($this->configFilePath));
-        if (!empty($types) && is_array($types)) {
-            foreach ($types as $id => $type) {
+        if (!empty($types) && is_array($types) && !empty($types['integration_types'])) {
+            foreach ($types['integration_types'] as $id => $type) {
                 $integrationType = new IntegrationType();
                 $integrationType->setId($id);
                 $integrationType->setName(!empty($type['name']) ? $type['name'] : null);
