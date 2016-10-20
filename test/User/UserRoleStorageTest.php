@@ -2,12 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
-use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
-
 class UserRoleStorageTest extends \PHPUnit_Framework_TestCase
 {
-    use JsonAssertionTrait;
-
     /**
      * Test UserRoleStorage
      */
