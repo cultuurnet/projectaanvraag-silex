@@ -1,6 +1,6 @@
 <?php
 
-namespace Cultuurnet\ProjectAanvraag\User;
+namespace CultuurNet\ProjectAanvraag\User;
 
 use CultuurNet\UiTIDProvider\User\CachedUserService;
 use CultuurNet\UiTIDProvider\User\UserServiceProvider as UiTIDUserServiceProvider;

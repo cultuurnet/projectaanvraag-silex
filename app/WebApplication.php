@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag;
 
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeControllerProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
@@ -49,6 +50,7 @@ class WebApplication extends ApplicationBase
     protected function mountControllers()
     {
         $this->mount('projects', new ProjectControllerProvider());
+        $this->mount('integration-types', new IntegrationTypeControllerProvider());
 
         $this->mount('uitid', new UserControllerProvider());
         $this->mount(
