@@ -31,6 +31,6 @@ class IntegrationTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Met deze API krijg je toegang tot de zoekengine van de UiTdatabank', $type->getDescription(), 'It correctly returns the integration type description.');
         $this->assertEquals('API', $type->getName(), 'It correctly returns the integration type name.');
 
-        $this->assertJsonEquals(json_encode($type), 'IntegrationType/data/serialized/api.json');
+        $this->assertJsonEquals(json_encode($type), 'IntegrationType/data/serialized/integration_type.json');
     }
 }

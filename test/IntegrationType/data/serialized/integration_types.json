@@ -1,0 +1,38 @@
+{
+  "widgets":{
+    "id":"widgets",
+    "name":"Widgets",
+    "description":"Kant en klare html-modules die je in je website kan inpassen",
+    "price":110,
+    "url":"http:\/\/www.test.com",
+    "extraInfo":[
+      "HTML, CSS, JS",
+      "Geschikt voor basisoplossingen"
+    ],
+    "groupId":"group_id"
+  },
+  "culturefeed":{
+    "id":"culturefeed",
+    "name":"Culturefeed",
+    "description":"Modules waarmee je een UiTagenda integreert in een Drupal-site",
+    "price":80,
+    "url":"http:\/\/www.culturefeed.be",
+    "extraInfo":[
+      "Specifiek voor Drupal-sites",
+      "Je kan rekenen op de open-source gemeenschap"
+    ],
+    "groupId":"group_id"
+  },
+  "api":{
+    "id":"api",
+    "name":"API",
+    "description":"Met deze API krijg je toegang tot de zoekengine van de UiTdatabank",
+    "price":80,
+    "url":"http:\/\/www.culturefeed.be\/api",
+    "extraInfo":[
+      "Platformonafhankelijk",
+      "Individuele oplossingen op maat zijn mogelijk"
+    ],
+    "groupId":"group_id"
+  }
+}
