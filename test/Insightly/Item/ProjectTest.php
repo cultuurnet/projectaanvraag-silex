@@ -25,7 +25,7 @@ class ProjectTest extends AbstractInsightlyClientTest
         // Set additional properties
         $project->setOpportunityId(1234);
         $project->setImageUrl('http://www.test.com/test.jpg');
-        $project->setDateUpdatedUTC(\DateTime::createFromFormat('Y-m-d H:i:s', '2016-08-18 12:37:25'));
+        $project->setDateUpdatedUTC(\DateTime::createFromFormat('Y-m-d H:i:s', '2016-08-16 12:37:25'));
         $project->setPipelineId(123);
         $project->setStageId(1);
         $project->setVisibleTeamId(12);
@@ -51,8 +51,8 @@ class ProjectTest extends AbstractInsightlyClientTest
         $this->assertEquals($project->getResponsibleUserId(), 410743, 'It correctly returns the responsible user id');
 
         $this->assertEquals($project->getOwnerUserId(), 531507, 'It correctly returns the owner user id');
-        $this->assertEquals($project->getDateCreatedUTC(), \DateTime::createFromFormat('Y-m-d H:i:s', '2016-08-16 12:37:25'), 'It correctly returns the date created');
-        $this->assertEquals($project->getDateUpdatedUTC(), \DateTime::createFromFormat('Y-m-d H:i:s', '2016-08-18 12:37:25'), 'It correctly returns the date updated');
+        $this->assertEquals($project->getDateCreatedUTC(), \DateTime::createFromFormat('Y-m-d H:i:s', '2014-06-02 12:01:22'), 'It correctly returns the date created');
+        $this->assertEquals($project->getDateUpdatedUTC(), \DateTime::createFromFormat('Y-m-d H:i:s', '2016-08-16 12:37:25'), 'It correctly returns the date updated');
 
         $this->assertEquals($project->getCategoryId(), 1256112, 'It correctly returns the category id');
         $this->assertEquals($project->getPipelineId(), 123, 'It correctly returns the pipeline id');

@@ -14,11 +14,15 @@
   "responsibleUserId":410743,
   "ownerUserId":531507,
   "dateCreatedUTC":{
+    "date":"2014-06-02 12:01:22.000000",
+    "timezone_type":3,
+    "timezone":"UTC"
+  },
+  "dateUpdatedUTC":{
     "date":"2016-08-16 12:37:25.000000",
     "timezone_type":3,
     "timezone":"UTC"
   },
-  "dateUpdatedUTC":null,
   "categoryId":1256112,
   "pipelineId":null,
   "stageId":null,
