@@ -272,12 +272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/silex-uitid-provider.git",
-                "reference": "e19aeccb563279ac023ce2c287dd7d4b436f25ea"
+                "reference": "26058bfe7381e81ee760114db9bb091f16a6f99a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/silex-uitid-provider/zipball/e19aeccb563279ac023ce2c287dd7d4b436f25ea",
-                "reference": "e19aeccb563279ac023ce2c287dd7d4b436f25ea",
+                "url": "https://api.github.com/repos/cultuurnet/silex-uitid-provider/zipball/26058bfe7381e81ee760114db9bb091f16a6f99a",
+                "reference": "26058bfe7381e81ee760114db9bb091f16a6f99a",
                 "shasum": ""
             },
             "require": {
@@ -307,7 +307,7 @@
                 "GPL-3.0"
             ],
             "description": "Silex UiTID authentication provider.",
-            "time": "2016-10-05 09:32:22"
+            "time": "2016-10-11 11:16:43"
         },
         {
             "name": "cweagans/composer-patches",

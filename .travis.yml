@@ -12,3 +12,4 @@ notifications:
   email:
     recipients:
     - nils.destoop@wunderkraut.com
+    - wouter.vanelslander@wunderkraut.com
