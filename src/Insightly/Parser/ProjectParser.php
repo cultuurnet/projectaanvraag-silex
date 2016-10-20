@@ -34,7 +34,7 @@ class ProjectParser implements ParserInterface
         $project->setOwnerUserId(!empty($data['OWNER_USER_ID']) ? $data['OWNER_USER_ID'] : null);
 
         $project->setDateCreatedUTC(!empty($data['DATE_CREATED_UTC']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $data['DATE_CREATED_UTC']) : null);
-        $project->setDateCreatedUTC(!empty($data['DATE_UPDATED_UTC']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $data['DATE_UPDATED_UTC']) : null);
+        $project->setDateUpdatedUTC(!empty($data['DATE_UPDATED_UTC']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $data['DATE_UPDATED_UTC']) : null);
 
         $project->setCategoryId(!empty($data['CATEGORY_ID']) ? $data['CATEGORY_ID'] : null);
         $project->setPipelineId(!empty($data['PIPELINE_ID']) ? $data['PIPELINE_ID'] : null);

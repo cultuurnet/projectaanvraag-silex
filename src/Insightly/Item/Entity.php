@@ -31,7 +31,7 @@ class Entity implements EntityInterface, \JsonSerializable
     }
 
     /**
-     * Serialzize the entity to json
+     * Serialize the entity to json
      * @return array
      */
     public function jsonSerialize()

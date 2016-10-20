@@ -48,12 +48,13 @@ class InsightlyClient implements InsightlyClientInterface
      *  - brief (bool)
      *  - count_total (int)
      *
-     * @param ParameterBag $query
      * @param array $options
      * @return ParameterBag $query
      */
-    private function addQueryFilters(ParameterBag $query, array $options)
+    private function addQueryFilters(array $options)
     {
+        $query = new ParameterBag();
+
         if (!empty($options['top'])) {
             $query->add(['top' => $options['top']]);
         }
@@ -117,13 +118,13 @@ class InsightlyClient implements InsightlyClientInterface
      */
     public function getProjects($options = [])
     {
-        $query = $this->addQueryFilters(new ParameterBag(), $options);
+        $query = $this->addQueryFilters($options);
         return GetProjectsResult::parseToResult($this->request(RequestInterface::GET, 'Projects', $query));
     }
 
     public function getPipelines($options = [])
     {
-        $query = $this->addQueryFilters(new ParameterBag(), $options);
+        $query = $this->addQueryFilters($options);
         return GetPipelinesResult::parseToResult($this->request(RequestInterface::GET, 'Pipelines', $query));
     }
 
