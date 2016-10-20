@@ -7,17 +7,35 @@ use CultuurNet\UiTIDProvider\User\UserService as UiTIDUserService;
 class UserService extends UiTIDUserService
 {
     /**
+     * @var UserRoleStorageInterface
+     */
+    protected $userRoleStorage;
+
+    /**
+     * @param \CultureFeed $cultureFeed
+     * @param UserRoleStorageInterface $userRoleStorage
+     */
+    public function __construct(\CultureFeed $cultureFeed, UserRoleStorageInterface $userRoleStorage)
+    {
+        parent::__construct($cultureFeed);
+
+        $this->userRoleStorage = $userRoleStorage;
+    }
+
+    /**
      * @param string $id
      * @return User|null
      */
     public function getUser($id)
     {
-        if ($user = parent::getUser($id)) {
-            // Add user roles
+        try {
+            $cfUser = $this->cultureFeed->getUser($id, self::INCLUDE_PRIVATE_FIELDS);
 
-            return $user;
+            // Cast to a User object that can be safely encoded to json and add the user roles.
+            $user = User::fromCultureFeedUser($cfUser);
+            return $user->setRoles($this->userRoleStorage->getRolesByUserId($user->id));
+        } catch (\CultureFeed_ParseException $e) {
+            return null;
         }
-
-        return null;
     }
 }

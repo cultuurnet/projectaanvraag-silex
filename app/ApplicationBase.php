@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
+use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
@@ -48,6 +49,9 @@ class ApplicationBase extends SilexApplication
             ]
         );
         $this->register(new AuthServiceProvider());
+
+        // User and user roles
+        $this->register(new UserRoleServiceProvider(__DIR__ . '/../user_roles.yml'));
         $this->register(new UserServiceProvider());
 
         // Insightly

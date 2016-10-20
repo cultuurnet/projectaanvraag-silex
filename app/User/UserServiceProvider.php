@@ -18,7 +18,7 @@ class UserServiceProvider extends UiTIDUserServiceProvider
         // Replace the User service
         $pimple['uitid_user_service'] = function (Container $pimple) {
             $service = new CachedUserService(
-                new UserService($pimple['culturefeed'])
+                new UserService($pimple['culturefeed'], $pimple['user_role.storage'])
             );
 
             $currentUser = $pimple['uitid_user_session_data_complete'];

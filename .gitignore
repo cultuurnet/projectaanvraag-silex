@@ -1,6 +1,7 @@
 .idea
 vendor
 config.yml
-integration_types.yml
+/user_roles.yml
+/integration_types.yml
 /node_modules
 /build
