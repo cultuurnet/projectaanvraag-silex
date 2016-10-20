@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
@@ -48,6 +49,15 @@ class ApplicationBase extends SilexApplication
         );
         $this->register(new AuthServiceProvider());
         $this->register(new UserServiceProvider());
+
+        // Insightly
+        $this->register(
+            new InsightlyServiceProvider(),
+            [
+                'insightly.host' => $this['config']['insightly']['host'],
+                'insightly.api_key' => $this['config']['insightly']['api_key'],
+            ]
+        );
 
         $this->register(new CoreProvider());
 

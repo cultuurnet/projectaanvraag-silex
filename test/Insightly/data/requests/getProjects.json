@@ -1,0 +1,5163 @@
+[
+  {
+    "PROJECT_ID":1373034,
+    "PROJECT_NAME":"Begeleiding ontwikkeling website voor \"groote oorlog\"",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"ConceptPMTesting & oplevering",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-01-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":410743,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:01:22",
+    "DATE_UPDATED_UTC":"2016-08-16 12:37:25",
+    "CATEGORY_ID":1256112,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2014-01-03 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373151,
+    "PROJECT_NAME":"(H)ART Portfolio Aanbodanalyse",
+    "STATUS":"In Progress",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-06-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2015-07-30 07:36:49",
+    "CATEGORY_ID":1264909,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-12-11 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"Nee"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337759,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060440,
+        "PROJECT_ID":1373151,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373152,
+    "PROJECT_NAME":"(H)ART Widgets 2.0",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"Is een API integratie geworden, kennelijk",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-08-22 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2016-09-08 13:46:58",
+    "CATEGORY_ID":1254050,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2015-07-07 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"Cultuur"
+      },
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337760,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060440,
+        "PROJECT_ID":1373152,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41351194,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31065477,
+        "PROJECT_ID":1373152,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373153,
+    "PROJECT_NAME":"(H)ART Widgets 1.0",
+    "STATUS":"CANCELLED",
+    "PROJECT_DETAILS":"ONTW - KLI - www.kunsthart.org - sectorwidget - generated, ligt DIV-tags opgestuurd.",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 09:20:09",
+    "CATEGORY_ID":1254047,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2011-08-22 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337761,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060440,
+        "PROJECT_ID":1373153,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373154,
+    "PROJECT_NAME":"(H)ART Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"Organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 09:19:41",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"Content"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337762,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060440,
+        "PROJECT_ID":1373154,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373155,
+    "PROJECT_NAME":"(H)ART Datarapport",
+    "STATUS":"CANCELLED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 09:19:03",
+    "CATEGORY_ID":1254022,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      },
+      {
+        "TAG_NAME":"cultuur"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337763,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060440,
+        "PROJECT_ID":1373155,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373156,
+    "PROJECT_NAME":"12TH FLOOR JAZZ CLUB Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:30:52",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-12-31 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337764,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060449,
+        "PROJECT_ID":1373156,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373157,
+    "PROJECT_NAME":"3 DEGREES Portfolio UiTdatabank informatieverzameling en -verrijking",
+    "STATUS":"In Progress",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-06-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 18:21:29",
+    "CATEGORY_ID":1264931,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2014-02-16 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"Ja"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337765,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060452,
+        "PROJECT_ID":1373157,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":43037335,
+        "CONTACT_ID":62498692,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373157,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373158,
+    "PROJECT_NAME":"30CC XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-10-04 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:30:57",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-12-31 00:00:00"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337766,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060453,
+        "PROJECT_ID":1373158,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41351249,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31061181,
+        "PROJECT_ID":1373158,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":44749181,
+        "CONTACT_ID":62498058,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373158,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373159,
+    "PROJECT_NAME":"3-D GALLERY Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 08:14:39",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337767,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060454,
+        "PROJECT_ID":1373159,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373160,
+    "PROJECT_NAME":"4AD MUZIEKCLUB Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"UiTinDiksmuide.be",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:01",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337768,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060456,
+        "PROJECT_ID":1373160,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373161,
+    "PROJECT_NAME":"4X4MUSIC.EU Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:05",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337769,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060457,
+        "PROJECT_ID":1373161,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373162,
+    "PROJECT_NAME":"4X4MUSIC.EU Search API",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"Code d'or -PROD - KLI - www.4x4music.eu/pages/euragenda (Search API)",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2016-05-27 11:50:54",
+    "CATEGORY_ID":1256112,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      },
+      {
+        "TAG_NAME":"Cultuur"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337770,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060457,
+        "PROJECT_ID":1373162,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41351273,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31061226,
+        "PROJECT_ID":1373162,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373163,
+    "PROJECT_NAME":"5-ART Widgets 2.0",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2012-04-12 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561249,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2015-12-06 20:34:21",
+    "CATEGORY_ID":1254050,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2015-01-05 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337771,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060459,
+        "PROJECT_ID":1373163,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373164,
+    "PROJECT_NAME":"5-ART Portfolio Toolkit Blik op cultuur",
+    "STATUS":"In Progress",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-06-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561249,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 09:21:22",
+    "CATEGORY_ID":1254359,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Interesse"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-12-13 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"Ja"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337772,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060459,
+        "PROJECT_ID":1373164,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373165,
+    "PROJECT_NAME":"5-ART Portfolio Toolkit Vliegdoos",
+    "STATUS":"IN PROGRESS",
+    "PROJECT_DETAILS":"Besteld door DavidDieter  antwoord mail 19/10 De Vliegdoos leek me interessant om aan te kopen en ter beschikking te stellen voor de vijf gemeenten binnen onze samenwerking. Zelf ga ik er voorlopig niet mee aan de slag, maar ze staat wel ter beschikking van de gemeenten (+ van externen die geïnteresseerd zouden zijn).",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2013-01-22 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561249,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 09:21:29",
+    "CATEGORY_ID":1254360,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Ontwikkeling"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-10-11 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337773,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060459,
+        "PROJECT_ID":1373165,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":43380846,
+        "CONTACT_ID":62495216,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373165,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373166,
+    "PROJECT_NAME":"5-ART UiTPAS",
+    "STATUS":"In Progress",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-06-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561249,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 09:21:47",
+    "CATEGORY_ID":1254296,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Interesse"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2013-02-26 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337774,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060459,
+        "PROJECT_ID":1373166,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373167,
+    "PROJECT_NAME":"5-ART Search API",
+    "STATUS":"CANCELLED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-13 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561249,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 09:21:37",
+    "CATEGORY_ID":1256112,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-01-31 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337775,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060459,
+        "PROJECT_ID":1373167,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373168,
+    "PROJECT_NAME":"ABDIJMUSEUM TEN DUINEN 1138 Portfolio Toolkit Blik op cultuur",
+    "STATUS":"In Progress",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-06-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 18:21:46",
+    "CATEGORY_ID":1254359,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2013-06-10 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"Ja"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337776,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060487,
+        "PROJECT_ID":1373168,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":43381082,
+        "CONTACT_ID":62496740,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373168,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373169,
+    "PROJECT_NAME":"ABDIJMUSEUM TEN DUINEN 1138 Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:23",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337777,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060487,
+        "PROJECT_ID":1373169,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373170,
+    "PROJECT_NAME":"ABSOLUTE ART GALLERY BRUGGE Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:30",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337778,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060492,
+        "PROJECT_ID":1373170,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373171,
+    "PROJECT_NAME":"ABSOLUTE ART GALLERY KNOKKE-HEIST Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:35",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337779,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060493,
+        "PROJECT_ID":1373171,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373172,
+    "PROJECT_NAME":"Academie voor Podiumkunsten Aalst UiTPAS zuil 2.0 Raspi",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2013-06-18 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":410739,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:39",
+    "CATEGORY_ID":1253977,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2013-06-18 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337780,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060508,
+        "PROJECT_ID":1373172,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373173,
+    "PROJECT_NAME":"ACTOR'S STUDIO/STYX Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-27 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:45",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337781,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060515,
+        "PROJECT_ID":1373173,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373174,
+    "PROJECT_NAME":"ACTOR'S STUDIO/STYX XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"SKB",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:31:50",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337782,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060515,
+        "PROJECT_ID":1373174,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373176,
+    "PROJECT_NAME":"ACW leuven Entry API",
+    "STATUS":"NOT STARTED",
+    "PROJECT_DETAILS":"willen graag importeren, maar zullen waarschijnlijk niet aan de gevraagde eisen voldoen omdat ze een soort lokale koepel van organisatoren zijn en niet echt zelf de organisator van het aanbod in kwestie. garanties op dubbels is er dus niet",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2012-07-12 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2016-05-27 12:32:08",
+    "CATEGORY_ID":1254089,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-07-12 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337784,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060517,
+        "PROJECT_ID":1373176,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373177,
+    "PROJECT_NAME":"AFRICAN REGGAE FESTIVAL Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-31 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:00",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337785,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060530,
+        "PROJECT_ID":1373177,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373178,
+    "PROJECT_NAME":"AKKERPOP Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:04",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337786,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060552,
+        "PROJECT_ID":1373178,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373179,
+    "PROJECT_NAME":"Aleydis Excel upload",
+    "STATUS":"CANCELLED",
+    "PROJECT_DETAILS":"terug contacteren bij nieuwe excel upload",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-04-18 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-10-01 18:22:06",
+    "CATEGORY_ID":1745921,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-01-31 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337787,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060561,
+        "PROJECT_ID":1373179,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373180,
+    "PROJECT_NAME":"AMARANT GENT Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-25 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:48",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:13",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-12-31 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337788,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060574,
+        "PROJECT_ID":1373180,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373181,
+    "PROJECT_NAME":"AMARANT GENT  XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"aanbod komt binnen via Socius",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:19",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337789,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060574,
+        "PROJECT_ID":1373181,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373182,
+    "PROJECT_NAME":"AMAZONE Invoer via systeem van derden",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-26 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2016-05-27 13:56:00",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337790,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060575,
+        "PROJECT_ID":1373182,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373183,
+    "PROJECT_NAME":"AMSAB - INSTITUUT VOOR SOCIALE GESCHIEDENIS Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-03 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:27",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337791,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060579,
+        "PROJECT_ID":1373183,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373184,
+    "PROJECT_NAME":"AmuseeVous Portfolio Toolkit Blik op cultuur",
+    "STATUS":"NOT STARTED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2013-10-03 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:22:12",
+    "CATEGORY_ID":1254359,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2013-09-16 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"Ja"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337792,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060581,
+        "PROJECT_ID":1373184,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":43037615,
+        "CONTACT_ID":62501782,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373184,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373185,
+    "PROJECT_NAME":"AMUZ (FESTIVAL VAN VLAANDEREN - ANTWERPEN) Ticket crawler",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-06-06 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:22:20",
+    "CATEGORY_ID":1745873,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2011-06-06 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337793,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060582,
+        "PROJECT_ID":1373185,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373186,
+    "PROJECT_NAME":"ANCIENNE BELGIQUE Ticket crawler",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-08-15 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:22:33",
+    "CATEGORY_ID":1745873,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2011-08-15 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337794,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060585,
+        "PROJECT_ID":1373186,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373187,
+    "PROJECT_NAME":"ANCIENNE BELGIQUE UiTPAS NFC-lezer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2012-11-27 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":410739,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:39",
+    "CATEGORY_ID":1254034,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-11-27 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337795,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060585,
+        "PROJECT_ID":1373187,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373188,
+    "PROJECT_NAME":"ANCIENNE BELGIQUE UiTPAS NFC-lezer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2012-11-27 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":410739,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:42",
+    "CATEGORY_ID":1254034,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-11-27 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337796,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060585,
+        "PROJECT_ID":1373188,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373189,
+    "PROJECT_NAME":"ANCIENNE BELGIQUE UiTPAS NFC-lezer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2012-11-27 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":410739,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:46",
+    "CATEGORY_ID":1254034,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-11-27 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337797,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060585,
+        "PROJECT_ID":1373189,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373190,
+    "PROJECT_NAME":"ANCIENNE BELGIQUE Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:49",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337798,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060585,
+        "PROJECT_ID":1373190,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373191,
+    "PROJECT_NAME":"ANCIENNE BELGIQUE XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"SKB",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:32:54",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337799,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060585,
+        "PROJECT_ID":1373191,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373192,
+    "PROJECT_NAME":"ANIMA - INTERNATIONAAL ANIMATIEFILMFESTIVAL (FOLLI",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":null,
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-06-02 12:05:49",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337800,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060588,
+        "PROJECT_ID":1373192,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373193,
+    "PROJECT_NAME":"ANTIEK KUNST EN ROMMELMARKT GENT Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:33:01",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337801,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060595,
+        "PROJECT_ID":1373193,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373194,
+    "PROJECT_NAME":"ANTOINE WIERTZMUSEUM Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-26 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2016-07-22 09:44:50",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337802,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060602,
+        "PROJECT_ID":1373194,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373195,
+    "PROJECT_NAME":"ANTWERPEN AAN 't WOORD Portfolio Toolkit Blik op cultuur",
+    "STATUS":"NOT STARTED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-03-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:22:39",
+    "CATEGORY_ID":1254359,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2014-02-24 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"Ja"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337803,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060605,
+        "PROJECT_ID":1373195,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373196,
+    "PROJECT_NAME":"ANTWERPEN BOEKENSTAD Widgets 2.0",
+    "STATUS":"Completed",
+    "PROJECT_DETAILS":"widgets met filter op literatuur in gemeente Antwerpen ten bedrage van eenmalig 600 Euro excl. btw met toestemming van Antwerpen (MC) overeenkoms tnog niet ondertekend",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-16 00:00:00",
+    "COMPLETED_DATE":"2016-08-12 00:00:00",
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561245,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2016-08-16 08:02:59",
+    "CATEGORY_ID":1254050,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2016-08-12 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337804,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060607,
+        "PROJECT_ID":1373196,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373197,
+    "PROJECT_NAME":"Antwerps integratiecentrum De8 Portfolio Toolkit Vliegdoos",
+    "STATUS":"IN PROGRESS",
+    "PROJECT_DETAILS":"Besteld door VaerewyckWimwim.vaerewyck@de8.be",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2013-01-29 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:24:06",
+    "CATEGORY_ID":1254360,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Ontwikkeling"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-07-18 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337805,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060610,
+        "PROJECT_ID":1373197,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":43379416,
+        "CONTACT_ID":62499052,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373197,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373198,
+    "PROJECT_NAME":"Antwerps integratiecentrum De8 Portfolio Toolkit Blik op cultuur",
+    "STATUS":"IN PROGRESS",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2013-03-14 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:22:51",
+    "CATEGORY_ID":1254359,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Ontwikkeling"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-07-17 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337806,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060610,
+        "PROJECT_ID":1373198,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373199,
+    "PROJECT_NAME":"ARABISCHE FILM FESTIVAL Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"Niet meer in gebruik?",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-31 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2016-05-27 14:33:51",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337807,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060618,
+        "PROJECT_ID":1373199,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373200,
+    "PROJECT_NAME":"ARCH'EDUC XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"invoer via socius/Prettig Geleerd",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 09:23:50",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337808,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":30983102,
+        "PROJECT_ID":1373200,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41352216,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":30983194,
+        "PROJECT_ID":1373200,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373201,
+    "PROJECT_NAME":"ARCH'EDUC XML import",
+    "STATUS":"Cancelled",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-18 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 09:23:58",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2011-01-18 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337809,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":30983102,
+        "PROJECT_ID":1373201,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373202,
+    "PROJECT_NAME":"ARCH'EDUC XML import",
+    "STATUS":"Cancelled",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 09:24:05",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337810,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":30983102,
+        "PROJECT_ID":1373202,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373203,
+    "PROJECT_NAME":"Archeologiemuseum Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:34:30",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337811,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060623,
+        "PROJECT_ID":1373203,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373204,
+    "PROJECT_NAME":"ARCHEOLOGISCHE SITE VAN DE COUDENBERG Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-26 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:34:34",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337812,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060624,
+        "PROJECT_ID":1373204,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373205,
+    "PROJECT_NAME":"ARCHIEF EN MUSEUM VAN HET VLAAMS LEVEN TE BRUSSEL Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:34:37",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337813,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060629,
+        "PROJECT_ID":1373205,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373206,
+    "PROJECT_NAME":"ARCHIEF EN MUSEUM VAN HET VLAAMS LEVEN TE BRUSSEL Portfolio Toolkit Blik op cultuur",
+    "STATUS":"NOT STARTED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2014-04-06 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:24:11",
+    "CATEGORY_ID":1254359,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2014-03-06 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"Ja"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337814,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060629,
+        "PROJECT_ID":1373206,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":43379146,
+        "CONTACT_ID":62495246,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373206,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373207,
+    "PROJECT_NAME":"ARENBERG GALERIES Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-27 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:34:41",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337815,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060635,
+        "PROJECT_ID":1373207,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373208,
+    "PROJECT_NAME":"ARENBERG GALERIES XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"SKB",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:34:47",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337816,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060635,
+        "PROJECT_ID":1373208,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373209,
+    "PROJECT_NAME":"ARENBERGSCHOUWBURG XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"Ampleximport, via provant.",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:34:52",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2009-10-31 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337817,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060637,
+        "PROJECT_ID":1373209,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41352305,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060578,
+        "PROJECT_ID":1373209,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373210,
+    "PROJECT_NAME":"ARENDONK ZINGT EN SWINGT Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:34:58",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337818,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060638,
+        "PROJECT_ID":1373210,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373211,
+    "PROJECT_NAME":"Arentshuis Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:02",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337819,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060639,
+        "PROJECT_ID":1373211,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373212,
+    "PROJECT_NAME":"ARGOS Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:06",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337820,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060640,
+        "PROJECT_ID":1373212,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373213,
+    "PROJECT_NAME":"ARS MUSICA Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-27 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:09",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337821,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060648,
+        "PROJECT_ID":1373213,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373214,
+    "PROJECT_NAME":"ART BASICS FOR CHILDREN (ABC) Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-25 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:13",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337822,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060652,
+        "PROJECT_ID":1373214,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373215,
+    "PROJECT_NAME":"ART BASICS FOR CHILDREN (ABC) XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"SKB",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:18",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337823,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060652,
+        "PROJECT_ID":1373215,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373216,
+    "PROJECT_NAME":"ART BRUSSELS Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:22",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337824,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060653,
+        "PROJECT_ID":1373216,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373217,
+    "PROJECT_NAME":"ART CINEMA OFFOFF Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"CDB (via TA) op termijn misschien organisatie?",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:26",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337825,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060655,
+        "PROJECT_ID":1373217,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373218,
+    "PROJECT_NAME":"ART GALLERY DE MUELENAERE & LEFEVERE OOSTDUINKERKE Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:30",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337826,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060662,
+        "PROJECT_ID":1373218,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373219,
+    "PROJECT_NAME":"ARTBASE Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-26 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:33",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337827,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060671,
+        "PROJECT_ID":1373219,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373220,
+    "PROJECT_NAME":"ARTEVELDEHOGESCHOOL Portfolio Toolkit Vliegdoos",
+    "STATUS":"NOT STARTED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2013-06-19 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561248,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-10-01 18:24:15",
+    "CATEGORY_ID":1254360,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Gesprek"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2013-02-19 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337828,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060677,
+        "PROJECT_ID":1373220,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":43379643,
+        "CONTACT_ID":62495048,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":null,
+        "PROJECT_ID":1373220,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373221,
+    "PROJECT_NAME":"ARTONIVO - ART IN BRUGGE Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:39",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337829,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060685,
+        "PROJECT_ID":1373221,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373222,
+    "PROJECT_NAME":"AR-TUR Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"Digipolis",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:43",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337830,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060690,
+        "PROJECT_ID":1373222,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41352332,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31061778,
+        "PROJECT_ID":1373222,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373223,
+    "PROJECT_NAME":"ASPIROCK Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:48",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337831,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060693,
+        "PROJECT_ID":1373223,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373224,
+    "PROJECT_NAME":"ATOMIUM Invoer via systeem van derden",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2016-05-31 07:50:34",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337832,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060720,
+        "PROJECT_ID":1373224,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373225,
+    "PROJECT_NAME":"AUDITORIUM PASSAGE 44 Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-26 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:49",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:55",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337833,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060724,
+        "PROJECT_ID":1373225,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373226,
+    "PROJECT_NAME":"AUGUST VERMEYLENFONDS Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-03 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:35:59",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337834,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060726,
+        "PROJECT_ID":1373226,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373227,
+    "PROJECT_NAME":"AUGUST VERMEYLENFONDS XML import",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2016-08-12 12:09:08",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2016-08-12 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337835,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060726,
+        "PROJECT_ID":1373227,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373228,
+    "PROJECT_NAME":"AUTOWORLD Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-25 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:02",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337836,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060734,
+        "PROJECT_ID":1373228,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373229,
+    "PROJECT_NAME":"AUTOWORLD XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"SKB",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:07",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337837,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060734,
+        "PROJECT_ID":1373229,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373230,
+    "PROJECT_NAME":"AVENTURE Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-27 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:12",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337838,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060736,
+        "PROJECT_ID":1373230,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373231,
+    "PROJECT_NAME":"AVENTURE XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:16",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337839,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060736,
+        "PROJECT_ID":1373231,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373232,
+    "PROJECT_NAME":"AXIMAX JEUGDCENTRUM Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-25 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:20",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337840,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060742,
+        "PROJECT_ID":1373232,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373233,
+    "PROJECT_NAME":"BAINS : : CONNECTIVE Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-25 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:23",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337841,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060748,
+        "PROJECT_ID":1373233,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373234,
+    "PROJECT_NAME":"BALEN MUZIEKTERRAS Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-02-02 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:28",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-09-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337842,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060750,
+        "PROJECT_ID":1373234,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373235,
+    "PROJECT_NAME":"BAM - agenda Search API",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"Leverancier is Inuits. nog niet 100% duidelijk welke tool ze gaan gebruiken. BK kalender van dries moreels.\n\nAgenda met 'Visual Arts'-marker",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-06-21 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2016-10-07 14:14:16",
+    "CATEGORY_ID":1256112,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2011-06-21 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337843,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060755,
+        "PROJECT_ID":1373235,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41352357,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31063036,
+        "PROJECT_ID":1373235,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373236,
+    "PROJECT_NAME":"BAM - invoer Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:36:35",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337844,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060755,
+        "PROJECT_ID":1373236,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373237,
+    "PROJECT_NAME":"BAM (INSTITUUT VOOR BEELDENDE AUDIOVISUELE EN MEDIAKUNST) Datarapport",
+    "STATUS":"CANCELLED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-10-01 18:24:28",
+    "CATEGORY_ID":1254022,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337845,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060755,
+        "PROJECT_ID":1373237,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373238,
+    "PROJECT_NAME":"BANANA PEEL XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"Tinck",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2016-07-25 08:27:21",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337846,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060757,
+        "PROJECT_ID":1373238,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373239,
+    "PROJECT_NAME":"BEETHOVEN ACADEMIE Manuele invoer",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2016-08-12 12:14:51",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2016-08-12 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337847,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060776,
+        "PROJECT_ID":1373239,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373240,
+    "PROJECT_NAME":"BEETHOVEN ACADEMIE Excel upload",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"Organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2016-08-12 12:13:52",
+    "CATEGORY_ID":1745921,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2016-08-12 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337848,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060776,
+        "PROJECT_ID":1373240,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373241,
+    "PROJECT_NAME":"Belfort Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:37:03",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337849,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060784,
+        "PROJECT_ID":1373241,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373242,
+    "PROJECT_NAME":"BELGISCH CENTRUM VAN HET BEELDVERHAAL Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:37:08",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337850,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060789,
+        "PROJECT_ID":1373242,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373243,
+    "PROJECT_NAME":"BELGISCH CENTRUM VAN HET BEELDVERHAAL XML import",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"SKB",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:37:13",
+    "CATEGORY_ID":1254167,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337851,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060789,
+        "PROJECT_ID":1373243,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373244,
+    "PROJECT_NAME":"BELGISCH MUSEUM VAN DE VRIJMETSELARIJ Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-26 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:37:17",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337852,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060790,
+        "PROJECT_ID":1373244,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373245,
+    "PROJECT_NAME":"BELLONAHUIS (MAISON DU SPECTACLE) Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-26 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:38:31",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337853,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060792,
+        "PROJECT_ID":1373245,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373246,
+    "PROJECT_NAME":"BELVUE MUSEUM Invoer via systeem van derden",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2011-01-24 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:38:35",
+    "CATEGORY_ID":1254258,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2004-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337854,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060793,
+        "PROJECT_ID":1373246,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373247,
+    "PROJECT_NAME":"BE-PART Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:38:40",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337855,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060802,
+        "PROJECT_ID":1373247,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373248,
+    "PROJECT_NAME":"BEZOEKERSCENTRUM KASTEEL BULSKAMPVELD Manuele invoer",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"organisatie",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2010-12-09 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":407283,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:38:44",
+    "CATEGORY_ID":1253939,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2010-11-30 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337856,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060815,
+        "PROJECT_ID":1373248,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373249,
+    "PROJECT_NAME":"BibArt Widgets 2.0",
+    "STATUS":"Abandoned",
+    "PROJECT_DETAILS":"13/10/16: We denken niet dat dit nog online staat en blokkeren de key in tools.uitdatabank.be",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2012-07-31 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":561239,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2016-10-13 15:02:31",
+    "CATEGORY_ID":1254050,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Beëindigd"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2012-07-31 00:00:00"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_3",
+        "FIELD_VALUE":"-Kies-"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_7",
+        "FIELD_VALUE":1.0
+      }
+    ],
+    "TAGS":[
+      {
+        "TAG_NAME":"SaM"
+      }
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337857,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31060817,
+        "PROJECT_ID":1373249,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  },
+  {
+    "PROJECT_ID":1373250,
+    "PROJECT_NAME":"Bibliotheek Aalst UiTPAS zuil 2.0 Raspi",
+    "STATUS":"COMPLETED",
+    "PROJECT_DETAILS":"",
+    "OPPORTUNITY_ID":null,
+    "STARTED_DATE":"2013-03-17 00:00:00",
+    "COMPLETED_DATE":null,
+    "IMAGE_URL":null,
+    "RESPONSIBLE_USER_ID":410739,
+    "OWNER_USER_ID":531507,
+    "DATE_CREATED_UTC":"2014-06-02 12:05:50",
+    "DATE_UPDATED_UTC":"2014-09-29 12:38:51",
+    "CATEGORY_ID":1253977,
+    "PIPELINE_ID":null,
+    "STAGE_ID":null,
+    "VISIBLE_TO":"EVERYONE",
+    "VISIBLE_TEAM_ID":null,
+    "VISIBLE_USER_IDS":null,
+    "CUSTOMFIELDS":[
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+        "FIELD_VALUE":"Live"
+      },
+      {
+        "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+        "FIELD_VALUE":"2013-03-17 00:00:00"
+      }
+    ],
+    "TAGS":[
+
+    ],
+    "LINKS":[
+      {
+        "LINK_ID":41337858,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31064230,
+        "PROJECT_ID":1373250,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":null,
+        "DETAILS":null
+      },
+      {
+        "LINK_ID":41352459,
+        "CONTACT_ID":null,
+        "OPPORTUNITY_ID":null,
+        "ORGANISATION_ID":31061412,
+        "PROJECT_ID":1373250,
+        "SECOND_PROJECT_ID":null,
+        "SECOND_OPPORTUNITY_ID":null,
+        "ROLE":"Leverancier",
+        "DETAILS":null
+      }
+    ],
+    "CAN_EDIT":true,
+    "CAN_DELETE":true
+  }
+]
