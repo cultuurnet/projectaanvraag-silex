@@ -15,7 +15,8 @@ class User extends UiTIDUser
      * @param array $roles
      * @return $this
      */
-    public function setRoles(array $roles) {
+    public function setRoles(array $roles)
+    {
         $this->roles = $roles;
         return $this;
     }
