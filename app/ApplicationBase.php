@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
@@ -59,6 +60,7 @@ class ApplicationBase extends SilexApplication
         );
 
         $this->register(new CoreProvider());
+
         $this->register(
             new DoctrineServiceProvider(),
             [
@@ -66,6 +68,9 @@ class ApplicationBase extends SilexApplication
             ]
         );
         $this->register(new MessageBusProvider());
+
+        // Integration types
+        $this->register(new IntegrationTypeStorageServiceProvider(__DIR__ . '/../integration_types.yml'));
 
         // Project
         $this->register(new ProjectProvider());

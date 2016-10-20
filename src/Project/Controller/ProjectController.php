@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\IntegrationTypes\IntegrationTypesStorageInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -11,20 +11,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class ProjectController
 {
-
     protected $commandBus;
-    protected $insightlyClient;
+    protected $integrationTypesStorage;
 
-    public function __construct(MessageBusSupportingMiddleware $commandBus, InsightlyClientInterface $insightlyClient)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, IntegrationTypesStorageInterface $integrationTypesStorage)
     {
         $this->commandBus = $commandBus;
-        $this->insightlyClient = $insightlyClient;
+        $this->integrationTypesStorage = $integrationTypesStorage;
     }
 
     public function listing()
     {
-        $projects = $this->insightlyClient->getProjects();
-        $pipelines = $this->insightlyClient->getPipelines();
-        return new JsonResponse($pipelines);
+        $types = $this->integrationTypesStorage->getIntegrationTypes();
+
+        return new JsonResponse($types);
     }
 }
