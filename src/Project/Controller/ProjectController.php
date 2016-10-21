@@ -12,6 +12,7 @@ class ProjectController
 {
     protected $commandBus;
 
+
     public function __construct(MessageBusSupportingMiddleware $commandBus)
     {
         $this->commandBus = $commandBus;

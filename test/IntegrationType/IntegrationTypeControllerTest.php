@@ -29,8 +29,10 @@ class IntegrationTypeControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $integrationTypesStorageService = $this->getMockBuilder('CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorage')->
-        disableOriginalConstructor()->getMock();
+        $integrationTypesStorageService = $this
+            ->getMockBuilder('CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->integrationTypeStorageService = $integrationTypesStorageService;
         $this->controller = new IntegrationTypeController($this->integrationTypeStorageService);
@@ -43,7 +45,8 @@ class IntegrationTypeControllerTest extends \PHPUnit_Framework_TestCase
     {
         $json = file_get_contents(__DIR__ . '/data/serialized/integration_types.json');
 
-        $this->integrationTypeStorageService->expects($this->any())
+        $this->integrationTypeStorageService
+            ->expects($this->any())
             ->method('getIntegrationTypes')
             ->willReturn(json_decode($json));
 
