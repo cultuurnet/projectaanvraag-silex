@@ -33,7 +33,11 @@ class UserService extends UiTIDUserService
 
             // Cast to a User object that can be safely encoded to json and add the user roles.
             $user = User::fromCultureFeedUser($cfUser);
-            return $user->setRoles($this->userRoleStorage->getRolesByUserId($user->id));
+
+            // Add roles (always add uitid_user role)
+            $roles = ['uitid_user'];
+
+            return $user->setRoles(array_merge($this->userRoleStorage->getRolesByUserId($user->id), $roles));
         } catch (\CultureFeed_ParseException $e) {
             return null;
         }
