@@ -4,23 +4,27 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\InstallCommand;
-use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
-use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
-use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
-use CultuurNet\UiTIDProvider\User\UserServiceProvider;
-use DerAlex\Silex\YamlConfigServiceProvider;
-use Knp\Console\ConsoleEvent;
-use Knp\Console\ConsoleEvents;
+use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
+use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
+use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
+use Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand;
+use Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand;
+use Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand;
+use Doctrine\ORM\Tools\Console\Command\ConvertDoctrine1SchemaCommand;
+use Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand;
+use Doctrine\ORM\Tools\Console\Command\EnsureProductionSettingsCommand;
+use Doctrine\ORM\Tools\Console\Command\GenerateEntitiesCommand;
+use Doctrine\ORM\Tools\Console\Command\GenerateProxiesCommand;
+use Doctrine\ORM\Tools\Console\Command\GenerateRepositoriesCommand;
+use Doctrine\ORM\Tools\Console\Command\RunDqlCommand;
+use Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand;
+use Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand;
+use Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand;
+use Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand;
+use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Knp\Provider\ConsoleServiceProvider;
 use Silex\Application as SilexApplication;
-use Silex\Provider\RoutingServiceProvider;
-use Silex\Provider\ServiceControllerServiceProvider;
-use Silex\Provider\SessionServiceProvider;
-use SimpleBus\Asynchronous\Consumer\StandardSerializedEnvelopeConsumer;
-use SimpleBus\RabbitMQBundleBridge\RabbitMQMessageConsumer;
-use SimpleBus\Serialization\Envelope\DefaultEnvelopeFactory;
-use SimpleBus\Serialization\Envelope\Serializer\StandardMessageInEnvelopeSerializer;
-use SimpleBus\Serialization\NativeObjectSerializer;
+use Symfony\Component\Console\Helper\HelperSet;
 
 /**
  * Application class for the projectaanvraag app: console version.
@@ -57,7 +61,39 @@ class ConsoleApplication extends ApplicationBase
     protected function registerCommands()
     {
         $consoleApp = $this['console'];
+
         $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer'));
         $consoleApp->add(new InstallCommand());
+
+        // Doctrine helperset
+        $em = $this['orm.em'];
+        $helperSet = new HelperSet([
+            'db' => new ConnectionHelper($em->getConnection()),
+            'em' => new EntityManagerHelper($em)
+        ]);
+
+        $consoleApp->setHelperSet($helperSet);
+
+        // Doctrine commands
+        $consoleApp->addCommands([
+            // DBAL Commands
+            new RunSqlCommand(),
+            new ImportCommand(),
+            // ORM Commands
+            new MetadataCommand(),
+            new ResultCommand(),
+            new QueryCommand(),
+            new CreateCommand(),
+            new UpdateCommand(),
+            new DropCommand(),
+            new EnsureProductionSettingsCommand(),
+            new ConvertDoctrine1SchemaCommand(),
+            new GenerateRepositoriesCommand(),
+            new GenerateEntitiesCommand(),
+            new GenerateProxiesCommand(),
+            new ConvertMappingCommand(),
+            new RunDqlCommand(),
+            new ValidateSchemaCommand(),
+        ]);
     }
 }

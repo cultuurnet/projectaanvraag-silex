@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
+use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
 
@@ -65,12 +66,29 @@ class ApplicationBase extends SilexApplication
 
         $this->register(new CoreProvider());
 
+        // Doctrine DBAL and ORM
         $this->register(
             new DoctrineServiceProvider(),
             [
                 'db.options' => $this['config']['database'],
             ]
         );
+
+        $this->register(new DoctrineOrmServiceProvider(), [
+            'orm.proxies_dir' => __DIR__. '/../proxies',
+            'orm.em.options' => [
+                'mappings' => [
+                    [
+                        'alias' => 'core',
+                        'type' => 'annotation',
+                        'namespace' => 'Cultuurnet\ProjectAanvraag\Entity',
+                        'path' => __DIR__.'/../src/Entity',
+                        'use_simple_annotation_reader' => false,
+                    ],
+                ],
+            ],
+        ]);
+
         $this->register(new MessageBusProvider());
 
         // Integration types
