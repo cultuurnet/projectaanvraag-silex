@@ -67,33 +67,37 @@ class ConsoleApplication extends ApplicationBase
 
         // Doctrine helperset
         $em = $this['orm.em'];
-        $helperSet = new HelperSet([
-            'db' => new ConnectionHelper($em->getConnection()),
-            'em' => new EntityManagerHelper($em)
-        ]);
+        $helperSet = new HelperSet(
+            [
+                'db' => new ConnectionHelper($em->getConnection()),
+                'em' => new EntityManagerHelper($em),
+            ]
+        );
 
         $consoleApp->setHelperSet($helperSet);
 
         // Doctrine commands
-        $consoleApp->addCommands([
-            // DBAL Commands
-            new RunSqlCommand(),
-            new ImportCommand(),
-            // ORM Commands
-            new MetadataCommand(),
-            new ResultCommand(),
-            new QueryCommand(),
-            new CreateCommand(),
-            new UpdateCommand(),
-            new DropCommand(),
-            new EnsureProductionSettingsCommand(),
-            new ConvertDoctrine1SchemaCommand(),
-            new GenerateRepositoriesCommand(),
-            new GenerateEntitiesCommand(),
-            new GenerateProxiesCommand(),
-            new ConvertMappingCommand(),
-            new RunDqlCommand(),
-            new ValidateSchemaCommand(),
-        ]);
+        $consoleApp->addCommands(
+            [
+                // DBAL Commands
+                new RunSqlCommand(),
+                new ImportCommand(),
+                // ORM Commands
+                new MetadataCommand(),
+                new ResultCommand(),
+                new QueryCommand(),
+                new CreateCommand(),
+                new UpdateCommand(),
+                new DropCommand(),
+                new EnsureProductionSettingsCommand(),
+                new ConvertDoctrine1SchemaCommand(),
+                new GenerateRepositoriesCommand(),
+                new GenerateEntitiesCommand(),
+                new GenerateProxiesCommand(),
+                new ConvertMappingCommand(),
+                new RunDqlCommand(),
+                new ValidateSchemaCommand(),
+            ]
+        );
     }
 }

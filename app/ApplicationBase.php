@@ -74,20 +74,23 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
-        $this->register(new DoctrineOrmServiceProvider(), [
-            'orm.proxies_dir' => __DIR__. '/../proxies',
-            'orm.em.options' => [
-                'mappings' => [
-                    [
-                        'alias' => 'ProjectAanvraag',
-                        'type' => 'annotation',
-                        'namespace' => 'CultuurNet\ProjectAanvraag\Entity',
-                        'path' => __DIR__.'/../src/Entity',
-                        'use_simple_annotation_reader' => false,
+        $this->register(
+            new DoctrineOrmServiceProvider(),
+            [
+                'orm.proxies_dir' => __DIR__. '/../proxies',
+                'orm.em.options' => [
+                    'mappings' => [
+                        [
+                            'alias' => 'ProjectAanvraag',
+                            'type' => 'annotation',
+                            'namespace' => 'CultuurNet\ProjectAanvraag\Entity',
+                            'path' => __DIR__.'/../src/Entity',
+                            'use_simple_annotation_reader' => false,
+                        ],
                     ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
         $this->register(new MessageBusProvider());
 
