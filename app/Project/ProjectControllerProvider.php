@@ -22,8 +22,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
 
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
-        $controllers->get('/', 'project_controller:listing');
-        $controllers->get('/test', 'project_controller:listing');
+        $controllers->post('/add', 'project_controller:addProject');
 
         return $controllers;
     }
