@@ -1,6 +1,6 @@
 <?php
 
-namespace Cultuurnet\ProjectAanvraag\Entity;
+namespace CultuurNet\ProjectAanvraag\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,10 +15,10 @@ class Project
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    public $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $name;
+    public $name;
 }

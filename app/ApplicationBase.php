@@ -79,9 +79,9 @@ class ApplicationBase extends SilexApplication
             'orm.em.options' => [
                 'mappings' => [
                     [
-                        'alias' => 'core',
+                        'alias' => 'ProjectAanvraag',
                         'type' => 'annotation',
-                        'namespace' => 'Cultuurnet\ProjectAanvraag\Entity',
+                        'namespace' => 'CultuurNet\ProjectAanvraag\Entity',
                         'path' => __DIR__.'/../src/Entity',
                         'use_simple_annotation_reader' => false,
                     ],
