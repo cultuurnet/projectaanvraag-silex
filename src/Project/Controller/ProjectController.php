@@ -4,6 +4,8 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\ApiMessageInterface;
 use CultuurNet\ProjectAanvraag\ApiResponse;
+use CultuurNet\ProjectAanvraag\ApiResponseInterface;
+use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,27 +25,32 @@ class ProjectController
 
     public function addProject(Request $request)
     {
-        $params = $request->request->all();
-        $response = new ApiResponse();
-
-        $response->setSuccess();
-
+        $params = json_decode($request->getContent());
 
         // Required fields
-        $requiredFields = ['termsAndConditions', 'name', 'summary', 'integrationType'];
+        $requiredFields = ['name', 'summary', 'integrationType'];
+        $emptyFields = [];
+
         foreach ($requiredFields as $field) {
-            if (empty($params[$field]) || !$params[$field]) {
-                $response->setError();
+            if (empty($params[$field])) {
+               $emptyFields[] = $field;
             }
         }
 
-        if ($response->isError()) {
-            $response->addMessage(ApiMessageInterface::API_MESSAGE_TYPE_ERROR, 'Gelieve alle verplichte velden in te vullen.');
+        throw new \InvalidArgumentException('Some required fields are missing');
+
+        if (!empty($emptyFields)) {
+            throw new \InvalidArgumentException('Some required fields are missing');
         }
 
         // Todo: Check coupon code
         // Todo: Create project and return the project id
 
-        return new JsonResponse($response);
+        /**
+         * Dispatch create project command
+         */
+        $this->commandBus->handle(new CreateProject($params['name']));
+
+        return new JsonResponse();
     }
 }

@@ -14,3 +14,4 @@ handlers:
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\CreateProjectCommandHandler
         arguments:
             - event_bus
+            - orm.em
