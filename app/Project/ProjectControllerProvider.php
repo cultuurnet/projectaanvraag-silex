@@ -17,11 +17,12 @@ class ProjectControllerProvider implements ControllerProviderInterface
     {
 
         $app['project_controller'] = function (Application $app) {
-            return new ProjectController($app['command_bus']);
+            return new ProjectController($app['command_bus'], $app['project_service']);
         };
 
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
+        $controllers->get('/', 'project_controller:getProjects');
         $controllers->post('/', 'project_controller:addProject');
 
         return $controllers;

@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\ApiMessageInterface;
 use CultuurNet\ProjectAanvraag\ApiResponse;
 use CultuurNet\ProjectAanvraag\ApiResponseInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
+use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProjectController
 {
+
+    /**
+     * @var MessageBusSupportingMiddleware
+     */
     protected $commandBus;
 
-
-    public function __construct(MessageBusSupportingMiddleware $commandBus)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService)
     {
         $this->commandBus = $commandBus;
     }
@@ -48,6 +52,17 @@ class ProjectController
          * Dispatch create project command
          */
         $this->commandBus->handle(new CreateProject($params['name']));
+    }
+
+    /**
+     * Return the list of projects for current person.
+     * @return JsonResponse
+     */
+    public function getProjects()
+    {
+
+        die('test');
+        $this->projectService->loadProjects();
 
         return new JsonResponse();
     }

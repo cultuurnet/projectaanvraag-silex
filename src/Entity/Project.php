@@ -6,7 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="project")
+ * @ORM\Table(
+ *     name="project",
+ *     indexes={
+ *         @ORM\Index(name="user_id", columns={"user_id"}),
+ *         @ORM\Index(name="test_consumer_key", columns={"test_consumer_key"}),
+ *         @ORM\Index(name="live_consumer_key", columns={"live_consumer_key"}),
+ *     }
+ * )
  */
 class Project implements EntityInterface
 {
@@ -21,6 +28,12 @@ class Project implements EntityInterface
     protected $id;
 
     /**
+     * @ORM\Column(name="user_id", type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $userId;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */
@@ -33,10 +46,28 @@ class Project implements EntityInterface
     protected $testConsumerKey;
 
     /**
+     * @ORM\Column(name="live_consumer_key", type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $liveConsumerKey;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @var string
      */
     protected $status;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    protected $created;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    protected $updated;
 
     /**
      * @return int
