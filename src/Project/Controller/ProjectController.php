@@ -33,11 +33,9 @@ class ProjectController
 
         foreach ($requiredFields as $field) {
             if (empty($params[$field])) {
-               $emptyFields[] = $field;
+                $emptyFields[] = $field;
             }
         }
-
-        throw new \InvalidArgumentException('Some required fields are missing');
 
         if (!empty($emptyFields)) {
             throw new \InvalidArgumentException('Some required fields are missing');
