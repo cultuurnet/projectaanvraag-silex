@@ -1,6 +1,6 @@
 # Integration types
 integration_types:
-  widgets:
+  22678:
       name: 'Widgets' # name of the type
       description: 'Kant en klare html-modules die je in je website kan inpassen' # description show on the form
       price: 110.0 # price for this widget
@@ -9,7 +9,7 @@ integration_types:
         - 'HTML, CSS, JS'
         - 'Geschikt voor basisoplossingen'
       group_id: 'group_id'
-  culturefeed:
+  22679:
       name: 'Culturefeed'
       description: 'Modules waarmee je een UiTagenda integreert in een Drupal-site'
       price: 80.0
@@ -18,7 +18,7 @@ integration_types:
         - 'Specifiek voor Drupal-sites'
         - 'Je kan rekenen op de open-source gemeenschap'
       group_id: 'group_id'
-  api:
+  22677:
       name: 'API'
       description: 'Met deze API krijg je toegang tot de zoekengine van de UiTdatabank'
       price: 80.0

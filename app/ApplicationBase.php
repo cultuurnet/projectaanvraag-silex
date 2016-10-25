@@ -7,10 +7,12 @@ use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
+use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
+use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
-use CultuurNet\UiTIDProvider\User\UserServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
+use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
 
@@ -48,6 +50,9 @@ class ApplicationBase extends SilexApplication
             ]
         );
         $this->register(new AuthServiceProvider());
+
+        // User and user roles
+        $this->register(new UserRoleServiceProvider(__DIR__ . '/../user_roles.yml'));
         $this->register(new UserServiceProvider());
 
         // Insightly
@@ -61,12 +66,32 @@ class ApplicationBase extends SilexApplication
 
         $this->register(new CoreProvider());
 
+        // Doctrine DBAL and ORM
         $this->register(
             new DoctrineServiceProvider(),
             [
                 'db.options' => $this['config']['database'],
             ]
         );
+
+        $this->register(
+            new DoctrineOrmServiceProvider(),
+            [
+                'orm.proxies_dir' => __DIR__. '/../proxies',
+                'orm.em.options' => [
+                    'mappings' => [
+                        [
+                            'alias' => 'ProjectAanvraag',
+                            'type' => 'annotation',
+                            'namespace' => 'CultuurNet\ProjectAanvraag\Entity',
+                            'path' => __DIR__.'/../src/Entity',
+                            'use_simple_annotation_reader' => false,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
         $this->register(new MessageBusProvider());
 
         // Integration types
@@ -74,5 +99,14 @@ class ApplicationBase extends SilexApplication
 
         // Project
         $this->register(new ProjectProvider());
+
+        // Insightly
+        $this->register(
+            new InsightlyServiceProvider(),
+            [
+                'insightly.host' => $this['config']['insightly']['host'],
+                'insightly.api_key' => $this['config']['insightly']['api_key'],
+            ]
+        );
     }
 }
