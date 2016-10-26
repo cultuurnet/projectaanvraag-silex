@@ -15,3 +15,5 @@ handlers:
         arguments:
             - event_bus
             - orm.em
+            - culturefeed_test
+            - uitid_user_session_data_complete

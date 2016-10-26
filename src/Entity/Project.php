@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(
  *     name="project",
  *     indexes={
@@ -400,5 +401,19 @@ class Project implements EntityInterface, \JsonSerializable
         $json['updated'] = $this->updated->getTimestamp();
 
         return $json;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->updated = new \DateTime();
+
+        if (!$this->created) {
+            $this->created = new \DateTime();
+        }
     }
 }

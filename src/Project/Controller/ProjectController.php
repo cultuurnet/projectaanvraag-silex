@@ -4,23 +4,44 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
+use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for project related tasks.
  */
 class ProjectController
 {
+
+    /**
+     * @var MessageBusSupportingMiddleware
+     */
     protected $commandBus;
 
+    /**
+     * @var ProjectServiceInterface
+     */
+    protected $projectService;
 
-    public function __construct(MessageBusSupportingMiddleware $commandBus)
+    /**
+     * ProjectController constructor.
+     * @param MessageBusSupportingMiddleware $commandBus
+     * @param ProjectServiceInterface $projectService
+     */
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService)
     {
         $this->commandBus = $commandBus;
+        $this->projectService = $projectService;
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
     public function addProject(Request $request)
     {
         $postedProject = json_decode($request->getContent());
@@ -36,7 +57,7 @@ class ProjectController
         }
 
         if (!empty($emptyFields) || empty($postedProject->termsAndConditions) || !$postedProject->termsAndConditions) {
-            throw new MissingRequiredFieldsException('Some required fields are missing');
+           //throw new MissingRequiredFieldsException('Some required fields are missing');
         }
 
         // Todo: Check coupon code
@@ -45,8 +66,31 @@ class ProjectController
         /**
          * Dispatch create project command
          */
-        $this->commandBus->handle(new CreateProject($postedProject->name));
+        $this->commandBus->handle(new CreateProject($postedProject->name, $postedProject->summary, $postedProject->integrationType));
 
         return new JsonResponse($postedProject);
+    }
+
+    /**
+     * Return the list of projects for current person.
+     * @return JsonResponse
+     */
+    public function getProjects()
+    {
+        return new JsonResponse($this->projectService->loadProjects());
+    }
+
+    /**
+     * Return a detailled version of a project.
+     * @return JsonResponse
+     */
+    public function getProject($id)
+    {
+        $project = $this->projectService->loadProject($id);
+
+        if (empty($project)) {
+            throw new NotFoundHttpException('The project was not found');
+        }
+        return new JsonResponse($project);
     }
 }
