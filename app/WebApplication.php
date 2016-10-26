@@ -67,7 +67,7 @@ class WebApplication extends ApplicationBase
      */
     protected function mountControllers()
     {
-        $this->mount('projects', new ProjectControllerProvider());
+        $this->mount('project', new ProjectControllerProvider());
         $this->mount('integration-types', new IntegrationTypeControllerProvider());
 
         $this->mount('uitid', new UserControllerProvider());

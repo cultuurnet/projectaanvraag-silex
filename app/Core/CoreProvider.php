@@ -3,8 +3,11 @@
 namespace CultuurNet\ProjectAanvraag\Core;
 
 use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
+use Doctrine\Common\Annotations\AnnotationReader;
+use JMS\Serializer\SerializerBuilder;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 
 class CoreProvider implements ServiceProviderInterface
 {

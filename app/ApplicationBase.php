@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
+use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
 use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
@@ -11,7 +12,6 @@ use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
-use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Silex\Application as SilexApplication;
@@ -45,9 +45,12 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new CultureFeedServiceProvider(),
             [
-                'culturefeed.endpoint' => $this['config']['uitid']['base_url'],
-                'culturefeed.consumer.key' => $this['config']['uitid']['consumer']['key'],
-                'culturefeed.consumer.secret' => $this['config']['uitid']['consumer']['secret'],
+                'culturefeed.endpoint' => $this['config']['uitid']['live']['base_url'],
+                'culturefeed.consumer.key' => $this['config']['uitid']['live']['consumer']['key'],
+                'culturefeed.consumer.secret' => $this['config']['uitid']['live']['consumer']['secret'],
+                'culturefeed_test.endpoint' => $this['config']['uitid']['test']['base_url'],
+                'culturefeed_test.consumer.key' => $this['config']['uitid']['test']['consumer']['key'],
+                'culturefeed_test.consumer.secret' => $this['config']['uitid']['test']['consumer']['secret'],
             ]
         );
         $this->register(new AuthServiceProvider());
