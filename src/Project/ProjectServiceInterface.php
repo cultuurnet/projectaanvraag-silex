@@ -11,6 +11,6 @@ interface ProjectServiceInterface
     /**
      * Load the projects for current user.
      */
-    public function loadProjects();
+    public function loadProjects($start, $max);
 
 }

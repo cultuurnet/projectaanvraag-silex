@@ -4,8 +4,14 @@ namespace CultuurNet\ProjectAanvraag\User;
 
 use CultuurNet\UiTIDProvider\User\User as UiTIDUser;
 
-class User extends UiTIDUser
+class User extends UiTIDUser implements UserInterface
 {
+
+    /**
+     * The administrator role.
+     */
+    const USER_ROLE_ADMINISTRATOR = 'administrator';
+
     /**
      * @var array
      */
@@ -40,18 +46,21 @@ class User extends UiTIDUser
     }
 
     /**
+     * Check if the current user is admin.
+     */
+    public function isAdmin() {
+        return $this->hasRole(self::USER_ROLE_ADMINISTRATOR);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
     {
-        $data = [];
-
-        foreach ($this as $key => $value) {
-            $data[$key] = $value;
-        }
+        $data = parent::jsonSerialize();
 
         // Admin flag and roles
-        $data['isAdmin'] = $this->hasRole('administrator');
+        $data['isAdmin'] = $this->isAdmin();
 
         return $data;
     }

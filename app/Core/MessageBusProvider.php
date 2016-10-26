@@ -58,15 +58,8 @@ class MessageBusProvider implements ServiceProviderInterface
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/messagebus.yml'));
 
         $pimple['envelope_serializer'] = function (Container $pimple) {
-
             AnnotationRegistry::registerAutoloadNamespace("JMS\Serializer\Annotation", __DIR__ . '/../../vendor/jms/serializer/src');
-
-            $jmsSerializer = SerializerBuilder::create()
-                ->addMetadataDir(SerializerMetadata::directory(), SerializerMetadata::namespacePrefix())
-                ->setAnnotationReader(new AnnotationReader())
-                ->build();
-
-            $objectSerializer = new JMSSerializerObjectSerializer($jmsSerializer, 'json');
+            $objectSerializer = new JMSSerializerObjectSerializer($pimple['serializer'], 'json');
             return new StandardMessageInEnvelopeSerializer(new DefaultEnvelopeFactory(), $objectSerializer);
         };
 

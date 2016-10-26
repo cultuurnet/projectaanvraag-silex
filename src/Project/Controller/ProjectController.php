@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for project related tasks.
@@ -22,9 +23,12 @@ class ProjectController
      */
     protected $commandBus;
 
+    protected $projectService;
+
     public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService)
     {
         $this->commandBus = $commandBus;
+        $this->projectService = $projectService;
     }
 
     public function addProject(Request $request)
@@ -60,10 +64,20 @@ class ProjectController
      */
     public function getProjects()
     {
+        return new JsonResponse($this->projectService->loadProjects());
+    }
 
-        die('test');
-        $this->projectService->loadProjects();
+    /**
+     * Return a detailled version of a project.
+     * @return JsonResponse
+     */
+    public function getProject($id)
+    {
+        $project = $this->projectService->loadProject($id);
 
-        return new JsonResponse();
+        if (empty($project)) {
+            throw new NotFoundHttpException('The project was not found');
+        }
+        return new JsonResponse($project);
     }
 }

@@ -29,7 +29,7 @@ class ProjectProvider implements ServiceProviderInterface
         );
 
         $pimple['project_service'] = function (Container $pimple) {
-            return new ProjectService($pimple['culturefeed'], $pimple['culturefeed_test']);
+            return new ProjectService($pimple['culturefeed'], $pimple['culturefeed_test'], $pimple['orm.em'], $pimple['integration_types.storage'], $pimple['uitid_user']);
         };
     }
 }
