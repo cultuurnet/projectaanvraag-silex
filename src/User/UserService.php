@@ -37,7 +37,10 @@ class UserService extends UiTIDUserService
             // Add roles (always add uitid_user role)
             $roles = ['uitid_user'];
 
-            return $user->setRoles(array_merge($this->userRoleStorage->getRolesByUserId($user->id), $roles));
+            $user->setRoles(array_merge($this->userRoleStorage->getRolesByUserId($user->id), $roles));
+
+            return $user;
+
         } catch (\CultureFeed_ParseException $e) {
             return null;
         }
