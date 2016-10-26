@@ -39,7 +39,7 @@ class ProjectController
             }
         }
 
-        if (!empty($emptyFields)) {
+        if (!empty($emptyFields) || empty($postedProject->termsAndConditions) || !$postedProject->termsAndConditions) {
             throw new MissingRequiredFieldsException('Some required fields are missing');
         }
 

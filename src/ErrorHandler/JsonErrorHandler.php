@@ -18,7 +18,7 @@ class JsonErrorHandler
      */
     public function handleValidationExceptions(ValidationException $e, Request $request)
     {
-        if ($this->shouldHandle($request)) {
+        if (!$this->shouldHandle($request)) {
             return null;
         }
 
@@ -32,7 +32,7 @@ class JsonErrorHandler
      */
     public function handleException(\Exception $e, Request $request)
     {
-        if ($this->shouldHandle($request)) {
+        if (!$this->shouldHandle($request)) {
             return null;
         }
 
@@ -48,6 +48,7 @@ class JsonErrorHandler
         if (!in_array('application/json', $request->getAcceptableContentTypes())) {
             return false;
         }
+
         return true;
     }
 }
