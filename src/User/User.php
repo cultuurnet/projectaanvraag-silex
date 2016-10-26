@@ -18,12 +18,18 @@ class User extends UiTIDUser implements UserInterface
     protected $roles = [];
 
     /**
+     * @var bool
+     */
+    protected $isAdmin = false;
+
+    /**
      * @param array $roles
      * @return $this
      */
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
+        $this->isAdmin = $this->hasRole(self::USER_ROLE_ADMINISTRATOR);
         return $this;
     }
 
@@ -49,7 +55,7 @@ class User extends UiTIDUser implements UserInterface
      * Check if the current user is admin.
      */
     public function isAdmin() {
-        return $this->hasRole(self::USER_ROLE_ADMINISTRATOR);
+        return $this->isAdmin;
     }
 
     /**
@@ -57,12 +63,19 @@ class User extends UiTIDUser implements UserInterface
      */
     public function jsonSerialize()
     {
-        $data = parent::jsonSerialize();
+        $json = [];
 
-        // Admin flag and roles
-        $data['isAdmin'] = $this->isAdmin();
+        foreach ($this as $key => $value) {
+            if (!empty($value)) {
+                $json[$key] = $value;
+            }
+        }
 
-        return $data;
+        // Unset the "following" property on the user, as it contains a recursive reference to the user
+        // object itself, which makes it impossible to json_encode the user object.
+        unset($json['following']);
+
+        return $json;
     }
 
     /**

@@ -53,7 +53,7 @@ class ProjectService implements ProjectServiceInterface
     /**
      * Load the projects for current user.
      */
-    public function loadProjects($start = 0, $max = 20)
+    public function loadProjects($max = 20, $start = 0)
     {
 
         $criteria = [];
@@ -69,33 +69,6 @@ class ProjectService implements ProjectServiceInterface
             $start
         );
 
-        $liveKeys = [];
-        $testKeys = [];
-        /** @var Project $consumer */
-        foreach ($localConsumers as $consumer) {
-            if ($consumer->getTestConsumerKey()) {
-                $testKeys[] = $consumer->getTestConsumerKey();
-            }
-
-            if ($consumer->getLiveConsumerKey()) {
-                $liveKeys[] = $consumer->getLiveConsumerKey();
-            }
-        }
-
-       /* if (!empty($testKeys)) {
-            $filters = [
-                'key' => $testKeys,
-            ];
-            $testConsumers = $this->culturefeedTest->getServiceConsumers($start, $max, $filters);
-        }
-
-        if (!empty($liveKeys)) {
-            $filters = [
-                'key' => $liveKeys,
-            ];
-            $liveConsumers = $this->culturefeedTest->getServiceConsumers($start, $max, $filters);
-        }*/
-
         return $localConsumers;
     }
 
@@ -104,8 +77,18 @@ class ProjectService implements ProjectServiceInterface
      */
     public function loadProject($id)
     {
+
+        $criteria = [
+            'id' => $id,
+        ];
+
+        // If user is not an admin, he must be owner to find the project.
+        if (!$this->user->isAdmin()) {
+            $criteria['userId'] = $this->user->id;
+        }
+
         /** @var Project $project */
-        $project = $this->projectRepository->find($id);
+        $project = $this->projectRepository->findOneBy($criteria);
 
         if (empty($project)) {
             return;
@@ -113,17 +96,33 @@ class ProjectService implements ProjectServiceInterface
 
         // First enrich with test info.
         if ($project->getTestConsumerKey()) {
-            $consumer = $this->culturefeedLive->getServiceConsumer($project->getLiveConsumerKey());
-            $project->enrichWithConsumerInfo($consumer);
-            $project->setTestConsumerSecret($consumer->consumerSecret);
+            try {
+                $consumer = $this->culturefeedTest->getServiceConsumer($project->getTestConsumerKey());
+                $project->enrichWithConsumerInfo($consumer);
+                $project->setTestConsumerSecret($consumer->consumerSecret);
+            }
+            catch (\Exception $e) {
+                // Culturefeed http errors fail silently. No enrichment will be done.
+                if (!($e instanceof \CultureFeed_HttpException)) {
+                    throw $e;
+                }
+            }
         }
 
         // Live info is leading, enrich latest.
         if ($project->getLiveConsumerKey()) {
-            /** @var \CultureFeed_Consumer $consumer */
-            $consumer = $this->culturefeedLive->getServiceConsumer($project->getLiveConsumerKey());
-            $project->enrichWithConsumerInfo($consumer);
-            $project->setLiveConsumerSecret($consumer->consumerSecret);
+            try {
+                /** @var \CultureFeed_Consumer $consumer */
+                $consumer = $this->culturefeedLive->getServiceConsumer($project->getLiveConsumerKey());
+                $project->enrichWithConsumerInfo($consumer);
+                $project->setLiveConsumerSecret($consumer->consumerSecret);
+            }
+            catch (\Exception $e) {
+                // Culturefeed http errors fail silently. No enrichment will be done.
+                if (!($e instanceof \CultureFeed_HttpException)) {
+                    throw $e;
+                }
+            }
         }
 
         // Load the integration type.
