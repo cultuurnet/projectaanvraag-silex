@@ -387,7 +387,7 @@ class Project implements EntityInterface, \JsonSerializable
     /**
      * @inheritdoc
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         $json = [];
 

@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\User;
 
 interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface
 {
-
     /**
      * Set the roles of current user.
      * @return UserInterface
@@ -23,5 +22,4 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
      * @return bool
      */
     public function isAdmin();
-
 }

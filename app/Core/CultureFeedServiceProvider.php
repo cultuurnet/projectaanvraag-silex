@@ -10,9 +10,8 @@ use Pimple\ServiceProviderInterface;
 /**
  * Provides all services for the message bus.
  */
-class CultureFeedServiceProvider extends CultureFeedServiceProviderOriginal  implements ServiceProviderInterface
+class CultureFeedServiceProvider extends CultureFeedServiceProviderOriginal implements ServiceProviderInterface
 {
-
     /**
      * @inheritdoc
      */
@@ -48,5 +47,4 @@ class CultureFeedServiceProvider extends CultureFeedServiceProviderOriginal  imp
         };
 
     }
-
 }
