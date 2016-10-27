@@ -61,7 +61,6 @@ class ProjectController
         }
 
         // Todo: Check coupon code
-        // Todo: Create project and return the project id
 
         /**
          * Dispatch create project command
