@@ -2,9 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\ApiMessageInterface;
-use CultuurNet\ProjectAanvraag\ApiResponse;
-use CultuurNet\ProjectAanvraag\ApiResponseInterface;
+use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -23,39 +21,53 @@ class ProjectController
      */
     protected $commandBus;
 
+    /**
+     * @var ProjectServiceInterface
+     */
     protected $projectService;
 
+    /**
+     * ProjectController constructor.
+     * @param MessageBusSupportingMiddleware $commandBus
+     * @param ProjectServiceInterface $projectService
+     */
     public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
     public function addProject(Request $request)
     {
-        $params = json_decode($request->getContent());
+        $postedProject = json_decode($request->getContent());
 
         // Required fields
         $requiredFields = ['name', 'summary', 'integrationType'];
         $emptyFields = [];
 
         foreach ($requiredFields as $field) {
-            if (empty($params[$field])) {
+            if (empty($postedProject->$field)) {
                 $emptyFields[] = $field;
             }
         }
 
-        if (!empty($emptyFields)) {
-            throw new \InvalidArgumentException('Some required fields are missing');
+        if (!empty($emptyFields) || empty($postedProject->termsAndConditions) || !$postedProject->termsAndConditions) {
+            throw new MissingRequiredFieldsException('Some required fields are missing');
         }
 
         // Todo: Check coupon code
-        // Todo: Create project and return the project id
 
         /**
          * Dispatch create project command
          */
-        $this->commandBus->handle(new CreateProject($params['name']));
+        $this->commandBus->handle(new CreateProject($postedProject->name, $postedProject->summary, $postedProject->integrationType));
+
+        return new JsonResponse();
     }
 
     /**

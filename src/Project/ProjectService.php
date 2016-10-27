@@ -1,6 +1,7 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Project;
+
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
@@ -133,5 +134,4 @@ class ProjectService implements ProjectServiceInterface
 
         return $project;
     }
-
 }

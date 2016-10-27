@@ -18,16 +18,6 @@ class ProjectProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['database.installer'] = $pimple->extend(
-            'database.installer',
-            function (DatabaseSchemaInstaller $installer, Container $pimple) {
-                $installer->addSchemaConfigurator(
-                    new ProjectSchemaConfigurator()
-                );
-                return $installer;
-            }
-        );
-
         $pimple['project_service'] = function (Container $pimple) {
             return new ProjectService($pimple['culturefeed'], $pimple['culturefeed_test'], $pimple['orm.em'], $pimple['integration_types.storage'], $pimple['uitid_user']);
         };

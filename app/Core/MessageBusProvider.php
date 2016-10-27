@@ -5,7 +5,6 @@ namespace CultuurNet\ProjectAanvraag\Core;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\CommandHandler\CreateProjectCommandHandler;
 use CultuurNet\ProjectAanvraag\Project\Controller\ProjectController;
-use CultuurNet\ProjectAanvraag\Project\ProjectCreatedListener;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use JMS\Serializer\SerializerBuilder;
@@ -59,7 +58,11 @@ class MessageBusProvider implements ServiceProviderInterface
 
         $pimple['envelope_serializer'] = function (Container $pimple) {
             AnnotationRegistry::registerAutoloadNamespace("JMS\Serializer\Annotation", __DIR__ . '/../../vendor/jms/serializer/src');
-            $objectSerializer = new JMSSerializerObjectSerializer($pimple['serializer'], 'json');
+            $jmsSerializer = SerializerBuilder::create()
+                ->addMetadataDir(SerializerMetadata::directory(), SerializerMetadata::namespacePrefix())
+                ->setAnnotationReader(new AnnotationReader())
+                ->build();
+            $objectSerializer = new JMSSerializerObjectSerializer($jmsSerializer, 'json');
             return new StandardMessageInEnvelopeSerializer(new DefaultEnvelopeFactory(), $objectSerializer);
         };
 

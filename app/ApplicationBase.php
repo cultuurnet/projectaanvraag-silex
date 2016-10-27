@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
+use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
