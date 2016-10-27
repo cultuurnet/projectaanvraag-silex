@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
+use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -96,5 +97,19 @@ class ProjectController
             throw new NotFoundHttpException('The project was not found');
         }
         return new JsonResponse($project);
+    }
+
+    /**
+     * Delete a project.
+     * @return JsonResponse
+     */
+    public function deleteProject($id)
+    {
+        /**
+         * Dispatch delete project command
+         */
+        $this->commandBus->handle(new DeleteProject($id));
+
+        return new JsonResponse();
     }
 }

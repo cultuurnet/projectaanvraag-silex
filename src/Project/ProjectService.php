@@ -57,7 +57,6 @@ class ProjectService implements ProjectServiceInterface
      */
     public function searchProjects($start = 0, $max = 20, $name = '')
     {
-
         $query = $this->projectRepository->createQueryBuilder('p');
 
         $expr = Criteria::expr();
@@ -67,7 +66,6 @@ class ProjectService implements ProjectServiceInterface
         $criteria->setFirstResult($start)
             ->setMaxResults($max);
 
-        // User no admin, only return projects for current user.
         if (!$this->user->isAdmin()) {
             $criteria->where($expr->eq('p.userId', $this->user->id));
         }
@@ -104,11 +102,6 @@ class ProjectService implements ProjectServiceInterface
         $criteria = [
             'id' => $id,
         ];
-
-        // If user is not an admin, he must be owner to find the project.
-        if (!$this->user->isAdmin()) {
-            $criteria['userId'] = $this->user->id;
-        }
 
         /** @var Project $project */
         $project = $this->projectRepository->findOneBy($criteria);
