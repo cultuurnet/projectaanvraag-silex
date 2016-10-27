@@ -56,7 +56,6 @@ class ProjectService implements ProjectServiceInterface
      */
     public function loadProjects($max = 20, $start = 0)
     {
-
         $criteria = [];
         if (!$this->user->isAdmin()) {
             $criteria = ['userId' => $this->user->id];

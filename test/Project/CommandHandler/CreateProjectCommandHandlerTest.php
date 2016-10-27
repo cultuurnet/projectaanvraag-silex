@@ -55,17 +55,6 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->user = $this->getMock(User::class);
-        $this->user->id = 123;
-
-        $this->commandHandler = new CreateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->user);
-    }
-
-    /**
-     * Test the command handler
-     */
-    public function testHandle()
-    {
         $this->eventBus
             ->expects($this->any())
             ->method('handle');
@@ -78,6 +67,17 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('flush');
 
+        $this->user = $this->getMock(User::class);
+        $this->user->id = 123;
+
+        $this->commandHandler = new CreateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->user);
+    }
+
+    /**
+     * Test the command handler
+     */
+    public function testHandle()
+    {
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $cultureFeedConsumer = new \CultureFeed_Consumer();
         $cultureFeedConsumer->name = 'Project name';
@@ -100,18 +100,6 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleException()
     {
-        $this->eventBus
-            ->expects($this->any())
-            ->method('handle');
-
-        $this->entityManager
-            ->expects($this->any())
-            ->method('persist');
-
-        $this->entityManager
-            ->expects($this->any())
-            ->method('flush');
-
         $this->cultureFeedTest
             ->expects($this->any())
             ->method('createServiceConsumer')
