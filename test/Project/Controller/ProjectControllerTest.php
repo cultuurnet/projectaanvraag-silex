@@ -76,7 +76,8 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      * Test addProject exception
      * @expectedException \CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException
      */
-    public function testAddProjectException() {
+    public function testAddProjectException()
+    {
         $this->request
             ->expects($this->any())
             ->method('getContent')
