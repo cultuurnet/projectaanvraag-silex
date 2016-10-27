@@ -57,7 +57,7 @@ class ProjectController
         }
 
         if (!empty($emptyFields) || empty($postedProject->termsAndConditions) || !$postedProject->termsAndConditions) {
-           //throw new MissingRequiredFieldsException('Some required fields are missing');
+           throw new MissingRequiredFieldsException('Some required fields are missing');
         }
 
         // Todo: Check coupon code
