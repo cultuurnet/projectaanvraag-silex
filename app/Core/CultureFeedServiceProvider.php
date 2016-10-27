@@ -45,6 +45,5 @@ class CultureFeedServiceProvider extends CultureFeedServiceProviderOriginal impl
 
             return $oauthClient;
         };
-
     }
 }
