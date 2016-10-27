@@ -68,7 +68,7 @@ class ProjectController
          */
         $this->commandBus->handle(new CreateProject($postedProject->name, $postedProject->summary, $postedProject->integrationType));
 
-        return new JsonResponse($postedProject);
+        return new JsonResponse();
     }
 
     /**
