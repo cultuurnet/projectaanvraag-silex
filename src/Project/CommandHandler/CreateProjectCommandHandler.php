@@ -65,7 +65,7 @@ class CreateProjectCommandHandler
             // Try the service call
             /** @var \CultureFeed_Consumer $cultureFeedConsumer */
             $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
 
