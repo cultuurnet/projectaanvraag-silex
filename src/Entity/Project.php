@@ -399,6 +399,8 @@ class Project implements EntityInterface, \JsonSerializable
         $json['created'] = $this->created->getTimestamp();
         $json['updated'] = $this->updated->getTimestamp();
 
+        unset($json['groupId']);
+
         return $json;
     }
 }

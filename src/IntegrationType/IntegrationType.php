@@ -43,6 +43,11 @@ class IntegrationType implements \JsonSerializable
     protected $groupId;
 
     /**
+     * @var array
+     */
+    protected $actionButton;
+
+    /**
      * @return string
      */
     public function getId()
@@ -169,6 +174,24 @@ class IntegrationType implements \JsonSerializable
     }
 
     /**
+     * @return array
+     */
+    public function getActionButton()
+    {
+        return $this->actionButton;
+    }
+
+    /**
+     * @param array $actionButton
+     * @return IntegrationType
+     */
+    public function setActionButton($actionButton)
+    {
+        $this->actionButton = $actionButton;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
@@ -176,7 +199,9 @@ class IntegrationType implements \JsonSerializable
         $json = [];
 
         foreach ($this as $key => $value) {
-            $json[$key] = $value;
+            if (!empty($value)) {
+                $json[$key] = $value;
+            }
         }
 
         return $json;

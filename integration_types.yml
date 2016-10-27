@@ -8,6 +8,10 @@ integration_types:
       extra_info: # list of bullet points that are shown in the footer of the application
         - 'HTML, CSS, JS'
         - 'Geschikt voor basisoplossingen'
+      action_button:
+        liveUrl: https://widgets.uitdatabank.be/project?key=
+        testUrl: https://test-widgets.uitdatabank.be/project?key=
+        text: Widgets bouwen
       group_id: 'group_id'
   22679:
       name: 'Culturefeed'

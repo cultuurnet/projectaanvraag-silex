@@ -1,0 +1,19 @@
+{
+  "roles": [
+    "uitid_user"
+  ],
+  "id": "id",
+  "preferredLanguage": "nl",
+  "nick": "nickname",
+  "givenName": "firstName",
+  "familyName": "familyName",
+  "mbox": "x@x.com",
+  "mboxVerified": true,
+  "gender": "male",
+  "hasChildren": true,
+  "dob": 483228000,
+  "depiction": "depiction",
+  "zip": "zipcode",
+  "city": "City",
+  "country": "BE"
+}
