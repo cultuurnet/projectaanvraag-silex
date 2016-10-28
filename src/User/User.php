@@ -54,7 +54,8 @@ class User extends UiTIDUser implements UserInterface
     /**
      * Check if the current user is admin.
      */
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->isAdmin;
     }
 

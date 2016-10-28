@@ -53,7 +53,14 @@ class ProjectService implements ProjectServiceInterface
     }
 
     /**
+<<<<<<< HEAD
      * @inheritdoc
+=======
+     * Load the projects for current user.
+     * @param int $max
+     * @param int $start
+     * @return array
+>>>>>>> a5acf46... feature/PROJ-6: Adds ProjectVoter and UitIdSecurityServiceProvider
      */
     public function searchProjects($start = 0, $max = 20, $name = '')
     {
@@ -95,10 +102,12 @@ class ProjectService implements ProjectServiceInterface
 
     /**
      * Load the project by id.
+     * @param $id
+     * @return Project
+     * @throws \Exception
      */
     public function loadProject($id)
     {
-
         $criteria = [
             'id' => $id,
         ];

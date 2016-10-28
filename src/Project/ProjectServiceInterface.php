@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
+use CultuurNet\ProjectAanvraag\Entity\Project;
+
 /**
  * Interface for project services.
  */
@@ -18,4 +20,12 @@ interface ProjectServiceInterface
      *   Name to search on.
      */
     public function searchProjects($start = 0, $max = 20, $name = '');
+
+    /**
+     * Load the project by id.
+     * @param $id
+     * @return Project
+     * @throws \Exception
+     */
+    public function loadProject($id);
 }
