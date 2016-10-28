@@ -1,6 +1,7 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Project;
+
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
@@ -40,7 +41,6 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
         $this->culturefeedLive = $this->getMock(\ICultureFeed::class);
         $this->culturefeedTest = $this->getMock(\ICultureFeed::class);
         $this->projectRepository = $this->getMockBuilder(EntityRepository::class)
@@ -54,14 +54,13 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $entityManager = $this->getMock(EntityManagerInterface::class);
         $entityManager->method('getRepository')->willReturn($this->projectRepository);
         $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $entityManager, $this->integrationTypeStorage, $this->user);
-
     }
 
     /**
      * Test if projects can be searched by name
      */
-    public function testSearchrojectsByName() {
-
+    public function testSearchrojectsByName()
+    {
         $expr = Criteria::expr();
         $criteria = Criteria::create();
 
@@ -78,8 +77,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if projects can be loaded with pagination for a non admin.
      */
-    public function testSearchrojects() {
-
+    public function testSearchrojects()
+    {
         $expr = Criteria::expr();
         $criteria = Criteria::create();
 
@@ -97,7 +96,6 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function searchTest($criteria, $start, $max, $name = '')
     {
-
         // Mock the querybuilder.
         $queryBuilder = $this->getMockBuilder(QueryBuilder::class)
             ->disableOriginalConstructor()
@@ -157,10 +155,10 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if projects can be loaded for an admin.
      */
-    public function testLoadProjectsForAdmins() {
-
-        $this->user->method('isAdmin')
-            ->willReturn(TRUE);
+    public function testLoadProjectsForAdmins()
+    {
+        $this->user->expects($this->any())->method('isAdmin')
+            ->willReturn(true);
 
         $criteria = Criteria::create();
 
@@ -174,25 +172,24 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if the project is loaded with basic info.
      */
-    public function testLoadProject() {
-
+    public function testLoadProject()
+    {
         $project = new Project();
         $project->setName('name');
 
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')
-            ->with(['id' => 1, 'userId' => 'id'])
+            ->with(['id' => 1])
             ->willReturn($project);
 
         $this->assertEquals($project, $this->projectService->loadProject(1), 'It loads the project');
-
     }
 
     /**
      * Test if the project is loaded with enriched info.
      */
-    public function testLoadProjectWithEnrichment() {
-
+    public function testLoadProjectWithEnrichment()
+    {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
         $integrationType = $this->getMock(IntegrationType::class);
@@ -209,7 +206,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')
-            ->with(['id' => 1, 'userId' => 'id'])
+            ->with(['id' => 1])
             ->willReturn($project);
 
         $this->culturefeedLive->expects($this->once())
@@ -236,14 +233,13 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
 
         $this->assertEquals($project, $this->projectService->loadProject(1), 'It loads the project with extra info');
-
     }
 
     /**
      * Test if test exceptions are handled.
      */
-    public function testTestExceptions() {
-
+    public function testTestExceptions()
+    {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
 
@@ -253,7 +249,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->projectRepository
             ->method('findOneBy')
-            ->with(['id' => 1, 'userId' => 'id'])
+            ->with(['id' => 1])
             ->willReturn($project);
 
         $this->culturefeedTest->expects($this->any())
@@ -276,17 +272,17 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if live exceptions are handled.
      */
-    public function testLiveExceptions() {
-
+    public function testLiveExceptions()
+    {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
         $project->setLiveConsumerKey('live');
 
-        $this->projectRepository
+        $this->projectRepository->expects($this->any())
             ->method('findOneBy')
-            ->with(['id' => 1, 'userId' => 'id'])
+            ->with(['id' => 1])
             ->willReturn($project);
 
         $this->culturefeedLive->expects($this->any())
@@ -305,20 +301,18 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
             ->willThrowException(new \InvalidArgumentException('live'));
 
         $this->projectService->loadProject(1);
-
     }
 
     /**
      * Test if NULL is returned when no project was found.
      */
-    public function testLoadProjectNotFound() {
-
+    public function testLoadProjectNotFound()
+    {
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')
-            ->with(['id' => 1, 'userId' => 'id'])
-            ->willReturn(NULL);
+            ->with(['id' => 1])
+            ->willReturn(null);
 
         $this->assertNull($this->projectService->loadProject(1));
     }
-
 }

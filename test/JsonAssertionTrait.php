@@ -10,8 +10,8 @@ trait JsonAssertionTrait
      */
     private function assertJsonEquals($json, $filePath)
     {
-        $expected_json = $this->getJson($filePath);
-        $expected = json_decode($expected_json);
+        $expectedJson = $this->getJson($filePath);
+        $expected = json_decode($expectedJson);
         $actual = json_decode($json);
 
         $this->assertEquals($expected, $actual, 'The json matches');
