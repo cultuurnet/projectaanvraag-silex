@@ -53,6 +53,9 @@ class ProjectService implements ProjectServiceInterface
 
     /**
      * Load the projects for current user.
+     * @param int $max
+     * @param int $start
+     * @return array
      */
     public function loadProjects($max = 20, $start = 0)
     {
@@ -74,18 +77,15 @@ class ProjectService implements ProjectServiceInterface
 
     /**
      * Load the project by id.
+     * @param $id
+     * @return Project
+     * @throws \Exception
      */
     public function loadProject($id)
     {
-
         $criteria = [
             'id' => $id,
         ];
-
-        // If user is not an admin, he must be owner to find the project.
-        if (!$this->user->isAdmin()) {
-            $criteria['userId'] = $this->user->id;
-        }
 
         /** @var Project $project */
         $project = $this->projectRepository->findOneBy($criteria);
@@ -100,8 +100,7 @@ class ProjectService implements ProjectServiceInterface
                 $consumer = $this->culturefeedTest->getServiceConsumer($project->getTestConsumerKey());
                 $project->enrichWithConsumerInfo($consumer);
                 $project->setTestConsumerSecret($consumer->consumerSecret);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
                 if (!($e instanceof \CultureFeed_HttpException)) {
                     throw $e;
@@ -116,8 +115,7 @@ class ProjectService implements ProjectServiceInterface
                 $consumer = $this->culturefeedLive->getServiceConsumer($project->getLiveConsumerKey());
                 $project->enrichWithConsumerInfo($consumer);
                 $project->setLiveConsumerSecret($consumer->consumerSecret);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
                 if (!($e instanceof \CultureFeed_HttpException)) {
                     throw $e;

@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\ErrorHandler;
 use CultuurNet\ProjectAanvraag\Core\Exception\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * JsonErrorHandler captures exceptions and formats them to the wanted json output
@@ -23,6 +24,20 @@ class JsonErrorHandler
         }
 
         return new JsonResponse($e->getMessage(), 400);
+    }
+
+    /**
+     * @param AccessDeniedHttpException $e
+     * @param Request $request
+     * @return null|JsonResponse
+     */
+    public function handleAccessDeniedExceptions(AccessDeniedHttpException $e, Request $request)
+    {
+        if (!$this->shouldHandle($request)) {
+            return null;
+        }
+
+        return new JsonResponse($e->getMessage(), 403);
     }
 
     /**
