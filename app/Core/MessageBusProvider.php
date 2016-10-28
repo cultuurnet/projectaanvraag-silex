@@ -53,7 +53,6 @@ class MessageBusProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/messagebus.yml'));
 
         $pimple['envelope_serializer'] = function (Container $pimple) {
@@ -77,6 +76,7 @@ class MessageBusProvider implements ServiceProviderInterface
             );
             return $eventBus;
         };
+
 
         $pimple['event_bus_consumer'] = function (Container $pimple) use ($config) {
             $eventBus = new MessageBusSupportingMiddleware();

@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Entity;
 
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Type;
 
 /**
  * @ORM\Entity
@@ -23,81 +24,100 @@ class Project implements ProjectInterface
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Type("integer")
      * @var int
      */
     protected $id;
 
     /**
      * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     * @Type("integer")
      * @var string
      */
     protected $userId;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Type("string")
      * @var string
      */
     protected $name;
 
     /**
      * @ORM\Column(name="test_consumer_key", type="string", length=255, nullable=true)
+     * @Type("string")
      * @var string
      */
     protected $testConsumerKey;
 
     /**
      * @ORM\Column(name="live_consumer_key", type="string", length=255, nullable=true)
+     * @Type("string")
      * @var string
      */
     protected $liveConsumerKey;
 
     /**
      * @ORM\Column(type="integer")
+     * @Type("integer")
      * @var int
      */
     protected $groupId;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Type("string")
      * @var string
      */
     protected $status;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Type("DateTime")
      * @var \DateTime
      */
     protected $created;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Type("DateTime")
      * @var \DateTime
      */
     protected $updated;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Type("string")
+     */
     protected $testConsumerSecret;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Type("string")
+     */
     protected $liveConsumerSecret;
 
     /**
      * @var string
+     * @Type("string")
      */
     protected $description;
 
     /**
      * @var string
+     * @Type("string")
      */
     protected $logo;
 
     /**
      * @var string
+     * @Type("string")
      */
     protected $domain;
 
     /**
      * @var IntegrationType
+     * @Exclude
      */
     protected $group;
 

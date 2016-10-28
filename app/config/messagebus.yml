@@ -1,14 +1,14 @@
 subscribers:
     synchronous:
     asynchronous:
-        CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
-            - example_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
-            - example_listener
+            - project_deleted_listener
 
 listeners:
-    example_listener:
-        class: \CultuurNet\ProjectAanvraag\ExampleListener
+    project_deleted_listener:
+        class: \CultuurNet\ProjectAanvraag\EventListener\ProjectDeletedEventListener
+        arguments:
+            - orm.em
 
 handlers:
     create_project_handler:
