@@ -14,7 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  ProjectService */
     protected $projectService;
 
@@ -38,7 +37,6 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
         $this->culturefeedLive = $this->getMock(\ICultureFeed::class);
         $this->culturefeedTest = $this->getMock(\ICultureFeed::class);
         $this->projectRepository = $this->getMock(ObjectRepository::class);
@@ -57,7 +55,6 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadProjects()
     {
-
         $this->projectRepository->expects($this->at(0))
             ->method('findBy')
             ->with(['userId' => 'id'], ['created' => 'DESC'], 20, 0)
