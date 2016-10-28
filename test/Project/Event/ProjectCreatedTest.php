@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+
 class ProjectCreatedTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -9,14 +11,15 @@ class ProjectCreatedTest extends \PHPUnit_Framework_TestCase
      */
     public function testProjectCreatedEvent()
     {
-        $projectCreated = new ProjectCreated(123);
-        $this->assertInstanceOf(ProjectCreated::class, $projectCreated);
+        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
+        $project = $this
+            ->getMockBuilder(ProjectInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->assertEquals($projectCreated->getId(), 123, 'The id is correctly returned');
+        $projectCreated = new ProjectCreated($project);
+        $projectCreated->setProject($project);
 
-        // Test setters
-        $projectCreated->setId(2);
-
-        $this->assertEquals($projectCreated->getId(), 2, 'The id is correctly returned');
+        $this->assertInstanceOf(ProjectInterface::class, $projectCreated->getProject(), 'The project is correctly returned');
     }
 }

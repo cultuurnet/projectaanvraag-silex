@@ -12,7 +12,6 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class CreateProjectCommandHandler
 {
-
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -83,7 +82,7 @@ class CreateProjectCommandHandler
         $this->entityManager->flush();
 
         // 3. Dispatch the ProjectCreated event
-        $projectCreated = new ProjectCreated($project->getId());
+        $projectCreated = new ProjectCreated($project);
         $this->eventBus->handle($projectCreated);
     }
 }

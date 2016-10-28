@@ -3,6 +3,8 @@ subscribers:
     asynchronous:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
             - example_listener
+        CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
+            - example_listener
 
 listeners:
     example_listener:
@@ -15,5 +17,14 @@ handlers:
         arguments:
             - event_bus
             - orm.em
+            - culturefeed_test
+            - uitid_user_session_data_complete
+    delete_project_handler:
+        command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject
+        class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\DeleteProjectCommandHandler
+        arguments:
+            - event_bus
+            - orm.em
+            - culturefeed
             - culturefeed_test
             - uitid_user_session_data_complete

@@ -3,11 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
-use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +18,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class ProjectController
 {
-
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -127,7 +124,7 @@ class ProjectController
         /**
          * Dispatch delete project command
          */
-        $this->commandBus->handle(new DeleteProject($id));
+        $this->commandBus->handle(new DeleteProject($project));
 
         return new JsonResponse();
     }

@@ -2,10 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
-use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -13,7 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ProjectService implements ProjectServiceInterface
 {
-
     /**
      * @var \ICultureFeed
      */
@@ -41,9 +39,19 @@ class ProjectService implements ProjectServiceInterface
 
     /**
      * Construct the project storage.
+     * @param \ICultureFeed $cultureFeedLive
+     * @param \ICultureFeed $cultureFeedTest
+     * @param EntityManagerInterface $entityManager
+     * @param IntegrationTypeStorageInterface $integrationTypeStorage
+     * @param User $user
      */
-    public function __construct(\ICultureFeed $cultureFeedLive, \ICultureFeed $cultureFeedTest, EntityManagerInterface $entityManager, IntegrationTypeStorageInterface $integrationTypeStorage, User $user)
-    {
+    public function __construct(
+        \ICultureFeed $cultureFeedLive,
+        \ICultureFeed $cultureFeedTest,
+        EntityManagerInterface $entityManager,
+        IntegrationTypeStorageInterface $integrationTypeStorage,
+        User $user
+    ) {
         $this->culturefeedLive = $cultureFeedLive;
         $this->culturefeedTest = $cultureFeedTest;
         $this->projectRepository = $entityManager->getRepository('ProjectAanvraag:Project');
@@ -78,7 +86,7 @@ class ProjectService implements ProjectServiceInterface
     /**
      * Load the project by id.
      * @param $id
-     * @return Project
+     * @return ProjectInterface
      * @throws \Exception
      */
     public function loadProject($id)
@@ -87,7 +95,7 @@ class ProjectService implements ProjectServiceInterface
             'id' => $id,
         ];
 
-        /** @var Project $project */
+        /** @var ProjectInterface $project */
         $project = $this->projectRepository->findOneBy($criteria);
 
         if (empty($project)) {

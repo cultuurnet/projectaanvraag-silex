@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Voter;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -24,7 +25,7 @@ class ProjectVoter extends Voter
         $user = $token->getUser();
 
         // Allow administrators to perform all operations
-        if ($user->hasRole('administrator')) {
+        if ($user->hasRole(User::USER_ROLE_ADMINISTRATOR)) {
             return true;
         }
 

@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 
 /**
  * Interface for project services.
@@ -20,7 +20,7 @@ interface ProjectServiceInterface
     /**
      * Load the project by id.
      * @param $id
-     * @return Project
+     * @return ProjectInterface
      * @throws \Exception
      */
     public function loadProject($id);

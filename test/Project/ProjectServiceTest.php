@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
@@ -43,8 +44,6 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
         $this->user = $this->getMock(User::class);
         $this->user->id = 'id';
-
-
         $entityManager = $this->getMock(EntityManagerInterface::class);
         $entityManager->method('getRepository')->willReturn($this->projectRepository);
         $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $entityManager, $this->integrationTypeStorage, $this->user);
@@ -106,7 +105,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadProjectWithEnrichment()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
         $integrationType = $this->getMock(IntegrationType::class);
 
@@ -156,7 +155,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestExceptions()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
@@ -164,6 +163,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setGroupId('test');
 
         $this->projectRepository
+            ->expects($this->any())
             ->method('findOneBy')
             ->with(['id' => 1])
             ->willReturn($project);
@@ -190,7 +190,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLiveExceptions()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');

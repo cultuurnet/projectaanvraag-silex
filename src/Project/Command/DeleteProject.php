@@ -2,37 +2,41 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Command;
 
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use JMS\Serializer\Annotation\Type;
+
 class DeleteProject
 {
     /**
-     * @var string
+     * @var ProjectInterface
+     * @Type("CultuurNet\ProjectAanvraag\Entity\Project")
      */
-    private $id;
+    private $project;
 
     /**
      * DeleteProject constructor.
-     * @param $id
+     * @param ProjectInterface $project
      */
-    public function __construct($id)
+    public function __construct($project)
     {
-        $this->id = $id;
+        $this->project = $project;
     }
 
     /**
-     * @return string
+     * @return ProjectInterface
      */
-    public function getId()
+    public function getProject()
     {
-        return $this->id;
+        return $this->project;
     }
 
     /**
-     * @param string $id
+     * @param ProjectInterface $project
      * @return DeleteProject
      */
-    public function setId($id)
+    public function setProject($project)
     {
-        $this->id = $id;
+        $this->project = $project;
         return $this;
     }
 }

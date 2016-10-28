@@ -17,10 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  */
-class Project implements EntityInterface, \JsonSerializable
+class Project implements ProjectInterface
 {
-    const PROJECT_STATUS_APPLICATION_SENT = 'application_sent';
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
