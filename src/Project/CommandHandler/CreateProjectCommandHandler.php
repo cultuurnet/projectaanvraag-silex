@@ -36,10 +36,10 @@ class CreateProjectCommandHandler
      * CreateProjectCommandHandler constructor.
      * @param MessageBusSupportingMiddleware $eventBus
      * @param EntityManagerInterface $entityManager
-     * @param \CultureFeed $cultureFeedTest
+     * @param \ICultureFeed $cultureFeedTest
      * @param User $user
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedTest, User $user)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, User $user)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
@@ -60,13 +60,9 @@ class CreateProjectCommandHandler
         $createConsumer->description = $createProject->getDescription();
         $createConsumer->group = [5, $createProject->getIntegrationType()];
 
-        try {
-            // Try the service call
-            /** @var \CultureFeed_Consumer $cultureFeedConsumer */
-            $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        // Try the service call
+        /** @var \CultureFeed_Consumer $cultureFeedConsumer */
+        $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
 
         // 2. Save the project to the local database
         $project = new Project();

@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
 use CultuurNet\ProjectAanvraag\User\User;
@@ -40,15 +41,15 @@ class DeleteProjectCommandHandler
      * CreateProjectCommandHandler constructor.
      * @param MessageBusSupportingMiddleware $eventBus
      * @param EntityManagerInterface $entityManager
-     * @param \CultureFeed $cultureFeed
-     * @param \CultureFeed $cultureFeedTest
+     * @param \ICultureFeed $cultureFeed
+     * @param \ICultureFeed $cultureFeedTest
      * @param User $user
      */
     public function __construct(
         MessageBusSupportingMiddleware $eventBus,
         EntityManagerInterface $entityManager,
-        \CultureFeed $cultureFeed,
-        \CultureFeed $cultureFeedTest,
+        \ICultureFeed $cultureFeed,
+        \ICultureFeed $cultureFeedTest,
         User $user
     ) {
         $this->eventBus = $eventBus;
@@ -65,11 +66,24 @@ class DeleteProjectCommandHandler
      */
     public function handle(DeleteProject $deleteProject)
     {
+        /** @var ProjectInterface $project */
+        $project = $deleteProject->getProject();
+
         // 1. Block the live consumer
+        /** @var \CultureFeed_Consumer $cultureFeedConsumer */
+        $consumer = new \CultureFeed_Consumer();
+        $consumer->status = 'BLOCKED';
+        $consumer->name = $project->getName();
+
+        $consumer->consumerKey = $project->getLiveConsumerKey();
+        $this->cultureFeed->updateServiceConsumer($consumer);
+
         // 2. Block the test consumer
+        $consumer->consumerKey = $project->getTestConsumerKey();
+        $this->cultureFeedTest->updateServiceConsumer($consumer);
+
         // 3. Dispatch ProjectDeleted event
-        // 3. Dispatch the ProjectCreated event
-        $projectDeleted = new ProjectDeleted($deleteProject->getProject());
+        $projectDeleted = new ProjectDeleted($project);
         $this->eventBus->handle($projectDeleted);
     }
 }
