@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -98,5 +99,55 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->method('handle');
 
         $this->controller->createProject($this->request);
+    }
+
+    /**
+     * Test deleteProject
+     */
+    public function testDeleteProject()
+    {
+        $project = $this->getMock(ProjectInterface::class);
+
+        $this->projectService
+            ->expects($this->any())
+            ->method('loadProject')
+            ->will($this->returnValue($project));
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->will($this->returnValue(true));
+
+        $this->messageBus
+            ->expects($this->any())
+            ->method('handle');
+
+        $response = $this->controller->deleteProject(1);
+        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+    }
+
+    /**
+     * Test deleteProject AccessDeniedHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function testDeleteProjectException()
+    {
+        $project = $this->getMock(ProjectInterface::class);
+
+        $this->projectService
+            ->expects($this->any())
+            ->method('loadProject')
+            ->will($this->returnValue($project));
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->will($this->returnValue(false));
+
+        $this->messageBus
+            ->expects($this->any())
+            ->method('handle');
+
+        $this->controller->deleteProject(1);
     }
 }
