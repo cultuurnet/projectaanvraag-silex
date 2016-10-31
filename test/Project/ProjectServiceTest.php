@@ -3,18 +3,21 @@
 namespace CultuurNet\ProjectAanvraag\Project;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
-use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Tests the ProjectService class.
  */
 class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 {
+
     /** @var  ProjectService */
     protected $projectService;
 
@@ -24,7 +27,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     /** @var  \ICultureFeed|\PHPUnit_Framework_MockObject_MockObject */
     protected $culturefeedTest;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    /** @var  EntityRepository|\PHPUnit_Framework_MockObject_MockObject */
     protected $projectRepository;
 
     /** @var  IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -40,32 +43,112 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->culturefeedLive = $this->getMock(\ICultureFeed::class);
         $this->culturefeedTest = $this->getMock(\ICultureFeed::class);
-        $this->projectRepository = $this->getMock(ObjectRepository::class);
+        $this->projectRepository = $this->getMockBuilder(EntityRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
         $this->user = $this->getMock(User::class);
         $this->user->id = 'id';
+
+
         $entityManager = $this->getMock(EntityManagerInterface::class);
         $entityManager->method('getRepository')->willReturn($this->projectRepository);
         $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $entityManager, $this->integrationTypeStorage, $this->user);
     }
 
     /**
+     * Test if projects can be searched by name
+     */
+    public function testSearchrojectsByName()
+    {
+        $expr = Criteria::expr();
+        $criteria = Criteria::create();
+
+        // Add limits.
+        $criteria->setFirstResult(0)
+            ->setMaxResults(20);
+
+        $criteria->where($expr->eq('p.userId', $this->user->id));
+        $criteria->andWhere($expr->contains('p.name', 'test'));
+
+        $this->searchTest($criteria, 0, 20, 'test');
+    }
+
+    /**
      * Test if projects can be loaded with pagination for a non admin.
      */
-    public function testLoadProjects()
+    public function testSearchrojects()
     {
-        $this->projectRepository->expects($this->at(0))
-            ->method('findBy')
-            ->with(['userId' => 'id'], ['created' => 'DESC'], 20, 0)
-            ->willReturn('result');
+        $expr = Criteria::expr();
+        $criteria = Criteria::create();
 
-        $this->assertEquals('result', $this->projectService->loadProjects());
+        // Add limits.
+        $criteria->setFirstResult(10)
+            ->setMaxResults(50);
 
+        $criteria->where($expr->eq('p.userId', $this->user->id));
+
+        $this->searchTest($criteria, 10, 50);
+    }
+
+    /**
+     * Helper method to test the search.
+     */
+    private function searchTest($criteria, $start, $max, $name = '')
+    {
+        // Mock the querybuilder.
+        $queryBuilder = $this->getMockBuilder(QueryBuilder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Return the mock on createQueryBuilder.
         $this->projectRepository->expects($this->once())
-            ->method('findBy')
-            ->with(['userId' => 'id'], ['created' => 'DESC'], 10, 50)
-            ->willReturn('result');
-        $this->projectService->loadProjects(10, 50);
+            ->method('createQueryBuilder')
+            ->with('p')
+            ->willReturn($queryBuilder);
+
+        // Check if criteria matches.
+        $queryBuilder->expects($this->at(0))
+            ->method('addCriteria')
+            ->with($criteria)
+            ->willReturn('list');
+
+        // Mock a query object.
+        $query = $this->getMockBuilder(AbstractQuery::class)
+            ->setMethods(array('getResult', 'getSingleScalarResult'))
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $query->expects($this->at(0))
+            ->method('getResult')
+            ->willReturn('list');
+
+        $query->expects($this->at(1))
+            ->method('getSingleScalarResult')
+            ->willReturn(20);
+
+        // Correctly return the mocked query.
+        $queryBuilder->expects($this->any())
+            ->method('getQuery')
+            ->willReturn($query);
+
+        $queryBuilder->expects($this->any())
+            ->method('select')
+            ->with('count(p.id)')
+            ->willReturn($queryBuilder);
+
+        $queryBuilder->expects($this->any())
+            ->method('setFirstResult')
+            ->with(0)
+            ->willReturn($queryBuilder);
+
+        $this->assertEquals(
+            [
+                'total' => 20,
+                'results' => 'list',
+            ],
+            $this->projectService->searchProjects($start, $max, $name)
+        );
     }
 
     /**
@@ -76,12 +159,13 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $this->user->expects($this->any())->method('isAdmin')
             ->willReturn(true);
 
-        $this->projectRepository->expects($this->once())
-            ->method('findBy')
-            ->with([], ['created' => 'DESC'], 20, 0)
-            ->willReturn('result');
+        $criteria = Criteria::create();
 
-        $this->assertEquals('result', $this->projectService->loadProjects());
+        // Add limits.
+        $criteria->setFirstResult(0)
+            ->setMaxResults(20);
+
+        $this->searchTest($criteria, 0, 20);
     }
 
     /**
@@ -105,7 +189,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadProjectWithEnrichment()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
         $integrationType = $this->getMock(IntegrationType::class);
 
@@ -155,7 +239,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestExceptions()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
@@ -163,7 +247,6 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setGroupId('test');
 
         $this->projectRepository
-            ->expects($this->any())
             ->method('findOneBy')
             ->with(['id' => 1])
             ->willReturn($project);
@@ -190,7 +273,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLiveExceptions()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
@@ -222,7 +305,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if NULL is returned when no project was found.
      */
-    public function testLoadProjectNoAccess()
+    public function testLoadProjectNotFound()
     {
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')

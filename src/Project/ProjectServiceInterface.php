@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
-use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Entity\Project;
 
 /**
  * Interface for project services.
@@ -10,17 +10,21 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 interface ProjectServiceInterface
 {
     /**
-     * Load the projects for current user.
-     * @param int $start
-     * @param int $max
-     * @return array
+     * Search projects for current user.
+     * Optionally filter on name.
+     * @param $start
+     *   Start index to query
+     * @param $max
+     *   Maximum results to return
+     * @param $name
+     *   Name to search on.
      */
-    public function loadProjects($start, $max);
+    public function searchProjects($start = 0, $max = 20, $name = '');
 
     /**
      * Load the project by id.
      * @param $id
-     * @return ProjectInterface
+     * @return Project
      * @throws \Exception
      */
     public function loadProject($id);

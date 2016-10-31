@@ -2,9 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
-use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -12,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ProjectService implements ProjectServiceInterface
 {
+
     /**
      * @var \ICultureFeed
      */
@@ -23,7 +25,7 @@ class ProjectService implements ProjectServiceInterface
     protected $culturefeedTest;
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectRepository
+     * @var \Doctrine\ORM\EntityRepository
      */
     protected $projectRepository;
 
@@ -39,55 +41,60 @@ class ProjectService implements ProjectServiceInterface
 
     /**
      * Construct the project storage.
-     * @param \ICultureFeed $cultureFeedLive
-     * @param \ICultureFeed $cultureFeedTest
-     * @param EntityManagerInterface $entityManager
-     * @param IntegrationTypeStorageInterface $integrationTypeStorage
-     * @param User $user
      */
-    public function __construct(
-        \ICultureFeed $cultureFeedLive,
-        \ICultureFeed $cultureFeedTest,
-        EntityManagerInterface $entityManager,
-        IntegrationTypeStorageInterface $integrationTypeStorage,
-        User $user
-    ) {
+    public function __construct(\ICultureFeed $cultureFeedLive, \ICultureFeed $cultureFeedTest, EntityManagerInterface $entityManager, IntegrationTypeStorageInterface $integrationTypeStorage, User $user)
+    {
         $this->culturefeedLive = $cultureFeedLive;
         $this->culturefeedTest = $cultureFeedTest;
-        $this->projectRepository = $entityManager->getRepository('ProjectAanvraag:Project');
+        $this->entityManager = $entityManager;
         $this->integrationTypeStorage = $integrationTypeStorage;
+        $this->projectRepository = $entityManager->getRepository('ProjectAanvraag:Project');
         $this->user = $user;
     }
 
     /**
-     * Load the projects for current user.
-     * @param int $max
-     * @param int $start
-     * @return array
+     * @inheritdoc
      */
-    public function loadProjects($max = 20, $start = 0)
+    public function searchProjects($start = 0, $max = 20, $name = '')
     {
-        $criteria = [];
+        $query = $this->projectRepository->createQueryBuilder('p');
+
+        $expr = Criteria::expr();
+        $criteria = Criteria::create();
+
+        // Add limits.
+        $criteria->setFirstResult($start)
+            ->setMaxResults($max);
+
         if (!$this->user->isAdmin()) {
-            $criteria = ['userId' => $this->user->id];
+            $criteria->where($expr->eq('p.userId', $this->user->id));
         }
 
-        // First load based on the projects known in database.
-        $localConsumers = $this->projectRepository->findBy(
-            $criteria,
-            ['created' => 'DESC'],
-            $max,
-            $start
-        );
+        // Searching on name? add search filter.
+        if (!empty($name)) {
+            $criteria->andWhere($expr->contains('p.name', $name));
+        }
 
-        return $localConsumers;
+        $query->addCriteria($criteria);
+
+        // First load based on the projects known in database.
+        $localConsumers = $query->getQuery()->getResult();
+
+        // Get total results.
+        $totalResults = $query
+            ->select('count(p.id)')
+            ->setFirstResult(0)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return [
+            'total' => $totalResults,
+            'results' => $localConsumers,
+        ];
     }
 
     /**
-     * Load the project by id.
-     * @param $id
-     * @return ProjectInterface
-     * @throws \Exception
+     * @inheritdoc
      */
     public function loadProject($id)
     {
@@ -95,7 +102,7 @@ class ProjectService implements ProjectServiceInterface
             'id' => $id,
         ];
 
-        /** @var ProjectInterface $project */
+        /** @var Project $project */
         $project = $this->projectRepository->findOneBy($criteria);
 
         if (empty($project)) {

@@ -3,9 +3,11 @@
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
+use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,11 +83,17 @@ class ProjectController
 
     /**
      * Return the list of projects for current person.
+     * @param Request $request
      * @return JsonResponse
      */
-    public function getProjects()
+    public function getProjects(Request $request)
     {
-        return new JsonResponse($this->projectService->loadProjects());
+
+        $name = $request->query->get('name', '');
+        $start = $request->query->get('start', 0);
+        $max = $request->query->get('max', 0);
+
+        return new JsonResponse($this->projectService->searchProjects($start, $max, $name));
     }
 
     /**
