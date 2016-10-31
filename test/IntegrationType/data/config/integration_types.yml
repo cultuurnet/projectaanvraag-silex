@@ -27,3 +27,5 @@ integration_types:
         - 'Platformonafhankelijk'
         - 'Individuele oplossingen op maat zijn mogelijk'
       group_id: 'group_id'
+      action_button:
+        test: test
