@@ -25,7 +25,7 @@ class ProjectActivated implements AsynchronousMessageInterface
      * @param $usedCoupon
      *   Coupon that is used to activate the project. (optional)
      */
-    public function __construct(Project $project, $usedCoupon = NULL)
+    public function __construct(Project $project, $usedCoupon = null)
     {
         $this->project = $project;
         $this->usedCoupon = $usedCoupon;
@@ -66,5 +66,4 @@ class ProjectActivated implements AsynchronousMessageInterface
         $this->usedCoupon = $usedCoupon;
         return $this;
     }
-
 }

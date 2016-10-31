@@ -61,7 +61,7 @@ class ProjectController
         $postedProject = json_decode($request->getContent());
 
         $this->validateRequiredFields(
-            ['name', 'summary', 'integrationType'],
+            ['name', 'summary', 'integrationType', 'termsAndConditions'],
             $postedProject
         );
 
@@ -128,9 +128,7 @@ class ProjectController
             // validate coupon.
             // $this->couponVa..
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
-        }
-        else {
-
+        } else {
             $this->validateRequiredFields(
                 ['street', 'number', 'postal', 'city'],
                 $postedData
@@ -167,7 +165,7 @@ class ProjectController
      * @param \stdClass $data
      * @throws MissingRequiredFieldsException
      */
-    private function validateRequiredFields($requiredFields, \stdClass $data)
+    private function validateRequiredFields($requiredFields, \stdClass $data = null)
     {
         $emptyFields = [];
         foreach ($requiredFields as $field) {
@@ -176,7 +174,7 @@ class ProjectController
             }
         }
 
-        if (!empty($emptyFields) || empty($postedProject->termsAndConditions) || !$postedProject->termsAndConditions) {
+        if (!empty($emptyFields)) {
             throw new MissingRequiredFieldsException('Some required fields are missing: ' . implode(', ', $emptyFields));
         }
     }

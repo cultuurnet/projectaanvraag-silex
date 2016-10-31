@@ -48,5 +48,4 @@ class Address
         $this->postal = $postal;
         $this->city = $city;
     }
-
 }

@@ -23,7 +23,7 @@ class ActivateProject
      * @param $couponToUse
      *   Coupon to use for activating the project.
      */
-    public function __construct(Project $project, $couponToUse = NULL)
+    public function __construct(Project $project, $couponToUse = null)
     {
         $this->project = $project;
         $this->couponToUse = $couponToUse;

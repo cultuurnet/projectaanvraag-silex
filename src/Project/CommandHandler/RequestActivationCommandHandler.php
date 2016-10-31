@@ -47,6 +47,5 @@ class RequestActivationCommandHandler
      */
     public function handle(RequestActivation $requestActivation)
     {
-
     }
 }
