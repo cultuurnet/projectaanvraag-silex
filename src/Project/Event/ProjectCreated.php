@@ -17,7 +17,7 @@ class ProjectCreated implements AsynchronousMessageInterface
 
     /**
      * ProjectCreated constructor.
-     * @param Project $project
+     * @param ProjectInterface $project
      */
     public function __construct($project)
     {

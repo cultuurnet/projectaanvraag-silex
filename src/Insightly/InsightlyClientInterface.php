@@ -35,4 +35,13 @@ interface InsightlyClientInterface
      * @return Project
      */
     public function updateProject($project, $options = []);
+
+    /**
+     * Gets a list of pipelines
+     *
+     * @param array $options
+     *  Array of oData options
+     * @return EntityList
+     */
+    public function getPipelines($options = []);
 }
