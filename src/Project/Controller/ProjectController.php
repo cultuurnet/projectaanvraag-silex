@@ -74,9 +74,14 @@ class ProjectController
      * Return the list of projects for current person.
      * @return JsonResponse
      */
-    public function getProjects()
+    public function getProjects(Request $request)
     {
-        return new JsonResponse($this->projectService->loadProjects());
+
+        $name = $request->query->get('name', '');
+        $start = $request->query->get('start', 0);
+        $max = $request->query->get('max', 0);
+
+        return new JsonResponse($this->projectService->searchProjects($start, $max, $name));
     }
 
     /**

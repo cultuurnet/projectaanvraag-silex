@@ -8,7 +8,14 @@ namespace CultuurNet\ProjectAanvraag\Project;
 interface ProjectServiceInterface
 {
     /**
-     * Load the projects for current user.
+     * Search projects for current user.
+     * Optionally filter on name.
+     * @param $start
+     *   Start index to query
+     * @param $max
+     *   Maximum results to return
+     * @param $name
+     *   Name to search on.
      */
-    public function loadProjects($start, $max);
+    public function searchProjects($start = 0, $max = 20, $name = '');
 }

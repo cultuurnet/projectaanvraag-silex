@@ -5,7 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Project;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
-use CultuurNet\ProjectAanvraag\User\UserInterface;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -25,7 +25,7 @@ class ProjectService implements ProjectServiceInterface
     protected $culturefeedTest;
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectRepository
+     * @var \Doctrine\ORM\EntityRepository
      */
     protected $projectRepository;
 
@@ -46,31 +46,53 @@ class ProjectService implements ProjectServiceInterface
     {
         $this->culturefeedLive = $cultureFeedLive;
         $this->culturefeedTest = $cultureFeedTest;
-        $this->projectRepository = $entityManager->getRepository('ProjectAanvraag:Project');
+        $this->entityManager = $entityManager;
         $this->integrationTypeStorage = $integrationTypeStorage;
+        $this->projectRepository = $entityManager->getRepository('ProjectAanvraag:Project');
         $this->user = $user;
     }
 
     /**
-     * Load the projects for current user.
+     * @inheritdoc
      */
-    public function loadProjects($max = 20, $start = 0)
+    public function searchProjects($start = 0, $max = 20, $name = '')
     {
 
-        $criteria = [];
+        $query = $this->projectRepository->createQueryBuilder('p');
+
+        $expr = Criteria::expr();
+        $criteria = Criteria::create();
+
+        // Add limits.
+        $criteria->setFirstResult($start)
+            ->setMaxResults($max);
+
+        // User no admin, only return projects for current user.
         if (!$this->user->isAdmin()) {
-            $criteria = ['userId' => $this->user->id];
+            $criteria->where($expr->eq('p.userId', $this->user->id));
         }
 
-        // First load based on the projects known in database.
-        $localConsumers = $this->projectRepository->findBy(
-            $criteria,
-            ['created' => 'DESC'],
-            $max,
-            $start
-        );
+        // Searching on name? add search filter.
+        if (!empty($name)) {
+            $criteria->andWhere($expr->contains('p.name', $name));
+        }
 
-        return $localConsumers;
+        $query->addCriteria($criteria);
+
+        // First load based on the projects known in database.
+        $localConsumers = $query->getQuery()->getResult();
+
+        // Get total results.
+        $totalResults = $query
+            ->select('count(p.id)')
+            ->setFirstResult(0)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return [
+            'total' => $totalResults,
+            'results' => $localConsumers,
+        ];
     }
 
     /**
@@ -101,8 +123,7 @@ class ProjectService implements ProjectServiceInterface
                 $consumer = $this->culturefeedTest->getServiceConsumer($project->getTestConsumerKey());
                 $project->enrichWithConsumerInfo($consumer);
                 $project->setTestConsumerSecret($consumer->consumerSecret);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
                 if (!($e instanceof \CultureFeed_HttpException)) {
                     throw $e;
@@ -117,8 +138,7 @@ class ProjectService implements ProjectServiceInterface
                 $consumer = $this->culturefeedLive->getServiceConsumer($project->getLiveConsumerKey());
                 $project->enrichWithConsumerInfo($consumer);
                 $project->setLiveConsumerSecret($consumer->consumerSecret);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
                 if (!($e instanceof \CultureFeed_HttpException)) {
                     throw $e;

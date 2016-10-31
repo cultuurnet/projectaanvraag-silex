@@ -6,7 +6,7 @@
         "silex/silex": "~2.0",
         "deralex/yaml-config-service-provider": "^1.0",
         "cweagans/composer-patches": "^1.5",
-        "cultuurnet/silex-uitid-provider": "dev-silex-2",
+        "cultuurnet/silex-uitid-provider": "2.x-dev",
         "simple-bus/rabbitmq-bundle-bridge": "^3.0",
         "knplabs/console-service-provider": "^2.0",
         "simple-bus/jms-serializer-bridge": "^1.0",
@@ -14,6 +14,7 @@
         "jdesrosiers/silex-cors-provider": "~1.0",
         "cultuurnet/culturefeed-http-guzzle": "dev-master",
         "symfony/browser-kit": "^3.1",
+        "cultuurnet/culturefeed-php": "dev-develop as 1.6.x-dev",
         "dflydev/doctrine-orm-service-provider": "^2.0"
     },
     "extra": {
