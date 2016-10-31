@@ -146,49 +146,4 @@ class InsightlyClient implements InsightlyClientInterface
         $query = $this->addQueryFilters($options);
         return GetPipelinesResult::parseToResult($this->request(RequestInterface::GET, 'Pipelines', $query));
     }
-
-    public function getPipelineStages($options = [])
-    {
-        // TODO: Implement getPipelineStages() method.
-    }
-
-    public function getContacts($options = [])
-    {
-        // TODO: Implement getContacts() method.
-    }
-
-    public function getProductCategories($options = [])
-    {
-        // TODO: Implement getProductCategories() method.
-    }
-
-    public function getOrganisations($options = [])
-    {
-        // TODO: Implement getOrganisations() method.
-    }
-
-    public function updatePipeline(Pipeline $pipeline)
-    {
-        // TODO: Implement updatePipeline() method.
-    }
-
-    public function updateOrganisation(EntityInterface $organisation)
-    {
-        // TODO: Implement updateOrganisation() method.
-    }
-
-    public function insertProject(EntityInterface $project)
-    {
-        // TODO: Implement insertProject() method.
-    }
-
-    public function insertContact(EntityInterface $contact)
-    {
-        // TODO: Implement insertContact() method.
-    }
-
-    public function insertOrganisation(EntityInterface $organisation)
-    {
-        // TODO: Implement insertOrganisation() method.
-    }
 }
