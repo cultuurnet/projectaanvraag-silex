@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ProjectControllerTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,6 +31,11 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     protected $request;
 
     /**
+     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $authorizationChecker;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -49,13 +55,17 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->controller = new ProjectController($this->messageBus, $this->projectService);
+        $this->authorizationChecker = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')
+            ->getMock();
+
+        $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker);
     }
 
     /**
-     * Test addProject
+     * Test createProject
      */
-    public function testAddProject()
+    public function testCreateProject()
     {
         $content = file_get_contents(__DIR__ . '/../data/add_project_form_data.json');
 
@@ -68,15 +78,15 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('handle');
 
-        $response = $this->controller->addProject($this->request);
+        $response = $this->controller->createProject($this->request);
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
     }
 
     /**
-     * Test addProject exception
+     * Test createProject exception
      * @expectedException \CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException
      */
-    public function testAddProjectException()
+    public function testCreateProjectException()
     {
         $this->request
             ->expects($this->any())
@@ -87,6 +97,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('handle');
 
-        $this->controller->addProject($this->request);
+        $this->controller->createProject($this->request);
     }
 }

@@ -3,12 +3,17 @@
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
+use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
+use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Controller for project related tasks.
@@ -27,14 +32,21 @@ class ProjectController
     protected $projectService;
 
     /**
+     * @var AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
+    /**
      * ProjectController constructor.
      * @param MessageBusSupportingMiddleware $commandBus
      * @param ProjectServiceInterface $projectService
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -42,7 +54,7 @@ class ProjectController
      * @return JsonResponse
      * @throws MissingRequiredFieldsException
      */
-    public function addProject(Request $request)
+    public function createProject(Request $request)
     {
         $postedProject = json_decode($request->getContent());
 
@@ -74,22 +86,54 @@ class ProjectController
      * Return the list of projects for current person.
      * @return JsonResponse
      */
-    public function getProjects()
+    public function getProjects(Request $request)
     {
-        return new JsonResponse($this->projectService->loadProjects());
+
+        $name = $request->query->get('name', '');
+        $start = $request->query->get('start', 0);
+        $max = $request->query->get('max', 0);
+
+        return new JsonResponse($this->projectService->searchProjects($start, $max, $name));
     }
 
     /**
      * Return a detailled version of a project.
+     * @param int $id
      * @return JsonResponse
      */
     public function getProject($id)
     {
         $project = $this->projectService->loadProject($id);
 
+        if (!$this->authorizationChecker->isGranted('view', $project)) {
+            throw new AccessDeniedHttpException();
+        }
+
         if (empty($project)) {
             throw new NotFoundHttpException('The project was not found');
         }
+
         return new JsonResponse($project);
+    }
+
+    /**
+     * Delete a project.
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function deleteProject($id)
+    {
+        $project = $this->projectService->loadProject($id);
+
+        if (!$this->authorizationChecker->isGranted('edit', $project)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        /**
+         * Dispatch delete project command
+         */
+        $this->commandBus->handle(new DeleteProject($id));
+
+        return new JsonResponse();
     }
 }
