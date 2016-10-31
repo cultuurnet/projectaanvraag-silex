@@ -8,8 +8,10 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeControllerProvider
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\ProjectAanvraag\Security\UiTIDSecurityServiceProvider;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
+use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
+use CultuurNet\UiTIDProvider\Security\Path;
 use Silex\Application as SilexApplication;
 use Silex\Provider\RoutingServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
@@ -83,7 +85,13 @@ class WebApplication extends ApplicationBase
 
         $this['security.firewalls'] = [
             'unsecured' => [
-                'pattern' => '^/culturefeed/oauth',
+                'pattern' => MultiPathRequestMatcher::fromPaths(
+                    [
+                        new Path('^/culturefeed/oauth', 'GET'),
+                        new Path('^/integration-types', 'GET'),
+                        new Path('^.*$', 'OPTIONS'),
+                    ]
+                ),
             ],
             'secured' => [
                 'pattern' => '^.*$',

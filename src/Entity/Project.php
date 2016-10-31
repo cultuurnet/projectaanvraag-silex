@@ -20,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Project implements EntityInterface, \JsonSerializable
 {
     const PROJECT_STATUS_APPLICATION_SENT = 'application_sent';
+    const PROJECT_STATUS_ACTIVATE = 'active';
 
     /**
      * @ORM\Column(type="integer")
