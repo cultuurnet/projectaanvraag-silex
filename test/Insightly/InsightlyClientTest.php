@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
-
     /**
      * Test client request method
      * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException

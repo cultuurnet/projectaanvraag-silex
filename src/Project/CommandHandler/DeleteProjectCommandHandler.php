@@ -82,7 +82,11 @@ class DeleteProjectCommandHandler
         $consumer->consumerKey = $project->getTestConsumerKey();
         $this->cultureFeedTest->updateServiceConsumer($consumer);
 
-        // 3. Dispatch ProjectDeleted event
+        // 3. Delete the project from the database
+        $this->entityManager->remove($project);
+        $this->entityManager->flush();
+
+        // 4. Dispatch ProjectDeleted event
         $projectDeleted = new ProjectDeleted($project);
         $this->eventBus->handle($projectDeleted);
     }

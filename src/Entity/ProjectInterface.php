@@ -85,6 +85,17 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     public function setUserId($userId);
 
     /**
+     * @return string
+     */
+    public function getInsightlyProjectId();
+
+    /**
+     * @param string $insightlyProjectId
+     * @return Project
+     */
+    public function setInsightlyProjectId($insightlyProjectId);
+
+    /**
      * @return \DateTime
      */
     public function getCreated();

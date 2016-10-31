@@ -38,6 +38,13 @@ class Project implements ProjectInterface
     protected $userId;
 
     /**
+     * @ORM\Column(name="insightly_project_id", type="integer", nullable=true)
+     * @Type("integer")
+     * @var string
+     */
+    protected $insightlyProjectId;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Type("string")
      * @var string
@@ -389,6 +396,24 @@ class Project implements ProjectInterface
     public function setGroup($group)
     {
         $this->group = $group;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInsightlyProjectId()
+    {
+        return $this->insightlyProjectId;
+    }
+
+    /**
+     * @param string $insightlyProjectId
+     * @return Project
+     */
+    public function setInsightlyProjectId($insightlyProjectId)
+    {
+        $this->insightlyProjectId = $insightlyProjectId;
         return $this;
     }
 

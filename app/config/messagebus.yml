@@ -8,8 +8,7 @@ listeners:
     project_deleted_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectDeletedEventListener
         arguments:
-            - orm.em
-
+            - insightly_client
 handlers:
     create_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\CreateProject
