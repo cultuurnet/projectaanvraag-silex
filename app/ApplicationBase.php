@@ -5,23 +5,17 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
-use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
-use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
-use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
-use CultuurNet\UiTIDProvider\Security\UiTIDSecurityServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\SecurityServiceProvider;
-use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
-use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -38,6 +32,10 @@ class ApplicationBase extends SilexApplication
 
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
+
+        // JMS Autoload
+        AnnotationRegistry::registerLoader('class_exists');
+        AnnotationRegistry::registerAutoloadNamespace('JMS\Serializer\Annotation', __DIR__ . '/../../vendor/jms/serializer/src');
 
         $this->registerProviders();
     }

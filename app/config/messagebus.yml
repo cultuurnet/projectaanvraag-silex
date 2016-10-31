@@ -6,7 +6,7 @@ subscribers:
 
 listeners:
     project_deleted_listener:
-        class: \CultuurNet\ProjectAanvraag\EventListener\ProjectDeletedEventListener
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectDeletedEventListener
         arguments:
             - orm.em
 

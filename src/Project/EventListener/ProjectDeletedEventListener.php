@@ -1,8 +1,7 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\EventListener;
+namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -17,7 +16,8 @@ class ProjectDeletedEventListener
      * CreateProjectCommandHandler constructor.
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
@@ -28,17 +28,6 @@ class ProjectDeletedEventListener
      */
     public function handle($projectDeleted)
     {
-        $project = new Project();
-        $project->setName('test');
-        $project->setDescription('test');
-        $project->setStatus('a');
-        $project->setTestConsumerKey('q');
-        $project->setTestConsumerSecret('a');
-        $project->setGroupId('a');
-        $project->setUserId(1);
-
-        $this->entityManager->persist($project);
-        $this->entityManager->flush();
+        $test = 1;
     }
-
 }

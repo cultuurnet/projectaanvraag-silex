@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Entity;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * @ORM\Entity
