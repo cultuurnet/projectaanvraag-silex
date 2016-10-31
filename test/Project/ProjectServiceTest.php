@@ -149,7 +149,6 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
             ],
             $this->projectService->searchProjects($start, $max, $name)
         );
-
     }
 
     /**

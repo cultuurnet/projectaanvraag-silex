@@ -27,6 +27,15 @@
         </phpcodesniffer>
     </target>
 
+    <target name="phpcbf">
+        <exec command="vendor/bin/phpcbf test --standard=phpcs-ruleset.xml"
+              passthru="true"/>
+        <exec command="vendor/bin/phpcbf src --standard=phpcs-ruleset.xml"
+              passthru="true"/>
+        <exec command="vendor/bin/phpcbf app --standard=phpcs-ruleset.xml"
+              passthru="true"/>
+    </target>
+
     <target name="lint">
         <phplint>
             <fileset refid="php"/>
