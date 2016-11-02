@@ -1,11 +1,12 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\Project\Command;
+namespace CultuurNet\ProjectAanvraag\Project\Event;
 
+use CultuurNet\ProjectAanvraag\Core\AsynchronousMessageInterface;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use JMS\Serializer\Annotation\Type;
 
-class DeleteProject
+class ProjectDeleted implements AsynchronousMessageInterface
 {
     /**
      * @var ProjectInterface
@@ -14,7 +15,7 @@ class DeleteProject
     private $project;
 
     /**
-     * DeleteProject constructor.
+     * ProjectDeleted constructor.
      * @param ProjectInterface $project
      */
     public function __construct($project)
@@ -32,7 +33,7 @@ class DeleteProject
 
     /**
      * @param ProjectInterface $project
-     * @return DeleteProject
+     * @return ProjectDeleted
      */
     public function setProject($project)
     {

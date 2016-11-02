@@ -20,7 +20,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class ProjectController
 {
-
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -84,6 +83,7 @@ class ProjectController
 
     /**
      * Return the list of projects for current person.
+     * @param Request $request
      * @return JsonResponse
      */
     public function getProjects(Request $request)
@@ -132,7 +132,7 @@ class ProjectController
         /**
          * Dispatch delete project command
          */
-        $this->commandBus->handle(new DeleteProject($id));
+        $this->commandBus->handle(new DeleteProject($project));
 
         return new JsonResponse();
     }

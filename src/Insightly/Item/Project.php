@@ -512,4 +512,35 @@ class Project extends Entity
 
         return $json;
     }
+
+    /**
+     * Serializes a Project to an Insightly accepted array
+     * @return array
+     */
+    public function toInsightly()
+    {
+        return [
+            'PROJECT_ID' => $this->getId(),
+            'PROJECT_NAME' => $this->getName(),
+            'STATUS' => $this->getStatus(),
+            'PROJECT_DETAILS' => $this->getDetails(),
+            'OPPORTUNITY_ID' => $this->getOpportunityId(),
+            'STARTED_DATE' => !empty($this->getStartedDate()) ? $this->getStartedDate()->format('Y-m-d H:i:s') : null,
+            'COMPLETED_DATE' => !empty($this->getCompletedDate()) ? $this->getCompletedDate()->format('Y-m-d H:i:s') : null,
+            'IMAGE_URL' => $this->getImageUrl(),
+            'RESPONSIBLE_USER_ID' => $this->getResponsibleUserId(),
+            'OWNER_USER_ID' => $this->getOwnerUserId(),
+            'DATE_CREATED_UTC' => !empty($this->getDateCreatedUTC()) ? $this->getDateCreatedUTC()->format('Y-m-d H:i:s') : null,
+            'DATE_UPDATED_UTC' => !empty($this->getDateUpdatedUTC()) ? $this->getDateUpdatedUTC()->format('Y-m-d H:i:s') : null,
+            'CATEGORY_ID' => $this->getCategoryId(),
+            'PIPELINE_ID' => $this->getPipelineId(),
+            'STAGE_ID' => $this->getStageId(),
+            'VISIBLE_TO' => $this->getVisibleTo(),
+            'VISIBLE_TEAM_ID' => $this->getVisibleTeamId(),
+            'VISIBLE_USER_IDS' => $this->getVisibleUserIds(),
+            'CUSTOMFIELDS' => [],
+            'CAN_EDIT' => $this->canEdit(),
+            'CAN_DELETE' => $this->canDelete(),
+        ];
+    }
 }
