@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;

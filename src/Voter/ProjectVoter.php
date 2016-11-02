@@ -31,7 +31,7 @@ class ProjectVoter extends Voter
         }
 
         // Allow users to only view and edit their own projects
-        return (self::EDIT === $attribute || self::VIEW) && $project->getUserId() === $user->id;
+        return (self::EDIT === $attribute || self::VIEW === $attribute) && $project->getUserId() === $user->id;
     }
 
     /**
@@ -41,6 +41,6 @@ class ProjectVoter extends Voter
      */
     protected function supports($attribute, $object)
     {
-        return $object instanceof ProjectInterface && in_array($attribute, [self::VIEW, self::EDIT]);
+        return $object instanceof ProjectInterface && in_array($attribute, [self::VIEW, self::EDIT, self::BLOCK]);
     }
 }
