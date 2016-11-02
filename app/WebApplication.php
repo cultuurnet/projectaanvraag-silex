@@ -85,11 +85,12 @@ class WebApplication extends ApplicationBase
 
         $this['security.firewalls'] = [
             'unsecured' => [
+
                 'pattern' => MultiPathRequestMatcher::fromPaths([
                     new Path('^/culturefeed/oauth', 'GET'),
                     new Path('^/integration-types', 'GET'),
                     new Path('^.*$', 'OPTIONS')
-                 ])
+                 ]),
             ],
             'secured' => [
                 'pattern' => '^.*$',

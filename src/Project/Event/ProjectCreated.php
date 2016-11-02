@@ -3,39 +3,42 @@
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
 use CultuurNet\ProjectAanvraag\Core\AsynchronousMessageInterface;
+use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use JMS\Serializer\Annotation\Type;
 
 class ProjectCreated implements AsynchronousMessageInterface
 {
     /**
-     * @var int
+     * @var ProjectInterface
+     * @Type("CultuurNet\ProjectAanvraag\Entity\Project")
      */
-    private $id;
+    private $project;
 
     /**
      * ProjectCreated constructor.
-     * @param $id
+     * @param ProjectInterface $project
      */
-    public function __construct($id)
+    public function __construct($project)
     {
-        $this->id = $id;
+        $this->project = $project;
     }
 
     /**
-     * @return int
+     * @return ProjectInterface
      */
-    public function getId()
+    public function getProject()
     {
-        return $this->id;
+        return $this->project;
     }
 
     /**
-     * @param int $id
+     * @param ProjectInterface $project
      * @return ProjectCreated
      */
-    public function setId($id)
+    public function setProject($project)
     {
-        $this->id = $id;
+        $this->project = $project;
         return $this;
     }
 }

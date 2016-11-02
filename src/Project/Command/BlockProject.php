@@ -5,7 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Command;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use JMS\Serializer\Annotation\Type;
 
-class DeleteProject
+class BlockProject
 {
     /**
      * @var ProjectInterface

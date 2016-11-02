@@ -65,5 +65,31 @@ class ProjectTest extends AbstractInsightlyClientTest
         $this->assertEquals(count($project->getLinks()), 2, 'It correctly returns the number of links');
         $this->assertEquals($project->canDelete(), true, 'It correctly returns the canDelete state');
         $this->assertEquals($project->canEdit(), true, 'It correctly returns the canEdit state');
+
+        $insightlyProject = [
+            'PROJECT_ID' => $project->getId(),
+            'PROJECT_NAME' => $project->getName(),
+            'STATUS' => $project->getStatus(),
+            'PROJECT_DETAILS' => $project->getDetails(),
+            'OPPORTUNITY_ID' => $project->getOpportunityId(),
+            'STARTED_DATE' => !empty($project->getStartedDate()) ? $project->getStartedDate()->format('Y-m-d H:i:s') : null,
+            'COMPLETED_DATE' => !empty($project->getCompletedDate()) ? $project->getCompletedDate()->format('Y-m-d H:i:s') : null,
+            'IMAGE_URL' => $project->getImageUrl(),
+            'RESPONSIBLE_USER_ID' => $project->getResponsibleUserId(),
+            'OWNER_USER_ID' => $project->getOwnerUserId(),
+            'DATE_CREATED_UTC' => !empty($project->getDateCreatedUTC()) ? $project->getDateCreatedUTC()->format('Y-m-d H:i:s') : null,
+            'DATE_UPDATED_UTC' => !empty($project->getDateUpdatedUTC()) ? $project->getDateUpdatedUTC()->format('Y-m-d H:i:s') : null,
+            'CATEGORY_ID' => $project->getCategoryId(),
+            'PIPELINE_ID' => $project->getPipelineId(),
+            'STAGE_ID' => $project->getStageId(),
+            'VISIBLE_TO' => $project->getVisibleTo(),
+            'VISIBLE_TEAM_ID' => $project->getVisibleTeamId(),
+            'VISIBLE_USER_IDS' => $project->getVisibleUserIds(),
+            'CUSTOMFIELDS' => [],
+            'CAN_EDIT' => $project->canEdit(),
+            'CAN_DELETE' => $project->canDelete(),
+        ];
+
+        $this->assertEquals($project->toInsightly(), $insightlyProject, 'It correctly returns an Insightly compatible array');
     }
 }

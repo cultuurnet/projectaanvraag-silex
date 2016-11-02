@@ -2,12 +2,11 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
+use CultuurNet\CulturefeedHttpGuzzle\HttpClient;
 use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
-use Doctrine\Common\Annotations\AnnotationReader;
-use JMS\Serializer\SerializerBuilder;
+use Guzzle\Http\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 
 class CoreProvider implements ServiceProviderInterface
 {
@@ -37,14 +36,16 @@ class CoreProvider implements ServiceProviderInterface
 
         /**
          * Culturefeed HTTP Client adapter for a Guzzle HTTP client.
+         * @param Container $pimple
+         * @return HttpClient
          */
         $pimple['culturefeed_http_client'] = function (Container $pimple) {
-            $httpClient = new \CultuurNet\CulturefeedHttpGuzzle\HttpClient(
+            $httpClient = new HttpClient(
                 $pimple['culturefeed_http_client_guzzle']
             );
 
             if (isset($pimple['config']['httpclient']) && isset($pimple['config']['httpclient']['timeout'])) {
-                $httpClientTimeOut = $app['config']['httpclient']['timeout'];
+                $httpClientTimeOut = $pimple['config']['httpclient']['timeout'];
             } else {
                 $httpClientTimeOut = 30;
             }
@@ -57,7 +58,7 @@ class CoreProvider implements ServiceProviderInterface
          * Guzzle HTTP client.
          */
         $pimple['culturefeed_http_client_guzzle'] = function () {
-            return new \Guzzle\Http\Client();
+            return new Client();
         };
     }
 }

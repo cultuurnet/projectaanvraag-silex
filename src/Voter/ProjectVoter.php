@@ -2,7 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Voter;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -11,10 +12,11 @@ class ProjectVoter extends Voter
 {
     const VIEW = 'view';
     const EDIT = 'edit';
+    const BLOCK = 'block';
 
     /**
      * @param string $attribute
-     * @param Project $project
+     * @param ProjectInterface $project
      * @param TokenInterface $token
      * @return bool
      */
@@ -24,7 +26,7 @@ class ProjectVoter extends Voter
         $user = $token->getUser();
 
         // Allow administrators to perform all operations
-        if ($user->hasRole('administrator')) {
+        if ($user->hasRole(User::USER_ROLE_ADMINISTRATOR)) {
             return true;
         }
 
@@ -39,6 +41,6 @@ class ProjectVoter extends Voter
      */
     protected function supports($attribute, $object)
     {
-        return $object instanceof Project && in_array($attribute, [self::VIEW, self::EDIT]);
+        return $object instanceof ProjectInterface && in_array($attribute, [self::VIEW, self::EDIT]);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
-
     /**
      * Test client request method
      * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
@@ -25,6 +26,34 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $projects, 'It only contains instances of Project');
         $this->assertEquals(100, count($projects), 'It contains 100 items');
+    }
+
+    /**
+     * Test requesting of a single project
+     */
+    public function testGetProject()
+    {
+        $client = $this->getMockClient('getProject.json');
+        $project = $client->getProject(1373034);
+
+        $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $project, 'It correctly returns an Insightly project');
+    }
+
+    /**
+     * Test updating an Insightly project
+     */
+    public function testUpdateProject()
+    {
+        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        $project = $this
+            ->getMockBuilder(Project::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $client = $this->getMockClient('getProject.json');
+        $project = $client->updateProject($project);
+
+        $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $project, 'It correctly returns an Insightly project');
     }
 
     /**
