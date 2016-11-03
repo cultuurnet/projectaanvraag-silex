@@ -12,7 +12,6 @@ use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
-use CultuurNet\UiTIDProvider\Security\Path;
 use Silex\Application as SilexApplication;
 use Silex\Provider\RoutingServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
