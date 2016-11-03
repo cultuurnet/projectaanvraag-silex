@@ -139,11 +139,11 @@ class ProjectController
     }
 
     /**
-     * @param Request $request
+     * @param int $id
      * @return JsonResponse
      * @throws MissingRequiredFieldsException
      */
-    public function blockProject(Request $request, $id)
+    public function blockProject($id)
     {
         $project = $this->projectService->loadProject($id);
 
