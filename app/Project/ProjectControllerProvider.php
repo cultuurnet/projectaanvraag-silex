@@ -12,7 +12,6 @@ use Silex\ControllerCollection;
  */
 class ProjectControllerProvider implements ControllerProviderInterface
 {
-
     public function connect(Application $app)
     {
 

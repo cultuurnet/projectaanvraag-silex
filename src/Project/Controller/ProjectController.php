@@ -22,7 +22,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class ProjectController
 {
-
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -77,6 +76,7 @@ class ProjectController
 
     /**
      * Return the list of projects for current person.
+     * @param Request $request
      * @return JsonResponse
      */
     public function getProjects(Request $request)
@@ -106,12 +106,12 @@ class ProjectController
      */
     public function deleteProject($id)
     {
-        $this->getProjectWithAccessCheck($id, 'edit');
+        $project = $this->getProjectWithAccessCheck($id, 'edit');
 
         /**
          * Dispatch delete project command
          */
-        $this->commandBus->handle(new DeleteProject($id));
+        $this->commandBus->handle(new DeleteProject($project));
 
         return new JsonResponse();
     }
@@ -137,7 +137,15 @@ class ProjectController
             $this->commandBus->handle(new RequestActivation($project));
         }
 
-        return new JsonResponse();
+        if (empty($project)) {
+            throw new NotFoundHttpException('The project was not found');
+        }
+
+        if (!$this->authorizationChecker->isGranted('view', $project)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        return new JsonResponse($project);
     }
 
     /**

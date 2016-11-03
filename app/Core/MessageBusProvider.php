@@ -53,11 +53,9 @@ class MessageBusProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/messagebus.yml'));
 
         $pimple['envelope_serializer'] = function (Container $pimple) {
-            AnnotationRegistry::registerAutoloadNamespace("JMS\Serializer\Annotation", __DIR__ . '/../../vendor/jms/serializer/src');
             $jmsSerializer = SerializerBuilder::create()
                 ->addMetadataDir(SerializerMetadata::directory(), SerializerMetadata::namespacePrefix())
                 ->setAnnotationReader(new AnnotationReader())
@@ -153,6 +151,8 @@ class MessageBusProvider implements ServiceProviderInterface
      *
      * @param array $subscribers
      *   Subscribers to set.
+     * @param Container $pimple
+     * @return NameBasedMessageSubscriberResolver
      */
     private function getEventSubscriberResolver($subscribers, $pimple)
     {
@@ -170,6 +170,8 @@ class MessageBusProvider implements ServiceProviderInterface
 
     /**
      * Register services based on the given yml config.
+     * @param $servicesToCreate
+     * @param $pimple
      */
     private function registerServices($servicesToCreate, $pimple)
     {

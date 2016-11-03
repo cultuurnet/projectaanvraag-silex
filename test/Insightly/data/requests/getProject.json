@@ -1,0 +1,38 @@
+{
+  "PROJECT_ID":1373034,
+  "PROJECT_NAME":"Begeleiding ontwikkeling website voor \"groote oorlog\"",
+  "STATUS":"Abandoned",
+  "PROJECT_DETAILS":"ConceptPMTesting & oplevering",
+  "OPPORTUNITY_ID":null,
+  "STARTED_DATE":"2014-01-02 00:00:00",
+  "COMPLETED_DATE":null,
+  "IMAGE_URL":null,
+  "RESPONSIBLE_USER_ID":410743,
+  "OWNER_USER_ID":531507,
+  "DATE_CREATED_UTC":"2014-06-02 12:01:22",
+  "DATE_UPDATED_UTC":"2016-08-16 12:37:25",
+  "CATEGORY_ID":1256112,
+  "PIPELINE_ID":null,
+  "STAGE_ID":null,
+  "VISIBLE_TO":"EVERYONE",
+  "VISIBLE_TEAM_ID":null,
+  "VISIBLE_USER_IDS":null,
+  "CUSTOMFIELDS":[
+    {
+      "CUSTOM_FIELD_ID":"PROJECT_FIELD_1",
+      "FIELD_VALUE":"Beëindigd"
+    },
+    {
+      "CUSTOM_FIELD_ID":"PROJECT_FIELD_2",
+      "FIELD_VALUE":"2014-01-03 00:00:00"
+    }
+  ],
+  "TAGS":[
+
+  ],
+  "LINKS":[
+
+  ],
+  "CAN_EDIT":true,
+  "CAN_DELETE":true
+}

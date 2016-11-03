@@ -5,8 +5,10 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
+use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
 use Guzzle\Http\ClientInterface;
+use Guzzle\Http\EntityBodyInterface;
 use Guzzle\Http\Message\RequestInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Guzzle\Http\Message\Response;
@@ -92,10 +94,10 @@ class InsightlyClient implements InsightlyClientInterface
      * @param string $method
      * @param string $uri
      * @param ParameterBag $query
-     * @param array $body
+     * @param string|resource|array|EntityBodyInterface $body
      * @return Response
      */
-    private function request($method, $uri, ParameterBag $query = null, $body = [])
+    private function request($method, $uri, ParameterBag $query = null, $body = null)
     {
         $query = empty($query) ? new ParameterBag() : $query;
         $cacheKey = $this->getRequestCacheKey($method, $uri, $query);
@@ -122,54 +124,26 @@ class InsightlyClient implements InsightlyClientInterface
         return GetProjectsResult::parseToResult($this->request(RequestInterface::GET, 'Projects', $query));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getProject($id)
+    {
+        return GetProjectResult::parseToResult($this->request(RequestInterface::GET, 'Projects/' . $id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateProject($project, $options = [])
+    {
+        $query = $this->addQueryFilters($options);
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
+    }
+
     public function getPipelines($options = [])
     {
         $query = $this->addQueryFilters($options);
         return GetPipelinesResult::parseToResult($this->request(RequestInterface::GET, 'Pipelines', $query));
-    }
-
-    public function getPipelineStages($options = [])
-    {
-        // TODO: Implement getPipelineStages() method.
-    }
-
-    public function getContacts($options = [])
-    {
-        // TODO: Implement getContacts() method.
-    }
-
-    public function getProductCategories($options = [])
-    {
-        // TODO: Implement getProductCategories() method.
-    }
-
-    public function getOrganisations($options = [])
-    {
-        // TODO: Implement getOrganisations() method.
-    }
-
-    public function updatePipeline(Pipeline $pipeline)
-    {
-        // TODO: Implement updatePipeline() method.
-    }
-
-    public function updateOrganisation(EntityInterface $organisation)
-    {
-        // TODO: Implement updateOrganisation() method.
-    }
-
-    public function insertProject(EntityInterface $project)
-    {
-        // TODO: Implement insertProject() method.
-    }
-
-    public function insertContact(EntityInterface $contact)
-    {
-        // TODO: Implement insertContact() method.
-    }
-
-    public function insertOrganisation(EntityInterface $organisation)
-    {
-        // TODO: Implement insertOrganisation() method.
     }
 }
