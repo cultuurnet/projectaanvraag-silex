@@ -162,11 +162,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     {
         $project = $this->getMock(ProjectInterface::class);
 
-        $this->request
-            ->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue(null));
-
         $this->projectService
             ->expects($this->any())
             ->method('loadProject')
@@ -183,7 +178,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('handle');
 
-        $response = $this->controller->blockProject($this->request, 1);
+        $response = $this->controller->blockProject(1);
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
     }
 
@@ -194,11 +189,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     public function testBlockProjectException()
     {
         $project = $this->getMock(ProjectInterface::class);
-
-        $this->request
-            ->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue(null));
 
         $this->projectService
             ->expects($this->any())
@@ -216,6 +206,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('handle');
 
-        $this->controller->blockProject($this->request, 1);
+        $this->controller->blockProject(1);
     }
 }
