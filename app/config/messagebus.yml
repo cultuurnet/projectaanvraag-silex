@@ -24,6 +24,14 @@ handlers:
             - orm.em
             - culturefeed_test
             - uitid_user_session_data_complete
+    activate_project_handler:
+        command: CultuurNet\ProjectAanvraag\Project\Command\ActivateProject
+        class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\ActivateProjectCommandHandler
+        arguments:
+          - event_bus
+          - orm.em
+          - culturefeed
+          - uitid_user_session_data_complete
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\DeleteProjectCommandHandler

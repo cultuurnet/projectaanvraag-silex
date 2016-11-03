@@ -12,6 +12,7 @@ class ProjectVoter extends Voter
 {
     const VIEW = 'view';
     const EDIT = 'edit';
+    const ACTIVATE = 'activate';
     const BLOCK = 'block';
 
     /**
@@ -41,6 +42,6 @@ class ProjectVoter extends Voter
      */
     protected function supports($attribute, $object)
     {
-        return $object instanceof ProjectInterface && in_array($attribute, [self::VIEW, self::EDIT, self::BLOCK]);
+        return $object instanceof ProjectInterface && in_array($attribute, [self::VIEW, self::EDIT, self::BLOCK, self::ACTIVATE]);
     }
 }

@@ -305,4 +305,58 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->controller->blockProject(1);
     }
+
+    /**
+     * Test activateProject
+     */
+    public function testActivateProject()
+    {
+        $project = $this->getMock(ProjectInterface::class);
+
+        $this->projectService
+            ->expects($this->any())
+            ->method('loadProject')
+            ->with(1)
+            ->will($this->returnValue($project));
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->with('activate', $project)
+            ->will($this->returnValue(true));
+
+        $this->messageBus
+            ->expects($this->any())
+            ->method('handle');
+
+        $response = $this->controller->activateProject(1);
+        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+    }
+
+    /**
+     * Test activateProject AccessDeniedHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function testActivateProjectException()
+    {
+        $project = $this->getMock(ProjectInterface::class);
+
+        $this->projectService
+            ->expects($this->any())
+            ->method('loadProject')
+            ->with(1)
+            ->will($this->returnValue($project));
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->with('activate', $project)
+            ->will($this->returnValue(false));
+
+        $this->messageBus
+            ->expects($this->any())
+            ->method('handle');
+
+        $this->controller->activateProject(1);
+    }
 }
