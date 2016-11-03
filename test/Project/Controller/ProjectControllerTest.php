@@ -109,9 +109,9 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     {
         $query = new ParameterBag(
             [
-                'name' => 0,
+                'name' => '',
                 'start' => 0,
-                'max' => 0,
+                'max' => 10,
             ]
         );
 
@@ -125,6 +125,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->projectService
             ->expects($this->any())
             ->method('searchProjects')
+            ->with(0, 10, '')
             ->will($this->returnValue($result));
 
         $response = $this->controller->getProjects($this->request);
