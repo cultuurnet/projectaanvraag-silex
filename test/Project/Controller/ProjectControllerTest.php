@@ -259,11 +259,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     {
         $project = $this->getMock(ProjectInterface::class);
 
-        $this->request
-            ->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue(null));
-
         $this->projectService
             ->expects($this->any())
             ->method('loadProject')
@@ -291,11 +286,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     public function testBlockProjectException()
     {
         $project = $this->getMock(ProjectInterface::class);
-
-        $this->request
-            ->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue(null));
 
         $this->projectService
             ->expects($this->any())
