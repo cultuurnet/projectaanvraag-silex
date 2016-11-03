@@ -5,9 +5,10 @@ namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
 
-class ProjectDeletedEventListener
+class ProjectBlockedEventListener
 {
     /**
      * @var InsightlyClientInterface
@@ -15,7 +16,7 @@ class ProjectDeletedEventListener
     protected $insightlyClient;
 
     /**
-     * ProjectDeletedEventListener constructor.
+     * ProjectBlockedEventListener constructor.
      * @param InsightlyClientInterface $insightlyClient
      */
     public function __construct(InsightlyClientInterface $insightlyClient)
@@ -25,20 +26,20 @@ class ProjectDeletedEventListener
 
     /**
      * Handle the command
-     * @param ProjectDeleted $projectDeleted
+     * @param ProjectBlocked $projectBlocked
      * @throws \Exception
      */
-    public function handle($projectDeleted)
+    public function handle($projectBlocked)
     {
         /** @var ProjectInterface $project */
-        $project = $projectDeleted->getProject();
+        $project = $projectBlocked->getProject();
 
         /**
          * Load the project from Insightly
          * @var Project $insightlyProject
          */
         $insightlyProject = $this->insightlyClient->getProject($project->getInsightlyProjectId());
-        $insightlyProject->setStatus(Project::STATUS_ABANDONED);
+        $insightlyProject->setStatus(Project::STATUS_CANCELLED);
 
 
         // Update the Insightly project

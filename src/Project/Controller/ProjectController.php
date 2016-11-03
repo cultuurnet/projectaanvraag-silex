@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
@@ -133,6 +134,27 @@ class ProjectController
          * Dispatch delete project command
          */
         $this->commandBus->handle(new DeleteProject($project));
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
+    public function blockProject($id)
+    {
+        $project = $this->projectService->loadProject($id);
+
+        if (!$this->authorizationChecker->isGranted('block', $project)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        /**
+         * Dispatch block project command
+         */
+        $this->commandBus->handle(new BlockProject($project));
 
         return new JsonResponse();
     }
