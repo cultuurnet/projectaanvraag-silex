@@ -111,11 +111,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->projectService
             ->expects($this->any())
             ->method('loadProject')
+            ->with(1)
             ->will($this->returnValue($project));
 
         $this->authorizationChecker
             ->expects($this->any())
             ->method('isGranted')
+            ->with('edit', $project)
             ->will($this->returnValue(true));
 
         $this->messageBus
@@ -137,11 +139,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->projectService
             ->expects($this->any())
             ->method('loadProject')
+            ->with(1)
             ->will($this->returnValue($project));
 
         $this->authorizationChecker
             ->expects($this->any())
             ->method('isGranted')
+            ->with('edit', $project)
             ->will($this->returnValue(false));
 
         $this->messageBus
@@ -166,11 +170,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->projectService
             ->expects($this->any())
             ->method('loadProject')
+            ->with(1)
             ->will($this->returnValue($project));
 
         $this->authorizationChecker
             ->expects($this->any())
             ->method('isGranted')
+            ->with('block', $project)
             ->will($this->returnValue(true));
 
         $this->messageBus
@@ -197,11 +203,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->projectService
             ->expects($this->any())
             ->method('loadProject')
+            ->with(1)
             ->will($this->returnValue($project));
 
         $this->authorizationChecker
             ->expects($this->any())
             ->method('isGranted')
+            ->with('block', $project)
             ->will($this->returnValue(false));
 
         $this->messageBus

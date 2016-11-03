@@ -33,7 +33,7 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
     protected $cultureFeedTest;
 
     /**
-     * @var DeleteProjectCommandHandler|\PHPUnit_Framework_MockObject_MockObject
+     * @var BlockProjectCommandHandler|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $commandHandler;
 
@@ -93,17 +93,19 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle()
     {
-        $consumer = $this->getMock(\CultureFeed_Consumer::class);
+        $consumer = new \CultureFeed_Consumer();
+        $consumer->status = 'BLOCKED';
+        $consumer->name = $this->project->getName();
 
         $this->cultureFeedTest
             ->expects($this->any())
             ->method('updateServiceConsumer')
-            ->will($this->returnValue($consumer));
+            ->with($consumer);
 
         $this->cultureFeed
             ->expects($this->any())
             ->method('updateServiceConsumer')
-            ->will($this->returnValue($consumer));
+            ->with($consumer);
 
         $blockProject = new BlockProject($this->project);
         $this->commandHandler->handle($blockProject);
@@ -115,17 +117,20 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleException()
     {
-        $consumer = $this->getMock(\CultureFeed_Consumer::class);
+        $consumer = new \CultureFeed_Consumer();
+        $consumer->status = 'BLOCKED';
+        $consumer->name = $this->project->getName();
 
         $this->cultureFeedTest
             ->expects($this->any())
             ->method('updateServiceConsumer')
+            ->with($consumer)
             ->willThrowException(new \CultureFeed_ParseException('CultureFeed parse exception'));
 
         $this->cultureFeed
             ->expects($this->any())
             ->method('updateServiceConsumer')
-            ->will($this->returnValue($consumer));
+            ->with($consumer);
 
         $blockProject = new BlockProject($this->project);
         $this->commandHandler->handle($blockProject);
