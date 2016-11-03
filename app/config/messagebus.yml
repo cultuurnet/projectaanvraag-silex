@@ -1,13 +1,20 @@
 subscribers:
     synchronous:
     asynchronous:
-        CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
-            - example_listener
+        CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
+            - project_deleted_listener
+        CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
+            - project_blocked_listener
 
 listeners:
-    example_listener:
-        class: \CultuurNet\ProjectAanvraag\ExampleListener
-
+    project_deleted_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectDeletedEventListener
+        arguments:
+            - insightly_client
+    project_deleted_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectBlockedEventListener
+        arguments:
+            - insightly_client
 handlers:
     create_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\CreateProject
@@ -21,8 +28,23 @@ handlers:
     activate_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\ActivateProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\ActivateProjectCommandHandler
+
+    delete_project_handler:
+        command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject
+        class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\DeleteProjectCommandHandler
         arguments:
             - event_bus
             - orm.em
             - culturefeed
+            - culturefeed_test
+            - uitid_user_session_data_complete
+
+    block_project_handler:
+        command: CultuurNet\ProjectAanvraag\Project\Command\BlockProject
+        class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\BlockProjectCommandHandler
+        arguments:
+            - event_bus
+            - orm.em
+            - culturefeed
+            - culturefeed_test
             - uitid_user_session_data_complete

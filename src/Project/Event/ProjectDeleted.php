@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
-class ProjectCreated extends ProjectEvent
+class ProjectDeleted extends ProjectEvent
 {
 
 }

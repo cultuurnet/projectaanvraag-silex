@@ -12,7 +12,6 @@ use Silex\ControllerCollection;
  */
 class ProjectControllerProvider implements ControllerProviderInterface
 {
-
     public function connect(Application $app)
     {
 
@@ -27,6 +26,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $controllers->post('/', 'project_controller:createProject');
         $controllers->delete('/{id}', 'project_controller:deleteProject');
         $controllers->get('/{id}/request-activation', 'project_controller:requestActivation');
+        $controllers->get('/{id}/block', 'project_controller:blockProject');
 
         return $controllers;
     }

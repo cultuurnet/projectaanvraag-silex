@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
+use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
@@ -22,7 +23,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class ProjectController
 {
-
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -77,6 +77,7 @@ class ProjectController
 
     /**
      * Return the list of projects for current person.
+     * @param Request $request
      * @return JsonResponse
      */
     public function getProjects(Request $request)
@@ -106,12 +107,29 @@ class ProjectController
      */
     public function deleteProject($id)
     {
-        $this->getProjectWithAccessCheck($id, 'edit');
+        $project = $this->getProjectWithAccessCheck($id, 'edit');
 
         /**
          * Dispatch delete project command
          */
-        $this->commandBus->handle(new DeleteProject($id));
+        $this->commandBus->handle(new DeleteProject($project));
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
+    public function blockProject($id)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'block');
+
+        /**
+         * Dispatch block project command
+         */
+        $this->commandBus->handle(new BlockProject($project));
 
         return new JsonResponse();
     }

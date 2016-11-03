@@ -4,12 +4,12 @@ namespace CultuurNet\ProjectAanvraag\Project\Event;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 
-class ProjectCreatedTest extends \PHPUnit_Framework_TestCase
+class ProjectDeletedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test the ProjectCreated event
+     * Test the ProjectDeleted event
      */
-    public function testProjectCreatedEvent()
+    public function testProjectDeletedEvent()
     {
         /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this
@@ -17,9 +17,9 @@ class ProjectCreatedTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $projectCreated = new ProjectCreated($project);
-        $projectCreated->setProject($project);
+        $projectDeleted = new ProjectDeleted($project);
+        $projectDeleted->setProject($project);
 
-        $this->assertInstanceOf(ProjectInterface::class, $projectCreated->getProject(), 'The project is correctly returned');
+        $this->assertInstanceOf(ProjectInterface::class, $projectDeleted->getProject(), 'The project is correctly returned');
     }
 }

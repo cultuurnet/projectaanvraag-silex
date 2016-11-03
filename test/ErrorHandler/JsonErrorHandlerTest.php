@@ -6,6 +6,8 @@ use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Core\Exception\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -77,6 +79,50 @@ class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test Access Denied exception handle
+     */
+    public function testHandleAccessDeniedException()
+    {
+        $e = new AccessDeniedHttpException('message');
+        $response = $this->handleException($e);
+
+        $this->assertEquals($response, new JsonResponse($e->getMessage(), 403), 'It correctly handles the access denied exception.');
+    }
+
+    /**
+     * Test skip Access Denied exception handle
+     */
+    public function testSkipHandleAccessDeniedException()
+    {
+        $e = new AccessDeniedHttpException();
+        $response = $this->handleException($e, false);
+
+        $this->assertEquals($response, null, 'It correctly skips the handling of the access denied exception.');
+    }
+
+    /**
+     * Test Not found exception handle
+     */
+    public function testHandleNotFoundException()
+    {
+        $e = new NotFoundHttpException('message');
+        $response = $this->handleException($e);
+
+        $this->assertEquals($response, new JsonResponse($e->getMessage(), 404), 'It correctly handles the not found exception.');
+    }
+
+    /**
+     * Test skip Not found exception handle
+     */
+    public function testSkipHandleNotFoundException()
+    {
+        $e = new NotFoundHttpException();
+        $response = $this->handleException($e, false);
+
+        $this->assertEquals($response, null, 'It correctly skips the handling of the not found exception.');
+    }
+
+    /**
      * @param \Exception $e
      * @param bool $isJsonRequest
      * @return null|JsonResponse
@@ -88,8 +134,13 @@ class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('getAcceptableContentTypes')
             ->will($this->returnValue($isJsonRequest ? ['application/json'] : []));
 
-        $handler = $e instanceof ValidationException ? 'handleValidationExceptions' : 'handleException';
+        $handlers = [
+            NotFoundHttpException::class => 'handleNotFoundExceptions',
+            MissingRequiredFieldsException::class => 'handleValidationExceptions',
+            AccessDeniedHttpException::class => 'handleAccessDeniedExceptions',
+        ];
 
+        $handler = !empty($handlers[get_class($e)]) ? $handlers[get_class($e)] : 'handleException';
 
         return  $this->errorHandler->{$handler}($e, $this->request);
     }
