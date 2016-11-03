@@ -280,7 +280,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('handle');
 
-        $response = $this->controller->blockProject($this->request, 1);
+        $response = $this->controller->blockProject(1);
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
     }
 
@@ -313,6 +313,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('handle');
 
-        $this->controller->blockProject($this->request, 1);
+        $this->controller->blockProject(1);
     }
 }
