@@ -24,6 +24,7 @@ handlers:
             - orm.em
             - culturefeed_test
             - uitid_user_session_data_complete
+
     activate_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\ActivateProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\ActivateProjectCommandHandler
@@ -32,6 +33,7 @@ handlers:
           - orm.em
           - culturefeed
           - uitid_user_session_data_complete
+
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\DeleteProjectCommandHandler
@@ -41,6 +43,7 @@ handlers:
             - culturefeed
             - culturefeed_test
             - uitid_user_session_data_complete
+
     block_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\BlockProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\BlockProjectCommandHandler

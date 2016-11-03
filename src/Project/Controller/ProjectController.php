@@ -117,6 +117,24 @@ class ProjectController
     }
 
     /**
+     * @param int $id
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
+    public function blockProject($id)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'block');
+
+        /**
+         * Dispatch block project command
+         */
+        $this->commandBus->handle(new BlockProject($project));
+
+        return new JsonResponse();
+    }
+
+    /**
+     *
      * Request an activation for a project.
      */
     public function requestActivation($id, Request $request)
@@ -198,26 +216,5 @@ class ProjectController
         if (!empty($emptyFields)) {
             throw new MissingRequiredFieldsException('Some required fields are missing: ' . implode(', ', $emptyFields));
         }
-    }
-
-    /**
-     * @param int $id
-     * @return JsonResponse
-     * @throws MissingRequiredFieldsException
-     */
-    public function blockProject($id)
-    {
-        $project = $this->projectService->loadProject($id);
-
-        if (!$this->authorizationChecker->isGranted('block', $project)) {
-            throw new AccessDeniedHttpException();
-        }
-
-        /**
-         * Dispatch block project command
-         */
-        $this->commandBus->handle(new BlockProject($project));
-
-        return new JsonResponse();
     }
 }

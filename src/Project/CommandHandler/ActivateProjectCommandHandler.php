@@ -76,7 +76,6 @@ class ActivateProjectCommandHandler
         $this->entityManager->flush();
 
         // Dispatch the event.
-        $projectCreated = new ProjectActivated($project, $activateProject->getCouponToUse());
-        $this->eventBus->handle($projectCreated);
+        $this->eventBus->handle(new ProjectActivated($project, $activateProject->getCouponToUse()));
     }
 }
