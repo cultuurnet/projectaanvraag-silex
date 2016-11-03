@@ -21,7 +21,6 @@ use JMS\Serializer\Annotation\Exclude;
  */
 class Project implements ProjectInterface
 {
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

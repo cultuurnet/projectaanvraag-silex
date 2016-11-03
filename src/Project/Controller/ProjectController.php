@@ -10,7 +10,6 @@ use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
-use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -135,6 +134,7 @@ class ProjectController
     }
 
     /**
+     *
      * Request an activation for a project.
      */
     public function requestActivation($id, Request $request)
@@ -154,6 +154,27 @@ class ProjectController
 
             $this->commandBus->handle(new RequestActivation($project));
         }
+
+        if (empty($project)) {
+            throw new NotFoundHttpException('The project was not found');
+        }
+
+        if (!$this->authorizationChecker->isGranted('view', $project)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        return new JsonResponse($project);
+    }
+
+    /**
+     * Activate a project.
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function activateProject($id)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'activate');
+        $this->commandBus->handle(new ActivateProject($project));
 
         return new JsonResponse();
     }

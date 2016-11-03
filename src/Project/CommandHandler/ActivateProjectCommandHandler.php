@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
@@ -52,7 +53,7 @@ class ActivateProjectCommandHandler
 
     /**
      * Handle the command
-     * @param CreateProject $createProject
+     * @param ActivateProject $activateProject
      */
     public function handle(ActivateProject $activateProject)
     {
@@ -69,7 +70,7 @@ class ActivateProjectCommandHandler
         $cultureFeedConsumer = $this->cultureFeedLive->createServiceConsumer($createConsumer);
 
         // Update local db.
-        $project->setStatus(Project::PROJECT_STATUS_ACTIVATE);
+        $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);
         $project->setLiveConsumerKey($cultureFeedConsumer->consumerKey);
         $this->entityManager->persist($project);
         $this->entityManager->flush();
