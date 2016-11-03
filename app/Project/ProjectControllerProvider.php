@@ -27,6 +27,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $controllers->delete('/{id}', 'project_controller:deleteProject');
         $controllers->get('/{id}/request-activation', 'project_controller:requestActivation');
         $controllers->get('/{id}/activate', 'project_controller:activateProject');
+        $controllers->get('/{id}/block', 'project_controller:blockProject');
 
         return $controllers;
     }

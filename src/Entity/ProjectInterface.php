@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 interface ProjectInterface extends EntityInterface, \JsonSerializable
 {
     const PROJECT_STATUS_APPLICATION_SENT = 'application_sent';
+    const PROJECT_STATUS_BLOCKED = 'blocked';
 
     /**
      * @return int

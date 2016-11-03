@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Command;
 
-class DeleteProject extends ProjectCommand
+class BlockProject extends ProjectCommand
 {
 
 }

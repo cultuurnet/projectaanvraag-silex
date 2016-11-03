@@ -5,11 +5,11 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
+use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
-use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -198,5 +198,26 @@ class ProjectController
         if (!empty($emptyFields)) {
             throw new MissingRequiredFieldsException('Some required fields are missing: ' . implode(', ', $emptyFields));
         }
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
+    public function blockProject($id)
+    {
+        $project = $this->projectService->loadProject($id);
+
+        if (!$this->authorizationChecker->isGranted('block', $project)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        /**
+         * Dispatch block project command
+         */
+        $this->commandBus->handle(new BlockProject($project));
+
+        return new JsonResponse();
     }
 }

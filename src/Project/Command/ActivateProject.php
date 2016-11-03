@@ -4,13 +4,8 @@ namespace CultuurNet\ProjectAanvraag\Project\Command;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
 
-class ActivateProject
+class ActivateProject extends ProjectCommand
 {
-    /**
-     * @var Project
-     */
-    private $project;
-
     /**
      * @var string
      */
@@ -25,26 +20,9 @@ class ActivateProject
      */
     public function __construct(Project $project, $couponToUse = null)
     {
-        $this->project = $project;
+        parent::__construct($project);
+
         $this->couponToUse = $couponToUse;
-    }
-
-    /**
-     * @return Project
-     */
-    public function getProject()
-    {
-        return $this->project;
-    }
-
-    /**
-     * @param Project $project
-     * @return ActivateProject
-     */
-    public function setProject($project)
-    {
-        $this->project = $project;
-        return $this;
     }
 
     /**

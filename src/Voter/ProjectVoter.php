@@ -13,6 +13,7 @@ class ProjectVoter extends Voter
     const VIEW = 'view';
     const EDIT = 'edit';
     const ACTIVATE = 'activate';
+    const BLOCK = 'block';
 
     /**
      * @param string $attribute
@@ -31,7 +32,7 @@ class ProjectVoter extends Voter
         }
 
         // Allow users to only view and edit their own projects
-        return (self::EDIT === $attribute || self::VIEW) && $project->getUserId() === $user->id;
+        return (self::EDIT === $attribute || self::VIEW === $attribute) && $project->getUserId() === $user->id;
     }
 
     /**
@@ -41,6 +42,6 @@ class ProjectVoter extends Voter
      */
     protected function supports($attribute, $object)
     {
-        return $object instanceof ProjectInterface && in_array($attribute, [self::VIEW, self::EDIT, self::ACTIVATE]);
+        return $object instanceof ProjectInterface && in_array($attribute, [self::VIEW, self::EDIT, self::BLOCK, self::ACTIVATE]);
     }
 }
