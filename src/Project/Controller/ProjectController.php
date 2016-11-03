@@ -141,6 +141,19 @@ class ProjectController
     }
 
     /**
+     * Activate a project.
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function activateProject($id)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'activate');
+        $this->commandBus->handle(new ActivateProject($project));
+
+        return new JsonResponse();
+    }
+
+    /**
      * Load a project and check if user has access for given operation.
      * @param $id
      * @return Project

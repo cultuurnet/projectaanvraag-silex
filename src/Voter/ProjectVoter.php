@@ -11,6 +11,7 @@ class ProjectVoter extends Voter
 {
     const VIEW = 'view';
     const EDIT = 'edit';
+    const ACTIVATE = 'activate';
 
     /**
      * @param string $attribute
@@ -39,6 +40,6 @@ class ProjectVoter extends Voter
      */
     protected function supports($attribute, $object)
     {
-        return $object instanceof Project && in_array($attribute, [self::VIEW, self::EDIT]);
+        return $object instanceof Project && in_array($attribute, [self::VIEW, self::EDIT, self::ACTIVATE]);
     }
 }

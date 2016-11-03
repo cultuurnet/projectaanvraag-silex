@@ -52,7 +52,7 @@ class ActivateProjectCommandHandler
 
     /**
      * Handle the command
-     * @param CreateProject $createProject
+     * @param ActivateProject $activateProject
      */
     public function handle(ActivateProject $activateProject)
     {
