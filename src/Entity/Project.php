@@ -22,9 +22,6 @@ use JMS\Serializer\Annotation\Exclude;
 class Project implements ProjectInterface
 {
 
-    const PROJECT_STATUS_APPLICATION_SENT = 'application_sent';
-    const PROJECT_STATUS_ACTIVATE = 'active';
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
