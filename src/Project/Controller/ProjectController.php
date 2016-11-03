@@ -105,12 +105,12 @@ class ProjectController
     {
         $project = $this->projectService->loadProject($id);
 
-        if (!$this->authorizationChecker->isGranted('view', $project)) {
-            throw new AccessDeniedHttpException();
-        }
-
         if (empty($project)) {
             throw new NotFoundHttpException('The project was not found');
+        }
+
+        if (!$this->authorizationChecker->isGranted('view', $project)) {
+            throw new AccessDeniedHttpException();
         }
 
         return new JsonResponse($project);

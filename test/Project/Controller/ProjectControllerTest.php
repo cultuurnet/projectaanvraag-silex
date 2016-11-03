@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -99,6 +100,101 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->method('handle');
 
         $this->controller->createProject($this->request);
+    }
+
+    /**
+     * Test getProjects
+     */
+    public function testGetProjects()
+    {
+        $query = new ParameterBag(
+            [
+                'name' => 0,
+                'start' => 0,
+                'max' => 0,
+            ]
+        );
+
+        $this->request->query = $query;
+
+        $result = [
+            'total' => 0,
+            'results' => [],
+        ];
+
+        $this->projectService
+            ->expects($this->any())
+            ->method('searchProjects')
+            ->will($this->returnValue($result));
+
+        $response = $this->controller->getProjects($this->request);
+        $this->assertEquals(new JsonResponse($result), $response, 'It correctly searches the projects');
+    }
+
+    /**
+     * Test getProject
+     */
+    public function testGetProject()
+    {
+        $project = $this->getMock(ProjectInterface::class);
+
+        $this->request
+            ->expects($this->any())
+            ->method('getContent')
+            ->will($this->returnValue(null));
+
+        $this->projectService
+            ->expects($this->any())
+            ->method('loadProject')
+            ->will($this->returnValue($project));
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->will($this->returnValue(true));
+
+        $response = $this->controller->getProject(1);
+        $this->assertEquals(new JsonResponse($project), $response, 'It correctly fetches the project');
+    }
+
+    /**
+     * Test getProject AccessDeniedHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function testGetProjectAccessDeniedException()
+    {
+        $project = $this->getMock(ProjectInterface::class);
+
+        $this->projectService
+            ->expects($this->any())
+            ->method('loadProject')
+            ->will($this->returnValue($project));
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->will($this->returnValue(false));
+
+        $this->controller->getProject(1);
+    }
+
+    /**
+     * Test getProject NotFoundHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function testGetProjectNotFoundHttpException()
+    {
+        $this->projectService
+            ->expects($this->any())
+            ->method('loadProject')
+            ->will($this->returnValue(null));
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->will($this->returnValue(true));
+
+        $this->controller->getProject(1);
     }
 
     /**

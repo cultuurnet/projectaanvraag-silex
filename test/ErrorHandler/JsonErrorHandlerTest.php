@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Core\Exception\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -100,6 +101,28 @@ class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test Not found exception handle
+     */
+    public function testHandleNotFoundException()
+    {
+        $e = new NotFoundHttpException('message');
+        $response = $this->handleException($e);
+
+        $this->assertEquals($response, new JsonResponse($e->getMessage(), 404), 'It correctly handles the not found exception.');
+    }
+
+    /**
+     * Test skip Not found exception handle
+     */
+    public function testSkipHandleNotFoundException()
+    {
+        $e = new NotFoundHttpException();
+        $response = $this->handleException($e, false);
+
+        $this->assertEquals($response, null, 'It correctly skips the handling of the not found exception.');
+    }
+
+    /**
      * @param \Exception $e
      * @param bool $isJsonRequest
      * @return null|JsonResponse
@@ -112,6 +135,7 @@ class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isJsonRequest ? ['application/json'] : []));
 
         $handlers = [
+            NotFoundHttpException::class => 'handleNotFoundExceptions',
             MissingRequiredFieldsException::class => 'handleValidationExceptions',
             AccessDeniedHttpException::class => 'handleAccessDeniedExceptions',
         ];

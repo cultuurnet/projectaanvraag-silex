@@ -19,6 +19,7 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Symfony\Component\Security\Core\Role\RoleHierarchy;
@@ -49,6 +50,13 @@ class WebApplication extends ApplicationBase
             $this->error(
                 function (ValidationException $e, Request $request) use ($errorHandler) {
                     return $errorHandler->handleValidationExceptions($e, $request);
+                }
+            );
+
+            // Not found exceptions (404)
+            $this->error(
+                function (NotFoundHttpException $e, Request $request) use ($errorHandler) {
+                    return $errorHandler->handleNotFoundExceptions($e, $request);
                 }
             );
 
