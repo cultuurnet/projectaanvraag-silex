@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
+use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
@@ -130,11 +131,10 @@ class ProjectController
          */
         $this->commandBus->handle(new BlockProject($project));
 
-        return new JsonResponse();
+        return new JsonResponse($project);
     }
 
     /**
-     *
      * Request an activation for a project.
      */
     public function requestActivation($id, Request $request)
@@ -142,22 +142,23 @@ class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
 
         $postedData = json_decode($request->getContent());
-        $postedData = new \stdClass();
-        $postedData->coupon = 'test';
         if (!empty($postedData->coupon)) {
             // validate coupon.
             // $this->couponVa..
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
             $this->validateRequiredFields(
-                ['street', 'number', 'postal', 'city'],
+                ['name', 'street', 'number', 'postal', 'city'],
                 $postedData
             );
 
-            $this->commandBus->handle(new RequestActivation($project));
+            $vat = !empty($postedData->identifier) ? $postedData->identifier : '';
+
+            $address = new Address($postedData->street, $postedData->number, $postedData->postal, $postedData->city);
+            $this->commandBus->handle(new RequestActivation($project, $postedData->email, $postedData->name, $address, $vat));
         }
 
-        return new JsonResponse();
+        return new JsonResponse($project);
     }
 
     /**

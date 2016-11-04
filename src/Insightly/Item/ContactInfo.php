@@ -4,8 +4,10 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializable;
 
-class ContactInfo implements \JsonSerializable, InsightlySerializable
+class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializable
 {
+
+    const TYPE_EMAIL = 'email';
 
     /**
      * @var string
@@ -94,10 +96,13 @@ class ContactInfo implements \JsonSerializable, InsightlySerializable
      */
     public function toInsightly()
     {
-        return [
+        $data = [
+            'CONTACT_INFO_ID' => $this->getId(),
             'TYPE' => $this->getType(),
             'LABEL' => $this->getLabel(),
             'DETAIL' => $this->getDetail(),
         ];
+
+        return array_filter($data);
     }
 }

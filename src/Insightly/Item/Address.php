@@ -8,6 +8,11 @@ class Address implements \JsonSerializable, InsightlySerializable
 {
 
     /**
+     * @var int
+     */
+    protected $id;
+
+    /**
      * @var string
      */
     protected $type;
@@ -26,6 +31,24 @@ class Address implements \JsonSerializable, InsightlySerializable
      * @var string
      */
     protected $postal;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Address
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * @return string

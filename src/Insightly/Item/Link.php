@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-class Link extends Entity
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializable;
+
+class Link extends Entity implements InsightlySerializable
 {
     /**
      * @var int
@@ -187,4 +189,26 @@ class Link extends Entity
         $this->details = $details;
         return $this;
     }
+
+    /**
+     * {@einheritdoc}
+     */
+    public function toInsightly()
+    {
+        $data = [
+            'LINK_ID' => $this->getId(),
+            'CONTACT_ID' => $this->getContactId(),
+            'OPPORTUNITY_ID' => $this->getOpportunityId(),
+            'ORGANISATION_ID' => $this->getOrganisationId(),
+            'PROJECT_ID' => $this->getProjectId(),
+            'SECOND_PROJECT_ID' => $this->getSecondProjectId(),
+            'SECOND_OPPORTUNITY_ID' => $this->getSecondOpportunityId(),
+            'ROLE' => $this->getRole(),
+            'DETAILS' => $this->getDetails()
+        ];
+
+        return array_filter($data);
+    }
+
+
 }

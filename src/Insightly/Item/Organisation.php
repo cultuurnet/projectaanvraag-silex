@@ -16,14 +16,21 @@ class Organisation extends PrimaryEntityBase
     protected $background;
 
     /**
-     * @var Address[]
+     * @var EntityList
      */
     protected $addresses;
 
     /**
-     * @var ContactInfo[]
+     * @var EntityList
      */
     protected $contactInfo;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->contactInfo = new EntityList();
+        $this->addresses = new EntityList();
+    }
 
     /**
      * @return string
@@ -62,7 +69,7 @@ class Organisation extends PrimaryEntityBase
     }
 
     /**
-     * @return \CultuurNet\ProjectAanvraag\Address[]
+     * @return EntityList
      */
     public function getAddresses()
     {
@@ -70,7 +77,7 @@ class Organisation extends PrimaryEntityBase
     }
 
     /**
-     * @param \CultuurNet\ProjectAanvraag\Address[] $addresses
+     * @param EntityList $addresses
      * @return Organisation
      */
     public function setAddresses($addresses)
@@ -80,16 +87,7 @@ class Organisation extends PrimaryEntityBase
     }
 
     /**
-     * Add an address.
-     * @param Address $address
-     */
-    public function addAddress(Address $address)
-    {
-        $this->addresses[] = $address;
-    }
-
-    /**
-     * @return ContactInfo[]
+     * @return EntityList
      */
     public function getContactInfo()
     {
@@ -97,12 +95,51 @@ class Organisation extends PrimaryEntityBase
     }
 
     /**
-     * @param ContactInfo[] $contactInfo
+     * @param EntityList
      * @return Organisation
      */
     public function setContactInfo($contactInfo)
     {
         $this->contactInfo = $contactInfo;
         return $this;
+    }
+
+    /**
+     * Add contact info.
+     * @param ContactInfo $contactInfo
+     */
+    public function addContactInfo($contactInfo)
+    {
+        $this->contactInfo[] = $contactInfo;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toInsightly()
+    {
+        $addresses = [];
+        foreach ($this->addresses as $address)
+        {
+            $addresses[] = $address->toInsightly();
+        }
+
+        $contactInfo = [];
+        foreach ($this->contactInfo as $info)
+        {
+            $contactInfo[] = $info->toInsightly();
+        }
+
+        $data = parent::toInsightly();
+
+        $data += [
+            'ORGANISATION_ID' => $this->getId(),
+            'ORGANISATION_NAME' => $this->getName(),
+            'BACKGROUND' => $this->getBackground(),
+            'ADDRESSES' => $addresses,
+            'CONTACTINFOS' => $contactInfo
+        ];
+
+        return array_filter($data);
     }
 }

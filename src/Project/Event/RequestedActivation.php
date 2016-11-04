@@ -1,40 +1,40 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\Project\Command;
+namespace CultuurNet\ProjectAanvraag\Project\Event;
 
-use CultuurNet\ProjectAanvraag\Address;
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use JMS\Serializer\Annotation\Type;
 
-/**
- * Request activation command.
- */
-class RequestActivation extends ProjectCommand
+class RequestedActivation extends ProjectEvent
 {
-
     /**
+     * @Type("string")
      * @var string
      */
     private $name;
 
     /**
+     * @Type("string")
      * @var string
      */
     private $email;
 
     /**
+     * @Type("CultuurNet\ProjectAanvraag\Address")
      * @var Address
      */
     private $address;
 
     /**
+     * @Type("string")
      * @var string
      */
     private $vatNumber;
 
     /**
-     * RequestActivation constructor.
+     * ProjectActivated constructor.
      * @param ProjectInterface $project
+     *   Project that was requested to activated
      * @param $email
      * @param $name
      * @param $address
@@ -43,6 +43,7 @@ class RequestActivation extends ProjectCommand
     public function __construct(ProjectInterface $project, $email, $name, $address, $vatNumber)
     {
         parent::__construct($project);
+
         $this->email = $email;
         $this->name = $name;
         $this->address = $address;

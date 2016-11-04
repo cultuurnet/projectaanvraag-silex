@@ -25,6 +25,25 @@ class OrganisationParser extends PrimaryEntityParser implements ParserInterface
         $organisation->setId($data['ORGANISATION_ID']);
         $organisation->setName($data['ORGANISATION_NAME']);
 
+        // Parse contact info
+        if (!empty($data['CONTACTINFOS'])) {
+            $contactList = new EntityList();
+            foreach ($data['CONTACTINFOS'] as $item) {
+                $contactList->append(ContactInfoParser::parseToResult($item));
+            }
+
+            $organisation->setContactInfo($contactList);
+        }
+
+        // Parse contact info
+        if (!empty($data['ADDRESSES'])) {
+            $addressList = new EntityList();
+            foreach ($data['ADDRESSES'] as $item) {
+                $addressList->append(AddressParser::parseToResult($item));
+            }
+            $organisation->setAddresses($addressList);
+        }
+
         return $organisation;
     }
 }

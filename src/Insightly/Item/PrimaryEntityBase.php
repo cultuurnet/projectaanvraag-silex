@@ -67,7 +67,13 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
     /**
      * @var array
      */
-    protected $customFields;
+    protected $customFields = [];
+
+    public function __construct()
+    {
+        $this->links = new EntityList();
+        $this->tags = new EntityList();
+    }
 
     /**
      * @return string
@@ -250,6 +256,24 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
     }
 
     /**
+     * Add a link.
+     */
+    public function addLink(Link $link)
+    {
+        $this->links[] = $link;
+    }
+
+    /**
+     * Remove a link.
+     * @var key
+     *   Index to unset.
+     */
+    public function removeLink($key)
+    {
+        unset($this->links[$key]);
+    }
+
+    /**
      * @return boolean
      */
     public function canEdit()
@@ -352,6 +376,12 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
             ];
         }
 
+        $links = [];
+        foreach ($this->links as $link)
+        {
+            $links[] = $link->toInsightly();
+        }
+
         return [
             'IMAGE_URL' => $this->getImageUrl(),
             'OWNER_USER_ID' => $this->getOwnerUserId(),
@@ -363,6 +393,7 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
             'CUSTOMFIELDS' => $customFields,
             'CAN_EDIT' => $this->canEdit(),
             'CAN_DELETE' => $this->canDelete(),
+            'LINKS' => $links,
         ];
 
     }
