@@ -121,7 +121,7 @@ class InsightlyClient implements InsightlyClientInterface
                 'Content-Type' => 'application/json',
             ];
 
-            $response = $this->guzzleClient->createRequest($method, $uri, $headers, json_encode($body), $options)->send();
+            $response = $this->guzzleClient->createRequest($method, $uri, $headers, $body, $options)->send();
             if (!$cacheKey) {
                 return $response;
             }
@@ -156,7 +156,7 @@ class InsightlyClient implements InsightlyClientInterface
     public function updateProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, $project->toInsightly()));
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
     }
 
     public function getPipelines($options = [])
@@ -177,6 +177,6 @@ class InsightlyClient implements InsightlyClientInterface
             ]
         ];
 
-        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $project->getId() . '/Pipeline', null, $data));
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $project->getId() . '/PipelineStage', null, json_encode($data)));
     }
 }

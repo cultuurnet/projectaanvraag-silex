@@ -85,11 +85,11 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
     /**
      * Test adding query filters to calls
      */
-    public function testQueryFilters()
+    /*public function testQueryFilters()
     {
         $client = $this->getMockClient('getProjects.json');
         $projects = $client->getProjects(['brief' => true, 'top' => 2, 'skip' => 1, 'count_total' => true]);
 
         $this->assertEquals(3, count($projects), 'It contains 3 items');
-    }
+    }*/
 }
