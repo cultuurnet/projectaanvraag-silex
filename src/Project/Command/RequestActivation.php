@@ -8,12 +8,8 @@ use CultuurNet\ProjectAanvraag\Entity\Project;
 /**
  * Request activation command.
  */
-class RequestActivation
+class RequestActivation extends ProjectCommand
 {
-    /**
-     * @var Project
-     */
-    private $project;
 
     /**
      * @var string
@@ -45,29 +41,11 @@ class RequestActivation
      */
     public function __construct(Project $project, $email, $name, $address, $vatNumber)
     {
-        $this->project = $project;
+        parent::__construct($project);
         $this->email = $email;
         $this->name = $name;
         $this->address = $address;
         $this->vatNumber = $vatNumber;
-    }
-
-    /**
-     * @return Project
-     */
-    public function getProject()
-    {
-        return $this->project;
-    }
-
-    /**
-     * @param Project $project
-     * @return ActivateProject
-     */
-    public function setProject($project)
-    {
-        $this->project = $project;
-        return $this;
     }
 
     /**

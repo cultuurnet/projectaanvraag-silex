@@ -59,7 +59,7 @@ class ConsumeCommand extends Command
 
         $callback = function ($msg) use ($consumer, $output) {
             try {
-                $output->writeln(" [x] Received ", $msg->body);
+                $output->writeln(' [x] Received ' . $msg->body);
                 $consumer->execute($msg);
             } catch (\Throwable $e) {
                 print $e->getMessage();

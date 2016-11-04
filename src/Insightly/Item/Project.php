@@ -122,6 +122,11 @@ class Project extends Entity
     protected $canDelete;
 
     /**
+     * @var array
+     */
+    protected $customFields;
+
+    /**
      * @return string
      */
     public function getName()
@@ -500,6 +505,45 @@ class Project extends Entity
     }
 
     /**
+     * @return array
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
+    /**
+     * @param array $customFields
+     * @return Project
+     */
+    public function setCustomFields($customFields)
+    {
+        $this->customFields = $customFields;
+        return $this;
+    }
+
+    /**
+     * Add a custom field.
+     * @param $key
+     *   Key to add
+     * @param $value
+     *   Value for the custom field.
+     */
+    public function addCustomField($key, $value)
+    {
+        $this->customFields[$key] = $value;
+    }
+
+    /**
+     * Delete a custom field.
+     * @param $name
+     *   Key to remove
+     */
+    public function deleteCustomField($key) {
+        unset($this->customFields[$key]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
@@ -519,6 +563,15 @@ class Project extends Entity
      */
     public function toInsightly()
     {
+
+        $customFields = [];
+        foreach ($this->customFields as $key => $value) {
+            $customFields[] = [
+                'CUSTOM_FIELD_ID' => $key,
+                'FIELD_VALUE' => $value
+            ];
+        }
+
         return [
             'PROJECT_ID' => $this->getId(),
             'PROJECT_NAME' => $this->getName(),
@@ -538,7 +591,7 @@ class Project extends Entity
             'VISIBLE_TO' => $this->getVisibleTo(),
             'VISIBLE_TEAM_ID' => $this->getVisibleTeamId(),
             'VISIBLE_USER_IDS' => $this->getVisibleUserIds(),
-            'CUSTOMFIELDS' => [],
+            'CUSTOMFIELDS' => $customFields,
             'CAN_EDIT' => $this->canEdit(),
             'CAN_DELETE' => $this->canDelete(),
         ];

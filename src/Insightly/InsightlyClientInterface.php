@@ -44,4 +44,17 @@ interface InsightlyClientInterface
      * @return EntityList
      */
     public function getPipelines($options = []);
+
+    /**
+     * Update the pipeline stage for a given project.
+     *
+     * @param $project
+     *   Project to update.
+     * @param $pipelineId
+     *   ID of the pipeline to update.
+     * @param $newStageId
+     *   Id of the new stage.
+     * @return Project
+     */
+    public function updateProjectPipelineStage(Project $project, $pipelineId, $newStageId);
 }

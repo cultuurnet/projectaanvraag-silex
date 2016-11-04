@@ -85,7 +85,16 @@ class ProjectTest extends AbstractInsightlyClientTest
             'VISIBLE_TO' => $project->getVisibleTo(),
             'VISIBLE_TEAM_ID' => $project->getVisibleTeamId(),
             'VISIBLE_USER_IDS' => $project->getVisibleUserIds(),
-            'CUSTOMFIELDS' => [],
+            'CUSTOMFIELDS' => [
+                [
+                    'CUSTOM_FIELD_ID' => 'PROJECT_FIELD_1',
+                    'FIELD_VALUE' => 'Beëindigd',
+                ],
+                [
+                    'CUSTOM_FIELD_ID' => 'PROJECT_FIELD_2',
+                    'FIELD_VALUE' => '2014-01-03 00:00:00',
+                ],
+            ],
             'CAN_EDIT' => $project->canEdit(),
             'CAN_DELETE' => $project->canDelete(),
         ];

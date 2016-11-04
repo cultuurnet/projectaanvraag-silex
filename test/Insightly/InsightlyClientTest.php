@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use Guzzle\Http\Client;
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
@@ -66,6 +67,19 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline', $pipelines, 'It only contains instances of Pipeline');
         $this->assertEquals(6, count($pipelines), 'It contains 6 items');
+    }
+
+    /**
+     * Test updates of project pipeline stages.
+     */
+    public function testUpdateProjectPipelineStage()
+    {
+        $client = $this->getMockClient('getProject.json');
+
+        $project = new Project();
+        $client->updateProjectPipelineStage($project, 'pipelineId', 'stageId');
+
+        $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $project, 'It correctly returns an Insightly project');
     }
 
     /**

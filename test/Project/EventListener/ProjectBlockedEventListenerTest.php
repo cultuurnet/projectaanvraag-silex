@@ -30,7 +30,7 @@ class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventListener = new ProjectBlockedEventListener($this->insightlyClient);
+        $this->eventListener = new ProjectBlockedEventListener($this->insightlyClient, []);
     }
 
     /**
