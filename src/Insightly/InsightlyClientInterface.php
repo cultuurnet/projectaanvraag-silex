@@ -2,9 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 
 interface InsightlyClientInterface
@@ -27,7 +26,7 @@ interface InsightlyClientInterface
     public function getProject($id);
 
     /**
-     * Gets a list of projects
+     * Update a project
      *
      * @param Project $project
      * @param array $options
@@ -35,6 +34,14 @@ interface InsightlyClientInterface
      * @return Project
      */
     public function updateProject($project, $options = []);
+
+    /**
+     * Creates a contact
+     *
+     * @param Contact $contact
+     * @return Contact
+     */
+    public function createContact($contact);
 
     /**
      * Gets a list of pipelines

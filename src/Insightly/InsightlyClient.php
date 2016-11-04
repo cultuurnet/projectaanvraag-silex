@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
+use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
@@ -141,6 +142,17 @@ class InsightlyClient implements InsightlyClientInterface
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function createContact($contact)
+    {
+        return GetContactResult::parseToResult($this->request(RequestInterface::POST, 'Contacts', null, json_encode($contact->toInsightly())));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPipelines($options = [])
     {
         $query = $this->addQueryFilters($options);

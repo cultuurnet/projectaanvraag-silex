@@ -3,10 +3,10 @@
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\User;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
-use CultuurNet\ProjectAanvraag\User\User;
-use CultuurNet\ProjectAanvraag\User\UserInterface;
+use CultuurNet\ProjectAanvraag\User\UserInterface as UitIdUserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
@@ -28,7 +28,7 @@ class CreateProjectCommandHandler
     protected $cultureFeedTest;
 
     /**
-     * @var UserInterface
+     * @var UitIdUserInterface
      */
     protected $user;
 
@@ -37,9 +37,9 @@ class CreateProjectCommandHandler
      * @param MessageBusSupportingMiddleware $eventBus
      * @param EntityManagerInterface $entityManager
      * @param \ICultureFeed $cultureFeedTest
-     * @param User $user
+     * @param UitIdUserInterface $user
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, User $user)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, UitIdUserInterface $user)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
@@ -54,15 +54,19 @@ class CreateProjectCommandHandler
      */
     public function handle(CreateProject $createProject)
     {
-        // 1. Create a test consumer
-        $createConsumer = new \CultureFeed_Consumer();
+        // 1. Create a test service consumer
+        /*$createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
         $createConsumer->description = $createProject->getDescription();
-        $createConsumer->group = [5, $createProject->getIntegrationType()];
+        $createConsumer->group = [5, $createProject->getIntegrationType()];*/
 
-        // Try the service call
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
-        $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
+        //$cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
+
+        $cultureFeedConsumer = new \CultureFeed_Consumer();
+        $cultureFeedConsumer->name = $createProject->getName();
+        $cultureFeedConsumer->consumerKey = 'key';
+        $cultureFeedConsumer->consumerSecret = 'secret';
 
         // 2. Save the project to the local database
         $project = new Project();
@@ -75,10 +79,24 @@ class CreateProjectCommandHandler
         $project->setUserId($this->user->id);
 
         $this->entityManager->persist($project);
+
+        // 3. Create a local user if needed
+        $localUser = $this->entityManager->getRepository('ProjectAanvraag:User')->find($project->getUserId());
+        if (empty($localUser)) {
+            $localUser = new User($this->user->id);
+            $this->entityManager->persist($localUser);
+        }
+
         $this->entityManager->flush();
 
-        // 3. Dispatch the ProjectCreated event
-        $projectCreated = new ProjectCreated($project);
+        // 4. Add additional user info
+        $localUser->setFirstName($this->user->givenName);
+        $localUser->setLastName($this->user->familyName);
+        $localUser->setEmail($this->user->mbox);
+        $localUser->setNick($this->user->nick);
+
+        // 5. Dispatch the ProjectCreated event
+        $projectCreated = new ProjectCreated($project, $localUser);
         $this->eventBus->handle($projectCreated);
     }
 }
