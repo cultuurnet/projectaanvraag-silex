@@ -142,6 +142,8 @@ class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
 
         $postedData = json_decode($request->getContent());
+        $postedData = new \stdClass();
+        $postedData->coupon = 'test';
         if (!empty($postedData->coupon)) {
             // validate coupon.
             // $this->couponVa..
@@ -155,15 +157,7 @@ class ProjectController
             $this->commandBus->handle(new RequestActivation($project));
         }
 
-        if (empty($project)) {
-            throw new NotFoundHttpException('The project was not found');
-        }
-
-        if (!$this->authorizationChecker->isGranted('view', $project)) {
-            throw new AccessDeniedHttpException();
-        }
-
-        return new JsonResponse($project);
+        return new JsonResponse();
     }
 
     /**

@@ -29,7 +29,7 @@ class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventListener = new ProjectDeletedEventListener($this->insightlyClient);
+        $this->eventListener = new ProjectDeletedEventListener($this->insightlyClient, []);
     }
 
     /**

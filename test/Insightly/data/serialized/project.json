@@ -1,36 +1,40 @@
 {
-  "id":1373034,
-  "name":"Begeleiding ontwikkeling website voor \u0022groote oorlog\u0022",
-  "status":"ABANDONED",
-  "details":"ConceptPMTesting \u0026 oplevering",
-  "opportunityId":null,
-  "startedDate":{
-    "date":"2014-01-02 00:00:00.000000",
-    "timezone_type":3,
-    "timezone":"UTC"
+  "id": 1,
+  "name": "Test",
+  "status": "ABANDONED",
+  "details": "ConceptPMTesting & oplevering",
+  "opportunityId": null,
+  "startedDate": {
+    "date": "2014-01-02 00:00:00.000000",
+    "timezone_type": 3,
+    "timezone": "UTC"
   },
-  "completedDate":null,
-  "imageUrl":null,
-  "responsibleUserId":410743,
-  "ownerUserId":531507,
-  "dateCreatedUTC":{
-    "date":"2014-06-02 12:01:22.000000",
-    "timezone_type":3,
-    "timezone":"UTC"
+  "completedDate": null,
+  "imageUrl": null,
+  "responsibleUserId": 1,
+  "ownerUserId": 1,
+  "dateCreatedUTC": {
+    "date": "2014-06-02 12:01:22.000000",
+    "timezone_type": 3,
+    "timezone": "UTC"
   },
-  "dateUpdatedUTC":{
-    "date":"2016-08-16 12:37:25.000000",
-    "timezone_type":3,
-    "timezone":"UTC"
+  "dateUpdatedUTC": {
+    "date": "2016-08-16 12:37:25.000000",
+    "timezone_type": 3,
+    "timezone": "UTC"
   },
-  "categoryId":1256112,
-  "pipelineId":null,
-  "stageId":null,
-  "visibleTo":"EVERYONE",
-  "visibleTeamId":null,
-  "visibleUserIds":null,
-  "tags":null,
-  "links":null,
-  "canEdit":true,
-  "canDelete":true
+  "categoryId": 1256112,
+  "pipelineId": null,
+  "stageId": null,
+  "visibleTo": "EVERYONE",
+  "visibleTeamId": null,
+  "visibleUserIds": null,
+  "tags": null,
+  "links": null,
+  "canEdit": true,
+  "canDelete": true,
+  "customFields": {
+    "PROJECT_FIELD_1": "Beëindigd",
+    "PROJECT_FIELD_2": "2014-01-03 00:00:00"
+  }
 }

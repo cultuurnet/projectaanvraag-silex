@@ -75,6 +75,7 @@ class ApplicationBase extends SilexApplication
             [
                 'insightly.host' => $this['config']['insightly']['host'],
                 'insightly.api_key' => $this['config']['insightly']['api_key'],
+                'insightly.project_config' => $this['config']['insightly']['project_config'],
             ]
         );
 

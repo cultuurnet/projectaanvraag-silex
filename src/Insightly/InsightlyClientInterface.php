@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 
 interface InsightlyClientInterface
@@ -51,4 +52,23 @@ interface InsightlyClientInterface
      * @return EntityList
      */
     public function getPipelines($options = []);
+
+    /**
+     * Update the pipeline stage for a given project id.
+     *
+     * @param $projectId
+     *   Project id to update.
+     * @param $pipelineId
+     *   ID of the pipeline to update.
+     * @param $newStageId
+     *   Id of the new stage.
+     * @return Project
+     */
+    public function updateProjectPipelineStage($projectId, $pipelineId, $newStageId);
+
+    /**
+     * @param $organisation
+     * @return Organisation
+     */
+    public function createOrganisation(Organisation $organisation);
 }
