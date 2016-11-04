@@ -1,0 +1,66 @@
+<?php
+
+namespace CultuurNet\ProjectAanvraag\Project\EventListener;
+
+use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+
+/**
+ * Abstract event listener for project crud actions to insighlty.
+ */
+abstract class ProjectCrudEventListener
+{
+
+    /**
+     * @var InsightlyClientInterface
+     */
+    protected $insightlyClient;
+
+    /**
+     * @var \CultuurNet\ProjectAanvraag\Insightly\Item\Project
+     */
+    protected $insightlyProject;
+
+    /**
+     * @var  array
+     */
+    protected $insightlyConfig;
+
+    /**
+     * ProjectCrudEventListener constructor.
+     * @param InsightlyClientInterface $insightlyClient
+     * @param array $insightlyConfig
+     */
+    public function __construct(InsightlyClientInterface $insightlyClient, $insightlyConfig)
+    {
+        $this->insightlyClient = $insightlyClient;
+        $this->insightlyConfig = $insightlyConfig;
+    }
+
+    /**
+     * Load the insightly project.
+     * @param Project $project
+     */
+    protected function loadInsightlyProject(ProjectEvent $projectEvent)
+    {
+        $this->insightlyProject = $this->insightlyClient->getProject($projectEvent->getProject()->getInsightlyProjectId());
+    }
+
+    /**
+     * Save the insightly project.
+     */
+    protected function saveInsightlyProject()
+    {
+        $this->insightlyClient->updateProject($this->insightlyProject);
+    }
+
+    /**
+     * Update the pipeline stage for current project.
+     */
+    protected function updatePipelineStage($stageId)
+    {
+        $this->insightlyProject = $this->insightlyClient->updateProjectPipelineStage($this->insightlyProject->getId(), $this->insightlyConfig['pipeline'], $stageId);
+    }
+
+}

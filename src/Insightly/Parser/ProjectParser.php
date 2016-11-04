@@ -64,6 +64,13 @@ class ProjectParser implements ParserInterface
             $project->setLinks($linkList);
         }
 
+        // Parse custom fields.
+        if (!empty($data['CUSTOMFIELDS'])) {
+            foreach ($data['CUSTOMFIELDS'] as $customField) {
+                $project->addCustomField($customField['CUSTOM_FIELD_ID'], $customField['FIELD_VALUE']);
+            }
+        }
+
         $project->setCanEdit(!empty($data['CAN_EDIT']) ? $data['CAN_EDIT'] : null);
         $project->setCanDelete(!empty($data['CAN_DELETE']) ? $data['CAN_DELETE'] : null);
 

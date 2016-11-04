@@ -41,16 +41,16 @@ class ProjectTest extends AbstractInsightlyClientTest
 
         $project->setLinks(new EntityList([$link, $link]));
 
-        $this->assertEquals($project->getName(), 'Begeleiding ontwikkeling website voor "groote oorlog"', 'It correctly returns the label');
+        $this->assertEquals($project->getName(), 'Test', 'It correctly returns the label');
         $this->assertEquals($project->getStatus(), Project::STATUS_ABANDONED, 'It correctly returns the status');
         $this->assertEquals($project->getDetails(), 'ConceptPMTesting & oplevering', 'It correctly returns the details');
         $this->assertEquals($project->getOpportunityId(), 1234, 'It correctly returns the opportunity id');
         $this->assertEquals($project->getStartedDate(), \DateTime::createFromFormat('Y-m-d H:i:s', '2014-01-02 00:00:00'), 'It correctly returns the started date');
         $this->assertEquals($project->getCompletedDate(), null, 'It correctly returns the completed date');
         $this->assertEquals($project->getImageUrl(), 'http://www.test.com/test.jpg', 'It correctly returns the image url');
-        $this->assertEquals($project->getResponsibleUserId(), 410743, 'It correctly returns the responsible user id');
+        $this->assertEquals($project->getResponsibleUserId(), 1, 'It correctly returns the responsible user id');
 
-        $this->assertEquals($project->getOwnerUserId(), 531507, 'It correctly returns the owner user id');
+        $this->assertEquals($project->getOwnerUserId(), 1, 'It correctly returns the owner user id');
         $this->assertEquals($project->getDateCreatedUTC(), \DateTime::createFromFormat('Y-m-d H:i:s', '2014-06-02 12:01:22'), 'It correctly returns the date created');
         $this->assertEquals($project->getDateUpdatedUTC(), \DateTime::createFromFormat('Y-m-d H:i:s', '2016-08-16 12:37:25'), 'It correctly returns the date updated');
 
@@ -85,7 +85,16 @@ class ProjectTest extends AbstractInsightlyClientTest
             'VISIBLE_TO' => $project->getVisibleTo(),
             'VISIBLE_TEAM_ID' => $project->getVisibleTeamId(),
             'VISIBLE_USER_IDS' => $project->getVisibleUserIds(),
-            'CUSTOMFIELDS' => [],
+            'CUSTOMFIELDS' => [
+                [
+                    'CUSTOM_FIELD_ID' => 'PROJECT_FIELD_1',
+                    'FIELD_VALUE' => 'Beëindigd',
+                ],
+                [
+                    'CUSTOM_FIELD_ID' => 'PROJECT_FIELD_2',
+                    'FIELD_VALUE' => '2014-01-03 00:00:00',
+                ],
+            ],
             'CAN_EDIT' => $project->canEdit(),
             'CAN_DELETE' => $project->canDelete(),
         ];

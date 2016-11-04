@@ -3,7 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
@@ -84,9 +86,14 @@ class InsightlyClient implements InsightlyClientInterface
      * @param ParameterBag $query
      * @return string
      */
-    private function getRequestCacheKey($method, $uri, ParameterBag $query)
+    private function getRequestCacheKey($method, $uri, ParameterBag $query = null)
     {
-        return md5($method . $uri . json_encode($query->all()));
+        $key = $method . $uri;
+        if (!empty($query)) {
+            $key += json_encode($query->all());
+        }
+
+        return md5($key);
     }
 
     /**
@@ -99,17 +106,29 @@ class InsightlyClient implements InsightlyClientInterface
      */
     private function request($method, $uri, ParameterBag $query = null, $body = null)
     {
-        $query = empty($query) ? new ParameterBag() : $query;
-        $cacheKey = $this->getRequestCacheKey($method, $uri, $query);
+        $cacheKey = null;
+        if ($method === 'GET') {
+            $cacheKey = $this->getRequestCacheKey($method, $uri, $query);
+        }
 
-        if (!isset($this->responseCache[$cacheKey])) {
-            $queryParams = !empty($query) ? $query->all() : [];
+        if (!$cacheKey || !isset($this->responseCache[$cacheKey])) {
+            $options = [];
+            if (!empty($query)) {
+                $options['query'] = $query->all();
+            }
+
             $headers = [
                 'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':'),
                 'Content-Type' => 'application/json',
             ];
 
-            $this->responseCache[$cacheKey] = $this->guzzleClient->createRequest($method, $uri, $headers, $body, ['query' => $queryParams])->send();
+            $response = $this->guzzleClient->createRequest($method, $uri, $headers, $body, $options)->send();
+            if (!$cacheKey) {
+                return $response;
+            }
+            else {
+                $this->responseCache[$cacheKey] = $response;
+            }
         }
 
         return $this->responseCache[$cacheKey];
@@ -145,5 +164,28 @@ class InsightlyClient implements InsightlyClientInterface
     {
         $query = $this->addQueryFilters($options);
         return GetPipelinesResult::parseToResult($this->request(RequestInterface::GET, 'Pipelines', $query));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateProjectPipelineStage($projectId, $pipelineId, $newStageId)
+    {
+        $data = [
+            'PIPELINE_ID' => $pipelineId,
+            'PIPELINE_STAGE_CHANGE' => [
+                'STAGE_ID' => $newStageId,
+            ]
+        ];
+
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/PipelineStage', null, json_encode($data)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createOrganisation(Organisation $organisation)
+    {
+        // TODO: Implement createOrganisation() method.
     }
 }

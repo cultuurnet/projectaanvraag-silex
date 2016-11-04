@@ -67,7 +67,10 @@ class ActivateProjectCommandHandler
 
         // Save consumer in live api.
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
-        $cultureFeedConsumer = $this->cultureFeedLive->createServiceConsumer($createConsumer);
+        //$cultureFeedConsumer = $this->cultureFeedLive->createServiceConsumer($createConsumer);
+        // Temporary clone it, so we don't spam live.
+        $cultureFeedConsumer = $createConsumer;
+        $cultureFeedConsumer->consumerKey = 'test';
 
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);

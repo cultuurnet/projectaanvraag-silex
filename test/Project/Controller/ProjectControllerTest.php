@@ -2,7 +2,13 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
+use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
+use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
+use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
+use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -70,15 +76,18 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     public function testCreateProject()
     {
         $content = file_get_contents(__DIR__ . '/../data/add_project_form_data.json');
+        $json = json_decode($content);
 
         $this->request
             ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue($content));
 
+        $createProject = new CreateProject($json->name, $json->summary, $json->integrationType);
         $this->messageBus
-            ->expects($this->any())
-            ->method('handle');
+            ->expects($this->once())
+            ->method('handle')
+            ->with($createProject);
 
         $response = $this->controller->createProject($this->request);
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
@@ -94,10 +103,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue(''));
-
-        $this->messageBus
-            ->expects($this->any())
-            ->method('handle');
 
         $this->controller->createProject($this->request);
     }
@@ -123,7 +128,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->projectService
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('searchProjects')
             ->with(0, 10, '')
             ->will($this->returnValue($result));
@@ -137,23 +142,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProject()
     {
-        $project = $this->getMock(ProjectInterface::class);
-
-        $this->request
-            ->expects($this->any())
-            ->method('getContent')
-            ->will($this->returnValue(null));
-
-        $this->projectService
-            ->expects($this->any())
-            ->method('loadProject')
-            ->will($this->returnValue($project));
-
-        $this->authorizationChecker
-            ->expects($this->any())
-            ->method('isGranted')
-            ->will($this->returnValue(true));
-
+        $project = $this->setupProjectTest('view');
         $response = $this->controller->getProject(1);
         $this->assertEquals(new JsonResponse($project), $response, 'It correctly fetches the project');
     }
@@ -164,18 +153,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProjectAccessDeniedException()
     {
-        $project = $this->getMock(ProjectInterface::class);
-
-        $this->projectService
-            ->expects($this->any())
-            ->method('loadProject')
-            ->will($this->returnValue($project));
-
-        $this->authorizationChecker
-            ->expects($this->any())
-            ->method('isGranted')
-            ->will($this->returnValue(false));
-
+        $this->setupProjectTest('view', false);
         $this->controller->getProject(1);
     }
 
@@ -203,23 +181,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteProject()
     {
-        $project = $this->getMock(ProjectInterface::class);
-
-        $this->projectService
-            ->expects($this->any())
-            ->method('loadProject')
-            ->with(1)
-            ->will($this->returnValue($project));
-
-        $this->authorizationChecker
-            ->expects($this->any())
-            ->method('isGranted')
-            ->with('edit', $project)
-            ->will($this->returnValue(true));
+        $project = $this->setupProjectTest('edit');
+        $deleteProject = new DeleteProject($project);
 
         $this->messageBus
-            ->expects($this->any())
-            ->method('handle');
+            ->expects($this->once())
+            ->method('handle')
+            ->with($deleteProject);
 
         $response = $this->controller->deleteProject(1);
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
@@ -231,24 +199,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteProjectException()
     {
-        $project = $this->getMock(ProjectInterface::class);
-
-        $this->projectService
-            ->expects($this->any())
-            ->method('loadProject')
-            ->with(1)
-            ->will($this->returnValue($project));
-
-        $this->authorizationChecker
-            ->expects($this->any())
-            ->method('isGranted')
-            ->with('edit', $project)
-            ->will($this->returnValue(false));
-
-        $this->messageBus
-            ->expects($this->any())
-            ->method('handle');
-
+        $this->setupProjectTest('edit', false);
         $this->controller->deleteProject(1);
     }
 
@@ -257,23 +208,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBlockProject()
     {
-        $project = $this->getMock(ProjectInterface::class);
-
-        $this->projectService
-            ->expects($this->any())
-            ->method('loadProject')
-            ->with(1)
-            ->will($this->returnValue($project));
-
-        $this->authorizationChecker
-            ->expects($this->any())
-            ->method('isGranted')
-            ->with('block', $project)
-            ->will($this->returnValue(true));
+        $project = $this->setupProjectTest('block');
+        $blockProject = new BlockProject($project);
 
         $this->messageBus
-            ->expects($this->any())
-            ->method('handle');
+            ->expects($this->once())
+            ->method('handle')
+            ->with($blockProject);
 
         $response = $this->controller->blockProject(1);
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
@@ -285,24 +226,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBlockProjectException()
     {
-        $project = $this->getMock(ProjectInterface::class);
-
-        $this->projectService
-            ->expects($this->any())
-            ->method('loadProject')
-            ->with(1)
-            ->will($this->returnValue($project));
-
-        $this->authorizationChecker
-            ->expects($this->any())
-            ->method('isGranted')
-            ->with('block', $project)
-            ->will($this->returnValue(false));
-
-        $this->messageBus
-            ->expects($this->any())
-            ->method('handle');
-
+        $this->setupProjectTest('block', false);
         $this->controller->blockProject(1);
     }
 
@@ -311,23 +235,12 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testActivateProject()
     {
-        $project = $this->getMock(ProjectInterface::class);
-
-        $this->projectService
-            ->expects($this->any())
-            ->method('loadProject')
-            ->with(1)
-            ->will($this->returnValue($project));
-
-        $this->authorizationChecker
-            ->expects($this->any())
-            ->method('isGranted')
-            ->with('activate', $project)
-            ->will($this->returnValue(true));
-
+        $project = $this->setupProjectTest('activate');
+        $activateProject = new ActivateProject($project);
         $this->messageBus
-            ->expects($this->any())
-            ->method('handle');
+            ->expects($this->once())
+            ->method('handle')
+            ->with($activateProject);
 
         $response = $this->controller->activateProject(1);
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
@@ -339,6 +252,50 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testActivateProjectException()
     {
+        $this->setupProjectTest('activate', false);
+        $this->controller->activateProject(1);
+    }
+
+    /**
+     * Test requestActivation with a coupon.
+     */
+    public function testRequestActivationWithCoupon()
+    {
+        $project = $this->setupProjectTest('edit');
+        $postData = [
+            'coupon' => 'test'
+        ];
+        $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
+
+        $activateProject = new ActivateProject($project, 'test');
+        $this->messageBus
+            ->expects($this->any())
+            ->method('handle')
+            ->with($activateProject);
+
+        $response = $this->controller->requestActivation(1, $request);
+
+        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+    }
+
+    /**
+     * Test requestActivation AccessDeniedHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function testRequestActivationException()
+    {
+        $request = Request::create('/');
+        $this->setupProjectTest('edit', false);
+        $this->controller->requestActivation(1, $request);
+    }
+
+    /**
+     * Setup a project update test.
+     * Test if the access check is done and return the given value.
+     * @return Project
+     */
+    private function setupProjectTest($operation, $returnValue = true)
+    {
         $project = $this->getMock(ProjectInterface::class);
 
         $this->projectService
@@ -350,13 +307,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->authorizationChecker
             ->expects($this->any())
             ->method('isGranted')
-            ->with('activate', $project)
-            ->will($this->returnValue(false));
+            ->with($operation, $project)
+            ->will($this->returnValue($returnValue));
 
         $this->messageBus
             ->expects($this->any())
             ->method('handle');
 
-        $this->controller->activateProject(1);
+        return $project;
     }
 }
