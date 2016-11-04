@@ -26,7 +26,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
         $projects = $client->getProjects();
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $projects, 'It only contains instances of Project');
-        $this->assertEquals(100, count($projects), 'It contains 100 items');
+        $this->assertEquals(3, count($projects), 'It contains 3 items');
     }
 
     /**
@@ -66,7 +66,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
         $pipelines = $client->getPipelines();
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline', $pipelines, 'It only contains instances of Pipeline');
-        $this->assertEquals(6, count($pipelines), 'It contains 6 items');
+        $this->assertEquals(2, count($pipelines), 'It contains 2 items');
     }
 
     /**
@@ -87,9 +87,9 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
      */
     public function testQueryFilters()
     {
-        $client = $this->getMockClient('getProjectsFiltered.json');
+        $client = $this->getMockClient('getProjects.json');
         $projects = $client->getProjects(['brief' => true, 'top' => 2, 'skip' => 1, 'count_total' => true]);
 
-        $this->assertEquals(2, count($projects), 'It contains 2 items');
+        $this->assertEquals(3, count($projects), 'It contains 3 items');
     }
 }

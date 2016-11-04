@@ -1,6 +1,6 @@
 {
-  "id": 1373034,
-  "name": "Begeleiding ontwikkeling website voor \"groote oorlog\"",
+  "id": 1,
+  "name": "Test",
   "status": "ABANDONED",
   "details": "ConceptPMTesting & oplevering",
   "opportunityId": null,
@@ -11,8 +11,8 @@
   },
   "completedDate": null,
   "imageUrl": null,
-  "responsibleUserId": 410743,
-  "ownerUserId": 531507,
+  "responsibleUserId": 1,
+  "ownerUserId": 1,
   "dateCreatedUTC": {
     "date": "2014-06-02 12:01:22.000000",
     "timezone_type": 3,

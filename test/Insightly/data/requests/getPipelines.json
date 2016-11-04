@@ -1,44 +1,16 @@
 [
   {
-    "PIPELINE_ID":207171,
+    "PIPELINE_ID":1,
     "PIPELINE_NAME":"Portfolio",
     "FOR_OPPORTUNITIES":true,
     "FOR_PROJECTS":false,
-    "OWNER_USER_ID":850603
+    "OWNER_USER_ID":1
   },
   {
-    "PIPELINE_ID":207195,
+    "PIPELINE_ID":2,
     "PIPELINE_NAME":"Culturefeed website",
     "FOR_OPPORTUNITIES":false,
     "FOR_PROJECTS":true,
-    "OWNER_USER_ID":561239
-  },
-  {
-    "PIPELINE_ID":207342,
-    "PIPELINE_NAME":"Bestelling",
-    "FOR_OPPORTUNITIES":true,
-    "FOR_PROJECTS":true,
-    "OWNER_USER_ID":850603
-  },
-  {
-    "PIPELINE_ID":207344,
-    "PIPELINE_NAME":"UiT-partner",
-    "FOR_OPPORTUNITIES":true,
-    "FOR_PROJECTS":false,
-    "OWNER_USER_ID":850603
-  },
-  {
-    "PIPELINE_ID":214442,
-    "PIPELINE_NAME":"UiTPAS pipeline",
-    "FOR_OPPORTUNITIES":true,
-    "FOR_PROJECTS":false,
-    "OWNER_USER_ID":561238
-  },
-  {
-    "PIPELINE_ID":279779,
-    "PIPELINE_NAME":"Integratie UiT-agenda",
-    "FOR_OPPORTUNITIES":false,
-    "FOR_PROJECTS":true,
-    "OWNER_USER_ID":952204
+    "OWNER_USER_ID":1
   }
 ]
