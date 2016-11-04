@@ -247,20 +247,6 @@ class Project extends PrimaryEntityBase
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function jsonSerialize()
-    {
-        $json = parent::jsonSerialize();
-
-        foreach ($this as $key => $value) {
-            $json[$key] = $value;
-        }
-
-        return $json;
-    }
-
-    /**
      * Serializes a Project to an Insightly accepted array
      * @return array
      */

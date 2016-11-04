@@ -1,11 +1,12 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializable;
 
 /**
  * Base class for primary entities. (projects, organisations, ...)
  */
-abstract class PrimaryEntityBase extends Entity
+abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, InsightlySerializable
 {
 
     /**
@@ -324,8 +325,21 @@ abstract class PrimaryEntityBase extends Entity
     }
 
     /**
-     * Serializes a Project to an Insightly accepted array
-     * @return array
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        $json = parent::jsonSerialize();
+
+        foreach ($this as $key => $value) {
+            $json[$key] = $value;
+        }
+
+        return $json;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function toInsightly()
     {
