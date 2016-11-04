@@ -3,7 +3,7 @@ subscribers:
     asynchronous:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
             - project_deleted_listener
-        CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
+        CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
             - project_blocked_listener
 
 listeners:
@@ -11,7 +11,7 @@ listeners:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectDeletedEventListener
         arguments:
             - insightly_client
-    project_deleted_listener:
+    project_blocked_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectBlockedEventListener
         arguments:
             - insightly_client
