@@ -3,7 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
-use Guzzle\Http\Client;
+
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
@@ -75,9 +75,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
     public function testUpdateProjectPipelineStage()
     {
         $client = $this->getMockClient('getProject.json');
-
-        $project = new Project();
-        $client->updateProjectPipelineStage($project, 'pipelineId', 'stageId');
+        $project = $client->updateProjectPipelineStage(1, 'pipelineId', 'stageId');
 
         $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $project, 'It correctly returns an Insightly project');
     }

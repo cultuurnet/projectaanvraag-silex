@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
@@ -168,7 +169,7 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
-    public function updateProjectPipelineStage(Project $project, $pipelineId, $newStageId)
+    public function updateProjectPipelineStage($projectId, $pipelineId, $newStageId)
     {
         $data = [
             'PIPELINE_ID' => $pipelineId,
@@ -177,6 +178,14 @@ class InsightlyClient implements InsightlyClientInterface
             ]
         ];
 
-        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $project->getId() . '/PipelineStage', null, json_encode($data)));
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/PipelineStage', null, json_encode($data)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createOrganisation(Organisation $organisation)
+    {
+        // TODO: Implement createOrganisation() method.
     }
 }

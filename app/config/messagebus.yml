@@ -46,6 +46,15 @@ handlers:
           - culturefeed
           - uitid_user_session_data_complete
 
+    request_activation_handler:
+        command: CultuurNet\ProjectAanvraag\Project\Command\RequestActivationCommandHandler
+        class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\RequestActivationCommandHandler
+        arguments:
+          - event_bus
+          - orm.em
+          - uitid_user_session_data_complete
+          - insightly_client
+
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\DeleteProjectCommandHandler

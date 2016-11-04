@@ -64,6 +64,10 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
 
         /** @var Project $insightlyProject */
         $this->insightlyProject = $this->getMock(Project::class);
+        $this->insightlyProject->expects($this->any())
+            ->method('getId')
+            ->willReturn(1);
+
         $this->insightlyClient
             ->expects($this->any())
             ->method('getProject')
@@ -88,7 +92,7 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->insightlyClient->expects(($this->once()))
             ->method('updateProjectPipelineStage')
-            ->with($this->insightlyProject, 1, 'no coupon');
+            ->with(1, 1, 'no coupon');
 
         $projectActivated = new ProjectActivated($this->project);
         $this->eventListener->handle($projectActivated);
@@ -105,7 +109,7 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->insightlyClient->expects(($this->once()))
             ->method('updateProjectPipelineStage')
-            ->with($this->insightlyProject, 1, 'coupon');
+            ->with(1, 1, 'coupon');
 
         $projectActivated = new ProjectActivated($this->project, 'coupon');
         $this->eventListener->handle($projectActivated);
