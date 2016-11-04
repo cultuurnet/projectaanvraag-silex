@@ -15,6 +15,7 @@ listeners:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectCreatedEventListener
         arguments:
             - insightly_client
+            - insightly.project_config
             - orm.em
 
     project_activated_listener:

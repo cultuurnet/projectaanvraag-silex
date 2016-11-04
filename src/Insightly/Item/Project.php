@@ -262,11 +262,11 @@ class Project extends PrimaryEntityBase
 
     /**
      * Serializes a Project to an Insightly accepted array
+     * @param string $op
      * @return array
      */
-    public function toInsightly()
+    public function toInsightly($op = EntityInterface::OPERATION_INSERT)
     {
-
         $data = parent::toInsightly();
 
         $data += [
@@ -282,6 +282,10 @@ class Project extends PrimaryEntityBase
             'PIPELINE_ID' => $this->getPipelineId(),
             'STAGE_ID' => $this->getStageId(),
         ];
+
+        if ($op === EntityInterface::OPERATION_INSERT) {
+            unset($data['PROJECT_ID']);
+        }
 
         return $data;
     }

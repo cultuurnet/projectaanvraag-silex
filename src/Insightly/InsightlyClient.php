@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
@@ -153,6 +154,15 @@ class InsightlyClient implements InsightlyClientInterface
      * {@inheritdoc}
      */
     public function updateProject($project, $options = [])
+    {
+        $query = $this->addQueryFilters($options);
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly(EntityInterface::OPERATION_UPDATE))));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));

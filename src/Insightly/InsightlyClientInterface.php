@@ -37,6 +37,16 @@ interface InsightlyClientInterface
     public function updateProject($project, $options = []);
 
     /**
+     * Create a project
+     *
+     * @param Project $project
+     * @param array $options
+     *  Array of oData options
+     * @return Project
+     */
+    public function createProject($project, $options = []);
+
+    /**
      * Creates a contact
      *
      * @param Contact $contact

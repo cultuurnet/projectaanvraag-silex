@@ -3,13 +3,14 @@
 namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
-use CultuurNet\ProjectAanvraag\Entity\User;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use Doctrine\ORM\EntityManagerInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 
 class ProjectCreatedEventListener
 {
@@ -24,13 +25,20 @@ class ProjectCreatedEventListener
     protected $entityManager;
 
     /**
+     * @var array
+     */
+    protected $insightlyConfig;
+
+    /**
      * ProjectDeletedEventListener constructor.
      * @param InsightlyClientInterface $insightlyClient
+     * @param array $insightlyConfig
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(InsightlyClientInterface $insightlyClient, EntityManagerInterface $entityManager)
+    public function __construct(InsightlyClientInterface $insightlyClient, array $insightlyConfig, EntityManagerInterface $entityManager)
     {
         $this->insightlyClient = $insightlyClient;
+        $this->insightlyConfig = $insightlyConfig;
         $this->entityManager = $entityManager;
     }
 
@@ -56,7 +64,13 @@ class ProjectCreatedEventListener
         }
 
         // 2. Create Insightly project
+        $insightlyProject = new InsightlyProject();
+        $insightlyProject->setName($project->getName());
+        $insightlyProject->setStatus(Project::STATUS_IN_PROGRESS);
+        $insightlyProject->setCategoryId($this->insightlyConfig['categories'][$project->getGroupId()]);
 
+        // Todo: Add custom field and link field
+        $test = $this->insightlyClient->createProject($insightlyProject);
     }
 
     /**
