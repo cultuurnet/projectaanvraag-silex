@@ -2,9 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializable;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
-class Link extends Entity implements InsightlySerializable
+class Link extends Entity implements InsightlySerializableInterface
 {
     /**
      * @var int
@@ -204,11 +204,9 @@ class Link extends Entity implements InsightlySerializable
             'SECOND_PROJECT_ID' => $this->getSecondProjectId(),
             'SECOND_OPPORTUNITY_ID' => $this->getSecondOpportunityId(),
             'ROLE' => $this->getRole(),
-            'DETAILS' => $this->getDetails()
+            'DETAILS' => $this->getDetails(),
         ];
 
         return array_filter($data);
     }
-
-
 }

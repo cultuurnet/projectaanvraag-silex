@@ -148,7 +148,7 @@ class ProjectController
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
             $this->validateRequiredFields(
-                ['name', 'street', 'number', 'postal', 'city'],
+                ['email', 'name', 'street', 'number', 'postal', 'city'],
                 $postedData
             );
 
@@ -171,7 +171,7 @@ class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'activate');
         $this->commandBus->handle(new ActivateProject($project));
 
-        return new JsonResponse();
+        return new JsonResponse($project);
     }
 
     /**

@@ -103,11 +103,12 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('setLiveConsumerKey')
             ->with($consumerWithId->consumerKey);
 
-        $this->cultureFeed
+        // @todo re-enable after createServiceConsumer is enabled again.
+        /*$this->cultureFeed
             ->expects($this->once())
             ->method('createServiceConsumer')
             ->with($consumer)
-            ->willReturn($consumerWithId);
+            ->willReturn($consumerWithId);*/
 
         // Test saving to db.
         $this->entityManager->expects($this->once())

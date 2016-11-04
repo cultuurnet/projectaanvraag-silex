@@ -119,14 +119,12 @@ class Organisation extends PrimaryEntityBase
     public function toInsightly()
     {
         $addresses = [];
-        foreach ($this->addresses as $address)
-        {
+        foreach ($this->addresses as $address) {
             $addresses[] = $address->toInsightly();
         }
 
         $contactInfo = [];
-        foreach ($this->contactInfo as $info)
-        {
+        foreach ($this->contactInfo as $info) {
             $contactInfo[] = $info->toInsightly();
         }
 
@@ -137,7 +135,7 @@ class Organisation extends PrimaryEntityBase
             'ORGANISATION_NAME' => $this->getName(),
             'BACKGROUND' => $this->getBackground(),
             'ADDRESSES' => $addresses,
-            'CONTACTINFOS' => $contactInfo
+            'CONTACTINFOS' => $contactInfo,
         ];
 
         return array_filter($data);

@@ -2,9 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializable;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
-class Address implements \JsonSerializable, InsightlySerializable
+class Address implements \JsonSerializable, InsightlySerializableInterface
 {
 
     /**
@@ -144,7 +144,7 @@ class Address implements \JsonSerializable, InsightlySerializable
             'ADDRESS_TYPE' => $this->getType(),
             'STREET' => $this->getStreet(),
             'CITY' => $this->getCity(),
-            'POSTCODE' => $this->getPostal()
+            'POSTCODE' => $this->getPostal(),
         ];
     }
 }

@@ -2,9 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializable;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
-class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializable
+class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializableInterface
 {
 
     const TYPE_EMAIL = 'email';

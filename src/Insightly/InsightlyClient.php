@@ -126,8 +126,7 @@ class InsightlyClient implements InsightlyClientInterface
             $response = $this->guzzleClient->createRequest($method, $uri, $headers, $body, $options)->send();
             if (!$cacheKey) {
                 return $response;
-            }
-            else {
+            } else {
                 $this->responseCache[$cacheKey] = $response;
             }
         }
@@ -176,7 +175,7 @@ class InsightlyClient implements InsightlyClientInterface
             'PIPELINE_ID' => $pipelineId,
             'PIPELINE_STAGE_CHANGE' => [
                 'STAGE_ID' => $newStageId,
-            ]
+            ],
         ];
 
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/Pipeline', null, json_encode($data)));

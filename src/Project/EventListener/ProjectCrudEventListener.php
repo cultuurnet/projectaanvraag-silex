@@ -62,5 +62,4 @@ abstract class ProjectCrudEventListener
     {
         $this->insightlyProject = $this->insightlyClient->updateProjectPipelineStage($this->insightlyProject->getId(), $this->insightlyConfig['pipeline'], $stageId);
     }
-
 }

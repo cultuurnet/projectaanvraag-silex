@@ -1,12 +1,13 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
-use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializable;
+
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
 /**
  * Base class for primary entities. (projects, organisations, ...)
  */
-abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, InsightlySerializable
+abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, InsightlySerializableInterface
 {
 
     /**
@@ -73,24 +74,6 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
     {
         $this->links = new EntityList();
         $this->tags = new EntityList();
-    }
-
-    /**
-     * @return string
-     */
-    public function getBackground()
-    {
-        return $this->background;
-    }
-
-    /**
-     * @param string $background
-     * @return PrimaryEntityBase
-     */
-    public function setBackground($background)
-    {
-        $this->background = $background;
-        return $this;
     }
 
     /**
@@ -344,7 +327,8 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
      * @param $name
      *   Key to remove
      */
-    public function deleteCustomField($key) {
+    public function deleteCustomField($key)
+    {
         unset($this->customFields[$key]);
     }
 
@@ -372,13 +356,12 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
         foreach ($this->customFields as $key => $value) {
             $customFields[] = [
                 'CUSTOM_FIELD_ID' => $key,
-                'FIELD_VALUE' => $value
+                'FIELD_VALUE' => $value,
             ];
         }
 
         $links = [];
-        foreach ($this->links as $link)
-        {
+        foreach ($this->links as $link) {
             $links[] = $link->toInsightly();
         }
 
@@ -395,6 +378,5 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
             'CAN_DELETE' => $this->canDelete(),
             'LINKS' => $links,
         ];
-
     }
 }

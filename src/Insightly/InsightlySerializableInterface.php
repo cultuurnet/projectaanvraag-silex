@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
-interface InsightlySerializable
+interface InsightlySerializableInterface
 {
 
     /**
@@ -10,5 +10,4 @@ interface InsightlySerializable
      * @return array
      */
     public function toInsightly();
-
 }

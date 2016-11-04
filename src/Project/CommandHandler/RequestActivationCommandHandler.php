@@ -79,8 +79,7 @@ class RequestActivationCommandHandler
         $organisation = new Organisation();
         $organisation->setName($requestActivation->getName());
         // @todo The field is currently not known for test, ask Reinout for real field name.
-        if ($requestActivation->getVatNumber() && !empty($this->insightlyConfig['custom_fields']['vat']))
-        {
+        if ($requestActivation->getVatNumber() && !empty($this->insightlyConfig['custom_fields']['vat'])) {
             $organisation->addCustomField($this->insightlyConfig['custom_fields']['vat'], $requestActivation->getVatNumber());
         }
 
@@ -106,8 +105,7 @@ class RequestActivationCommandHandler
         $links = $organisation->getLinks();
         if (isset($links[0])) {
             $link = $links[0];
-        }
-        else {
+        } else {
             $link = new Link();
         }
 
@@ -121,6 +119,5 @@ class RequestActivationCommandHandler
         $project->setStatus(ProjectInterface::PROJECT_STATUS_WAITING_FOR_PAYMENT);
         $this->entityManager->persist($project);
         $this->entityManager->flush();
-
     }
 }

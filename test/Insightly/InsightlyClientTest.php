@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 
-
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
     /**
