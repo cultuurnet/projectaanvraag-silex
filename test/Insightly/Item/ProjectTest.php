@@ -30,14 +30,15 @@ class ProjectTest extends AbstractInsightlyClientTest
         $project->setStageId(1);
         $project->setVisibleTeamId(12);
         $project->setVisibleUserIds([1,2,3]);
+        $project->addCustomField('PROJECT_FIELD_1', 'Beëindigd');
+        $project->addCustomField('PROJECT_FIELD_2', '2014-01-03 00:00:00');
 
         $tag = new Tag();
         $tag->setId('my_tag');
 
         $project->setTags(new EntityList([$tag]));
 
-        $link = new Link();
-        $link->setId(123);
+        $link = new Link(Link::LINK_TYPE_CONTACT, 123);
 
         $project->setLinks(new EntityList([$link, $link]));
 
@@ -97,8 +98,16 @@ class ProjectTest extends AbstractInsightlyClientTest
             ],
             'CAN_EDIT' => $project->canEdit(),
             'CAN_DELETE' => $project->canDelete(),
+            'LINKS' => [
+                [
+                    'CONTACT_ID' => 123,
+                ],
+                [
+                    'CONTACT_ID' => 123,
+                ],
+            ],
         ];
 
-        $this->assertEquals($project->toInsightly(), $insightlyProject, 'It correctly returns an Insightly compatible array');
+        $this->assertEquals($project->toInsightly(), array_filter($insightlyProject), 'It correctly returns an Insightly compatible array');
     }
 }

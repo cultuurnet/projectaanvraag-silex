@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
@@ -19,6 +20,11 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      * @var EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $entityManager;
+
+    /**
+     * @var \CultureFeed|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $cultureFeed;
 
     /**
      * @var \CultureFeed|\PHPUnit_Framework_MockObject_MockObject
@@ -55,9 +61,41 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->cultureFeed = $this
+            ->getMockBuilder('\CultureFeed')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->eventBus
             ->expects($this->any())
             ->method('handle');
+
+        $this->user = $this->getMock(User::class);
+        $this->user->id = 123;
+
+        $this->commandHandler = new CreateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user);
+    }
+
+    /**
+     * Test the command handler
+     */
+    public function testHandle()
+    {
+        $repository = $this
+            ->getMockBuilder(EntityRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->entityManager
+            ->expects($this->any())
+            ->method('getRepository')
+            ->with('ProjectAanvraag:User')
+            ->willReturn($repository);
+
+        $this->entityManager
+            ->expects($this->any())
+            ->method('find')
+            ->with($this->user->id);
 
         $this->entityManager
             ->expects($this->any())
@@ -67,30 +105,32 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('flush');
 
-        $this->user = $this->getMock(User::class);
-        $this->user->id = 123;
-
-        $this->commandHandler = new CreateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->user);
-    }
-
-    /**
-     * Test the command handler
-     */
-    public function testHandle()
-    {
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $cultureFeedConsumer = new \CultureFeed_Consumer();
         $cultureFeedConsumer->name = 'Project name';
         $cultureFeedConsumer->description = 'Project description';
-        $cultureFeedConsumer->consumerKey = 'cfe3ccae8aa248faddaedede30622177';
-        $cultureFeedConsumer->consumerSecret = 'abc3ccae8aa248faddaedede30622177';
+        $cultureFeedConsumer->group = [5, 123];
+
+        /** @var \CultureFeed_Consumer $cultureFeedConsumer */
+        $createdCultureFeedConsumer = new \CultureFeed_Consumer();
+        $createdCultureFeedConsumer->name = 'Project name';
+        $createdCultureFeedConsumer->description = 'Project description';
+        $createdCultureFeedConsumer->consumerKey = 'cfe3ccae8aa248faddaedede30622177';
+        $createdCultureFeedConsumer->consumerSecret = 'abc3ccae8aa248faddaedede30622177';
 
         $this->cultureFeedTest
             ->expects($this->any())
             ->method('createServiceConsumer')
-            ->will($this->returnValue($cultureFeedConsumer));
+            ->with($cultureFeedConsumer)
+            ->willReturn($createdCultureFeedConsumer);
 
-        $createProject = new CreateProject('project name', 'project description', 123);
+        $this->cultureFeed
+            ->expects($this->any())
+            ->method('createServiceConsumer')
+            ->with($cultureFeedConsumer)
+            ->willReturn($createdCultureFeedConsumer);
+
+        $createProject = new CreateProject('Project name', 'Project description', 123, 'coupon');
         $this->commandHandler->handle($createProject);
     }
 
