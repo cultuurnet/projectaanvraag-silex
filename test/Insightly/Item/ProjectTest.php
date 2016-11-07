@@ -97,6 +97,14 @@ class ProjectTest extends AbstractInsightlyClientTest
             ],
             'CAN_EDIT' => $project->canEdit(),
             'CAN_DELETE' => $project->canDelete(),
+            'LINKS' => [
+                [
+                    'LINK_ID' => 123,
+                ],
+                [
+                    'LINK_ID' => 123,
+                ],
+            ],
         ];
 
         $this->assertEquals($project->toInsightly(), $insightlyProject, 'It correctly returns an Insightly compatible array');

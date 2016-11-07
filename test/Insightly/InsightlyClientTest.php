@@ -2,8 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
-
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
@@ -90,4 +90,26 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
 
         $this->assertEquals(3, count($projects), 'It contains 3 items');
     }*/
+
+    /**
+     * Test the return of requested organisation
+     */
+    public function testGetOrganisation()
+    {
+        $client = $this->getMockClient('getOrganisation.json');
+        $organisation = $client->getOrganisation(1);
+
+        $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Organisation', $organisation, 'It returns an organisation');
+    }
+
+    /**
+     * Test the return of organisation when created.
+     */
+    public function testCreateOrganisation()
+    {
+        $client = $this->getMockClient('getOrganisation.json');
+        $organisation = $client->createOrganisation(new Organisation());
+
+        $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Organisation', $organisation, 'It returns an organisation');
+    }
 }

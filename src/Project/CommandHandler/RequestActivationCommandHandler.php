@@ -4,6 +4,10 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Address;
+use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
@@ -67,19 +71,49 @@ class RequestActivationCommandHandler
         // Update the pipeline stage.
         $this->insightlyClient->updateProjectPipelineStage(
             $project->getInsightlyProjectId(),
-            $this->insightlyConfig['stages']['pipeline'],
+            $this->insightlyConfig['pipeline'],
             $this->insightlyConfig['stages']['aanvraag']
         );
 
         // Create an organisation. (We can't search on VAT, so always create a new)
+        $organisation = new Organisation();
+        $organisation->setName($requestActivation->getName());
+        // @todo The field is currently not known for test, ask Reinout for real field name.
+        if ($requestActivation->getVatNumber() && !empty($this->insightlyConfig['custom_fields']['vat'])) {
+            $organisation->addCustomField($this->insightlyConfig['custom_fields']['vat'], $requestActivation->getVatNumber());
+        }
 
+        // Add contact.
+        $contact = new ContactInfo();
+        $contact->setType(ContactInfo::TYPE_EMAIL);
+        $contact->setDetail($requestActivation->getEmail());
+        $organisation->getContactInfo()->append($contact);
+
+        // Address.
+        $givenAddress = $requestActivation->getAddress();
+        $address = new Address();
+        $address->setType('WORK');
+        $address->setStreet($givenAddress->getStreet() . ' ' . $givenAddress->getNumber());
+        $address->setCity($givenAddress->getCity());
+        $address->setPostal($givenAddress->getPostal());
+        $organisation->getAddresses()->append($address);
+
+        // Save organisation
+        $organisation = $this->insightlyClient->createOrganisation($organisation);
+
+        // Save the link organisation > project.
+        $links = $insightlyProject->getLinks();
+        $link = isset($links[0]) ? $links[0] : new Link();
+
+        $link->setOrganisationId($organisation->getId());
+        $links[0] = $link;
+        $insightlyProject->setLinks($links);
+
+        $this->insightlyClient->updateProject($insightlyProject);
 
         // Update the project state in local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_WAITING_FOR_PAYMENT);
         $this->entityManager->persist($project);
         $this->entityManager->flush();
-
-        //
-
     }
 }
