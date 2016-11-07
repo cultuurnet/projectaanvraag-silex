@@ -247,16 +247,6 @@ class Project extends PrimaryEntityBase
     }
 
     /**
-     * @param Link $link
-     * @return Project
-     */
-    public function addLink($link)
-    {
-        $this->links[] = $link;
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()

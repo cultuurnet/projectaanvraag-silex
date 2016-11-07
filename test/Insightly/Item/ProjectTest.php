@@ -38,7 +38,8 @@ class ProjectTest extends AbstractInsightlyClientTest
 
         $project->setTags(new EntityList([$tag]));
 
-        $link = new Link(Link::LINK_TYPE_CONTACT, 123);
+        $link = new Link();
+        $link->setContactId(123);
 
         $project->setLinks(new EntityList([$link, $link]));
 

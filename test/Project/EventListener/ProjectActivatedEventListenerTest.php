@@ -41,17 +41,20 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventListener = new ProjectActivatedEventListener($this->insightlyClient, [
-            'pipeline' => 1,
-            'custom_fields' => [
-                'live_key' => 'live',
-                'used_coupon' => 'used',
-            ],
-            'stages' => [
-                'live_met_coupon' => 'coupon',
-                'live_met_abonnement' => 'no coupon'
+        $this->eventListener = new ProjectActivatedEventListener(
+            $this->insightlyClient,
+            [
+                'pipeline' => 1,
+                'custom_fields' => [
+                    'live_key' => 'live',
+                    'used_coupon' => 'used',
+                ],
+                'stages' => [
+                    'live_met_coupon' => 'coupon',
+                    'live_met_abonnement' => 'no coupon',
+                ],
             ]
-        ]);
+        );
 
         // Mock the project + all called methods.
         $this->project = $this->getMock(ProjectInterface::class);

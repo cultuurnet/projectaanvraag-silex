@@ -17,25 +17,15 @@ class LinkParser implements ParserInterface
      */
     public static function parseToResult($data)
     {
-        $link_type = null;
-        $link_types = [
-            'CONTACT_ID',
-            'OPPORTUNITY_ID',
-            'ORGANISATION_ID',
-            'PROJECT_ID',
-            'SECOND_PROJECT_ID',
-            'SECOND_OPPORTUNITY_ID',
-        ];
-
-        foreach ($link_types as $type) {
-            if (!empty($data[$type])) {
-                $link_type = $type;
-            }
-        }
-
-        $link = new Link($link_type, $data[$link_type]);
+        $link = new Link();
 
         $link->setId(!empty($data['LINK_ID']) ? $data['LINK_ID'] : null);
+        $link->setContactId(!empty($data['CONTACT_ID']) ? $data['CONTACT_ID'] : null);
+        $link->setOpportunityId(!empty($data['OPPORTUNITY_ID']) ? $data['OPPORTUNITY_ID'] : null);
+        $link->setOrganisationId(!empty($data['ORGANISATION_ID']) ? $data['ORGANISATION_ID'] : null);
+        $link->setProjectId(!empty($data['PROJECT_ID']) ? $data['PROJECT_ID'] : null);
+        $link->setSecondProjectId(!empty($data['SECOND_PROJECT_ID']) ? $data['SECOND_PROJECT_ID'] : null);
+        $link->setSecondOpportunityId(!empty($data['SECOND_OPPORTUNITY_ID']) ? $data['SECOND_OPPORTUNITY_ID'] : null);
         $link->setRole(!empty($data['ROLE']) ? $data['ROLE'] : null);
         $link->setDetails(!empty($data['DETAILS']) ? $data['DETAILS'] : null);
 

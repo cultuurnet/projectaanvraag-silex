@@ -2,10 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
+
 /**
  * Base class for primary entities. (projects, organisations, ...)
  */
-abstract class PrimaryEntityBase extends Entity
+abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, InsightlySerializableInterface
 {
 
     /**
@@ -68,22 +70,10 @@ abstract class PrimaryEntityBase extends Entity
      */
     protected $customFields = [];
 
-    /**
-     * @return string
-     */
-    public function getBackground()
+    public function __construct()
     {
-        return $this->background;
-    }
-
-    /**
-     * @param string $background
-     * @return PrimaryEntityBase
-     */
-    public function setBackground($background)
-    {
-        $this->background = $background;
-        return $this;
+        $this->links = new EntityList();
+        $this->tags = new EntityList();
     }
 
     /**
@@ -249,6 +239,24 @@ abstract class PrimaryEntityBase extends Entity
     }
 
     /**
+     * Add a link.
+     */
+    public function addLink(Link $link)
+    {
+        $this->links[] = $link;
+    }
+
+    /**
+     * Remove a link.
+     * @var key
+     *   Index to unset.
+     */
+    public function removeLink($key)
+    {
+        unset($this->links[$key]);
+    }
+
+    /**
      * @return boolean
      */
     public function canEdit()
@@ -319,13 +327,27 @@ abstract class PrimaryEntityBase extends Entity
      * @param $key
      *   Key to remove
      */
-    public function deleteCustomField($key) {
+    public function deleteCustomField($key)
+    {
         unset($this->customFields[$key]);
     }
 
     /**
-     * Serializes a Project to an Insightly accepted array
-     * @return array
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        $json = parent::jsonSerialize();
+
+        foreach ($this as $key => $value) {
+            $json[$key] = $value;
+        }
+
+        return $json;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function toInsightly()
     {
@@ -333,7 +355,7 @@ abstract class PrimaryEntityBase extends Entity
         foreach ($this->customFields as $key => $value) {
             $customFields[] = [
                 'CUSTOM_FIELD_ID' => $key,
-                'FIELD_VALUE' => $value
+                'FIELD_VALUE' => $value,
             ];
         }
 
@@ -343,7 +365,6 @@ abstract class PrimaryEntityBase extends Entity
             foreach ($this->links as $link) {
                 $links[] = $link->toInsightly();
             }
-
         }
 
         return [
@@ -359,6 +380,5 @@ abstract class PrimaryEntityBase extends Entity
             'CAN_EDIT' => $this->canEdit(),
             'CAN_DELETE' => $this->canDelete(),
         ];
-
     }
 }

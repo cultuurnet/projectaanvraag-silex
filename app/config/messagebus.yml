@@ -9,6 +9,7 @@ subscribers:
             - project_blocked_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated:
             - project_activated_listener
+        CultuurNet\ProjectAanvraag\Project\Event\RequestedActivation:
 
 listeners:
     project_created_listener:
@@ -57,13 +58,14 @@ handlers:
             - uitid_user_session_data_complete
 
     request_activation_handler:
-        command: CultuurNet\ProjectAanvraag\Project\Command\RequestActivationCommandHandler
+        command: CultuurNet\ProjectAanvraag\Project\Command\RequestActivation
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\RequestActivationCommandHandler
         arguments:
-            - event_bus
-            - orm.em
-            - uitid_user_session_data_complete
-            - insightly_client
+          - event_bus
+          - orm.em
+          - uitid_user_session_data_complete
+          - insightly_client
+          - insightly.project_config
 
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject

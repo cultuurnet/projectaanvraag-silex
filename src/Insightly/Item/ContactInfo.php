@@ -2,14 +2,11 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-class ContactInfo extends Entity
-{
-    const CONTACT_INFO_TYPE_EMAIL = 'EMAIL';
+use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
-    /**
-     * @var int
-     */
-    protected $id;
+class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializableInterface
+{
+    const TYPE_EMAIL = 'email';
 
     /**
      * @var string
@@ -139,6 +136,20 @@ class ContactInfo extends Entity
     /**
      * Serializes a Contact info to an Insightly accepted array
      * @return array
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        $json = [];
+        foreach ($this as $key => $value) {
+            $json[$key] = $value;
+        }
+
+        return $json;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function toInsightly()
     {

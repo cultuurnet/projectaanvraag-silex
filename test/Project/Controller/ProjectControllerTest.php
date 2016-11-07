@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
+use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
@@ -217,7 +218,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->with($blockProject);
 
         $response = $this->controller->blockProject(1);
-        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+        $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
     }
 
     /**
@@ -243,7 +244,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->with($activateProject);
 
         $response = $this->controller->activateProject(1);
-        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+        $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
     }
 
     /**
@@ -259,11 +260,40 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test requestActivation with a coupon.
      */
+    public function testRequestActivationWithoutCoupon()
+    {
+        $project = $this->setupProjectTest('edit');
+        $postData = [
+            'name' => 'name',
+            'email' => 'email',
+            'street' => 'street',
+            'number' => 'number',
+            'postal' => 'postal',
+            'city' => 'city',
+            'identifier' => 'VAT',
+        ];
+        $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
+
+        $address = new Address($postData['street'], $postData['number'], $postData['postal'], $postData['city']);
+        $requestActivation = new RequestActivation($project, 'email', 'name', $address, 'VAT');
+        $this->messageBus
+            ->expects($this->any())
+            ->method('handle')
+            ->with($requestActivation);
+
+        $response = $this->controller->requestActivation(1, $request);
+
+        $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
+    }
+
+    /**
+     * Test requestActivation with a coupon.
+     */
     public function testRequestActivationWithCoupon()
     {
         $project = $this->setupProjectTest('edit');
         $postData = [
-            'coupon' => 'test'
+            'coupon' => 'test',
         ];
         $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
 
@@ -275,7 +305,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->controller->requestActivation(1, $request);
 
-        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+        $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
     }
 
     /**

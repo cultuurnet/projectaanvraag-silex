@@ -1,0 +1,32 @@
+
+{
+  "ORGANISATION_ID": 94722860,
+  "ORGANISATION_NAME": "test",
+  "BACKGROUND": null,
+  "IMAGE_URL": null,
+  "OWNER_USER_ID": 1210621,
+  "DATE_CREATED_UTC": "2016-11-04 14:18:49",
+  "DATE_UPDATED_UTC": "2016-11-04 14:18:49",
+  "VISIBLE_TO": "EVERYONE",
+  "VISIBLE_TEAM_ID": null,
+  "VISIBLE_USER_IDS": null,
+  "CUSTOMFIELDS": [],
+  "ADDRESSES": [
+    {
+      "ADDRESS_ID": 48059103,
+      "ADDRESS_TYPE": "WORK",
+      "STREET": "straat 1",
+      "CITY": "gent",
+      "STATE": null,
+      "POSTCODE": "9000",
+      "COUNTRY": null
+    }
+  ],
+  "CONTACTINFOS": [],
+  "DATES": [],
+  "TAGS": [],
+  "LINKS": [],
+  "ORGANISATIONLINKS": [],
+  "CAN_EDIT": true,
+  "CAN_DELETE": true
+}

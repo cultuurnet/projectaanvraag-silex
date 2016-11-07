@@ -2,9 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
+use CultuurNet\ProjectAanvraag\Insightly\Result\GetOrganisationResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
@@ -124,8 +124,7 @@ class InsightlyClient implements InsightlyClientInterface
             $response = $this->guzzleClient->createRequest($method, $uri, $headers, $body, $options)->send();
             if (!$cacheKey) {
                 return $response;
-            }
-            else {
+            } else {
                 $this->responseCache[$cacheKey] = $response;
             }
         }
@@ -202,7 +201,7 @@ class InsightlyClient implements InsightlyClientInterface
             'PIPELINE_ID' => $pipelineId,
             'PIPELINE_STAGE_CHANGE' => [
                 'STAGE_ID' => $newStageId,
-            ]
+            ],
         ];
 
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/Pipeline', null, json_encode($data)));
@@ -225,6 +224,14 @@ class InsightlyClient implements InsightlyClientInterface
      */
     public function createOrganisation(Organisation $organisation)
     {
-        // TODO: Implement createOrganisation() method.
+        return GetOrganisationResult::parseToResult($this->request(RequestInterface::POST, 'Organisations', null, json_encode($organisation->toInsightly())));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrganisation($organisationId)
+    {
+        return GetOrganisationResult::parseToResult($this->request(RequestInterface::GET, 'Organisations/' . $organisationId));
     }
 }

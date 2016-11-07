@@ -74,7 +74,10 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
         $this->insightlyProject->setDetails($project->getDescription());
 
         // Link the Insightly user
-        $link = new Link(Link::LINK_TYPE_CONTACT, $localUser->getInsightlyContactId(), 'Aanvrager');
+        $link = new Link();
+        $link->setContactId($localUser->getInsightlyContactId());
+        $link->setRole('Aanvrager');
+
         $this->insightlyProject->addLink($link);
 
         // Custom fields: Test environment
@@ -118,7 +121,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
         $contact = new Contact();
         $contact->setFirstName($localUser->getFirstName() ?: $localUser->getNick());
         $contact->setLastName($localUser->getLastName() ?: $localUser->getNick());
-        $contact->addContactInfo(ContactInfo::CONTACT_INFO_TYPE_EMAIL, $localUser->getEmail());
+        $contact->addContactInfo(ContactInfo::TYPE_EMAIL, $localUser->getEmail());
 
         return $this->insightlyClient->createContact($contact);
     }
