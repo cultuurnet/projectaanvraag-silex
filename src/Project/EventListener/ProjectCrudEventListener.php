@@ -81,4 +81,22 @@ abstract class ProjectCrudEventListener
     {
         $this->insightlyProject = $this->insightlyClient->updateProjectPipelineStage($this->insightlyProject->getId(), $stageId);
     }
+
+    /**
+     * @return \CultuurNet\ProjectAanvraag\Insightly\Item\Project
+     */
+    public function getInsightlyProject()
+    {
+        return $this->insightlyProject;
+    }
+
+    /**
+     * @param \CultuurNet\ProjectAanvraag\Insightly\Item\Project $insightlyProject
+     * @return ProjectCrudEventListener
+     */
+    public function setInsightlyProject($insightlyProject)
+    {
+        $this->insightlyProject = $insightlyProject;
+        return $this;
+    }
 }

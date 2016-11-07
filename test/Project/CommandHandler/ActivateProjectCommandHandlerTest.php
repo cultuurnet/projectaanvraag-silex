@@ -35,7 +35,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
     protected $cultureFeedTest;
 
     /**
-     * @var BlockProjectCommandHandler|\PHPUnit_Framework_MockObject_MockObject
+     * @var ActivateProjectCommandHandler|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $commandHandler;
 
