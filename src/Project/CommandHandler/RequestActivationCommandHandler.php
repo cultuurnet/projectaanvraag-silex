@@ -102,12 +102,8 @@ class RequestActivationCommandHandler
         $organisation = $this->insightlyClient->createOrganisation($organisation);
 
         // Save the link organisation > project.
-        $links = $organisation->getLinks();
-        if (isset($links[0])) {
-            $link = $links[0];
-        } else {
-            $link = new Link();
-        }
+        $links = $insightlyProject->getLinks();
+        $link = isset($links[0]) ? $links[0] : new Link();
 
         $link->setOrganisationId($organisation->getId());
         $links[0] = $link;
