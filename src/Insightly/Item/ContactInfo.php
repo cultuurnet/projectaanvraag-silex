@@ -38,7 +38,7 @@ class ContactInfo extends Entity
      * @param string $label
      * @param string $detail
      */
-    public function __construct($type = null, $subType = null, $label = null, $detail = null)
+    public function __construct($type, $detail = null, $subType = null, $label = null)
     {
         $this->type = $type;
         $this->subType = $subType;
@@ -143,16 +143,13 @@ class ContactInfo extends Entity
     public function toInsightly()
     {
         $data = [
+            'CONTACT_INFO_ID' => $this->getId(),
             'TYPE' => $this->getType(),
             'SUBTYPE' => $this->getSubType(),
             'LABEL' => $this->getLabel(),
             'DETAIL' => $this->getDetail(),
         ];
 
-        if ($this->getId()) {
-            $data['CONTACT_INFO_ID'] = $this->getId();
-        }
-
-        return $data;
+        return array_filter($data);
     }
 }

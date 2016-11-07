@@ -153,10 +153,18 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
+    public function getContact($id)
+    {
+        return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly(EntityInterface::OPERATION_UPDATE))));
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
     }
 
     /**
@@ -165,7 +173,7 @@ class InsightlyClient implements InsightlyClientInterface
     public function createProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
+        return GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
     }
 
     /**
@@ -188,13 +196,25 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
-    public function updateProjectPipelineStage($projectId, $pipelineId, $newStageId)
+    public function updateProjectPipeline($projectId, $pipelineId, $newStageId)
     {
         $data = [
             'PIPELINE_ID' => $pipelineId,
             'PIPELINE_STAGE_CHANGE' => [
                 'STAGE_ID' => $newStageId,
             ]
+        ];
+
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/Pipeline', null, json_encode($data)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateProjectPipelineStage($projectId, $newStageId)
+    {
+        $data = [
+            'STAGE_ID' => $newStageId,
         ];
 
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/PipelineStage', null, json_encode($data)));

@@ -247,6 +247,16 @@ class Project extends PrimaryEntityBase
     }
 
     /**
+     * @param Link $link
+     * @return Project
+     */
+    public function addLink($link)
+    {
+        $this->links[] = $link;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
@@ -262,10 +272,9 @@ class Project extends PrimaryEntityBase
 
     /**
      * Serializes a Project to an Insightly accepted array
-     * @param string $op
      * @return array
      */
-    public function toInsightly($op = EntityInterface::OPERATION_INSERT)
+    public function toInsightly()
     {
         $data = parent::toInsightly();
 
@@ -283,10 +292,6 @@ class Project extends PrimaryEntityBase
             'STAGE_ID' => $this->getStageId(),
         ];
 
-        if ($op === EntityInterface::OPERATION_INSERT) {
-            unset($data['PROJECT_ID']);
-        }
-
-        return $data;
+        return array_filter($data);
     }
 }

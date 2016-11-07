@@ -67,6 +67,7 @@ class CreateProjectCommandHandler
         $cultureFeedConsumer->name = $createProject->getName();
         $cultureFeedConsumer->consumerKey = 'key';
         $cultureFeedConsumer->consumerSecret = 'secret';
+        $cultureFeedConsumer->description = 'some description';
 
         // 2. Save the project to the local database
         $project = new Project();

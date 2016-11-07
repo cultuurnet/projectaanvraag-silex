@@ -7,27 +7,18 @@ use CultuurNet\ProjectAanvraag\Entity\UserInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use Doctrine\ORM\EntityManagerInterface;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 
-class ProjectCreatedEventListener
+class ProjectCreatedEventListener extends ProjectCrudEventListener
 {
-    /**
-     * @var InsightlyClientInterface
-     */
-    protected $insightlyClient;
-
     /**
      * @var EntityManagerInterface
      */
     protected $entityManager;
-
-    /**
-     * @var array
-     */
-    protected $insightlyConfig;
 
     /**
      * ProjectDeletedEventListener constructor.
@@ -37,8 +28,8 @@ class ProjectCreatedEventListener
      */
     public function __construct(InsightlyClientInterface $insightlyClient, array $insightlyConfig, EntityManagerInterface $entityManager)
     {
-        $this->insightlyClient = $insightlyClient;
-        $this->insightlyConfig = $insightlyConfig;
+        parent::__construct($insightlyClient, $insightlyConfig);
+
         $this->entityManager = $entityManager;
     }
 
@@ -55,22 +46,65 @@ class ProjectCreatedEventListener
         /** @var UserInterface $user */
         $localUser = $projectCreated->getUser();
 
-        // 1. Create a new contact when no InsightlyContactId is available
-        if (empty($localUser->getInsightlyContactId())) {
-            $localUser->setInsightylContactId($this->createInsightyConctact($localUser)->getId());
+        /**
+         * 1. Create a new contact when no InsightlyContactId is available
+         */
+        try {
+            $insightlyContact = $this->insightlyClient->getContact($localUser->getInsightlyContactId());
+
+            if (empty($insightlyContact->getId())) {
+                throw new \Exception();
+            }
+        } catch (\Exception $e) {
+            $insightlyContact = $this->createInsightyConctact($localUser);
+            $localUser->setInsightylContactId($insightlyContact->getId());
 
             $this->entityManager->merge($localUser);
             $this->entityManager->flush();
         }
 
-        // 2. Create Insightly project
-        $insightlyProject = new InsightlyProject();
-        $insightlyProject->setName($project->getName());
-        $insightlyProject->setStatus(Project::STATUS_IN_PROGRESS);
-        $insightlyProject->setCategoryId($this->insightlyConfig['categories'][$project->getGroupId()]);
+        /**
+         * 2. Create Insightly project
+         */
+        $this->insightlyProject = new InsightlyProject();
 
-        // Todo: Add custom field and link field
-        $test = $this->insightlyClient->createProject($insightlyProject);
+        $this->insightlyProject->setName($project->getName());
+        $this->insightlyProject->setStatus(Project::STATUS_IN_PROGRESS);
+        $this->insightlyProject->setCategoryId($this->insightlyConfig['categories'][$project->getGroupId()]);
+        $this->insightlyProject->setDetails($project->getDescription());
+
+        // Link the Insightly user
+        $link = new Link(Link::LINK_TYPE_CONTACT, $localUser->getInsightlyContactId(), 'Aanvrager');
+        $this->insightlyProject->addLink($link);
+
+        // Custom fields: Test environment
+        if (!empty($this->insightlyConfig['custom_fields']['test_key']) && !empty($project->getTestConsumerKey())) {
+            $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['test_key'], $project->getTestConsumerKey());
+        }
+
+        // Custom fields: Live environment
+        if (!empty($this->insightlyConfig['custom_fields']['live_key']) && !empty($project->getLiveConsumerKey())) {
+            $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['test_key'], $project->getLiveConsumerKey());
+        }
+
+        // Create the project
+        $this->createInsightlyProject();
+
+        /**
+         * 3. Update local db record
+         */
+        $project = $this->entityManager->getRepository('ProjectAanvraag:Project')->find($project->getId());
+        $project->setInsightlyProjectId($this->insightlyProject->getId());
+        $this->entityManager->flush();
+
+        /**
+         * 4. Update the project pipeline and pipeline stage
+         */
+        if (!empty($projectCreated->getUsedCoupon())) {
+            $this->updatePipeline($this->insightlyConfig['pipeline'], $this->insightlyConfig['stages']['live_met_coupon']);
+        }else {
+            $this->updatePipeline($this->insightlyConfig['pipeline'], $this->insightlyConfig['stages']['test']);
+        }
     }
 
     /**
@@ -84,7 +118,7 @@ class ProjectCreatedEventListener
         $contact = new Contact();
         $contact->setFirstName($localUser->getFirstName() ?: $localUser->getNick());
         $contact->setLastName($localUser->getLastName() ?: $localUser->getNick());
-        $contact->addContactInfo(ContactInfo::CONTACT_INFO_TYPE_EMAIL, '', '', $localUser->getEmail());
+        $contact->addContactInfo(ContactInfo::CONTACT_INFO_TYPE_EMAIL, $localUser->getEmail());
 
         return $this->insightlyClient->createContact($contact);
     }

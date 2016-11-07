@@ -97,15 +97,15 @@ class Contact extends Entity
     }
 
     /**
-     * @param null $type
+     * @param string $type
      * @param null $subType
      * @param null $label
      * @param null $detail
      * @return Contact
      */
-    public function addContactInfo($type = null, $subType = null, $label = null, $detail = null)
+    public function addContactInfo($type, $detail = null, $subType = null, $label = null)
     {
-        $this->contactInfos[] = new ContactInfo($type, $subType, $label, $detail);
+        $this->contactInfos[] = new ContactInfo($type, $detail,  $subType, $label);
         return $this;
     }
 
@@ -121,15 +121,12 @@ class Contact extends Entity
         }
 
         $data = [
+            'CONTACT_ID' => $this->getId(),
             'FIRST_NAME' => $this->getFirstName(),
             'LAST_NAME' => $this->getLastName(),
             'CONTACTINFOS' => $contactInfos,
         ];
 
-        if ($this->getId()) {
-            $data['CONTACT_ID'] = $this->getId();
-        }
-
-        return $data;
+        return array_filter($data);
     }
 }

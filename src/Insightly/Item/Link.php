@@ -4,35 +4,22 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 class Link extends Entity
 {
+    const LINK_TYPE_CONTACT = 'CONTACT_ID';
+    const LINK_TYPE_OPPORTUNITY = 'OPPORTUNITY_ID';
+    const LINK_TYPE_ORGANISATION = 'ORGANISATION_ID';
+    const LINK_TYPE_PROJECT = 'PROJECT_ID';
+    const LINK_TYPE_SECOND_PROJECT = 'SECOND_PROJECT_ID';
+    const LINK_TYPE_SECOND_OPPORTUNITY = 'SECOND_OPPORTUNITY_ID';
+
     /**
-     * @var int
+     * @var string
      */
-    protected $contactId;
+    protected $type;
 
     /**
      * @var int
      */
-    protected $opportunityId;
-
-    /**
-     * @var int
-     */
-    protected $organisationId;
-
-    /**
-     * @var int
-     */
-    protected $projectId;
-
-    /**
-     * @var int
-     */
-    protected $secondProjectId;
-
-    /**
-     * @var int
-     */
-    protected $secondOpportunityId;
+    protected $linkedId;
 
     /**
      * @var string
@@ -45,110 +32,71 @@ class Link extends Entity
     protected $details;
 
     /**
-     * @return int
+     * Link constructor.
+     * @param string $type
+     * @param int $linkedId
+     * @param string|null $role
+     * @param string|null $details
      */
-    public function getContactId()
+    public function __construct($type, $linkedId, $role = null, $details = null)
     {
-        return $this->contactId;
+        $this->type = $type;
+        $this->linkedId = $linkedId;
+        $this->role = $role;
+        $this->details = $details;
     }
 
     /**
-     * @param int $contactId
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
      * @return Link
      */
-    public function setContactId($contactId)
+    public function setId($id)
     {
-        $this->contactId = $contactId;
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return Link
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
         return $this;
     }
 
     /**
      * @return int
      */
-    public function getOpportunityId()
+    public function getLinkedId()
     {
-        return $this->opportunityId;
+        return $this->linkedId;
     }
 
     /**
-     * @param int $opportunityId
+     * @param int $linkedId
      * @return Link
      */
-    public function setOpportunityId($opportunityId)
+    public function setLinkedId($linkedId)
     {
-        $this->opportunityId = $opportunityId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOrganisationId()
-    {
-        return $this->organisationId;
-    }
-
-    /**
-     * @param int $organisationId
-     * @return Link
-     */
-    public function setOrganisationId($organisationId)
-    {
-        $this->organisationId = $organisationId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getProjectId()
-    {
-        return $this->projectId;
-    }
-
-    /**
-     * @param int $projectId
-     * @return Link
-     */
-    public function setProjectId($projectId)
-    {
-        $this->projectId = $projectId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSecondProjectId()
-    {
-        return $this->secondProjectId;
-    }
-
-    /**
-     * @param int $secondProjectId
-     * @return Link
-     */
-    public function setSecondProjectId($secondProjectId)
-    {
-        $this->secondProjectId = $secondProjectId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSecondOpportunityId()
-    {
-        return $this->secondOpportunityId;
-    }
-
-    /**
-     * @param int $secondOpportunityId
-     * @return Link
-     */
-    public function setSecondOpportunityId($secondOpportunityId)
-    {
-        $this->secondOpportunityId = $secondOpportunityId;
+        $this->linkedId = $linkedId;
         return $this;
     }
 
@@ -171,7 +119,7 @@ class Link extends Entity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDetails()
     {
@@ -179,12 +127,27 @@ class Link extends Entity
     }
 
     /**
-     * @param mixed $details
+     * @param string $details
      * @return Link
      */
     public function setDetails($details)
     {
         $this->details = $details;
         return $this;
+    }
+
+    /**
+     * Serializes a Link to an Insightly accepted array
+     * @return array
+     */
+    public function toInsightly()
+    {
+        return array_filter(
+            [
+                $this->getType() => $this->getLinkedId(),
+                'ROLE' => $this->getRole(),
+                'DETAILS' => $this->getDetails(),
+            ]
+        );
     }
 }

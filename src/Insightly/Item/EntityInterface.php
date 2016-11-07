@@ -7,9 +7,6 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
  */
 interface EntityInterface
 {
-    const OPERATION_INSERT = 'insert';
-    const OPERATION_UPDATE = 'update';
-
     /**
      * Get the id of this entity.
      * @return string

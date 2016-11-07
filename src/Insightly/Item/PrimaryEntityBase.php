@@ -66,7 +66,7 @@ abstract class PrimaryEntityBase extends Entity
     /**
      * @var array
      */
-    protected $customFields;
+    protected $customFields = [];
 
     /**
      * @return string
@@ -316,7 +316,7 @@ abstract class PrimaryEntityBase extends Entity
 
     /**
      * Delete a custom field.
-     * @param $name
+     * @param $key
      *   Key to remove
      */
     public function deleteCustomField($key) {
@@ -329,13 +329,21 @@ abstract class PrimaryEntityBase extends Entity
      */
     public function toInsightly()
     {
-
         $customFields = [];
         foreach ($this->customFields as $key => $value) {
             $customFields[] = [
                 'CUSTOM_FIELD_ID' => $key,
                 'FIELD_VALUE' => $value
             ];
+        }
+
+        $links = [];
+        if (!empty($this->links)) {
+            /** @var Link $link */
+            foreach ($this->links as $link) {
+                $links[] = $link->toInsightly();
+            }
+
         }
 
         return [
@@ -347,6 +355,7 @@ abstract class PrimaryEntityBase extends Entity
             'VISIBLE_TEAM_ID' => $this->getVisibleTeamId(),
             'VISIBLE_USER_IDS' => $this->getVisibleUserIds(),
             'CUSTOMFIELDS' => $customFields,
+            'LINKS' => $links,
             'CAN_EDIT' => $this->canEdit(),
             'CAN_DELETE' => $this->canDelete(),
         ];
