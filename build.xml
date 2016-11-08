@@ -3,6 +3,7 @@
     <fileset id="php" dir="./">
         <include name="**/*.php"/>
         <exclude name="vendor/"/>
+        <exclude name="proxies/"/>
     </fileset>
 
     <target name="composer-validate">
