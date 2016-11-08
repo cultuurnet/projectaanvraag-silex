@@ -2,10 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 
 interface InsightlyClientInterface
@@ -28,7 +27,15 @@ interface InsightlyClientInterface
     public function getProject($id);
 
     /**
-     * Gets a list of projects
+     * Gets a contact
+     *
+     * @param int $id
+     * @return Contact
+     */
+    public function getContact($id);
+
+    /**
+     * Update a project
      *
      * @param Project $project
      * @param array $options
@@ -36,6 +43,24 @@ interface InsightlyClientInterface
      * @return Project
      */
     public function updateProject($project, $options = []);
+
+    /**
+     * Create a project
+     *
+     * @param Project $project
+     * @param array $options
+     *  Array of oData options
+     * @return Project
+     */
+    public function createProject($project, $options = []);
+
+    /**
+     * Creates a contact
+     *
+     * @param Contact $contact
+     * @return Contact
+     */
+    public function createContact($contact);
 
     /**
      * Gets a list of pipelines
@@ -51,13 +76,25 @@ interface InsightlyClientInterface
      *
      * @param $projectId
      *   Project id to update.
+     * @param $newStageId
+     *   Id of the new stage.
+     * @return Project
+     */
+    public function updateProjectPipelineStage($projectId, $newStageId);
+
+    /**
+     * Update the pipeline for a given project id.
+     *
+     * @param $projectId
+     *   Project id to update.
      * @param $pipelineId
      *   ID of the pipeline to update.
      * @param $newStageId
      *   Id of the new stage.
      * @return Project
      */
-    public function updateProjectPipelineStage($projectId, $pipelineId, $newStageId);
+    public function updateProjectPipeline($projectId, $pipelineId, $newStageId);
+
 
     /**
      * @param $organisation

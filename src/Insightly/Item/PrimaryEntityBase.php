@@ -324,7 +324,7 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
 
     /**
      * Delete a custom field.
-     * @param $name
+     * @param $key
      *   Key to remove
      */
     public function deleteCustomField($key)
@@ -351,7 +351,6 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
      */
     public function toInsightly()
     {
-
         $customFields = [];
         foreach ($this->customFields as $key => $value) {
             $customFields[] = [
@@ -361,8 +360,11 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
         }
 
         $links = [];
-        foreach ($this->links as $link) {
-            $links[] = $link->toInsightly();
+        if (!empty($this->links)) {
+            /** @var Link $link */
+            foreach ($this->links as $link) {
+                $links[] = $link->toInsightly();
+            }
         }
 
         return [
@@ -374,9 +376,9 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
             'VISIBLE_TEAM_ID' => $this->getVisibleTeamId(),
             'VISIBLE_USER_IDS' => $this->getVisibleUserIds(),
             'CUSTOMFIELDS' => $customFields,
+            'LINKS' => $links,
             'CAN_EDIT' => $this->canEdit(),
             'CAN_DELETE' => $this->canDelete(),
-            'LINKS' => $links,
         ];
     }
 }

@@ -6,7 +6,6 @@ use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
 class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializableInterface
 {
-
     const TYPE_EMAIL = 'email';
 
     /**
@@ -17,12 +16,50 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
     /**
      * @var string
      */
+    protected $subType;
+
+    /**
+     * @var string
+     */
     protected $label;
 
     /**
      * @var string
      */
     protected $detail;
+
+    /**
+     * ContactInfo constructor.
+     * @param string $type
+     * @param string $subType
+     * @param string $label
+     * @param string $detail
+     */
+    public function __construct($type, $detail = null, $subType = null, $label = null)
+    {
+        $this->type = $type;
+        $this->subType = $subType;
+        $this->label = $label;
+        $this->detail = $detail;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return ContactInfo
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * @return string
@@ -39,6 +76,24 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubType()
+    {
+        return $this->subType;
+    }
+
+    /**
+     * @param string $subType
+     * @return ContactInfo
+     */
+    public function setSubType($subType)
+    {
+        $this->subType = $subType;
         return $this;
     }
 
@@ -79,6 +134,8 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
     }
 
     /**
+     * Serializes a Contact info to an Insightly accepted array
+     * @return array
      * {@inheritdoc}
      */
     public function jsonSerialize()
@@ -99,6 +156,7 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
         $data = [
             'CONTACT_INFO_ID' => $this->getId(),
             'TYPE' => $this->getType(),
+            'SUBTYPE' => $this->getSubType(),
             'LABEL' => $this->getLabel(),
             'DETAIL' => $this->getDetail(),
         ];

@@ -76,6 +76,8 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->method('getProject')
             ->with(1)
             ->willReturn($this->insightlyProject);
+
+        $this->eventListener->setInsightlyProject($this->insightlyProject);
     }
 
     /**
@@ -95,7 +97,7 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->insightlyClient->expects(($this->once()))
             ->method('updateProjectPipelineStage')
-            ->with(1, 1, 'no coupon');
+            ->with(1, 'no coupon');
 
         $projectActivated = new ProjectActivated($this->project);
         $this->eventListener->handle($projectActivated);
@@ -110,9 +112,15 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->method('addCustomField')
             ->with('used', 'coupon');
 
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('updateProject')
+            ->with($this->insightlyProject)
+            ->willReturn($this->insightlyProject);
+
         $this->insightlyClient->expects(($this->once()))
             ->method('updateProjectPipelineStage')
-            ->with(1, 1, 'coupon');
+            ->with(1, 'coupon');
 
         $projectActivated = new ProjectActivated($this->project, 'coupon');
         $this->eventListener->handle($projectActivated);
