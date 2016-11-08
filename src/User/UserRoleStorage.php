@@ -40,7 +40,7 @@ class UserRoleStorage implements UserRoleStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function getRolesAndUserIds()
+    public function getUserRoles()
     {
         if (!is_array($this->userRoles)) {
             $this->loadUserRoles();
@@ -69,14 +69,14 @@ class UserRoleStorage implements UserRoleStorageInterface
      */
     public function getRolesByUserId($userId)
     {
-        $userRoles = [];
+        $roles = [];
 
-        foreach ($this->getRolesAndUserIds() as $role => $ids) {
+        foreach ($this->getUserRoles() as $role => $ids) {
             if (in_array($userId, $ids)) {
-                $userRoles[] = $role;
+                $roles[] = $role;
             }
         }
 
-        return $userRoles;
+        return $roles;
     }
 }
