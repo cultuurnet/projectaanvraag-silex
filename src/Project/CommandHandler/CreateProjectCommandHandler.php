@@ -61,8 +61,18 @@ class CreateProjectCommandHandler
      */
     public function handle(CreateProject $createProject)
     {
+
         /**
-         * 1. Create a test service consumer
+         * 1. Prepare project
+         */
+        $project = new Project();
+        $project->setName($createProject->getName());
+        $project->setDescription($createProject->getDescription());
+        $project->setGroupId($createProject->getIntegrationType());
+        $project->setUserId($this->user->id);
+
+        /**
+         * 2. Create a test service consumer
          */
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
@@ -71,33 +81,23 @@ class CreateProjectCommandHandler
 
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
-        $cultureFeedLiveConsumer = null;
+        $project->setTestConsumerKey($cultureFeedConsumer->consumerKey);
 
         // Create a live service consumer when a coupon is provided
         if (!empty($createProject->getCouponToUse())) {
             /** @var \CultureFeed_Consumer $cultureFeedConsumer */
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
-        }
-
-        /**
-         * 2. Save the project to the local database
-         */
-        $project = new Project();
-        $project->setName($cultureFeedConsumer->name);
-        $project->setDescription($cultureFeedConsumer->description);
-        $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
-        $project->setTestConsumerKey($cultureFeedConsumer->consumerKey);
-        $project->setGroupId($createProject->getIntegrationType());
-        $project->setUserId($this->user->id);
-
-        if (!empty($cultureFeedLiveConsumer)) {
+            $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
         }
 
+        /**
+         * 3. Save the project to the local database
+         */
         $this->entityManager->persist($project);
 
         /**
-         * 3. Create a local user if needed
+         * 4. Create a local user if needed
          */
         $localUser = $this->entityManager->getRepository('ProjectAanvraag:User')->find($project->getUserId());
         if (empty($localUser)) {
