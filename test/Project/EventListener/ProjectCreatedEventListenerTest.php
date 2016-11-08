@@ -86,6 +86,7 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->project = new \CultuurNet\ProjectAanvraag\Entity\Project();
+        $this->project->setId(1);
         $this->project->setName('name');
         $this->project->setGroupId(2);
         $this->project->setDescription('description');
@@ -95,6 +96,22 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->localUser->setLastName('lastname');
         $this->localUser->setFirstName('firstname');
         $this->localUser->setEmail('email@email.com');
+
+        $repository = $this
+            ->getMockBuilder(EntityRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->entityManager
+            ->expects($this->any())
+            ->method('getRepository')
+            ->with('ProjectAanvraag:Project')
+            ->willReturn($repository);
+
+        $repository->expects($this->any())
+            ->method('find')
+            ->with(1)
+            ->willReturn($this->project);
     }
 
     /**
@@ -134,10 +151,10 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         // The project should be updated.
         $updatedProject = clone $this->project;
         $updatedProject->setInsightlyProjectId(1);
-        $this->entityManager->expects($this->at(2))
+        $this->entityManager->expects($this->at(3))
             ->method('merge')
             ->with($updatedProject);
-        $this->entityManager->expects($this->at(3))
+        $this->entityManager->expects($this->at(4))
             ->method('flush');
 
         $projectCreated = new ProjectCreated($this->project, $this->localUser);
@@ -184,10 +201,10 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         // The project should be updated.
         $updatedProject = clone $this->project;
         $updatedProject->setInsightlyProjectId(1);
-        $this->entityManager->expects($this->at(2))
+        $this->entityManager->expects($this->at(3))
             ->method('merge')
             ->with($updatedProject);
-        $this->entityManager->expects($this->at(3))
+        $this->entityManager->expects($this->at(4))
             ->method('flush');
 
         $projectCreated = new ProjectCreated($this->project, $this->localUser, 'coupon');

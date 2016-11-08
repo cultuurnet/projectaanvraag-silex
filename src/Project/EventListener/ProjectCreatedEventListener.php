@@ -108,6 +108,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
         /**
          * 3. Update local db record
          */
+        $project = $this->entityManager->getRepository('ProjectAanvraag:Project')->find($project->getId());
         $project->setInsightlyProjectId($this->insightlyProject->getId());
         $this->entityManager->merge($project);
         $this->entityManager->flush();

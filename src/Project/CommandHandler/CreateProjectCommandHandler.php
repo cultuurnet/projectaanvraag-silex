@@ -70,6 +70,7 @@ class CreateProjectCommandHandler
         $project->setDescription($createProject->getDescription());
         $project->setGroupId($createProject->getIntegrationType());
         $project->setUserId($this->user->id);
+        $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
 
         /**
          * 2. Create a test service consumer
