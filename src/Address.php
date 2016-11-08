@@ -16,12 +16,6 @@ class Address
     private $street;
 
     /**
-     * @Type("string")
-     * @var string
-     */
-    private $number;
-
-    /**
      * @Type("integer")
      * @var int
      */
@@ -48,24 +42,6 @@ class Address
     public function setStreet($street)
     {
         $this->street = $street;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * @param string $number
-     * @return Address
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
         return $this;
     }
 
@@ -108,14 +84,12 @@ class Address
     /**
      * Address constructor.
      * @param string $street
-     * @param string $number
      * @param int $postal
      * @param string $city
      */
-    public function __construct($street, $number, $postal, $city)
+    public function __construct($street, $postal, $city)
     {
         $this->street = $street;
-        $this->number = $number;
         $this->postal = $postal;
         $this->city = $city;
     }

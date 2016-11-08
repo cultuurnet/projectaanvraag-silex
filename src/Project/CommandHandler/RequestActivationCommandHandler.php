@@ -93,7 +93,7 @@ class RequestActivationCommandHandler
         $givenAddress = $requestActivation->getAddress();
         $address = new Address();
         $address->setType('WORK');
-        $address->setStreet($givenAddress->getStreet() . ' ' . $givenAddress->getNumber());
+        $address->setStreet($givenAddress->getStreet());
         $address->setCity($givenAddress->getCity());
         $address->setPostal($givenAddress->getPostal());
         $organisation->getAddresses()->append($address);

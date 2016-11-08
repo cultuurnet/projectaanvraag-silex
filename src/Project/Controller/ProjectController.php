@@ -157,13 +157,13 @@ class ProjectController
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
             $this->validateRequiredFields(
-                ['email', 'name', 'street', 'number', 'postal', 'city'],
+                ['email', 'name', 'street', 'postal', 'city'],
                 $postedData
             );
 
             $vat = !empty($postedData->identifier) ? $postedData->identifier : '';
 
-            $address = new Address($postedData->street, $postedData->number, $postedData->postal, $postedData->city);
+            $address = new Address($postedData->street, $postedData->postal, $postedData->city);
             $this->commandBus->handle(new RequestActivation($project, $postedData->email, $postedData->name, $address, $vat));
         }
 
