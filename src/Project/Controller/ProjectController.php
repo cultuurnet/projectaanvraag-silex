@@ -210,8 +210,6 @@ class ProjectController
             }
         }
 
-        $organisation->addCustomField('ORGANISATION_FIELD_1', 'BE 0523999839');
-
         return new JsonResponse($organisation);
     }
 
