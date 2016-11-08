@@ -5,3 +5,4 @@ config.yml
 /integration_types.yml
 /node_modules
 /build
+/log

@@ -2,9 +2,11 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,11 +45,6 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
     protected $user;
 
     /**
-     * @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $project;
-
-    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -72,17 +69,11 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventBus
-            ->expects($this->any())
-            ->method('handle');
-
         $this->entityManager
             ->expects($this->any())
             ->method('flush');
 
-        $this->project = $this->getMock(ProjectInterface::class);
-
-        $this->user = $this->getMock(User::class);
+        $this->user = new User();
         $this->user->id = 123;
 
         $this->commandHandler = new BlockProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->cultureFeedTest, $this->user);
@@ -93,46 +84,54 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle()
     {
-        $consumer = new \CultureFeed_Consumer();
-        $consumer->status = 'BLOCKED';
-        $consumer->name = $this->project->getName();
 
-        $this->cultureFeedTest
-            ->expects($this->any())
-            ->method('updateServiceConsumer')
-            ->with($consumer);
+        $project = new Project();
+        $project->setLiveConsumerKey('liveconsumerkey');
+        $project->setTestConsumerKey('testconsumerkey');
 
+        $liveConsumer = new \CultureFeed_Consumer();
+        $liveConsumer->consumerKey = 'liveconsumerkey';
+        $liveConsumer->status = 'BLOCKED';
+        $testConsumer = new \CultureFeed_Consumer();
+        $testConsumer->consumerKey = 'testconsumerkey';
+        $testConsumer->status = 'BLOCKED';
+
+        // Test service updates.
         $this->cultureFeed
             ->expects($this->any())
             ->method('updateServiceConsumer')
-            ->with($consumer);
+            ->with($liveConsumer);
+        $this->cultureFeedTest
+            ->expects($this->any())
+            ->method('updateServiceConsumer')
+            ->with($testConsumer);
 
-        $blockProject = new BlockProject($this->project);
+        // Test event.
+        $projectBlocked = new ProjectBlocked($project);
+        $this->eventBus
+            ->expects($this->once())
+            ->method('handle')
+            ->with($projectBlocked);
+
+        $blockProject = new BlockProject($project);
         $this->commandHandler->handle($blockProject);
     }
 
     /**
-     * Test the command handler exception
-     * @expectedException \CultureFeed_ParseException
+     * Test if it skips consumers with empty keys.
      */
-    public function testHandleException()
+    public function testIgnoreEmptyKeys()
     {
-        $consumer = new \CultureFeed_Consumer();
-        $consumer->status = 'BLOCKED';
-        $consumer->name = $this->project->getName();
 
-        $this->cultureFeedTest
-            ->expects($this->any())
-            ->method('updateServiceConsumer')
-            ->with($consumer)
-            ->willThrowException(new \CultureFeed_ParseException('CultureFeed parse exception'));
+        $project = new Project();
 
-        $this->cultureFeed
-            ->expects($this->any())
-            ->method('updateServiceConsumer')
-            ->with($consumer);
+        $this->cultureFeed->expects($this->never())
+            ->method('getServiceConsumer');
 
-        $blockProject = new BlockProject($this->project);
+        $this->cultureFeedTest->expects($this->never())
+            ->method('getServiceConsumer');
+
+        $blockProject = new BlockProject($project);
         $this->commandHandler->handle($blockProject);
     }
 }

@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
@@ -71,23 +72,27 @@ class BlockProjectCommandHandler
 
         // 1. Block the live consumer
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
-        $consumer = new \CultureFeed_Consumer();
-        $consumer->status = 'BLOCKED';
-        $consumer->name = $project->getName();
-
-        $consumer->consumerKey = $project->getLiveConsumerKey();
-        $this->cultureFeed->updateServiceConsumer($consumer);
+        if ($project->getLiveConsumerKey()) {
+            $consumer = new \CultureFeed_Consumer();
+            $consumer->consumerKey = $project->getLiveConsumerKey();
+            $consumer->status = 'BLOCKED';
+            $this->cultureFeed->updateServiceConsumer($consumer);
+        }
 
         // 2. Block the test consumer
-        $consumer->consumerKey = $project->getTestConsumerKey();
-        $this->cultureFeedTest->updateServiceConsumer($consumer);
+        if ($project->getTestConsumerKey()) {
+            $consumer = new \CultureFeed_Consumer();
+            $consumer->consumerKey = $project->getTestConsumerKey();
+            $consumer->status = 'BLOCKED';
+            $this->cultureFeedTest->updateServiceConsumer($consumer);
+        }
 
         // 3. Update the project status
         $project->setStatus(ProjectInterface::PROJECT_STATUS_BLOCKED);
         $this->entityManager->flush();
 
-        // 4. Dispatch ProjectUpdated event
-        $projectDeleted = new ProjectDeleted($project);
-        $this->eventBus->handle($projectDeleted);
+        // 4. Dispatch ProjectBlocked event
+        $projectBlocked = new ProjectBlocked($project);
+        $this->eventBus->handle($projectBlocked);
     }
 }
