@@ -5,6 +5,8 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -39,16 +41,23 @@ class ProjectController
     protected $authorizationChecker;
 
     /**
+     * @var InsightlyClientInterface
+     */
+    protected $insightlyclient;
+
+    /**
      * ProjectController constructor.
      * @param MessageBusSupportingMiddleware $commandBus
      * @param ProjectServiceInterface $projectService
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param InsightlyClientInterface $insightlyClient
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, InsightlyClientInterface $insightlyClient)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
+        $this->insightlyclient = $insightlyClient;
     }
 
     /**
@@ -172,6 +181,33 @@ class ProjectController
         $this->commandBus->handle(new ActivateProject($project));
 
         return new JsonResponse($project);
+    }
+
+    /**
+     * Gets the linked organisation for the project.
+     *
+     * @param int $id
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
+    public function getOrganisation($id)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'edit');
+        $organisation = null;
+
+        if (!empty($project->getInsightlyProjectId())) {
+            $insightyProject = $this->insightlyclient->getProject($project->getInsightlyProjectId());
+
+            /** @var Link $link */
+            foreach ($insightyProject->getLinks() as $link) {
+                if ($link->getOrganisationId()) {
+                    $organisation = $this->insightlyclient->getOrganisation($link->getOrganisationId());
+                    break;
+                }
+            }
+        }
+
+        return new JsonResponse($organisation);
     }
 
     /**

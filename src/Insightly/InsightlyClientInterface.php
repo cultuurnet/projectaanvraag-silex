@@ -64,4 +64,10 @@ interface InsightlyClientInterface
      * @return Organisation
      */
     public function createOrganisation(Organisation $organisation);
+
+    /**
+     * @param int $organisationId
+     * @return Organisation
+     */
+    public function getOrganisation($organisationId);
 }

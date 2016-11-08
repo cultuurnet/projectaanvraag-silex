@@ -15,7 +15,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $app['project_controller'] = function (Application $app) {
-            return new ProjectController($app['command_bus'], $app['project_service'], $app['security.authorization_checker']);
+            return new ProjectController($app['command_bus'], $app['project_service'], $app['security.authorization_checker'], $app['insightly_client']);
         };
 
         /* @var ControllerCollection $controllers */
@@ -27,6 +27,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $controllers->post('/{id}/request-activation', 'project_controller:requestActivation');
         $controllers->get('/{id}/activate', 'project_controller:activateProject');
         $controllers->get('/{id}/block', 'project_controller:blockProject');
+        $controllers->get('/{id}/organisation', 'project_controller:getOrganisation');
 
         return $controllers;
     }

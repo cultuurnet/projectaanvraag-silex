@@ -51,6 +51,7 @@ class Project implements ProjectInterface
      */
     protected $name;
 
+
     /**
      * @ORM\Column(name="test_consumer_key", type="string", length=255, nullable=true)
      * @Type("string")
@@ -78,6 +79,13 @@ class Project implements ProjectInterface
      * @var string
      */
     protected $status;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Type("string")
+     * @var string
+     */
+    protected $coupon;
 
     /**
      * @ORM\Column(type="datetime")
@@ -414,6 +422,24 @@ class Project implements ProjectInterface
     public function setInsightlyProjectId($insightlyProjectId)
     {
         $this->insightlyProjectId = $insightlyProjectId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCoupon()
+    {
+        return $this->coupon;
+    }
+
+    /**
+     * @param string $coupon
+     * @return Project
+     */
+    public function setCoupon($coupon)
+    {
+        $this->coupon = $coupon;
         return $this;
     }
 

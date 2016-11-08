@@ -116,6 +116,22 @@ class Organisation extends PrimaryEntityBase
     /**
      * {@inheritdoc}
      */
+    public function jsonSerialize()
+    {
+        $json = parent::jsonSerialize();
+
+        unset($json['visibleTo']);
+        unset($json['visibleTeamId']);
+        unset($json['visibleUserIds']);
+        unset($json['canEdit']);
+        unset($json['canDelete']);
+
+        return $json;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toInsightly()
     {
         $addresses = [];

@@ -40,7 +40,17 @@ class ProjectService implements ProjectServiceInterface
     protected $integrationTypeStorage;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
      * Construct the project storage.
+     * @param \ICultureFeed $cultureFeedLive
+     * @param \ICultureFeed $cultureFeedTest
+     * @param EntityManagerInterface $entityManager
+     * @param IntegrationTypeStorageInterface $integrationTypeStorage
+     * @param User $user
      */
     public function __construct(\ICultureFeed $cultureFeedLive, \ICultureFeed $cultureFeedTest, EntityManagerInterface $entityManager, IntegrationTypeStorageInterface $integrationTypeStorage, User $user)
     {
