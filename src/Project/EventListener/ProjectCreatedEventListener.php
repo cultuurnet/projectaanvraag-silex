@@ -90,6 +90,11 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
             $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['test_key'], $project->getLiveConsumerKey());
         }
 
+        // Custom fields: Coupon
+        if (!empty($this->insightlyConfig['custom_fields']['coupon']) && !empty($projectCreated->getUsedCoupon())) {
+            $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['coupon'], $projectCreated->getUsedCoupon());
+        }
+
         // Create the project
         $this->createInsightlyProject();
 
