@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use Doctrine\ORM\EntityManagerInterface;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class ProjectCreatedEventListener extends ProjectCrudEventListener
 {
@@ -48,17 +49,24 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
 
         /**
          * 1. Create a new contact when no InsightlyContactId is available
+         * or if the contact id does not exist in insightly.
          */
-        try {
-            $insightlyContact = $this->insightlyClient->getContact($localUser->getInsightlyContactId());
-
-            if (empty($insightlyContact->getId())) {
-                throw new \Exception();
+        $createNew = false;
+        if ($localUser->getInsightlyContactId()) {
+            try {
+                $this->insightlyClient->getContact($localUser->getInsightlyContactId());
             }
-        } catch (\Exception $e) {
+            catch (ClientErrorResponseException $e) {
+                // User id is not found. Create a new contact.
+                if ($e->getCode() === 404) {
+                    $createNew = true;
+                }
+            }
+        }
+
+        if ($createNew) {
             $insightlyContact = $this->createInsightyConctact($localUser);
             $localUser->setInsightylContactId($insightlyContact->getId());
-
             $this->entityManager->merge($localUser);
             $this->entityManager->flush();
         }
