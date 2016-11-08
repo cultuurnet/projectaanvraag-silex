@@ -133,19 +133,4 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $createProject = new CreateProject('Project name', 'Project description', 123, 'coupon');
         $this->commandHandler->handle($createProject);
     }
-
-    /**
-     * Test the command handler exception
-     * @expectedException \CultureFeed_ParseException
-     */
-    public function testHandleException()
-    {
-        $this->cultureFeedTest
-            ->expects($this->any())
-            ->method('createServiceConsumer')
-            ->willThrowException(new \CultureFeed_ParseException('CultureFeed parse exception'));
-
-        $createProject = new CreateProject('project name', 'project description', 123);
-        $this->commandHandler->handle($createProject);
-    }
 }

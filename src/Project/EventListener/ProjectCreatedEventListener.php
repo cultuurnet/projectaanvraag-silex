@@ -51,21 +51,20 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
          * 1. Create a new contact when no InsightlyContactId is available
          * or if the contact id does not exist in insightly.
          */
-        $createNew = false;
-        if ($localUser->getInsightlyContactId()) {
+        $createNew = $localUser->getInsightlyContactId() === 0 || $localUser->getInsightlyContactId() === null;
+        if (!$createNew) {
             try {
                 $this->insightlyClient->getContact($localUser->getInsightlyContactId());
-            }
-            catch (ClientErrorResponseException $e) {
+            } catch (ClientErrorResponseException $e) {
                 // User id is not found. Create a new contact.
-                if ($e->getCode() === 404) {
+                if ($e->getResponse()->getStatusCode() === 404) {
                     $createNew = true;
                 }
             }
         }
 
         if ($createNew) {
-            $insightlyContact = $this->createInsightyConctact($localUser);
+            $insightlyContact = $this->createInsightyContact($localUser);
             $localUser->setInsightylContactId($insightlyContact->getId());
             $this->entityManager->merge($localUser);
             $this->entityManager->flush();
@@ -95,7 +94,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
 
         // Custom fields: Live environment
         if (!empty($this->insightlyConfig['custom_fields']['live_key']) && !empty($project->getLiveConsumerKey())) {
-            $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['test_key'], $project->getLiveConsumerKey());
+            $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['live_key'], $project->getLiveConsumerKey());
         }
 
         // Custom fields: Coupon
@@ -109,14 +108,14 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
         /**
          * 3. Update local db record
          */
-        $project = $this->entityManager->getRepository('ProjectAanvraag:Project')->find($project->getId());
         $project->setInsightlyProjectId($this->insightlyProject->getId());
+        $this->entityManager->merge($project);
         $this->entityManager->flush();
 
         /**
          * 4. Update the project pipeline and pipeline stage
          */
-        if (!empty($projectCreated->getUsedCoupon())) {
+        if ($projectCreated->getUsedCoupon()) {
             $this->updatePipeline($this->insightlyConfig['pipeline'], $this->insightlyConfig['stages']['live_met_coupon']);
         } else {
             $this->updatePipeline($this->insightlyConfig['pipeline'], $this->insightlyConfig['stages']['test']);
@@ -128,7 +127,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      * @param UserInterface $localUser
      * @return Contact
      */
-    private function createInsightyConctact($localUser)
+    private function createInsightyContact($localUser)
     {
         /** @var Contact $contact */
         $contact = new Contact();
