@@ -22,7 +22,7 @@ class InsightlyServiceProvider implements ServiceProviderInterface
             $logger = new Logger('insightly_api');
             if ($app['debug']) {
                 $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
-                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '../../log/insightly.log', 0, Logger::DEBUG));
+                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/insightly.log', 0, Logger::DEBUG));
             }
             else {
                 $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/insightly.log', 0, Logger::DEBUG));
