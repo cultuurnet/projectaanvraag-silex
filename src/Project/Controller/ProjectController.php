@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -161,7 +162,7 @@ class ProjectController
                 $postedData
             );
 
-            $vat = !empty($postedData->identifier) ? $postedData->identifier : '';
+            $vat = !empty($postedData->vat) ? $postedData->vat : '';
 
             $address = new Address($postedData->street, $postedData->postal, $postedData->city);
             $this->commandBus->handle(new RequestActivation($project, $postedData->email, $postedData->name, $address, $vat));
@@ -193,6 +194,8 @@ class ProjectController
     public function getOrganisation($id)
     {
         $project = $this->getProjectWithAccessCheck($id, 'edit');
+
+        /** @var Organisation $organisation */
         $organisation = null;
 
         if (!empty($project->getInsightlyProjectId())) {
@@ -207,7 +210,24 @@ class ProjectController
             }
         }
 
+        $organisation->addCustomField('ORGANISATION_FIELD_1', 'BE 0523999839');
+
         return new JsonResponse($organisation);
+    }
+
+    /**
+     * Update an organisation.
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateOrganisation($id, Request $request)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'edit');
+
+        $postedData = json_decode($request->getContent());
+
+        return new JsonResponse($project);
     }
 
     /**

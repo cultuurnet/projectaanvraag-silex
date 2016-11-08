@@ -28,6 +28,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $controllers->get('/{id}/activate', 'project_controller:activateProject');
         $controllers->get('/{id}/block', 'project_controller:blockProject');
         $controllers->get('/{id}/organisation', 'project_controller:getOrganisation');
+        $controllers->put('/{id}/organisation', 'project_controller:updateOrganisation');
 
         return $controllers;
     }
