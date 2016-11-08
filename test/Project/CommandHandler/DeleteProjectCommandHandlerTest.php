@@ -2,8 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +36,7 @@ class DeleteProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
     protected $cultureFeedTest;
 
     /**
-     * @var DeleteProjectCommandHandler|\PHPUnit_Framework_MockObject_MockObject
+     * @var BlockProjectCommandHandler|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $commandHandler;
 
@@ -40,11 +44,6 @@ class DeleteProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      * @var UserInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $user;
-
-    /**
-     * @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $project;
 
     /**
      * {@inheritdoc}
@@ -71,21 +70,11 @@ class DeleteProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->eventBus
-            ->expects($this->any())
-            ->method('handle');
-
-        $this->entityManager
-            ->expects($this->any())
-            ->method('remove');
-
         $this->entityManager
             ->expects($this->any())
             ->method('flush');
 
-        $this->project = $this->getMock(ProjectInterface::class);
-
-        $this->user = $this->getMock(User::class);
+        $this->user = new User();
         $this->user->id = 123;
 
         $this->commandHandler = new DeleteProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->cultureFeedTest, $this->user);
@@ -96,41 +85,54 @@ class DeleteProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle()
     {
-        $consumer = $this->getMock(\CultureFeed_Consumer::class);
 
-        $this->cultureFeedTest
-            ->expects($this->any())
-            ->method('updateServiceConsumer')
-            ->will($this->returnValue($consumer));
+        $project = new Project();
+        $project->setLiveConsumerKey('liveconsumerkey');
+        $project->setTestConsumerKey('testconsumerkey');
 
+        $liveConsumer = new \CultureFeed_Consumer();
+        $liveConsumer->consumerKey = 'liveconsumerkey';
+        $liveConsumer->status = 'BLOCKED';
+        $testConsumer = new \CultureFeed_Consumer();
+        $testConsumer->consumerKey = 'testconsumerkey';
+        $testConsumer->status = 'BLOCKED';
+
+        // Test service updates.
         $this->cultureFeed
             ->expects($this->any())
             ->method('updateServiceConsumer')
-            ->will($this->returnValue($consumer));
+            ->with($liveConsumer);
+        $this->cultureFeedTest
+            ->expects($this->any())
+            ->method('updateServiceConsumer')
+            ->with($testConsumer);
 
-        $deleteProject = new DeleteProject($this->project);
+        // Test event.
+        $projectDeleted = new ProjectDeleted($project);
+        $this->eventBus
+            ->expects($this->once())
+            ->method('handle')
+            ->with($projectDeleted);
+
+        $deleteProject = new DeleteProject($project);
         $this->commandHandler->handle($deleteProject);
     }
 
     /**
-     * Test the command handler exception
-     * @expectedException \CultureFeed_ParseException
+     * Test if it skips consumers with empty keys.
      */
-    public function testHandleException()
+    public function testIgnoreEmptyKeys()
     {
-        $consumer = $this->getMock(\CultureFeed_Consumer::class);
 
-        $this->cultureFeedTest
-            ->expects($this->any())
-            ->method('updateServiceConsumer')
-            ->willThrowException(new \CultureFeed_ParseException('CultureFeed parse exception'));
+        $project = new Project();
 
-        $this->cultureFeed
-            ->expects($this->any())
-            ->method('updateServiceConsumer')
-            ->will($this->returnValue($consumer));
+        $this->cultureFeed->expects($this->never())
+            ->method('getServiceConsumer');
 
-        $deleteProject = new DeleteProject($this->project);
+        $this->cultureFeedTest->expects($this->never())
+            ->method('getServiceConsumer');
+
+        $deleteProject = new DeleteProject($project);
         $this->commandHandler->handle($deleteProject);
     }
 }

@@ -16,7 +16,7 @@ class ProjectBlockedEventListener extends ProjectCrudEventListener
     public function handle(ProjectBlocked $projectBlocked)
     {
         $this->loadInsightlyProject($projectBlocked);
-        $this->insightlyProject->setStatus(Project::STATUS_ABANDONED);
+        $this->insightlyProject->setStatus(Project::STATUS_CANCELLED);
         $this->saveInsightlyProject();
     }
 }

@@ -73,7 +73,7 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('flush');
 
-        $this->user = $this->getMock(User::class);
+        $this->user = new User();
         $this->user->id = 123;
 
         $this->commandHandler = new BlockProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->cultureFeedTest, $this->user);
