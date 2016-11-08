@@ -105,7 +105,7 @@ class Contact extends Entity
      */
     public function addContactInfo($type, $detail = null, $subType = null, $label = null)
     {
-        $this->contactInfos[] = new ContactInfo($type, $detail,  $subType, $label);
+        $this->contactInfos[] = new ContactInfo($type, $detail, $subType, $label);
         return $this;
     }
 
