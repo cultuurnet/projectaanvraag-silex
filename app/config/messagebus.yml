@@ -7,7 +7,6 @@ subscribers:
             - project_blocked_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated:
             - project_activated_listener
-        CultuurNet\ProjectAanvraag\Project\Event\RequestedActivation:
 
 listeners:
     project_activated_listener:
