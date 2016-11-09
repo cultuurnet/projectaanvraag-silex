@@ -21,6 +21,10 @@ class CouponProvider implements ServiceProviderInterface
             return $pimple['orm.em']->getRepository('ProjectAanvraag:Coupon');
         };
 
+        $pimple['coupon_importer'] = function (Container $pimple) {
+            return new CouponImporter($pimple['coupon_repository'], $pimple['orm.em']);
+        };
+
         $pimple['coupon_validator'] = function (Container $pimple) {
             return new CouponValidator($pimple['coupon_repository']);
         };
