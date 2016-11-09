@@ -142,7 +142,7 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
     private function requestTest($vat = '')
     {
 
-        $address = new \CultuurNet\ProjectAanvraag\Address('street', 'number', '9000', 'Gent');
+        $address = new \CultuurNet\ProjectAanvraag\Address('street number', '9000', 'Gent');
         $requestActivation = new RequestActivation($this->project, 'email@email.com', 'name', $address, $vat);
 
         // Contact info that should be created.

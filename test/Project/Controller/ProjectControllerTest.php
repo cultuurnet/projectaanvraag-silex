@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -45,6 +46,11 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     protected $authorizationChecker;
 
     /**
+     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $insightlyClient;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -68,7 +74,11 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')
             ->getMock();
 
-        $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker);
+        $this->insightlyClient = $this
+            ->getMockBuilder(InsightlyClientInterface::class)
+            ->getMock();
+
+        $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker, $this->insightlyClient);
     }
 
     /**
@@ -266,15 +276,14 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $postData = [
             'name' => 'name',
             'email' => 'email',
-            'street' => 'street',
-            'number' => 'number',
+            'street' => 'street and number',
             'postal' => 'postal',
             'city' => 'city',
-            'identifier' => 'VAT',
+            'vat' => 'VAT',
         ];
         $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
 
-        $address = new Address($postData['street'], $postData['number'], $postData['postal'], $postData['city']);
+        $address = new Address($postData['street'], $postData['postal'], $postData['city']);
         $requestActivation = new RequestActivation($project, 'email', 'name', $address, 'VAT');
         $this->messageBus
             ->expects($this->any())
