@@ -26,7 +26,7 @@ class JsonErrorHandler
 
         $data = [
             'code' => $e->getValidationCode(),
-            'message' => $e->getMessage()
+            'message' => $e->getMessage(),
         ];
 
         return new JsonResponse($data, 400);

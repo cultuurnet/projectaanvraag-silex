@@ -8,7 +8,6 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 

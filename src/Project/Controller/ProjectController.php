@@ -72,11 +72,12 @@ class ProjectController
             $postedProject
         );
 
+        $coupon = null;
         if (!empty($postedProject->coupon)) {
             $this->couponValidator->validateCoupon($postedProject->coupon);
             $coupon = $postedProject->coupon;
         }
-die();
+
         /**
          * Dispatch create project command
          */

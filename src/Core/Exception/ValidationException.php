@@ -10,7 +10,8 @@ abstract class ValidationException extends \Exception
     /**
      * @return string
      */
-    public function getValidationCode() {
+    public function getValidationCode()
+    {
         return;
     }
 }
