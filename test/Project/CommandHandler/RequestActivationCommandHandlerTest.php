@@ -146,8 +146,7 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $requestActivation = new RequestActivation($this->project, 'email@email.com', 'name', $address, $vat);
 
         // Contact info that should be created.
-        $contactInfo = new ContactInfo();
-        $contactInfo->setType(ContactInfo::TYPE_EMAIL);
+        $contactInfo = new ContactInfo(ContactInfo::TYPE_EMAIL);
         $contactInfo->setDetail('email@email.com');
 
         // Address that should be created.

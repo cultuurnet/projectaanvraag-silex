@@ -73,7 +73,7 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('flush');
 
-        $this->user = $this->getMock(User::class);
+        $this->user = new User();
         $this->user->id = 123;
 
         $this->commandHandler = new BlockProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->cultureFeedTest, $this->user);
@@ -90,33 +90,21 @@ class BlockProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $project->setTestConsumerKey('testconsumerkey');
 
         $liveConsumer = new \CultureFeed_Consumer();
-        $liveConsumer->name = 'live';
-        $liveConsumerBlocked = clone $liveConsumer;
-        $liveConsumerBlocked->status = 'BLOCKED';
+        $liveConsumer->consumerKey = 'liveconsumerkey';
+        $liveConsumer->status = 'BLOCKED';
         $testConsumer = new \CultureFeed_Consumer();
-        $testConsumer->name = 'test';
-        $testConsumerBlocked = clone $testConsumer;
-        $testConsumerBlocked->status = 'BLOCKED';
-
-        $this->cultureFeed->expects($this->once())
-            ->method('getServiceConsumer')
-            ->with('liveconsumerkey')
-            ->willReturn($liveConsumer);
-
-        $this->cultureFeedTest->expects($this->once())
-            ->method('getServiceConsumer')
-            ->with('testconsumerkey')
-            ->willReturn($testConsumer);
+        $testConsumer->consumerKey = 'testconsumerkey';
+        $testConsumer->status = 'BLOCKED';
 
         // Test service updates.
         $this->cultureFeed
             ->expects($this->any())
             ->method('updateServiceConsumer')
-            ->with($liveConsumerBlocked);
+            ->with($liveConsumer);
         $this->cultureFeedTest
             ->expects($this->any())
             ->method('updateServiceConsumer')
-            ->with($testConsumerBlocked);
+            ->with($testConsumer);
 
         // Test event.
         $projectBlocked = new ProjectBlocked($project);

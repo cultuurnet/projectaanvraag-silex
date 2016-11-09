@@ -73,14 +73,16 @@ class BlockProjectCommandHandler
         // 1. Block the live consumer
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         if ($project->getLiveConsumerKey()) {
-            $consumer = $this->cultureFeed->getServiceConsumer($project->getLiveConsumerKey());
+            $consumer = new \CultureFeed_Consumer();
+            $consumer->consumerKey = $project->getLiveConsumerKey();
             $consumer->status = 'BLOCKED';
             $this->cultureFeed->updateServiceConsumer($consumer);
         }
 
         // 2. Block the test consumer
         if ($project->getTestConsumerKey()) {
-            $consumer = $this->cultureFeedTest->getServiceConsumer($project->getTestConsumerKey());
+            $consumer = new \CultureFeed_Consumer();
+            $consumer->consumerKey = $project->getTestConsumerKey();
             $consumer->status = 'BLOCKED';
             $this->cultureFeedTest->updateServiceConsumer($consumer);
         }

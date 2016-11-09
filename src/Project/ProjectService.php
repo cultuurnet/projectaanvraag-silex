@@ -86,6 +86,7 @@ class ProjectService implements ProjectServiceInterface
         }
 
         $query->addCriteria($criteria);
+        $query->orderBy('p.created', 'DESC');
 
         // First load based on the projects known in database.
         $localConsumers = $query->getQuery()->getResult();

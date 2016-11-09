@@ -2,10 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetOrganisationResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectResult;
@@ -13,8 +11,8 @@ use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectsResult;
 use Guzzle\Http\ClientInterface;
 use Guzzle\Http\EntityBodyInterface;
 use Guzzle\Http\Message\RequestInterface;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Guzzle\Http\Message\Response;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class InsightlyClient implements InsightlyClientInterface
 {
@@ -154,12 +152,40 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
+    public function getContact($id)
+    {
+        return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function createProject($project, $options = [])
+    {
+        $query = $this->addQueryFilters($options);
+        return GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createContact($contact)
+    {
+        return GetContactResult::parseToResult($this->request(RequestInterface::POST, 'Contacts', null, json_encode($contact->toInsightly())));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPipelines($options = [])
     {
         $query = $this->addQueryFilters($options);
@@ -169,7 +195,7 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
-    public function updateProjectPipelineStage($projectId, $pipelineId, $newStageId)
+    public function updateProjectPipeline($projectId, $pipelineId, $newStageId)
     {
         $data = [
             'PIPELINE_ID' => $pipelineId,
@@ -179,6 +205,18 @@ class InsightlyClient implements InsightlyClientInterface
         ];
 
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/Pipeline', null, json_encode($data)));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateProjectPipelineStage($projectId, $newStageId)
+    {
+        $data = [
+            'STAGE_ID' => $newStageId,
+        ];
+
+        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/PipelineStage', null, json_encode($data)));
     }
 
     /**

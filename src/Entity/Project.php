@@ -32,7 +32,7 @@ class Project implements ProjectInterface
 
     /**
      * @ORM\Column(name="uid", type="string", length=255, nullable=true)
-     * @Type("integer")
+     * @Type("string")
      * @var string
      */
     protected $userId;

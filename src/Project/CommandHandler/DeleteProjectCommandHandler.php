@@ -71,16 +71,20 @@ class DeleteProjectCommandHandler
 
         // 1. Block the live consumer
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
-        $consumer = new \CultureFeed_Consumer();
-        $consumer->status = 'BLOCKED';
-        $consumer->name = $project->getName();
-
-        $consumer->consumerKey = $project->getLiveConsumerKey();
-        $this->cultureFeed->updateServiceConsumer($consumer);
+        if ($project->getLiveConsumerKey()) {
+            $consumer = new \CultureFeed_Consumer();
+            $consumer->consumerKey = $project->getLiveConsumerKey();
+            $consumer->status = 'BLOCKED';
+            $this->cultureFeed->updateServiceConsumer($consumer);
+        }
 
         // 2. Block the test consumer
-        $consumer->consumerKey = $project->getTestConsumerKey();
-        $this->cultureFeedTest->updateServiceConsumer($consumer);
+        if ($project->getTestConsumerKey()) {
+            $consumer = new \CultureFeed_Consumer();
+            $consumer->consumerKey = $project->getTestConsumerKey();
+            $consumer->status = 'BLOCKED';
+            $this->cultureFeedTest->updateServiceConsumer($consumer);
+        }
 
         // 3. Delete the project from the database
         $this->entityManager->remove($project);

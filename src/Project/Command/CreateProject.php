@@ -20,16 +20,23 @@ class CreateProject
     private $integrationType;
 
     /**
+     * @var string
+     */
+    private $couponToUse;
+
+    /**
      * CreateProject constructor.
      * @param $name
      * @param $description
      * @param int $integrationType
+     * @param string|null $couponToUse
      */
-    public function __construct($name, $description, $integrationType)
+    public function __construct($name, $description, $integrationType, $couponToUse = null)
     {
         $this->name = $name;
         $this->description = $description;
         $this->integrationType = $integrationType;
+        $this->couponToUse = $couponToUse;
     }
 
     /**
@@ -83,6 +90,24 @@ class CreateProject
     public function setIntegrationType($integrationType)
     {
         $this->integrationType = $integrationType;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCouponToUse()
+    {
+        return $this->couponToUse;
+    }
+
+    /**
+     * @param mixed $couponToUse
+     * @return CreateProject
+     */
+    public function setCouponToUse($couponToUse)
+    {
+        $this->couponToUse = $couponToUse;
         return $this;
     }
 }

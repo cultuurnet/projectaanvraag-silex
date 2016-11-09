@@ -40,7 +40,8 @@ abstract class ProjectCrudEventListener
 
     /**
      * Load the insightly project.
-     * @param Project $project
+     * @param ProjectEvent $projectEvent
+     * @internal param Project $project
      */
     protected function loadInsightlyProject(ProjectEvent $projectEvent)
     {
@@ -52,7 +53,25 @@ abstract class ProjectCrudEventListener
      */
     protected function saveInsightlyProject()
     {
-        $this->insightlyClient->updateProject($this->insightlyProject);
+        $this->insightlyProject = $this->insightlyClient->updateProject($this->insightlyProject);
+    }
+
+    /**
+     * Save the insightly project.
+     */
+    protected function createInsightlyProject()
+    {
+        $this->insightlyProject = $this->insightlyClient->createProject($this->insightlyProject);
+    }
+
+    /**
+     * Update the pipeline stage for current project.
+     * @param int $pipelineId
+     * @param int $stageId
+     */
+    protected function updatePipeline($pipelineId, $stageId)
+    {
+        $this->insightlyProject = $this->insightlyClient->updateProjectPipeline($this->insightlyProject->getId(), $pipelineId, $stageId);
     }
 
     /**
@@ -60,6 +79,24 @@ abstract class ProjectCrudEventListener
      */
     protected function updatePipelineStage($stageId)
     {
-        $this->insightlyProject = $this->insightlyClient->updateProjectPipelineStage($this->insightlyProject->getId(), $this->insightlyConfig['pipeline'], $stageId);
+        $this->insightlyProject = $this->insightlyClient->updateProjectPipelineStage($this->insightlyProject->getId(), $stageId);
+    }
+
+    /**
+     * @return \CultuurNet\ProjectAanvraag\Insightly\Item\Project
+     */
+    public function getInsightlyProject()
+    {
+        return $this->insightlyProject;
+    }
+
+    /**
+     * @param \CultuurNet\ProjectAanvraag\Insightly\Item\Project $insightlyProject
+     * @return ProjectCrudEventListener
+     */
+    public function setInsightlyProject($insightlyProject)
+    {
+        $this->insightlyProject = $insightlyProject;
+        return $this;
     }
 }

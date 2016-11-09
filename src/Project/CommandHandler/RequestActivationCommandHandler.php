@@ -84,8 +84,7 @@ class RequestActivationCommandHandler
         }
 
         // Add contact.
-        $contact = new ContactInfo();
-        $contact->setType(ContactInfo::TYPE_EMAIL);
+        $contact = new ContactInfo(ContactInfo::TYPE_EMAIL);
         $contact->setDetail($requestActivation->getEmail());
         $organisation->getContactInfo()->append($contact);
 

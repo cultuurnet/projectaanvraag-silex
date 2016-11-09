@@ -81,11 +81,15 @@ class ProjectController
         );
 
         // Todo: Check coupon code
+        $coupon = null;
+        if (!empty($postedProject->coupon) && !empty($postedProject->couponCode)) {
+            $coupon = $postedProject->couponCode;
+        }
 
         /**
          * Dispatch create project command
          */
-        $this->commandBus->handle(new CreateProject($postedProject->name, $postedProject->summary, $postedProject->integrationType));
+        $this->commandBus->handle(new CreateProject($postedProject->name, $postedProject->summary, $postedProject->integrationType, $coupon));
 
         return new JsonResponse();
     }
