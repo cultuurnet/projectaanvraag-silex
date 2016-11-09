@@ -314,4 +314,76 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($this->projectService->loadProject(1));
     }
+
+    /**
+     * Test the full update of the content filter.
+     */
+    public function testUpdateContentFilter()
+    {
+        $project = new Project();
+        $project->setLiveConsumerKey('livekey');
+        $project->setTestConsumerKey('testkey');
+
+        $liveConsumer = new \CultureFeed_Consumer();
+        $liveConsumer->consumerKey = 'livekey';
+        $liveConsumer->searchPrefixFilterQuery = 'test';
+
+        $testConsumer = new \CultureFeed_Consumer();
+        $testConsumer->consumerKey = 'testkey';
+        $testConsumer->searchPrefixFilterQuery = 'test';
+
+        $this->culturefeedLive->expects($this->once())
+            ->method('updateServiceConsumer')
+            ->with($liveConsumer);
+
+        $this->culturefeedTest->expects($this->once())
+            ->method('updateServiceConsumer')
+            ->with($testConsumer);
+
+        $this->projectService->updateContentFilter($project, 'test');
+    }
+
+    /**
+     * Test the test update of the content filter.
+     */
+    public function testUpdateContentFilterTest()
+    {
+        $project = new Project();
+        $project->setTestConsumerKey('testkey');
+
+        $testConsumer = new \CultureFeed_Consumer();
+        $testConsumer->consumerKey = 'testkey';
+        $testConsumer->searchPrefixFilterQuery = 'test';
+
+        $this->culturefeedLive->expects($this->never())
+            ->method('updateServiceConsumer');
+
+        $this->culturefeedTest->expects($this->once())
+            ->method('updateServiceConsumer')
+            ->with($testConsumer);
+
+        $this->projectService->updateContentFilter($project, 'test');
+    }
+
+    /**
+     * Test the live update of the content filter.
+     */
+    public function testUpdateContentFilterLive()
+    {
+        $project = new Project();
+        $project->setLiveConsumerKey('livekey');
+
+        $liveConsumer = new \CultureFeed_Consumer();
+        $liveConsumer->consumerKey = 'livekey';
+        $liveConsumer->searchPrefixFilterQuery = 'test';
+
+        $this->culturefeedLive->expects($this->once())
+            ->method('updateServiceConsumer')
+            ->with($liveConsumer);
+
+        $this->culturefeedTest->expects($this->never())
+            ->method('updateServiceConsumer');
+
+        $this->projectService->updateContentFilter($project, 'test');
+    }
 }

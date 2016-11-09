@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 
 /**
  * Interface for project services.
@@ -28,4 +29,11 @@ interface ProjectServiceInterface
      * @throws \Exception
      */
     public function loadProject($id);
+
+    /**
+     * Update the content filter for the project.
+     * @param ProjectInterface $project
+     * @param  string $searchPrefixFilterQuery
+     */
+    public function updateContentFilter(ProjectInterface $project, $searchPrefixFilterQuery);
 }
