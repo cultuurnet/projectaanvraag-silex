@@ -33,7 +33,7 @@ interface ProjectServiceInterface
     /**
      * Update the content filter for the project.
      * @param ProjectInterface $project
-     * @param  string $searchPrefixFilterQuery
+     * @param  string $contentFilter
      */
-    public function updateContentFilter(ProjectInterface $project, $searchPrefixFilterQuery);
+    public function updateContentFilter(ProjectInterface $project, $contentFilter);
 }

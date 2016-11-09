@@ -327,7 +327,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $project = $this->setupProjectTest('edit');
 
         $postData = [
-            'searchPrefixFilterQuery' => 'test',
+            'contentFilter' => 'test',
         ];
         $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
 

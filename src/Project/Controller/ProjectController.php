@@ -187,9 +187,9 @@ class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
         $data = json_decode($request->getContent());
 
-        $this->validateRequiredFields(['searchPrefixFilterQuery'], $data);
+        $this->validateRequiredFields(['contentFilter'], $data);
 
-        $this->projectService->updateContentFilter($project, $data->searchPrefixFilterQuery);
+        $this->projectService->updateContentFilter($project, $data->contentFilter);
 
         return new JsonResponse($project);
     }

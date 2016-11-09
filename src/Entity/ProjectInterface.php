@@ -187,6 +187,17 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     public function setGroup($group);
 
     /**
+     * @param string $contentFilter
+     * @return ProjectInterface
+     */
+    public function setContentFilter($contentFilter);
+
+    /**
+     * @return string
+     */
+    public function getContentFilter();
+
+    /**
      * Enrich the project with CultureFeed_Consumer data.
      * @param \CultureFeed_Consumer $consumer
      * @return

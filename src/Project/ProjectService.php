@@ -157,19 +157,22 @@ class ProjectService implements ProjectServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateContentFilter(ProjectInterface $project, $searchPrefixFilterQuery)
+    public function updateContentFilter(ProjectInterface $project, $contentFilter)
     {
+
+        $project->setContentFilter($contentFilter);
+
         if ($project->getLiveConsumerKey()) {
             $liveConsumer = new \CultureFeed_Consumer();
             $liveConsumer->consumerKey = $project->getLiveConsumerKey();
-            $liveConsumer->searchPrefixFilterQuery = $searchPrefixFilterQuery;
+            $liveConsumer->searchPrefixFilterQuery = $project->getContentFilter();
             $this->culturefeedLive->updateServiceConsumer($liveConsumer);
         }
 
         if ($project->getTestConsumerKey()) {
             $testConsumer = new \CultureFeed_Consumer();
             $testConsumer->consumerKey = $project->getTestConsumerKey();
-            $testConsumer->searchPrefixFilterQuery = $searchPrefixFilterQuery;
+            $testConsumer->searchPrefixFilterQuery = $project->getContentFilter();
             $this->culturefeedTest->updateServiceConsumer($testConsumer);
         }
     }
