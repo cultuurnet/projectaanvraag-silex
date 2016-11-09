@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Service class for projects.
@@ -52,13 +53,12 @@ class ProjectService implements ProjectServiceInterface
      * @param IntegrationTypeStorageInterface $integrationTypeStorage
      * @param User $user
      */
-    public function __construct(\ICultureFeed $cultureFeedLive, \ICultureFeed $cultureFeedTest, EntityManagerInterface $entityManager, IntegrationTypeStorageInterface $integrationTypeStorage, User $user)
+    public function __construct(\ICultureFeed $cultureFeedLive, \ICultureFeed $cultureFeedTest, EntityRepository $repository, IntegrationTypeStorageInterface $integrationTypeStorage, User $user)
     {
         $this->culturefeedLive = $cultureFeedLive;
         $this->culturefeedTest = $cultureFeedTest;
-        $this->entityManager = $entityManager;
         $this->integrationTypeStorage = $integrationTypeStorage;
-        $this->projectRepository = $entityManager->getRepository('ProjectAanvraag:Project');
+        $this->projectRepository = $repository;
         $this->user = $user;
     }
 

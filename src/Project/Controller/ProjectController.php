@@ -2,23 +2,19 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\Address as InsightlyAddress;
 use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
+use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
-use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
-use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
-use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,18 +48,25 @@ class ProjectController
     protected $insightlyclient;
 
     /**
+     * @var CouponValidatorInterface
+     */
+    protected $couponValidator;
+
+    /**
      * ProjectController constructor.
      * @param MessageBusSupportingMiddleware $commandBus
      * @param ProjectServiceInterface $projectService
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param CouponValidatorInterface $couponValidator
      * @param InsightlyClientInterface $insightlyClient
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, InsightlyClientInterface $insightlyClient)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
         $this->insightlyclient = $insightlyClient;
+        $this->couponValidator = $couponValidator;
     }
 
     /**
@@ -80,10 +83,10 @@ class ProjectController
             $postedProject
         );
 
-        // Todo: Check coupon code
         $coupon = null;
-        if (!empty($postedProject->coupon) && !empty($postedProject->couponCode)) {
-            $coupon = $postedProject->couponCode;
+        if (!empty($postedProject->coupon)) {
+            $this->couponValidator->validateCoupon($postedProject->coupon);
+            $coupon = $postedProject->coupon;
         }
 
         /**
@@ -162,8 +165,7 @@ class ProjectController
 
         $postedData = json_decode($request->getContent());
         if (!empty($postedData->coupon)) {
-            // validate coupon.
-            // $this->couponVa..
+            $this->couponValidator->validateCoupon($postedData->coupon);
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
             $this->validateRequiredFields(
@@ -198,7 +200,6 @@ class ProjectController
      *
      * @param int $id
      * @return JsonResponse
-     * @throws MissingRequiredFieldsException
      */
     public function getOrganisation($id)
     {

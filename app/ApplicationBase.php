@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
+use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
@@ -114,6 +115,9 @@ class ApplicationBase extends SilexApplication
 
         // Project
         $this->register(new ProjectProvider());
+
+        // Coupons.
+        $this->register(new CouponProvider());
 
         // Insightly
         $this->register(

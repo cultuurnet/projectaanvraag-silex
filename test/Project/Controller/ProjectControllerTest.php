@@ -3,6 +3,8 @@
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Address;
+use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
+use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
@@ -51,6 +53,16 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     protected $insightlyClient;
 
     /**
+     * @var CouponValidatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $couponValidator;
+
+    /**
+     * @var \stdClass
+     */
+    protected $formData;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -78,7 +90,15 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder(InsightlyClientInterface::class)
             ->getMock();
 
-        $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker, $this->insightlyClient);
+        $this->couponValidator = $this->getMock(CouponValidatorInterface::class);
+
+        $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker, $this->couponValidator, $this->insightlyClient);
+
+        $this->formData = new \stdClass();
+        $this->formData->name = 'name';
+        $this->formData->summary = 'summary';
+        $this->formData->integrationType = 'integrationType';
+        $this->formData->termsAndConditions = 'termsAndConditions';
     }
 
     /**
@@ -86,15 +106,41 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateProject()
     {
-        $content = file_get_contents(__DIR__ . '/../data/add_project_form_data.json');
-        $json = json_decode($content);
+        $this->request
+            ->expects($this->any())
+            ->method('getContent')
+            ->willReturn(json_encode($this->formData));
+
+        $this->couponValidator->expects($this->never())
+            ->method('validateCoupon');
+
+        $createProject = new CreateProject($this->formData->name, $this->formData->summary, $this->formData->integrationType);
+        $this->messageBus
+            ->expects($this->once())
+            ->method('handle')
+            ->with($createProject);
+
+        $response = $this->controller->createProject($this->request);
+        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+    }
+
+    /**
+     * Test createProject with coupon
+     */
+    public function testCreateProjectWithCoupon()
+    {
+        $formData = $this->formData;
+        $formData->coupon = 'coupon';
 
         $this->request
             ->expects($this->any())
             ->method('getContent')
-            ->will($this->returnValue($content));
+            ->willReturn(json_encode($this->formData));
 
-        $createProject = new CreateProject($json->name, $json->summary, $json->integrationType);
+        $this->couponValidator->expects($this->once())
+            ->method('validateCoupon');
+
+        $createProject = new CreateProject($this->formData->name, $this->formData->summary, $this->formData->integrationType, $this->formData->coupon);
         $this->messageBus
             ->expects($this->once())
             ->method('handle')
@@ -142,7 +188,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('searchProjects')
             ->with(0, 10, '')
-            ->will($this->returnValue($result));
+            ->willReturn($result);
 
         $response = $this->controller->getProjects($this->request);
         $this->assertEquals(new JsonResponse($result), $response, 'It correctly searches the projects');
@@ -177,12 +223,12 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->projectService
             ->expects($this->any())
             ->method('loadProject')
-            ->will($this->returnValue(null));
+            ->willReturn(null);
 
         $this->authorizationChecker
             ->expects($this->any())
             ->method('isGranted')
-            ->will($this->returnValue(true));
+            ->willReturn(null);
 
         $this->controller->getProject(1);
     }
@@ -341,13 +387,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('loadProject')
             ->with(1)
-            ->will($this->returnValue($project));
+            ->willReturn($project);
 
         $this->authorizationChecker
             ->expects($this->any())
             ->method('isGranted')
             ->with($operation, $project)
-            ->will($this->returnValue($returnValue));
+            ->willReturn($returnValue);
 
         $this->messageBus
             ->expects($this->any())

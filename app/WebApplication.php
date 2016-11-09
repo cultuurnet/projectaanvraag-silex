@@ -3,10 +3,12 @@
 namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\ValidationException;
+use CultuurNet\ProjectAanvraag\Coupon\CouponControllerProvider;
 use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeControllerProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\ProjectAanvraag\Security\UiTIDSecurityServiceProvider;
+use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
@@ -116,6 +118,7 @@ class WebApplication extends ApplicationBase
 
                 // Custom voters
                 new ProjectVoter(),
+                new ImportVoter(),
             ];
         };
     }
@@ -127,6 +130,7 @@ class WebApplication extends ApplicationBase
     {
         $this->mount('project', new ProjectControllerProvider());
         $this->mount('integration-types', new IntegrationTypeControllerProvider());
+        $this->mount('coupons', new CouponControllerProvider());
 
         $this->mount('uitid', new UserControllerProvider());
         $this->mount(

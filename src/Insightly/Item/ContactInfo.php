@@ -35,7 +35,7 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
      * @param string $label
      * @param string $detail
      */
-    public function __construct($type, $detail = null, $subType = null, $label = null)
+    public function __construct($type = null, $detail = null, $subType = null, $label = null)
     {
         $this->type = $type;
         $this->subType = $subType;
