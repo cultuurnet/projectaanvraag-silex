@@ -24,7 +24,12 @@ class JsonErrorHandler
             return null;
         }
 
-        return new JsonResponse($e->getMessage(), 400);
+        $data = [
+            'code' => $e->getValidationCode(),
+            'message' => $e->getMessage()
+        ];
+
+        return new JsonResponse($data, 400);
     }
 
     /**

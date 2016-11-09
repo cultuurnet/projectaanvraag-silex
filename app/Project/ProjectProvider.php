@@ -18,8 +18,13 @@ class ProjectProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
+
+        $pimple['project_repository'] = function (Container $pimple) {
+            return $pimple['orm.em']->getRepository('ProjectAanvraag:Project');
+        };
+
         $pimple['project_service'] = function (Container $pimple) {
-            return new ProjectService($pimple['culturefeed'], $pimple['culturefeed_test'], $pimple['orm.em'], $pimple['integration_types.storage'], $pimple['uitid_user']);
+            return new ProjectService($pimple['culturefeed'], $pimple['culturefeed_test'], $pimple['project_repository'], $pimple['integration_types.storage'], $pimple['uitid_user']);
         };
     }
 }

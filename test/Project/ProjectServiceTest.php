@@ -50,10 +50,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $this->user = $this->getMock(User::class);
         $this->user->id = 'id';
 
-
-        $entityManager = $this->getMock(EntityManagerInterface::class);
-        $entityManager->method('getRepository')->willReturn($this->projectRepository);
-        $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $entityManager, $this->integrationTypeStorage, $this->user);
+        $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $this->projectRepository, $this->integrationTypeStorage, $this->user);
     }
 
     /**

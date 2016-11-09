@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
+use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
@@ -39,16 +40,22 @@ class ProjectController
     protected $authorizationChecker;
 
     /**
+     * @var CouponValidatorInterface
+     */
+    protected $couponValidator;
+
+    /**
      * ProjectController constructor.
      * @param MessageBusSupportingMiddleware $commandBus
      * @param ProjectServiceInterface $projectService
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
+        $this->couponValidator = $couponValidator;
     }
 
     /**
@@ -65,12 +72,11 @@ class ProjectController
             $postedProject
         );
 
-        // Todo: Check coupon code
-        $coupon = null;
-        if (!empty($postedProject->coupon) && !empty($postedProject->couponCode)) {
-            $coupon = $postedProject->couponCode;
+        if (!empty($postedProject->coupon)) {
+            $this->couponValidator->validateCoupon($postedProject->coupon);
+            $coupon = $postedProject->coupon;
         }
-
+die();
         /**
          * Dispatch create project command
          */
@@ -147,8 +153,7 @@ class ProjectController
 
         $postedData = json_decode($request->getContent());
         if (!empty($postedData->coupon)) {
-            // validate coupon.
-            // $this->couponVa..
+            $this->couponValidator->validateCoupon($postedData->coupon);
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
             $this->validateRequiredFields(
