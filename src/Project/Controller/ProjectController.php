@@ -2,18 +2,23 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\Address as InsightlyAddress;
 use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
+use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
+use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -194,20 +199,10 @@ class ProjectController
     public function getOrganisation($id)
     {
         $project = $this->getProjectWithAccessCheck($id, 'edit');
+        $organisation = $this->getOrganisationByProject($project);
 
-        /** @var Organisation $organisation */
-        $organisation = null;
-
-        if (!empty($project->getInsightlyProjectId())) {
-            $insightyProject = $this->insightlyclient->getProject($project->getInsightlyProjectId());
-
-            /** @var Link $link */
-            foreach ($insightyProject->getLinks() as $link) {
-                if ($link->getOrganisationId()) {
-                    $organisation = $this->insightlyclient->getOrganisation($link->getOrganisationId());
-                    break;
-                }
-            }
+        if (!$organisation) {
+            throw new NotFoundHttpException();
         }
 
         return new JsonResponse($organisation);
@@ -224,6 +219,30 @@ class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
 
         $postedData = json_decode($request->getContent());
+        $this->validateRequiredFields(
+            ['name', 'addresses', 'contactInfo'],
+            $postedData
+        );
+
+        // If the postedData contains id's, compare them to the currently linked organisation
+        // This is to ensure that the user is editing his own organisation, address and contact info
+        $currentOrganisation = $this->getOrganisationByProject($project);
+        $jsonOrganisation = json_decode(json_encode($currentOrganisation));
+
+        $postedIds = $this->getIdsFromData($postedData);
+        $currentIds = $this->getIdsFromData($jsonOrganisation);
+
+        if (!empty(array_diff($currentIds, $postedIds))) {
+            throw new AccessDeniedHttpException('Not allowed to edit this information');
+        }
+
+        $postedOrganisation = Organisation::jsonUnSerialize($request->getContent());
+
+        // Keep the original links
+        $postedOrganisation->setLinks($currentOrganisation->getLinks());
+
+        // Update the organisation
+        $this->insightlyclient->updateOrganisation($postedOrganisation);
 
         return new JsonResponse($project);
     }
@@ -265,5 +284,48 @@ class ProjectController
         if (!empty($emptyFields)) {
             throw new MissingRequiredFieldsException('Some required fields are missing: ' . implode(', ', $emptyFields));
         }
+    }
+
+    /**
+     * Gets the organisation linked to a project
+     * @param Project $project
+     * @return Organisation|null
+     */
+    private function getOrganisationByProject($project)
+    {
+        $organisation = null;
+
+        if (!empty($project->getInsightlyProjectId())) {
+            $insightyProject = $this->insightlyclient->getProject($project->getInsightlyProjectId());
+
+            /** @var Link $link */
+            foreach ($insightyProject->getLinks() as $link) {
+                if ($link->getOrganisationId()) {
+                    $organisation = $this->insightlyclient->getOrganisation($link->getOrganisationId());
+                    break;
+                }
+            }
+        }
+
+        return $organisation;
+    }
+
+    /**
+     * Returns a set of ids found on the objects in the provided array
+     * @param array $data
+     * @return array $ids
+     */
+    private function getIdsFromData($data)
+    {
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($data));
+        $ids = [];
+
+        foreach ($iterator as $key => $value) {
+            if ($key === 'id') {
+                $ids[] = $value;
+            }
+        }
+
+        return $ids;
     }
 }

@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
-class Link extends Entity implements InsightlySerializableInterface
+class Link extends Entity implements InsightlySerializableInterface, JsonUnserializeInterface
 {
     /**
      * @var int
@@ -188,6 +188,26 @@ class Link extends Entity implements InsightlySerializableInterface
     {
         $this->details = $details;
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function jsonUnSerialize($json)
+    {
+        $link = new self();
+
+        $link->setId(!empty($json->id) ? $json->id : null);
+        $link->setContactId(!empty($json->contactId) ? $json->contactId : null);
+        $link->setDetails(!empty($json->details) ? $json->details : null);
+        $link->setOpportunityId(!empty($json->opportunityId) ? $json->opportunityId : null);
+        $link->setOrganisationId(!empty($json->organisationId) ? $json->organisationId : null);
+        $link->setProjectId(!empty($json->projectId) ? $json->projectId : null);
+        $link->setRole(!empty($json->role) ? $json->role : null);
+        $link->setSecondOpportunityId(!empty($json->secondOpportunityId) ? $json->secondOpportunityId : null);
+        $link->setSecondProjectId(!empty($json->secondProjectId) ? $json->secondProjectId : null);
+
+        return $link;
     }
 
     /**

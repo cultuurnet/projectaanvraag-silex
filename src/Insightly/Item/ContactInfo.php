@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
-class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializableInterface
+class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializableInterface, JsonUnserializeInterface
 {
 
     const TYPE_EMAIL = 'email';
@@ -89,6 +89,21 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
         }
 
         return $json;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function jsonUnSerialize($json)
+    {
+        $contactInfo = new self();
+
+        $contactInfo->setId(!empty($json->id) ? $json->id : null);
+        $contactInfo->setDetail(!empty($json->detail) ? $json->detail : null);
+        $contactInfo->setLabel(!empty($json->label) ? $json->label : null);
+        $contactInfo->setType(!empty($json->type) ? $json->type : null);
+
+        return $contactInfo;
     }
 
     /**

@@ -70,4 +70,12 @@ interface InsightlyClientInterface
      * @return Organisation
      */
     public function getOrganisation($organisationId);
+
+    /**
+     * Update an organisation
+     *
+     * @param $organisation
+     * @return Organisation
+     */
+    public function updateOrganisation(Organisation $organisation);
 }

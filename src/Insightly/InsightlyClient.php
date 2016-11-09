@@ -196,4 +196,12 @@ class InsightlyClient implements InsightlyClientInterface
     {
         return GetOrganisationResult::parseToResult($this->request(RequestInterface::GET, 'Organisations/' . $organisationId));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateOrganisation(Organisation $organisation)
+    {
+        return GetOrganisationResult::parseToResult($this->request(RequestInterface::PUT, 'Organisations/', null, json_encode($organisation->toInsightly())));
+    }
 }

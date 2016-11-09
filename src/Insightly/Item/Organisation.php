@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-class Organisation extends PrimaryEntityBase
+class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
 {
 
     /**
@@ -114,19 +114,59 @@ class Organisation extends PrimaryEntityBase
     }
 
     /**
-     * {@inheritdoc}
+     * Unserialize json to an Organisation
+     * @param string $json
+     * @return Organisation
      */
-    public function jsonSerialize()
+    public static function jsonUnSerialize($json)
     {
-        $json = parent::jsonSerialize();
+        $organisation = new self();
+        $data = json_decode($json);
 
-        unset($json['visibleTo']);
-        unset($json['visibleTeamId']);
-        unset($json['visibleUserIds']);
-        unset($json['canEdit']);
-        unset($json['canDelete']);
+        $organisation->setId(!empty($data->id) ? $data->id : null);
+        $organisation->setName(!empty($data->name) ? $data->name : null);
+        $organisation->setBackground(!empty($data->background) ? $data->background : null);
+        $organisation->setCanDelete(!empty($data->canDelete) ? $data->canDelete : null);
 
-        return $json;
+        $organisation->setCanEdit(!empty($data->canEdit) ? $data->canEdit : null);
+        $organisation->setDateCreatedUTC(!empty($data->dateCreatedUTC) ? $data->dateCreatedUTC : null);
+        $organisation->setDateUpdatedUTC(!empty($data->dateUpdatedUTC) ? $data->dateUpdatedUTC : null);
+        $organisation->setImageUrl(!empty($data->imageUrl) ? $data->imageUrl : null);
+        $organisation->setOwnerUserId(!empty($data->ownerUserId) ? $data->ownerUserId : null);
+        $organisation->setVisibleTeamId(!empty($data->visibleTeamId) ? $data->visibleTeamId : null);
+
+        $organisation->setVisibleTo(!empty($data->visibleTo) ? $data->visibleTo : null);
+        $organisation->setVisibleUserIds(!empty($data->visibleUserIds) ? $data->visibleUserIds : null);
+
+        // Addresses
+        if (!empty($data->addresses)) {
+            foreach ($data->addresses as $item) {
+                $organisation->addresses->append(Address::jsonUnSerialize($item));
+            }
+        }
+
+        // Contact info
+        if (!empty($data->contactInfo)) {
+            foreach ($data->contactInfo as $item) {
+                $organisation->contactInfo->append(ContactInfo::jsonUnSerialize($item));
+            }
+        }
+
+        // Links
+        if (!empty($data->links)) {
+            foreach ($data->links as $item) {
+                $organisation->links->append(Link::jsonUnSerialize($item));
+            }
+        }
+
+        // Custom fields
+        if (!empty($data->customFields)) {
+            foreach ($data->customFields as $key => $value) {
+                $organisation->addCustomField($key, $value);
+            }
+        }
+
+        return $organisation;
     }
 
     /**
@@ -153,6 +193,12 @@ class Organisation extends PrimaryEntityBase
             'ADDRESSES' => $addresses,
             'CONTACTINFOS' => $contactInfo,
         ];
+
+        unset($data['VISIBLE_TO']);
+        unset($data['CAN_EDIT']);
+        unset($data['CAN_DELETE']);
+        unset($data['DATE_CREATED_UTC']);
+        unset($data['DATE_UPDATED_UTC']);
 
         return array_filter($data);
     }
