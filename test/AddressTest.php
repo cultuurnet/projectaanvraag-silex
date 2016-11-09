@@ -11,19 +11,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testGettersAndSetters()
     {
         // Test construct + getters.
-        $address = new Address('street', 'number', 9000, 'Gent');
+        $address = new Address('street', 9000, 'Gent');
         $this->assertEquals('street', $address->getStreet());
-        $this->assertEquals('number', $address->getNumber());
         $this->assertEquals(9000, $address->getPostal());
         $this->assertEquals('Gent', $address->getCity());
 
         // Test setters.
         $address->setStreet('street2');
-        $address->setNumber('number2');
         $address->setPostal(9001);
         $address->setCity('Gent2');
         $this->assertEquals('street2', $address->getStreet());
-        $this->assertEquals('number2', $address->getNumber());
         $this->assertEquals(9001, $address->getPostal());
         $this->assertEquals('Gent2', $address->getCity());
     }
