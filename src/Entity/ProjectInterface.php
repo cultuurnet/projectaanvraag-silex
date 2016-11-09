@@ -146,6 +146,17 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     /**
      * @return string
      */
+    public function getCoupon();
+
+    /**
+     * @param string $coupon
+     * @return Project
+     */
+    public function setCoupon($coupon);
+
+    /**
+     * @return string
+     */
     public function getLogo();
 
     /**
