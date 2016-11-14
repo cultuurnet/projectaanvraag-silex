@@ -12,23 +12,13 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     const PROJECT_STATUS_WAITING_FOR_PAYMENT = 'waiting_for_payment';
 
     /**
-     * @return int
-     */
-    public function getId();
-
-    /**
-     * @param int $id
-     * @return Project
-     */
-    public function setId($id);
-    /**
      * @return string
      */
     public function getName();
 
     /**
      * @param string $name
-     * @return Project
+     * @return ProjectInterface
      */
     public function setName($name);
 
@@ -39,7 +29,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $testConsumerKey
-     * @return Project
+     * @return ProjectInterface
      */
     public function setTestConsumerKey($testConsumerKey);
 
@@ -50,7 +40,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $liveConsumerKey
-     * @return Project
+     * @return ProjectInterface
      */
     public function setLiveConsumerKey($liveConsumerKey);
 
@@ -61,7 +51,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param int $groupId
-     * @return Project
+     * @return ProjectInterface
      */
     public function setGroupId($groupId);
 
@@ -72,7 +62,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $status
-     * @return Project
+     * @return ProjectInterface
      */
     public function setStatus($status);
 
@@ -83,7 +73,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $userId
-     * @return Project
+     * @return ProjectInterface
      */
     public function setUserId($userId);
 
@@ -94,7 +84,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $insightlyProjectId
-     * @return Project
+     * @return ProjectInterface
      */
     public function setInsightlyProjectId($insightlyProjectId);
 
@@ -105,7 +95,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param \DateTime $created
-     * @return Project
+     * @return ProjectInterface
      */
     public function setCreated($created);
 
@@ -116,7 +106,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param \DateTime $updated
-     * @return Project
+     * @return ProjectInterface
      */
     public function setUpdated($updated);
 
@@ -127,7 +117,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $testConsumerSecret
-     * @return Project
+     * @return ProjectInterface
      */
     public function setTestConsumerSecret($testConsumerSecret);
 
@@ -138,7 +128,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $liveConsumerSecret
-     * @return Project
+     * @return ProjectInterface
      */
     public function setLiveConsumerSecret($liveConsumerSecret);
 
@@ -149,7 +139,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $description
-     * @return Project
+     * @return ProjectInterface
      */
     public function setDescription($description);
 
@@ -160,7 +150,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $logo
-     * @return Project
+     * @return ProjectInterface
      */
     public function setLogo($logo);
 
@@ -171,7 +161,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param string $domain
-     * @return Project
+     * @return ProjectInterface
      */
     public function setDomain($domain);
 
@@ -182,7 +172,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     /**
      * @param IntegrationType $group
-     * @return Project
+     * @return ProjectInterface
      */
     public function setGroup($group);
 
@@ -200,7 +190,6 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     /**
      * Enrich the project with CultureFeed_Consumer data.
      * @param \CultureFeed_Consumer $consumer
-     * @return
      */
     public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer);
 }

@@ -64,7 +64,11 @@ class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
         $e = new MissingRequiredFieldsException('message');
         $response = $this->handleException($e);
 
-        $this->assertEquals($response, new JsonResponse($e->getMessage(), 400), 'It correctly handles the validation exception.');
+        $data = [
+            'code' => MissingRequiredFieldsException::ERROR_CODE,
+            'message' => 'message',
+        ];
+        $this->assertEquals($response, new JsonResponse($data, 400), 'It correctly handles the validation exception.');
     }
 
     /**
