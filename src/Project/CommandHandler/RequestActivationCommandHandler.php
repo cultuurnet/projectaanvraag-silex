@@ -71,7 +71,6 @@ class RequestActivationCommandHandler
         // Update the pipeline stage.
         $this->insightlyClient->updateProjectPipelineStage(
             $project->getInsightlyProjectId(),
-            $this->insightlyConfig['pipeline'],
             $this->insightlyConfig['stages']['aanvraag']
         );
 
@@ -102,10 +101,22 @@ class RequestActivationCommandHandler
 
         // Save the link organisation > project.
         $links = $insightlyProject->getLinks();
-        $link = isset($links[0]) ? $links[0] : new Link();
+        $hasOrganisationLink = false;
+        // Check if existing organisation needs an update.
+        foreach ($links as $link) {
+            if ($link->getOrganisationId()) {
+                $link->setOrganisationId($organisation->getId());
+                $hasOrganisationLink = true;
+            }
+        }
 
-        $link->setOrganisationId($organisation->getId());
-        $links[0] = $link;
+        // No existing organisation id. Create a new.
+        if (!$hasOrganisationLink) {
+            $link = new Link();
+            $link->setOrganisationId($organisation->getId());
+            $links->append($link);
+        }
+
         $insightlyProject->setLinks($links);
 
         $this->insightlyClient->updateProject($insightlyProject);
