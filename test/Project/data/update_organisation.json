@@ -1,0 +1,27 @@
+{
+  "id": 95591403,
+  "name": "naam bedrijfke",
+  "addresses": [
+    {
+      "id": 48270160,
+      "type": "WORK",
+      "street": "straat 112",
+      "city": "Gent",
+      "postal": 8020
+    }
+  ],
+  "contactInfo": [
+    {
+      "id": 102388049,
+      "type": "EMAIL",
+      "label": "WORK",
+      "detail": "test@test.be"
+    }
+  ],
+  "customFields": [],
+  "links": {
+    "0": {
+      "id": 125674597
+    }
+  }
+}

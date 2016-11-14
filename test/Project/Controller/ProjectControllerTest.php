@@ -8,6 +8,9 @@ use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -417,6 +420,212 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->setupProjectTest('edit');
 
         $this->controller->updateContentFilter($request, 1);
+    }
+
+    /**
+     * Test getOrganisation
+     */
+    public function testGetOrganisation()
+    {
+        $project = new Project();
+        $project->setId(1);
+        $project->setInsightlyProjectId(2);
+        $project->setCreated(new \DateTime());
+        $project->setUpdated(new \DateTime());
+
+        $insightlyProject = new \CultuurNet\ProjectAanvraag\Insightly\Item\Project();
+        $link = new Link();
+        $link->setOrganisationId(3);
+        $insightlyProject->addLink($link);
+
+        $organisation = new Organisation();
+        $organisation->setName('name');
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getProject')
+            ->with(2)
+            ->willReturn($insightlyProject);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getOrganisation')
+            ->with(3)
+            ->willReturn($organisation);
+
+        $this->projectService
+            ->expects($this->once())
+            ->method('loadProject')
+            ->with(1)
+            ->willReturn($project);
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->with('edit', $project)
+            ->willReturn(true);
+
+        $response = $this->controller->getOrganisation(1);
+
+        $this->assertEquals(new JsonResponse($organisation), $response, 'It correctly fetches the organisation');
+    }
+
+    /**
+     * Test getOrganisation not found exception
+     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function testGetOrganisationNotFound()
+    {
+        $this->setupProjectTest('edit', true);
+        $this->controller->getOrganisation(1);
+    }
+
+    /**
+     * Test the updating of an organisation.
+     */
+    public function testUpdateOrganisation()
+    {
+        $project = new Project();
+        $project->setId(1);
+        $project->setInsightlyProjectId(2);
+        $project->setCreated(new \DateTime());
+        $project->setUpdated(new \DateTime());
+
+        $insightlyProject = new \CultuurNet\ProjectAanvraag\Insightly\Item\Project();
+        $link = new Link();
+        $link->setOrganisationId(3);
+        $insightlyProject->addLink($link);
+
+        $organisation = new Organisation();
+        $organisation->setId(95591403);
+        $organisation->setName('name');
+        $address = new \CultuurNet\ProjectAanvraag\Insightly\Item\Address();
+        $address->setId(48270160);
+        $organisation->setAddresses([$address]);
+
+        $contactInfo = new Contact();
+        $contactInfo->setId(102388049);
+        $organisation->setContactInfo([$contactInfo]);
+
+        $link = new Link();
+        $link->setId(125674597);
+        $organisation->addLink($link);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getProject')
+            ->with(2)
+            ->willReturn($insightlyProject);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getOrganisation')
+            ->with(3)
+            ->willReturn($organisation);
+
+        $this->projectService
+            ->expects($this->once())
+            ->method('loadProject')
+            ->with(1)
+            ->willReturn($project);
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->with('edit', $project)
+            ->willReturn(true);
+
+        $postData = file_get_contents(__DIR__ . '/../data/update_organisation.json');
+        $request = Request::create('/', 'PUT', [], [], [], [], $postData);
+
+        $response = $this->controller->updateOrganisation(1, $request);
+        $this->assertEquals(new JsonResponse($project), $response, 'It correctly updates the organisation');
+    }
+
+    /**
+     * Test if the ID's are validated when updating an organisation.
+     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function testUpdateOrganisationIdValidation()
+    {
+        $project = new Project();
+        $project->setId(1);
+        $project->setInsightlyProjectId(2);
+        $project->setCreated(new \DateTime());
+        $project->setUpdated(new \DateTime());
+
+        $insightlyProject = new \CultuurNet\ProjectAanvraag\Insightly\Item\Project();
+        $link = new Link();
+        $link->setOrganisationId(3);
+        $insightlyProject->addLink($link);
+
+        $organisation = new Organisation();
+        $organisation->setId(955914032);
+        $organisation->setName('name');
+        $address = new \CultuurNet\ProjectAanvraag\Insightly\Item\Address();
+        $address->setId(482701602);
+        $organisation->setAddresses([$address]);
+
+        $contactInfo = new Contact();
+        $contactInfo->setId(1023880549);
+        $organisation->setContactInfo([$contactInfo]);
+
+        $link = new Link();
+        $link->setId(1256745979);
+        $organisation->addLink($link);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getProject')
+            ->with(2)
+            ->willReturn($insightlyProject);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getOrganisation')
+            ->with(3)
+            ->willReturn($organisation);
+
+        $this->projectService
+            ->expects($this->once())
+            ->method('loadProject')
+            ->with(1)
+            ->willReturn($project);
+
+        $this->authorizationChecker
+            ->expects($this->any())
+            ->method('isGranted')
+            ->with('edit', $project)
+            ->willReturn(true);
+
+        $postData = file_get_contents(__DIR__ . '/../data/update_organisation.json');
+        $request = Request::create('/', 'PUT', [], [], [], [], $postData);
+
+        $this->controller->updateOrganisation(1, $request);
+    }
+
+    /**
+     * Test requestActivation AccessDeniedHttpException
+     * @expectedException \CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException
+     */
+    public function testUpdateOrganisationValidateFields()
+    {
+        $request = Request::create('/');
+        $this->setupProjectTest('edit', true);
+
+        $this->controller->updateOrganisation(1, $request);
+    }
+
+    /**
+     * Test requestActivation AccessDeniedHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function testUpdateOrganisationAccessDenied()
+    {
+        $request = Request::create('/');
+        $this->setupProjectTest('edit', false);
+
+        $this->controller->updateOrganisation(1, $request);
     }
 
     /**

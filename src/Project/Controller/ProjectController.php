@@ -252,7 +252,6 @@ class ProjectController
 
         $postedIds = $this->getIdsFromData($postedData);
         $currentIds = $this->getIdsFromData($jsonOrganisation);
-
         if (!empty(array_diff($currentIds, $postedIds))) {
             throw new AccessDeniedHttpException('Not allowed to edit this information');
         }
