@@ -47,12 +47,16 @@ class CouponImporter
         // Construct all possible coupons.
         while (!$file->eof()) {
             $code = trim(preg_replace('/\s\s+/', ' ', $file->fgets()));
-            $coupons[$code] = $code;
+            if (!empty($code)) {
+                $coupons[$code] = $code;
+            }
         }
 
         // Remove all existing coupons.
         $repo = $this->entityManager->getRepository('ProjectAanvraag:Coupon');
         $existingCoupons = $repo->findBy(['code' => $coupons]);
+
+        /** @var Coupon $coupon */
         foreach ($existingCoupons as $coupon) {
             unset($coupons[$coupon->getCode()]);
         }
@@ -66,5 +70,7 @@ class CouponImporter
         }
 
         $this->entityManager->flush();
+
+        return count($coupons);
     }
 }
