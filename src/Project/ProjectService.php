@@ -3,10 +3,10 @@
 namespace CultuurNet\ProjectAanvraag\Project;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -82,11 +82,15 @@ class ProjectService implements ProjectServiceInterface
         $localConsumers = $query->getQuery()->getResult();
 
         // Get total results.
-        $totalResults = $query
-            ->select('count(p.id)')
-            ->setFirstResult(0)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            $totalResults = $query
+                ->select('count(p.id)')
+                ->setFirstResult(0)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultExceptionn $e) {
+            $totalResults = 0;
+        }
 
         return [
             'total' => $totalResults,
@@ -146,5 +150,28 @@ class ProjectService implements ProjectServiceInterface
         }
 
         return $project;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateContentFilter(ProjectInterface $project, $contentFilter)
+    {
+
+        $project->setContentFilter($contentFilter);
+
+        if ($project->getLiveConsumerKey()) {
+            $liveConsumer = new \CultureFeed_Consumer();
+            $liveConsumer->consumerKey = $project->getLiveConsumerKey();
+            $liveConsumer->searchPrefixFilterQuery = $project->getContentFilter();
+            $this->culturefeedLive->updateServiceConsumer($liveConsumer);
+        }
+
+        if ($project->getTestConsumerKey()) {
+            $testConsumer = new \CultureFeed_Consumer();
+            $testConsumer->consumerKey = $project->getTestConsumerKey();
+            $testConsumer->searchPrefixFilterQuery = $project->getContentFilter();
+            $this->culturefeedTest->updateServiceConsumer($testConsumer);
+        }
     }
 }

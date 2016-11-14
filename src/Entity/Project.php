@@ -130,6 +130,12 @@ class Project implements ProjectInterface
     protected $group;
 
     /**
+     * @var string
+     * @Type("string")
+     */
+    protected $contentFilter;
+
+    /**
      * @return int
      */
     public function getId()
@@ -418,6 +424,24 @@ class Project implements ProjectInterface
     }
 
     /**
+     * @return string
+     */
+    public function getContentFilter()
+    {
+        return $this->contentFilter;
+    }
+
+    /**
+     * @param string $contentFilter
+     * @return Project
+     */
+    public function setContentFilter($contentFilter)
+    {
+        $this->contentFilter = $contentFilter;
+        return $this;
+    }
+
+    /**
      * Enrich the project with CultureFeed_Consumer data.
      */
     public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer)
@@ -426,6 +450,7 @@ class Project implements ProjectInterface
         $this->description = $consumer->description;
         $this->logo = $consumer->logo;
         $this->domain = $consumer->domain;
+        $this->contentFilter = $consumer->searchPrefixFilterQuery;
     }
 
     /**

@@ -366,6 +366,51 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test activateProject
+     */
+    public function testUpdateContentFilter()
+    {
+        $project = $this->setupProjectTest('edit');
+
+        $postData = [
+            'contentFilter' => 'test',
+        ];
+        $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
+
+        $this->projectService->expects($this->once())
+            ->method('updateContentFilter')
+            ->with($project, 'test');
+
+        $response = $this->controller->updateContentFilter($request, 1);
+
+        $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
+    }
+
+    /**
+     * Test requestActivation AccessDeniedHttpException
+     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+     */
+    public function testUpdateContentFilterException()
+    {
+        $request = Request::create('/');
+        $this->setupProjectTest('edit', false);
+
+        $this->controller->updateContentFilter($request, 1);
+    }
+
+    /**
+     * Test requestActivation MissingRequiredFieldsException
+     * @expectedException \CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException
+     */
+    public function testUpdateContentFilterRequiredFields()
+    {
+        $request = Request::create('/');
+        $this->setupProjectTest('edit');
+
+        $this->controller->updateContentFilter($request, 1);
+    }
+
+    /**
      * Setup a project update test.
      * Test if the access check is done and return the given value.
      * @return Project

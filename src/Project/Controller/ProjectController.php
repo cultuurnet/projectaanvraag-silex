@@ -185,6 +185,22 @@ class ProjectController
     }
 
     /**
+     * Update the content filter for a given project.
+     * @param $id
+     */
+    public function updateContentFilter(Request $request, $id)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'edit');
+        $data = json_decode($request->getContent());
+
+        $this->validateRequiredFields(['contentFilter'], $data);
+
+        $this->projectService->updateContentFilter($project, $data->contentFilter);
+
+        return new JsonResponse($project);
+    }
+
+    /**
      * Load a project and check if user has access for given operation.
      * @param $id
      * @return Project
