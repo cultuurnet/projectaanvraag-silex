@@ -6,6 +6,9 @@ use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -40,6 +43,11 @@ class ProjectController
     protected $authorizationChecker;
 
     /**
+     * @var InsightlyClientInterface
+     */
+    protected $insightlyclient;
+
+    /**
      * @var CouponValidatorInterface
      */
     protected $couponValidator;
@@ -49,12 +57,15 @@ class ProjectController
      * @param MessageBusSupportingMiddleware $commandBus
      * @param ProjectServiceInterface $projectService
      * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param CouponValidatorInterface $couponValidator
+     * @param InsightlyClientInterface $insightlyClient
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
+        $this->insightlyclient = $insightlyClient;
         $this->couponValidator = $couponValidator;
     }
 
@@ -158,13 +169,13 @@ class ProjectController
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
             $this->validateRequiredFields(
-                ['email', 'name', 'street', 'number', 'postal', 'city'],
+                ['email', 'name', 'street', 'postal', 'city'],
                 $postedData
             );
 
-            $vat = !empty($postedData->identifier) ? $postedData->identifier : '';
+            $vat = !empty($postedData->vat) ? $postedData->vat : '';
 
-            $address = new Address($postedData->street, $postedData->number, $postedData->postal, $postedData->city);
+            $address = new Address($postedData->street, $postedData->postal, $postedData->city);
             $this->commandBus->handle(new RequestActivation($project, $postedData->email, $postedData->name, $address, $vat));
         }
 
@@ -196,6 +207,63 @@ class ProjectController
         $this->validateRequiredFields(['contentFilter'], $data);
 
         $this->projectService->updateContentFilter($project, $data->contentFilter);
+
+        return new JsonResponse($project);
+    }
+
+    /**
+     * Gets the linked organisation for the project.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getOrganisation($id)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'edit');
+        $organisation = $this->getOrganisationByProject($project);
+
+        if (!$organisation) {
+            throw new NotFoundHttpException();
+        }
+
+        return new JsonResponse($organisation);
+    }
+
+    /**
+     * Update an organisation.
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateOrganisation($id, Request $request)
+    {
+        $project = $this->getProjectWithAccessCheck($id, 'edit');
+
+        $postedData = json_decode($request->getContent());
+        $this->validateRequiredFields(
+            ['name', 'addresses', 'contactInfo'],
+            $postedData
+        );
+
+        // If the postedData contains id's, compare them to the currently linked organisation
+        // This is to ensure that the user is editing his own organisation, address and contact info
+        $currentOrganisation = $this->getOrganisationByProject($project);
+        $jsonOrganisation = json_decode(json_encode($currentOrganisation));
+
+        $postedIds = $this->getIdsFromData($postedData);
+        $currentIds = $this->getIdsFromData($jsonOrganisation);
+
+        if (!empty(array_diff($currentIds, $postedIds))) {
+            throw new AccessDeniedHttpException('Not allowed to edit this information');
+        }
+
+        $postedOrganisation = Organisation::jsonUnSerialize($request->getContent());
+
+        // Keep the original links
+        $postedOrganisation->setLinks($currentOrganisation->getLinks());
+
+        // Update the organisation
+        $this->insightlyclient->updateOrganisation($postedOrganisation);
 
         return new JsonResponse($project);
     }
@@ -237,5 +305,48 @@ class ProjectController
         if (!empty($emptyFields)) {
             throw new MissingRequiredFieldsException('Some required fields are missing: ' . implode(', ', $emptyFields));
         }
+    }
+
+    /**
+     * Gets the organisation linked to a project
+     * @param Project $project
+     * @return Organisation|null
+     */
+    private function getOrganisationByProject($project)
+    {
+        $organisation = null;
+
+        if (!empty($project->getInsightlyProjectId())) {
+            $insightyProject = $this->insightlyclient->getProject($project->getInsightlyProjectId());
+
+            /** @var Link $link */
+            foreach ($insightyProject->getLinks() as $link) {
+                if ($link->getOrganisationId()) {
+                    $organisation = $this->insightlyclient->getOrganisation($link->getOrganisationId());
+                    break;
+                }
+            }
+        }
+
+        return $organisation;
+    }
+
+    /**
+     * Returns a set of ids found on the objects in the provided array
+     * @param array $data
+     * @return array $ids
+     */
+    private function getIdsFromData($data)
+    {
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($data));
+        $ids = [];
+
+        foreach ($iterator as $key => $value) {
+            if ($key === 'id') {
+                $ids[] = $value;
+            }
+        }
+
+        return $ids;
     }
 }

@@ -91,7 +91,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $consumer->name = $this->project->getName();
         $consumer->description = $this->project->getDescription();
         $consumer->group = [5, $this->project->getGroupId()];
-
+        
         $consumerWithId = clone $consumer;
         $consumerWithId->consumerKey = 'test';
 
@@ -104,11 +104,11 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($consumerWithId->consumerKey);
 
         // @todo re-enable after createServiceConsumer is enabled again.
-        /*$this->cultureFeed
+        $this->cultureFeed
             ->expects($this->once())
             ->method('createServiceConsumer')
             ->with($consumer)
-            ->willReturn($consumerWithId);*/
+            ->willReturn($consumerWithId);
 
         // Test saving to db.
         $this->entityManager->expects($this->once())
@@ -116,11 +116,11 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($this->project);
 
         // Test dispatching of event.
-        $projectActivated = new ProjectActivated($this->project);
+        $projectActivated = new ProjectActivated($this->project, 'coupon');
         $this->eventBus->expects($this->once())
             ->method('handle')
             ->with($projectActivated);
 
-        $this->commandHandler->handle(new ActivateProject($this->project));
+        $this->commandHandler->handle(new ActivateProject($this->project, 'coupon'));
     }
 }

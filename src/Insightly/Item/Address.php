@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
 
-class Address implements \JsonSerializable, InsightlySerializableInterface
+class Address implements \JsonSerializable, InsightlySerializableInterface, JsonUnserializeInterface
 {
 
     /**
@@ -136,15 +136,34 @@ class Address implements \JsonSerializable, InsightlySerializableInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public static function jsonUnSerialize($json)
+    {
+        $address = new self();
+
+        $address->setId(!empty($json->id) ? $json->id : null);
+        $address->setCity(!empty($json->city) ? $json->city : null);
+        $address->setPostal(!empty($json->postal) ? $json->postal : null);
+        $address->setStreet(!empty($json->street) ? $json->street : null);
+        $address->setType(!empty($json->type) ? $json->type : null);
+
+        return $address;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toInsightly()
     {
-        return [
+        $data = [
+            'ADDRESS_ID' => $this->getId(),
             'ADDRESS_TYPE' => $this->getType(),
             'STREET' => $this->getStreet(),
             'CITY' => $this->getCity(),
             'POSTCODE' => $this->getPostal(),
         ];
+
+        return array_filter($data);
     }
 }

@@ -115,7 +115,7 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->insightlyClient->expects($this->once())
             ->method('updateProjectPipelineStage')
-            ->with(2, $this->insightlyConfig['pipeline'], $this->insightlyConfig['stages']['aanvraag']);
+            ->with(2, $this->insightlyConfig['stages']['aanvraag']);
 
         $this->commandHandler = new RequestActivationCommandHandler($this->eventBus, $this->entityManager, new User(), $this->insightlyClient, $this->insightlyConfig);
     }
@@ -142,7 +142,7 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
     private function requestTest($vat = '')
     {
 
-        $address = new \CultuurNet\ProjectAanvraag\Address('street', 'number', '9000', 'Gent');
+        $address = new \CultuurNet\ProjectAanvraag\Address('street number', '9000', 'Gent');
         $requestActivation = new RequestActivation($this->project, 'email@email.com', 'name', $address, $vat);
 
         // Contact info that should be created.
