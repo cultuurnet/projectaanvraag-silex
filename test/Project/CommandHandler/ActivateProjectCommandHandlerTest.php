@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
@@ -10,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
@@ -111,9 +113,33 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($consumerWithId);
 
         // Test saving to db.
-        $this->entityManager->expects($this->once())
+        $this->entityManager->expects($this->at(0))
             ->method('persist')
             ->with($this->project);
+
+        // Coupon saving.
+        $coupon = new Coupon();
+        $savedCoupon = clone $coupon;
+        $savedCoupon->setUsed(true);
+        $couponRepository = $this
+            ->getMockBuilder(EntityRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->entityManager
+            ->expects($this->any())
+            ->method('getRepository')
+            ->with('ProjectAanvraag:Coupon')
+            ->willReturn($couponRepository);
+
+        $couponRepository->expects($this->once())
+            ->method('find')
+            ->with('coupon')
+            ->willReturn($coupon);
+
+        $this->entityManager->expects($this->at(2))
+            ->method('persist')
+            ->with($savedCoupon);
 
         // Test dispatching of event.
         $projectActivated = new ProjectActivated($this->project, 'coupon');

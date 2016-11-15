@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\User;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -70,6 +71,7 @@ class CreateProjectCommandHandler
         $project->setDescription($createProject->getDescription());
         $project->setGroupId($createProject->getIntegrationType());
         $project->setUserId($this->user->id);
+        $project->setCoupon($createProject->getCouponToUse());
         $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
 
         /**
@@ -96,6 +98,14 @@ class CreateProjectCommandHandler
          * 3. Save the project to the local database
          */
         $this->entityManager->persist($project);
+
+        // Mark coupon as used.
+        if ($createProject->getCouponToUse()) {
+            /** @var Coupon $coupon */
+            $coupon = $this->entityManager->getRepository('ProjectAanvraag:Coupon')->find($createProject->getCouponToUse());
+            $coupon->setUsed(true);
+            $this->entityManager->persist($coupon);
+        }
 
         /**
          * 4. Create a local user if needed

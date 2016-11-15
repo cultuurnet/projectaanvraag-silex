@@ -75,6 +75,15 @@ class ActivateProjectCommandHandler
         $project->setCoupon($activateProject->getCouponToUse());
 
         $this->entityManager->persist($project);
+
+        // Mark coupon as used.
+        if ($activateProject->getCouponToUse()) {
+            /** @var Coupon $coupon */
+            $coupon = $this->entityManager->getRepository('ProjectAanvraag:Coupon')->find($activateProject->getCouponToUse());
+            $coupon->setUsed(true);
+            $this->entityManager->persist($coupon);
+        }
+
         $this->entityManager->flush();
 
         // Dispatch the event.

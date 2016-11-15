@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultuurNet\ProjectAanvraag\Entity\Coupon;
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
@@ -87,24 +89,28 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->entityManager
-            ->expects($this->any())
+            ->expects($this->at(3))
             ->method('getRepository')
             ->with('ProjectAanvraag:User')
             ->willReturn($repository);
 
-        $this->entityManager
-            ->expects($this->any())
+        $repository
+            ->expects($this->once())
             ->method('find')
             ->with($this->user->id);
 
+        // Test saving of the user.
+        $user = new \CultuurNet\ProjectAanvraag\Entity\User(123);
         $this->entityManager
-            ->expects($this->any())
-            ->method('persist');
+            ->expects($this->at(4))
+            ->method('persist')
+            ->with($user);
 
         $this->entityManager
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('flush');
 
+        // Test creating of service consumers.
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $cultureFeedConsumer = new \CultureFeed_Consumer();
         $cultureFeedConsumer->name = 'Project name';
@@ -115,8 +121,11 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $createdCultureFeedConsumer = new \CultureFeed_Consumer();
         $createdCultureFeedConsumer->name = 'Project name';
         $createdCultureFeedConsumer->description = 'Project description';
-        $createdCultureFeedConsumer->consumerKey = 'cfe3ccae8aa248faddaedede30622177';
-        $createdCultureFeedConsumer->consumerSecret = 'abc3ccae8aa248faddaedede30622177';
+        $createdCultureFeedConsumer->consumerKey = 'test key';
+        $createdCultureFeedConsumer->consumerSecret = 'test secret';
+        $createLiveConsumer = clone $createdCultureFeedConsumer;
+        $createLiveConsumer->consumerSecret = 'live secret';
+        $createLiveConsumer->consumerKey = 'live key';
 
         $this->cultureFeedTest
             ->expects($this->any())
@@ -128,7 +137,44 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('createServiceConsumer')
             ->with($cultureFeedConsumer)
-            ->willReturn($createdCultureFeedConsumer);
+            ->willReturn($createLiveConsumer);
+
+        // Test saving of the project.
+        $project = new Project();
+        $project->setName('Project name');
+        $project->setDescription('Project description');
+        $project->setGroupId(123);
+        $project->setUserId($this->user->id);
+        $project->setCoupon('coupon');
+        $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
+        $project->setLiveConsumerKey($createLiveConsumer->consumerKey);
+        $project->setTestConsumerKey($createdCultureFeedConsumer->consumerKey);
+
+        $this->entityManager->expects($this->at(0))
+            ->method('persist')
+            ->with($project);
+
+        // Test coupon saving.
+        $coupon = new Coupon();
+        $savedCoupon = clone $coupon;
+        $savedCoupon->setUsed(true);
+        $couponRepository = $this
+            ->getMockBuilder(EntityRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->entityManager
+            ->expects($this->at(1))
+            ->method('getRepository')
+            ->with('ProjectAanvraag:Coupon')
+            ->willReturn($couponRepository);
+        $couponRepository->expects($this->once())
+            ->method('find')
+            ->with('coupon')
+            ->willReturn($coupon);
+
+        $this->entityManager->expects($this->at(2))
+            ->method('persist')
+            ->with($savedCoupon);
 
         $createProject = new CreateProject('Project name', 'Project description', 123, 'coupon');
         $this->commandHandler->handle($createProject);
