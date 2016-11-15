@@ -8,7 +8,7 @@ The silex application for projectaanvraag
 
 The absolute minimum to read before starting development are
  
- * [Initial setup](books/initial-setup.md) 
- * [Filesystem layout](books/filesystem-layout.md) 
- * [Architecture](books/architecture.md)
- * [Insightly](books/insightly.md)
+ * [Initial setup](docs/initial-setup.md) 
+ * [Filesystem layout](docs/filesystem-layout.md) 
+ * [Architecture](docs/architecture.md)
+ * [Insightly](docs/insightly.md)
