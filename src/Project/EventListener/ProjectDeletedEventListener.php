@@ -15,8 +15,6 @@ class ProjectDeletedEventListener extends ProjectCrudEventListener
      */
     public function handle(ProjectEvent $projectDeleted)
     {
-        parent::handle($projectDeleted);
-
         /** @var ProjectDeleted $projectDeleted */
         $this->loadInsightlyProject($projectDeleted);
         $this->insightlyProject->setStatus(Project::STATUS_ABANDONED);

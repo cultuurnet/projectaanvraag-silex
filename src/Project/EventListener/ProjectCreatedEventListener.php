@@ -42,8 +42,6 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      */
     public function handle(ProjectEvent $projectCreated)
     {
-        parent::handle($projectCreated);
-
         /**
          * @var ProjectInterface $project
          * @var ProjectCreated $projectCreated

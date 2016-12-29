@@ -122,7 +122,5 @@ class ApplicationBase extends SilexApplication
                 'insightly.api_key' => $this['config']['insightly']['api_key'],
             ]
         );
-
-        $this->register(new RabbitMQEventListenerProvider());
     }
 }

@@ -3,6 +3,8 @@
 namespace CultuurNet\ProjectAanvraag\Console\Command;
 
 use Knp\Command\Command;
+use PhpAmqpLib\Connection\AMQPSocketConnection;
+use PhpAmqpLib\Wire\AMQPTable;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +16,6 @@ use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
  */
 class ConsumeCommand extends Command
 {
-
     /**
      * @var string
      */
@@ -25,6 +26,12 @@ class ConsumeCommand extends Command
      */
     protected $connectionId;
 
+    /**
+     * ConsumeCommand constructor.
+     * @param null|string $name
+     * @param $connectionId
+     * @param $consumerId
+     */
     public function __construct($name, $connectionId, $consumerId)
     {
         parent::__construct($name);
@@ -32,6 +39,9 @@ class ConsumeCommand extends Command
         $this->consumerId = $consumerId;
     }
 
+    /**
+     * Configure the command
+     */
     protected function configure()
     {
         $this
@@ -39,6 +49,11 @@ class ConsumeCommand extends Command
             ->addOption('debug', 'd', InputOption::VALUE_NONE, 'Enable Debugging');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (defined('AMQP_DEBUG') === false) {
@@ -50,10 +65,18 @@ class ConsumeCommand extends Command
             $consumer->setMemoryLimit($input->getOption('memory-limit'));
         }
 
+        /** @var AMQPSocketConnection $connection */
         $connection = $this->getInstance($this->connectionId);
         $channel = $connection->channel();
 
-        $channel->queue_declare('projectaanvraag', false, false, false, false);
+        // Declare the exchange
+        $channel->exchange_declare('asynchronous_commands', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
+
+        // Declare the queue
+        $channel->queue_declare('projectaanvraag', false, true, false, false, false, new AMQPTable(['routing_keys' => ['asynchronous_commands']]));
+
+        // Bind the queue to the async_commands exchange
+        $channel->queue_bind('projectaanvraag', 'asynchronous_commands', 'asynchronous_commands');
 
         $output->writeln(' [*] Waiting for messages. To exit press CTRL+C');
 

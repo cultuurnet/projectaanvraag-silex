@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
+use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use JMS\Serializer\Annotation\Type;
 
@@ -60,7 +61,7 @@ class RequestedActivation extends ProjectEvent
 
     /**
      * @param string $name
-     * @return RequestActivation
+     * @return RequestedActivation
      */
     public function setName($name)
     {
@@ -78,7 +79,7 @@ class RequestedActivation extends ProjectEvent
 
     /**
      * @param string $email
-     * @return RequestActivation
+     * @return RequestedActivation
      */
     public function setEmail($email)
     {
@@ -96,7 +97,7 @@ class RequestedActivation extends ProjectEvent
 
     /**
      * @param Address $address
-     * @return RequestActivation
+     * @return RequestedActivation
      */
     public function setAddress($address)
     {
@@ -114,7 +115,7 @@ class RequestedActivation extends ProjectEvent
 
     /**
      * @param string $vatNumber
-     * @return RequestActivation
+     * @return RequestedActivation
      */
     public function setVatNumber($vatNumber)
     {

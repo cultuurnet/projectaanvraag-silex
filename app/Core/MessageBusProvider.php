@@ -2,15 +2,19 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
+use CultuurNet\ProjectAanvraag\RabbitMQ\Publisher\RabbitMQDelayedPublisher;
+use CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber\RabbitMQEventSubscriber;
+use CultuurNet\ProjectAanvraag\RabbitMQ\RoutingKeyresolver\AsyncCommandRoutingKeyResolver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use JMS\Serializer\SerializerBuilder;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Wire\AMQPTable;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Silex\Api\EventListenerProviderInterface;
 use SimpleBus\Asynchronous\Consumer\StandardSerializedEnvelopeConsumer;
 use SimpleBus\Asynchronous\Properties\DelegatingAdditionalPropertiesResolver;
-use SimpleBus\Asynchronous\Routing\EmptyRoutingKeyResolver;
 use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
 use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
@@ -24,15 +28,15 @@ use SimpleBus\Message\Name\ClassBasedNameResolver;
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
 use SimpleBus\RabbitMQBundleBridge\RabbitMQMessageConsumer;
-use SimpleBus\RabbitMQBundleBridge\RabbitMQPublisher;
 use SimpleBus\Serialization\Envelope\DefaultEnvelopeFactory;
 use SimpleBus\Serialization\Envelope\Serializer\StandardMessageInEnvelopeSerializer;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Provides all services for the message bus.
  */
-class MessageBusProvider implements ServiceProviderInterface
+class MessageBusProvider implements ServiceProviderInterface, EventListenerProviderInterface
 {
 
     /**
@@ -103,19 +107,33 @@ class MessageBusProvider implements ServiceProviderInterface
         };
 
         $pimple['publisher'] = function (Container $pimple) {
-
             $producer = new Producer($pimple['rabbit.connection']);
             $producer->setExchangeOptions(
                 [
                     'name' => 'asynchronous_commands',
-                    'type' => 'direct',
+                    'type' => 'x-delayed-message',
+                    'durable' => true,
+                    'arguments' => new AMQPTable(
+                        [
+                            'x-delayed-type' => 'direct',
+                        ]
+                    ),
                 ]
             );
-            $producer->setQueueOptions(['name' => 'projectaanvraag', 'durable' => false]);
-            $routingKeyResolver = new EmptyRoutingKeyResolver();
+
+            $producer->setQueueOptions(
+                [
+                    'name' => 'projectaanvraag',
+                    'durable' => true,
+                    'routing_keys' => [
+                        'asynchronous_commands',
+                    ],
+                ]
+            );
+            $routingKeyResolver = new AsyncCommandRoutingKeyResolver();
             $additionalPropertiesResolver = new DelegatingAdditionalPropertiesResolver([]);
 
-            return new RabbitMQPublisher($pimple['envelope_serializer'], $producer, $routingKeyResolver, $additionalPropertiesResolver);
+            return new RabbitMQDelayedPublisher($pimple['envelope_serializer'], $producer, $routingKeyResolver, $additionalPropertiesResolver);
         };
 
         $pimple['rabbit.connection'] = function (Container $pimple) {
@@ -176,5 +194,13 @@ class MessageBusProvider implements ServiceProviderInterface
                 return new $class(...$arguments);
             };
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
+    {
+        $dispatcher->addSubscriber(new RabbitMQEventSubscriber($app['event_bus'], $app['envelope_serializer']));
     }
 }

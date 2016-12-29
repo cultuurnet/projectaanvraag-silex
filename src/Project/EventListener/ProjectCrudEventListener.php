@@ -98,15 +98,4 @@ abstract class ProjectCrudEventListener
         $this->insightlyProject = $insightlyProject;
         return $this;
     }
-
-    /**
-     * Handle the command
-     * @param ProjectEvent $projectEvent
-     * @throws \Exception
-     */
-    public function handle(ProjectEvent $projectEvent)
-    {
-        // Update the number of attempts for this message.
-        $projectEvent->attempt();
-    }
 }
