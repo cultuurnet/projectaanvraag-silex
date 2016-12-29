@@ -18,7 +18,7 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
      */
     public function onConsumed(MessageConsumed $event)
     {
-        $a = 3;
+
     }
 
     /**
@@ -27,7 +27,7 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
      */
     public function onConsumptionFailed(MessageConsumptionFailed $event)
     {
-        $a = 3;
+
     }
 
     /**
