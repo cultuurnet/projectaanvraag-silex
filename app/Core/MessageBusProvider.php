@@ -2,25 +2,13 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
-use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
-use CultuurNet\ProjectAanvraag\Project\CommandHandler\CreateProjectCommandHandler;
-use CultuurNet\ProjectAanvraag\Project\Controller\ProjectController;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use JMS\Serializer\SerializerBuilder;
-use Metadata\MetadataFactory;
-use Monolog\Logger;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Psr\Log\NullLogger;
-use Silex\Api\ControllerProviderInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
 use SimpleBus\Asynchronous\Consumer\StandardSerializedEnvelopeConsumer;
-use SimpleBus\Asynchronous\MessageBus\AlwaysPublishesMessages;
-use SimpleBus\Asynchronous\MessageBus\PublishesUnhandledMessages;
 use SimpleBus\Asynchronous\Properties\DelegatingAdditionalPropertiesResolver;
 use SimpleBus\Asynchronous\Routing\EmptyRoutingKeyResolver;
 use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
@@ -39,7 +27,6 @@ use SimpleBus\RabbitMQBundleBridge\RabbitMQMessageConsumer;
 use SimpleBus\RabbitMQBundleBridge\RabbitMQPublisher;
 use SimpleBus\Serialization\Envelope\DefaultEnvelopeFactory;
 use SimpleBus\Serialization\Envelope\Serializer\StandardMessageInEnvelopeSerializer;
-use SimpleBus\Serialization\NativeObjectSerializer;
 use Symfony\Component\Yaml\Yaml;
 
 /**

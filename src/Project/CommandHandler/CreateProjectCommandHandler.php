@@ -62,7 +62,6 @@ class CreateProjectCommandHandler
      */
     public function handle(CreateProject $createProject)
     {
-
         /**
          * 1. Prepare project
          */
