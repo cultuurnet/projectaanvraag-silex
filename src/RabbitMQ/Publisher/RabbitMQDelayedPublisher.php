@@ -65,7 +65,7 @@ class RabbitMQDelayedPublisher extends RabbitMQPublisher
         $routingKey = $this->routingKeyResolver->resolveRoutingKeyFor($message);
         $additionalProperties = $this->additionalPropertiesResolver->resolveAdditionalPropertiesFor($message);
 
-        // Optional headers for delay, ...
+        // Optional headers for delay
         $headers = [];
         if ($message instanceof DelayableMessageInterface) {
             $headers += [
