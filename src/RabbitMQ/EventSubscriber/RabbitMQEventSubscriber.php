@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber;
 
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\RabbitMQBundleBridge\Event\Events;
 use SimpleBus\RabbitMQBundleBridge\Event\MessageConsumptionFailed;
@@ -26,14 +27,28 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
     protected $messageInEnvelopeSerializer;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * @var array
+     */
+    protected $config;
+
+    /**
      * RabbitMQEventSubscriber constructor.
      * @param MessageBusSupportingMiddleware $eventBus
      * @param MessageInEnvelopSerializer $messageInEnvelopeSerializer
+     * @param LoggerInterface $logger
+     * @param array $config
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, MessageInEnvelopSerializer $messageInEnvelopeSerializer)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, MessageInEnvelopSerializer $messageInEnvelopeSerializer, LoggerInterface $logger, array $config)
     {
         $this->eventBus = $eventBus;
         $this->messageInEnvelopeSerializer = $messageInEnvelopeSerializer;
+        $this->logger = $logger;
+        $this->config = $config;
     }
 
     /**
@@ -55,11 +70,12 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
             /** @var ProjectEvent $message */
             $message->attempt();
 
-            // @todo: Handle logging
             if ($message->getAttempts() < 5) {
                 // Retry the command with delay
-                $message->setDelay(5000);
+                $message->setDelay(!empty($this->config['failed_message_delay']) ? $this->config['failed_message_delay'] : 3600000);
                 $this->eventBus->handle($message);
+            }else {
+                $this->logger->error('Message: ' . $eventMessage->body);
             }
         }
     }

@@ -31,6 +31,9 @@ rabbitmq:
   port:
   user:
   password:
+  # Time in miliseconds before retrying a message
+  failed_message_delay:
+
 
 # Insightly settings
 insightly:

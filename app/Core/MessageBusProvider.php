@@ -7,6 +7,9 @@ use CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber\RabbitMQEventSubscriber;
 use CultuurNet\ProjectAanvraag\RabbitMQ\RoutingKeyresolver\AsyncCommandRoutingKeyResolver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use JMS\Serializer\SerializerBuilder;
+use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Wire\AMQPTable;
@@ -146,6 +149,21 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
             return new RabbitMQMessageConsumer($envelopeConsumer, $pimple['dispatcher']);
         };
 
+        // Logger service for projects
+        $pimple['monolog.projects'] = function (Container $pimple) {
+            /** @var Logger $logger */
+            $logger = new $pimple['monolog.logger.class']('projects');
+
+            if ($pimple['debug']) {
+                $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
+                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/projects/projects.log', 0, Logger::DEBUG));
+            } else {
+                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/projects/projects.log', 0, Logger::DEBUG));
+            }
+
+            return $logger;
+        };
+
         // Register a service for every handler and listener.
         $this->registerServices($config['listeners'], $pimple);
         $this->registerServices($config['handlers'], $pimple);
@@ -201,6 +219,6 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
      */
     public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
     {
-        $dispatcher->addSubscriber(new RabbitMQEventSubscriber($app['event_bus'], $app['envelope_serializer']));
+        $dispatcher->addSubscriber(new RabbitMQEventSubscriber($app['event_bus'], $app['envelope_serializer'], $app['monolog.projects'], $app['config']['rabbitmq']));
     }
 }

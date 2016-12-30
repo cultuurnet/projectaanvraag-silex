@@ -18,6 +18,7 @@ use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\MonologServiceProvider;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -47,6 +48,9 @@ class ApplicationBase extends SilexApplication
      */
     protected function registerProviders()
     {
+        // Monolog
+        $this->register(new MonologServiceProvider());
+
         // Uitid
         $this->register(
             new CultureFeedServiceProvider(),
