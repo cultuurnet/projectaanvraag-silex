@@ -1,8 +1,9 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\Project\Event;
+namespace CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber;
 
-use CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber\RabbitMQEventSubscriber;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -11,7 +12,7 @@ use SimpleBus\RabbitMQBundleBridge\Event\MessageConsumptionFailed;
 use SimpleBus\Serialization\Envelope\Envelope;
 use SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopSerializer;
 
-class RabbitMQEventSubsriberTest extends \PHPUnit_Framework_TestCase
+class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
