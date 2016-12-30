@@ -151,8 +151,9 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
 
         // Logger service for projects
         $pimple['monolog.projects'] = function (Container $pimple) {
+            $factory = $pimple['monolog.logger.class'];
             /** @var Logger $logger */
-            $logger = new $pimple['monolog.logger.class']('projects');
+            $logger = new $factory('projects');
 
             if ($pimple['debug']) {
                 $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));

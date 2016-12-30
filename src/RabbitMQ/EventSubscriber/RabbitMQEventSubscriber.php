@@ -68,13 +68,15 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
         // Only act on ProjectEvent events
         if ($message instanceof ProjectEvent) {
             /** @var ProjectEvent $message */
+            // Increase the attempts counter of the message
             $message->attempt();
 
+            // Allow the message to fail 5 times, then log it
             if ($message->getAttempts() < 5) {
                 // Retry the command with delay
                 $message->setDelay(!empty($this->config['failed_message_delay']) ? $this->config['failed_message_delay'] : 3600000);
                 $this->eventBus->handle($message);
-            }else {
+            } else {
                 $this->logger->error('Message: ' . $eventMessage->body);
             }
         }
