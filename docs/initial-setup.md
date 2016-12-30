@@ -18,7 +18,9 @@ You will need a web server (for example Apache or Nginx) with at least PHP 5.6.
 
 Web server requirements:
 - at least PHP 5.6 (PHP 7 preferred)
-- Rabbit MQ should be installed (https://www.rabbitmq.com/download.html)
+- RabbitMQ should be installed (https://www.rabbitmq.com/download.html)
+- RabbitMQ delayed message exchange (http://www.rabbitmq.com/community-plugins.html)
+- Erlang version 18 or higher
 - Optional: If you want to automatically run the consumer: http://supervisord.org/
 
 Steps:
