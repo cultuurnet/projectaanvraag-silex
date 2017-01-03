@@ -91,9 +91,11 @@ class ConsumeCommand extends Command
                  * Always acknowledge the message, even on failure. This prevents the automatic requeuing of the item.
                  * Requeueing happens in the event subscriber with a delay.
                  */
+                // @codingStandardsIgnoreStart
                 if (!empty($msg->delivery_info['delivery_tag'])) {
                     $channel->basic_ack($msg->delivery_info['delivery_tag']);
                 }
+                // @codingStandardsIgnoreEnd
             } catch (\Throwable $e) {
                 print $e->getMessage();
             }

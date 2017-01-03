@@ -60,7 +60,7 @@ class SyncConsumerEventListener
             $project = $this->projectRepository->findOneBy([$event->getType() . 'ConsumerKey' => $consumerData['consumerKey']]);
             if ($project) {
                 $project->setName($consumerData['name']);
-            }else {
+            } else {
                 // Find by name
                 $project = $this->projectRepository->findOneBy(['name' => $consumerData['name']]);
             }
@@ -79,7 +79,7 @@ class SyncConsumerEventListener
             if ($project) {
                 if ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
                     $project->setTestConsumerKey($consumerData['consumerKey']);
-                }elseif ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
+                } elseif ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
                     $project->setLiveConsumerKey($consumerData['consumerKey']);
                 }
 

@@ -53,11 +53,6 @@ class ProjectController
     protected $couponValidator;
 
     /**
-     * @var \ICultureFeed
-     */
-    protected $cultureFeed;
-
-    /**
      * ProjectController constructor.
      * @param MessageBusSupportingMiddleware $commandBus
      * @param ProjectServiceInterface $projectService
@@ -65,14 +60,13 @@ class ProjectController
      * @param CouponValidatorInterface $couponValidator
      * @param InsightlyClientInterface $insightlyClient
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient, \ICultureFeed $cultureFeed)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
         $this->insightlyclient = $insightlyClient;
         $this->couponValidator = $couponValidator;
-        $this->cultureFeed = $cultureFeed;
     }
 
     /**
@@ -272,11 +266,6 @@ class ProjectController
         $this->insightlyclient->updateOrganisation($postedOrganisation);
 
         return new JsonResponse($project);
-    }
-
-    public function test() {
-        $consumers = $this->cultureFeed->getServiceConsumers(0, 1);
-        return new JsonResponse($consumers);
     }
 
     /**

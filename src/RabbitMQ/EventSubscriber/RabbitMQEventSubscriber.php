@@ -76,7 +76,6 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
             if ($message->getAttempts() < 5) {
                 // Retry the command with delay
                 $message->setDelay(!empty($this->config['failed_message_delay']) ? $this->config['failed_message_delay'] : 3600000);
-                $message->setDelay(500);
                 $this->eventBus->handle($message);
             } else {
                 // Only log failed attempts for project events

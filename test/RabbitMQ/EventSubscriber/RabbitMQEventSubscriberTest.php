@@ -171,7 +171,8 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
     /**
      * Helper function for triggering the event on the envent subscriber
      */
-    private function triggerOnconsumptionFailed() {
+    private function triggerOnconsumptionFailed()
+    {
         $rabbitMQEventSubscriber = new RabbitMQEventSubscriber($this->eventBus, $this->messageInEnveloppeSerializer, $this->logger, $this->config);
         $rabbitMQEventSubscriber->onConsumptionFailed($this->messageConsumptionFailedEvent);
     }
