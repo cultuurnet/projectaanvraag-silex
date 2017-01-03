@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Core\EventListener;
 
+use CultuurNet\ProjectAanvraag\Core\Event\ConsumerTypeInterface;
 use CultuurNet\ProjectAanvraag\Core\Event\QueueConsumers;
+use CultuurNet\ProjectAanvraag\Core\Event\SyncConsumer;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 /**
@@ -46,18 +48,24 @@ class QueueConsumersEventListener
     {
         /** @var \CultureFeed_ResultSet $consumers */
         $consumers = null;
+        $type = $event->getType();
 
-        if ($event->getType() == QueueConsumers::CONSUMER_TYPE_TEST) {
+        if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
             $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
-        }elseif ($event->getType() == QueueConsumers::CONSUMER_TYPE_LIVE) {
+        }elseif ($type == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
             $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
         }
 
-        if ($consumers) {
-            // As long as we get the maximum number of objects, requeue with next starting index
-            if (!empty($consumers->objects) && count($consumers->objects) == $event->getMax()) {
+        if (!empty($consumers->objects)) {
+            // As long as we get the maximum number of objects, add event to queue with next starting index
+            if (count($consumers->objects) == $event->getMax()) {
                 $event->setStart($event->getStart() + $event->getMax());
                 $this->eventBus->handle($event);
+            }
+
+            // Create sync commands
+            foreach ($consumers->objects as $object) {
+                $this->eventBus->handle(new SyncConsumer($type, $object));
             }
         }
     }

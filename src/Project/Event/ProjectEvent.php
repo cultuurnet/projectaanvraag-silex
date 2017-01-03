@@ -2,28 +2,17 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
-use CultuurNet\ProjectAanvraag\Core\AsynchronousMessageInterface;
-use CultuurNet\ProjectAanvraag\Core\MessageAttemptedInterface;
-use CultuurNet\ProjectAanvraag\Core\MessageAttemptedTrait;
+use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
-use CultuurNet\ProjectAanvraag\RabbitMQ\DelayableMessageInterface;
 use JMS\Serializer\Annotation\Type;
 
-abstract class ProjectEvent implements AsynchronousMessageInterface, MessageAttemptedInterface, DelayableMessageInterface
+abstract class ProjectEvent extends AbstractRetryableMessage
 {
-    use MessageAttemptedTrait;
-
     /**
      * @var ProjectInterface
      * @Type("CultuurNet\ProjectAanvraag\Entity\Project")
      */
     private $project;
-
-    /**
-     * @var int
-     * @Type("integer")
-     */
-    private $delay;
 
     /**
      * ProjectDeleted constructor.
@@ -52,24 +41,5 @@ abstract class ProjectEvent implements AsynchronousMessageInterface, MessageAtte
     {
         $this->project = $project;
         return $this;
-    }
-
-    /**
-     * Set the delay in milliseconds
-     * @param int $delay
-     * @return ProjectEvent
-     */
-    public function setDelay($delay)
-    {
-        $this->delay = $delay;
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDelay()
-    {
-        return $this->delay;
     }
 }

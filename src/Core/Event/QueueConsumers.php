@@ -2,19 +2,11 @@
 
 namespace CultuurNet\ProjectAanvraag\Core\Event;
 
-use CultuurNet\ProjectAanvraag\Core\AsynchronousMessageInterface;
-use CultuurNet\ProjectAanvraag\Core\MessageAttemptedInterface;
-use CultuurNet\ProjectAanvraag\Core\MessageAttemptedTrait;
-use CultuurNet\ProjectAanvraag\RabbitMQ\DelayableMessageInterface;
+use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
 use JMS\Serializer\Annotation\Type;
 
-class QueueConsumers implements AsynchronousMessageInterface, DelayableMessageInterface, MessageAttemptedInterface
+class QueueConsumers extends AbstractRetryableMessage implements ConsumerTypeInterface
 {
-    use MessageAttemptedTrait;
-
-    CONST CONSUMER_TYPE_LIVE = 'live';
-    CONST CONSUMER_TYPE_TEST = 'test';
-
     /**
      * @Type("string")
      * @var string
@@ -34,11 +26,6 @@ class QueueConsumers implements AsynchronousMessageInterface, DelayableMessageIn
     protected $max;
 
     /**
-     * @var int
-     */
-    protected $delay = 0;
-
-    /**
      * QueueConsumersEvent constructor.
      * @param string $type
      * @param int $start
@@ -52,7 +39,7 @@ class QueueConsumers implements AsynchronousMessageInterface, DelayableMessageIn
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -60,8 +47,7 @@ class QueueConsumers implements AsynchronousMessageInterface, DelayableMessageIn
     }
 
     /**
-     * @param string $type
-     * @return QueueConsumers
+     * {@inheritdoc}
      */
     public function setType($type)
     {
@@ -103,24 +89,5 @@ class QueueConsumers implements AsynchronousMessageInterface, DelayableMessageIn
     {
         $this->max = $max;
         return $this;
-    }
-
-    /**
-     * Set the delay in milliseconds
-     * @param int $delay
-     * @return QueueConsumers
-     */
-    public function setDelay($delay)
-    {
-        $this->delay = $delay;
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDelay()
-    {
-        return $this->delay;
     }
 }

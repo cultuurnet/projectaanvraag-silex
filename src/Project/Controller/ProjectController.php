@@ -275,7 +275,7 @@ class ProjectController
     }
 
     public function test() {
-        $consumers = $this->cultureFeed->getServiceConsumers(0, 100);
+        $consumers = $this->cultureFeed->getServiceConsumers(0, 1);
         return new JsonResponse($consumers);
     }
 

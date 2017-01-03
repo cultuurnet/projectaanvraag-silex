@@ -67,7 +67,7 @@ class Project implements ProjectInterface
     protected $liveConsumerKey;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Type("integer")
      * @var int
      */

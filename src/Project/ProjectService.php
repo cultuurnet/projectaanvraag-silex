@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 
 /**
  * Service class for projects.
@@ -41,15 +42,10 @@ class ProjectService implements ProjectServiceInterface
     protected $integrationTypeStorage;
 
     /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
      * Construct the project storage.
      * @param \ICultureFeed $cultureFeedLive
      * @param \ICultureFeed $cultureFeedTest
-     * @param EntityManagerInterface $entityManager
+     * @param EntityRepository $repository
      * @param IntegrationTypeStorageInterface $integrationTypeStorage
      * @param User $user
      */
@@ -98,7 +94,7 @@ class ProjectService implements ProjectServiceInterface
                 ->setFirstResult(0)
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultExceptionn $e) {
+        } catch (NoResultException $e) {
             $totalResults = 0;
         }
 

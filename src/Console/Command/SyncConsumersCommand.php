@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Console\Command;
 
 use CultuurNet\ProjectAanvraag\Core\Event\QueueConsumers;
+
 use Knp\Command\Command;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\Console\Input\InputArgument;
