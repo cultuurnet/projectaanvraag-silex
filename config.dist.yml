@@ -17,10 +17,16 @@ database:
 
 # UiTID related settings.
 uitid:
-  consumer:
-    key:
-    secret:
-  base_url: https://acc2.uitid.be/uitid/rest/
+  test:
+    consumer:
+      key:
+      secret:
+    base_url: https://acc2.uitid.be/uitid/rest/
+  live:
+    consumer:
+      key:
+      secret:
+    base_url: https://www.uitid.be/uitid/rest/
 
 # debug settings
 debug: false
@@ -37,3 +43,4 @@ rabbitmq:
 insightly:
   host: https://api.insight.ly/v2.2
   api_key:
+  project_config:
