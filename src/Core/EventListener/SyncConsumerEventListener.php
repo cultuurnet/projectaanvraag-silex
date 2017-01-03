@@ -3,15 +3,11 @@
 namespace CultuurNet\ProjectAanvraag\Core\EventListener;
 
 use CultuurNet\ProjectAanvraag\Core\Event\ConsumerTypeInterface;
-use CultuurNet\ProjectAanvraag\Core\Event\QueueConsumers;
 use CultuurNet\ProjectAanvraag\Core\Event\SyncConsumer;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use OldSound\RabbitMqBundle\RabbitMq\Consumer;
-use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 /**
  * Event listener for syncing a consumer to the local db.
