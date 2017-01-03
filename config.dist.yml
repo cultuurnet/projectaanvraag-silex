@@ -37,6 +37,7 @@ rabbitmq:
   port:
   user:
   password:
+  vhost:
 
 # Insightly settings
 insightly:

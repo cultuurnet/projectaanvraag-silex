@@ -133,7 +133,7 @@ class MessageBusProvider implements ServiceProviderInterface
 
         $pimple['rabbit.connection'] = function (Container $pimple) {
             $amqpConfig = $pimple['config']['rabbitmq'];
-            return new AMQPStreamConnection($amqpConfig['host'], $amqpConfig['port'], $amqpConfig['user'], $amqpConfig['password']);
+            return new AMQPStreamConnection($amqpConfig['host'], $amqpConfig['port'], $amqpConfig['user'], $amqpConfig['password'], $amqpConfig['vhost']);
         };
 
         $pimple['rabbit.consumer'] = function (Container $pimple) {
