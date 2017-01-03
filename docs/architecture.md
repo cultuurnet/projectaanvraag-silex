@@ -22,7 +22,6 @@ The application uses a command / event based architecture. The system is impleme
  $this->entityManager->flush(); 
  ```
  
- 
  ## Commands
  To implement a command, following steps are required:
   - Create your command class (example [RequestActivation](src/Project/Command/RequestActivation.php))

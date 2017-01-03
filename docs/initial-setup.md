@@ -26,7 +26,7 @@ Web server requirements:
 Steps:
 
 - Git clone the source code.
-- Install the dependencies with ``composer install``.
+- Install the dependencies with `composer install`.
 - Set the web directory as the document root in your web server 
 - configuration.
 - Configure your web server to rewrite all requests that do not match with an existing file,
@@ -43,9 +43,12 @@ setting is, look in here for the documentation.
 # Console commands
 
 A console is provided in the application. This can be used to run certain silex commands. Most important ones:
-- projectaanvraag:consumer: Run this command if you want to consume messages on your rabbit mq. This is 
+- `projectaanvraag:consumer`: Run this command if you want to consume messages on your rabbit mq. This is 
  used to handle events async.
   - If you have supervisor. This is the required command that should be run.
   - If you have no supervisor: Make sure you run this command after you executed code that throws an event
-- orm:schema-tool:update: Run this command to show what sql is needed to update your DB to latest version. Use the --force flag to execute that query.
-- orm:schema-tool:create: When this is your first time running the project.
+- `orm:schema-tool:update`: Run this command to show what sql is needed to update your DB to latest version. Use the --force flag to execute that query.
+- `orm:schema-tool:create`: When this is your first time running the project.
+- `sync-consumers live test`: Run this command to synchronize the local consumers with their CultureFeed API counterparts.
+`test` and `live` are the possible arguments for this command. The command can be run with only one of these present. 
+This will create asynchronous events for processing on the RabbitMQ queue.
