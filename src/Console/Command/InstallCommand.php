@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
  */
 class InstallCommand extends Command
 {
-
     public function configure()
     {
         $this->setName('install')
@@ -25,7 +24,6 @@ class InstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $schemaInstaller = $this->getDatabaseSchemaInstaller();
         if ($input->getOption('reinstall')) {
             $helper = $this->getHelper('question');
@@ -49,8 +47,6 @@ class InstallCommand extends Command
     private function getDatabaseSchemaInstaller()
     {
         $app = $this->getSilexApplication();
-
-        return $app['database.installer'];
 
         if (!isset($app['database.installer'])) {
             throw new ProviderNotFoundException('database.installer not found');

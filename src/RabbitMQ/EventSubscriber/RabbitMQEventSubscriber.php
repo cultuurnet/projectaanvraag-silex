@@ -2,7 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber;
 
+use CultuurNet\ProjectAanvraag\Core\MessageAttemptedInterface;
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use CultuurNet\ProjectAanvraag\RabbitMQ\DelayableMessageInterface;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\RabbitMQBundleBridge\Event\Events;
@@ -65,8 +68,8 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
         $envelope = $this->messageInEnvelopeSerializer->unwrapAndDeserialize($eventMessage->body);
         $message = $envelope->message();
 
-        // Only act on ProjectEvent events
-        if ($message instanceof ProjectEvent) {
+        // Requeue failed events
+        if ($message instanceof MessageAttemptedInterface && $message instanceof DelayableMessageInterface) {
             /** @var ProjectEvent $message */
             // Increase the attempts counter of the message
             $message->attempt();
@@ -77,7 +80,10 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
                 $message->setDelay(!empty($this->config['failed_message_delay']) ? $this->config['failed_message_delay'] : 3600000);
                 $this->eventBus->handle($message);
             } else {
-                $this->logger->error('Message: ' . $eventMessage->body);
+                // Only log failed attempts for project events
+                if ($message instanceof ProjectEvent) {
+                    $this->logger->error('Message: ' . $eventMessage->body);
+                }
             }
         }
     }

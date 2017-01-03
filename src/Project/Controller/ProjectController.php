@@ -53,6 +53,11 @@ class ProjectController
     protected $couponValidator;
 
     /**
+     * @var \ICultureFeed
+     */
+    protected $cultureFeed;
+
+    /**
      * ProjectController constructor.
      * @param MessageBusSupportingMiddleware $commandBus
      * @param ProjectServiceInterface $projectService
@@ -60,13 +65,14 @@ class ProjectController
      * @param CouponValidatorInterface $couponValidator
      * @param InsightlyClientInterface $insightlyClient
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient, \ICultureFeed $cultureFeed)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
         $this->insightlyclient = $insightlyClient;
         $this->couponValidator = $couponValidator;
+        $this->cultureFeed = $cultureFeed;
     }
 
     /**
@@ -104,7 +110,6 @@ class ProjectController
      */
     public function getProjects(Request $request)
     {
-
         $name = $request->query->get('name', '');
         $start = $request->query->get('start', 0);
         $max = $request->query->get('max', 0);
@@ -197,7 +202,9 @@ class ProjectController
 
     /**
      * Update the content filter for a given project.
+     * @param Request $request
      * @param $id
+     * @return JsonResponse
      */
     public function updateContentFilter(Request $request, $id)
     {
@@ -265,6 +272,11 @@ class ProjectController
         $this->insightlyclient->updateOrganisation($postedOrganisation);
 
         return new JsonResponse($project);
+    }
+
+    public function test() {
+        $consumers = $this->cultureFeed->getServiceConsumers(0, 100);
+        return new JsonResponse($consumers);
     }
 
     /**

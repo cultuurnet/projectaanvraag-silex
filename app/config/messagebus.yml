@@ -9,6 +9,8 @@ subscribers:
             - project_blocked_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated:
             - project_activated_listener
+        CultuurNet\ProjectAanvraag\Core\Event\QueueConsumers:
+            - queue_consumers_listener
 
 listeners:
     project_created_listener:
@@ -35,6 +37,13 @@ listeners:
         arguments:
             - insightly_client
             - insightly.project_config
+
+    queue_consumers_listener:
+        class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueConsumersEventListener
+        arguments:
+            - culturefeed
+            - culturefeed_test
+            - event_bus
 
 handlers:
     create_project_handler:
