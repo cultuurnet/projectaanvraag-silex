@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\InstallCommand;
+use CultuurNet\ProjectAanvraag\Console\Command\SyncConsumersCommand;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
@@ -45,6 +46,12 @@ class ConsoleApplication extends ApplicationBase
     {
         parent::registerProviders();
 
+        /**
+         * Set culturefeed_token_credentials to null so we don't have to inject UserServiceProvider and SessionServiceProvider.
+         * The console has no notion of a logged in user anyways.
+        */
+        $this['culturefeed_token_credentials'] = null;
+
         $this->register(
             new ConsoleServiceProvider(),
             [
@@ -64,6 +71,9 @@ class ConsoleApplication extends ApplicationBase
 
         $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer'));
         $consoleApp->add(new InstallCommand());
+
+        // Sync culturefeed consumers with local DB
+        $consoleApp->add(new SyncConsumersCommand());
 
         // Doctrine helperset
         $em = $this['orm.em'];

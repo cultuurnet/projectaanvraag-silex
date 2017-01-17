@@ -9,6 +9,10 @@ subscribers:
             - project_blocked_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated:
             - project_activated_listener
+        CultuurNet\ProjectAanvraag\Core\Event\QueueConsumers:
+            - queue_consumers_listener
+        CultuurNet\ProjectAanvraag\Core\Event\SyncConsumer:
+            - sync_consumer_listener
 
 listeners:
     project_created_listener:
@@ -34,6 +38,20 @@ listeners:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectBlockedEventListener
         arguments:
             - insightly_client
+            - insightly.project_config
+
+    queue_consumers_listener:
+        class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueConsumersEventListener
+        arguments:
+            - culturefeed
+            - culturefeed_test
+            - event_bus
+
+    sync_consumer_listener:
+        class: \CultuurNet\ProjectAanvraag\Core\EventListener\SyncConsumerEventListener
+        arguments:
+            - project_repository
+            - orm.em
             - insightly.project_config
 
 handlers:

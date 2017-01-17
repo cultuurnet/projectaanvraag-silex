@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Console\Command;
 
 use Knp\Command\Command;
+use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
 use PhpAmqpLib\Wire\AMQPTable;
 use Symfony\Component\Console\Input\InputInterface;
@@ -60,6 +61,7 @@ class ConsumeCommand extends Command
             define('AMQP_DEBUG', (bool) $input->getOption('debug'));
         }
 
+        /** @var ConsumerInterface $consumer */
         $consumer = $this->getInstance($this->consumerId);
         if (!is_null($input->getOption('memory-limit')) && ctype_digit((string) $input->getOption('memory-limit')) && $input->getOption('memory-limit') > 0) {
             $consumer->setMemoryLimit($input->getOption('memory-limit'));
@@ -80,16 +82,27 @@ class ConsumeCommand extends Command
 
         $output->writeln(' [*] Waiting for messages. To exit press CTRL+C');
 
-        $callback = function ($msg) use ($consumer, $output) {
+        $callback = function ($msg) use ($consumer, $output, $channel) {
             try {
                 $output->writeln(' [x] Received ' . $msg->body);
                 $consumer->execute($msg);
+
+                /**
+                 * Always acknowledge the message, even on failure. This prevents the automatic requeuing of the item.
+                 * Requeueing happens in the event subscriber with a delay.
+                 */
+                // @codingStandardsIgnoreStart
+                if (!empty($msg->delivery_info['delivery_tag'])) {
+                    $channel->basic_ack($msg->delivery_info['delivery_tag']);
+                }
+                // @codingStandardsIgnoreEnd
             } catch (\Throwable $e) {
                 print $e->getMessage();
             }
         };
 
-        $channel->basic_consume('projectaanvraag', '', false, true, false, false, $callback);
+        // Consume the queue
+        $channel->basic_consume('projectaanvraag', '', false, false, false, false, $callback);
 
         while (count($channel->callbacks)) {
             $channel->wait();

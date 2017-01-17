@@ -104,7 +104,6 @@ class ProjectController
      */
     public function getProjects(Request $request)
     {
-
         $name = $request->query->get('name', '');
         $start = $request->query->get('start', 0);
         $max = $request->query->get('max', 0);
@@ -197,7 +196,9 @@ class ProjectController
 
     /**
      * Update the content filter for a given project.
+     * @param Request $request
      * @param $id
+     * @return JsonResponse
      */
     public function updateContentFilter(Request $request, $id)
     {

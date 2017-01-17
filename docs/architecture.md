@@ -22,7 +22,6 @@ The application uses a command / event based architecture. The system is impleme
  $this->entityManager->flush(); 
  ```
  
- 
  ## Commands
  To implement a command, following steps are required:
   - Create your command class (example [RequestActivation](src/Project/Command/RequestActivation.php))
@@ -44,6 +43,7 @@ The application uses a command / event based architecture. The system is impleme
  ## Events
  To implement an event and related event listers. Following steps are required:
    - Create your event class (example [ProjectActivated](src/Project/Event/ProjectActivated.php))
-     - An event can be thrown async or sync. If you want it to be consumed by rabbitmq, implement the AsynchronousMessageInterface interface 
+     - An event can be thrown async or sync. If you want it to be consumed by rabbitmq, implement the AsynchronousMessageInterface interface.
+     - By implementing the `DelayableMessageInterface` interface, an event can be thrown with a delay.
    - Create an event listener. (example [ProjectActivatedEventListener](src/Project/EventListener/ProjectActivatedEventListener.php)).
      - An event listener should always contain a handle method that receives the event.

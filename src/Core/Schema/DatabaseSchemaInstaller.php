@@ -11,7 +11,9 @@ use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
  */
 class DatabaseSchemaInstaller implements DatabaseSchemaInstallerInterface
 {
-
+    /**
+     * @var Container
+     */
     protected $container;
 
     /**
@@ -27,6 +29,7 @@ class DatabaseSchemaInstaller implements DatabaseSchemaInstallerInterface
 
     /**
      * Add a new schema configurator.
+     * @param SchemaConfiguratorInterface $schemaConfigurator
      */
     public function addSchemaConfigurator(SchemaConfiguratorInterface $schemaConfigurator)
     {
@@ -65,7 +68,6 @@ class DatabaseSchemaInstaller implements DatabaseSchemaInstallerInterface
      */
     private function getConnection()
     {
-
         if (!isset($this->container['db'])) {
             throw new ProviderNotFoundException('db not found');
         }
