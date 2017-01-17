@@ -3,19 +3,20 @@
 namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
+use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 
 /**
  * Event listener to handle project activation in insightly.
  */
 class ProjectActivatedEventListener extends ProjectCrudEventListener
 {
-
     /**
      * Handle the event
-     * @param ProjectActivated $projectActivated
+     * @param ProjectEvent $projectActivated
      */
-    public function handle(ProjectActivated $projectActivated)
+    public function handle(ProjectEvent $projectActivated)
     {
+        /** @var ProjectActivated $projectActivated */
         $this->loadInsightlyProject($projectActivated);
         $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['live_key'], $projectActivated->getProject()->getLiveConsumerKey());
 

@@ -11,7 +11,6 @@ use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
  */
 abstract class ProjectCrudEventListener
 {
-
     /**
      * @var InsightlyClientInterface
      */

@@ -5,24 +5,20 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
+use CultuurNet\ProjectAanvraag\Core\RabbitMQEventListenerProvider;
 use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
-use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
-use CultuurNet\UiTIDProvider\Security\UiTIDSecurityServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\SecurityServiceProvider;
-use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
-use Symfony\Component\Security\Core\Role\RoleHierarchy;
+use Silex\Provider\MonologServiceProvider;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -52,6 +48,9 @@ class ApplicationBase extends SilexApplication
      */
     protected function registerProviders()
     {
+        // Monolog
+        $this->register(new MonologServiceProvider());
+
         // Uitid
         $this->register(
             new CultureFeedServiceProvider(),

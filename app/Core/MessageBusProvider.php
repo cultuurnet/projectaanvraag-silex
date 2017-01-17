@@ -2,27 +2,22 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
-use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
-use CultuurNet\ProjectAanvraag\Project\CommandHandler\CreateProjectCommandHandler;
-use CultuurNet\ProjectAanvraag\Project\Controller\ProjectController;
+use CultuurNet\ProjectAanvraag\RabbitMQ\Publisher\RabbitMQDelayedPublisher;
+use CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber\RabbitMQEventSubscriber;
+use CultuurNet\ProjectAanvraag\RabbitMQ\RoutingKeyresolver\AsyncCommandRoutingKeyResolver;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use JMS\Serializer\SerializerBuilder;
-use Metadata\MetadataFactory;
+use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Wire\AMQPTable;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Psr\Log\NullLogger;
-use Silex\Api\ControllerProviderInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
+use Silex\Api\EventListenerProviderInterface;
 use SimpleBus\Asynchronous\Consumer\StandardSerializedEnvelopeConsumer;
-use SimpleBus\Asynchronous\MessageBus\AlwaysPublishesMessages;
-use SimpleBus\Asynchronous\MessageBus\PublishesUnhandledMessages;
 use SimpleBus\Asynchronous\Properties\DelegatingAdditionalPropertiesResolver;
-use SimpleBus\Asynchronous\Routing\EmptyRoutingKeyResolver;
 use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
 use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 use SimpleBus\Message\Bus\Middleware\FinishesHandlingMessageBeforeHandlingNext;
@@ -36,16 +31,15 @@ use SimpleBus\Message\Name\ClassBasedNameResolver;
 use SimpleBus\Message\Subscriber\NotifiesMessageSubscribersMiddleware;
 use SimpleBus\Message\Subscriber\Resolver\NameBasedMessageSubscriberResolver;
 use SimpleBus\RabbitMQBundleBridge\RabbitMQMessageConsumer;
-use SimpleBus\RabbitMQBundleBridge\RabbitMQPublisher;
 use SimpleBus\Serialization\Envelope\DefaultEnvelopeFactory;
 use SimpleBus\Serialization\Envelope\Serializer\StandardMessageInEnvelopeSerializer;
-use SimpleBus\Serialization\NativeObjectSerializer;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Provides all services for the message bus.
  */
-class MessageBusProvider implements ServiceProviderInterface
+class MessageBusProvider implements ServiceProviderInterface, EventListenerProviderInterface
 {
 
     /**
@@ -116,19 +110,33 @@ class MessageBusProvider implements ServiceProviderInterface
         };
 
         $pimple['publisher'] = function (Container $pimple) {
-
             $producer = new Producer($pimple['rabbit.connection']);
             $producer->setExchangeOptions(
                 [
                     'name' => 'asynchronous_commands',
-                    'type' => 'direct',
+                    'type' => 'x-delayed-message',
+                    'durable' => true,
+                    'arguments' => new AMQPTable(
+                        [
+                            'x-delayed-type' => 'direct',
+                        ]
+                    ),
                 ]
             );
-            $producer->setQueueOptions(['name' => 'projectaanvraag', 'durable' => false]);
-            $routingKeyResolver = new EmptyRoutingKeyResolver();
+
+            $producer->setQueueOptions(
+                [
+                    'name' => 'projectaanvraag',
+                    'durable' => true,
+                    'routing_keys' => [
+                        'asynchronous_commands',
+                    ],
+                ]
+            );
+            $routingKeyResolver = new AsyncCommandRoutingKeyResolver();
             $additionalPropertiesResolver = new DelegatingAdditionalPropertiesResolver([]);
 
-            return new RabbitMQPublisher($pimple['envelope_serializer'], $producer, $routingKeyResolver, $additionalPropertiesResolver);
+            return new RabbitMQDelayedPublisher($pimple['envelope_serializer'], $producer, $routingKeyResolver, $additionalPropertiesResolver);
         };
 
         $pimple['rabbit.connection'] = function (Container $pimple) {
@@ -139,6 +147,22 @@ class MessageBusProvider implements ServiceProviderInterface
         $pimple['rabbit.consumer'] = function (Container $pimple) {
             $envelopeConsumer = new StandardSerializedEnvelopeConsumer($pimple['envelope_serializer'], $pimple['event_bus_consumer']);
             return new RabbitMQMessageConsumer($envelopeConsumer, $pimple['dispatcher']);
+        };
+
+        // Logger service for projects
+        $pimple['monolog.projects'] = function (Container $pimple) {
+            $factory = $pimple['monolog.logger.class'];
+            /** @var Logger $logger */
+            $logger = new $factory('projects');
+
+            if ($pimple['debug']) {
+                $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
+                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/projects/projects.log', 0, Logger::DEBUG));
+            } else {
+                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/projects/projects.log', 0, Logger::DEBUG));
+            }
+
+            return $logger;
         };
 
         // Register a service for every handler and listener.
@@ -189,5 +213,13 @@ class MessageBusProvider implements ServiceProviderInterface
                 return new $class(...$arguments);
             };
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
+    {
+        $dispatcher->addSubscriber(new RabbitMQEventSubscriber($app['event_bus'], $app['envelope_serializer'], $app['monolog.projects'], $app['config']['rabbitmq']));
     }
 }
