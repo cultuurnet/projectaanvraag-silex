@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "60525e4b2cee9cc65fa57e958083a34d",
     "content-hash": "3b5f97ff18688bb3a2255cba4fd7dd82",
     "packages": [
         {
@@ -200,12 +199,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/culturefeed-php.git",
-                "reference": "fa86d9ad78f303b4e9c7fc4c21f9b4e84b816f85"
+                "reference": "877454bf139efd95ed3aed34a023b3886ecd189c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/culturefeed-php/zipball/fa86d9ad78f303b4e9c7fc4c21f9b4e84b816f85",
-                "reference": "fa86d9ad78f303b4e9c7fc4c21f9b4e84b816f85",
+                "url": "https://api.github.com/repos/cultuurnet/culturefeed-php/zipball/877454bf139efd95ed3aed34a023b3886ecd189c",
+                "reference": "877454bf139efd95ed3aed34a023b3886ecd189c",
                 "shasum": ""
             },
             "require": {
@@ -260,7 +259,7 @@
                 }
             ],
             "description": "Culturefeed PHP library",
-            "time": "2016-10-28 09:52:26"
+            "time": "2017-02-02 15:01:10"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
