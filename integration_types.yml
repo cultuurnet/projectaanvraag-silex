@@ -4,7 +4,7 @@ integration_types:
       name: 'Widgets' # name of the type
       description: 'Kant en klare html-modules die je in je website kan inpassen' # description show on the form
       price: 110.0 # price for this widget
-      url: 'http://www.test.com' # url for more information
+      url: '/#!/integrations#widgets' # url for more information
       extra_info: # list of bullet points that are shown in the footer of the application
         - 'Geschikt voor basisoplossingen'
         - 'Zelf of door CultuurNet in te stellen'
