@@ -6,8 +6,8 @@ integration_types:
       price: 110.0 # price for this widget
       url: 'http://www.test.com' # url for more information
       extra_info: # list of bullet points that are shown in the footer of the application
-        - 'HTML, CSS, JS'
         - 'Geschikt voor basisoplossingen'
+        - 'Zelf of door CultuurNet in te stellen'
       action_button:
         liveUrl: https://widgets.uitdatabank.be/project?key=
         testUrl: https://test-widgets.uitdatabank.be/project?key=
@@ -17,17 +17,17 @@ integration_types:
       name: 'Culturefeed'
       description: 'Modules waarmee je een UiTagenda integreert in een Drupal-site'
       price: 80.0
-      url: 'http://www.culturefeed.be'
+      url: '/#!/integrations#culturefeed'
       extra_info:
-        - 'Specifiek voor Drupal-sites'
-        - 'Je kan rekenen op de open-source gemeenschap'
+        - 'Van agenda tot een volledige (campagne)website'
+        - 'Fijngestelde SEO'
       group_id: 'group_id'
   22677:
       name: 'API'
       description: 'Met deze API krijg je toegang tot de zoekengine van de UiTdatabank'
       price: 80.0
-      url: 'http://www.culturefeed.be/api'
+      url: '/#!/integrations#api'
       extra_info:
         - 'Platformonafhankelijk'
-        - 'Individuele oplossingen op maat zijn mogelijk'
+        - 'Individuele oplossingen op maat mogelijk'
       group_id: 'group_id'
