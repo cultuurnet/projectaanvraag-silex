@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\User;
+use CultuurNet\ProjectAanvraag\PasswordGeneratorTrait;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use CultuurNet\ProjectAanvraag\User\UserInterface as UitIdUserInterface;
@@ -13,6 +14,9 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class CreateProjectCommandHandler
 {
+
+    use PasswordGeneratorTrait;
+
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -62,40 +66,35 @@ class CreateProjectCommandHandler
      */
     public function handle(CreateProject $createProject)
     {
-        /**
-         * 1. Prepare project
-         */
+        // Prepare project.
         $project = new Project();
         $project->setName($createProject->getName());
         $project->setDescription($createProject->getDescription());
         $project->setGroupId($createProject->getIntegrationType());
         $project->setUserId($this->user->id);
+
         $project->setCoupon($createProject->getCouponToUse());
         $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
 
-        /**
-         * 2. Create a test service consumer
-         */
-        $createConsumer = new \CultureFeed_Consumer();
-        $createConsumer->name = $createProject->getName();
-        $createConsumer->description = $createProject->getDescription();
-        $createConsumer->group = [5, $createProject->getIntegrationType()];
+        // Create the test consumer.
+        $testConsumer = $this->createTestConsumer($createProject);
 
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
-        $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
-        $project->setTestConsumerKey($cultureFeedConsumer->consumerKey);
+        $project->setTestConsumerKey($testConsumer->consumerKey);
 
-        // Create a live service consumer when a coupon is provided
+        // Create a live service consumer when a coupon is provided.
         if (!empty($createProject->getCouponToUse())) {
             /** @var \CultureFeed_Consumer $cultureFeedConsumer */
+            $createConsumer = new \CultureFeed_Consumer();
+            $createConsumer->name = $createProject->getName();
+            $createConsumer->description = $createProject->getDescription();
+            $createConsumer->group = [5, $createProject->getIntegrationType()];
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
             $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
         }
 
-        /**
-         * 3. Save the project to the local database
-         */
+        // Save the project to the local database.
         $this->entityManager->persist($project);
 
         // Mark coupon as used.
@@ -106,13 +105,12 @@ class CreateProjectCommandHandler
             $this->entityManager->persist($coupon);
         }
 
-        /**
-         * 4. Create a local user if needed
-         */
+        // Create a local user if needed.
         $localUser = $this->entityManager->getRepository('ProjectAanvraag:User')->find($project->getUserId());
         if (empty($localUser)) {
-            $localUser = new User($this->user->id);
-            $this->entityManager->persist($localUser);
+            $newUser = new User($this->user->id);
+            $this->entityManager->persist($newUser);
+            $localUser = clone $newUser; // Cloning for unit tests.
         }
 
         $this->entityManager->flush();
@@ -130,5 +128,54 @@ class CreateProjectCommandHandler
          */
         $projectCreated = new ProjectCreated($project, $localUser);
         $this->eventBus->handle($projectCreated);
+    }
+
+    /**
+     * Create a user on test if that user does not exist yet.
+     */
+    private function createTestUser($nick, $email)
+    {
+
+        $searchQuery = new \CultureFeed_SearchUsersQuery();
+        $searchQuery->mbox = $email;
+        $searchQuery->mboxIncludePrivate = true;
+        /** @var \CultureFeed_ResultSet $result */
+        $result = $this->cultureFeedTest->searchUsers($searchQuery);
+
+        // The user already exists?
+        if ($result->total > 0) {
+            return $result->objects[0]->id;
+        }
+
+        $user = new \CultureFeed_User();
+        $user->mbox = $email;
+        $user->nick = $nick;
+        $user->password = $this->generatePassword();
+
+        return $this->cultureFeedTest->createUser($user);
+    }
+
+    /**
+     * Create the test consumer, and add the user as admin.
+     * @param CreateProject $createProject
+     */
+    private function createTestConsumer(CreateProject $createProject)
+    {
+
+        // Make sure the user also exists on test.
+        $uid = $this->createTestUser($this->user->getUsername(), $this->user->mbox);
+
+        // Create test consumer.
+        $createConsumer = new \CultureFeed_Consumer();
+        $createConsumer->name = $createProject->getName();
+        $createConsumer->description = $createProject->getDescription();
+        $createConsumer->group = [5, $createProject->getIntegrationType()];
+
+        $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
+
+        // Add the user as service consumer admin.
+        $this->cultureFeedTest->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $uid);
+
+        return $cultureFeedConsumer;
     }
 }
