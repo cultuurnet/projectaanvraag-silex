@@ -9,8 +9,9 @@ integration_types:
         - 'Geschikt voor basisoplossingen'
         - 'Zelf of door CultuurNet in te stellen'
       action_button:
-        liveUrl: https://widgets.uitdatabank.be/project?key=
-        testUrl: https://test-widgets.uitdatabank.be/project?key=
+        liveUrl: http://tools.uitdatabank.be/authenticated?destination=project/
+        testUrl: http://acc.tools.uitdatabank.be/authenticated?destination=project/
+        urlSuffix: /page
         text: Widgets bouwen
       group_id: 'group_id'
   22679:
