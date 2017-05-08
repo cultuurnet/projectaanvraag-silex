@@ -135,7 +135,6 @@ class CreateProjectCommandHandler
      */
     private function createTestUser($nick, $email)
     {
-
         $searchQuery = new \CultureFeed_SearchUsersQuery();
         $searchQuery->mbox = $email;
         $searchQuery->mboxIncludePrivate = true;
@@ -151,6 +150,7 @@ class CreateProjectCommandHandler
         $user->mbox = $email;
         $user->nick = $nick;
         $user->password = $this->generatePassword();
+        $user->status = \CultureFeed_User::STATUS_PRIVATE;
 
         return $this->cultureFeedTest->createUser($user);
     }
