@@ -222,6 +222,7 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $newUser->mbox = 'test@test.be';
         $newUser->nick = 'test';
         $newUser->password = 'password';
+        $newUser->status = \CultureFeed_User::STATUS_PRIVATE;
         $this->cultureFeedTest
             ->expects($this->once())
             ->method('createUser')
