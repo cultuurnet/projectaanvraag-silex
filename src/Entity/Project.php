@@ -13,7 +13,8 @@ use JMS\Serializer\Annotation\Exclude;
  * @ORM\Table(
  *     name="project",
  *     indexes={
- *         @ORM\Index(name="uid", columns={"uid"}),
+ *         @ORM\Index(name="live_uid", columns={"live_uid"}),
+ *         @ORM\Index(name="test_uid", columns={"test_uid"}),
  *         @ORM\Index(name="test_consumer_key", columns={"test_consumer_key"}),
  *         @ORM\Index(name="live_consumer_key", columns={"live_consumer_key"}),
  *     }
@@ -31,11 +32,18 @@ class Project implements ProjectInterface
     protected $id;
 
     /**
-     * @ORM\Column(name="uid", type="string", length=255, nullable=true)
+     * @ORM\Column(name="live_uid", type="string", length=255, nullable=true)
      * @Type("string")
      * @var string
      */
     protected $userId;
+
+    /**
+     * @ORM\Column(name="test_uid", type="string", length=255, nullable=true)
+     * @Type("string")
+     * @var string
+     */
+    protected $testUserId;
 
     /**
      * @ORM\Column(name="insightly_project_id", type="integer", nullable=true)
