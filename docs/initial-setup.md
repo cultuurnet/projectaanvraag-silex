@@ -27,8 +27,7 @@ Steps:
 
 - Git clone the source code.
 - Install the dependencies with `composer install`.
-- Set the web directory as the document root in your web server 
-- configuration.
+- Set the web directory as the document root in your web server configuration.
 - Configure your web server to rewrite all requests that do not match with an existing file,
   to index.php. If you are using Apache, the .htaccess file already takes care 
   of this.
