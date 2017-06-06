@@ -14,6 +14,7 @@ use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
+use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Silex\Application as SilexApplication;
@@ -106,6 +107,18 @@ class ApplicationBase extends SilexApplication
                 ],
             ]
         );
+
+        // Mongodb.
+        $this->register(new DoctrineMongoDbProvider, [
+            "mongodb.options" => [
+                "server" => "mongodb://localhost:27017",
+                "options" => [
+                    'username' => 'admin',
+                    'password' => 'admin',
+                    'db' => 'widgets'
+                ],
+            ],
+        ]);
 
         $this->register(new MessageBusProvider());
 

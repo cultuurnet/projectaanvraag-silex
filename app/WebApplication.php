@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\ProjectAanvraag\Security\UiTIDSecurityServiceProvider;
 use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
+use CultuurNet\ProjectAanvraag\Widget\WidgetControllerProvider;
 use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
@@ -108,6 +109,7 @@ class WebApplication extends ApplicationBase
                     [
                         new Path('^/culturefeed/oauth', 'GET'),
                         new Path('^/integration-types', 'GET'),
+                        new Path('^/widget', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
@@ -151,5 +153,11 @@ class WebApplication extends ApplicationBase
             'culturefeed/oauth',
             new \CultuurNet\UiTIDProvider\Auth\AuthControllerProvider()
         );
+
+        $this->mount(
+            'widget',
+            new WidgetControllerProvider()
+        );
+
     }
 }
