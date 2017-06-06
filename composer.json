@@ -15,7 +15,8 @@
         "cultuurnet/culturefeed-http-guzzle": "dev-master",
         "symfony/browser-kit": "^3.1",
         "cultuurnet/culturefeed-php": "dev-develop as 1.6.x-dev",
-        "dflydev/doctrine-orm-service-provider": "^2.0"
+        "dflydev/doctrine-orm-service-provider": "^2.0",
+        "symfony/twig-bridge": "^3.3"
     },
     "extra": {
         "patches": {

@@ -19,6 +19,7 @@ use Silex\Provider\RoutingServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
+use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -68,6 +69,14 @@ class WebApplication extends ApplicationBase
                     return $errorHandler->handleException($e, $request);
                 }
             );
+        }
+        else {
+          /**
+           * PHP error reporting
+           */
+          error_reporting(2147483647);
+          ini_set('display_errors', TRUE);
+          ini_set('display_startup_errors', TRUE);
         }
     }
 
@@ -121,6 +130,11 @@ class WebApplication extends ApplicationBase
                 new ImportVoter(),
             ];
         };
+
+        // Twig
+        $this->register(new TwigServiceProvider(), array(
+            'twig.path' => __DIR__ . '/../views',
+        ));
     }
 
     /**
