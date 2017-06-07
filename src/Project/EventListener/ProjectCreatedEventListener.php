@@ -58,7 +58,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
         $createNew = $localUser->getInsightlyContactId() === 0 || $localUser->getInsightlyContactId() === null;
         if (!$createNew) {
             try {
-                $this->insightlyClient->getContact($localUser->getInsightlyContactId());
+                $this->insightlyClient->getContactByEmail($localUser->getEmail());
             } catch (ClientErrorResponseException $e) {
                 // User id is not found. Create a new contact.
                 if ($e->getResponse()->getStatusCode() === 404) {
