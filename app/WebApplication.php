@@ -71,14 +71,6 @@ class WebApplication extends ApplicationBase
                 }
             );
         }
-        else {
-          /**
-           * PHP error reporting
-           */
-          error_reporting(2147483647);
-          ini_set('display_errors', TRUE);
-          ini_set('display_startup_errors', TRUE);
-        }
     }
 
     /**

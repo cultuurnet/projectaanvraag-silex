@@ -15,6 +15,7 @@ use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
+use DF\DoctrineMongoDbOdm\Silex\Provider\DoctrineMongoDbOdmProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Silex\Application as SilexApplication;
@@ -36,6 +37,15 @@ class ApplicationBase extends SilexApplication
 
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
+
+        /**
+         * PHP error reporting
+         */
+        if ($this['debug']) {
+            error_reporting(2147483647);
+            ini_set('display_errors', TRUE);
+            ini_set('display_startup_errors', TRUE);
+        }
 
         // JMS Autoload
         AnnotationRegistry::registerLoader('class_exists');
@@ -109,13 +119,27 @@ class ApplicationBase extends SilexApplication
         );
 
         // Mongodb.
-        $this->register(new DoctrineMongoDbProvider, [
+        $this->register(new DoctrineMongoDbProvider(), [
             "mongodb.options" => [
-                "server" => "mongodb://localhost:27017",
+                "server" => "mongodb://localhost",
                 "options" => [
-                    'username' => 'admin',
-                    'password' => 'admin',
+                    'username' => 'widgets',
+                    'password' => 'widgets',
                     'db' => 'widgets'
+                ],
+            ],
+        ]);
+
+        $this->register(new DoctrineMongoDbOdmProvider(), [
+            'orm.proxies_dir' => __DIR__. '/../proxies',
+            "mongodbodm.dm.options" => [
+                "database" => "widgets",
+                "mappings" => [
+                    [
+                        "type" => "annotation",
+                        'namespace' => 'CultuurNet\ProjectAanvraag\Widget\Entities',
+                        'path' => __DIR__.'/../src/Widget/Entities',
+                    ],
                 ],
             ],
         ]);

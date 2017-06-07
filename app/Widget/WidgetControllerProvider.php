@@ -14,7 +14,7 @@ class WidgetControllerProvider implements ControllerProviderInterface
     {
         $app['widget_controller'] = function (Application $app) {
             $renderer = new Renderer();
-            return new WidgetController($renderer, $app['mongodb']);
+            return new WidgetController($renderer, $app['mongodbodm.dm'], $app['mongodb']);
         };
 
         /* @var ControllerCollection $controllers */
