@@ -76,7 +76,7 @@ class InsightlyClient implements InsightlyClientInterface
         }
 
         if (!empty($options['email'])) {
-          $query->add(['email' => $options['email']]);
+            $query->add(['email' => $options['email']]);
         }
 
         return $query;
@@ -165,11 +165,12 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getContactByEmail($email) {
-      $options['top'] = 1;
-      $options['email'] = $email;
-      $query = $this->addQueryFilters($options);
-      return GetContactsResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/Search', $query));
+    public function getContactByEmail($email)
+    {
+        $options['top'] = 1;
+        $options['email'] = $email;
+        $query = $this->addQueryFilters($options);
+        return GetContactsResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/Search', $query));
     }
 
     /**

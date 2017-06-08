@@ -17,17 +17,17 @@ class GetContactsResult implements ResponseToResultInterface
    * @return EntityList
    *   Entitylist of parsed projects
    */
-  public static function parseToResult(Response $response)
-  {
-    $body = json_decode($response->getBody(), true);
+    public static function parseToResult(Response $response)
+    {
+        $body = json_decode($response->getBody(), true);
 
-    $contacts = new EntityList();
-    if (is_array($body)) {
-      foreach ($body as $item) {
-        $contacts->append(ContactParser::parseToResult($item));
-      }
+        $contacts = new EntityList();
+        if (is_array($body)) {
+            foreach ($body as $item) {
+                $contacts->append(ContactParser::parseToResult($item));
+            }
+        }
+
+        return $contacts;
     }
-
-    return $contacts;
-  }
 }
