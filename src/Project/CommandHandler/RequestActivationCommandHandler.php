@@ -83,9 +83,10 @@ class RequestActivationCommandHandler
         }
 
         // Add contact.
-        $contact = new ContactInfo(ContactInfo::TYPE_EMAIL);
-        $contact->setDetail($requestActivation->getEmail());
-        $organisation->getContactInfo()->append($contact);
+        // @todo: this isn't the right way to link a contact -> PROJ-41
+        // $contact = new ContactInfo(ContactInfo::TYPE_EMAIL);
+        // $contact->setDetail($requestActivation->getEmail());
+        // $organisation->getContactInfo()->append($contact);
 
         // Address.
         $givenAddress = $requestActivation->getAddress();
