@@ -7,7 +7,7 @@ use CultuurNet\ProjectAanvraag\Insightly\Parser\ContactParser;
 use Guzzle\Http\Message\Response;
 
 /**
- * Response handler for the getProjects call.
+ * Response handler for the getContacts call.
  */
 class GetContactsResult implements ResponseToResultInterface
 {
