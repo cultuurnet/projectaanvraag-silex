@@ -219,10 +219,12 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->project->setTestConsumerKey('testkey');
         $contact = new Contact();
         $contact->setId(20);
+        $contact->addContactInfo(ContactInfo::TYPE_EMAIL, 'email@email.com');
 
         $this->localUser->setInsightylContactId(20);
+        $this->localUser->setEmail('email@email.com');
         $this->insightlyClient->expects($this->once())
-            ->method('getContact')
+            ->method('getContactByEmail')
             ->willReturn($contact);
 
         $this->insightlyClient
@@ -270,7 +272,7 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->localUser->setInsightylContactId(20);
         $this->insightlyClient->expects($this->once())
-            ->method('getContact')
+            ->method('getContactByEmail')
             ->willThrowException($exception);
 
         $insightlyProject = new Project();

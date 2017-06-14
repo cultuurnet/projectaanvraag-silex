@@ -2,9 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Result;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Parser\ContactParser;
-use CultuurNet\ProjectAanvraag\Insightly\Parser\ProjectParser;
 use Guzzle\Http\Message\Response;
 
 /**
@@ -15,7 +14,7 @@ class GetContactResult implements ResponseToResultInterface
     /**
      * @inheritdoc
      *
-     * @return Project
+     * @return Contact
      */
     public static function parseToResult(Response $response)
     {

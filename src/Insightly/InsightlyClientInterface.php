@@ -35,6 +35,14 @@ interface InsightlyClientInterface
     public function getContact($id);
 
     /**
+     * Gets a contact by email
+     *
+     * @param string $email
+     * @return Contact
+     */
+    public function getContactByEmail($email);
+
+    /**
      * Update a project
      *
      * @param Project $project
