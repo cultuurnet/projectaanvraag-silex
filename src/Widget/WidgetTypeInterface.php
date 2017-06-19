@@ -16,24 +16,9 @@ interface WidgetTypeInterface
     public function render();
 
     /**
-     * Render the widget when a page is being rendered.
+     * Render the widget placeholder, when a page is loaded.
      *
      * @return string
      */
-    public function pageRender();
-
-    /**
-     * Returns the list of javascript dependencies for this widget.
-     *
-     * @return array
-     */
-    public function getRequiredJs();
-
-    /**
-     * Returns the list of css dependencies for this widget.
-     *
-     * @return array
-     */
-    public function getRequiredCss();
-
+    public function renderPlaceholder();
 }

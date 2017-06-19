@@ -12,9 +12,16 @@ class WidgetControllerProvider implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
+        $app['widget_renderer'] = function (Application $app) {
+            return new Renderer();
+        };
+
+        $app['widget_html_renderer'] = function (Application $app) {
+            return new HtmlRenderer();
+        };
+
         $app['widget_controller'] = function (Application $app) {
-            $renderer = new Renderer();
-            return new WidgetController($renderer, $app['mongodbodm.dm'], $app['mongodb']);
+            return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['mongodb']);
         };
 
         /* @var ControllerCollection $controllers */

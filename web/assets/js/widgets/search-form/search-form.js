@@ -1,0 +1,1 @@
+alert('the search form js is loaded');

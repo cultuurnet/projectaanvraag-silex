@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Entities;
 
+use CultuurNet\ProjectAanvraag\DocumentSerializerTrait;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
@@ -13,8 +14,10 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  *     requireIndexes=false
  * )
  */
-class WidgetPageEntity implements WidgetPageInterface
+class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
 {
+
+    use DocumentSerializerTrait;
 
     /**
      * @var string
@@ -29,6 +32,13 @@ class WidgetPageEntity implements WidgetPageInterface
      * @ODM\Field(type="string")
      */
     protected $title;
+
+    /**
+     * @var array
+     *
+     * @ODM\Field(type="page_rows")
+     */
+    protected $rows;
 
     /**
      * @return string
@@ -55,5 +65,23 @@ class WidgetPageEntity implements WidgetPageInterface
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function setRows($rows)
+    {
+        $this->rows = $rows;
+    }
+
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return $this->toJSON();
     }
 }

@@ -126,9 +126,12 @@ class WebApplication extends ApplicationBase
         };
 
         // Twig
-        $this->register(new TwigServiceProvider(), array(
-            'twig.path' => __DIR__ . '/../views',
-        ));
+        $this->register(
+            new TwigServiceProvider(),
+            [
+                'twig.path' => __DIR__ . '/../views',
+            ]
+        );
     }
 
     /**
@@ -150,6 +153,5 @@ class WebApplication extends ApplicationBase
             'widget',
             new WidgetControllerProvider()
         );
-
     }
 }

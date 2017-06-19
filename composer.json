@@ -17,7 +17,8 @@
         "cultuurnet/culturefeed-php": "dev-develop as 1.6.x-dev",
         "dflydev/doctrine-orm-service-provider": "^2.0",
         "symfony/twig-bridge": "^3.3",
-        "df/silex-doctrine-mongodb-odm-provider": "^1.0"
+        "df/silex-doctrine-mongodb-odm-provider": "^1.0",
+        "matthiasmullie/minify": "^1.3"
     },
     "extra": {
         "patches": {

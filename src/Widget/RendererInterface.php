@@ -27,4 +27,35 @@ interface RendererInterface
      */
     public function renderWidget(WidgetTypeInterface $widgetType);
 
+    /**
+     * Attach a javascript file to the renderer.
+     * @param $path
+     *   Path to the file.
+     * @param int $weight
+     *   Weight of the js file to define the order.
+     */
+    public function attachJavascript($path, $weight = 0);
+
+    /**
+     * Attach a css file to the renderer.
+     * @param $path
+     *   Path to the file.
+     * @param int $weight
+     *   Weight of the js file to define the order.
+     */
+    public function attachCss($path, $weight = 0);
+
+    /**
+     * Get the attached javascript.
+     *
+     * @return array
+     */
+    public function getAttachedJs();
+
+    /**
+     * Get the attached css.
+     *
+     * @return array
+     */
+    public function getAttachedCss();
 }

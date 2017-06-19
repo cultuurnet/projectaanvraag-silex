@@ -12,12 +12,16 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProv
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
+use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
+use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
 use DF\DoctrineMongoDbOdm\Silex\Provider\DoctrineMongoDbOdmProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\ODM\MongoDB\Types\Type;
+use MongoDB\Client;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\MonologServiceProvider;
@@ -43,8 +47,8 @@ class ApplicationBase extends SilexApplication
          */
         if ($this['debug']) {
             error_reporting(2147483647);
-            ini_set('display_errors', TRUE);
-            ini_set('display_startup_errors', TRUE);
+            ini_set('display_errors', true);
+            ini_set('display_startup_errors', true);
         }
 
         // JMS Autoload
@@ -119,30 +123,46 @@ class ApplicationBase extends SilexApplication
         );
 
         // Mongodb.
-        $this->register(new DoctrineMongoDbProvider(), [
-            "mongodb.options" => [
-                "server" => "mongodb://localhost",
-                "options" => [
-                    'username' => 'widgets',
-                    'password' => 'widgets',
-                    'db' => 'widgets'
+        $client = new Client(
+            'mongodb://localhost:27017',
+            [
+                [
+                    'username' => 'vagrant',
+                    'password' => 'vagrant',
+                    'db' => 'widgetbeheer',
                 ],
-            ],
-        ]);
+            ]
+        );
 
-        $this->register(new DoctrineMongoDbOdmProvider(), [
-            'orm.proxies_dir' => __DIR__. '/../proxies',
-            "mongodbodm.dm.options" => [
-                "database" => "widgets",
-                "mappings" => [
-                    [
-                        "type" => "annotation",
-                        'namespace' => 'CultuurNet\ProjectAanvraag\Widget\Entities',
-                        'path' => __DIR__.'/../src/Widget/Entities',
+        $this->register(
+            new DoctrineMongoDbProvider(),
+            [
+                "mongodb.options" => [
+                    "server" => $client,
+                ],
+            ]
+        );
+
+        $this->register(
+            new DoctrineMongoDbOdmProvider(),
+            [
+                'orm.proxies_dir' => __DIR__. '/../proxies',
+                "mongodbodm.dm.options" => [
+                    "database" => "widgets",
+                    "mappings" => [
+                        [
+                            "type" => "annotation",
+                            'namespace' => 'CultuurNet\ProjectAanvraag\Widget\Entities',
+                            'path' => __DIR__.'/../src/Widget/Entities',
+                        ],
                     ],
                 ],
-            ],
-        ]);
+            ]
+        );
+
+        Type::addType('page_rows', PageRows::class);
+
+        $this->register(new WidgetServiceProvider(), []);
 
         $this->register(new MessageBusProvider());
 
