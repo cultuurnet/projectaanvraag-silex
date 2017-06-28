@@ -11,13 +11,24 @@ use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
+use CultuurNet\SearchV3\Hydrator\Event;
+use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\SearchQuery;
+use CultuurNet\SearchV3\SearchQueryInterface;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\MongoDB\Connection;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\SerializerBuilder;
+use ML\JsonLD\JsonLD;
 use MongoDB\Client;
 use MongoDB\Collection;
 use MongoDB\Model\BSONDocument;
+use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
+use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -77,6 +88,26 @@ print_r($test2);
 
     public function renderPage()
     {
+
+      $jmsSerializer = SerializerBuilder::create()
+        ->addMetadataDir(SerializerMetadata::directory(), SerializerMetadata::namespacePrefix())
+        ->setAnnotationReader(new AnnotationReader())
+          ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+        ->build();
+      $objectSerializer = new JMSSerializerObjectSerializer($jmsSerializer, 'json');
+
+        $query = new SearchQuery();
+        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+
+        $client = new \Guzzle\Http\Client('https://search-acc.uitdatabank.be');
+        $searchClient = new SearchClient($client);
+        $result = $searchClient->searchOffers($query);
+        $jsonld = $result->getBody(true);
+        $json = json_decode($jsonld);
+
+        $event = $json->member[0];
+
+        $test2 = $objectSerializer->deserialize(json_encode($event), Event::class);
 
         /*$collection = $this->db->selectCollection('widgets', 'WidgetPage');
 
