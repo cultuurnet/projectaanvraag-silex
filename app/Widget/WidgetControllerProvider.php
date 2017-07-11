@@ -16,17 +16,14 @@ class WidgetControllerProvider implements ControllerProviderInterface
             return new Renderer();
         };
 
-        $app['widget_html_renderer'] = function (Application $app) {
-            return new HtmlRenderer();
-        };
-
         $app['widget_controller'] = function (Application $app) {
-            return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['mongodb']);
+            return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['mongodb'], $app['search_api']);
         };
 
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
         $controllers->get('/', 'widget_controller:renderPage');
+        $controllers->get('/search', 'widget_controller:searchExample');
 
         return $controllers;
     }

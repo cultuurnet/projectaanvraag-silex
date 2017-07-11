@@ -46,3 +46,20 @@ insightly:
   host: https://api.insight.ly/v2.2
   api_key:
   project_config:
+
+# Search API settings
+search_api:
+  base_url: https://search-acc.uitdatabank.be
+  cache:
+    enabled: true
+    backend: redis # redis or filesystem.
+    ttl: 3600 # seconds to cache (3600 = 1h)
+
+# filesystem cache settings
+search_api_filesystem_cache:
+  location: /var/www/location-to-cache # path to save cache too
+
+# Redis settings
+redis:
+  host: 127.0.0.1
+  port: 6379

@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
+use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
@@ -79,6 +80,19 @@ class ApplicationBase extends SilexApplication
             ]
         );
         $this->register(new AuthServiceProvider());
+
+        // Search API
+        $this->register(
+            new SearchAPIServiceProvider(),
+            [
+                'search_api.base_url' => $this['config']['search_api']['base_url'],
+                'search_api.cache.enabled' => $this['config']['search_api']['cache']['enabled'],
+                'search_api.cache.backend' => $this['config']['search_api']['cache']['backend'],
+                'search_api.cache.ttl' => $this['config']['search_api']['cache']['ttl'],
+                'search_api.cache.file_system' => $this['config']['search_api_filesystem_cache'],
+                'search_api.cache.redis' => $this['config']['redis'],
+            ]
+        );
 
         // User and user roles
         $this->register(new UserRoleServiceProvider(__DIR__ . '/../user_roles.yml'));

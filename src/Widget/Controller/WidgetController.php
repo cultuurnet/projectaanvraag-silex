@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
+use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
 use CultuurNet\ProjectAanvraag\Widget\JavascriptResponse;
@@ -11,15 +12,24 @@ use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
-use CultuurNet\SearchV3\Hydrator\Event;
+use CultuurNet\SearchV3\PagedCollection;
+use CultuurNet\SearchV3\Parameter\Facet;
+use CultuurNet\SearchV3\Parameter\Labels;
+use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
+use CultuurNet\SearchV3\Serializer\Serializer;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\MongoDB\Connection;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Guzzle\Cache\DoctrineCacheAdapter;
+use Guzzle\Plugin\Cache\CachePlugin;
+use Guzzle\Plugin\Cache\DefaultCacheStorage;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
@@ -48,16 +58,22 @@ class WidgetController
     protected $widgetRepository;
 
     /**
+     * @var SearchClient
+     */
+    protected $searchClient;
+
+    /**
      * WidgetController constructor.
      *
      * @param RendererInterface $renderer
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
+        $this->searchClient = $searchClient;
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
         $doc = json_decode($json, true);
@@ -86,29 +102,11 @@ print_r($test2);
         }*/
     }
 
+    /**
+     * Hardcoded example of a render page.
+     */
     public function renderPage()
     {
-
-      $jmsSerializer = SerializerBuilder::create()
-        ->addMetadataDir(SerializerMetadata::directory(), SerializerMetadata::namespacePrefix())
-        ->setAnnotationReader(new AnnotationReader())
-          ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
-        ->build();
-      $objectSerializer = new JMSSerializerObjectSerializer($jmsSerializer, 'json');
-
-        $query = new SearchQuery();
-        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
-
-        $client = new \Guzzle\Http\Client('https://search-acc.uitdatabank.be');
-        $searchClient = new SearchClient($client);
-        $result = $searchClient->searchOffers($query);
-        $jsonld = $result->getBody(true);
-        $json = json_decode($jsonld);
-
-        $event = $json->member[0];
-
-        $test2 = $objectSerializer->deserialize(json_encode($event), Event::class);
-
         /*$collection = $this->db->selectCollection('widgets', 'WidgetPage');
 
         $results = $collection->find();
@@ -131,5 +129,24 @@ print_r($test2);
 
     public function renderWidget()
     {
+    }
+
+    /**
+     * Example of a search request.
+     */
+    public function searchExample()
+    {
+        $query = new SearchQuery(TRUE);
+        $query->addParameter(new Facet('regions'));
+        $query->addParameter(new Facet('types'));
+        //$query->addParameter(new Labels('bouwen'));
+        //$query->addParameter(new Labels('Kiditech'));
+        $query->addParameter(new Query('regions:gem-leuven OR regions:gem-gent'));
+
+        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+
+        $result = $this->searchClient->searchEvents($query);
+        print_r($result);
+        die();
     }
 }

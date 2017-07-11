@@ -6,3 +6,4 @@ config.yml
 /node_modules
 /build
 /log
+/cache

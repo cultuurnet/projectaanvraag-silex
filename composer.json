@@ -2,20 +2,6 @@
     "name": "cultuurnet/projectaanvraag-silex",
     "description": "A silex application that serves as API backend for the projectaanvraag application",
     "license": "GPL-3.0",
-    "repositories": {
-        "search-v3": {
-            "type": "package",
-            "package": {
-                "name": "cultuurnet/search-v3",
-                "version": "0.1",
-                "source": {
-                    "url": "https://github.com/cultuurnet/search-v3.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        }
-    },
     "require": {
         "silex/silex": "~2.0",
         "deralex/yaml-config-service-provider": "^1.0",
@@ -33,8 +19,9 @@
         "symfony/twig-bridge": "^3.3",
         "df/silex-doctrine-mongodb-odm-provider": "^1.0",
         "matthiasmullie/minify": "^1.3",
-        "cultuurnet/search-v3": "^0.1.0",
-        "ml/json-ld": "^1.0"
+        "ml/json-ld": "^1.0",
+        "predis/predis": "^1.1",
+        "cultuurnet/search-v3": "dev-master"
     },
     "extra": {
         "patches": {
