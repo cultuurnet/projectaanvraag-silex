@@ -29,27 +29,39 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     protected $twig;
 
     /**
+     * Cleanup the configuration options or not.
+     * @var bool
+     */
+    protected $cleanup;
+
+    /**
      * LayoutBase constructor.
      *
      * @param $configuration
      * @param WidgetPluginManager $widgetManager
      */
-    public function __construct(WidgetPluginManager $widgetManager, \Twig_Environment $twig, array $configuration)
+    public function __construct(array $pluginDefinition, WidgetPluginManager $widgetManager, \Twig_Environment $twig, array $configuration, bool $cleanup)
     {
         $this->widgetManager = $widgetManager;
         $this->twig = $twig;
-        $this->parseRegions($configuration['regions']);
+        $this->cleanup = $cleanup;
+
+        if (isset($configuration['regions'])) {
+            $this->parseRegions($configuration['regions']);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public static function create(Container $container, array $configuration)
+    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
+            $pluginDefinition,
             $container['widget_type_manager'],
             $container['twig'],
-            $configuration
+            $configuration,
+            $cleanup
         );
     }
 
@@ -66,7 +78,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
             }
 
             foreach ($region['widgets'] as $widget) {
-                $this->regions[$regionId]['widgets'][] = $this->widgetManager->createInstance($widget['type'], $widget['settings']);
+                $this->regions[$regionId]['widgets'][] = $this->widgetManager->createInstance($widget['type'], $widget['settings'], $this->cleanup);
             }
         }
     }

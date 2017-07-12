@@ -16,6 +16,13 @@ interface WidgetPageInterface
     public function getId();
 
     /**
+     * Set the id of the page.
+     *
+     * @param string $id
+     */
+    public function setId($id);
+
+    /**
      * Set the title of the page.
      *
      * @param string $title

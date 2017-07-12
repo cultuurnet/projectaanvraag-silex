@@ -21,4 +21,5 @@ interface WidgetTypeInterface
      * @return string
      */
     public function renderPlaceholder();
+
 }

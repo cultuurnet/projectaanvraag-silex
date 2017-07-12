@@ -19,7 +19,11 @@ interface DiscoveryInterface
     public function discoverDefinitions();
 
     /**
-     * Register a new item to the discovery.
+     * Register a new plugin location
+     * @param $path
+     *   Path to the plugin directory.
+     * @param $namespace
+     *   Namespace of the plugin.
      */
     public function register($path, $namespace);
 
@@ -28,4 +32,11 @@ interface DiscoveryInterface
      * @return array
      */
     public function getDefinitions();
+
+    /**
+     * Get the defintion of a given plugin id.
+     * @param $id
+     */
+    public function getDefinition($id);
+
 }

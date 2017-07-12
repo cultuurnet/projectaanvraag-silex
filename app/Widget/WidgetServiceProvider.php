@@ -43,5 +43,9 @@ class WidgetServiceProvider implements ServiceProviderInterface
         $pimple['widget_type_manager'] = function (Container $pimple) {
             return new WidgetPluginManager($pimple['widget_type_discovery'], $pimple);
         };
+
+        $pimple['widget_page_deserializer'] = function (Container $pimple) {
+            return new WidgetPageEntityDeserializer($pimple['widget_layout_manager'], $pimple['widget_type_manager']);
+        };
     }
 }

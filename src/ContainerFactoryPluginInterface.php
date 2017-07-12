@@ -16,11 +16,14 @@ interface ContainerFactoryPluginInterface
      *
      * @param Container $container
      *   The pimple container.
+     * @param array $pluginDefinition
+     *   The plugin definition.
      * @param array $configuration
      *   Configuration for the plugin.
-     *
+     * @param bool $cleanup
+     *   Cleanup configuration or not
      * @return static Returns an instance of this plugin.
      *   Returns an instance of this plugin.
      */
-    public static function create(Container $container, array $configuration);
+    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup);
 }

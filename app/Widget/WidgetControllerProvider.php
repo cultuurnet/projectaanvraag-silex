@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
+use CultuurNet\ProjectAanvraag\Widget\Controller\WidgetApiController;
 use CultuurNet\ProjectAanvraag\Widget\Controller\WidgetController;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
@@ -20,8 +21,15 @@ class WidgetControllerProvider implements ControllerProviderInterface
             return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['mongodb'], $app['search_api']);
         };
 
+        $app['widget_builder_api_controller'] = function (Application $app) {
+            return new WidgetApiController($app['widget_repository'], $app['widget_type_manager'], $app['widget_page_deserializer']);
+        };
+
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
+        $controllers->get('api/widget-types', 'widget_builder_api_controller:getWidgetTypes');
+        $controllers->get('api/test', 'widget_builder_api_controller:test');
+
         $controllers->get('/', 'widget_controller:renderPage');
         $controllers->get('/search', 'widget_controller:searchExample');
 

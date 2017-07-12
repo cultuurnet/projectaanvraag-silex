@@ -12,7 +12,40 @@ use Pimple\Container;
  * Provides the search form widget type.
  *
  * @WidgetType(
- *     id = "search-form"
+ *      id = "search-form",
+ *      defaultSettings = {
+ *          "fields": {
+ *              "what": {
+ *                  "keyword_search": {
+ *                      "enabled" : true,
+ *                      "label": "Wat",
+ *                      "placeholder": "Bv. concert, Bart Peeters,..."
+ *                  },
+ *                  "group_filters": {
+ *                      "enabled": false,
+ *                  }
+ *              },
+ *          }
+ *      },
+ *      allowedSettings = {
+ *          "destination": "string",
+ *          "new_window": "boolean",
+ *          "button_label": "string",
+ *          "search_query": "string",
+ *          "header": {
+ *              "body": "string",
+ *          },
+ *          "fields": {
+ *              "what": {
+ *                  "keyword_search": {
+ *                      "enabled": "boolean",
+ *                      "label": "string",
+ *                      "placeholder": "string"
+ *                  },
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *              }
+ *          }
+ *      }
  * )
  */
 class SearchForm extends WidgetTypeBase

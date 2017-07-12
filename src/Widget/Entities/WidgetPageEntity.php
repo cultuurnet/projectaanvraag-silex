@@ -49,6 +49,16 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
+     * @param $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @param $title
      *
      * @return $this
