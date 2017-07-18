@@ -22,7 +22,7 @@ class WidgetControllerProvider implements ControllerProviderInterface
         };
 
         $app['widget_builder_api_controller'] = function (Application $app) {
-            return new WidgetApiController($app['widget_repository'], $app['widget_type_manager'], $app['widget_page_deserializer']);
+            return new WidgetApiController($app['widget_repository'], $app['widget_type_discovery'], $app['widget_page_deserializer']);
         };
 
         /* @var ControllerCollection $controllers */

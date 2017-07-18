@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
+use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
@@ -21,9 +22,9 @@ class WidgetApiController
 {
 
     /**
-     * @var WidgetPluginManager
+     * @var WidgetTypeDiscovery
      */
-    protected $widgetTypePluginManager;
+    protected $widgetTypeDiscovery;
 
     /**
      * @var DocumentRepository
@@ -41,10 +42,10 @@ class WidgetApiController
      * @param WidgetPluginManager $widgetTypePluginManager
      * @param WidgetPageEntityDeserializer $widgetPageDeserializer
      */
-    public function __construct(DocumentRepository $widgetPageRepository, WidgetPluginManager $widgetTypePluginManager, WidgetPageEntityDeserializer $widgetPageDeserializer)
+    public function __construct(DocumentRepository $widgetPageRepository, WidgetTypeDiscovery $widgetTypeDiscovery, WidgetPageEntityDeserializer $widgetPageDeserializer)
     {
         $this->widgetPageRepository = $widgetPageRepository;
-        $this->widgetTypePluginManager = $widgetTypePluginManager;
+        $this->widgetTypeDiscovery = $widgetTypeDiscovery;
         $this->widgetPageDeserializer = $widgetPageDeserializer;
     }
 
@@ -54,7 +55,7 @@ class WidgetApiController
     public function getWidgetTypes()
     {
         $types = [];
-        $definitions = $this->widgetTypePluginManager->getDefinitions();
+        $definitions = $this->widgetTypeDiscovery->getDefinitions();
         foreach ($definitions as $id => $definition) {
             /** @var WidgetType $annotation */
             $annotation = $definition['annotation'];
