@@ -66,17 +66,13 @@ class WidgetApiController
     /**
      * test json to ODM
      */
-    public function test() {
+    public function test()
+    {
 
         $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
 
-       $test = $this->widgetPageDeserializer->deserialize($json);
+        $test = $this->widgetPageDeserializer->deserialize($json);
 
-       return new JsonResponse();
-
-
-
+        return new JsonResponse($test->jsonSerialize());
     }
-
-
 }

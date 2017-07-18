@@ -13,7 +13,7 @@ class OneCol extends LayoutBase
 {
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function render()
     {

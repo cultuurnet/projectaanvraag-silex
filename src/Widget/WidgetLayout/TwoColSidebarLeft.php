@@ -14,7 +14,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\Layout;
 class TwoColSidebarLeft extends LayoutBase
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function render()
     {

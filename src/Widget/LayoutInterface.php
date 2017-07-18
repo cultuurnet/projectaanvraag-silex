@@ -5,7 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 /**
  * Provides an interface for widget row layouts.
  */
-interface LayoutInterface
+interface LayoutInterface extends \JsonSerializable
 {
 
     /**

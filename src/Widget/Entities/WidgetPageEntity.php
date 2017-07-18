@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Entities;
 
-use CultuurNet\ProjectAanvraag\DocumentSerializerTrait;
+use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
@@ -16,8 +16,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
 {
-
-    use DocumentSerializerTrait;
 
     /**
      * @var string
@@ -41,7 +39,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $rows;
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -49,9 +47,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @param $id
-     *
-     * @return $this
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -59,9 +55,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @param $title
-     *
-     * @return $this
+     * {@inheritdoc}
      */
     public function setTitle($title)
     {
@@ -70,28 +64,47 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle()
     {
         return $this->title;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setRows($rows)
     {
         $this->rows = $rows;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRows()
     {
         return $this->rows;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {
-        return $this->toJSON();
+        /**
+         * Serialize all rows.
+         */
+        $rows = [];
+        /** @var LayoutInterface $row */
+        foreach ($this->rows as $row) {
+            $rows[] = $row->jsonSerialize();
+        }
+
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'rows' => $rows,
+        ];
     }
 }

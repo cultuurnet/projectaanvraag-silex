@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetLayout;
 use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
 use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
+use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use Pimple\Container;
 
 /**
@@ -12,6 +13,11 @@ use Pimple\Container;
  */
 abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInterface
 {
+
+    /**
+     * @var array
+     */
+    protected $pluginDefinition;
 
     /**
      * @var array
@@ -37,11 +43,15 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     /**
      * LayoutBase constructor.
      *
-     * @param $configuration
+     * @param array $pluginDefinition
      * @param WidgetPluginManager $widgetManager
+     * @param \Twig_Environment $twig
+     * @param array $configuration
+     * @param bool $cleanup
      */
     public function __construct(array $pluginDefinition, WidgetPluginManager $widgetManager, \Twig_Environment $twig, array $configuration, bool $cleanup)
     {
+        $this->pluginDefinition = $pluginDefinition;
         $this->widgetManager = $widgetManager;
         $this->twig = $twig;
         $this->cleanup = $cleanup;
@@ -99,5 +109,25 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         }
 
         return $content;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        $regions = [];
+        foreach ($this->regions as $regionId => $region) {
+            $regions[$regionId]['widgets'] = [];
+            /** @var WidgetTypeInterface $widget */
+            foreach ($region['widgets'] as $widget) {
+                $regions[$regionId]['widgets'][] = $widget->jsonSerialize();
+            }
+        }
+
+        return [
+            'type' => $this->pluginDefinition['annotation']->getId(),
+            'regions' => $regions,
+        ];
     }
 }

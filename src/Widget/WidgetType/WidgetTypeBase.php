@@ -51,11 +51,15 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         $this->twig = $twig;
 
         if ($cleanup) {
-            $this->configuration = $this->cleanupConfiguration($configuration, $this->pluginDefinition['annotation']->getAllowedSettings());
+            $configuration = $this->cleanupConfiguration($configuration, $this->pluginDefinition['annotation']->getAllowedSettings());
         }
-        else {
-            $this->configuration = $configuration;
+
+        $defaultSettings = $this->pluginDefinition['annotation']->getDefaultSettings();
+        if (is_array($defaultSettings)) {
+            $configuration = $this->mergeDefaults($configuration, $defaultSettings);
         }
+
+        $this->configuration = $configuration;
     }
 
     /**
@@ -73,7 +77,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function render()
     {
@@ -81,11 +85,40 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function renderPlaceholder()
     {
         return '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'type' => $this->pluginDefinition['annotation']->getId(),
+            'settings' => $this->configuration,
+        ];
+    }
+
+    /**
+     * Merge all defaults into the configuration array.
+     */
+    protected function mergeDefaults($configuration, $defaultSettings)
+    {
+
+        foreach ($defaultSettings as $id => $defaultSetting) {
+            if (!isset($configuration[$id])) {
+                $configuration[$id] = $defaultSetting;
+            }
+            elseif (is_array($configuration[$id]) && is_array($defaultSetting)) {
+                $configuration[$id] = $this->mergeDefaults($configuration[$id], $defaultSetting);
+            }
+        }
+
+        return $configuration;
     }
 
     /**

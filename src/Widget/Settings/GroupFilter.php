@@ -11,18 +11,17 @@ class GroupFilter
     /**
      * Cleanup the configuration.
      */
-    public function cleanup($configuration) {
+    public function cleanup($configuration)
+    {
 
         $cleanedConfiguration = [];
         $cleanedConfiguration['enabled'] = isset($configuration['enabled']) ? (bool) $configuration['enabled'] : false;
 
         // Add the filters if it was an array.
         if (isset($configuration['filters']) && is_array($configuration['filters'])) {
-
             // Cleanup every filter.
             $cleanedConfiguration['filters'] = [];
             foreach ($configuration['filters'] as $key => $filter) {
-
                 $cleanedFilter = [];
                 $cleanedFilter['label'] = (string) $filter['label'] ?? '';
                 $cleanedFilter['placeholder'] = (string) $filter['placeholder'] ?? '';
@@ -62,17 +61,14 @@ class GroupFilter
 
         $cleanedOptions = [];
         foreach ($options as $option) {
-
             if (isset($option['label']) && isset($option['query'])) {
                 $cleanedOptions[] = [
                     'label' => (string) $option['label'],
                     'query' => (string) $option['query'],
                 ];
             }
-
         }
 
         return $cleanedOptions;
     }
-
 }

@@ -52,7 +52,7 @@ class SearchForm extends WidgetTypeBase
 {
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function render()
     {
@@ -60,7 +60,7 @@ class SearchForm extends WidgetTypeBase
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function renderPlaceholder()
     {

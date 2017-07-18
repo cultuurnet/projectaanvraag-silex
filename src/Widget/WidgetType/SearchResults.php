@@ -10,14 +10,22 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  * Provides the search form widget type.
  *
  * @WidgetType(
- *     id = "search-results"
+ *     id = "search-results",
+ *      defaultSettings = {
+ *          "test": {
+ *              "enabled" : true,
+ *              "label": "Wat",
+ *          }
+ *      },
+ *      allowedSettings = {
+ *      }
  * )
  */
 class SearchResults extends WidgetTypeBase
 {
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function render()
     {
@@ -25,7 +33,7 @@ class SearchResults extends WidgetTypeBase
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function renderPlaceholder()
     {

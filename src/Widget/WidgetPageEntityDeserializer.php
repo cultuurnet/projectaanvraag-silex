@@ -38,7 +38,7 @@ class WidgetPageEntityDeserializer
     public function deserialize($json)
     {
 
-        $jsonObject = json_decode($json, TRUE);
+        $jsonObject = json_decode($json, true);
 
         $widgetPageEntity = new WidgetPageEntity();
         $widgetPageEntity->setTitle($jsonObject['title']);
@@ -54,5 +54,4 @@ class WidgetPageEntityDeserializer
 
         return $widgetPageEntity;
     }
-
 }

@@ -46,7 +46,7 @@ class WidgetPluginManager
      *   Cleanup the configuration or not.
      * @return
      */
-    public function createInstance($id, $configuration = [], $cleanup = FALSE)
+    public function createInstance($id, $configuration = [], $cleanup = false)
     {
         $definition = $this->getDefinition($id);
 

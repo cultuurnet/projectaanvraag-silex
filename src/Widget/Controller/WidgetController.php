@@ -136,7 +136,7 @@ print_r($test2);
      */
     public function searchExample()
     {
-        $query = new SearchQuery(TRUE);
+        $query = new SearchQuery(true);
         $query->addParameter(new Facet('regions'));
         $query->addParameter(new Facet('types'));
         //$query->addParameter(new Labels('bouwen'));

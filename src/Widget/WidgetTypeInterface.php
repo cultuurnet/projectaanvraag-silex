@@ -5,7 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 /**
  * Defines an interface to add widget types.
  */
-interface WidgetTypeInterface
+interface WidgetTypeInterface extends \JsonSerializable
 {
 
     /**

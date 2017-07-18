@@ -38,5 +38,4 @@ interface DiscoveryInterface
      * @param $id
      */
     public function getDefinition($id);
-
 }
