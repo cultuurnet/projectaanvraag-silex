@@ -1,6 +1,7 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
+
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;

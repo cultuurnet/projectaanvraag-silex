@@ -112,8 +112,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         foreach ($defaultSettings as $id => $defaultSetting) {
             if (!isset($configuration[$id])) {
                 $configuration[$id] = $defaultSetting;
-            }
-            elseif (is_array($configuration[$id]) && is_array($defaultSetting)) {
+            } elseif (is_array($configuration[$id]) && is_array($defaultSetting)) {
                 $configuration[$id] = $this->mergeDefaults($configuration[$id], $defaultSetting);
             }
         }
@@ -128,37 +127,28 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
 
         foreach ($configuration as $id => $value) {
-
             // Unknown property? Remove from settings.
             if (!isset($allowedSettings[$id])) {
                 unset($configuration[$id]);
-            }
-            elseif (is_array($value)) {
-
+            } elseif (is_array($value)) {
                 // If property is an array, and allowed setting also. Cleanup the array.
                 if (is_array($allowedSettings[$id])) {
                     $configuration[$id] = $this->cleanupConfiguration($value, $allowedSettings[$id]);
-                }
-                // If property is an array, but the allowed setting is a non-array property.
-                else {
-
+                } else {
                     // If a class exists for the setting. Clean it up using the class.
                     if (class_exists($allowedSettings[$id])) {
-                        $settingType = new $allowedSettings[$id]();
+                        $class = $allowedSettings[$id];
+                        $settingType = new $class();
                         $configuration[$id] = $settingType->cleanup($configuration[$id]);
-                    }
-                    // No class exists => invalid property.
-                    else {
+                    } else {
+                        // No class exists => invalid property.
                         unset($configuration[$id]);
                     }
-
                 }
-            }
-            // Normal value: Cast to the requested format.
-            else {
+            } else {
+                // Normal value: Cast to the requested format.
                 settype($configuration[$id], $allowedSettings[$id]);
             }
-
         }
 
         return $configuration;

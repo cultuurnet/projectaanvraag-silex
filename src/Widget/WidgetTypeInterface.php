@@ -21,5 +21,4 @@ interface WidgetTypeInterface extends \JsonSerializable
      * @return string
      */
     public function renderPlaceholder();
-
 }

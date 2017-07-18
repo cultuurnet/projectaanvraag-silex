@@ -30,9 +30,7 @@ class GroupFilter
                 // All strings are empty? Skip the filter.
                 if (empty($cleanedFilter['label']) && empty($cleanedFilter['placeholder']) && empty($cleanedFilter['type'])) {
                     continue;
-                }
-                else {
-
+                } else {
                     // Clean all options.
                     if (is_array($filter['options'])) {
                         $cleanedFilter['options'] = $this->cleanupOptions($filter['options']);
@@ -42,12 +40,10 @@ class GroupFilter
                     if (empty($cleanedFilter['options'])) {
                         continue;
                     }
-
                 }
 
                 $cleanedConfiguration['filters'][] = $cleanedFilter;
             }
-
         }
 
         return $cleanedConfiguration;
@@ -56,7 +52,7 @@ class GroupFilter
     /**
      * Cleanup the options of a group filter.
      */
-    function cleanupOptions($options)
+    protected function cleanupOptions($options)
     {
 
         $cleanedOptions = [];
