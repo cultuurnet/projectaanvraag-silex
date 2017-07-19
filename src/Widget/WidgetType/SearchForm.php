@@ -70,22 +70,51 @@ use Pimple\Container;
  *          }
  *      },
  *      allowedSettings = {
- *          "destination": "string",
- *          "new_window": "boolean",
- *          "button_label": "string",
- *          "search_query": "string",
+ *          "general": {
+ *              "new_window": "boolean",
+ *              "button_label": "string"
+ *          },
  *          "header": {
  *              "body": "string",
  *          },
  *          "fields": {
- *              "what": {
+ *              "type": {
  *                  "keyword_search": {
- *                      "enabled": "boolean",
+ *                      "enabled" : "boolean",
  *                      "label": "string",
- *                      "placeholder": "string"
+ *                      "placeholder": "string",
  *                  },
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
- *              }
+ *              },
+ *              "location": {
+ *                  "keyword_search": {
+ *                      "enabled" : "boolean",
+ *                      "label": "string",
+ *                      "placeholder": "string",
+ *                  },
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *              },
+ *              "time": {
+ *                  "date_search": {
+ *                      "enabled" : "boolean",
+ *                      "options": {
+ *                          "today": "boolean",
+ *                          "tomorrow": "boolean",
+ *                          "weekend": "boolean",
+ *                          "days_7": "boolean",
+ *                          "days_14": "boolean",
+ *                          "days_30": "boolean",
+ *                          "custom_date": "boolean"
+ *                      }
+ *                  },
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *              },
+ *              "extra": {
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *              },
+ *          },
+ *          "footer": {
+ *              "body": "string"
  *          }
  *      }
  * )

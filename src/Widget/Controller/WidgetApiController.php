@@ -14,6 +14,9 @@ use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
 use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Provides the controller for main widget builder api requests.
@@ -37,16 +40,22 @@ class WidgetApiController
     protected $widgetPageDeserializer;
 
     /**
+     * @var AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
+    /**
      * WidgetApiController constructor.
      * @param DocumentRepository $widgetPageRepository
      * @param WidgetPluginManager $widgetTypePluginManager
      * @param WidgetPageEntityDeserializer $widgetPageDeserializer
      */
-    public function __construct(DocumentRepository $widgetPageRepository, WidgetTypeDiscovery $widgetTypeDiscovery, WidgetPageEntityDeserializer $widgetPageDeserializer)
+    public function __construct(DocumentRepository $widgetPageRepository, WidgetTypeDiscovery $widgetTypeDiscovery, WidgetPageEntityDeserializer $widgetPageDeserializer, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->widgetPageRepository = $widgetPageRepository;
         $this->widgetTypeDiscovery = $widgetTypeDiscovery;
         $this->widgetPageDeserializer = $widgetPageDeserializer;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -66,15 +75,38 @@ class WidgetApiController
     }
 
     /**
-     * test json to ODM
+     * Update a posted widget page.
      */
-    public function test()
+    public function updateWidgetPage($project, Request $request)
     {
 
-        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
+        if (!$this->authorizationChecker->isGranted('edit', $project)) {
+            throw new AccessDeniedHttpException();
+        }
 
-        $test = $this->widgetPageDeserializer->deserialize($json);
+        $test = $this->widgetPageDeserializer->deserialize($request->getContent());
 
         return new JsonResponse($test->jsonSerialize());
+    }
+
+    /**
+     * temp test
+     */
+    public function test(Request $request)
+    {
+
+        if ($request->getMethod() == 'GET') {
+            $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
+        }
+        else {
+            $json = $request->getContent();
+        }
+
+        $page = $this->widgetPageDeserializer->deserialize($json);
+
+        return new JsonResponse([
+            'page' => $page->jsonSerialize(),
+            'preview' => 'preview ' . $_SERVER['REQUEST_TIME'],
+        ]);
     }
 }

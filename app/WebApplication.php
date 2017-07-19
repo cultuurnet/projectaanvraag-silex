@@ -86,6 +86,7 @@ class WebApplication extends ApplicationBase
             [
                 'cors.allowOrigin' => implode(' ', $this['config']['cors']['origins']),
                 'cors.allowCredentials' => true,
+                'cors.exposeHeaders' => 'Authorization',
             ]
         );
         $this->register(new SessionServiceProvider());
@@ -101,7 +102,7 @@ class WebApplication extends ApplicationBase
                     [
                         new Path('^/culturefeed/oauth', 'GET'),
                         new Path('^/integration-types', 'GET'),
-                        new Path('^/widget', 'GET'),
+                        new Path('^/widget', ['GET', 'PUT', 'POST']),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
