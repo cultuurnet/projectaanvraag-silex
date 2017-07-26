@@ -53,7 +53,7 @@ class QueueConsumersEventListener
         if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
             $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
         } elseif ($type == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
-            $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
+            $consumers = $this->cultureFeed->getServiceConsumers($event->getStart(), $event->getMax());
         }
 
         if (!empty($consumers->objects)) {
