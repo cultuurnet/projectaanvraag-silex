@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
-use CultuurNet\ProjectAanvraag\Console\Command\InstallCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\SyncConsumersCommand;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
@@ -70,7 +69,6 @@ class ConsoleApplication extends ApplicationBase
         $consoleApp = $this['console'];
 
         $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer'));
-        $consoleApp->add(new InstallCommand());
 
         // Sync culturefeed consumers with local DB
         $consoleApp->add(new SyncConsumersCommand());

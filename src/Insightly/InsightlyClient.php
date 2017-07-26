@@ -94,7 +94,7 @@ class InsightlyClient implements InsightlyClientInterface
     {
         $key = $method . $uri;
         if (!empty($query)) {
-            $key += json_encode($query->all());
+            $key .= json_encode($query->all());
         }
 
         return md5($key);

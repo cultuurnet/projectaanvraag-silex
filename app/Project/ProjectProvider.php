@@ -2,8 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
-use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
-use CultuurNet\ProjectAanvraag\Project\Schema\ProjectSchemaConfigurator;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

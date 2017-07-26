@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Core;
 
 use CultuurNet\CulturefeedHttpGuzzle\HttpClient;
-use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
 use Guzzle\Http\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -20,10 +19,6 @@ class CoreProvider implements ServiceProviderInterface
                 return $pimple[$serviceId];
             }
         );
-
-        $pimple['database.installer'] = function (Container $pimple) {
-            return new DatabaseSchemaInstaller($pimple);
-        };
 
         $pimple['culturefeed_oauth_client'] = $pimple->extend(
             'culturefeed_oauth_client',
