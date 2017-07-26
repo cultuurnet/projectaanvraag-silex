@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Widget\LayoutDiscovery;
 use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use CultuurNet\SearchV3\PagedCollection;
@@ -39,6 +40,7 @@ use MongoDB\Collection;
 use MongoDB\Model\BSONDocument;
 use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
 use SimpleBus\JMSSerializerBridge\SerializerMetadata;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -63,17 +65,26 @@ class WidgetController
     protected $searchClient;
 
     /**
+     * @var WidgetPageEntityDeserializer
+     */
+    protected $widgetPageEntityDeserializer;
+
+    protected $debugMode;
+
+    /**
      * WidgetController constructor.
      *
      * @param RendererInterface $renderer
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
+        $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
+        $this->debugMode = $debugMode;
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
         $doc = json_decode($json, true);
@@ -105,7 +116,7 @@ print_r($test2);
     /**
      * Hardcoded example of a render page.
      */
-    public function renderPage()
+    public function renderPage(Request $request)
     {
         /*$collection = $this->db->selectCollection('widgets', 'WidgetPage');
 
@@ -116,13 +127,27 @@ print_r($test2);
         }*/
 
         /** @var WidgetPageEntity $test */
-        $test = $this->widgetRepository->findOneBy(
+        /*$test = $this->widgetRepository->findOneBy(
             [
             'id' => '593fb8455722ed4df9064183',
             ]
-        );
+        );*/
 
-        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($test));
+        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
+        $page = $this->widgetPageEntityDeserializer->deserialize($json);
+
+        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($page));
+
+        // Only write the javascript files, when we are not in debug mode.
+        if (!$this->debugMode) {
+            $directory = dirname(WWW_ROOT . $request->getPathInfo());
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+            file_put_contents(WWW_ROOT . $request->getPathInfo(), $javascriptResponse->getContent());
+        }
+
+        return $javascriptResponse->getContent();
 
         return new Response('<html><script type="text/javascript">' . $javascriptResponse->getContent() . '</script></html>');
     }

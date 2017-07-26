@@ -49,4 +49,11 @@ interface WidgetPageInterface
      * @return LayoutInterface[]
      */
     public function getRows();
+
+    /**
+     * Get the widget with the given id.
+     * @param $widgetId
+     * @return WidgetTypeInterface|null
+     */
+    public function getWidget($widgetId);
 }

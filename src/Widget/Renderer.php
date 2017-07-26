@@ -23,7 +23,8 @@ class Renderer implements RendererInterface
      */
     public function __construct()
     {
-        $this->attachJavascript(__DIR__ . '/../../web/assets/js/widgets/core/widgets.js');
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/widgets.js');
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/placeholder-load.js');
     }
 
     /**
@@ -47,7 +48,7 @@ class Renderer implements RendererInterface
      */
     public function renderWidget(WidgetTypeInterface $widgetType)
     {
-        // TODO: Implement renderWidget() method.
+        return $widgetType->render();
     }
 
     /**

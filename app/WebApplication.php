@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\ProjectAanvraag\Security\UiTIDSecurityServiceProvider;
 use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
+use CultuurNet\ProjectAanvraag\Widget\WidgetAPIControllerProvider;
 use CultuurNet\ProjectAanvraag\Widget\WidgetControllerProvider;
 use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
@@ -131,6 +132,9 @@ class WebApplication extends ApplicationBase
             new TwigServiceProvider(),
             [
                 'twig.path' => __DIR__ . '/../views',
+                'twig.options'    => [
+                    'cache' => $this['config']['cache']['file_system']['location'],
+                ],
             ]
         );
     }
@@ -152,6 +156,11 @@ class WebApplication extends ApplicationBase
 
         $this->mount(
             'widget',
+            new WidgetAPIControllerProvider()
+        );
+
+        $this->mount(
+            'widgets',
             new WidgetControllerProvider()
         );
     }

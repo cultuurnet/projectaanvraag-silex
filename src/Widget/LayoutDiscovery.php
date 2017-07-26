@@ -11,4 +11,6 @@ class LayoutDiscovery extends DiscoveryBase
 {
 
     protected $namespace = 'CultuurNet\ProjectAanvraag\Widget\Annotation\Layout';
+
+    protected $cache_index = 'annot.widget-layouts';
 }

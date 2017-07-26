@@ -2,9 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
-use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
-use CultuurNet\ProjectAanvraag\Project\Schema\ProjectSchemaConfigurator;
+use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -26,6 +26,11 @@ class WidgetServiceProvider implements ServiceProviderInterface
 
         $pimple['widget_layout_discovery'] = function (Container $pimple) {
             $discovery = new LayoutDiscovery();
+
+            if ($pimple['annotation_cache'] instanceof Cache) {
+                $discovery->setCache($pimple['annotation_cache']);
+            }
+
             $discovery->register(__DIR__ . '/../../src/Widget/WidgetLayout', 'CultuurNet\ProjectAanvraag\Widget\WidgetLayout');
             return $discovery;
         };
@@ -36,6 +41,11 @@ class WidgetServiceProvider implements ServiceProviderInterface
 
         $pimple['widget_type_discovery'] = function (Container $pimple) {
             $discovery = new WidgetTypeDiscovery();
+
+            if ($pimple['annotation_cache'] instanceof Cache) {
+                $discovery->setCache($pimple['annotation_cache']);
+            }
+
             $discovery->register(__DIR__ . '/../../src/Widget/WidgetType', 'CultuurNet\ProjectAanvraag\Widget\WidgetType');
             return $discovery;
         };
@@ -46,6 +56,14 @@ class WidgetServiceProvider implements ServiceProviderInterface
 
         $pimple['widget_page_deserializer'] = function (Container $pimple) {
             return new WidgetPageEntityDeserializer($pimple['widget_layout_manager'], $pimple['widget_type_manager']);
+        };
+
+        $pimple['widget_page_convertor'] = function(Container $pimple) {
+            return new WidgetPageConverter($pimple['widget_repository'], $pimple['widget_page_deserializer']);
+        };
+
+        $pimple['widget_renderer'] = function(Container $pimple) {
+            return new Renderer();
         };
     }
 }

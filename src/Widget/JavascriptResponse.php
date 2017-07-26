@@ -12,8 +12,10 @@ class JavascriptResponse extends Response
 
     public function __construct(RendererInterface $renderer, $content)
     {
-     //   $content = $this->renderContent($content);
-        $content = $this->renderJs($renderer);
+        $content = $this->renderContent($content);
+        $content .= $this->renderJs($renderer);
+
+        $content .= "CultuurnetWidgets.prepareBootstrap();";
 
         parent::__construct($content);
     }
@@ -25,7 +27,7 @@ class JavascriptResponse extends Response
      */
     private function renderContent($content)
     {
-        return 'document.write("' . addslashes($content) . '");';
+        return 'document.write("' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '");';
     }
 
     /**
@@ -47,7 +49,7 @@ class JavascriptResponse extends Response
         // Css is printed via js method in the js response.
         $jsMinify->add($this->renderCss($renderer));
 
-        return $jsMinify->minify();
+        return $jsMinify->minify() . ";";
     }
 
     /**

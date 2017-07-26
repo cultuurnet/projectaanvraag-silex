@@ -127,7 +127,7 @@ class SearchForm extends WidgetTypeBase
      */
     public function render()
     {
-        return 'search form';
+        return $this->twig->render('widgets/search-form-widget/search-form-widget.html.twig');
     }
 
     /**
@@ -135,10 +135,9 @@ class SearchForm extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        // @todo Move to twig extension.
-        $this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
-        $this->renderer->attachCss(__DIR__ . '/../../../web/assets/css/widgets/search-form/search-form.css');
+        /*$this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
+        $this->renderer->attachCss(__DIR__ . '/../../../web/assets/css/widgets/search-form/search-form.css');*/
 
-        return $this->twig->render('widgets/search-form-widget/search-form-widget.html.twig');
+        return $this->render();
     }
 }

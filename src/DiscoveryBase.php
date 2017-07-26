@@ -3,6 +3,10 @@
 namespace CultuurNet\ProjectAanvraag;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\Common\Cache\RedisCache;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -34,11 +38,32 @@ class DiscoveryBase implements DiscoveryInterface
     protected $namespace;
 
     /**
+     * Cache index to use.
+     * @var string
+     */
+    protected $cache_index;
+
+    /**
+     * @var Cache
+     */
+    protected $cache;
+
+    /**
      * DiscoveryBase constructor.
      */
     public function __construct()
     {
         $this->annotationReader = new AnnotationReader();
+    }
+
+    /**
+     * Set the cache to use.
+     * @param Cache $cache
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
+        $this->annotationReader = new CachedReader(new AnnotationReader(), $this->cache);
     }
 
     /**
@@ -51,26 +76,33 @@ class DiscoveryBase implements DiscoveryInterface
             return;
         }
 
-        $this->definitions = [];
-        foreach ($this->discoveryInfo as $info) {
-            $finder = new Finder();
-            $finder->files()->in($info['path']);
+        if ($this->cache->contains($this->cache_index)) {
+            $this->definitions = $this->cache->fetch($this->cache_index);
+        } else {
 
-            /** @var SplFileInfo $file */
-            foreach ($finder as $file) {
-                $className = $info['namespace'] . '\\' . $file->getBasename('.php');
-                if (class_exists($className)) {
-                    $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($className), $this->namespace);
-                    if (!$annotation) {
-                        continue;
+            $this->definitions = [];
+            foreach ($this->discoveryInfo as $info) {
+                $finder = new Finder();
+                $finder->files()->in($info['path']);
+
+                /** @var SplFileInfo $file */
+                foreach ($finder as $file) {
+                    $className = $info['namespace'] . '\\' . $file->getBasename('.php');
+                    if (class_exists($className)) {
+                        $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($className), $this->namespace);
+                        if (!$annotation) {
+                            continue;
+                        }
+
+                        $this->definitions[$annotation->getId()] = [
+                            'class' => $className,
+                            'annotation' => $annotation,
+                        ];
                     }
-
-                    $this->definitions[$annotation->getId()] = [
-                        'class' => $className,
-                        'annotation' => $annotation,
-                    ];
                 }
             }
+
+            $this->cache->save($this->cache_index, $this->definitions);
         }
     }
 

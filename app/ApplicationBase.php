@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag;
 
+use CultuurNet\ProjectAanvraag\Core\CacheProvider;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
@@ -39,6 +40,8 @@ class ApplicationBase extends SilexApplication
 
         // Load the config.
         $this->register(new YamlConfigServiceProvider(__DIR__ . '/../config.yml'));
+
+        define('WWW_ROOT', realpath(__DIR__ . '/../web'));
 
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
@@ -89,8 +92,6 @@ class ApplicationBase extends SilexApplication
                 'search_api.cache.enabled' => $this['config']['search_api']['cache']['enabled'],
                 'search_api.cache.backend' => $this['config']['search_api']['cache']['backend'],
                 'search_api.cache.ttl' => $this['config']['search_api']['cache']['ttl'],
-                'search_api.cache.file_system' => $this['config']['search_api_filesystem_cache'],
-                'search_api.cache.redis' => $this['config']['redis'],
             ]
         );
 
@@ -109,6 +110,16 @@ class ApplicationBase extends SilexApplication
         );
 
         $this->register(new CoreProvider());
+
+        $this->register(
+            new CacheProvider(),
+            [
+                'cache.file_system' => $this['config']['cache']['file_system'],
+                'cache.redis' => $this['config']['cache']['redis'],
+                'cache.redis' => $this['config']['cache']['redis'],
+                'cache.annotations' => $this['config']['annotations']['cache'],
+            ]
+        );
 
         // Doctrine DBAL and ORM
         $this->register(
@@ -176,7 +187,9 @@ class ApplicationBase extends SilexApplication
 
         Type::addType('page_rows', PageRows::class);
 
-        $this->register(new WidgetServiceProvider(), []);
+        $this->register(
+            new WidgetServiceProvider(), []
+        );
 
         $this->register(new MessageBusProvider());
 
