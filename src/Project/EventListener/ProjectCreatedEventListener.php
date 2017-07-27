@@ -42,6 +42,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      */
     public function handle(ProjectEvent $projectCreated)
     {
+
         /**
          * @var ProjectInterface $project
          * @var ProjectCreated $projectCreated

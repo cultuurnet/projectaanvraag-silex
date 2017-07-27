@@ -85,7 +85,6 @@ class SyncConsumerEventListener
 
                     $project->setGroupId(!empty($groupIds) ? reset($groupIds) : null);
                 }
-
             }
 
             $this->entityManager->flush();

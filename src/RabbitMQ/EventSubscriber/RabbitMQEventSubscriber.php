@@ -33,6 +33,11 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
     protected $logger;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $projectLogger;
+
+    /**
      * @var array
      */
     protected $config;
@@ -44,11 +49,12 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
      * @param LoggerInterface $logger
      * @param array $config
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, MessageInEnvelopSerializer $messageInEnvelopeSerializer, LoggerInterface $logger, array $config)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, MessageInEnvelopSerializer $messageInEnvelopeSerializer, LoggerInterface $logger, LoggerInterface $projectLogger, array $config)
     {
         $this->eventBus = $eventBus;
         $this->messageInEnvelopeSerializer = $messageInEnvelopeSerializer;
         $this->logger = $logger;
+        $this->projectLogger = $projectLogger;
         $this->config = $config;
     }
 
@@ -63,6 +69,8 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
          * @var Envelope $envelope
          */
         $eventMessage = $event->message();
+        $exception = $event->exception();
+
         $envelope = $this->messageInEnvelopeSerializer->unwrapAndDeserialize($eventMessage->body);
         $message = $envelope->message();
 
@@ -72,6 +80,8 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
             // Increase the attempts counter of the message
             $message->attempt();
 
+            $this->logger->error('Message: ' . $eventMessage->body . ' --- Exception: ' . $exception->getMessage() . ' --- Trace: ' . $exception->getTraceAsString());
+
             // Allow the message to fail 5 times, then log it
             if ($message->getAttempts() < 5) {
                 // Retry the command with delay
@@ -80,7 +90,7 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
             } else {
                 // Only log failed attempts for project events
                 if ($message instanceof ProjectEvent) {
-                    $this->logger->error('Message: ' . $eventMessage->body);
+                    $this->projectLogger->error('Message: ' . $eventMessage->body);
                 }
             }
         }
