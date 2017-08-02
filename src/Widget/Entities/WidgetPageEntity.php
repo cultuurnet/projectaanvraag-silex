@@ -39,6 +39,13 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $rows;
 
     /**
+     * @var boolean
+     *
+     * @OMD\Field(type="boolean")
+     */
+    protected $draft;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -88,6 +95,22 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isDraft()
+    {
+      return $this->draft;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDraft($draft)
+    {
+      $this->draft = $draft;
+    }
+
+  /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
