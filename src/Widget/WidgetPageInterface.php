@@ -49,4 +49,70 @@ interface WidgetPageInterface
      * @return LayoutInterface[]
      */
     public function getRows();
+
+    /**
+     * Check if this is a draft version
+     *
+     * @return boolean
+     */
+    public function isDraft();
+
+    /**
+     * Set as a draft version
+     */
+    public function setAsDraft();
+
+    /**
+     * Get the projectID
+     *
+     * @return string
+     */
+    public function getProjectId();
+
+    /**
+     * Set the projectID
+     *
+     * @param string $projectId
+     */
+    public function setProjectId($projectId);
+
+    /**
+     * Get the user who last updated this
+     *
+     * @return string
+     */
+    public function getLastUpdatedByUser();
+
+    /**
+     * Set the user who last updated this
+     *
+     * @param string $userID
+     */
+    public function setLastUpdatedByUser($userID);
+
+    /**
+     * Get the user who created this
+     *
+     * @return string
+     */
+    public function getCreatedByUser();
+
+    /**
+     * Set the user who created this WidgetPage
+     *
+     * @param string $userID
+     */
+    public function setCreatedByUser($userID);
+
+    /**
+     * @param $css
+     *
+     * @return mixed
+     */
+    public function setCss($css);
+
+    /**
+     * @return mixed
+     */
+    public function getCss();
 }

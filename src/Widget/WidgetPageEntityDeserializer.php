@@ -43,6 +43,14 @@ class WidgetPageEntityDeserializer
         $widgetPageEntity = new WidgetPageEntity();
         $widgetPageEntity->setTitle($jsonObject['title']);
 
+        if (isset($jsonObject['id'])) {
+            $widgetPageEntity->setId($jsonObject['id']);
+        }
+
+        if (isset($jsonObject['project_id'])) {
+            $widgetPageEntity->setProjectId((int)$jsonObject['project_id']);
+        }
+
         $rows = [];
         if (isset($jsonObject['rows']) && is_array($jsonObject['rows'])) {
             foreach ($jsonObject['rows'] as $row) {

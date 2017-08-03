@@ -18,9 +18,17 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
 {
 
     /**
+     * The internal mongodb id.
      * @var string
      *
-     * @ODM\Id
+     * @ODM\Id(strategy="UUID", type="string")
+     */
+    protected $internalId;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string")
      */
     protected $id;
 
@@ -41,9 +49,35 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * @var boolean
      *
-     * @OMD\Field(type="boolean")
+     * @ODM\Field(type="boolean")
      */
     protected $draft;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string")
+     */
+    protected $projectId;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string")
+     */
+    protected $createdByUser;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string")
+     */
+    protected $lastUpdatedByUser;
+
+    /**
+     * @var
+     */
+    protected $css;
 
     /**
      * {@inheritdoc}
@@ -105,12 +139,76 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function setDraft($draft)
+    public function setAsDraft()
     {
-      $this->draft = $draft;
+      $this->draft = TRUE;
     }
 
-  /**
+    /**
+     * @return string
+     */
+    public function getProjectId()
+    {
+      return $this->projectId;
+    }
+
+    /**
+     * @param string $projectId
+     */
+    public function setProjectId($projectId)
+    {
+      $this->projectId = $projectId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastUpdatedByUser()
+    {
+      return $this->lastUpdatedByUser;
+    }
+
+    /**
+     * @param string $lastUpdatedByUser
+     */
+    public function setLastUpdatedByUser($userID)
+    {
+      $this->lastUpdatedByUser = $userID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedByUser()
+    {
+      return $this->createdByUser;
+    }
+
+    /**
+     * @param mixed $generatedByUser
+     */
+    public function setCreatedByUser($userID)
+    {
+      $this->createdByUser = $userID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCss()
+    {
+        return $this->css;
+    }
+
+    /**
+     * @param mixed $css
+     */
+    public function setCss($css)
+    {
+        $this->css = $css;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
@@ -128,6 +226,11 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'id' => $this->id,
             'title' => $this->title,
             'rows' => $rows,
+            'draft' => $this->draft,
+            'project_id' => $this->projectId,
+            'createdByUser' => $this->createdByUser,
+            'lastUpdatedByuser' => $this->lastUpdatedByUser,
         ];
     }
+
 }

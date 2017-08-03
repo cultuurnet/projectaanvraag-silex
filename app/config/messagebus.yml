@@ -104,3 +104,28 @@ handlers:
             - culturefeed
             - culturefeed_test
             - uitid_user_session_data_complete
+
+    update_widget_page_handler:
+          command: CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage
+          class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\UpdateWidgetPageCommandHandler
+          arguments:
+              - event_bus
+              - mongodbodm.dm
+              - uitid_user_session_data_complete
+
+    create_widget_page_handler:
+              command: CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage
+              class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\CreateWidgetPageCommandHandler
+              arguments:
+                  - event_bus
+                  - mongodbodm.dm
+                  - uitid_user_session_data_complete
+                  - uuid_generator
+
+    publish_widget_page_handler:
+          command: CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage
+          class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\PublishWidgetPageCommandHandler
+          arguments:
+              - event_bus
+              - mongodbodm.dm
+              - uitid_user_session_data_complete

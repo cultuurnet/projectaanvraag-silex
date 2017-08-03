@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\ODM\Types;
 
+use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetFactory;
 use Doctrine\ODM\MongoDB\Types\Type;
 
@@ -10,6 +11,10 @@ use Doctrine\ODM\MongoDB\Types\Type;
  */
 class PageRows extends Type
 {
+
+    /**
+     * {@inheritdoc}
+     */
     public function convertToPHPValue($value)
     {
         // Note: this function is only called when your custom type is used
@@ -28,6 +33,9 @@ class PageRows extends Type
         return $rows;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function closureToPHP()
     {
         // Return the string body of a PHP closure that will receive $value
@@ -45,12 +53,20 @@ class PageRows extends Type
         ';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function convertToDatabaseValue($value)
     {
-        // This is called to convert a PHP value to its Mongo equivalent
-        return [
-            'test1',
-            'test2',
-        ];
+        $dbValue = [];
+
+        if (is_array($value)) {
+            /** @var LayoutInterface $row */
+            foreach ($value as $row) {
+                $dbValue[] = $row->jsonSerialize();
+            }
+        }
+
+        return $dbValue;
     }
 }
