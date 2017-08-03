@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Provides a provider for projects
+ * Provides a converter for projects
  */
 class ProjectConverter implements ConverterInterface
 {
@@ -38,5 +38,4 @@ class ProjectConverter implements ConverterInterface
 
         return $project;
     }
-
 }

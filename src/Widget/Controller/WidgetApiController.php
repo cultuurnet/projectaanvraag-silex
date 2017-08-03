@@ -98,8 +98,7 @@ class WidgetApiController
 
         if ($request->getMethod() == 'GET') {
             $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        }
-        else {
+        } else {
             $json = $request->getContent();
         }
 
