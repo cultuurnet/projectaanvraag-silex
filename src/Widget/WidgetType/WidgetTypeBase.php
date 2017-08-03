@@ -31,9 +31,14 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected $pluginDefinition;
 
     /**
+     * @var string
+     */
+    protected $id;
+
+    /**
      * @var array
      */
-    protected $configuration;
+    protected $settings;
 
     /**
      * LayoutBase constructor.
@@ -50,16 +55,21 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         $this->renderer = $renderer;
         $this->twig = $twig;
 
+        if (isset($configuration['id'])) {
+            $this->id = $configuration['id'];
+        }
+
+        $settings = $configuration['settings'] ?? [];
         if ($cleanup) {
-            $configuration = $this->cleanupConfiguration($configuration, $this->pluginDefinition['annotation']->getAllowedSettings());
+            $settings = $this->cleanupConfiguration($settings, $this->pluginDefinition['annotation']->getAllowedSettings());
         }
 
         $defaultSettings = $this->pluginDefinition['annotation']->getDefaultSettings();
         if (is_array($defaultSettings)) {
-            $configuration = $this->mergeDefaults($configuration, $defaultSettings);
+            $settings = $this->mergeDefaults($settings, $defaultSettings);
         }
 
-        $this->configuration = $configuration;
+        $this->settings = $settings;
     }
 
     /**
@@ -99,58 +109,58 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         return [
             'type' => $this->pluginDefinition['annotation']->getId(),
-            'settings' => $this->configuration,
+            'settings' => $this->settings,
         ];
     }
 
     /**
-     * Merge all defaults into the configuration array.
+     * Merge all defaults into the $settings array.
      */
-    protected function mergeDefaults($configuration, $defaultSettings)
+    protected function mergeDefaults($settings, $defaultSettings)
     {
 
         foreach ($defaultSettings as $id => $defaultSetting) {
-            if (!isset($configuration[$id])) {
-                $configuration[$id] = $defaultSetting;
-            } elseif (is_array($configuration[$id]) && is_array($defaultSetting)) {
-                $configuration[$id] = $this->mergeDefaults($configuration[$id], $defaultSetting);
+            if (!isset($settings[$id])) {
+                $settings[$id] = $defaultSetting;
+            } elseif (is_array($settings[$id]) && is_array($defaultSetting)) {
+                $settings[$id] = $this->mergeDefaults($settings[$id], $defaultSetting);
             }
         }
 
-        return $configuration;
+        return $settings;
     }
 
     /**
      * Cleanup the configuration.
      */
-    protected function cleanupConfiguration($configuration, $allowedSettings)
+    protected function cleanupConfiguration($settings, $allowedSettings)
     {
 
-        foreach ($configuration as $id => $value) {
+        foreach ($settings as $id => $value) {
             // Unknown property? Remove from settings.
             if (!isset($allowedSettings[$id])) {
-                unset($configuration[$id]);
+                unset($settings[$id]);
             } elseif (is_array($value)) {
                 // If property is an array, and allowed setting also. Cleanup the array.
                 if (is_array($allowedSettings[$id])) {
-                    $configuration[$id] = $this->cleanupConfiguration($value, $allowedSettings[$id]);
+                    $settings[$id] = $this->cleanupConfiguration($value, $allowedSettings[$id]);
                 } else {
                     // If a class exists for the setting. Clean it up using the class.
                     if (class_exists($allowedSettings[$id])) {
                         $class = $allowedSettings[$id];
                         $settingType = new $class();
-                        $configuration[$id] = $settingType->cleanup($configuration[$id]);
+                        $settings[$id] = $settingType->cleanup($settings[$id]);
                     } else {
                         // No class exists => invalid property.
-                        unset($configuration[$id]);
+                        unset($settings[$id]);
                     }
                 }
             } else {
                 // Normal value: Cast to the requested format.
-                settype($configuration[$id], $allowedSettings[$id]);
+                settype($settings[$id], $allowedSettings[$id]);
             }
         }
 
-        return $configuration;
+        return $settings;
     }
 }

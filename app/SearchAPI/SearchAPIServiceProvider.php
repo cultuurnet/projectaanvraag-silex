@@ -19,28 +19,12 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-
-        $pimple['search_api_cache_filesystem'] = function (Container $pimple) {
-            return new FilesystemCache($pimple['search_api.cache.file_system']['location']);
-        };
-
-        $pimple['search_api_cache_redis'] = function (Container $pimple) {
-
-            $redis = new \Redis();
-            $redis->connect($pimple['search_api.cache.redis']['host'], $pimple['search_api.cache.redis']['port']);
-
-            $redisCache = new RedisCache();
-            $redisCache->setRedis($redis);
-
-            return $redisCache;
-        };
-
         $pimple['search_api_cache'] = function (Container $pimple) {
             return new CachePlugin(
                 [
                     'storage' => new FixedTtlCacheStorage(
                         new DoctrineCacheAdapter(
-                            $pimple['search_api_cache_' . $pimple['search_api.cache.backend']]
+                            $pimple['cache_doctrine_' . $pimple['search_api.cache.backend']]
                         )
                     ),
                 ]

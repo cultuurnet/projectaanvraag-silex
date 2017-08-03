@@ -9,6 +9,14 @@ interface RendererInterface
 {
 
     /**
+     * Add a list of settings to the settings object.
+     *
+     * @param array $settings
+     *   Settings to add.
+     */
+    public function addSettings(array $settings);
+
+    /**
      * Renders a given page.
      *
      * @param WidgetPageInterface $widgetPage
@@ -29,12 +37,14 @@ interface RendererInterface
 
     /**
      * Attach a javascript file to the renderer.
-     * @param $path
-     *   Path to the file.
+     * @param $value
+     *   Path to the file or inline js to be printed.
+     * @param $type
+     *   Type of js (inline or file)
      * @param int $weight
      *   Weight of the js file to define the order.
      */
-    public function attachJavascript($path, $weight = 0);
+    public function attachJavascript($value, $type = 'file', $weight = 0);
 
     /**
      * Attach a css file to the renderer.

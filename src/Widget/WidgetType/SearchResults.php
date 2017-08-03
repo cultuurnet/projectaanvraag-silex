@@ -37,6 +37,6 @@ class SearchResults extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => 'search-form-id']);
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
     }
 }

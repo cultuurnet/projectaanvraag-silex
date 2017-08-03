@@ -9,7 +9,7 @@
 namespace CultuurNet\ProjectAanvraag;
 
 /**
- * Base class for discoveries.
+ * Defines a common interface for discovery of plugins.
  */
 interface DiscoveryInterface
 {

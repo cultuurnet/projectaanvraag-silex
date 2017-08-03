@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Entities;
 
 use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
+use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
@@ -145,7 +146,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getProjectId()
     {
@@ -153,7 +154,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @param string $projectId
+     * {@inheritdoc}
      */
     public function setProjectId($projectId)
     {
@@ -161,7 +162,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getLastUpdatedByUser()
     {
@@ -169,7 +170,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @param string $lastUpdatedByUser
+     * {@inheritdoc}
      */
     public function setLastUpdatedByUser($userID)
     {
@@ -177,7 +178,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getCreatedByUser()
     {
@@ -185,7 +186,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @param mixed $generatedByUser
+     * {@inheritdoc}
      */
     public function setCreatedByUser($userID)
     {
@@ -193,7 +194,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getCss()
     {
@@ -201,11 +202,25 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @param mixed $css
+     * {@inheritdoc}
      */
     public function setCss($css)
     {
         $this->css = $css;
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidget($widgetId)
+    {
+        /** @var LayoutInterface $row */
+        foreach ($this->rows as $row) {
+            if ($row->hasWidget($widgetId)) {
+                return $row->getWidget($widgetId);
+            }
+        }
     }
 
     /**

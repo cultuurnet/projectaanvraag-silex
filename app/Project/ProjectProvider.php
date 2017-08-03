@@ -2,8 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
-use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
-use CultuurNet\ProjectAanvraag\Project\Schema\ProjectSchemaConfigurator;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -27,8 +25,13 @@ class ProjectProvider implements ServiceProviderInterface
             return new ProjectService($pimple['culturefeed'], $pimple['culturefeed_test'], $pimple['project_repository'], $pimple['integration_types.storage'], $pimple['uitid_user']);
         };
 
+<<<<<<< HEAD
         $pimple['project_convertor'] = function (Container $pimple) {
             return new ProjectConvertor($pimple['project_repository']);
+=======
+        $pimple['project_converter'] = function (Container $pimple) {
+            return new ProjectConverter($pimple['project_repository']);
+>>>>>>> feature/develop-widgets
         };
     }
 }

@@ -105,14 +105,25 @@ interface WidgetPageInterface
     public function setCreatedByUser($userID);
 
     /**
-     * @param $css
+     * Set the css that needs to be applied to the current page.
      *
-     * @return mixed
+     * @param string $css
      */
     public function setCss($css);
 
     /**
-     * @return mixed
+     * Get the css that needs to be applied to the current page.
+     *
+     * @return string
      */
     public function getCss();
+
+    /**
+     * Get the widget with the given id.
+     *
+     * @param $widgetId
+     * @return WidgetTypeInterface|null
+     */
+    public function getWidget($widgetId);
+
 }

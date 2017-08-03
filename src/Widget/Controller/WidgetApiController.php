@@ -9,6 +9,7 @@ use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
@@ -163,11 +164,19 @@ class WidgetApiController
 
         $page = $this->widgetPageDeserializer->deserialize($json);
 
-        return new JsonResponse(
-            [
+        $data = [
             'page' => $page->jsonSerialize(),
-            'preview' => 'preview ' . $_SERVER['REQUEST_TIME'],
-            ]
-        );
+        ];
+
+        $renderer = new Renderer();
+        if ($request->query->has('render')) {
+            if ($widget = $page->getWidget($request->query->get('render'))) {
+                $data['preview'] = $renderer->renderWidget($widget);
+            } else {
+                $data['preview'] = '';
+            }
+        }
+
+        return new JsonResponse($data);
     }
 }
