@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Entities;
 
 use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
+use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
@@ -85,6 +86,19 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     public function getRows()
     {
         return $this->rows;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidget($widgetId)
+    {
+        /** @var LayoutInterface $row */
+        foreach ($this->rows as $row) {
+            if ($row->hasWidget($widgetId)) {
+                return $row->getWidget($widgetId);
+            }
+        }
     }
 
     /**

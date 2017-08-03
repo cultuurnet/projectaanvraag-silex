@@ -10,6 +10,8 @@ use CultuurNet\ProjectAanvraag\Widget\LayoutDiscovery;
 use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use CultuurNet\SearchV3\PagedCollection;
@@ -39,7 +41,10 @@ use MongoDB\Collection;
 use MongoDB\Model\BSONDocument;
 use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
 use SimpleBus\JMSSerializerBridge\SerializerMetadata;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Provides a controller to render widget pages and widgets.
@@ -63,17 +68,29 @@ class WidgetController
     protected $searchClient;
 
     /**
+     * @var WidgetPageEntityDeserializer
+     */
+    protected $widgetPageEntityDeserializer;
+
+    /**
+     * @var bool
+     */
+    protected $debugMode;
+
+    /**
      * WidgetController constructor.
      *
      * @param RendererInterface $renderer
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
+        $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
+        $this->debugMode = $debugMode;
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
         $doc = json_decode($json, true);
@@ -105,7 +122,7 @@ print_r($test2);
     /**
      * Hardcoded example of a render page.
      */
-    public function renderPage()
+    public function renderPage(Request $request)
     {
         /*$collection = $this->db->selectCollection('widgets', 'WidgetPage');
 
@@ -116,19 +133,62 @@ print_r($test2);
         }*/
 
         /** @var WidgetPageEntity $test */
-        $test = $this->widgetRepository->findOneBy(
+        /*$test = $this->widgetRepository->findOneBy(
             [
             'id' => '593fb8455722ed4df9064183',
             ]
-        );
+        );*/
 
-        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($test));
+        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
+        $page = $this->widgetPageEntityDeserializer->deserialize($json);
 
-        return new Response('<html><script type="text/javascript">' . $javascriptResponse->getContent() . '</script></html>');
+        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($page));
+
+        // Only write the javascript files, when we are not in debug mode.
+        if (!$this->debugMode) {
+            $directory = dirname(WWW_ROOT . $request->getPathInfo());
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+            file_put_contents(WWW_ROOT . $request->getPathInfo(), $javascriptResponse->getContent());
+        }
+
+        return $javascriptResponse->getContent();
     }
 
-    public function renderWidget()
+    /**
+     * Render the given widget and return it as a json response.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @param $widgetId
+     * @return JsonResponse
+     */
+    public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
+
+        $widget = null;
+        $rows = $widgetPage->getRows();
+
+        // Search for the requested widget.
+        foreach ($rows as $row) {
+            if ($row->hasWidget($widgetId)) {
+                $widget = $row->getWidget($widgetId);
+            }
+        }
+
+        if (empty($widget)) {
+            throw new NotFoundHttpException();
+        }
+
+        $response = new JsonResponse($this->renderer->renderWidget($widget));
+
+        // If this is a jsonp request, set the requested callback.
+        if ($request->query->has('callback')) {
+            $response->setCallback($request->query->get('callback'));
+        }
+
+        return $response;
     }
 
     /**

@@ -1,15 +1,16 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\Project;
+namespace CultuurNet\ProjectAanvraag\Project\Converter;
 
+use CultuurNet\ProjectAanvraag\ConverterInterface;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Provides a provider for projects
+ * Provides a converter for projects
  */
-class ProjectConvertor
+class ProjectConverter implements ConverterInterface
 {
 
     /**

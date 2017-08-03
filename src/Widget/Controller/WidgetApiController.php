@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
@@ -103,11 +104,19 @@ class WidgetApiController
 
         $page = $this->widgetPageDeserializer->deserialize($json);
 
-        return new JsonResponse(
-            [
+        $data = [
             'page' => $page->jsonSerialize(),
-            'preview' => 'preview ' . $_SERVER['REQUEST_TIME'],
-            ]
-        );
+        ];
+
+        $renderer = new Renderer();
+        if ($request->query->has('render')) {
+            if ($widget = $page->getWidget($request->query->get('render'))) {
+                $data['preview'] = $renderer->renderWidget($widget);
+            } else {
+                $data['preview'] = '';
+            }
+        }
+
+        return new JsonResponse($data);
     }
 }

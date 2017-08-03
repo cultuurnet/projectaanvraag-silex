@@ -52,14 +52,19 @@ search_api:
   base_url: https://search-acc.uitdatabank.be
   cache:
     enabled: true
-    backend: redis # redis or filesystem.
-    ttl: 3600 # seconds to cache (3600 = 1h)
+    backend: redis
+    ttl: 3600
 
-# filesystem cache settings
-search_api_filesystem_cache:
-  location: /var/www/location-to-cache # path to save cache too
+# Annotation settings
+annotations:
+  cache:
+    enabled: true
+    backend: redis
 
-# Redis settings
-redis:
-  host: 127.0.0.1
-  port: 6379
+# Global cache settings
+cache:
+  file_system:
+    location: # path on filesystem to cache
+  redis:
+    host:
+    port: 6379

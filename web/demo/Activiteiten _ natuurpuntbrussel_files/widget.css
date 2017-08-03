@@ -1,0 +1,24 @@
+ul.swifty_imgwidget_ul li {
+	list-style:none!important;
+	padding: 0!important;
+	display: inline-block;
+	margin: 0 3px 10px 3px;
+	vertical-align: top;
+}
+ul.swifty_imgwidget_ul li img{
+	display: block;
+	margin: auto;
+}
+ul.swifty_imgwidget_ul.alcenter {
+	text-align: center;
+}
+ul.swifty_imgwidget_ul.alright {
+	text-align: right;
+}
+ul.swifty_imgwidget_ul.alleft {
+	text-align: left;
+}
+ul.swifty_imgwidget_ul .sbcaption {
+	margin:5px 0;
+	display: block;
+}

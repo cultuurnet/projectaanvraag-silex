@@ -1,0 +1,16 @@
+/* latin */
+@font-face {
+  font-family: 'Amaranth';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Amaranth'), url(http://fonts.gstatic.com/s/amaranth/v6/No9yO-s63zoPZDtAqBg6OXYhjbSpvc47ee6xR_80Hnw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin */
+@font-face {
+  font-family: 'Amaranth';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Amaranth Bold'), local('Amaranth-Bold'), url(http://fonts.gstatic.com/s/amaranth/v6/hh4Od9pccylRpuf5LUPgEogp9Q8gbYrhqGlRav_IXfk.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}

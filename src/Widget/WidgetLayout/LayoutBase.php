@@ -25,6 +25,12 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     protected $regions;
 
     /**
+     * Mapping of all widgets in this layout.
+     * @var array
+     */
+    protected $widgets = [];
+
+    /**
      * @var WidgetPluginManager
      */
     protected $widgetManager;
@@ -88,10 +94,12 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
             }
 
             foreach ($region['widgets'] as $widget) {
-                $this->regions[$regionId]['widgets'][] = $this->widgetManager->createInstance($widget['type'], $widget['settings'], $this->cleanup);
+                $this->widgets[$widget['id']] = $regionId;
+                $this->regions[$regionId]['widgets'][$widget['id']] = $this->widgetManager->createInstance($widget['type'], $widget, $this->cleanup);
             }
         }
     }
+
 
     /**
      * Render the given region.
@@ -109,6 +117,30 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         }
 
         return $content;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasWidget($widgetId)
+    {
+        return isset($this->widgets[$widgetId]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidget($widgetId)
+    {
+        return $this->regions[$this->widgets[$widgetId]]['widgets'][$widgetId] ?? null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgetIds()
+    {
+        return array_keys($this->widgets);
     }
 
     /**

@@ -41,6 +41,11 @@ class WidgetPageEntityDeserializer
         $jsonObject = json_decode($json, true);
 
         $widgetPageEntity = new WidgetPageEntity();
+
+        if (isset($jsonObject['id'])) {
+            $widgetPageEntity->setId($jsonObject['id']);
+        }
+
         $widgetPageEntity->setTitle($jsonObject['title']);
 
         $rows = [];
