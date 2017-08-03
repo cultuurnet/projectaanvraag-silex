@@ -97,16 +97,17 @@ class WidgetApiController
 
         if ($request->getMethod() == 'GET') {
             $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        }
-        else {
+        } else {
             $json = $request->getContent();
         }
 
         $page = $this->widgetPageDeserializer->deserialize($json);
 
-        return new JsonResponse([
+        return new JsonResponse(
+            [
             'page' => $page->jsonSerialize(),
             'preview' => 'preview ' . $_SERVER['REQUEST_TIME'],
-        ]);
+            ]
+        );
     }
 }
