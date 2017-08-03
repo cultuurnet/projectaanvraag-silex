@@ -1,7 +1,6 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Widget;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * The rendered used to render widget pages or widget details in javascript.
