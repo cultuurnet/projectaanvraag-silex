@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  * Provides widget related services.
@@ -63,7 +64,13 @@ class WidgetServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['widget_renderer'] = function(Container $pimple) {
-            return new Renderer();
+
+            /** @var RequestContext $requestContext */
+            $requestContext = $pimple['request_context'];
+            $renderer = new Renderer();
+            $renderer->addSettings(['apiUrl' => $requestContext->getScheme() . '://' . $requestContext->getHost() . $requestContext->getBaseUrl() . '/widgets/api']);
+
+            return $renderer;
         };
     }
 }

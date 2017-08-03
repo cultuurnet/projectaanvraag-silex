@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use CultuurNet\SearchV3\PagedCollection;
@@ -40,8 +41,10 @@ use MongoDB\Collection;
 use MongoDB\Model\BSONDocument;
 use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
 use SimpleBus\JMSSerializerBridge\SerializerMetadata;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Provides a controller to render widget pages and widgets.
@@ -148,12 +151,41 @@ print_r($test2);
         }
 
         return $javascriptResponse->getContent();
-
-        return new Response('<html><script type="text/javascript">' . $javascriptResponse->getContent() . '</script></html>');
     }
 
-    public function renderWidget()
+    /**
+     * Render the given widget and return it as a json response.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @param $widgetId
+     * @return JsonResponse
+     */
+    public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
+
+        $widget = NULL;
+        $rows = $widgetPage->getRows();
+
+        // Search for the requested widget.
+        foreach ($rows as $row) {
+            if ($row->hasWidget($widgetId)) {
+                $widget = $row->getWidget($widgetId);
+            }
+        }
+
+        if (empty($widget)) {
+            throw new NotFoundHttpException();
+        }
+
+        $response = new JsonResponse($this->renderer->renderWidget($widget));
+
+        // If this is a jsonp request, set the requested callback.
+        if ($request->query->has('callback')) {
+            $response->setCallback($request->query->get('callback'));
+        }
+
+        return $response;
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Widget;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * The rendered used to render widget pages or widget details in javascript.
@@ -19,12 +20,15 @@ class Renderer implements RendererInterface
     private $cssFiles = [];
 
     /**
-     * Renderer constructor.
+     * @var array
      */
-    public function __construct()
-    {
-        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/widgets.js');
-        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/placeholder-load.js');
+    private $settings = [];
+
+    /**
+     * @inheritDoc
+     */
+    public function addSettings(array $settings) {
+        $this->settings = array_merge($this->settings, $settings);
     }
 
     /**
@@ -33,12 +37,27 @@ class Renderer implements RendererInterface
     public function renderPage(WidgetPageInterface $widgetPage)
     {
 
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/widgets.js');
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/settings-loader.js');
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/placeholder-load.js');
+
         $output = '';
 
+        $widgetMapping = [];
         $rows = $widgetPage->getRows();
         foreach ($rows as $row) {
+
+            $widgetIds = $row->getWidgetIds();
+            foreach ($widgetIds as $widgetId) {
+                $widgetMapping[$widgetId] = $widgetPage->getId();
+            }
+
             $output .= $row->render();
         }
+
+        $this->addSettings(['widgetMapping' => $widgetMapping]);
+
+        $this->attachJavascript('CultuurnetWidgets.loadSettings(' . json_encode($this->settings) . ')', 'inline');
 
         return $output;
     }
@@ -54,9 +73,13 @@ class Renderer implements RendererInterface
     /**
      * @inheritDoc
      */
-    public function attachJavascript($path, $weight = 0)
+    public function attachJavascript($value, $type = 'file', $weight = 0)
     {
-        $this->jsFiles[$path] = $weight;
+        $this->jsFiles[] = [
+            'value' => $value,
+            'type' => $type,
+            'weight' => $weight
+        ];
     }
 
     /**
@@ -64,7 +87,10 @@ class Renderer implements RendererInterface
      */
     public function attachCss($path, $weight = 0)
     {
-        $this->cssFiles[$path] = $weight;
+        $this->cssFiles[] = [
+            'path' => $path,
+            'weight' => $weight
+        ];
     }
 
     /**
@@ -73,7 +99,7 @@ class Renderer implements RendererInterface
     public function getAttachedJs()
     {
         uasort($this->jsFiles, [$this, 'sortByWeight']);
-        return array_keys($this->jsFiles);
+        return $this->jsFiles;
     }
 
     /**
@@ -82,7 +108,7 @@ class Renderer implements RendererInterface
     public function getAttachedCss()
     {
         uasort($this->cssFiles, [$this, 'sortByWeight']);
-        return array_keys($this->cssFiles);
+        return $this->cssFiles;
     }
 
     /**

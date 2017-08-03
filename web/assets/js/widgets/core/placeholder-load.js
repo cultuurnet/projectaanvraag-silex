@@ -13,7 +13,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         attach: function(context) {
 
             $(context).find('[data-widget-placeholder-id]').each(function() {
-                CultuurnetWidgets.renderWidget()
+
+                var $placeholder = $(this);
+
+                CultuurnetWidgets.renderWidget($(this).data('widget-placeholder-id')).then(function(data) {
+                    $placeholder.html(data);
+                });
             })
 
         }

@@ -43,7 +43,7 @@ class JavascriptResponse extends Response
 
         $jsMinify = new JS();
         foreach ($attachments as $js) {
-            $jsMinify->add($js);
+            $jsMinify->add($js['value']);
         }
 
         // Css is printed via js method in the js response.
@@ -65,10 +65,9 @@ class JavascriptResponse extends Response
 
         $cssMinify = new CSS();
         foreach ($attachments as $css) {
-            $cssMinify->add($css);
+            $cssMinify->add($css['value']);
         }
 
-        // @todo Take decision: Save minified css locally and load it via stylesheet tag, or embed it as inline css. Current version => inline
         return 'CultuurnetWidgets.addStyle("' . $cssMinify->minify() .'");';
     }
 }
