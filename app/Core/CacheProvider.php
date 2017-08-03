@@ -10,8 +10,12 @@ use Guzzle\Http\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * Provides the different caching systems.
+ */
 class CacheProvider implements ServiceProviderInterface
 {
+
     /**
      * @inheritDoc
      */

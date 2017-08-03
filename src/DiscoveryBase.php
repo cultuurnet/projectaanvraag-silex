@@ -10,6 +10,9 @@ use Doctrine\Common\Cache\RedisCache;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Provides a base class for the discovery of annotations.
+ */
 class DiscoveryBase implements DiscoveryInterface
 {
 

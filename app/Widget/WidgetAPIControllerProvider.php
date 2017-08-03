@@ -9,8 +9,15 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
 
+/**
+ * Provides a provider for widget API requests.
+ */
 class WidgetAPIControllerProvider implements ControllerProviderInterface
 {
+
+    /**
+     * {@inheritdoc}
+     */
     public function connect(Application $app)
     {
 

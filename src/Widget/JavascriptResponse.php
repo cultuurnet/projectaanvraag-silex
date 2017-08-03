@@ -7,9 +7,17 @@ use MatthiasMullie\Minify\JS;
 use MatthiasMullie\Minify\Minify;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Provides a response class for javascript responses.
+ */
 class JavascriptResponse extends Response
 {
 
+    /**
+     * JavascriptResponse constructor.
+     * @param RendererInterface $renderer
+     * @param int $content
+     */
     public function __construct(RendererInterface $renderer, $content)
     {
         $content = $this->renderContent($content);
@@ -32,6 +40,8 @@ class JavascriptResponse extends Response
 
     /**
      * Render the javascript.
+     * @param RendererInterface $renderer
+     * @return string
      */
     private function renderJs(RendererInterface $renderer)
     {
@@ -54,6 +64,8 @@ class JavascriptResponse extends Response
 
     /**
      * Render the css.
+     * @param RendererInterface $renderer
+     * @return string
      */
     private function renderCss(RendererInterface $renderer)
     {

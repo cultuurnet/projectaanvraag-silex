@@ -72,6 +72,9 @@ class WidgetController
      */
     protected $widgetPageEntityDeserializer;
 
+    /**
+     * @var bool
+     */
     protected $debugMode;
 
     /**
