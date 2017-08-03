@@ -1,6 +1,7 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Project;
+
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -36,5 +37,4 @@ class ProjectConvertor
 
         return $project;
     }
-
 }

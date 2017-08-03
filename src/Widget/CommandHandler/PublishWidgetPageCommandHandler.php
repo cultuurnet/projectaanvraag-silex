@@ -15,12 +15,12 @@ class PublishWidgetPageCommandHandler
   /**
    * @var MessageBusSupportingMiddleware
    */
-  protected $eventBus;
+    protected $eventBus;
 
   /**
    * @var DocumentRepository
    */
-  protected $documentRepository;
+    protected $documentRepository;
 
   /**
    * CreateProjectCommandHandler constructor.
@@ -28,23 +28,23 @@ class PublishWidgetPageCommandHandler
    * @param MessageBusSupportingMiddleware $eventBus
    * @param DocumentRepository $documentRepository
    */
-  public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentRepository $documentRepository)
-  {
-    $this->eventBus = $eventBus;
-    $this->documentRepository = $documentRepository;
-  }
+    public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentRepository $documentRepository)
+    {
+        $this->eventBus = $eventBus;
+        $this->documentRepository = $documentRepository;
+    }
 
   /**
    * Handle the command
    *
    * @param PublishWidgetPage $widgetPage
    */
-  public function handle(PublishWidgetPage $widgetPage)
-  {
-    //@TODO implement publishing of the widget page
-   // die('handling publishing command');
+    public function handle(PublishWidgetPage $widgetPage)
+    {
+        //@TODO implement publishing of the widget page
+       // die('handling publishing command');
 
-    // Dispatch the event.
-    $this->eventBus->handle(new WidgetPagePublished(widgetPage));
-  }
+        // Dispatch the event.
+        $this->eventBus->handle(new WidgetPagePublished(widgetPage));
+    }
 }

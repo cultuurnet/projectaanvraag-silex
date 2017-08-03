@@ -48,7 +48,7 @@ class WidgetPageEntityDeserializer
         }
 
         if (isset($jsonObject['project_id'])) {
-            $widgetPageEntity->setProjectId((int)$jsonObject['project_id']);
+            $widgetPageEntity->setProjectId((int) $jsonObject['project_id']);
         }
 
         $rows = [];

@@ -13,11 +13,11 @@ class UpdateWidgetPageCommandHandler
   /**
    * @var MessageBusSupportingMiddleware
    */
-  protected $eventBus;
+    protected $eventBus;
 
-  protected $documentManager;
+    protected $documentManager;
 
-  protected $user;
+    protected $user;
 
     /**
      * CreateProjectCommandHandler constructor.
@@ -29,42 +29,41 @@ class UpdateWidgetPageCommandHandler
      *
      * @internal param DocumentRepository $documentRepository
      */
-  public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, UserInterface $user)
-  {
-    $this->eventBus = $eventBus;
-    $this->documentManager = $documentManager;
-    $this->user = $user;
-  }
+    public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, UserInterface $user)
+    {
+        $this->eventBus = $eventBus;
+        $this->documentManager = $documentManager;
+        $this->user = $user;
+    }
 
   /**
    * Handle the command
    *
    * @param UpdateWidgetPage $updateWidgetPage
    */
-  public function handle(UpdateWidgetPage $updateWidgetPage)
-  {
-      $originalWidgetPage = $updateWidgetPage->getWidgetPage();
-      $newWidgetPage = $updateWidgetPage->getNewWidgetPage();
+    public function handle(UpdateWidgetPage $updateWidgetPage)
+    {
+        $originalWidgetPage = $updateWidgetPage->getWidgetPage();
+        $newWidgetPage = $updateWidgetPage->getNewWidgetPage();
 
-      $widgetPageToSave = null;
-      if (!$originalWidgetPage->isDraft()) {
-          $widgetPageToSave = $newWidgetPage;
-          $widgetPageToSave->setCreatedByUser($originalWidgetPage->getCreatedByUser());
-      }
-      else {
-          $widgetPageToSave = $originalWidgetPage;
-          $widgetPageToSave->setRows($newWidgetPage->getRows());
-          $widgetPageToSave->setTitle($newWidgetPage->getTitle());
-          $widgetPageToSave->setCss($newWidgetPage->getCss());
-      }
+        $widgetPageToSave = null;
+        if (!$originalWidgetPage->isDraft()) {
+            $widgetPageToSave = $newWidgetPage;
+            $widgetPageToSave->setCreatedByUser($originalWidgetPage->getCreatedByUser());
+        } else {
+            $widgetPageToSave = $originalWidgetPage;
+            $widgetPageToSave->setRows($newWidgetPage->getRows());
+            $widgetPageToSave->setTitle($newWidgetPage->getTitle());
+            $widgetPageToSave->setCss($newWidgetPage->getCss());
+        }
 
-      $widgetPageToSave->setLastUpdatedByUser($this->user->id);
-      $widgetPageToSave->setAsDraft();
+        $widgetPageToSave->setLastUpdatedByUser($this->user->id);
+        $widgetPageToSave->setAsDraft();
 
-      $this->documentManager->persist($widgetPageToSave);
-      $this->documentManager->flush();
+        $this->documentManager->persist($widgetPageToSave);
+        $this->documentManager->flush();
 
-      // Dispatch the event.
-      $this->eventBus->handle(new WidgetPageUpdated($newWidgetPage));
-  }
+        // Dispatch the event.
+        $this->eventBus->handle(new WidgetPageUpdated($newWidgetPage));
+    }
 }

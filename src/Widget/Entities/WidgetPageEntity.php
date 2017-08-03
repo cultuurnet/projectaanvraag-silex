@@ -133,7 +133,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function isDraft()
     {
-      return $this->draft;
+        return $this->draft;
     }
 
     /**
@@ -141,7 +141,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function setAsDraft()
     {
-      $this->draft = TRUE;
+        $this->draft = true;
     }
 
     /**
@@ -149,7 +149,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function getProjectId()
     {
-      return $this->projectId;
+        return $this->projectId;
     }
 
     /**
@@ -157,7 +157,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function setProjectId($projectId)
     {
-      $this->projectId = $projectId;
+        $this->projectId = $projectId;
     }
 
     /**
@@ -165,7 +165,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function getLastUpdatedByUser()
     {
-      return $this->lastUpdatedByUser;
+        return $this->lastUpdatedByUser;
     }
 
     /**
@@ -173,7 +173,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function setLastUpdatedByUser($userID)
     {
-      $this->lastUpdatedByUser = $userID;
+        $this->lastUpdatedByUser = $userID;
     }
 
     /**
@@ -181,7 +181,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function getCreatedByUser()
     {
-      return $this->createdByUser;
+        return $this->createdByUser;
     }
 
     /**
@@ -189,7 +189,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function setCreatedByUser($userID)
     {
-      $this->createdByUser = $userID;
+        $this->createdByUser = $userID;
     }
 
     /**
@@ -232,5 +232,4 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'lastUpdatedByuser' => $this->lastUpdatedByUser,
         ];
     }
-
 }

@@ -109,15 +109,16 @@ class WidgetApiController
         $existingWidgetPages = [];
         if ($widgetPage->getId()) {
             // Load widgetPage
-            $existingWidgetPages = $this->widgetPageRepository->findBy([
+            $existingWidgetPages = $this->widgetPageRepository->findBy(
+                [
                 'id' => $widgetPage->getId(),
-            ]);
+                ]
+            );
         }
 
         if (count($existingWidgetPages) > 0) {
-
             // Search for a draft version.
-            $existingWidgetPage = NULL;
+            $existingWidgetPage = null;
             /** @var WidgetPageInterface $page */
             foreach ($existingWidgetPages as $page) {
                 if ($page->isDraft()) {
@@ -138,7 +139,6 @@ class WidgetApiController
 
             // Create an entity of the posted json via the deserializer
             $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $existingWidgetPage));
-
         } else {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
@@ -163,9 +163,11 @@ class WidgetApiController
 
         $page = $this->widgetPageDeserializer->deserialize($json);
 
-        return new JsonResponse([
+        return new JsonResponse(
+            [
             'page' => $page->jsonSerialize(),
             'preview' => 'preview ' . $_SERVER['REQUEST_TIME'],
-        ]);
+            ]
+        );
     }
 }

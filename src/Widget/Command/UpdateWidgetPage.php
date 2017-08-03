@@ -25,6 +25,4 @@ class UpdateWidgetPage extends WidgetCommand
     {
         return $this->newWidgetPage;
     }
-
-
 }

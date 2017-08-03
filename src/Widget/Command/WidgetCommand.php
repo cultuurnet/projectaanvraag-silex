@@ -11,32 +11,32 @@ abstract class WidgetCommand
    * @var WidgetPageInterface
    * @Type("CultuurNet\ProjectAanvraag\Entity\WidgetPage")
    */
-  private $widgetPage;
+    private $widgetPage;
 
   /**
    * DeleteProject constructor.
    * @param WidgetPageInterface $widgetPage
    */
-  public function __construct($widgetPage)
-  {
-    $this->widgetPage = $widgetPage;
-  }
+    public function __construct($widgetPage)
+    {
+        $this->widgetPage = $widgetPage;
+    }
 
   /**
    * @return WidgetPageInterface
    */
-  public function getWidgetPage()
-  {
-    return $this->widgetPage;
-  }
+    public function getWidgetPage()
+    {
+        return $this->widgetPage;
+    }
 
   /**
    * @param WidgetPageInterface $widgetPage
    * @return WidgetCommand
    */
-  public function setWidgetPage($widgetPage)
-  {
-    $this->widgetPage = $widgetPage;
-    return $this;
-  }
+    public function setWidgetPage($widgetPage)
+    {
+        $this->widgetPage = $widgetPage;
+        return $this;
+    }
 }
