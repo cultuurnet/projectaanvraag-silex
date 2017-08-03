@@ -164,7 +164,7 @@ print_r($test2);
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
 
-        $widget = NULL;
+        $widget = null;
         $rows = $widgetPage->getRows();
 
         // Search for the requested widget.

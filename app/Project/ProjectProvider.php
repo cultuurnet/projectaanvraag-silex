@@ -25,7 +25,7 @@ class ProjectProvider implements ServiceProviderInterface
             return new ProjectService($pimple['culturefeed'], $pimple['culturefeed_test'], $pimple['project_repository'], $pimple['integration_types.storage'], $pimple['uitid_user']);
         };
 
-        $pimple['project_converter'] = function(Container $pimple) {
+        $pimple['project_converter'] = function (Container $pimple) {
             return new ProjectConverter($pimple['project_repository']);
         };
     }

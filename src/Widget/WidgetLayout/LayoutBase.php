@@ -122,7 +122,8 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     /**
      * {@inheritdoc}
      */
-    public function hasWidget($widgetId) {
+    public function hasWidget($widgetId)
+    {
         return isset($this->widgets[$widgetId]);
     }
 

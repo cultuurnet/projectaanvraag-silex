@@ -12,5 +12,4 @@ interface ConverterInterface
      * Convert the given value.
      */
     public function convert($value);
-
 }

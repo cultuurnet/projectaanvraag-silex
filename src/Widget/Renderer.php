@@ -26,7 +26,8 @@ class Renderer implements RendererInterface
     /**
      * @inheritDoc
      */
-    public function addSettings(array $settings) {
+    public function addSettings(array $settings)
+    {
         $this->settings = array_merge($this->settings, $settings);
     }
 
@@ -45,7 +46,6 @@ class Renderer implements RendererInterface
         $widgetMapping = [];
         $rows = $widgetPage->getRows();
         foreach ($rows as $row) {
-
             $widgetIds = $row->getWidgetIds();
             foreach ($widgetIds as $widgetId) {
                 $widgetMapping[$widgetId] = $widgetPage->getId();

@@ -41,7 +41,7 @@ class DiscoveryBase implements DiscoveryInterface
      * Cache index to use.
      * @var string
      */
-    protected $cache_index;
+    protected $cacheIndex;
 
     /**
      * @var Cache
@@ -76,10 +76,9 @@ class DiscoveryBase implements DiscoveryInterface
             return;
         }
 
-        if ($this->cache->contains($this->cache_index)) {
-            $this->definitions = $this->cache->fetch($this->cache_index);
+        if ($this->cache->contains($this->cacheIndex)) {
+            $this->definitions = $this->cache->fetch($this->cacheIndex);
         } else {
-
             $this->definitions = [];
             foreach ($this->discoveryInfo as $info) {
                 $finder = new Finder();
@@ -102,7 +101,7 @@ class DiscoveryBase implements DiscoveryInterface
                 }
             }
 
-            $this->cache->save($this->cache_index, $this->definitions);
+            $this->cache->save($this->cacheIndex, $this->definitions);
         }
     }
 

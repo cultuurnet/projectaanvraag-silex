@@ -112,8 +112,7 @@ class WidgetApiController
         if ($request->query->has('render')) {
             if ($widget = $page->getWidget($request->query->get('render'))) {
                 $data['preview'] = $renderer->renderWidget($widget);
-            }
-            else {
+            } else {
                 $data['preview'] = '';
             }
         }

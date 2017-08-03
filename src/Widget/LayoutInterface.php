@@ -34,5 +34,4 @@ interface LayoutInterface extends \JsonSerializable
      * @return array
      */
     public function getWidgetIds();
-
 }

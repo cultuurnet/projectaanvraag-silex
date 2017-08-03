@@ -59,5 +59,4 @@ class WidgetPageConverter implements ConverterInterface
 
         return $page;
     }
-
 }

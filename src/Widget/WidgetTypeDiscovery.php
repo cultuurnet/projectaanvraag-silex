@@ -12,5 +12,5 @@ class WidgetTypeDiscovery extends DiscoveryBase
 
     protected $namespace = 'CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType';
 
-    protected $cache_index = 'annot.widget-types';
+    protected $cacheIndex = 'annot.widget-types';
 }

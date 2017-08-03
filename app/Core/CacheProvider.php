@@ -38,8 +38,6 @@ class CacheProvider implements ServiceProviderInterface
             if ($pimple['cache.annotations']['enabled']) {
                 return $pimple['cache_doctrine_' . $pimple['cache.annotations']['backend']];
             }
-
         };
-
     }
 }

@@ -188,7 +188,8 @@ class ApplicationBase extends SilexApplication
         Type::addType('page_rows', PageRows::class);
 
         $this->register(
-            new WidgetServiceProvider(), []
+            new WidgetServiceProvider(),
+            []
         );
 
         $this->register(new MessageBusProvider());
