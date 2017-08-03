@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Core;
 
 use CultuurNet\CulturefeedHttpGuzzle\HttpClient;
 use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
+use Doctrine\ODM\MongoDB\Id\UuidGenerator;
 use Guzzle\Http\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -59,6 +60,10 @@ class CoreProvider implements ServiceProviderInterface
          */
         $pimple['culturefeed_http_client_guzzle'] = function () {
             return new Client();
+        };
+
+        $pimple['uuid_generator'] = function () {
+            return new UuidGenerator();
         };
     }
 }
