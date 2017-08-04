@@ -83,6 +83,15 @@ class WidgetApiController
     }
 
     /**
+     * Get a widget page.
+     * @param WidgetPageInterface $widgetPage
+     */
+    public function getWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
+    {
+        // todo: validation on project id + validation on project edit access.
+    }
+
+    /**
      * Update a posted widget page.
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
@@ -101,40 +110,78 @@ class WidgetApiController
         //Load widget page if an ID was provided
         $existingWidgetPages = [];
         if ($widgetPage->getId()) {
-            $existingWidgetPages = $this->widgetPageRepository->findBy(
-                [
-                'id' => $widgetPage->getId(),
-                ]
-            );
+            $existingWidgetPages = $this->loadExistingWidgetPages($widgetPage->getId());
         }
 
         if (count($existingWidgetPages) > 0) {
-            // Validate if loaded project has the same project id
-            if ($existingWidgetPages[0]->getProjectId() != $widgetPage->getProjectId()) {
-                throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
-            }
+
+            $this->verifyProjectId($existingWidgetPages[0]->getProjectId(), $widgetPage->getProjectId());
 
             // Search for a draft version.
-            $existingWidgetPage = null;
-            /** @var WidgetPageInterface $page */
-            foreach ($existingWidgetPages as $page) {
-                if ($page->isDraft()) {
-                    $existingWidgetPage = $page;
-                    break;
-                }
-            }
+            $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
 
             // If no draft was found, use the published one as source.
-            if (empty($existingWidgetPage)) {
-                $existingWidgetPage = $existingWidgetPages[0];
+            if (empty($draftWidgetPage)) {
+                $draftWidgetPage = $existingWidgetPages[0];
             }
 
-            $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $existingWidgetPage));
+            $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $draftWidgetPage));
         } else {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
 
         return new JsonResponse($widgetPage->jsonSerialize());
+    }
+
+    /**
+     * Validate if loaded project has the same project id
+     *
+     * @param $existingWidgetPageId
+     * @param $newWidgetPageId
+     *
+     * @return bool
+     */
+    protected function verifyProjectId($existingWidgetPageId, $newWidgetPageId)
+    {
+        if ($existingWidgetPageId != $newWidgetPageId) {
+            throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
+        }
+    }
+
+    /**
+     * Load all the existing WidgetPages for a given ID
+     * @param Integer $pageId
+     *
+     * @return array
+     */
+    protected function loadExistingWidgetPages($pageId)
+    {
+        return $this->widgetPageRepository->findBy(
+            [
+                'id' => $pageId,
+            ]
+        );
+    }
+
+    /**
+     * Filter out the draft version out of a group of widget pages
+     * @param array $widgetPages
+     *
+     * @return WidgetPageInterface|null
+     */
+    protected function filterOutDraftPage(array $widgetPages)
+    {
+        $draftWidgetPage = null;
+
+        /** @var WidgetPageInterface $page */
+        foreach ($widgetPages as $page) {
+            if ($page->isDraft()) {
+                $draftWidgetPage = $page;
+                break;
+            }
+        }
+
+        return $draftWidgetPage;
     }
 
     /**
@@ -151,27 +198,14 @@ class WidgetApiController
        // }
 
         // Load the widget page.
-        $existingWidgetPages = $this->widgetPageRepository->findBy(
-            [
-                'id' => $pageId,
-            ]
-        );
+        $existingWidgetPages = $this->loadExistingWidgetPages($pageId);
 
         if (!empty($existingWidgetPages)) {
             // Validate if loaded project has the same project id
-            if ($existingWidgetPages[0]->getProjectId() != $project->getId()) {
-                throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
-            }
+            $this->verifyProjectId($existingWidgetPages[0]->getProjectId(), $project->getId());
 
             // Search for a draft version.
-            $draftWidgetPage = null;
-            /** @var WidgetPageInterface $page */
-            foreach ($existingWidgetPages as $page) {
-                if ($page->isDraft()) {
-                    $draftWidgetPage = $page;
-                    break;
-                }
-            }
+            $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
 
             if (empty($draftWidgetPage)) {
                 return new JsonResponse();
