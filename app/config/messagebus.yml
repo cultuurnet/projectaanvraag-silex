@@ -128,4 +128,5 @@ handlers:
           arguments:
               - event_bus
               - mongodbodm.dm
+              - widget_repository
               - uitid_user_session_data_complete

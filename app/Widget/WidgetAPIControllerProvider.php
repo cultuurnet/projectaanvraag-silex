@@ -2,9 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
-use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
 use CultuurNet\ProjectAanvraag\Widget\Controller\WidgetApiController;
-use CultuurNet\ProjectAanvraag\Widget\Controller\WidgetController;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
@@ -29,6 +27,8 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
         $controllers->get('api/widget-types', 'widget_builder_api_controller:getWidgetTypes');
         $controllers->put('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
+            ->convert('project', 'project_converter:convert');
+        $controllers->get('api/project/{project}/widget-page/{pageId}', 'widget_builder_api_controller:publishWidgetPage')
             ->convert('project', 'project_converter:convert');
         $controllers->put('api/test', 'widget_builder_api_controller:test');
         $controllers->post('api/test', 'widget_builder_api_controller:test');

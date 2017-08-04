@@ -63,6 +63,11 @@ interface WidgetPageInterface
     public function setAsDraft();
 
     /**
+     * Mark WidgetPage as Published
+     */
+    public function setAsPublished();
+
+    /**
      * Get the projectID
      *
      * @return string

@@ -2,29 +2,21 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
-use CultuurNet\ProjectAanvraag\Core\Exception\ValidationException;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
-use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
-use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\Serializer\SerializerBuilder;
 use Satooshi\Bundle\CoverallsV1Bundle\Entity\Exception\RequirementsNotSatisfiedException;
-use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -95,9 +87,9 @@ class WidgetApiController
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
     {
-//        if (!$this->authorizationChecker->isGranted('edit', $project)) {
-//            throw new AccessDeniedHttpException();
-//        }
+        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
+        //    throw new AccessDeniedHttpException();
+        //}
 
         $widgetPage = $this->widgetPageDeserializer->deserialize($request->getContent());
 
@@ -117,6 +109,11 @@ class WidgetApiController
         }
 
         if (count($existingWidgetPages) > 0) {
+            // Validate if loaded project has the same project id
+            if ($existingWidgetPages[0]->getProjectId() != $widgetPage->getProjectId()) {
+                throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
+            }
+
             // Search for a draft version.
             $existingWidgetPage = null;
             /** @var WidgetPageInterface $page */
@@ -132,17 +129,60 @@ class WidgetApiController
                 $existingWidgetPage = $existingWidgetPages[0];
             }
 
-            // Validate if loaded project has the same project id
-            if ($existingWidgetPages[0]->getProjectId() != $widgetPage->getProjectId()) {
-                throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
-            }
-
             $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $existingWidgetPage));
         } else {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
 
         return new JsonResponse($widgetPage->jsonSerialize());
+    }
+
+    /**
+     * Publish the requested widget page.
+     * @param ProjectInterface $project
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function publishWidgetPage(ProjectInterface $project, $pageId)
+    {
+       // if (!$this->authorizationChecker->isGranted('edit', $project)) {
+       //     throw new AccessDeniedHttpException();
+       // }
+
+        // Load the widget page.
+        $existingWidgetPages = $this->widgetPageRepository->findBy(
+            [
+                'id' => $pageId,
+            ]
+        );
+
+        if (!empty($existingWidgetPages)) {
+            // Validate if loaded project has the same project id
+            if ($existingWidgetPages[0]->getProjectId() != $project->getId()) {
+                throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
+            }
+
+            // Search for a draft version.
+            $draftWidgetPage = null;
+            /** @var WidgetPageInterface $page */
+            foreach ($existingWidgetPages as $page) {
+                if ($page->isDraft()) {
+                    $draftWidgetPage = $page;
+                    break;
+                }
+            }
+
+            if (empty($draftWidgetPage)) {
+                return new JsonResponse();
+            }
+
+            $this->commandBus->handle(new PublishWidgetPage($draftWidgetPage));
+        } else {
+            throw new RequirementsNotSatisfiedException('No Widget Page was found');
+        }
+
+        return new JsonResponse();
     }
 
     /**

@@ -148,6 +148,14 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
+    public function setAsPublished()
+    {
+        $this->draft = false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getProjectId()
     {
         return $this->projectId;

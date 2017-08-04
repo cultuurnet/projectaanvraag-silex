@@ -2,8 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
-use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
-use CultuurNet\ProjectAanvraag\Widget\Controller\WidgetApiController;
 use CultuurNet\ProjectAanvraag\Widget\Controller\WidgetController;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;

@@ -11,12 +11,35 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 class PublishWidgetPage extends WidgetCommand
 {
     /**
-     * PublishWidgetPage constructor.
+     * @var WidgetPageInterface
+     */
+    protected $widgetPage;
+
+    /**
+     * CreateWidgetPage constructor.
      *
      * @param WidgetPageInterface $widgetPage
      */
     public function __construct(WidgetPageInterface $widgetPage)
     {
+        $this->widgetPage = $widgetPage;
+
         parent::__construct($widgetPage);
+    }
+
+    /**
+     * Mark widget page as draft version
+     */
+    public function setAsPublished()
+    {
+        $this->widgetPage->setAsPublished();
+    }
+
+    /***
+     * @param $userID
+     */
+    public function setLastUpdatedUser($userID)
+    {
+        $this->widgetPage->setLastUpdatedByUser($userID);
     }
 }
