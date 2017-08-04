@@ -4,6 +4,10 @@ namespace CultuurNet\ProjectAanvraag\Widget\Command;
 
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 
+/**
+ * Class UpdateWidgetPage
+ * @package CultuurNet\ProjectAanvraag\Widget\Command
+ */
 class UpdateWidgetPage extends WidgetCommand
 {
 
@@ -12,6 +16,12 @@ class UpdateWidgetPage extends WidgetCommand
      */
     protected $newWidgetPage;
 
+    /**
+     * UpdateWidgetPage constructor.
+     *
+     * @param WidgetPageInterface $newWidgetPage
+     * @param WidgetPageInterface $existingWidgetPage
+     */
     public function __construct(WidgetPageInterface $newWidgetPage, WidgetPageInterface $existingWidgetPage)
     {
         parent::__construct($existingWidgetPage);
