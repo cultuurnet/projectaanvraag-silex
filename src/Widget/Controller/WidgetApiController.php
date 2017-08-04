@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
@@ -17,6 +18,7 @@ use Satooshi\Bundle\CoverallsV1Bundle\Entity\Exception\RequirementsNotSatisfiedE
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -88,12 +90,7 @@ class WidgetApiController
      */
     public function getWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
-        // todo: validation on project id + validation on project edit access.
-        $this->verifyProjectId($project->getId(), $widgetPage->getProjectId());
-
-        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
-        //    throw new AccessDeniedHttpException();
-        //}
+        $this->verifyProjectAccess($project, $widgetPage);
 
         return new JsonResponse($widgetPage);
     }
@@ -103,16 +100,11 @@ class WidgetApiController
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
     {
-        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
-        //    throw new AccessDeniedHttpException();
-        //}
 
         $widgetPage = $this->widgetPageDeserializer->deserialize($request->getContent());
 
-        // Check if projectID of the request is the same as the projectID in the url
-        if ($widgetPage->getProjectId() !== $project->getId()) {
-            throw new RequirementsNotSatisfiedException('ProjectIds do not match');
-        }
+        // Check if user has edit access.
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
 
         //Load widget page if an ID was provided
         $existingWidgetPages = [];
@@ -161,14 +153,14 @@ class WidgetApiController
      */
     public function publishWidgetPage(ProjectInterface $project, $pageId)
     {
-       // if (!$this->authorizationChecker->isGranted('edit', $project)) {
-       //     throw new AccessDeniedHttpException();
-       // }
 
         // Load the widget page.
         $existingWidgetPages = $this->loadExistingWidgetPages($pageId);
 
         if (!empty($existingWidgetPages)) {
+            // Check if user has edit access.
+            $this->verifyProjectAccess($project, $existingWidgetPages[0], ProjectVoter::EDIT);
+
             // Validate if loaded project has the same project id
             $this->verifyProjectId($existingWidgetPages[0]->getProjectId(), $project->getId());
 
@@ -217,6 +209,23 @@ class WidgetApiController
         return new JsonResponse($data);
     }
 
+
+    /**
+     * Validate if the user has access to given project, for a given widget page.
+     * @param ProjectInterface $project
+     * @param WidgetPageInterface $widgetPage
+     * @param string $access
+     */
+    protected function verifyProjectAccess(ProjectInterface $project, WidgetPageInterface $widgetPage, $access = ProjectVoter::VIEW)
+    {
+        if ($project->getId() != $widgetPage->getProjectId()) {
+            throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the current project.');
+        }
+
+        if (!$this->authorizationChecker->isGranted($access, $project)) {
+            throw new AccessDeniedHttpException();
+        }
+    }
 
     /**
      * Validate if loaded project has the same project id

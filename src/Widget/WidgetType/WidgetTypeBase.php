@@ -108,6 +108,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     public function jsonSerialize()
     {
         return [
+            'id' => $this->id,
             'type' => $this->pluginDefinition['annotation']->getId(),
             'settings' => $this->settings,
         ];
