@@ -74,14 +74,13 @@ class WidgetPageConverter implements ConverterInterface
             ]
         );
 
-        $pageToLoad = NULL;
+        $pageToLoad = null;
         foreach ($pages as $page) {
             if ($page->isDraft()) {
                 return $page;
             }
 
             $pageToLoad = $page;
-
         }
 
         if (empty($pageToLoad)) {

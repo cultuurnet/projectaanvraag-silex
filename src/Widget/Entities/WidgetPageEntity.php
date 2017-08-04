@@ -36,6 +36,13 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * @var string
      *
+     * @ODM\Field(type="integer")
+     */
+    protected $version;
+
+    /**
+     * @var string
+     *
      * @ODM\Field(type="string")
      */
     protected $title;
@@ -57,23 +64,37 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * @var string
      *
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="string", name="project_id")
      */
     protected $projectId;
 
     /**
      * @var string
      *
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="timestamp")
      */
-    protected $createdByUser;
+    protected $created;
 
     /**
      * @var string
      *
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="string", name="created_by")
      */
-    protected $lastUpdatedByUser;
+    protected $createdBy;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="timestamp", name="last_updated")
+     */
+    protected $lastUpdated;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="last_updated_by")
+     */
+    protected $lastUpdatedBy;
 
     /**
      * @var
@@ -94,6 +115,24 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     * @return WidgetPageEntity
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
     }
 
     /**
@@ -148,7 +187,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function setAsPublished()
+    public function publish()
     {
         $this->draft = false;
     }
@@ -172,33 +211,69 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function getLastUpdatedByUser()
+    public function getLastUpdatedBy()
     {
-        return $this->lastUpdatedByUser;
+        return $this->lastUpdatedBy;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setLastUpdatedByUser($userID)
+    public function setLastUpdatedBy($userID)
     {
-        $this->lastUpdatedByUser = $userID;
+        $this->lastUpdatedBy = $userID;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCreatedByUser()
+    public function getCreatedBy()
     {
-        return $this->createdByUser;
+        return $this->createdBy;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setCreatedByUser($userID)
+    public function setCreatedBy($userID)
     {
-        $this->createdByUser = $userID;
+        $this->createdBy = $userID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param string $created
+     * @return WidgetPageEntity
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastUpdated()
+    {
+        return $this->lastUpdated;
+    }
+
+    /**
+     * @param string $updated
+     * @return WidgetPageEntity
+     */
+    public function setLastUpdated($updated)
+    {
+        $this->lastUpdated = $updated;
+        return $this;
     }
 
     /**
@@ -246,12 +321,15 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
 
         return [
             'id' => $this->id,
+            'version' => $this->version,
             'title' => $this->title,
             'rows' => $rows,
             'draft' => $this->draft,
             'project_id' => $this->projectId,
-            'createdByUser' => $this->createdByUser,
-            'lastUpdatedByuser' => $this->lastUpdatedByUser,
+            'created_by' => $this->createdBy,
+            'last_updated_by' => $this->lastUpdatedBy,
+            'created' => $this->created,
+            'last_updated' => $this->lastUpdated,
         ];
     }
 }

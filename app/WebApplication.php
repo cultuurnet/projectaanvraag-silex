@@ -155,7 +155,7 @@ class WebApplication extends ApplicationBase
         );
 
         $this->mount(
-            'widget',
+            'widgets',
             new WidgetAPIControllerProvider()
         );
 

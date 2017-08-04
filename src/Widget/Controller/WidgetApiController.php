@@ -99,7 +99,7 @@ class WidgetApiController
     }
 
     /**
-     * Update a posted widget page.
+     * Update or create a posted widget page.
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
     {
@@ -121,7 +121,6 @@ class WidgetApiController
         }
 
         if (count($existingWidgetPages) > 0) {
-
             $this->verifyProjectId($existingWidgetPages[0]->getProjectId(), $widgetPage->getProjectId());
 
             // Search for a draft version.
@@ -137,7 +136,20 @@ class WidgetApiController
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
 
-        return new JsonResponse($widgetPage->jsonSerialize());
+        $data = [
+            'widgetPage' => $widgetPage->jsonSerialize(),
+        ];
+
+        $renderer = new Renderer();
+        if ($request->query->has('render')) {
+            if ($widget = $widgetPage->getWidget($request->query->get('render'))) {
+                $data['preview'] = $renderer->renderWidget($widget);
+            } else {
+                $data['preview'] = '';
+            }
+        }
+
+        return new JsonResponse($data);
     }
 
     /**
@@ -205,6 +217,7 @@ class WidgetApiController
         return new JsonResponse($data);
     }
 
+
     /**
      * Validate if loaded project has the same project id
      *
@@ -243,17 +256,13 @@ class WidgetApiController
      */
     protected function filterOutDraftPage(array $widgetPages)
     {
-        $draftWidgetPage = null;
 
         /** @var WidgetPageInterface $page */
         foreach ($widgetPages as $page) {
             if ($page->isDraft()) {
-                $draftWidgetPage = $page;
+                return $page;
                 break;
             }
         }
-
-        return $draftWidgetPage;
     }
-
 }

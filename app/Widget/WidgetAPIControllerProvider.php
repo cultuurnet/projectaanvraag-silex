@@ -25,11 +25,17 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
 
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
+
         $controllers->get('api/widget-types', 'widget_builder_api_controller:getWidgetTypes');
+
         $controllers->put('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
-        $controllers->post('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
+        $controllers->get('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
+
+        $controllers->get('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
+            ->convert('project', 'project_converter:convert');
+
         $controllers->put('api/test', 'widget_builder_api_controller:test');
         $controllers->post('api/test', 'widget_builder_api_controller:test');
         $controllers->get('api/test', 'widget_builder_api_controller:test');

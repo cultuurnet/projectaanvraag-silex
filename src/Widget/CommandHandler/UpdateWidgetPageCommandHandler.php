@@ -4,9 +4,13 @@ namespace CultuurNet\ProjectAanvraag\Widget\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPageUpdated;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
+/**
+ * Provides a command handler to update a given widget page.
+ */
 class UpdateWidgetPageCommandHandler
 {
 
@@ -55,7 +59,7 @@ class UpdateWidgetPageCommandHandler
         $widgetPageToSave = null;
         if (!$originalWidgetPage->isDraft()) {
             $widgetPageToSave = $newWidgetPage;
-            $widgetPageToSave->setCreatedByUser($originalWidgetPage->getCreatedByUser());
+            $widgetPageToSave->setCreatedBy($originalWidgetPage->getCreatedBy());
         } else {
             $widgetPageToSave = $originalWidgetPage;
             $widgetPageToSave->setRows($newWidgetPage->getRows());
@@ -63,13 +67,14 @@ class UpdateWidgetPageCommandHandler
             $widgetPageToSave->setCss($newWidgetPage->getCss());
         }
 
-        $widgetPageToSave->setLastUpdatedByUser($this->user->id);
+        $widgetPageToSave->setLastUpdatedBy($this->user->id);
+        $widgetPageToSave->setLastUpdated($_SERVER['REQUEST_TIME']);
         $widgetPageToSave->setAsDraft();
 
         $this->documentManager->persist($widgetPageToSave);
         $this->documentManager->flush();
 
         // Dispatch the event.
-        $this->eventBus->handle(new WidgetPageUpdated($newWidgetPage));
+        //$this->eventBus->handle(new WidgetPageUpdated($newWidgetPage, $originalWidgetPage));
     }
 }

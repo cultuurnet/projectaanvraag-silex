@@ -9,6 +9,11 @@ interface WidgetPageInterface
 {
 
     /**
+     * Current version of widgets.
+     */
+    const CURRENT_VERSION = 3;
+
+    /**
      * Get the id of the page.
      *
      * @return string
@@ -21,6 +26,20 @@ interface WidgetPageInterface
      * @param string $id
      */
     public function setId($id);
+
+    /**
+     * Get the version number of this widget.
+     *
+     * @return int
+     */
+    public function getVersion();
+
+    /**
+     * Set the version number of this widget.
+     *
+     * @param int $version
+     */
+    public function setVersion($version);
 
     /**
      * Set the title of the page.
@@ -65,7 +84,7 @@ interface WidgetPageInterface
     /**
      * Mark WidgetPage as Published
      */
-    public function setAsPublished();
+    public function publish();
 
     /**
      * Get the projectID
@@ -82,32 +101,60 @@ interface WidgetPageInterface
     public function setProjectId($projectId);
 
     /**
-     * Get the user who last updated this
+     * Get the user who last updated this.
      *
      * @return string
      */
-    public function getLastUpdatedByUser();
+    public function getLastUpdated();
 
     /**
-     * Set the user who last updated this
+     * Set the last updated date as timestamp.
      *
-     * @param string $userID
+     * @param int $lastUpdated
      */
-    public function setLastUpdatedByUser($userID);
+    public function setLastUpdated($lastUpdated);
 
     /**
-     * Get the user who created this
+     * Get the user who last updated this.
      *
      * @return string
      */
-    public function getCreatedByUser();
+    public function getLastUpdatedBy();
 
     /**
-     * Set the user who created this WidgetPage
+     * Set the user who last updated this.
      *
      * @param string $userID
      */
-    public function setCreatedByUser($userID);
+    public function setLastUpdatedBy($userID);
+
+    /**
+     * Get the user who created this.
+     *
+     * @return string
+     */
+    public function getCreatedBy();
+
+    /**
+     * Set the user who created this WidgetPage.
+     *
+     * @param string $userID
+     */
+    public function setCreatedBy($userID);
+
+    /**
+     * Get the creation date.
+     *
+     * @return string
+     */
+    public function getCreated();
+
+    /**
+     * Set the creation date as timestamp.
+     *
+     * @param int $created
+     */
+    public function setCreated($created);
 
     /**
      * Set the css that needs to be applied to the current page.

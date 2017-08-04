@@ -4,16 +4,16 @@ namespace CultuurNet\ProjectAanvraag\Widget\Event;
 
 use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use JMS\Serializer\Annotation\Type;
 
 /**
- * Class WidgetPageEvent
- * @package CultuurNet\ProjectAanvraag\Widget\Event
+ * Provides an abstract class for widget page events.
  */
 abstract class WidgetPageEvent extends AbstractRetryableMessage
 {
     /**
-     * @var WidgetPageEntity
+     * @var WidgetPageInterface
      * @Type("CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity")
      */
     private $widgetPage;
@@ -21,17 +21,17 @@ abstract class WidgetPageEvent extends AbstractRetryableMessage
     /**
      * WidgetPage constructor.
      *
-     * @param WidgetPageEntity $widgetPage
+     * @param WidgetPageInterface $widgetPage
      * @param int $delay
      */
-    public function __construct($project, $delay = 0)
+    public function __construct(WidgetPageInterface $widgetPage, $delay = 0)
     {
-        $this->project = $project;
+        $this->widgetPage = $widgetPage;
         $this->delay = $delay;
     }
 
     /**
-     * @return WidgetPageEntity
+     * @return WidgetPageInterface
      */
     public function getWidgetPage()
     {
@@ -41,11 +41,11 @@ abstract class WidgetPageEvent extends AbstractRetryableMessage
     /**
      * @param $widgetPage
      *
-     * @return WidgetPageEvent
+     * @return WidgetPageInterface
      */
     public function setWidgetPage($widgetPage)
     {
-        $this->$widgetPage = $widgetPage;
+        $this->widgetPage = $widgetPage;
 
         return $this;
     }
