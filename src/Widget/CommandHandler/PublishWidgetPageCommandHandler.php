@@ -10,8 +10,7 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 /**
- * Class PublishWidgetPageCommandHandler
- * @package CultuurNet\ProjectAanvraag\Widget\CommandHandler
+ * Provides a command handler to publish a given widget page.
  */
 class PublishWidgetPageCommandHandler
 {
@@ -75,13 +74,13 @@ class PublishWidgetPageCommandHandler
             ->getQuery()
             ->execute();
 
-        $originalWidgetPage->setLastUpdatedByUser($this->user->id);
-        $originalWidgetPage->setAsPublished();
+        $originalWidgetPage->setLastUpdatedBy($this->user->id);
+        $originalWidgetPage->publish();
 
         $this->documentManager->persist($originalWidgetPage);
         $this->documentManager->flush();
 
         // Dispatch the event.
-        $this->eventBus->handle(new WidgetPagePublished($originalWidgetPage));
+        //$this->eventBus->handle(new WidgetPagePublished($originalWidgetPage));
     }
 }

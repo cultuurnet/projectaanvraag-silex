@@ -184,17 +184,14 @@ class WidgetApiController
      */
     protected function filterOutDraftPage(array $widgetPages)
     {
-        $draftWidgetPage = null;
 
         /** @var WidgetPageInterface $page */
         foreach ($widgetPages as $page) {
             if ($page->isDraft()) {
-                $draftWidgetPage = $page;
+                return $page;
                 break;
             }
         }
-
-        return $draftWidgetPage;
     }
 
     /**

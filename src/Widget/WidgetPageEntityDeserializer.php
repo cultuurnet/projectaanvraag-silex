@@ -46,7 +46,13 @@ class WidgetPageEntityDeserializer
             $widgetPageEntity->setId($jsonObject['id']);
         }
 
-        $widgetPageEntity->setTitle($jsonObject['title']);
+        if (isset($jsonObject['version'])) {
+            $widgetPageEntity->setVersion($jsonObject['version']);
+        }
+
+        if (isset($jsonObject['title'])) {
+            $widgetPageEntity->setTitle($jsonObject['title']);
+        }
 
         if (isset($jsonObject['id'])) {
             $widgetPageEntity->setId($jsonObject['id']);
@@ -54,6 +60,22 @@ class WidgetPageEntityDeserializer
 
         if (isset($jsonObject['project_id'])) {
             $widgetPageEntity->setProjectId((int) $jsonObject['project_id']);
+        }
+
+        if (isset($jsonObject['created_by'])) {
+            $widgetPageEntity->setCreatedBy($jsonObject['created_by']);
+        }
+
+        if (isset($jsonObject['last_updated_by'])) {
+            $widgetPageEntity->setLastUpdatedBy($jsonObject['last_updated_by']);
+        }
+
+        if (isset($jsonObject['created'])) {
+            $widgetPageEntity->setCreated($jsonObject['created']);
+        }
+
+        if (isset($jsonObject['last_updated'])) {
+            $widgetPageEntity->setLastUpdated($jsonObject['last_updated']);
         }
 
         $rows = [];
