@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <ruleset name="Projectaanvraag">
+
+    <exclude-pattern>*/cache/*</exclude-pattern>
+
     <rule ref="PSR2" />
 
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">

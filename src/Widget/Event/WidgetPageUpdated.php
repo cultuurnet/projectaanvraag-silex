@@ -35,5 +35,4 @@ class WidgetPageUpdated extends WidgetPageEvent
     {
         return $this->newWidgetPage;
     }
-
 }

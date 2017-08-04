@@ -114,7 +114,6 @@ class WidgetApiController
         }
 
         if (count($existingWidgetPages) > 0) {
-
             $this->verifyProjectId($existingWidgetPages[0]->getProjectId(), $widgetPage->getProjectId());
 
             // Search for a draft version.
