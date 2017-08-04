@@ -10,6 +10,10 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\Id\UuidGenerator;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
+/**
+ * Class CreateWidgetPageCommandHandler
+ * @package CultuurNet\ProjectAanvraag\Widget\CommandHandler
+ */
 class CreateWidgetPageCommandHandler
 {
 
@@ -24,7 +28,7 @@ class CreateWidgetPageCommandHandler
     protected $documentManager;
 
     /**
-     * @var UitIdUserInterface
+     * @var UserInterface
      */
     protected $user;
 
@@ -38,7 +42,7 @@ class CreateWidgetPageCommandHandler
      *
      * @param MessageBusSupportingMiddleware $eventBus
      * @param DocumentRepository $documentRepository
-     * @param UitIdUserInterface $user
+     * @param UserInterface $user
      */
     public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, UserInterface $user, UuidGenerator $uuidGenerator)
     {
@@ -55,13 +59,11 @@ class CreateWidgetPageCommandHandler
      */
     public function handle(CreateWidgetPage $createWidgetPage)
     {
-
         $widgetPage = $createWidgetPage->getWidgetPage();
         $widgetPage->setId($this->uuidGenerator->generate($this->documentManager, $widgetPage));
         $widgetPage->setAsDraft();
         $widgetPage->setCreatedByUser($this->user->id);
         $widgetPage->setLastUpdatedByUser($this->user->id);
-
 
         // Save the project to the local database.
         $this->documentManager->persist($widgetPage);

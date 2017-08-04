@@ -10,13 +10,19 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 class UpdateWidgetPageCommandHandler
 {
 
-  /**
-   * @var MessageBusSupportingMiddleware
-   */
+    /**
+     * @var MessageBusSupportingMiddleware
+     */
     protected $eventBus;
 
+    /**
+     * @var DocumentManager
+     */
     protected $documentManager;
 
+    /**
+     * @var UserInterface
+     */
     protected $user;
 
     /**
@@ -36,17 +42,17 @@ class UpdateWidgetPageCommandHandler
         $this->user = $user;
     }
 
-  /**
-   * Handle the command
-   *
-   * @param UpdateWidgetPage $updateWidgetPage
-   */
+    /**
+     * Handle the command
+     *
+     * @param UpdateWidgetPage $updateWidgetPage
+     */
     public function handle(UpdateWidgetPage $updateWidgetPage)
     {
         $originalWidgetPage = $updateWidgetPage->getWidgetPage();
         $newWidgetPage = $updateWidgetPage->getNewWidgetPage();
 
-        $widgetPageToSave = null;
+        $widgetPageToSave = NULL;
         if (!$originalWidgetPage->isDraft()) {
             $widgetPageToSave = $newWidgetPage;
             $widgetPageToSave->setCreatedByUser($originalWidgetPage->getCreatedByUser());
