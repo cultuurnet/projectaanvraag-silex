@@ -77,7 +77,7 @@ class Renderer implements RendererInterface
         $this->jsFiles[] = [
             'value' => $value,
             'type' => $type,
-            'weight' => $weight
+            'weight' => $weight,
         ];
     }
 
@@ -88,7 +88,7 @@ class Renderer implements RendererInterface
     {
         $this->cssFiles[] = [
             'path' => $path,
-            'weight' => $weight
+            'weight' => $weight,
         ];
     }
 
