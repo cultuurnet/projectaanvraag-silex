@@ -5,8 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Command;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 
 /**
- * Class UpdateWidgetPage
- * @package CultuurNet\ProjectAanvraag\Widget\Command
+ * Provides a command to update a widget.
  */
 class UpdateWidgetPage extends WidgetCommand
 {
