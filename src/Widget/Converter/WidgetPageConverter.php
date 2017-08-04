@@ -41,11 +41,10 @@ class WidgetPageConverter implements ConverterInterface
      */
     public function convert($id)
     {
-
         /** @var WidgetPageEntity $page */
-        /*$page = $this->widgetRepository->findOneBy(
+       /* $json = $this->widgetPageRepository->findOneBy(
             [
-            'id' => '593fb8455722ed4df9064183',
+                'id' => $id,
             ]
         );*/
 
@@ -58,5 +57,36 @@ class WidgetPageConverter implements ConverterInterface
         }
 
         return $page;
+    }
+
+    /**
+     * Convert the given id to the draft version of a page (or published if no draft exists).
+     * @param $id
+     *
+     * @return WidgetPageEntity|null
+     */
+    public function convertToDraft($id)
+    {
+        /** @var WidgetPageEntity $page */
+        $pages = $this->widgetPageRepository->findBy(
+            [
+                'id' => $id,
+            ]
+        );
+
+        $pageToLoad = null;
+        foreach ($pages as $page) {
+            if ($page->isDraft()) {
+                return $page;
+            }
+
+            $pageToLoad = $page;
+        }
+
+        if (empty($pageToLoad)) {
+            throw new NotFoundHttpException('The project was not found');
+        }
+
+        return $pageToLoad;
     }
 }
