@@ -250,8 +250,8 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'rows' => $rows,
             'draft' => $this->draft,
             'project_id' => $this->projectId,
-            'createdByUser' => $this->createdByUser,
-            'lastUpdatedByuser' => $this->lastUpdatedByUser,
+            'created_by' => $this->createdByUser,
+            'last_updated_by' => $this->lastUpdatedByUser,
         ];
     }
 }

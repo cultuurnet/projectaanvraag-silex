@@ -92,7 +92,7 @@ class WidgetApiController
     }
 
     /**
-     * Update a posted widget page.
+     * Update or create a posted widget page.
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
     {
@@ -130,7 +130,20 @@ class WidgetApiController
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
 
-        return new JsonResponse($widgetPage->jsonSerialize());
+        $data = [
+            'widgetPage' => $widgetPage->jsonSerialize(),
+        ];
+
+        $renderer = new Renderer();
+        if ($request->query->has('render')) {
+            if ($widget = $widgetPage->getWidget($request->query->get('render'))) {
+                $data['preview'] = $renderer->renderWidget($widget);
+            } else {
+                $data['preview'] = '';
+            }
+        }
+
+        return new JsonResponse($data);
     }
 
     /**
