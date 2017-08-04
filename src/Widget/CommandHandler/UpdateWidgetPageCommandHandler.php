@@ -52,7 +52,7 @@ class UpdateWidgetPageCommandHandler
         $originalWidgetPage = $updateWidgetPage->getWidgetPage();
         $newWidgetPage = $updateWidgetPage->getNewWidgetPage();
 
-        $widgetPageToSave = NULL;
+        $widgetPageToSave = null;
         if (!$originalWidgetPage->isDraft()) {
             $widgetPageToSave = $newWidgetPage;
             $widgetPageToSave->setCreatedByUser($originalWidgetPage->getCreatedByUser());
