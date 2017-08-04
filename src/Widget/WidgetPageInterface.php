@@ -125,5 +125,4 @@ interface WidgetPageInterface
      * @return WidgetTypeInterface|null
      */
     public function getWidget($widgetId);
-
 }
