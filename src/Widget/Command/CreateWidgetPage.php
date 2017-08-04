@@ -10,7 +10,6 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
  */
 class CreateWidgetPage extends WidgetCommand
 {
-
     /**
      * @var WidgetPageInterface
      */

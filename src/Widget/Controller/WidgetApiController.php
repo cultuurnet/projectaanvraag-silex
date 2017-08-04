@@ -89,6 +89,13 @@ class WidgetApiController
     public function getWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
         // todo: validation on project id + validation on project edit access.
+        $this->verifyProjectId($project->getId(), $widgetPage->getProjectId());
+
+        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
+        //    throw new AccessDeniedHttpException();
+        //}
+
+        return new JsonResponse($widgetPage);
     }
 
     /**
@@ -131,57 +138,6 @@ class WidgetApiController
         }
 
         return new JsonResponse($widgetPage->jsonSerialize());
-    }
-
-    /**
-     * Validate if loaded project has the same project id
-     *
-     * @param $existingWidgetPageId
-     * @param $newWidgetPageId
-     *
-     * @return bool
-     */
-    protected function verifyProjectId($existingWidgetPageId, $newWidgetPageId)
-    {
-        if ($existingWidgetPageId != $newWidgetPageId) {
-            throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
-        }
-    }
-
-    /**
-     * Load all the existing WidgetPages for a given ID
-     * @param Integer $pageId
-     *
-     * @return array
-     */
-    protected function loadExistingWidgetPages($pageId)
-    {
-        return $this->widgetPageRepository->findBy(
-            [
-                'id' => $pageId,
-            ]
-        );
-    }
-
-    /**
-     * Filter out the draft version out of a group of widget pages
-     * @param array $widgetPages
-     *
-     * @return WidgetPageInterface|null
-     */
-    protected function filterOutDraftPage(array $widgetPages)
-    {
-        $draftWidgetPage = null;
-
-        /** @var WidgetPageInterface $page */
-        foreach ($widgetPages as $page) {
-            if ($page->isDraft()) {
-                $draftWidgetPage = $page;
-                break;
-            }
-        }
-
-        return $draftWidgetPage;
     }
 
     /**
@@ -248,4 +204,56 @@ class WidgetApiController
 
         return new JsonResponse($data);
     }
+
+    /**
+     * Validate if loaded project has the same project id
+     *
+     * @param $existingWidgetPageId
+     * @param $newWidgetPageId
+     *
+     * @return bool
+     */
+    protected function verifyProjectId($existingWidgetPageId, $newWidgetPageId)
+    {
+        if ($existingWidgetPageId != $newWidgetPageId) {
+            throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
+        }
+    }
+
+    /**
+     * Load all the existing WidgetPages for a given ID
+     * @param Integer $pageId
+     *
+     * @return array
+     */
+    protected function loadExistingWidgetPages($pageId)
+    {
+        return $this->widgetPageRepository->findBy(
+            [
+                'id' => $pageId,
+            ]
+        );
+    }
+
+    /**
+     * Filter out the draft version out of a group of widget pages
+     * @param array $widgetPages
+     *
+     * @return WidgetPageInterface|null
+     */
+    protected function filterOutDraftPage(array $widgetPages)
+    {
+        $draftWidgetPage = null;
+
+        /** @var WidgetPageInterface $page */
+        foreach ($widgetPages as $page) {
+            if ($page->isDraft()) {
+                $draftWidgetPage = $page;
+                break;
+            }
+        }
+
+        return $draftWidgetPage;
+    }
+
 }
