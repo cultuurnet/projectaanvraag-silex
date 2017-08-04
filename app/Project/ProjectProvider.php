@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
+use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

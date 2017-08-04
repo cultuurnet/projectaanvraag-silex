@@ -19,11 +19,26 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
 {
 
     /**
+     * The internal mongodb id.
      * @var string
      *
-     * @ODM\Id
+     * @ODM\Id(strategy="UUID", type="string")
+     */
+    protected $internalId;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="integer")
+     */
+    protected $version;
 
     /**
      * @var string
@@ -40,6 +55,53 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $rows;
 
     /**
+     * @var boolean
+     *
+     * @ODM\Field(type="boolean")
+     */
+    protected $draft;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="project_id")
+     */
+    protected $projectId;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="timestamp")
+     */
+    protected $created;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="created_by")
+     */
+    protected $createdBy;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="timestamp", name="last_updated")
+     */
+    protected $lastUpdated;
+
+    /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="last_updated_by")
+     */
+    protected $lastUpdatedBy;
+
+    /**
+     * @var
+     */
+    protected $css;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -53,6 +115,24 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     * @return WidgetPageEntity
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
     }
 
     /**
@@ -91,6 +171,130 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
+    public function isDraft()
+    {
+        return $this->draft;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAsDraft()
+    {
+        $this->draft = true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function publish()
+    {
+        $this->draft = false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProjectId()
+    {
+        return $this->projectId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setProjectId($projectId)
+    {
+        $this->projectId = $projectId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastUpdatedBy()
+    {
+        return $this->lastUpdatedBy;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLastUpdatedBy($userID)
+    {
+        $this->lastUpdatedBy = $userID;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedBy($userID)
+    {
+        $this->createdBy = $userID;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param string $created
+     * @return WidgetPageEntity
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastUpdated()
+    {
+        return $this->lastUpdated;
+    }
+
+    /**
+     * @param string $updated
+     * @return WidgetPageEntity
+     */
+    public function setLastUpdated($updated)
+    {
+        $this->lastUpdated = $updated;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCss()
+    {
+        return $this->css;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCss($css)
+    {
+        $this->css = $css;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getWidget($widgetId)
     {
         /** @var LayoutInterface $row */
@@ -117,8 +321,15 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
 
         return [
             'id' => $this->id,
+            'version' => $this->version,
             'title' => $this->title,
             'rows' => $rows,
+            'draft' => $this->draft,
+            'project_id' => $this->projectId,
+            'created_by' => $this->createdBy,
+            'last_updated_by' => $this->lastUpdatedBy,
+            'created' => $this->created,
+            'last_updated' => $this->lastUpdated,
         ];
     }
 }
