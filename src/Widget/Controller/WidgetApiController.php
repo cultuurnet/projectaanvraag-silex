@@ -117,7 +117,6 @@ class WidgetApiController
         }
 
         if (count($existingWidgetPages) > 0) {
-
             // Search for a draft version.
             $existingWidgetPage = null;
             /** @var WidgetPageInterface $page */
@@ -139,7 +138,6 @@ class WidgetApiController
             }
 
             $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $existingWidgetPage));
-
         } else {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
