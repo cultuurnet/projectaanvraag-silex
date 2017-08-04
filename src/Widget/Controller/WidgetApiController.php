@@ -109,7 +109,6 @@ class WidgetApiController
         //Load widget page if an ID was provided
         $existingWidgetPages = [];
         if ($widgetPage->getId()) {
-            // Load widgetPage
             $existingWidgetPages = $this->widgetPageRepository->findBy(
                 [
                 'id' => $widgetPage->getId(),
@@ -118,6 +117,7 @@ class WidgetApiController
         }
 
         if (count($existingWidgetPages) > 0) {
+
             // Search for a draft version.
             $existingWidgetPage = null;
             /** @var WidgetPageInterface $page */
@@ -138,14 +138,11 @@ class WidgetApiController
                 throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
             }
 
-            // Create an entity of the posted json via the deserializer
             $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $existingWidgetPage));
+
         } else {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
-
-        // Set all properties from the mongodb version via getters on the deserialized version
-        // Save changes + return 200 response and the json of the page
 
         return new JsonResponse($widgetPage->jsonSerialize());
     }
