@@ -207,7 +207,6 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     public function setCss($css)
     {
         $this->css = $css;
-
     }
 
     /**
