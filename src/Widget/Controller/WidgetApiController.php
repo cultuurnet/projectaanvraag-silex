@@ -19,6 +19,7 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -106,14 +107,13 @@ class WidgetApiController
         // Check if user has edit access.
         $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
 
-        //Load widget page if an ID was provided
+        // Load widget page if an ID was provided
         $existingWidgetPages = [];
         if ($widgetPage->getId()) {
             $existingWidgetPages = $this->loadExistingWidgetPages($widgetPage->getId());
         }
 
         if (count($existingWidgetPages) > 0) {
-            $this->verifyProjectId($existingWidgetPages[0]->getProjectId(), $widgetPage->getProjectId());
 
             // Search for a draft version.
             $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
@@ -155,14 +155,15 @@ class WidgetApiController
     {
 
         // Load the widget page.
-        $existingWidgetPages = $this->loadExistingWidgetPages($pageId);
+        $existingWidgetPages = $this->loadExistingWidgetPages($pageId, $project->getId());
+
+        if (empty($existingWidgetPages)) {
+            throw new NotFoundHttpException('The given widget page does not exist for given project.');
+        }
 
         if (!empty($existingWidgetPages)) {
             // Check if user has edit access.
             $this->verifyProjectAccess($project, $existingWidgetPages[0], ProjectVoter::EDIT);
-
-            // Validate if loaded project has the same project id
-            $this->verifyProjectId($existingWidgetPages[0]->getProjectId(), $project->getId());
 
             // Search for a draft version.
             $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
@@ -219,7 +220,7 @@ class WidgetApiController
     protected function verifyProjectAccess(ProjectInterface $project, WidgetPageInterface $widgetPage, $access = ProjectVoter::VIEW)
     {
         if ($project->getId() != $widgetPage->getProjectId()) {
-            throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the current project.');
+            throw new RequirementsNotSatisfiedException('The widget page project id does not match the current project.');
         }
 
         if (!$this->authorizationChecker->isGranted($access, $project)) {
@@ -228,31 +229,18 @@ class WidgetApiController
     }
 
     /**
-     * Validate if loaded project has the same project id
-     *
-     * @param $existingWidgetPageId
-     * @param $newWidgetPageId
-     *
-     * @return bool
-     */
-    protected function verifyProjectId($existingWidgetPageId, $newWidgetPageId)
-    {
-        if ($existingWidgetPageId != $newWidgetPageId) {
-            throw new RequirementsNotSatisfiedException('Saved ProjectId do not match the requested one');
-        }
-    }
-
-    /**
      * Load all the existing WidgetPages for a given ID
-     * @param Integer $pageId
      *
+     * @param string $pageId
+     * @param integer $projectId
      * @return array
      */
-    protected function loadExistingWidgetPages($pageId)
+    protected function loadExistingWidgetPages($pageId, $projectId)
     {
         return $this->widgetPageRepository->findBy(
             [
                 'id' => $pageId,
+                'project_id' => $projectId,
             ]
         );
     }
