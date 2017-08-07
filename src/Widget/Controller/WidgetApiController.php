@@ -112,7 +112,8 @@ class WidgetApiController
         $widgetPages = $this->widgetPageRepository->findBy(
             [
                 'projectId' => (string) $project->getId(),
-            ]
+            ],
+            ['title' => 'ASC']
         );
 
         return new JsonResponse($widgetPages);
