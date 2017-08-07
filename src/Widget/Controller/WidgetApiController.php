@@ -191,6 +191,8 @@ class WidgetApiController
     {
         $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
         $this->commandBus->handle(new DeleteWidgetPage($widgetPage));
+
+        return new JsonResponse();
     }
 
     /**
