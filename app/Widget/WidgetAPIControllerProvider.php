@@ -31,7 +31,7 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
         // api/project/{project}/widget-page
         $controllers->put('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
-        $controllers->get('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
+        $controllers->get('/api/project/{project}/widget-page', 'widget_builder_api_controller:getWidgetPages')
             ->convert('project', 'project_converter:convert');
 
         // api/project/{project}/widget-page/{widgetPage}
