@@ -26,24 +26,27 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
 
+        // Get the widget types.
         $controllers->get('api/widget-types', 'widget_builder_api_controller:getWidgetTypes');
 
+        // CRUD actions.
         $controllers->put('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
-
-        $controllers->get('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
+        $controllers->post('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
             ->convert('project', 'project_converter:convert');
+        $controllers->delete('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:deleteWidgetPage')
+            ->convert('project', 'project_converter:convert')
+            ->convert('widgetPage', 'widget_page_convertor:convert');
+        
 
-        $controllers->put('api/test', 'widget_builder_api_controller:test');
-        $controllers->post('api/test', 'widget_builder_api_controller:test');
-        $controllers->get('api/test', 'widget_builder_api_controller:test');
-
+        // Retrieve widget pages.
+        $controllers->get('/api/project/{project}/widget-page', 'widget_builder_api_controller:getWidgetPages')
+            ->convert('project', 'project_converter:convert');
         $controllers->get('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:getWidgetPage')
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
-        $controllers->get('/api/project/{project}/widget-page', 'widget_builder_api_controller:getWidgetPages')
-            ->convert('project', 'project_converter:convert');
 
+        // Render widget pages.
         $controllers->get('/api/render/{widgetPage}/{widgetId}', 'widget_controller:renderWidget')
             ->convert('widgetPage', 'widget_page_convertor:convert');
 

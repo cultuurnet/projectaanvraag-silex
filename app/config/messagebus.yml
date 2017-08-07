@@ -130,3 +130,12 @@ handlers:
               - mongodbodm.dm
               - widget_repository
               - uitid_user_session_data_complete
+
+    delete_widget_page_handler:
+          command: CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage
+          class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\DeleteWidgetPageCommandHandler
+          arguments:
+              - event_bus
+              - mongodbodm.dm
+              - widget_repository
+              - uitid_user_session_data_complete
