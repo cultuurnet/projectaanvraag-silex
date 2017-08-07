@@ -189,7 +189,7 @@ class WidgetApiController
      */
     public function deleteWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
-        $this->verifyProjectAccess($project, $widgetPage);
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
         $this->commandBus->handle(new DeleteWidgetPage($widgetPage));
     }
 
