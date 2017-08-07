@@ -241,16 +241,15 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getCreated()
     {
-        return $this->created;
+        return (string) $this->created;
     }
 
     /**
-     * @param string $created
-     * @return WidgetPageEntity
+     * {@inheritdoc}
      */
     public function setCreated($created)
     {
@@ -263,12 +262,11 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
      */
     public function getLastUpdated()
     {
-        return $this->lastUpdated;
+        return (string) $this->lastUpdated;
     }
 
     /**
-     * @param string $updated
-     * @return WidgetPageEntity
+     * {@inheritdoc}
      */
     public function setLastUpdated($updated)
     {
@@ -328,8 +326,8 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'project_id' => $this->projectId,
             'created_by' => $this->createdBy,
             'last_updated_by' => $this->lastUpdatedBy,
-            'created' => $this->created,
-            'last_updated' => $this->lastUpdated,
+            'created' => (string) $this->created,
+            'last_updated' => (string) $this->lastUpdated,
         ];
     }
 }

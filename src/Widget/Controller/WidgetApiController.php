@@ -88,17 +88,45 @@ class WidgetApiController
 
     /**
      * Get a widget page.
+     *
+     * @param ProjectInterface $project
      * @param WidgetPageInterface $widgetPage
+     *
+     * @return JsonResponse
      */
     public function getWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
         $this->verifyProjectAccess($project, $widgetPage);
-
         return new JsonResponse($widgetPage);
     }
 
     /**
+     * Get the list of widget pages for given project.
+     */
+    public function getWidgetPages(ProjectInterface $project)
+    {
+
+        if (!$this->authorizationChecker->isGranted(ProjectVoter::VIEW, $project)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $widgetPages = $this->widgetPageRepository->findBy(
+            [
+                'projectId' => (string) $project->getId(),
+            ],
+            ['title' => 'ASC']
+        );
+
+        return new JsonResponse($widgetPages);
+    }
+
+    /**
      * Update or create a posted widget page.
+     *
+     * @param ProjectInterface $project
+     * @param Request $request
+     *
+     * @return JsonResponse
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
     {
@@ -115,7 +143,6 @@ class WidgetApiController
         }
 
         if (count($existingWidgetPages) > 0) {
-
             // Search for a draft version.
             $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
 
@@ -147,10 +174,12 @@ class WidgetApiController
 
     /**
      * Publish the requested widget page.
+     *
      * @param ProjectInterface $project
-     * @param Request $request
+     * @param $pageId
      *
      * @return JsonResponse
+     *
      */
     public function publishWidgetPage(ProjectInterface $project, $pageId)
     {
@@ -245,7 +274,6 @@ class WidgetApiController
 
     /**
      * Load all the existing WidgetPages for a given ID
-     *
      * @param string $pageId
      * @param integer $projectId
      * @return array

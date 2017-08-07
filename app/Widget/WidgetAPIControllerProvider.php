@@ -31,19 +31,19 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
         // api/project/{project}/widget-page
         $controllers->put('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
-        $controllers->get('/api/project/{project}/widget-page', 'widget_builder_api_controller:getWidgetPages')
-            ->convert('project', 'project_converter:convert');
 
         // api/project/{project}/widget-page/{widgetPage}
         $controllers->get('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:getWidgetPage')
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
+
         $controllers->delete('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:deleteWidgetPage')
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convert');
 
         // api/project/{project}/widget-page/{pageId}/publish
         $controllers->get('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
+        $controllers->get('/api/project/{project}/widget-page', 'widget_builder_api_controller:getWidgetPages')
             ->convert('project', 'project_converter:convert');
 
         // /api/render/{widgetPage}/{widgetId}
