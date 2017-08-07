@@ -28,26 +28,31 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
 
         $controllers->get('api/widget-types', 'widget_builder_api_controller:getWidgetTypes');
 
+        // api/project/{project}/widget-page
         $controllers->put('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
-
-        $controllers->get('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
+        $controllers->get('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
 
-        $controllers->put('api/test', 'widget_builder_api_controller:test');
-        $controllers->post('api/test', 'widget_builder_api_controller:test');
-        $controllers->get('api/test', 'widget_builder_api_controller:test');
-
+        // api/project/{project}/widget-page/{widgetPage}
         $controllers->get('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:getWidgetPage')
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
-
         $controllers->delete('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:deleteWidgetPage')
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convert');
 
+        // api/project/{project}/widget-page/{pageId}/publish
+        $controllers->get('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
+            ->convert('project', 'project_converter:convert');
+
+        // /api/render/{widgetPage}/{widgetId}
         $controllers->get('/api/render/{widgetPage}/{widgetId}', 'widget_controller:renderWidget')
             ->convert('widgetPage', 'widget_page_convertor:convert');
+
+        $controllers->put('api/test', 'widget_builder_api_controller:test');
+        $controllers->post('api/test', 'widget_builder_api_controller:test');
+        $controllers->get('api/test', 'widget_builder_api_controller:test');
 
         return $controllers;
     }
