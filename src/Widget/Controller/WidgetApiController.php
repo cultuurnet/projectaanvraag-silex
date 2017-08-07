@@ -86,51 +86,44 @@ class WidgetApiController
 
     /**
      * Get a widget page.
+     *
+     * @param ProjectInterface $project
      * @param WidgetPageInterface $widgetPage
+     *
+     * @return JsonResponse
      */
     public function getWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
-<<<<<<< HEAD
         $this->verifyProjectAccess($project, $widgetPage);
-=======
-        $this->verifyProjectId($project->getId(), $widgetPage->getProjectId());
-
-        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
-        //    throw new AccessDeniedHttpException();
-        //}
->>>>>>> WID-31: Added first draft of widget-pages
-
         return new JsonResponse($widgetPage);
     }
 
     /**
-<<<<<<< HEAD
-     * Update or create a posted widget page.
-=======
-     * Return the list of available widget types + default settings.
+     * Get the list of widget pages for given project.
      */
-    public function getWidgetPages(ProjectInterface $project, array $widgetPages)
+    public function getWidgetPages(ProjectInterface $project)
     {
-        foreach ($widgetPages as $widgetPage)
-        {
-            try
-            {
-                $this->verifyProjectId($project->getId(), $widgetPage->getProjectId());
-            } catch {
-                
-            }
+
+        if (!$this->authorizationChecker->isGranted(ProjectVoter::VIEW, $project)) {
+            throw new AccessDeniedHttpException();
         }
 
-        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
-        //    throw new AccessDeniedHttpException();
-        //}
+        $widgetPages = $this->widgetPageRepository->findBy(
+            [
+                'projectId' => (string) $project->getId(),
+            ]
+        );
 
-        return new JsonResponse($widgetPage);
+        return new JsonResponse($widgetPages);
     }
 
     /**
-     * Update a posted widget page.
->>>>>>> WID-31: Added first draft of widget-pages
+     * Update or create a posted widget page.
+     *
+     * @param ProjectInterface $project
+     * @param Request $request
+     *
+     * @return JsonResponse
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
     {
@@ -180,10 +173,12 @@ class WidgetApiController
 
     /**
      * Publish the requested widget page.
+     *
      * @param ProjectInterface $project
-     * @param Request $request
+     * @param $pageId
      *
      * @return JsonResponse
+     *
      */
     public function publishWidgetPage(ProjectInterface $project, $pageId)
     {
@@ -278,7 +273,7 @@ class WidgetApiController
 
     /**
      * Load all the existing WidgetPages for a given ID
-     * @param Integer $pageId
+     * @param string $pageId
      *
      * @return array
      */
