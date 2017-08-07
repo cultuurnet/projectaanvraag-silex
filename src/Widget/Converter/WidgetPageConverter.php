@@ -48,15 +48,11 @@ class WidgetPageConverter implements ConverterInterface
             ]
         );
 
-        //$json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-//        $page = $this->widgetPageEntityDeserializer->deserialize($json);
-$page = $json;
-
-        if (empty($page)) {
+        if (empty($json)) {
             throw new NotFoundHttpException('The project was not found');
         }
 
-        return $page;
+        return $json;
     }
 
     /**
