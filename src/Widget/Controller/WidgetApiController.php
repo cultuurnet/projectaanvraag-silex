@@ -90,13 +90,47 @@ class WidgetApiController
      */
     public function getWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
+<<<<<<< HEAD
         $this->verifyProjectAccess($project, $widgetPage);
+=======
+        $this->verifyProjectId($project->getId(), $widgetPage->getProjectId());
+
+        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
+        //    throw new AccessDeniedHttpException();
+        //}
+>>>>>>> WID-31: Added first draft of widget-pages
 
         return new JsonResponse($widgetPage);
     }
 
     /**
+<<<<<<< HEAD
      * Update or create a posted widget page.
+=======
+     * Return the list of available widget types + default settings.
+     */
+    public function getWidgetPages(ProjectInterface $project, array $widgetPages)
+    {
+        foreach ($widgetPages as $widgetPage)
+        {
+            try
+            {
+                $this->verifyProjectId($project->getId(), $widgetPage->getProjectId());
+            } catch {
+                
+            }
+        }
+
+        //if (!$this->authorizationChecker->isGranted('edit', $project)) {
+        //    throw new AccessDeniedHttpException();
+        //}
+
+        return new JsonResponse($widgetPage);
+    }
+
+    /**
+     * Update a posted widget page.
+>>>>>>> WID-31: Added first draft of widget-pages
      */
     public function updateWidgetPage(ProjectInterface $project, Request $request)
     {
