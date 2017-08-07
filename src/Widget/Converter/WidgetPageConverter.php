@@ -42,15 +42,15 @@ class WidgetPageConverter implements ConverterInterface
     public function convert($id)
     {
         /** @var WidgetPageEntity $page */
-       /* $json = $this->widgetPageRepository->findOneBy(
+        $json = $this->widgetPageRepository->findOneBy(
             [
                 'id' => $id,
             ]
-        );*/
+        );
 
-        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        $page = $this->widgetPageEntityDeserializer->deserialize($json);
-
+        //$json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
+//        $page = $this->widgetPageEntityDeserializer->deserialize($json);
+$page = $json;
 
         if (empty($page)) {
             throw new NotFoundHttpException('The project was not found');

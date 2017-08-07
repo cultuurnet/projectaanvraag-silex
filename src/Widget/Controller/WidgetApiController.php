@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
@@ -178,6 +179,18 @@ class WidgetApiController
         }
 
         return new JsonResponse();
+    }
+
+    /**
+     * @param ProjectInterface $project
+     * @param WidgetPageInterface $widgetPage
+     *
+     * @return JsonResponse
+     */
+    public function deleteWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
+    {
+        $this->verifyProjectAccess($project, $widgetPage);
+        $this->commandBus->handle(new DeleteWidgetPage($widgetPage));
     }
 
     /**
