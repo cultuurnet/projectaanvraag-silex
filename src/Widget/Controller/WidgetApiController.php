@@ -142,7 +142,6 @@ class WidgetApiController
         }
 
         if (count($existingWidgetPages) > 0) {
-
             // Search for a draft version.
             $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
 
