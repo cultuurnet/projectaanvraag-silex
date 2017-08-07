@@ -69,6 +69,6 @@ class DeleteWidgetPageCommandHandler
         $this->documentManager->flush();
 
         // Dispatch the event.
-        $this->eventBus->handle(new WidgetPageDeleted($originalWidgetPage));
+        //$this->eventBus->handle(new WidgetPageDeleted($originalWidgetPage));
     }
 }

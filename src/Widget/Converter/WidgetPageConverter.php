@@ -49,7 +49,7 @@ class WidgetPageConverter implements ConverterInterface
         );
 
         if (empty($json)) {
-            throw new NotFoundHttpException('The project was not found');
+            throw new NotFoundHttpException('The widget page was not found');
         }
 
         return $json;
@@ -80,7 +80,7 @@ class WidgetPageConverter implements ConverterInterface
         }
 
         if (empty($pageToLoad)) {
-            throw new NotFoundHttpException('The project was not found');
+            throw new NotFoundHttpException('The widget page was not found');
         }
 
         return $pageToLoad;
