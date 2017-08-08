@@ -17,13 +17,8 @@ use Pimple\Container;
  *          "settings":{}
  *      },
  *      allowedSettings = {
- *         "id":"string",
- *          "name":"string",
- *          "type":"string",
- *          "settings":{
- *              "content":{
- *                  "body":"string"
- *              }
+ *         "content":{
+ *              "body":"string"
  *          }
  *      }
  * )
