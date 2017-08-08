@@ -38,7 +38,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     /**
      * @var string
      */
-    protected  $name;
+    protected $name;
 
     /**
      * @var array
