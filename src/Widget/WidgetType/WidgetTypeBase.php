@@ -36,6 +36,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected $id;
 
     /**
+     * @var string
+     */
+    protected  $name;
+
+    /**
      * @var array
      */
     protected $settings;
@@ -57,6 +62,10 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
 
         if (isset($configuration['id'])) {
             $this->id = $configuration['id'];
+        }
+
+        if (isset($configuration['name'])) {
+            $this->name = $configuration['name'];
         }
 
         $settings = $configuration['settings'] ?? [];
@@ -109,6 +118,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'type' => $this->pluginDefinition['annotation']->getId(),
             'settings' => $this->settings,
         ];
