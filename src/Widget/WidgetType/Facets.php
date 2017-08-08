@@ -41,7 +41,7 @@ class Facets extends WidgetTypeBase
      */
     public function render()
     {
-        $this->renderPlaceholder();
+        return $this->renderPlaceholder();
     }
 
     /**
