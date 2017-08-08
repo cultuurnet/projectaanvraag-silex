@@ -132,7 +132,7 @@ class Tips extends WidgetTypeBase
      */
     public function render()
     {
-        $this->renderPlaceholder();
+        return $this->renderPlaceholder();
     }
 
     /**
