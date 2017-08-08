@@ -14,11 +14,17 @@ use Pimple\Container;
  * @WidgetType(
  *      id = "html",
  *      defaultSettings = {
+ *          "settings":{}
  *      },
  *      allowedSettings = {
- *          "content": {
- *              "body": "string",
- *          },
+ *         "id":"string",
+ *          "name":"string",
+ *          "type":"string",
+ *          "settings":{
+ *              "content":{
+ *                  "body":"string"
+ *              }
+ *          }
  *      }
  * )
  */

@@ -14,8 +14,45 @@ use Pimple\Container;
  * @WidgetType(
  *      id = "facets",
  *      defaultSettings = {
+ *            "filters":{
+ *                  "what":true,
+ *                  "where":true,
+ *                  "when":false,
+ *              },
+ *              "group_filters":{
+ *              "enabled":false,
+ *              "filters":[
+ *              ]
+ *          }
  *      },
  *      allowedSettings = {
+ *           "id":"string",
+ *           "name":"string",
+ *           "type":"string",
+ *           "settings":{
+ *                 "filters":{
+ *                       "what":"boolean",
+ *                      "where":"boolean",
+ *                      "when":"boolean"
+ *                   },
+ *                  "group_filters":{
+ *                  "enabled":"boolean",
+ *                  "filters":[
+ *                    {
+ *                        "label":"string",
+ *                        "type":"link",
+ *                        "placeholder":"string",
+ *                        "options":[
+ *                            {
+ *                                "label":"string",
+ *                                "query":"string"
+ *                            }
+ *                        ]
+ *                    }
+ *                 ]
+ *            },
+ *           "search_results":"string"
+ *           }
  *      }
  * )
  */
