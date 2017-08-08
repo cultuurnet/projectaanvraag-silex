@@ -5,13 +5,13 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetLayout;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\Layout;
 
 /**
- * Provides a two col layout with a sidebar on the left.
+ * Provides a two col layout with a sidebar on the right.
  *
  * @Layout(
- *     id = "2col-sidebar-left"
+ *     id = "2col-sidebar-right"
  * )
  */
-class TwoColSidebarLeft extends LayoutBase
+class TwoColSidebarRight extends LayoutBase
 {
     /**
      * {@inheritdoc}
@@ -19,10 +19,10 @@ class TwoColSidebarLeft extends LayoutBase
     public function render()
     {
         return $this->twig->render(
-            'layouts/two-col-sidebar-left/two-col-sidebar-left.html.twig',
+            'layouts/two-col-sidebar-left/two-col-sidebar-right.html.twig',
             [
                 'content' => $this->renderRegion('content'),
-                'left' => $this->renderRegion('sidebar_left'),
+                'right' => $this->renderRegion('sidebar_right'),
             ]
         );
     }
