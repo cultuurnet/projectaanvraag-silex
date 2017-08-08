@@ -122,11 +122,9 @@ class WidgetApiController
          * @var  $key
          * @var WidgetPageInterface $widgetPage
          */
-        foreach ($widgetPages as $key => $widgetPage)
-        {
+        foreach ($widgetPages as $key => $widgetPage) {
             // When there is a draft version, add the draft version, otherwise only add the published version if it is not already included in the array
-            if($widgetPage->isDraft() || !isset($key, $widgetPagesList))
-            {
+            if ($widgetPage->isDraft() || !isset($key, $widgetPagesList)) {
                 $widgetPagesList[$key] = $widgetPage;
             }
         }
