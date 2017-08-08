@@ -119,7 +119,6 @@ class WidgetApiController
 
         $widgetPagesList = array();
         /**
-         * @var  $key
          * @var WidgetPageInterface $widgetPage
          */
         foreach ($widgetPages as $key => $widgetPage) {
@@ -295,7 +294,7 @@ class WidgetApiController
         return $this->widgetPageRepository->findBy(
             [
                 'id' => $pageId,
-                'project_id' => $projectId,
+                'projectId' => (string) $projectId,
             ]
         );
     }

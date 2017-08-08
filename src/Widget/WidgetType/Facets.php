@@ -14,12 +14,14 @@ use Pimple\Container;
  * @WidgetType(
  *      id = "facets",
  *      defaultSettings = {
- *          "filters":{
+ *          "filters" :{
  *              "what":true,
  *              "where":true,
  *              "when":false,
  *          },
- *          "group_filters":"CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *          "group_filters" :{
+ *              "enabled":false
+ *          }
  *      },
  *      allowedSettings = {
  *          "filters":{

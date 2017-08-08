@@ -12,110 +12,104 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  * @WidgetType(
  *     id = "search-results",
  *      defaultSettings = {
- *          "settings":{
- *              "general":{
- *                  "current_search":true,
+ *          "general":{
+ *              "current_search":true,
+ *          },
+ *          "header":{
+ *              "body":"",
+ *          },
+ *          "items":{
+ *              "icon_vlieg":{
+ *                  "enabled":true
  *              },
- *              "header":{
- *                  "body":"",
+ *              "icon_uitpas":{
+ *                  "enabled":true
  *              },
- *              "items":{
- *                  "icon_vlieg":{
- *                      "enabled":true
- *                  },
- *                  "icon_uitpas":{
- *                      "enabled":true
- *                  },
- *                  "description":{
- *                      "enabled":true,
- *                      "characters":200
- *                  },
- *                  "when":{
- *                      "enabled":false,
- *                      "label":"Wanneer"
- *                  },
- *                  "where":{
- *                      "enabled":true,
- *                      "label":"Waar"
- *                  },
- *                  "age":{
- *                      "enabled":true,
- *                      "label":"Leeftijd"
- *                  },
- *                  "language_icons":{
- *                      "enabled":false
- *                  },
- *                  "image":{
- *                      "enabled":true,
- *                      "width":100,
- *                      "height":80,
- *                      "default_image":true,
- *                      "position":"left"
- *                  },
- *                  "labels":{
- *                      "enabled":false,
- *                      "limit_labels":{
- *                          "enabled":false,
- *                      }
- *                  },
- *                  "read_more":{
- *                      "enabled":true,
- *                      "label":"Lees verder"
- *                  },
+ *              "description":{
+ *                  "enabled":true,
+ *                  "characters":200
  *              },
- *              "detail_page":{
- *                  "price_information":true,
- *                  "share_buttons":true,
- *                  "back_button":{
- *                      "enabled":true,
- *                      "label":"Volledig aanbod"
- *                  },
- *                  "icon_vlieg":{
- *                      "enabled":true
- *                  },
- *                  "icon_uitpas":{
- *                      "enabled":true
- *                  },
- *                  "description":{
- *                      "enabled":true,
- *                      "characters":200
- *                  },
- *                  "when":{
+ *              "when":{
+ *                  "enabled":false,
+ *                  "label":"Wanneer"
+ *              },
+ *              "where":{
+ *                  "enabled":true,
+ *                  "label":"Waar"
+ *              },
+ *              "age":{
+ *                  "enabled":true,
+ *                  "label":"Leeftijd"
+ *              },
+ *              "language_icons":{
+ *                  "enabled":false
+ *              },
+ *              "image":{
+ *                  "enabled":true,
+ *                  "width":100,
+ *                  "height":80,
+ *                  "default_image":true,
+ *                  "position":"left"
+ *              },
+ *              "labels":{
+ *                  "enabled":false,
+ *                  "limit_labels":{
  *                      "enabled":false,
- *                      "label":"Wanneer"
- *                  },
- *                  "where":{
- *                      "enabled":true,
- *                      "label":"Waar"
- *                  },
- *                  "age":{
- *                      "enabled":true,
- *                      "label":"Leeftijd"
- *                  },
- *                  "language_icons":{
- *                      "enabled":false
- *                  },
- *                  "image":{
- *                      "enabled":true,
- *                      "width":300,
- *                      "height":200,
- *                      "default_image":true,
- *                      "position":"left"
- *                  },
- *                  "labels":{
+ *                  }
+ *              },
+ *              "read_more":{
+ *                  "enabled":true,
+ *                  "label":"Lees verder"
+ *              },
+ *          },
+ *          "detail_page":{
+ *              "price_information":true,
+ *              "share_buttons":true,
+ *              "back_button":{
+ *                  "enabled":true,
+ *                  "label":"Volledig aanbod"
+ *              },
+ *              "icon_vlieg":{
+ *                  "enabled":true
+ *              },
+ *              "icon_uitpas":{
+ *                  "enabled":true
+ *              },
+ *              "description":{
+ *                  "enabled":true,
+ *                  "characters":200
+ *              },
+ *              "when":{
+ *                  "enabled":false,
+ *                  "label":"Wanneer"
+ *              },
+ *              "where":{
+ *                  "enabled":true,
+ *                  "label":"Waar"
+ *              },
+ *              "age":{
+ *                  "enabled":true,
+ *                  "label":"Leeftijd"
+ *              },
+ *              "language_icons":{
+ *                  "enabled":false
+ *              },
+ *              "image":{
+ *                  "enabled":true,
+ *                  "width":300,
+ *                  "height":200,
+ *                  "default_image":true,
+ *                  "position":"left"
+ *              },
+ *              "labels":{
+ *                  "enabled":false,
+ *                  "limit_labels":{
  *                      "enabled":false,
- *                      "limit_labels":{
- *                          "enabled":false,
- *                      }
  *                  }
  *              }
  *          }
  *      },
  *      allowedSettings = {
- *          "test":{
- *              "enabled":"boolean",
- *              "label":"string"
- *          },
  *          "general":{
  *              "current_search":"boolean"
  *          },
