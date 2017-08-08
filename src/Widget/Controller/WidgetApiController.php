@@ -139,7 +139,7 @@ class WidgetApiController
         // Load widget page if an ID was provided
         $existingWidgetPages = [];
         if ($widgetPage->getId()) {
-            $existingWidgetPages = $this->loadExistingWidgetPages($widgetPage->getId());
+            $existingWidgetPages = $this->loadExistingWidgetPages($widgetPage->getId(), $project->getId());
         }
 
         if (count($existingWidgetPages) > 0) {
