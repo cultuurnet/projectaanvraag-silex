@@ -16,8 +16,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                 var $placeholder = $(this);
 
-                CultuurnetWidgets.renderWidget($(this).data('widget-placeholder-id')).then(function(data) {
-                    $placeholder.html(data);
+                CultuurnetWidgets.renderWidget($(this).data('widget-placeholder-id')).then(function(response) {
+                    $placeholder.html(response.data);
                 });
             })
 

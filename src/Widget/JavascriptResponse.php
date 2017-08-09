@@ -77,9 +77,9 @@ class JavascriptResponse extends Response
 
         $cssMinify = new CSS();
         foreach ($attachments as $css) {
-            $cssMinify->add($css['value']);
+            $cssMinify->add($css['path']);
         }
 
-        return 'CultuurnetWidgets.addStyle("' . $cssMinify->minify() .'");';
+        return 'CultuurnetWidgets.addStyle("' . addslashes($cssMinify->minify()) .'");';
     }
 }

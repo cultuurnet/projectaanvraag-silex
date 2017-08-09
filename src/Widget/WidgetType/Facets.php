@@ -41,7 +41,7 @@ class Facets extends WidgetTypeBase
      */
     public function render()
     {
-        return $this->renderPlaceholder();
+        return 'facets widget render result';
     }
 
     /**
@@ -49,6 +49,6 @@ class Facets extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return 'facets widget';
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
     }
 }

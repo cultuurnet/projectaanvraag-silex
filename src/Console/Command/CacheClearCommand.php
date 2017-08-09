@@ -21,7 +21,8 @@ class CacheClearCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('projectaanvraag:cache-clear');
+        $this->setName('projectaanvraag:cache-clear')
+            ->setAliases(['cc']);
     }
 
     /**
@@ -33,12 +34,14 @@ class CacheClearCommand extends Command
     {
 
         /** @var FilesystemCache $filesystemCache */
-        $filesystemCache = $this->getInstance('cache_doctrine_filesystem');
+        $filesystemCache = new FilesystemCache($this->getInstance('cache_directory'));
         $filesystemCache->flushAll();
 
         /** @var RedisCache $redisCache */
         $redisCache = $this->getInstance('cache_doctrine_redis');
         $redisCache->flushAll();
+
+        $output->writeln('Redis and filesystem cache was cleared');
     }
 
     /**

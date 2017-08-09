@@ -220,7 +220,7 @@ class SearchResults extends WidgetTypeBase
      */
     public function render()
     {
-        return 'search results';
+        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', []);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Core;
 
 use CultuurNet\ProjectAanvraag\RabbitMQ\Publisher\RabbitMQDelayedPublisher;
 use CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber\RabbitMQEventSubscriber;
-use CultuurNet\ProjectAanvraag\RabbitMQ\RoutingKeyresolver\AsyncCommandRoutingKeyResolver;
+use CultuurNet\ProjectAanvraag\RabbitMQ\RoutingKeyResolver\AsyncCommandRoutingKeyResolver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use JMS\Serializer\SerializerBuilder;
 use Monolog\Handler\BrowserConsoleHandler;
@@ -47,7 +47,16 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
      */
     public function register(Container $pimple)
     {
-        $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/messagebus.yml'));
+
+        // Load the config.
+        $config = [];
+        if (file_exists($pimple['cache_directory'] . '/messagebus-config.php')) {
+            $config = require $pimple['cache_directory'] . '/messagebus-config.php';
+        }
+        else {
+            $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/messagebus.yml'));
+            file_put_contents($pimple['cache_directory'] . '/messagebus-config.php', '<?php return ' . var_export($config, true) . ';');
+        }
 
         $pimple['envelope_serializer'] = function (Container $pimple) {
             $jmsSerializer = SerializerBuilder::create()

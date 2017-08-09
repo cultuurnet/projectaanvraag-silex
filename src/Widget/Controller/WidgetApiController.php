@@ -83,7 +83,8 @@ class WidgetApiController
             $types[$annotation->getId()] = $annotation->getDefaultSettings();
         }
 
-        return new JsonResponse($types);
+        // Return the types + cache the response for 24 hours.
+        return JsonResponse::create($types)->setSharedMaxAge(60 * 60 * 24);
     }
 
     /**
@@ -128,7 +129,7 @@ class WidgetApiController
             }
         }
 
-        return new JsonResponse($widgetPagesList);
+        return JsonResponse::create($widgetPagesList)->setSharedMaxAge(0);
     }
 
     /**

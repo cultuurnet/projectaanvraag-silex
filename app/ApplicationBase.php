@@ -22,6 +22,7 @@ use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
 use DF\DoctrineMongoDbOdm\Silex\Provider\DoctrineMongoDbOdmProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\Types\Type;
 use MongoDB\Client;
 use Silex\Application as SilexApplication;
@@ -38,8 +39,16 @@ class ApplicationBase extends SilexApplication
     {
         parent::__construct();
 
+        $this['cache_directory'] = __DIR__ . '/../cache';
+
         // Load the config.
-        $this->register(new YamlConfigServiceProvider(__DIR__ . '/../config.yml'));
+        if (file_exists($this['cache_directory'] . '/config.php')) {
+            $this['config'] = require $this['cache_directory'] . '/config.php';
+        }
+        else {
+            $this->register(new YamlConfigServiceProvider(__DIR__ . '/../config.yml'));
+            file_put_contents($this['cache_directory'] . '/config.php', '<?php return ' . var_export($this['config'], true) . ';');
+        }
 
         define('WWW_ROOT', realpath(__DIR__ . '/../web'));
 
@@ -67,6 +76,15 @@ class ApplicationBase extends SilexApplication
      */
     protected function registerProviders()
     {
+        $this->register(
+            new CacheProvider(),
+            [
+                'cache.redis' => $this['config']['cache']['redis'],
+                'cache.annotations' => $this['config']['annotations']['cache'],
+                'cache.odm_orm' => $this['config']['odm_orm']['cache']
+            ]
+        );
+
         // Monolog
         $this->register(new MonologServiceProvider());
 
@@ -111,16 +129,6 @@ class ApplicationBase extends SilexApplication
 
         $this->register(new CoreProvider());
 
-        $this->register(
-            new CacheProvider(),
-            [
-                'cache.file_system' => $this['config']['cache']['file_system'],
-                'cache.redis' => $this['config']['cache']['redis'],
-                'cache.redis' => $this['config']['cache']['redis'],
-                'cache.annotations' => $this['config']['annotations']['cache'],
-            ]
-        );
-
         // Doctrine DBAL and ORM
         $this->register(
             new DoctrineServiceProvider(),
@@ -132,7 +140,8 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new DoctrineOrmServiceProvider(),
             [
-                'orm.proxies_dir' => __DIR__. '/../proxies',
+                'orm.default_cache' => $this['odm_orm_cache'],
+                'orm.proxies_dir' => $this['config']['odm_orm']['proxies_dir'],
                 'orm.em.options' => [
                     'mappings' => [
                         [
@@ -171,7 +180,10 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new DoctrineMongoDbOdmProvider(),
             [
-                'orm.proxies_dir' => __DIR__. '/../proxies',
+                'mongodbodm.default_cache' => $this['odm_orm_cache'],
+                'mongodbodm.proxies_dir' => $this['config']['odm_orm']['proxies_dir'],
+                'mongodbodm.hydrator_dir' => $this['config']['odm_orm']['hydrator_dir'],
+                'mongodbodm.auto_generate_hydrators' => Configuration::AUTOGENERATE_FILE_NOT_EXISTS,
                 "mongodbodm.dm.options" => [
                     "database" => "widgets",
                     "mappings" => [
