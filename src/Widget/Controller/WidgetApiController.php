@@ -117,7 +117,19 @@ class WidgetApiController
             ['title' => 'ASC']
         );
 
-        return new JsonResponse($widgetPages);
+        $widgetPagesList = array();
+        /**
+         * @var  $key
+         * @var WidgetPageInterface $widgetPage
+         */
+        foreach ($widgetPages as $key => $widgetPage) {
+            // When there is a draft version, add the draft version, otherwise only add the published version if it is not already included in the array
+            if ($widgetPage->isDraft() || !isset($key, $widgetPagesList)) {
+                $widgetPagesList[$key] = $widgetPage;
+            }
+        }
+
+        return new JsonResponse($widgetPagesList);
     }
 
     /**
