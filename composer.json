@@ -21,8 +21,7 @@
         "matthiasmullie/minify": "^1.3",
         "ml/json-ld": "^1.0",
         "predis/predis": "^1.1",
-        "cultuurnet/search-v3": "dev-master",
-        "solilokiam/httprediscache": "dev-master"
+        "cultuurnet/search-v3": "dev-master"
     },
     "extra": {
         "patches": {

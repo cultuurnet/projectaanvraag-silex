@@ -169,7 +169,7 @@
                 "Apache-2.0"
             ],
             "description": "Authentication service for CultuurNet web services",
-            "time": "2015-08-24 20:22:37"
+            "time": "2015-08-24T20:22:37+00:00"
         },
         {
             "name": "cultuurnet/cdb",
@@ -254,7 +254,7 @@
                 }
             ],
             "description": "Library with a Guzzle 3 replacement for the default, custom-made HTTP library of Culturefeed",
-            "time": "2016-02-23 08:43:30"
+            "time": "2016-02-23T08:43:30+00:00"
         },
         {
             "name": "cultuurnet/culturefeed-php",
@@ -322,7 +322,7 @@
                 }
             ],
             "description": "Culturefeed PHP library",
-            "time": "2017-02-23 10:03:27"
+            "time": "2017-02-23T10:03:27+00:00"
         },
         {
             "name": "cultuurnet/search-v3",
@@ -330,12 +330,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "a78f4b70f3722d356557d3b08805602eaa8e2198"
+                "reference": "2b86e044bfb417b8f7e78723ae31bbd998a5a944"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/a78f4b70f3722d356557d3b08805602eaa8e2198",
-                "reference": "a78f4b70f3722d356557d3b08805602eaa8e2198",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/2b86e044bfb417b8f7e78723ae31bbd998a5a944",
+                "reference": "2b86e044bfb417b8f7e78723ae31bbd998a5a944",
                 "shasum": ""
             },
             "require": {
@@ -358,7 +358,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2017-07-11 12:24:16"
+            "time": "2017-07-11T14:47:45+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -401,7 +401,7 @@
                 "GPL-3.0"
             ],
             "description": "Silex UiTID authentication provider.",
-            "time": "2016-10-28 15:50:42"
+            "time": "2016-10-28T15:50:42+00:00"
         },
         {
             "name": "cweagans/composer-patches",
@@ -1868,7 +1868,7 @@
             ],
             "authors": [
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 }
             ],
