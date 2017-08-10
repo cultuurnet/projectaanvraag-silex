@@ -4,6 +4,13 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
+use CultuurNet\SearchV3\PagedCollection;
+use CultuurNet\SearchV3\Parameter\Facet;
+use CultuurNet\SearchV3\Parameter\Labels;
+use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\SearchQuery;
+use CultuurNet\SearchV3\SearchQueryInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use Pimple\Container;
@@ -126,13 +133,57 @@ use Pimple\Container;
  */
 class Tips extends WidgetTypeBase
 {
+    /**
+     * @var SearchClient
+     */
+    protected $searchClient;
+
+    /**
+     * LayoutBase constructor.
+     *
+     * @param array $pluginDefinition
+     * @param \Twig_Environment $twig
+     * @param RendererInterface $renderer
+     * @param array $configuration
+     * @param bool $cleanup
+     */
+    public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
+    {
+        parent::__construct($pluginDefinition, $twig, $renderer,$configuration, $cleanup);
+        $this->searchClient = $searchClient;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
+    {
+        return new static(
+            $pluginDefinition,
+            $container['twig'],
+            $container['widget_renderer'],
+            $configuration,
+            $cleanup,
+            $container['search_api']
+        );
+    }
 
     /**
      * {@inheritdoc}
      */
     public function render()
     {
-        return 'tips widget render result';
+        $query = new SearchQuery(true);
+        $query->addParameter(new Facet('regions'));
+        $query->addParameter(new Facet('types'));
+        $query->addParameter(new Labels('bouwen'));
+        $query->addParameter(new Labels('Kiditech'));
+        $query->addParameter(new Query('regions:gem-leuven OR regions:gem-gent'));
+
+        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+
+        $result = $this->searchClient->searchEvents($query);
+        return $this->twig->render('widgets/tips-widget/tips-widget.html.twig');
     }
 
     /**
