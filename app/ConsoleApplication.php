@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag;
 
+use CultuurNet\ProjectAanvraag\Console\Command\CacheClearCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\InstallCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\SyncConsumersCommand;
@@ -107,6 +108,7 @@ class ConsoleApplication extends ApplicationBase
                 new ConvertMappingCommand(),
                 new RunDqlCommand(),
                 new ValidateSchemaCommand(),
+                new CacheClearCommand(),
             ]
         );
     }

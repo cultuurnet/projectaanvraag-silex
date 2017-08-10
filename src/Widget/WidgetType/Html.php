@@ -31,7 +31,7 @@ class Html extends WidgetTypeBase
      */
     public function render()
     {
-        $this->renderPlaceholder();
+        return $this->renderPlaceholder();
     }
 
     /**

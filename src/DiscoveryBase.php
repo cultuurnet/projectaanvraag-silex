@@ -79,7 +79,7 @@ class DiscoveryBase implements DiscoveryInterface
             return;
         }
 
-        if ($this->cache->contains($this->cacheIndex)) {
+        if ($this->cache && $this->cache->contains($this->cacheIndex)) {
             $this->definitions = $this->cache->fetch($this->cacheIndex);
         } else {
             $this->definitions = [];
@@ -104,7 +104,9 @@ class DiscoveryBase implements DiscoveryInterface
                 }
             }
 
-            $this->cache->save($this->cacheIndex, $this->definitions);
+            if ($this->cache) {
+                $this->cache->save($this->cacheIndex, $this->definitions);
+            }
         }
     }
 

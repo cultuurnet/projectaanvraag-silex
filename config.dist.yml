@@ -52,19 +52,26 @@ search_api:
   base_url: https://search-acc.uitdatabank.be
   cache:
     enabled: true
-    backend: redis
+    backend: filesystem # supported cache: filesystem or redis
     ttl: 3600
 
 # Annotation settings
 annotations:
   cache:
     enabled: true
-    backend: redis
+    backend: filesystem # supported cache: filesystem or redis
+
+# ODM and ORM settings
+odm_orm:
+  proxies_dir: /var/www/projectaanvraag-api/cache/proxies
+  hydrator_dir: /var/www/projectaanvraag-api/cache/hydrators
+  cache:
+    enabled: true
+    backend: filesystem
 
 # Global cache settings
 cache:
-  file_system:
-    location: # path on filesystem to cache
   redis:
     host:
     port: 6379
+

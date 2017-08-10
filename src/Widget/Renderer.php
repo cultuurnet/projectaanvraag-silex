@@ -37,6 +37,7 @@ class Renderer implements RendererInterface
     public function renderPage(WidgetPageInterface $widgetPage)
     {
 
+        $this->attachCss(WWW_ROOT . '/assets/css/main.css');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/widgets.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/settings-loader.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/placeholder-load.js');

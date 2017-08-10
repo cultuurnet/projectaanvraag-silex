@@ -17,6 +17,7 @@ use CultuurNet\UiTIDProvider\Security\Path;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
 use Silex\Application as SilexApplication;
+use Silex\Provider\HttpCacheServiceProvider;
 use Silex\Provider\RoutingServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
@@ -132,10 +133,16 @@ class WebApplication extends ApplicationBase
             [
                 'twig.path' => __DIR__ . '/../views',
                 'twig.options'    => [
-                    'cache' => $this['config']['cache']['file_system']['location'],
+                    'cache' => $this['cache_directory'] . '/twig',
                 ],
             ]
         );
+
+        // HTTP cache
+        $this->register(new HttpCacheServiceProvider(), [
+            'http_cache.cache_dir' => $this['cache_directory'] . '/http',
+            'http_cache.esi'       => null,
+        ]);
     }
 
     /**

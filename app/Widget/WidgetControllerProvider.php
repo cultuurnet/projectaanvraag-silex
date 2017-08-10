@@ -19,8 +19,8 @@ class WidgetControllerProvider implements ControllerProviderInterface
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
 
-        $controllers->get('/layout/{widgetpage}.js', 'widget_controller:renderPage')
-            ->convert('widgetpage', 'widget_page_convertor:convert');
+        $controllers->get('/layout/{widgetPage}.js', 'widget_controller:renderPage')
+            ->convert('widgetPage', 'widget_page_convertor:convert');
 
         $controllers->get('/search', 'widget_controller:searchExample');
 

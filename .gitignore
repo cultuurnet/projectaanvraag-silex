@@ -7,3 +7,5 @@ config.yml
 /build
 /log
 /cache
+/web/xhprof
+.DS_STORE

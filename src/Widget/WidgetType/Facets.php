@@ -14,12 +14,14 @@ use Pimple\Container;
  * @WidgetType(
  *      id = "facets",
  *      defaultSettings = {
- *          "filters":{
+ *          "filters" :{
  *              "what":true,
  *              "where":true,
  *              "when":false,
  *          },
- *          "group_filters":"CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *          "group_filters" :{
+ *              "enabled":false
+ *          }
  *      },
  *      allowedSettings = {
  *          "filters":{
@@ -39,7 +41,7 @@ class Facets extends WidgetTypeBase
      */
     public function render()
     {
-        $this->renderPlaceholder();
+        return 'facets widget render result';
     }
 
     /**
@@ -47,6 +49,6 @@ class Facets extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return 'facets widget';
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
     }
 }

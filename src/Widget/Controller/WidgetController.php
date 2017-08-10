@@ -122,27 +122,9 @@ print_r($test2);
     /**
      * Hardcoded example of a render page.
      */
-    public function renderPage(Request $request)
+    public function renderPage(Request $request, WidgetPageInterface $widgetPage)
     {
-        /*$collection = $this->db->selectCollection('widgets', 'WidgetPage');
-
-        $results = $collection->find();
-        while ($results->hasNext()) {
-            $document = $results->getNext();
-            //print '<pre>' . print_r($document, true) . '</pre>';
-        }*/
-
-        /** @var WidgetPageEntity $test */
-        /*$test = $this->widgetRepository->findOneBy(
-            [
-            'id' => '593fb8455722ed4df9064183',
-            ]
-        );*/
-
-        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        $page = $this->widgetPageEntityDeserializer->deserialize($json);
-
-        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($page));
+        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage));
 
         // Only write the javascript files, when we are not in debug mode.
         if (!$this->debugMode) {
@@ -181,7 +163,10 @@ print_r($test2);
             throw new NotFoundHttpException();
         }
 
-        $response = new JsonResponse($this->renderer->renderWidget($widget));
+        $data = [
+            'data' => $this->renderer->renderWidget($widget),
+        ];
+        $response = new JsonResponse($data);
 
         // If this is a jsonp request, set the requested callback.
         if ($request->query->has('callback')) {

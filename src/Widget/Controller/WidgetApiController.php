@@ -83,7 +83,8 @@ class WidgetApiController
             $types[$annotation->getId()] = $annotation->getDefaultSettings();
         }
 
-        return new JsonResponse($types);
+        // Return the types + cache the response for 24 hours.
+        return JsonResponse::create($types)->setSharedMaxAge(60 * 60 * 24);
     }
 
     /**
@@ -119,7 +120,6 @@ class WidgetApiController
 
         $widgetPagesList = array();
         /**
-         * @var  $key
          * @var WidgetPageInterface $widgetPage
          */
         foreach ($widgetPages as $key => $widgetPage) {
@@ -129,7 +129,7 @@ class WidgetApiController
             }
         }
 
-        return new JsonResponse($widgetPagesList);
+        return JsonResponse::create($widgetPagesList)->setSharedMaxAge(0);
     }
 
     /**
@@ -295,7 +295,7 @@ class WidgetApiController
         return $this->widgetPageRepository->findBy(
             [
                 'id' => $pageId,
-                'project_id' => $projectId,
+                'projectId' => (string) $projectId,
             ]
         );
     }

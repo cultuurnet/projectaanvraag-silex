@@ -132,7 +132,7 @@ class Tips extends WidgetTypeBase
      */
     public function render()
     {
-        $this->renderPlaceholder();
+        return 'tips widget render result';
     }
 
     /**
@@ -140,6 +140,6 @@ class Tips extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return 'tips widget';
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
     }
 }
