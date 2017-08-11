@@ -127,6 +127,9 @@ use Pimple\Container;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              }
+ *          },
+ *          "search_params" : {
+ *              "query": "string"
  *          }
  *      }
  * )
@@ -174,16 +177,23 @@ class Tips extends WidgetTypeBase
     public function render()
     {
         $query = new SearchQuery(true);
-        $query->addParameter(new Facet('regions'));
-        $query->addParameter(new Facet('types'));
-        $query->addParameter(new Labels('bouwen'));
-        $query->addParameter(new Labels('Kiditech'));
-        $query->addParameter(new Query('regions:gem-leuven OR regions:gem-gent'));
 
+        // Read settings for search parameters.
+        if ($this->settings['general']['items']) {
+            // Set limit.
+            $query->setLimit($this->settings['general']['items']);
+        }
+        if ($this->settings['search_params']['query']) {
+            // Convert comma-separated values to an advanced query string.
+            $query->addParameter(new Query(str_replace(',', ' AND ', $this->settings['search_params']['query'])));
+        }
+        // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
 
+        // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
-        return $this->twig->render('widgets/tips-widget/tips-widget.html.twig');
+
+        return $this->twig->render('widgets/tips-widget/tips-widget.html.twig', []);
     }
 
     /**
