@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
-use CultuurNet\SearchV3\PagedCollection;
+use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\Parameter\Labels;
 use CultuurNet\SearchV3\Parameter\Query;
@@ -193,7 +193,11 @@ class Tips extends WidgetTypeBase
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
 
-        return $this->twig->render('widgets/tips-widget/tips-widget.html.twig', []);
+        // Render twig with fed results and item settings.
+        return $this->twig->render('widgets/tips-widget/tips-widget.html.twig', [
+            'events' => $result->getMember()->getItems(),
+            'settings' => $this->settings['items']
+        ]);
     }
 
     /**
