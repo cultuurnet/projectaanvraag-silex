@@ -127,7 +127,7 @@ class SearchForm extends WidgetTypeBase
      */
     public function render()
     {
-        return $this->twig->render('widgets/search-form-widget/search-form-widget.html.twig');
+        return $this->twig->render('widgets/search-form-widget/search-form-widget.html.twig', ['fields' => $this->settings['fields']]);
     }
 
     /**

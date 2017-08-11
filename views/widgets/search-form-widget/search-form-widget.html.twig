@@ -3,150 +3,79 @@
         <form class="cnw_form cnw_form--extended">
             <div class="cnw_row">
 
+                {% if fields.type.keyword_search.enabled or fields.type.group_filters.enabled %}
+                    <div class="cnw_col">
+                        {% if fields.type.keyword_search.enabled %}
+                            <div class="cnw_form-group cnw_zoek-wat">
+                                <label for="cnw_zoek-wat">
+                                    {{  fields.type.keyword_search.label }}
+                                </label>
+                                <input type="text" class="cnw_form-control" id="cnw_zoek-wat" placeholder="Wat ?">
+                            </div>
+                        {% endif %}
+
+                        {% if fields.type.group_filters.enabled %}
+                            {% for filter in  fields.type.group_filters.filters %}
+                                {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options} %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if fields.location.keyword_search.enabled or fields.location.group_filters.enabled %}
+                    <div class="cnw_col">
+                        {% if  fields.location.keyword_search.enabled %}
+                            <div class="cnw_form-group cnw_zoek-waar">
+                                <label for="cnw_zoek-waar">
+                                    {{  fields.location.keyword_search.label }}
+                                </label>
+                                <input type="text" class="cnw_form-control" id="cnw_zoek-waar" placeholder="Waar ?">
+                            </div>
+                        {% endif %}
+
+                        {% if fields.location.group_filters.enabled %}
+                            {% for filter in  fields.location.group_filters.filters %}
+                                {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options} %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if fields.time.date_search.enabled or fields.time.date_search.group_filters.enabled %}
+                    <div class="cnw_col">
+                        {%  if  fields.time.date_search.enabled %}
+                            <div class="cnw_form-group cnw_zoek-wanneer">
+                                <label for="cnw_zoek_wanneer">
+                                    when
+                                </label>
+                                <select class="cnw_form-control" id="cnw_zoek_wanneer">
+                                    <option>Vandaag</option>
+                                    <option>Morgen</option>
+                                    <option>Dit weekend</option>
+                                    <option>Binnen 7 dagen</option>
+                                    <option>Binnen 14 dagen</option>
+                                    <option>Binnen 30 dagen</option>
+                                    <option>Aangepaste datum</option>
+                                </select>
+                            </div>
+                        {% endif %}
+
+                        {% if fields.time.group_filters.enabled %}
+                            {% for filter in  fields.time.group_filters.filters %}
+                                {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options} %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+
                 <div class="cnw_col">
-                    <h4 class="cnw_h4">Wat zoek je ?</h4>
-
-                    <?php if(!empty($keyword_search['enabled'])): ?>
-                        <div class="cnw_form-group cnw_zoek-wat">
-                            <label for="cnw_zoek-wat">
-                                <?php print($keyword_search['label']); ?>
-                            </label>
-                            <input type="text" class="cnw_form-control" id="cnw_zoek-wat" placeholder="Wat ?">
-                        </div>
-                    <?php endif; ?>
-
-
-
-                    <?php if(!empty($time['date_search']['enabled'])): ?>
-                        <div class="cnw_form-group cnw_zoek-wanneer">
-                            <label for="cnw_zoek_wanneer">
-                                <?php print($time['date_search']['label']); ?>
-                            </label>
-                            <select class="cnw_form-control" id="cnw_zoek_wanneer">
-                                <option>Vandaag</option>
-                                <option>Morgen</option>
-                                <option>Dit weekend</option>
-                                <option>Binnen 7 dagen</option>
-                                <option>Binnen 14 dagen</option>
-                                <option>Binnen 30 dagen</option>
-                                <option>Aangepaste datum</option>
-                            </select>
-                        </div>
-                    <?php endif; ?>
-
-                    <?php if(!empty($location['keyword_search']['enabled'])): ?>
-                        <div class="cnw_form-group cnw_zoek-waar">
-                            <label for="cnw_zoek-waar">
-                                <?php print($location['keyword_search']['enabled']); ?>
-                            </label>
-                            <input type="text" class="cnw_form-control" id="cnw_zoek-waar" placeholder="Waar ?">
-                        </div>
-                    <? endif; ?>
-
+                    {% if  fields.extra.group_filters.enabled %}
+                        {% for filter in  fields.extra.group_filters.filters %}
+                            {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options} %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
 
-                <div class="cnw_col">
-                    <h4 class="cnw_h4">waar section</h4>
-                    <div class="cnw_form-group cnw_zoek-waar">
-                        <label for="cnw_zoek-waar">Waar</label>
-                        <input type="text" class="cnw_form-control" id="cnw_zoek-waar" placeholder="Waar ?">
-                    </div>
-
-                    <div class="cnw_form-checkboxes_group">
-                        <div class="cnw_form-check">
-                            <label class="cnw_form-check-label">
-                                <input class="cnw_form-check-input" type="checkbox" value="">
-                                checkoption 1
-                            </label>
-                        </div>
-                        <div class="cnw_form-check">
-                            <label class="cnw_form-check-label">
-                                <input class="cnw_form-check-input" type="checkbox" value="">
-                                checkoption 2
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="cnw_form-group cnw_zoek-waar">
-                        <label for="cnw_zoek-waar">Waar</label>
-                        <input type="text" class="cnw_form-control" id="cnw_zoek-waar" placeholder="Waar ?">
-                    </div>
-
-                </div>
-                <div class="cnw_col">
-                    <h4 class="cnw_h4">wanneer section</h4>
-                    <div class="cnw_form-group cnw_zoek-wanneer">
-                        <label for="cnw_zoek_wanneer">Wanneer</label>
-                        <select class="cnw_form-control" id="cnw_zoek_wanneer">
-                            <option>Vandaag</option>
-                            <option>Morgen</option>
-                            <option>Dit weekend</option>
-                        </select>
-                    </div>
-
-                    <div class="cnw_formcheck_group">
-                        <div class="cnw_form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                       value="option1" checked>
-                                wanneer opties
-                            </label>
-                        </div>
-                        <div class="cnw_form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                       value="option1" checked>
-                                wanneer opties
-                            </label>
-                        </div>
-                        <div class="cnw_form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                       value="option1" checked>
-                                wanneer opties
-                            </label>
-                        </div>
-                        <div class="cnw_form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                       value="option1" checked>
-                                wanneer opties
-                            </label>
-                        </div>
-                        <div class="cnw_form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                       value="option1" checked>
-                                wanneer opties
-                            </label>
-                        </div>
-                        <div class="cnw_form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                       value="option1" checked>
-                                wanneer opties
-                            </label>
-                        </div>
-                        <div class="cnw_form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                       value="option1" checked>
-                                wanneer opties
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="cnw_col">
-                    <h4 class="cnw_h4">Taal section</h4>
-                    <div class="cnw_form-group cnw_zoek-waar">
-                        <label for="cnw_zoek-waar">Waar</label>
-                        <select class="cnw_form-control" id="cnw_zoek_taal">
-                            <option>Nederlands</option>
-                            <option>Frans</option>
-                            <option>Duits</option>
-                        </select>
-                    </div>
-                </div>
             </div>
 
 
