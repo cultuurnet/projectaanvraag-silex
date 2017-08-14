@@ -185,8 +185,12 @@ class Tips extends WidgetTypeBase
             $query->setLimit($this->settings['general']['items']);
         }
         if ($this->settings['search_params']['query']) {
-            // Convert comma-separated values to an advanced query string.
-            $query->addParameter(new Query(str_replace(',', ' AND ', $this->settings['search_params']['query'])));
+            // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+            $query->addParameter(
+                new Query(
+                    str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','))
+                )
+            );
         }
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
