@@ -140,6 +140,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 'description' => $event->getDescription()[$langcode],
                 'image' => $event->getImage(),
                 'when_start' => $this->formatDate($event->getStartDate(), $langcode),
+                'where' => $event->getLocation()->getName()[$langcode],
                 'organizer' => ($event->getOrganizer() ? $event->getOrganizer()->getName() : null),
                 'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
                 'themes' => $event->getTermsByDomain('theme')

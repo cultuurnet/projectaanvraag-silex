@@ -27,7 +27,7 @@
                                     <dl class="cnw_row">
                                         {% if settings.where.enabled %}
                                         <dt class="cnw_col-3">{{ settings.where.label }}</dt>
-                                        <dd class="cnw_col-9">locatie naam</dd>
+                                        <dd class="cnw_col-9">{{ event.where }}</dd>
                                         {% endif %}
 
                                         {% if event.organizer %}
@@ -37,7 +37,7 @@
 
                                         {% if settings.when.enabled %}
                                         <dt class="cnw_col-3">{{ settings.when.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.when_start }} Woensdag 12 juni 2017 om 17:00 uur</dd>
+                                        <dd class="cnw_col-9">{{ event.when_start }}</dd>
                                         {% endif %}
 
                                         {% if settings.age.enabled and event.age_range %}
