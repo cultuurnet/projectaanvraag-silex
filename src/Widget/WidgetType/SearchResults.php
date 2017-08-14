@@ -2,9 +2,16 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\SearchQuery;
+use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use Pimple\Container;
+
 
 /**
  * Provides the search form widget type.
@@ -219,11 +226,69 @@ class SearchResults extends WidgetTypeBase
 {
 
     /**
+     * @var SearchClient
+     */
+    protected $searchClient;
+
+    /**
+     * LayoutBase constructor.
+     *
+     * @param array $pluginDefinition
+     * @param \Twig_Environment $twig
+     * @param RendererInterface $renderer
+     * @param array $configuration
+     * @param bool $cleanup
+     * @param SearchClient $searchClient
+     */
+    public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
+    {
+        parent::__construct($pluginDefinition, $twig, $renderer,$configuration, $cleanup);
+        $this->searchClient = $searchClient;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
+    {
+        return new static(
+            $pluginDefinition,
+            $container['twig'],
+            $container['widget_renderer'],
+            $configuration,
+            $cleanup,
+            $container['search_api']
+        );
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function render()
     {
-        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', []);
+        $query = new SearchQuery(true);
+
+        // Read settings for search parameters.
+//        if ($this->settings['search_params']['query']) {
+//            // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+//            $query->addParameter(
+//                new Query(
+//                    str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','))
+//                )
+//            );
+//        }
+
+        // Sort by event end date.
+        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+
+        // Retrieve results from Search API.
+        $result = $this->searchClient->searchEvents($query);
+
+        // Render twig with formatted results and item settings.
+        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', [
+            'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
+            'settings' => $this->settings['items']
+        ]);
     }
 
     /**
