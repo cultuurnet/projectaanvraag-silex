@@ -3,16 +3,11 @@
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
-use CultuurNet\SearchV3\ValueObjects\PagedCollection;
-use CultuurNet\SearchV3\Parameter\Facet;
-use CultuurNet\SearchV3\Parameter\Labels;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
 
-use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use Pimple\Container;
 
 /**
