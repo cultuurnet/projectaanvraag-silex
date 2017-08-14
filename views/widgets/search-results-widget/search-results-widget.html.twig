@@ -65,7 +65,11 @@
                     <div class="cnw_searchresult--block cnw_row ">
 
                         <div class="cnw_col-4">
-                            <img src="{{ event.image }}" class="cnw_img_responsive">
+                            {% if settings.image.enabled %}
+                                <div class="cnw_col-12">
+                                    <img src="{{ event.image }}" class="cnw_img_responsive {{ settings.image.position }}">
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="cnw_col-8">
