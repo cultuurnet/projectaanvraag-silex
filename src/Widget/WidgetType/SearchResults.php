@@ -208,6 +208,9 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *                      "labels":"string"
  *                  }
  *              }
+ *          },
+ *          "search_params" : {
+ *              "query": "string"
  *          }
  *     }
  * )

@@ -48,7 +48,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     /**
      * LayoutBase constructor.
      *
-     * @param array $plugin_definition
+     * @param array $pluginDefinition
      * @param \Twig_Environment $twig
      * @param RendererInterface $renderer
      * @param array $configuration
