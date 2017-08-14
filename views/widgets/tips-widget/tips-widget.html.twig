@@ -30,28 +30,32 @@
                                         <dd class="cnw_col-9">locatie naam</dd>
                                         {% endif %}
 
+                                        {% if event.organizer %}
                                         <dt class="cnw_col-3">Organisatie</dt>
-                                        <dd class="cnw_col-9">Organisatie naam</dd>
+                                        <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                                        {% endif %}
 
                                         {% if settings.when.enabled %}
                                         <dt class="cnw_col-3">{{ settings.when.label }}</dt>
-                                        <dd class="cnw_col-9">Woensdag 12 juni 2017 om 17:00 uur</dd>
+                                        <dd class="cnw_col-9">{{ event.when_start }} Woensdag 12 juni 2017 om 17:00 uur</dd>
                                         {% endif %}
 
-                                        {% if settings.age.enabled %}
+                                        {% if settings.age.enabled and event.age_range %}
                                         <dt class="cnw_col-3">{{ settings.age.label }}</dt>
-                                        <dd class="cnw_col-9">Vanaf 4 jaar tot 12 jaar</dd>
+                                        <dd class="cnw_col-9">{{ event.age_range }}</dd>
                                         {% endif %}
 
                                         <dt class="cnw_col-3">Taal</dt>
                                         <dd class="cnw_col-9">Nl - Fr - De</dd>
 
+                                        {% if event.themes %}
                                         <dt class="cnw_col-3">Thema</dt>
                                         <dd class="cnw_col-9">
-                                            <a href="" class="cnw_link__card-thema">Thema</a>
-                                            <a href="" class="cnw_link__card-thema">Thema</a>
-                                            <a href="" class="cnw_link__card-thema">Thema</a>
+                                            {% for theme in event.themes %}
+                                            <a href="" class="cnw_link__card-thema">{{ theme.getLabel }}</a>
+                                            {% endfor %}
                                         </dd>
+                                        {% endif %}
                                     </dl>
                                     {% if settings.read_more.enabled %}
                                     <a href="#" class="cnw_btn cnw_btn__card-readmore">{{ settings.read_more.label }}</a>

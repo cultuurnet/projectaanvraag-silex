@@ -132,16 +132,134 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     public function formatEventData(array $events, string $langcode) {
         $formattedEvents = [];
 
-        // @todo: extend.
         foreach ($events as $event) {
             $formattedEvents[] = [
                 'name' => $event->getName()[$langcode],
                 'description' => $event->getDescription()[$langcode],
                 'image' => $event->getImage(),
+                'when_start' => $this->formatDate($event->getStartDate(), $langcode),
+                'organizer' => ($event->getOrganizer() ? $event->getOrganizer()->getName() : null),
+                'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
+                'themes' => $event->getTermsByDomain('theme')
             ];
         }
 
         return $formattedEvents;
+    }
+
+    protected function formatDate(\DateTime $datetime, string $langcode) {
+        // Format date according to language.
+        $full_date = '';
+        switch ($langcode) {
+            case 'nl':
+                $date = $this->translateDate($datetime->format('l d F Y'), $langcode);
+                $time = $datetime->format('h:i');
+                $full_date = "$date om $time uur";
+                break;
+        }
+        return $full_date;
+    }
+
+    protected function translateDate(string $date, string $langcode) {
+        switch ($langcode) {
+            case 'nl':
+                return str_replace([
+                    'January',
+                    'Jan',
+                    'February',
+                    'Feb',
+                    'March',
+                    'Mar',
+                    'April',
+                    'Apr',
+                    'May',
+                    'June',
+                    'Jun',
+                    'July',
+                    'Jul',
+                    'August',
+                    'Aug',
+                    'September',
+                    'Sep',
+                    'October',
+                    'Oct',
+                    'November',
+                    'Nov',
+                    'December',
+                    'Dec',
+                    'Sunday',
+                    'Sun',
+                    'Monday',
+                    'Mon',
+                    'Tuesday',
+                    'Tue',
+                    'Wednesday',
+                    'Wed',
+                    'Thursday',
+                    'Thu',
+                    'Friday',
+                    'Fri',
+                    'Saturday',
+                    'Sat'
+                ],
+                [
+                    'Januari',
+                    'Jan',
+                    'Februari',
+                    'Feb',
+                    'Maart',
+                    'Mar',
+                    'April',
+                    'Apr',
+                    'Mei',
+                    'Juni',
+                    'Jun',
+                    'Juli',
+                    'Jul',
+                    'Augustus',
+                    'Aug',
+                    'September',
+                    'Sep',
+                    'Oktober',
+                    'Okt',
+                    'November',
+                    'Nov',
+                    'December',
+                    'Dec',
+                    'Zondag',
+                    'Zo',
+                    'Maandag',
+                    'Ma',
+                    'Dinsdag',
+                    'Di',
+                    'Woensdag',
+                    'Wo',
+                    'Donderdag',
+                    'Do',
+                    'Vrijdag',
+                    'Vr',
+                    'Zaterdag',
+                    'Za'
+                ],
+                $date);
+            default:
+                return '';
+                break;
+        }
+    }
+
+    protected function formatAgeRange(string $range, string $langcode) {
+        // Explode range on dash.
+        $expl_range = explode('-', $range);
+
+        // Build range string according to language.
+        $range_str = '';
+        switch ($langcode) {
+            case 'nl':
+                $range_str = "Vanaf $expl_range[0] jaar tot $expl_range[1] jaar.";
+                break;
+        }
+        return $range_str;
     }
 
     /**

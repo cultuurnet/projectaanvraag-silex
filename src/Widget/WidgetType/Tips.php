@@ -149,6 +149,7 @@ class Tips extends WidgetTypeBase
      * @param RendererInterface $renderer
      * @param array $configuration
      * @param bool $cleanup
+     * @param SearchClient $searchClient
      */
     public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
     {
