@@ -60,156 +60,71 @@
                 </div>
                 <!--  counter END -->
 
+                {% for event in events %}
+                    <!--  results - CARD  START -->
+                    <div class="cnw_searchresult--block cnw_row ">
 
-                <!--  results - CARD  START -->
+                        <div class="cnw_col-4">
+                            <img src="{{ event.image }}" class="cnw_img_responsive">
+                        </div>
 
-                <div class="cnw_searchresult--block cnw_row ">
-
-                    <div class="cnw_col-4">
-                        <img src="https://placeholdit.imgix.net/~text?txtsize=38&txt=400%C3%97400&w=1200&h=1200"
-                             class="cnw_img_responsive">
-                    </div>
-
-                    <div class="cnw_col-8">
-                        <div class="card-block ">
-                            <h3 class="cnw_card-title">Titel van een event</h3>
-                            <span class="cnw_stickers ">
-                            <span class="cnw_sticker cnw_sticker--vlieg">
-                                <span class="cnw_txt">7+</span>
+                        <div class="cnw_col-8">
+                            <div class="card-block ">
+                                <h3 class="cnw_card-title">{{ event.name }}</h3>
+                                <span class="cnw_stickers ">
+                                {% if settings.icon_vlieg.enabled %}
+                                    <span class="cnw_sticker cnw_sticker--vlieg">
+                                        <span class="cnw_txt">7+</span>
+                                    </span>
+                                {% endif %}
                             </span>
-                        </span>
-                            <p class="cnw_card-description">Dit is een beschrijving van een event. Dit is een beschrijving
-                                van een event. Dit is een beschrijving van een event. Dit is een beschrijving van een event.
-                                Dit is een beschrijving van een event. </p>
-                            <dl class="cnw_row">
-                                <dt class="cnw_col-3">Waar</dt>
-                                <dd class="cnw_col-9">locatie naam</dd>
+                                {% if settings.description.enabled %}
+                                    <p class="cnw_card-description">{{ event.description }}</p>
+                                {% endif %}
+                                <dl class="cnw_row">
+                                    {% if settings.where.enabled %}
+                                        <dt class="cnw_col-3">{{ settings.where.label }}</dt>
+                                        <dd class="cnw_col-9">{{ event.where }}</dd>
+                                    {% endif %}
 
-                                <dt class="cnw_col-3">Organisatie</dt>
-                                <dd class="cnw_col-9">Organisatie naam</dd>
+                                    {% if event.organizer %}
+                                        <dt class="cnw_col-3">Organisatie</dt>
+                                        <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                                    {% endif %}
 
-                                <dt class="cnw_col-3">Wanneer</dt>
-                                <dd class="cnw_col-9">Woensdag 12 juni 2017 om 17:00 uur</dd>
+                                    {% if settings.when.enabled %}
+                                        <dt class="cnw_col-3">{{ settings.when.label }}</dt>
+                                        <dd class="cnw_col-9">{{ event.when_start }}</dd>
+                                    {% endif %}
 
-                                <dt class="cnw_col-3">leeftijd</dt>
-                                <dd class="cnw_col-9">Vanaf 4jaar tot 12 jaar</dd>
+                                    {% if settings.age.enabled and event.age_range %}
+                                        <dt class="cnw_col-3">{{ settings.age.label }}</dt>
+                                        <dd class="cnw_col-9">{{ event.age_range }}</dd>
+                                    {% endif %}
 
-                                <dt class="cnw_col-3">Taal</dt>
-                                <dd class="cnw_col-9">Nl - Fr - De</dd>
+                                    <dt class="cnw_col-3">Taal</dt>
+                                    <dd class="cnw_col-9">Nl - Fr - De</dd>
 
-                                <dt class="cnw_col-3">Thema</dt>
-                                <dd class="cnw_col-9">
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                </dd>
-                            </dl>
-                            <a href="#" class="cnw_btn cnw_btn__card-readmore">Lees meer</a>
+                                    {% if event.themes %}
+                                        <dt class="cnw_col-3">Thema</dt>
+                                        <dd class="cnw_col-9">
+                                            {% for theme in event.themes %}
+                                                <a href="" class="cnw_link__card-thema">{{ theme.getLabel }}</a>
+                                            {% endfor %}
+                                        </dd>
+                                    {% endif %}
+                                </dl>
+                                {% if settings.read_more.enabled %}
+                                    <a href="#" class="cnw_btn cnw_btn__card-readmore">{{ settings.read_more.label }}</a>
+                                {% endif %}
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!--  results - CARD  END -->
-                <!--  results - CARD  START -->
+                    <!--  results - CARD  END -->
+                {% endfor %}
 
-                <div class="cnw_searchresult--block cnw_row ">
-
-                    <div class="cnw_col-4">
-                        <img src="https://placeholdit.imgix.net/~text?txtsize=38&txt=400%C3%97400&w=1200&h=1200"
-                             class="cnw_img_responsive">
-                    </div>
-
-                    <div class="cnw_col-8">
-                        <div class="card-block ">
-                            <h3 class="cnw_card-title">Titel van een event</h3>
-                            <span class="cnw_stickers ">
-                            <span class="cnw_sticker cnw_sticker--vlieg">
-                                <span class="cnw_txt">7+</span>
-                            </span>
-                        </span>
-                            <p class="cnw_card-description">Dit is een beschrijving van een event. Dit is een beschrijving
-                                van een event. Dit is een beschrijving van een event. Dit is een beschrijving van een event.
-                                Dit is een beschrijving van een event. </p>
-                            <dl class="cnw_row">
-                                <dt class="cnw_col-3">Waar</dt>
-                                <dd class="cnw_col-9">locatie naam</dd>
-
-                                <dt class="cnw_col-3">Organisatie</dt>
-                                <dd class="cnw_col-9">Organisatie naam</dd>
-
-                                <dt class="cnw_col-3">Wanneer</dt>
-                                <dd class="cnw_col-9">Woensdag 12 juni 2017 om 17:00 uur</dd>
-
-                                <dt class="cnw_col-3">leeftijd</dt>
-                                <dd class="cnw_col-9">Vanaf 4jaar tot 12 jaar</dd>
-
-                                <dt class="cnw_col-3">Taal</dt>
-                                <dd class="cnw_col-9">Nl - Fr - De</dd>
-
-                                <dt class="cnw_col-3">Thema</dt>
-                                <dd class="cnw_col-9">
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                </dd>
-                            </dl>
-                            <a href="#" class="cnw_btn cnw_btn__card-readmore">Lees meer</a>
-
-                        </div>
-                    </div>
-                </div>
-                <!--  results - CARD  END -->
-                <!--  results - CARD  START -->
-
-                <div class="cnw_searchresult--block cnw_row ">
-
-                    <div class="cnw_col-4">
-                        <img src="https://placeholdit.imgix.net/~text?txtsize=38&txt=400%C3%97400&w=1200&h=1200"
-                             class="cnw_img_responsive">
-                    </div>
-
-                    <div class="cnw_col-8">
-                        <div class="card-block ">
-                            <h3 class="cnw_card-title">Titel van een event</h3>
-                            <span class="cnw_stickers ">
-                            <span class="cnw_sticker cnw_sticker--vlieg">
-                                <span class="cnw_txt">7+</span>
-                            </span>
-                        </span>
-                            <p class="cnw_card-description">Dit is een beschrijving van een event. Dit is een beschrijving
-                                van een event. Dit is een beschrijving van een event. Dit is een beschrijving van een event.
-                                Dit is een beschrijving van een event. </p>
-                            <dl class="cnw_row">
-                                <dt class="cnw_col-3">Waar</dt>
-                                <dd class="cnw_col-9">locatie naam</dd>
-
-                                <dt class="cnw_col-3">Organisatie</dt>
-                                <dd class="cnw_col-9">Organisatie naam</dd>
-
-                                <dt class="cnw_col-3">Wanneer</dt>
-                                <dd class="cnw_col-9">Woensdag 12 juni 2017 om 17:00 uur</dd>
-
-                                <dt class="cnw_col-3">leeftijd</dt>
-                                <dd class="cnw_col-9">Vanaf 4jaar tot 12 jaar</dd>
-
-                                <dt class="cnw_col-3">Taal</dt>
-                                <dd class="cnw_col-9">Nl - Fr - De</dd>
-
-                                <dt class="cnw_col-3">Thema</dt>
-                                <dd class="cnw_col-9">
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                    <a href="" class="cnw_link__card-thema">Thema</a>
-                                </dd>
-                            </dl>
-                            <a href="#" class="cnw_btn cnw_btn__card-readmore">Lees meer</a>
-
-                        </div>
-                    </div>
-                </div>
-                <!--  results - CARD  END -->
-            </div>
-
+            </div>-
         </div>
     </div>
 </div>
