@@ -7,18 +7,20 @@
                     <div class="cnw_col">
                         <!--  results - CARD  START -->
                         <div class="cnw_searchresult--block">
-                            <div class="cnw_col-12">
-                                <img src="{{ event.image }}" class="cnw_img_responsive">
-                            </div>
+                            {% if settings.image.enabled %}
+                                <div class="cnw_col-12">
+                                    <img src="{{ event.image }}" class="cnw_img_responsive {{ settings.image.position }}">
+                                </div>
+                            {% endif %}
 
                             <div class="cnw_col-12">
                                 <div class="card-block ">
                                     <h3 class="cnw_card-title">{{ event.name }}</h3>
                                     <span class="cnw_stickers ">
                                         {% if settings.icon_vlieg.enabled %}
-                                        <span class="cnw_sticker cnw_sticker--vlieg">
-                                            <span class="cnw_txt">7+</span>
-                                        </span>
+                                            <span class="cnw_sticker cnw_sticker--vlieg">
+                                                <span class="cnw_txt">7+</span>
+                                            </span>
                                         {% endif %}
                                     </span>
                                     {% if settings.description.enabled %}
