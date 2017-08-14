@@ -125,6 +125,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * Format array of Event objects for sending to a template.
+     *
      * @param array $events
      * @param string $langcode
      * @return array
@@ -147,6 +149,13 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         return $formattedEvents;
     }
 
+    /**
+     * Format a datetime object to a specific format.
+     *
+     * @param \DateTime $datetime
+     * @param string $langcode
+     * @return string
+     */
     protected function formatDate(\DateTime $datetime, string $langcode) {
         // Format date according to language.
         $full_date = '';
@@ -160,6 +169,14 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         return $full_date;
     }
 
+    /**
+     * Temporary function to translate a date string to localized values (only NL for now).
+     * @todo: Remove this when i18n is properly implemented.
+     *
+     * @param string $date
+     * @param string $langcode
+     * @return string
+     */
     protected function translateDate(string $date, string $langcode) {
         switch ($langcode) {
             case 'nl':
@@ -248,6 +265,13 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         }
     }
 
+    /**
+     * Format an age range value according to langcode.
+     *
+     * @param string $range
+     * @param string $langcode
+     * @return string
+     */
     protected function formatAgeRange(string $range, string $langcode) {
         // Explode range on dash.
         $expl_range = explode('-', $range);
