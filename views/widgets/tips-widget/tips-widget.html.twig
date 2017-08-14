@@ -26,39 +26,39 @@
                                     {% endif %}
                                     <dl class="cnw_row">
                                         {% if settings.where.enabled %}
-                                        <dt class="cnw_col-3">{{ settings.where.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.where }}</dd>
+                                            <dt class="cnw_col-3">{{ settings.where.label }}</dt>
+                                            <dd class="cnw_col-9">{{ event.where }}</dd>
                                         {% endif %}
 
                                         {% if event.organizer %}
-                                        <dt class="cnw_col-3">Organisatie</dt>
-                                        <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                                            <dt class="cnw_col-3">Organisatie</dt>
+                                            <dd class="cnw_col-9">{{ event.organizer }}</dd>
                                         {% endif %}
 
                                         {% if settings.when.enabled %}
-                                        <dt class="cnw_col-3">{{ settings.when.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.when_start }}</dd>
+                                            <dt class="cnw_col-3">{{ settings.when.label }}</dt>
+                                            <dd class="cnw_col-9">{{ event.when_start }}</dd>
                                         {% endif %}
 
                                         {% if settings.age.enabled and event.age_range %}
-                                        <dt class="cnw_col-3">{{ settings.age.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.age_range }}</dd>
+                                            <dt class="cnw_col-3">{{ settings.age.label }}</dt>
+                                            <dd class="cnw_col-9">{{ event.age_range }}</dd>
                                         {% endif %}
 
                                         <dt class="cnw_col-3">Taal</dt>
                                         <dd class="cnw_col-9">Nl - Fr - De</dd>
 
                                         {% if event.themes %}
-                                        <dt class="cnw_col-3">Thema</dt>
-                                        <dd class="cnw_col-9">
-                                            {% for theme in event.themes %}
-                                            <a href="" class="cnw_link__card-thema">{{ theme.getLabel }}</a>
-                                            {% endfor %}
-                                        </dd>
+                                            <dt class="cnw_col-3">Thema</dt>
+                                            <dd class="cnw_col-9">
+                                                {% for theme in event.themes %}
+                                                <a href="" class="cnw_link__card-thema">{{ theme.getLabel }}</a>
+                                                {% endfor %}
+                                            </dd>
                                         {% endif %}
                                     </dl>
                                     {% if settings.read_more.enabled %}
-                                    <a href="#" class="cnw_btn cnw_btn__card-readmore">{{ settings.read_more.label }}</a>
+                                        <a href="#" class="cnw_btn cnw_btn__card-readmore">{{ settings.read_more.label }}</a>
                                     {% endif %}
 
                                 </div>
