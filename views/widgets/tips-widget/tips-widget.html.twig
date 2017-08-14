@@ -8,12 +8,12 @@
                         <!--  results - CARD  START -->
                         <div class="cnw_searchresult--block">
                             <div class="cnw_col-12">
-                                <img src="{{ event.getImage }}" class="cnw_img_responsive">
+                                <img src="{{ event.image }}" class="cnw_img_responsive">
                             </div>
 
                             <div class="cnw_col-12">
                                 <div class="card-block ">
-                                    <h3 class="cnw_card-title">{{ event.getName.nl }}</h3>
+                                    <h3 class="cnw_card-title">{{ event.name }}</h3>
                                     <span class="cnw_stickers ">
                                         {% if settings.icon_vlieg.enabled %}
                                         <span class="cnw_sticker cnw_sticker--vlieg">
@@ -22,7 +22,7 @@
                                         {% endif %}
                                     </span>
                                     {% if settings.description.enabled %}
-                                    <p class="cnw_card-description">{{ event.getDescription.nl }}</p>
+                                    <p class="cnw_card-description">{{ event.description }}</p>
                                     {% endif %}
                                     <dl class="cnw_row">
                                         {% if settings.where.enabled %}

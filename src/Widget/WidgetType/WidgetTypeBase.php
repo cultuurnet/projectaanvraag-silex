@@ -125,6 +125,26 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * @param array $events
+     * @param string $langcode
+     * @return array
+     */
+    public function formatEventData(array $events, string $langcode) {
+        $formattedEvents = [];
+
+        // @todo: extend.
+        foreach ($events as $event) {
+            $formattedEvents[] = [
+                'name' => $event->getName()[$langcode],
+                'description' => $event->getDescription()[$langcode],
+                'image' => $event->getImage(),
+            ];
+        }
+
+        return $formattedEvents;
+    }
+
+    /**
      * Merge all defaults into the $settings array.
      */
     protected function mergeDefaults($settings, $defaultSettings)
