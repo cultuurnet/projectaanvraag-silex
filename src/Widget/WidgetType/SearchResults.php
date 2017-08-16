@@ -279,6 +279,7 @@ class SearchResults extends WidgetTypeBase
 
         // Render twig with formatted results and item settings.
         return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', [
+            'result_count' => $result->getTotalItems(),
             'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
             'settings' => $this->settings['items']
         ]);
