@@ -169,6 +169,9 @@ use Pimple\Container;
  *                  "label":"string"
  *              }
  *          },
+ *          "search_params" : {
+ *              "query":"string"
+ *          },
  *          "detail_page":{
  *              "map":"boolean",
  *              "price_information":"boolean",
@@ -201,13 +204,6 @@ use Pimple\Container;
  *              "language_icons":{
  *                  "enabled":"boolean"
  *              },
- *              "image":{
- *                  "enabled":"boolean",
- *                  "width":"integer",
- *                  "height":"integer",
- *                  "default_image":"boolean",
- *                  "position":"string"
- *              },
  *              "labels":{
  *                  "enabled":"boolean",
  *                  "limit_labels":{
@@ -215,9 +211,6 @@ use Pimple\Container;
  *                      "labels":"string"
  *                  }
  *              }
- *          },
- *          "search_params" : {
- *              "query": "string"
  *          }
  *     }
  * )
@@ -269,14 +262,14 @@ class SearchResults extends WidgetTypeBase
         $query = new SearchQuery(true);
 
         // Read settings for search parameters.
-//        if ($this->settings['search_params']['query']) {
-//            // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
-//            $query->addParameter(
-//                new Query(
-//                    str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','))
-//                )
-//            );
-//        }
+        if ($this->settings['search_params']['query']) {
+            // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+            $query->addParameter(
+                new Query(
+                    str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','))
+                )
+            );
+        }
 
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
