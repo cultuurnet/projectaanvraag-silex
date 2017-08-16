@@ -143,7 +143,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 'where' => $event->getLocation()->getName()[$langcode],
                 'organizer' => ($event->getOrganizer() ? $event->getOrganizer()->getName() : null),
                 'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
-                'themes' => $event->getTermsByDomain('theme')
+                'themes' => $event->getTermsByDomain('theme'),
+                'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels())
             ];
         }
 
@@ -274,6 +275,10 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @return string
      */
     protected function formatAgeRange(string $range, string $langcode) {
+        // Check for empty range values.
+        if ($range == '-') {
+            return null;
+        }
         // Explode range on dash.
         $expl_range = explode('-', $range);
 
@@ -285,6 +290,31 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 break;
         }
         return $range_str;
+    }
+
+    /**
+     * Check if event is considered a "Vlieg" event and return either
+     * the minimum age or a boolean value.
+     *
+     * @param string $range
+     * @param array $labels
+     * @return bool|string
+     */
+    protected function checkVliegEvent(string $range, $labels) {
+        // Check age range if there is one.
+        if ($range) {
+            // Check for empty range values.
+            if ($range !== '-') {
+                // Explode range on dash.
+                $expl_range = explode('-', $range);
+                // Check min age and return it if it's lower than 12.
+                if ($expl_range[0] < 12) {
+                    return "$expl_range[0]+";
+                }
+            }
+        }
+        // Check for certain labels that also determine "Vlieg" events.
+        return ($labels && count(array_intersect($labels, ['ook voor kinderen', 'uit met vlieg'])) > 0 ? '0+' : false);
     }
 
     /**

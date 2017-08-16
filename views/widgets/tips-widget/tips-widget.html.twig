@@ -17,9 +17,9 @@
                                 <div class="card-block ">
                                     <h3 class="cnw_card-title">{{ event.name }}</h3>
                                     <span class="cnw_stickers ">
-                                        {% if settings.icon_vlieg.enabled %}
+                                        {% if settings.icon_vlieg.enabled and (event.vlieg) %}
                                             <span class="cnw_sticker cnw_sticker--vlieg">
-                                                <span class="cnw_txt">7+</span>
+                                                <span class="cnw_txt">{{ event.vlieg }}</span>
                                             </span>
                                         {% endif %}
                                     </span>
