@@ -148,7 +148,7 @@ class Tips extends WidgetTypeBase
      */
     public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
     {
-        parent::__construct($pluginDefinition, $twig, $renderer,$configuration, $cleanup);
+        parent::__construct($pluginDefinition, $twig, $renderer, $configuration, $cleanup);
         $this->searchClient = $searchClient;
     }
 
@@ -183,7 +183,7 @@ class Tips extends WidgetTypeBase
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $query->addParameter(
                 new Query(
-                    str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','))
+                    str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
                 )
             );
         }
@@ -195,10 +195,13 @@ class Tips extends WidgetTypeBase
         $result = $this->searchClient->searchEvents($query);
 
         // Render twig with formatted results and item settings.
-        return $this->twig->render('widgets/tips-widget/tips-widget.html.twig', [
-            'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
-            'settings' => $this->settings['items']
-        ]);
+        return $this->twig->render(
+            'widgets/tips-widget/tips-widget.html.twig',
+            [
+                'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
+                'settings' => $this->settings['items'],
+            ]
+        );
     }
 
     /**
