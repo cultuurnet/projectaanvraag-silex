@@ -174,7 +174,7 @@ class Tips extends WidgetTypeBase
     {
         $query = new SearchQuery(true);
 
-        // Read settings for search parameters.
+        // Read settings for search parameters and limit.
         if ($this->settings['general']['items']) {
             // Set limit.
             $query->setLimit($this->settings['general']['items']);
@@ -187,6 +187,7 @@ class Tips extends WidgetTypeBase
                 )
             );
         }
+
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
 

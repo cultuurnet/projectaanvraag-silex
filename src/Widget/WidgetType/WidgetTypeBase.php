@@ -144,7 +144,9 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 'organizer' => ($event->getOrganizer() ? $event->getOrganizer()->getName() : null),
                 'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
                 'themes' => $event->getTermsByDomain('theme'),
-                'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels())
+                'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
+                //'uitpas' => false
+                'uitpas' => $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels())
             ];
         }
 
@@ -179,7 +181,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param string $langcode
      * @return string
      */
-    protected function translateDate(string $date, string $langcode) {
+    protected function translateDate($date, $langcode) {
         switch ($langcode) {
             case 'nl':
                 return str_replace([
@@ -274,7 +276,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param string $langcode
      * @return string
      */
-    protected function formatAgeRange(string $range, string $langcode) {
+    protected function formatAgeRange($range, string $langcode) {
         // Check for empty range values.
         if ($range == '-') {
             return null;
@@ -300,7 +302,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param array $labels
      * @return bool|string
      */
-    protected function checkVliegEvent(string $range, $labels) {
+    protected function checkVliegEvent($range, $labels) {
         // Check age range if there is one.
         if ($range) {
             // Check for empty range values.
@@ -315,6 +317,24 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         }
         // Check for certain labels that also determine "Vlieg" events.
         return ($labels && count(array_intersect($labels, ['ook voor kinderen', 'uit met vlieg'])) > 0 ? '0+' : false);
+    }
+
+    /**
+     * Check if event is considered an "Uitpas" event.
+     *
+     * @param array $hiddenLabels
+     * @return bool
+     */
+    protected function checkUitpasEvent($hiddenLabels) {
+        // Check for label values containing "Uitpas".
+        if ($hiddenLabels) {
+            foreach ($hiddenLabels as $label) {
+                if (stripos($label, 'uitpas') !== FALSE) {
+                    return TRUE;
+                }
+            }
+        }
+        return false;
     }
 
     /**
