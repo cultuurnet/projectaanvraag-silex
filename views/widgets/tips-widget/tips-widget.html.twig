@@ -17,10 +17,14 @@
                                 <div class="card-block ">
                                     <h3 class="cnw_card-title">{{ event.name }}</h3>
                                     <span class="cnw_stickers ">
-                                        {% if settings.icon_vlieg.enabled %}
+                                        {% if settings.icon_vlieg.enabled and event.vlieg %}
                                             <span class="cnw_sticker cnw_sticker--vlieg">
-                                                <span class="cnw_txt">7+</span>
+                                                <span class="cnw_txt">{{ event.vlieg }}</span>
                                             </span>
+                                        {% endif %}
+                                        {% if settings.icon_uitpas.enabled and event.uitpas %}
+                                            {# The text is here because there is no background image for the logo yet. #}
+                                            <span class="cnw_sticker cnw_sticker--uitpas">UITPAS</span>
                                         {% endif %}
                                     </span>
                                     {% if settings.description.enabled %}

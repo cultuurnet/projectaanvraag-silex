@@ -44,8 +44,7 @@ class ApplicationBase extends SilexApplication
         // Load the config.
         if (file_exists($this['cache_directory'] . '/config.php')) {
             $this['config'] = require $this['cache_directory'] . '/config.php';
-        }
-        else {
+        } else {
             $this->register(new YamlConfigServiceProvider(__DIR__ . '/../config.yml'));
             file_put_contents($this['cache_directory'] . '/config.php', '<?php return ' . var_export($this['config'], true) . ';');
         }
@@ -81,7 +80,7 @@ class ApplicationBase extends SilexApplication
             [
                 'cache.redis' => $this['config']['cache']['redis'],
                 'cache.annotations' => $this['config']['annotations']['cache'],
-                'cache.odm_orm' => $this['config']['odm_orm']['cache']
+                'cache.odm_orm' => $this['config']['odm_orm']['cache'],
             ]
         );
 

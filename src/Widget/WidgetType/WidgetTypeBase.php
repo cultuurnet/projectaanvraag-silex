@@ -131,7 +131,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param string $langcode
      * @return array
      */
-    public function formatEventData(array $events, string $langcode) {
+    public function formatEventData(array $events, string $langcode)
+    {
         $formattedEvents = [];
 
         foreach ($events as $event) {
@@ -143,7 +144,9 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 'where' => $event->getLocation()->getName()[$langcode],
                 'organizer' => ($event->getOrganizer() ? $event->getOrganizer()->getName() : null),
                 'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
-                'themes' => $event->getTermsByDomain('theme')
+                'themes' => $event->getTermsByDomain('theme'),
+                'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
+                'uitpas' => ($event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false),
             ];
         }
 
@@ -157,17 +160,19 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param string $langcode
      * @return string
      */
-    protected function formatDate(\DateTime $datetime, string $langcode) {
+    protected function formatDate(\DateTime $datetime, string $langcode)
+    {
         // Format date according to language.
-        $full_date = '';
+        $fullDate = '';
         switch ($langcode) {
             case 'nl':
                 $date = $this->translateDate($datetime->format('l d F Y'), $langcode);
                 $time = $datetime->format('h:i');
-                $full_date = "$date om $time uur";
+                $fullDate = "$date om $time uur";
                 break;
         }
-        return $full_date;
+
+        return $fullDate;
     }
 
     /**
@@ -178,88 +183,91 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param string $langcode
      * @return string
      */
-    protected function translateDate(string $date, string $langcode) {
+    protected function translateDate($date, $langcode)
+    {
         switch ($langcode) {
             case 'nl':
-                return str_replace([
-                    'January',
-                    'Jan',
-                    'February',
-                    'Feb',
-                    'March',
-                    'Mar',
-                    'April',
-                    'Apr',
-                    'May',
-                    'June',
-                    'Jun',
-                    'July',
-                    'Jul',
-                    'August',
-                    'Aug',
-                    'September',
-                    'Sep',
-                    'October',
-                    'Oct',
-                    'November',
-                    'Nov',
-                    'December',
-                    'Dec',
-                    'Sunday',
-                    'Sun',
-                    'Monday',
-                    'Mon',
-                    'Tuesday',
-                    'Tue',
-                    'Wednesday',
-                    'Wed',
-                    'Thursday',
-                    'Thu',
-                    'Friday',
-                    'Fri',
-                    'Saturday',
-                    'Sat'
-                ],
-                [
-                    'Januari',
-                    'Jan',
-                    'Februari',
-                    'Feb',
-                    'Maart',
-                    'Mar',
-                    'April',
-                    'Apr',
-                    'Mei',
-                    'Juni',
-                    'Jun',
-                    'Juli',
-                    'Jul',
-                    'Augustus',
-                    'Aug',
-                    'September',
-                    'Sep',
-                    'Oktober',
-                    'Okt',
-                    'November',
-                    'Nov',
-                    'December',
-                    'Dec',
-                    'Zondag',
-                    'Zo',
-                    'Maandag',
-                    'Ma',
-                    'Dinsdag',
-                    'Di',
-                    'Woensdag',
-                    'Wo',
-                    'Donderdag',
-                    'Do',
-                    'Vrijdag',
-                    'Vr',
-                    'Zaterdag',
-                    'Za'
-                ],
-                $date);
+                return str_replace(
+                    [
+                        'January',
+                        'Jan',
+                        'February',
+                        'Feb',
+                        'March',
+                        'Mar',
+                        'April',
+                        'Apr',
+                        'May',
+                        'June',
+                        'Jun',
+                        'July',
+                        'Jul',
+                        'August',
+                        'Aug',
+                        'September',
+                        'Sep',
+                        'October',
+                        'Oct',
+                        'November',
+                        'Nov',
+                        'December',
+                        'Dec',
+                        'Sunday',
+                        'Sun',
+                        'Monday',
+                        'Mon',
+                        'Tuesday',
+                        'Tue',
+                        'Wednesday',
+                        'Wed',
+                        'Thursday',
+                        'Thu',
+                        'Friday',
+                        'Fri',
+                        'Saturday',
+                        'Sat',
+                    ],
+                    [
+                        'Januari',
+                        'Jan',
+                        'Februari',
+                        'Feb',
+                        'Maart',
+                        'Mar',
+                        'April',
+                        'Apr',
+                        'Mei',
+                        'Juni',
+                        'Jun',
+                        'Juli',
+                        'Jul',
+                        'Augustus',
+                        'Aug',
+                        'September',
+                        'Sep',
+                        'Oktober',
+                        'Okt',
+                        'November',
+                        'Nov',
+                        'December',
+                        'Dec',
+                        'Zondag',
+                        'Zo',
+                        'Maandag',
+                        'Ma',
+                        'Dinsdag',
+                        'Di',
+                        'Woensdag',
+                        'Wo',
+                        'Donderdag',
+                        'Do',
+                        'Vrijdag',
+                        'Vr',
+                        'Zaterdag',
+                        'Za',
+                    ],
+                    $date
+                );
             default:
                 return '';
                 break;
@@ -273,18 +281,71 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param string $langcode
      * @return string
      */
-    protected function formatAgeRange(string $range, string $langcode) {
+    protected function formatAgeRange($range, string $langcode)
+    {
+        // Check for empty range values.
+        if ($range == '-') {
+            return null;
+        }
         // Explode range on dash.
-        $expl_range = explode('-', $range);
+        $explRange = explode('-', $range);
 
         // Build range string according to language.
-        $range_str = '';
+        $rangeStr = '';
         switch ($langcode) {
             case 'nl':
-                $range_str = "Vanaf $expl_range[0] jaar tot $expl_range[1] jaar.";
+                $rangeStr = "Vanaf $explRange[0] jaar tot $explRange[1] jaar.";
                 break;
         }
-        return $range_str;
+
+        return $rangeStr;
+    }
+
+    /**
+     * Check if event is considered a "Vlieg" event and return either
+     * the minimum age or a boolean value.
+     *
+     * @param string $range
+     * @param array $labels
+     * @return bool|string
+     */
+    protected function checkVliegEvent($range, $labels)
+    {
+        // Check age range if there is one.
+        if ($range) {
+            // Check for empty range values.
+            if ($range !== '-') {
+                // Explode range on dash.
+                $explRange = explode('-', $range);
+                // Check min age and return it if it's lower than 12.
+                if ($explRange[0] < 12) {
+                    return "$explRange[0]+";
+                }
+            }
+        }
+
+        // Check for certain labels that also determine "Vlieg" events.
+        return ($labels && count(array_intersect($labels, ['ook voor kinderen', 'uit met vlieg'])) > 0 ? '0+' : false);
+    }
+
+    /**
+     * Check if event is considered an "Uitpas" event.
+     *
+     * @param array $hiddenLabels
+     * @return bool
+     */
+    protected function checkUitpasEvent($hiddenLabels)
+    {
+        // Check for label values containing "Uitpas".
+        if ($hiddenLabels) {
+            foreach ($hiddenLabels as $label) {
+                if (stripos($label, 'uitpas') !== false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -292,7 +353,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      */
     protected function mergeDefaults($settings, $defaultSettings)
     {
-
         foreach ($defaultSettings as $id => $defaultSetting) {
             if (!isset($settings[$id])) {
                 $settings[$id] = $defaultSetting;
@@ -309,7 +369,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      */
     protected function cleanupConfiguration($settings, $allowedSettings)
     {
-
         foreach ($settings as $id => $value) {
             // Unknown property? Remove from settings.
             if (!isset($allowedSettings[$id])) {
