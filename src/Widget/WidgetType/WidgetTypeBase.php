@@ -145,8 +145,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
                 'themes' => $event->getTermsByDomain('theme'),
                 'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
-                //'uitpas' => false
-                'uitpas' => $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels())
+                'uitpas' => ($event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false)
             ];
         }
 
