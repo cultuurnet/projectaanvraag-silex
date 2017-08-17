@@ -349,6 +349,28 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * Filter out non search parameter values and trim the first
+     * parameter.
+     *
+     * @param $params
+     * @return array
+     */
+    protected function filterUrlQueryParams($params) {
+        if (!empty($params)) {
+            // Filter out values that are not search parameters.
+            $keysToRemove = ['callback','_'];
+            $params = array_diff_key($params, array_flip($keysToRemove));
+            // Check first param for question mark.
+            $firstKey = key($params);
+            $trimmedKey = ltrim($firstKey, '?');
+            // Replace key.
+            $params[$trimmedKey] = $params[$firstKey];
+            unset($params[$firstKey]);
+        }
+        return $params;
+    }
+
+    /**
      * Merge all defaults into the $settings array.
      */
     protected function mergeDefaults($settings, $defaultSettings)

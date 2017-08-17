@@ -126,6 +126,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.apiRequest = function(url, params) {
         params = params || {};
 
+        // Add current querystring to the URL.
+        params.data = window.location.search;
+
         if (typeof params.dataType == 'undefined') {
             params.dataType = 'jsonp';
         }

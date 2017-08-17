@@ -259,9 +259,23 @@ class SearchResults extends WidgetTypeBase
      */
     public function render()
     {
+        // Retrieve the current request query parameters using the global Application object and filter.
+        global $app;
+        $urlQueryParams = $this->filterUrlQueryParams($app['request_stack']->getCurrentRequest()->query->all());
+
         $query = new SearchQuery(true);
 
-        // Read settings for search parameters.
+        // Pagination settings.
+        // Limit items per page.
+        // @todo: This should probably be a setting for the widget.
+        $query->setLimit(20);
+        // Check for page query param.
+        if (isset($urlQueryParams['cnpage'])) {
+            // Move start according to the active page.
+            $query->setStart($urlQueryParams['cnpage'] * 20);
+        }
+
+        // Read settings for search parameters from settings.
         if ($this->settings['search_params']['query']) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $query->addParameter(
