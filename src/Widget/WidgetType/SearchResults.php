@@ -266,13 +266,16 @@ class SearchResults extends WidgetTypeBase
         $query = new SearchQuery(true);
 
         // Pagination settings.
+        $currentPageIndex = 0;
         // Limit items per page.
         // @todo: This should probably be a setting for the widget.
         $query->setLimit(20);
         // Check for page query param.
-        if (isset($urlQueryParams['cnpage'])) {
+        if (isset($urlQueryParams['page'])) {
+            // Set current page index.
+            $currentPageIndex = $urlQueryParams['page'];
             // Move start according to the active page.
-            $query->setStart($urlQueryParams['cnpage'] * 20);
+            $query->setStart($currentPageIndex * 20);
         }
 
         // Read settings for search parameters from settings.
@@ -291,10 +294,14 @@ class SearchResults extends WidgetTypeBase
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
 
+        // Retrieve pager object.
+        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int)$currentPageIndex);
+
         // Render twig with formatted results and item settings.
         return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', [
             'result_count' => $result->getTotalItems(),
             'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
+            'pager' => $pager,
             'settings' => $this->settings['items']
         ]);
     }

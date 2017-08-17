@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPager;
 use Pimple\Container;
 
 class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInterface
@@ -368,6 +369,20 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
             unset($params[$firstKey]);
         }
         return $params;
+    }
+
+    /**
+     * Return a WidgetPager object for the given data.
+     *
+     * @param int $itemsPerPage
+     * @param int $totalItems
+     * @param int $pageIndex
+     * @return WidgetPager
+     */
+    protected function retrievePagerData(int $itemsPerPage, int $totalItems, int $pageIndex) {
+        // Determine number of pages.
+        $pages = ceil($totalItems / $itemsPerPage);
+        return new WidgetPager($pages, $pageIndex, $itemsPerPage);
     }
 
     /**

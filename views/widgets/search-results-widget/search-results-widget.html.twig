@@ -129,6 +129,7 @@
                 {% endfor %}
 
                 <!--  PAGINATION Start -->
+                {% if pager and pager.pageCount > 1 %}
                 <nav aria-label="Page navigation example">
                     <ul class="cnw_pagination cnw_justify-content-center">
                         <li class="cnw_page-item ">
@@ -137,9 +138,17 @@
                         <li class="cnw_page-item">
                             <a class="cnw_page-link" href="#" tabindex="-1">Vorige</a>
                         </li>
-                        <li class="cnw_page-item"><a class="cnw_page-link" href="#">1</a></li>
-                        <li class="cnw_page-item cnw_disabled"><a class="cnw_page-link" href="#">2</a></li>
-                        <li class="cnw_page-item"><a class="cnw_page-link" href="#">3</a></li>
+
+                        <li class="pager-ellipsis disabled"><span>…</span></li>
+
+                        {% for i in 0..pager.pageCount %}
+                            {% if i < 6 %}
+                            <li class="cnw_page-item {% if i == pager.activePageIndex %}cnw_disabled{% endif %}"><a class="cnw_page-link" href="#">{{ i+1 }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        <li class="pager-ellipsis disabled"><span>…</span></li>
+
                         <li class="cnw_page-item">
                             <a class="cnw_page-link" href="#">Volgende</a>
                         </li>
@@ -148,6 +157,7 @@
                         </li>
                     </ul>
                 </nav>
+                {% endif %}
                 <!--  PAGINATION END-->
 
             </div>
