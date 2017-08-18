@@ -2,129 +2,135 @@
     <div class="cnw_container">
         <div id="loadcontent">
             <!--  Faceted search - Date -->
-            <section class="cnw_facetedsearch cnw_facetedsearch--date">
+            {% if settings_filters.when %}
+                <section class="cnw_facetedsearch cnw_facetedsearch--date">
 
-                <h3 class="cnw_block-title">Wanneer</h3>
+                    <h3 class="cnw_block-title">Wanneer</h3>
 
-                <ul class="cnw_facet-search" data-size="6">
-                    <li class="cnw_facet-label ">
-                        <a href="#">Vandaag</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
-                    <li class="cnw_facet-label ">
-                        <a href="#">Morgen</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                    <ul class="cnw_facet-search" data-size="6">
+                        <li class="cnw_facet-label ">
+                            <a href="#">Vandaag</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">Morgen</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">Dit weekend</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">Dit weekend</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">Volgende 7 dagen</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">Volgende 7 dagen</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">Volgende 14 dagen</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">Volgende 14 dagen</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">Volgende 30 dagen</a>
-                        <small class="fcnw_acet-count  cnw_push-right">(23)</small>
-                    </li>
-                </ul>
+                        <li class="cnw_facet-label ">
+                            <a href="#">Volgende 30 dagen</a>
+                            <small class="fcnw_acet-count  cnw_push-right">(23)</small>
+                        </li>
+                    </ul>
 
-            </section>
+                </section>
+            {% endif %}
             <!--  Faceted search -   Date -->
 
 
             <!--  Faceted search - Location -->
-            <section class="cnw_facetedsearch cnw_facetedsearch--location">
+            {% if settings_filters.where %}
+                <section class="cnw_facetedsearch cnw_facetedsearch--location">
 
-                <h3 class="cnw_block-title">Waar</h3>
+                    <h3 class="cnw_block-title">Waar</h3>
 
-                <ul class="cnw_facet-search" data-size="6">
-                    <li class="cnw_facet-label ">
-                        <a href="#">Selected Location</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
-                </ul>
-                <div class="cnw_row">
-                    <div class="cnw_col-6">
-                        <select>
-                            <option>+ 20 km</option>
-                            <option>+ 40 km</option>
-                            <option>+ 60 km</option>
-                        </select>
+                    <ul class="cnw_facet-search" data-size="6">
+                        <li class="cnw_facet-label ">
+                            <a href="#">Selected Location</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
+                    </ul>
+                    <div class="cnw_row">
+                        <div class="cnw_col-6">
+                            <select>
+                                <option>+ 20 km</option>
+                                <option>+ 40 km</option>
+                                <option>+ 60 km</option>
+                            </select>
+                        </div>
+                        <div class="cnw_col-6">
+                            <button class="cnw_btn-link cnw_btn cnw_form-submit" name="op" value="Wijzig straal"
+                                    type="submit">Wijzig straal
+                            </button>
+                        </div>
                     </div>
-                    <div class="cnw_col-6">
-                        <button class="cnw_btn-link cnw_btn cnw_form-submit" name="op" value="Wijzig straal"
-                                type="submit">Wijzig straal
-                        </button>
+                    <div class="cnw_row">
+                        <div class="cnw_col">
+                            <a data-toggle="collapse" href="#">Kies andere plaats <i class="fa"></i></a>
+                        </div>
                     </div>
-                </div>
-                <div class="cnw_row">
-                    <div class="cnw_col">
-                        <a data-toggle="collapse" href="#">Kies andere plaats <i class="fa"></i></a>
-                    </div>
-                </div>
-                <div class="cnw_row">
-                    <div class="cnw_col">
-                        <form class="cnw_form-inline">
-                            <div class="cnw_form-group">
+                    <div class="cnw_row">
+                        <div class="cnw_col">
+                            <form class="cnw_form-inline">
+                                <div class="cnw_form-group">
 
-                                <input type="text" id="searchPostcode" class="cnw_form-control"
-                                       placeholder="Postcode of gemeente">
-                            </div>
-                            <button type="submit" class="cnw_btn cnw_btn-primary">Ok</button>
-                        </form>
+                                    <input type="text" id="searchPostcode" class="cnw_form-control"
+                                           placeholder="Postcode of gemeente">
+                                </div>
+                                <button type="submit" class="cnw_btn cnw_btn-primary">Ok</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
-            </section>
+                </section>
+            {% endif %}
             <!--  Faceted search -   location -->
 
 
             <!--  Faceted search - type -->
-            <section class="cnw_facetedsearch cnw_facetedsearch--type">
+            {% if settings_filters.what %}
+                <section class="cnw_facetedsearch cnw_facetedsearch--type">
 
-                <h3 class="cnw_block-title">Type</h3>
+                    <h3 class="cnw_block-title">Type</h3>
 
-                <ul class="cnw_facet-search" data-size="6">
-                    <li class="cnw_facet-label ">
-                        <a href="#">type 1</a>
-                        <small class="cnw_facet-count cnw_push-right">(23)</small>
-                    </li>
-                    <li class="cnw_facet-label ">
-                        <a href="#">type 2</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                    <ul class="cnw_facet-search" data-size="6">
+                        <li class="cnw_facet-label ">
+                            <a href="#">type 1</a>
+                            <small class="cnw_facet-count cnw_push-right">(23)</small>
+                        </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">type 2</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">type 3</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">type 3</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">type 4</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">type 4</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">type 5</a>
-                        <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                    </li>
+                        <li class="cnw_facet-label ">
+                            <a href="#">type 5</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
 
-                    <li class="cnw_facet-label ">
-                        <a href="#">type 6</a>
-                        <small class="fcnw_acet-count  cnw_push-right">(23)</small>
-                    </li>
-                </ul>
+                        <li class="cnw_facet-label ">
+                            <a href="#">type 6</a>
+                            <small class="fcnw_acet-count  cnw_push-right">(23)</small>
+                        </li>
+                    </ul>
 
-            </section>
+                </section>
+            {% endif %}
             <!--  Faceted search -   type -->
 
 
