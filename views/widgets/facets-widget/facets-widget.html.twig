@@ -42,7 +42,6 @@
             {% endif %}
             <!--  Faceted search -   Date -->
 
-
             <!--  Faceted search - Location -->
             {% if settings_filters.where %}
                 <section class="cnw_facetedsearch cnw_facetedsearch--location">
@@ -91,7 +90,6 @@
             {% endif %}
             <!--  Faceted search -   location -->
 
-
             <!--  Faceted search - type -->
             {% if settings_filters.what %}
                 <section class="cnw_facetedsearch cnw_facetedsearch--type">
@@ -133,7 +131,27 @@
             {% endif %}
             <!--  Faceted search -   type -->
 
+            <!--  Faceted search - extra -->
+            {% if settings_group_filters.enabled %}
+                <section class="cnw_facetedsearch cnw_facetedsearch--extra">
 
+                    <h3 class="cnw_block-title">Extra</h3>
+
+                    <ul class="cnw_facet-search" data-size="6">
+                        <li class="cnw_facet-label ">
+                            <a href="#">extra 1</a>
+                            <small class="cnw_facet-count cnw_push-right">(23)</small>
+                        </li>
+
+                        <li class="cnw_facet-label ">
+                            <a href="#">extra 2</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
+                    </ul>
+
+                </section>
+            {% endif %}
+            <!--  Faceted search -   extra -->
         </div>
     </div>
 </div>
