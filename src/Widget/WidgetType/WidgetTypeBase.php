@@ -141,7 +141,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 'name' => $event->getName()[$langcode],
                 'description' => $event->getDescription()[$langcode],
                 'image' => $event->getImage(),
-                'when_start' => $this->formatDate($event->getStartDate(), $langcode),
+                'when_start' => ($event->getStartDate() ? $this->formatDate($event->getStartDate(), $langcode) : null),
                 'where' => $event->getLocation()->getName()[$langcode],
                 'organizer' => ($event->getOrganizer() ? $event->getOrganizer()->getName() : null),
                 'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
@@ -161,7 +161,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param string $langcode
      * @return string
      */
-    protected function formatDate(\DateTime $datetime, string $langcode)
+    protected function formatDate($datetime, string $langcode)
     {
         // Format date according to language.
         $fullDate = '';

@@ -33,12 +33,22 @@ class WidgetPager
 
     public function getLowestVisible()
     {
-        // TODO
+        if (($this->activePageIndex - 1) <= $this->visibleBefore) {
+            return 0; // Start
+        }
+        else {
+            return $this->activePageIndex - $this->visibleBefore;
+        }
     }
 
     public function getHighestVisible()
     {
-        // TODO
+        if (($this->activePageIndex + $this->visibleAfter) >= $this->pageCount) {
+            return $this->pageCount; // End
+        }
+        else {
+            return $this->activePageIndex + $this->visibleAfter;
+        }
     }
 
 }
