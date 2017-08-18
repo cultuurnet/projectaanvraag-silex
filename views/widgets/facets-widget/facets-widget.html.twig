@@ -138,15 +138,19 @@
                     <h3 class="cnw_block-title">Extra</h3>
 
                     <ul class="cnw_facet-search" data-size="6">
-                        <li class="cnw_facet-label ">
-                            <a href="#">extra 1</a>
-                            <small class="cnw_facet-count cnw_push-right">(23)</small>
-                        </li>
-
-                        <li class="cnw_facet-label ">
-                            <a href="#">extra 2</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                        </li>
+                        {% for group in settings_group_filters.filters  %}
+                            <li class="cnw_facet-label ">
+                                <h4>{{ group.label }}</h4>
+                                <ul>
+                                    {% for option in group.options %}
+                                        <li>
+                                            <a href="#">{{ option.label }}</a>
+                                            <small class="cnw_facet-count cnw_push-right">(23)</small>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
                     </ul>
 
                 </section>
