@@ -41,7 +41,14 @@ class Facets extends WidgetTypeBase
      */
     public function render()
     {
-        return 'facets widget render result';
+        // Render twig with settings.
+        return $this->twig->render(
+            'widgets/facets-widget/facets-widget.html.twig',
+            [
+                'settings_filters' => $this->settings['filters'],
+                'settings_group_filters' => $this->settings['group_filters'],
+            ]
+        );
     }
 
     /**
