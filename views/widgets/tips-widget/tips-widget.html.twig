@@ -7,9 +7,9 @@
                     <div class="cnw_col">
                         <!--  results - CARD  START -->
                         <div class="cnw_searchresult--block">
-                            {% if settings.image.enabled %}
+                            {% if settings_items.image.enabled %}
                                 <div class="cnw_col-12">
-                                    <img src="{{ event.image }}" class="cnw_img_responsive {{ settings.image.position }}">
+                                    <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
                                 </div>
                             {% endif %}
 
@@ -17,22 +17,22 @@
                                 <div class="card-block ">
                                     <h3 class="cnw_card-title">{{ event.name }}</h3>
                                     <span class="cnw_stickers ">
-                                        {% if settings.icon_vlieg.enabled and event.vlieg %}
+                                        {% if settings_items.icon_vlieg.enabled and event.vlieg %}
                                             <span class="cnw_sticker cnw_sticker--vlieg">
                                                 <span class="cnw_txt">{{ event.vlieg }}</span>
                                             </span>
                                         {% endif %}
-                                        {% if settings.icon_uitpas.enabled and event.uitpas %}
+                                        {% if settings_items.icon_uitpas.enabled and event.uitpas %}
                                             {# The text is here because there is no background image for the logo yet. #}
                                             <span class="cnw_sticker cnw_sticker--uitpas">UITPAS</span>
                                         {% endif %}
                                     </span>
-                                    {% if settings.description.enabled %}
+                                    {% if settings_items.description.enabled %}
                                     <p class="cnw_card-description">{{ event.description }}</p>
                                     {% endif %}
                                     <dl class="cnw_row">
-                                        {% if settings.where.enabled %}
-                                            <dt class="cnw_col-3">{{ settings.where.label }}</dt>
+                                        {% if settings_items.where.enabled %}
+                                            <dt class="cnw_col-3">{{ settings_items.where.label }}</dt>
                                             <dd class="cnw_col-9">{{ event.where }}</dd>
                                         {% endif %}
 
@@ -41,13 +41,13 @@
                                             <dd class="cnw_col-9">{{ event.organizer }}</dd>
                                         {% endif %}
 
-                                        {% if settings.when.enabled %}
-                                            <dt class="cnw_col-3">{{ settings.when.label }}</dt>
+                                        {% if settings_items.when.enabled %}
+                                            <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
                                             <dd class="cnw_col-9">{{ event.when_start }}</dd>
                                         {% endif %}
 
-                                        {% if settings.age.enabled and event.age_range %}
-                                            <dt class="cnw_col-3">{{ settings.age.label }}</dt>
+                                        {% if settings_items.age.enabled and event.age_range %}
+                                            <dt class="cnw_col-3">{{ settings_items.age.label }}</dt>
                                             <dd class="cnw_col-9">{{ event.age_range }}</dd>
                                         {% endif %}
 
@@ -63,8 +63,8 @@
                                             </dd>
                                         {% endif %}
                                     </dl>
-                                    {% if settings.read_more.enabled %}
-                                        <a href="#" class="cnw_btn cnw_btn__card-readmore">{{ settings.read_more.label }}</a>
+                                    {% if settings_items.read_more.enabled %}
+                                        <a href="#" class="cnw_btn cnw_btn__card-readmore">{{ settings_items.read_more.label }}</a>
                                     {% endif %}
 
                                 </div>

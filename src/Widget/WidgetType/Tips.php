@@ -199,7 +199,7 @@ class Tips extends WidgetTypeBase
             'widgets/tips-widget/tips-widget.html.twig',
             [
                 'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
-                'settings' => $this->settings['items'],
+                'settings_items' => $this->settings['items'],
             ]
         );
     }
