@@ -7,11 +7,8 @@ use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
-use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use Pimple\Container;
-
 
 /**
  * Provides the search form widget type.
@@ -235,7 +232,7 @@ class SearchResults extends WidgetTypeBase
      */
     public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
     {
-        parent::__construct($pluginDefinition, $twig, $renderer,$configuration, $cleanup);
+        parent::__construct($pluginDefinition, $twig, $renderer, $configuration, $cleanup);
         $this->searchClient = $searchClient;
     }
 
@@ -283,7 +280,7 @@ class SearchResults extends WidgetTypeBase
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $query->addParameter(
                 new Query(
-                    str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','))
+                    str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
                 )
             );
         }
@@ -295,16 +292,18 @@ class SearchResults extends WidgetTypeBase
         $result = $this->searchClient->searchEvents($query);
 
         // Retrieve pager object.
-        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int)$currentPageIndex);
+        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
 
         // Render twig with formatted results and item settings.
-        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', [
-            'result_count' => $result->getTotalItems(),
-            'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
-            'pager' => $pager,
-            'settings' => $this->settings['items'],
-            'header' => $this->settings['header']
-        ]);
+        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig',
+            [
+                'result_count' => $result->getTotalItems(),
+                'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
+                'pager' => $pager,
+                'settings' => $this->settings['items'],
+                'header' => $this->settings['header'],
+            ]
+        );
     }
 
     /**

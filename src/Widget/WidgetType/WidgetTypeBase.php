@@ -356,7 +356,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param $params
      * @return array
      */
-    protected function filterUrlQueryParams($params) {
+    protected function filterUrlQueryParams($params)
+    {
         if (!empty($params)) {
             foreach ($params as $key => $param) {
                 // Check key for question mark.
@@ -380,7 +381,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param int $pageIndex
      * @return WidgetPager
      */
-    protected function retrievePagerData(int $itemsPerPage, int $totalItems, int $pageIndex) {
+    protected function retrievePagerData(int $itemsPerPage, int $totalItems, int $pageIndex)
+    {
         // Determine number of pages.
         $pages = ceil($totalItems / $itemsPerPage);
         return new WidgetPager($pages, $pageIndex, $itemsPerPage);
