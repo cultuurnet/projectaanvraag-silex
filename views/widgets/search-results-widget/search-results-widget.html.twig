@@ -135,10 +135,10 @@
 
                         {% if pager.activePageIndex != 0 %}
                             <li class="cnw_page-item ">
-                                <a class="cnw_page-link" href="#" tabindex="-1">Eerste</a>
+                                <a class="cnw_page-link" href="#" tabindex="-1" onclick="CultuurnetWidgets.switchPage(0)">Eerste</a>
                             </li>
                             <li class="cnw_page-item">
-                                <a class="cnw_page-link" href="#" tabindex="-1">Vorige</a>
+                                <a class="cnw_page-link" href="#" tabindex="-1" onclick="CultuurnetWidgets.switchPage({{ pager.activePageIndex - 1 }})">Vorige</a>
                             </li>
                         {% endif %}
 
@@ -147,7 +147,9 @@
                         {% endif %}
 
                         {% for i in pager.getLowestVisible..pager.getHighestVisible %}
-                            <li class="cnw_page-item {% if i == pager.activePageIndex + 1 %}cnw_disabled{% endif %}"><a class="cnw_page-link" href="#">{{ i }}</a></li>
+                            <li class="cnw_page-item {% if i == pager.activePageIndex + 1 %}cnw_disabled{% endif %}">
+                                <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ i-1 }})">{{ i }}</a>
+                            </li>
                         {% endfor %}
 
                         {% if pager.getHighestVisible != pager.pageCount %}
@@ -156,10 +158,10 @@
 
                         {% if pager.activePageIndex != pager.pageCount-1 %}
                             <li class="cnw_page-item">
-                                <a class="cnw_page-link" href="#">Volgende</a>
+                                <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ pager.activePageIndex + 1 }})">Volgende</a>
                             </li>
                             <li class="cnw_page-item">
-                                <a class="cnw_page-link" href="#">Laatste</a>
+                                <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ pager.pageCount - 1 }})">Laatste</a>
                             </li>
                         {% endif %}
                     </ul>

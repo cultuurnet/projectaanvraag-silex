@@ -14,7 +14,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         if (window.jQuery) {
             CultuurnetWidgets.attachBehaviors();
         }
-        // If jQuery does not exists, load it and attach beviors.
+        // If jQuery does not exists, load it and attach behaviors.
         else {
             var script = document.createElement('script');
             document.head.appendChild(script);

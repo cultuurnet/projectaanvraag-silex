@@ -358,12 +358,16 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      */
     protected function filterUrlQueryParams($params) {
         if (!empty($params)) {
-            // Check first param for question mark.
-            $firstKey = key($params);
-            $trimmedKey = ltrim($firstKey, '?');
-            // Replace key.
-            $params[$trimmedKey] = $params[$firstKey];
-            unset($params[$firstKey]);
+            foreach ($params as $key => $param) {
+                // Check key for question mark.
+                if (substr($key, 0, 1) == '?') {
+                    // Trim question mark.
+                    $trimmedKey = ltrim($key, '?');
+                    // Replace key.
+                    $params[$trimmedKey] = $param;
+                    unset($params[$key]);
+                }
+            }
         }
         return $params;
     }
