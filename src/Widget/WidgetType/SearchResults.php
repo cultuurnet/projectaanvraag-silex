@@ -302,7 +302,8 @@ class SearchResults extends WidgetTypeBase
             'result_count' => $result->getTotalItems(),
             'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
             'pager' => $pager,
-            'settings' => $this->settings['items']
+            'settings' => $this->settings['items'],
+            'header' => $this->settings['header']
         ]);
     }
 

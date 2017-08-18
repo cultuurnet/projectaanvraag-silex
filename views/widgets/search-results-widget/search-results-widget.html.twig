@@ -2,6 +2,12 @@
     <div class="cnw_container-fluid">
 
         <div class="cnw_row">
+            {% if header.body %}
+                <div class="cnw_searchresult_header">
+                    {{ header.body | raw }}
+                </div>
+            {% endif %}
+
             <!--  facetedSearch  START -->
             <div class="cnw_searchresult__facetedSearch">
                 <!--  je zocht op  START -->
@@ -52,7 +58,6 @@
                     <p>Je zocht op <span class="cnw_searchresult__searchword">Zoekwoord</span></p>
                 </div>
                 <!--  searchWords END -->
-
 
                 <!--  counter  START -->
                 <div class="cnw_searchresult__counter">
@@ -106,8 +111,10 @@
                                         <dd class="cnw_col-9">{{ event.age_range }}</dd>
                                     {% endif %}
 
-                                    <dt class="cnw_col-3">Taal</dt>
-                                    <dd class="cnw_col-9">Nl - Fr - De</dd>
+                                    {% if settings.language_icons.enabled %}
+                                        <dt class="cnw_col-3">Taal</dt>
+                                        <dd class="cnw_col-9">Nl - Fr - De</dd>
+                                    {% endif %}
 
                                     {% if event.themes %}
                                         <dt class="cnw_col-3">Thema</dt>
