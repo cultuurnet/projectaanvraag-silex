@@ -350,7 +350,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Filter out non search parameter values and trim the first
+     * Trim the first
      * parameter.
      *
      * @param $params
@@ -358,9 +358,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      */
     protected function filterUrlQueryParams($params) {
         if (!empty($params)) {
-            // Filter out values that are not search parameters.
-            $keysToRemove = ['callback','_'];
-            $params = array_diff_key($params, array_flip($keysToRemove));
             // Check first param for question mark.
             $firstKey = key($params);
             $trimmedKey = ltrim($firstKey, '?');
