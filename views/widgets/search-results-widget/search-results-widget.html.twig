@@ -132,31 +132,36 @@
                 {% if pager and pager.pageCount > 1 %}
                 <nav aria-label="Page navigation example">
                     <ul class="cnw_pagination cnw_justify-content-center">
-                        <li class="cnw_page-item ">
-                            <a class="cnw_page-link" href="#" tabindex="-1">Eerste</a>
-                        </li>
-                        <li class="cnw_page-item">
-                            <a class="cnw_page-link" href="#" tabindex="-1">Vorige</a>
-                        </li>
 
-                        {% if pager.getLowestVisible != 0 %}
+                        {% if pager.activePageIndex != 0 %}
+                            <li class="cnw_page-item ">
+                                <a class="cnw_page-link" href="#" tabindex="-1">Eerste</a>
+                            </li>
+                            <li class="cnw_page-item">
+                                <a class="cnw_page-link" href="#" tabindex="-1">Vorige</a>
+                            </li>
+                        {% endif %}
+
+                        {% if pager.getLowestVisible != 1 %}
                             <li class="pager-ellipsis disabled"><span>…</span></li>
                         {% endif %}
 
                         {% for i in pager.getLowestVisible..pager.getHighestVisible %}
-                            <li class="cnw_page-item {% if i == pager.activePageIndex %}cnw_disabled{% endif %}"><a class="cnw_page-link" href="#">{{ i+1 }}</a></li>
+                            <li class="cnw_page-item {% if i == pager.activePageIndex + 1 %}cnw_disabled{% endif %}"><a class="cnw_page-link" href="#">{{ i }}</a></li>
                         {% endfor %}
 
                         {% if pager.getHighestVisible != pager.pageCount %}
                             <li class="pager-ellipsis disabled"><span>…</span></li>
                         {% endif %}
 
-                        <li class="cnw_page-item">
-                            <a class="cnw_page-link" href="#">Volgende</a>
-                        </li>
-                        <li class="cnw_page-item">
-                            <a class="cnw_page-link" href="#">Laatste</a>
-                        </li>
+                        {% if pager.activePageIndex != pager.pageCount-1 %}
+                            <li class="cnw_page-item">
+                                <a class="cnw_page-link" href="#">Volgende</a>
+                            </li>
+                            <li class="cnw_page-item">
+                                <a class="cnw_page-link" href="#">Laatste</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
                 {% endif %}

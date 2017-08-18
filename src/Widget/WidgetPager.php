@@ -31,23 +31,35 @@ class WidgetPager
         $this->itemsPerPage = $itemsPerPage;
     }
 
+    /**
+     * Calculate lowest visible page number.
+     *
+     * @return int
+     */
     public function getLowestVisible()
     {
         if (($this->activePageIndex - 1) <= $this->visibleBefore) {
-            return 0; // Start
+            return 1;
         }
         else {
-            return $this->activePageIndex - $this->visibleBefore;
+            // Return lowest visible + correction.
+            return $this->activePageIndex - $this->visibleBefore + 1;
         }
     }
 
+    /**
+     * Calculate highest visible page number.
+     *
+     * @return int
+     */
     public function getHighestVisible()
     {
         if (($this->activePageIndex + $this->visibleAfter) >= $this->pageCount) {
-            return $this->pageCount; // End
+            return $this->pageCount;
         }
         else {
-            return $this->activePageIndex + $this->visibleAfter;
+            // Return highest visible + correction.
+            return $this->activePageIndex + $this->visibleAfter + 1;
         }
     }
 
