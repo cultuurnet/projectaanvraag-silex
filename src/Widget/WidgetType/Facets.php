@@ -115,6 +115,7 @@ class Facets extends WidgetTypeBase
         return $this->twig->render(
             'widgets/facets-widget/facets-widget.html.twig',
             [
+                'facets' => $this->formatFacetResults($facetResults, 'nl'),
                 'settings_filters' => $this->settings['filters'],
                 'settings_group_filters' => $this->settings['group_filters'],
             ]

@@ -6,6 +6,8 @@ use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPager;
+use CultuurNet\SearchV3\ValueObjects\FacetResults;
+use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use Pimple\Container;
 
 class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInterface
@@ -152,6 +154,35 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         }
 
         return $formattedEvents;
+    }
+
+    /**
+     * Format facet results for sending to a template.
+     *
+     * @param FacetResults $facetResults
+     * @param string $langcode
+     * @return array
+     */
+    public function formatFacetResults(FacetResults $facetResults, $langcode)
+    {
+        // Filter results by field and format.
+        $types = $facetResults->getFacetResultsByField('types');
+        $regions = $facetResults->getFacetResultsByField('regions');
+
+        $types_formatted = [];
+        foreach($types as $type) {
+            $types_formatted[] = $this->formatFacetResult($type, 'nl');
+        }
+
+        $regions_formatted = [];
+        foreach($regions as $region) {
+            $regions_formatted[] = $this->formatFacetResult($region, 'nl');
+        }
+
+        return [
+            'types' => $types,
+            'regions' => $regions,
+        ];
     }
 
     /**
@@ -347,6 +378,24 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         }
 
         return false;
+    }
+
+    /**
+     * Function used by formatFacetResults to format each individual result.
+     *
+     * @param FacetResult $facetResult
+     * @param $langcode
+     * @return array
+     */
+    protected function formatFacetResult(FacetResult $facetResult, $langcode) {
+        // Get result data (@todo: always 1?).
+        $data = $facetResult->getResults()[0];
+
+        return [
+            'value' => $data->getValue(),
+            'count' => $data->getCount(),
+            'name' => $data->getNames()[$langcode],
+        ];
     }
 
     /**
