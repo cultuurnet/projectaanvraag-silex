@@ -41,6 +41,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
             // TODO: This should eventually work asynchronously (using $.ajax ?).
             window.location.href = window.location.pathname + '?' + newParams;
+        } else {
+            // Refresh page with a page param.
+            window.location.href = window.location.pathname + '?page=' + page;
         }
     };
 
