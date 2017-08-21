@@ -5,35 +5,36 @@
             {% if settings_filters.when %}
                 <section class="cnw_facetedsearch cnw_facetedsearch--date">
 
+                    <!-- TODO: needs to be built from facet? -->
                     <h3 class="cnw_block-title">Wanneer</h3>
 
                     <ul class="cnw_facet-search" data-size="6">
                         <li class="cnw_facet-label ">
-                            <a href="#">Vandaag</a>
+                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('today')">Vandaag</a>
                             <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
                         <li class="cnw_facet-label ">
-                            <a href="#">Morgen</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                        </li>
-
-                        <li class="cnw_facet-label ">
-                            <a href="#">Dit weekend</a>
+                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('tomorrow')">Morgen</a>
                             <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
 
                         <li class="cnw_facet-label ">
-                            <a href="#">Volgende 7 dagen</a>
+                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('thisweekend')">Dit weekend</a>
                             <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
 
                         <li class="cnw_facet-label ">
-                            <a href="#">Volgende 14 dagen</a>
+                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next7days')">Volgende 7 dagen</a>
                             <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
 
                         <li class="cnw_facet-label ">
-                            <a href="#">Volgende 30 dagen</a>
+                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next14days')">Volgende 14 dagen</a>
+                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
+                        </li>
+
+                        <li class="cnw_facet-label ">
+                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next30days')">Volgende 30 dagen</a>
                             <small class="fcnw_acet-count  cnw_push-right">(23)</small>
                         </li>
                     </ul>

@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
@@ -277,6 +278,12 @@ class SearchResults extends WidgetTypeBase
             // Move start according to the active page.
             $query->setStart($currentPageIndex * 20);
         }
+
+        // Add facets (datetime is missing from v3?).
+        $query->addParameter(new Facet('regions'));
+        $query->addParameter(new Facet('types'));
+        $query->addParameter(new Facet('themes'));
+        $query->addParameter(new Facet('facilities'));
 
         // Read settings for search parameters from settings.
         if ($this->settings['search_params']['query']) {
