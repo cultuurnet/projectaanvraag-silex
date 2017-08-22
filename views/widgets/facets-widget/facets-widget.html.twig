@@ -50,9 +50,9 @@
                     <h3 class="cnw_block-title">Waar</h3>
 
                     <ul class="cnw_facet-search" data-size="6">
-                        {% for facet in facets.types %}
+                        {% for facet in facets.regions %}
                             <li class="cnw_facet-label ">
-                                <a href="#">{{ facet.name }}</a>
+                                <a href="#" onclick="CultuurnetWidgets.facetRegionFilter('{{ facet.value }}')">{{ facet.name }}</a>
                                 <small class="cnw_facet-count cnw_push-right">({{ facet.count }})</small>
                             </li>
                         {% endfor %}
@@ -110,7 +110,7 @@
 
                 </section>
             {% endif %}
-            <!--  Faceted search -   type -->
+            <!--  Faceted search - type -->
 
             <!--  Faceted search - extra -->
             {% if settings_group_filters.enabled %}
