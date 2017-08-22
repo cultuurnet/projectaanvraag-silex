@@ -50,10 +50,12 @@
                     <h3 class="cnw_block-title">Waar</h3>
 
                     <ul class="cnw_facet-search" data-size="6">
-                        <li class="cnw_facet-label ">
-                            <a href="#">Selected Location</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                        </li>
+                        {% for facet in facets.types %}
+                            <li class="cnw_facet-label ">
+                                <a href="#">{{ facet.name }}</a>
+                                <small class="cnw_facet-count cnw_push-right">({{ facet.count }})</small>
+                            </li>
+                        {% endfor %}
                     </ul>
                     <div class="cnw_row">
                         <div class="cnw_col-6">
@@ -98,34 +100,12 @@
                     <h3 class="cnw_block-title">Type</h3>
 
                     <ul class="cnw_facet-search" data-size="6">
-                        <li class="cnw_facet-label ">
-                            <a href="#">type 1</a>
-                            <small class="cnw_facet-count cnw_push-right">(23)</small>
-                        </li>
-                        <li class="cnw_facet-label ">
-                            <a href="#">type 2</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                        </li>
-
-                        <li class="cnw_facet-label ">
-                            <a href="#">type 3</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                        </li>
-
-                        <li class="cnw_facet-label ">
-                            <a href="#">type 4</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                        </li>
-
-                        <li class="cnw_facet-label ">
-                            <a href="#">type 5</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
-                        </li>
-
-                        <li class="cnw_facet-label ">
-                            <a href="#">type 6</a>
-                            <small class="fcnw_acet-count  cnw_push-right">(23)</small>
-                        </li>
+                        {% for facet in facets.types %}
+                            <li class="cnw_facet-label ">
+                                <a href="#">{{ facet.name }}</a>
+                                <small class="cnw_facet-count cnw_push-right">({{ facet.count }})</small>
+                            </li>
+                        {% endfor %}
                     </ul>
 
                 </section>

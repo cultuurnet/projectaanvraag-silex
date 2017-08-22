@@ -78,11 +78,6 @@ class Facets extends WidgetTypeBase
                     'nl' => 'Cursus of workshop',
                 ],27,[]),
             ]),
-            new FacetResult('types', [
-                new FacetResultItem('0.3.1.0.0', [
-                    'nl' => 'Cursus of workshop',
-                ],27,[]),
-            ]),
             new FacetResult('regions', [
                 new FacetResultItem('prv-vlaams-brabant', [
                     'nl' => 'Vlaams-Brabant',
@@ -109,7 +104,6 @@ class Facets extends WidgetTypeBase
                 ],17,[]),
             ]),
         ]);
-
 
         // Render twig with settings.
         return $this->twig->render(

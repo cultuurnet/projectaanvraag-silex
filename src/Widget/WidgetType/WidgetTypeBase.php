@@ -180,8 +180,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         }
 
         return [
-            'types' => $types,
-            'regions' => $regions,
+            'types' => $types_formatted,
+            'regions' => $regions_formatted,
         ];
     }
 
