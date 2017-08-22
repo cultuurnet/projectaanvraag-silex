@@ -285,15 +285,28 @@ class SearchResults extends WidgetTypeBase
         $query->addParameter(new Facet('themes'));
         $query->addParameter(new Facet('facilities'));
 
-        // Read settings for search parameters from settings.
+
+        // Build advanced query string
+        $advancedQuery = '';
+
+        // Read settings for possible search parameters from settings.
         if ($this->settings['search_params']['query']) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
-            $query->addParameter(
-                new Query(
-                    str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','))
-                )
-            );
+            $advancedQuery = str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','));
         }
+
+        // / Check for facets query params.
+        if (isset($urlQueryParams['region'])) {
+            $advancedQuery = ($advancedQuery ? $advancedQuery . ' AND regions=' . $urlQueryParams['region'] : 'regions=' . $urlQueryParams['region']);
+        }
+        //@todo: types & datetypes (not recognised query parameters?)
+
+        // Add adanced query string to API request.
+        $query->addParameter(
+            new Query(
+                $advancedQuery
+            )
+        );
 
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
