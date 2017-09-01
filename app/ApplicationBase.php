@@ -197,6 +197,21 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
+//        $this->register(
+//            new DoctrineServiceProvider(),
+//            [
+//                'db.options' => [
+//                    'driver'   => 'pdo_mysql',
+//                    //'path'     => __DIR__.'/app.db',
+//                    'charset'  => 'utf8',
+//                    'host'     => '127.0.0.1',
+//                    'dbname'   => '',
+//                    'user'     => '',
+//                    'password' => '',
+//                    ],
+//            ]
+//        );
+
         Type::addType('page_rows', PageRows::class);
 
         $this->register(

@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Console\Command\CacheClearCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\InstallCommand;
+use CultuurNet\ProjectAanvraag\Console\Command\MigrateCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\SyncConsumersCommand;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
@@ -109,6 +110,7 @@ class ConsoleApplication extends ApplicationBase
                 new RunDqlCommand(),
                 new ValidateSchemaCommand(),
                 new CacheClearCommand(),
+                new MigrateCommand(),
             ]
         );
     }

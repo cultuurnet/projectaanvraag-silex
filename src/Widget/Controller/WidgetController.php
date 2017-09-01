@@ -167,6 +167,7 @@ print_r($test2);
             'data' => $this->renderer->renderWidget($widget),
         ];
         $response = new JsonResponse($data);
+        //$response = new Response($this->renderer->renderWidget($widget));
 
         // If this is a jsonp request, set the requested callback.
         if ($request->query->has('callback')) {

@@ -138,6 +138,8 @@ class SearchForm extends WidgetTypeBase
         /*$this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
         $this->renderer->attachCss(__DIR__ . '/../../../web/assets/css/widgets/search-form/search-form.css');*/
 
+        $this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
+
         return $this->render();
     }
 }
