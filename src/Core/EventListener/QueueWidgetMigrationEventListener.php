@@ -2,25 +2,20 @@
 
 namespace CultuurNet\ProjectAanvraag\Core\EventListener;
 
-use CultuurNet\ProjectAanvraag\Core\Event\ConsumerTypeInterface;
-use CultuurNet\ProjectAanvraag\Core\Event\QueueConsumers;
-use CultuurNet\ProjectAanvraag\Core\Event\SyncConsumer;
+use CultuurNet\ProjectAanvraag\Core\Event\QueueWidgetMigration;
+use Doctrine\DBAL\Connection;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 /**
- * Event listener for queuing consumers for synchronisation.
+ * Event listener for queuing old widget data for migration.
  */
-class QueueConsumersEventListener
+class QueueWidgetMigrationEventListener
 {
-    /**
-     * @var \ICultureFeed
-     */
-    protected $cultureFeed;
 
     /**
-     * @var \ICultureFeed
+     * @var Connection
      */
-    protected $cultureFeedtest;
+    protected $legacyDatabase;
 
     /**
      * @var MessageBusSupportingMiddleware
@@ -33,22 +28,24 @@ class QueueConsumersEventListener
      * @param \ICultureFeed $cultureFeedTest
      * @param MessageBusSupportingMiddleware $eventBus
      */
-    public function __construct(\ICultureFeed $cultureFeed, \ICultureFeed $cultureFeedTest, MessageBusSupportingMiddleware $eventBus)
+    public function __construct(Connection $legacy_db, MessageBusSupportingMiddleware $eventBus)
     {
-        $this->cultureFeed = $cultureFeed;
-        $this->cultureFeedtest = $cultureFeedTest;
+
+        $this->legacyDatabase = $legacy_db;
         $this->eventBus = $eventBus;
     }
 
     /**
      * Handle the event
-     * @param QueueConsumers $event
+     * @param QueueWidgetMigration $event
      */
-    public function handle(QueueConsumers $event)
+    public function handle(QueueWidgetMigration $event)
     {
+        //$this->legacyDatabase->query();
+        var_dump('FOO');
+
         /** @var \CultureFeed_ResultSet $consumers */
-        var_dump('listener trigger');
-        $consumers = null;
+        /*$consumers = null;
         $type = $event->getType();
 
         if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
@@ -68,6 +65,6 @@ class QueueConsumersEventListener
             foreach ($consumers->objects as $object) {
                 $this->eventBus->handle(new SyncConsumer($type, $object));
             }
-        }
+        }*/
     }
 }

@@ -14,6 +14,7 @@ use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
+use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
@@ -133,7 +134,7 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new DoctrineServiceProvider(),
             [
-                'db.options' => $this['config']['database'],
+                'dbs.options' => $this['config']['database'],
             ]
         );
 
@@ -197,27 +198,14 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
-//        $this->register(
-//            new DoctrineServiceProvider(),
-//            [
-//                'db.options' => [
-//                    'driver'   => 'pdo_mysql',
-//                    //'path'     => __DIR__.'/app.db',
-//                    'charset'  => 'utf8',
-//                    'host'     => '127.0.0.1',
-//                    'dbname'   => '',
-//                    'user'     => '',
-//                    'password' => '',
-//                    ],
-//            ]
-//        );
-
         Type::addType('page_rows', PageRows::class);
 
         $this->register(
             new WidgetServiceProvider(),
             []
         );
+
+        $this->register(new LegacyServiceProvider());
 
         $this->register(new MessageBusProvider());
 

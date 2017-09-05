@@ -13,6 +13,8 @@ subscribers:
             - queue_consumers_listener
         CultuurNet\ProjectAanvraag\Core\Event\SyncConsumer:
             - sync_consumer_listener
+        CultuurNet\ProjectAanvraag\Core\Event\QueueWidgetMigration:
+            - queue_widget_migration_listener
 
 listeners:
     project_created_listener:
@@ -53,6 +55,11 @@ listeners:
             - project_repository
             - orm.em
             - insightly.project_config
+    queue_widget_migration_listener:
+        class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueWidgetMigrationEventListener
+        arguments:
+            - legacy_widgets_db
+            - event_bus
 
 handlers:
     create_project_handler:
