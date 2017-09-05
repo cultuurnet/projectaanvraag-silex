@@ -27,21 +27,10 @@ class MigrateCommand extends Command
         // Migrate listener does the real migration
 
         $eventBus = $this->getInstance('event_bus');
-        //var_dump($eventBus);
 
         $eventBus->handle(new QueueWidgetMigration());
 
         $output->writeln('Starting the migration.');
-
-
-//        $app = ApplicationBase::class;
-//        $app->get('/blog/{id}', function ($id) use ($app) {
-//            $sql = "SELECT * FROM posts WHERE id = ?";
-//            $post = $app['db']->fetchAssoc($sql, array((int) $id));
-//
-//            return  "<h1>{$post['title']}</h1>".
-//                "<p>{$post['body']}</p>";
-//        });
     }
 
     /**

@@ -24,8 +24,6 @@ class QueueWidgetMigrationEventListener
 
     /**
      * QueueConsumersEventListener constructor.
-     * @param \ICultureFeed $cultureFeed
-     * @param \ICultureFeed $cultureFeedTest
      * @param MessageBusSupportingMiddleware $eventBus
      */
     public function __construct(Connection $legacy_db, MessageBusSupportingMiddleware $eventBus)
@@ -41,30 +39,32 @@ class QueueWidgetMigrationEventListener
      */
     public function handle(QueueWidgetMigration $event)
     {
-        //$this->legacyDatabase->query();
-        var_dump('FOO');
+        // Retrieve chunk of pages from legacy DB.
+        $pageQueryBuilder = $this->legacyDatabase->createQueryBuilder();
+        $results = $pageQueryBuilder
+            ->select('pa.pid AS page_id', 'pa.layout', 'pa.name AS title', 'pr.name AS project', 'pr.userpoolkey AS live_uid', 'pr.application_key AS live_consumer_key', 'pa.created', 'pa.changed')
+            ->from('cul_page', 'pa')
+            ->leftJoin('pa', 'cul_project', 'pr', 'pa.project = pr.pid')
+            ->setFirstResult($event->getStart())
+            ->setMaxResults($event->getMax())
+            ->execute()->fetchAll();
 
-        /** @var \CultureFeed_ResultSet $consumers */
-        /*$consumers = null;
-        $type = $event->getType();
-
-        if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
-            $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
-        } elseif ($type == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
-            $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
+        // Retrieve blocks for each page.
+        foreach ($results as $key => $result) {
+            $blockQueryBuilder = $this->legacyDatabase->createQueryBuilder();
+            $blocks = $blockQueryBuilder
+                ->select('type', 'region', 'settings')
+                ->from('cul_block')
+                ->where('page = ?')
+                ->setParameter(0, $result['page_id'])
+                ->execute()->fetchAll();
+            $results[$key]['blocks'] = $blocks;
         }
 
-        if (!empty($consumers->objects)) {
-            // As long as we get the maximum number of objects, add event to queue with next starting index
-            if (count($consumers->objects) == $event->getMax()) {
-                $event->setStart($event->getStart() + $event->getMax());
-                $this->eventBus->handle($event);
-            }
-
-            // Create sync commands
-            foreach ($consumers->objects as $object) {
-                $this->eventBus->handle(new SyncConsumer($type, $object));
-            }
-        }*/
+        // As long as we get the maximum number of objects, add event to queue with next starting index.
+        if (count($results) == $event->getMax()) {
+            $event->setStart($event->getStart() + $event->getMax());
+            $this->eventBus->handle($event);
+        }
     }
 }

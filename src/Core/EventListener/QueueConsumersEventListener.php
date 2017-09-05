@@ -47,7 +47,6 @@ class QueueConsumersEventListener
     public function handle(QueueConsumers $event)
     {
         /** @var \CultureFeed_ResultSet $consumers */
-        var_dump('listener trigger');
         $consumers = null;
         $type = $event->getType();
 
@@ -58,7 +57,7 @@ class QueueConsumersEventListener
         }
 
         if (!empty($consumers->objects)) {
-            // As long as we get the maximum number of objects, add event to queue with next starting index
+            // As long as we get the maximum number of objects, add event to queue with next starting index.
             if (count($consumers->objects) == $event->getMax()) {
                 $event->setStart($event->getStart() + $event->getMax());
                 $this->eventBus->handle($event);
