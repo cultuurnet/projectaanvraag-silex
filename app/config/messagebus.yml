@@ -62,6 +62,7 @@ listeners:
             - orm.em
             - project_repository
             - event_bus
+            - command_bus
 
 handlers:
     create_project_handler:
@@ -148,3 +149,13 @@ handlers:
               - mongodbodm.dm
               - widget_repository
               - uitid_user_session_data_complete
+
+    migrate_widget_page_handler:
+              command: CultuurNet\ProjectAanvraag\Widget\Command\MigrateWidgetPage
+              class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\MigrateWidgetPageCommandHandler
+              arguments:
+                  - event_bus
+                  - mongodbodm.dm
+                  - legacy_widgets_db
+                  - orm.em
+                  - project_repository

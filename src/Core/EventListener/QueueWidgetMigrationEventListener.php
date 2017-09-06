@@ -3,9 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\Core\EventListener;
 
 use CultuurNet\ProjectAanvraag\Core\Event\QueueWidgetMigration;
-use CultuurNet\ProjectAanvraag\Project\ProjectService;
-use CultuurNet\ProjectAanvraag\Entity\Project;
-use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Widget\Command\MigrateWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use Doctrine\DBAL\Connection;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,18 +39,25 @@ class QueueWidgetMigrationEventListener
     protected $eventBus;
 
     /**
+     * @var MessageBusSupportingMiddleware
+     */
+    protected $commandBus;
+
+    /**
      * QueueWidgetMigrationEventListener constructor.
      * @param Connection $legacy_db
      * @param EntityManagerInterface $entityManager
      * @param EntityRepository $repository
      * @param MessageBusSupportingMiddleware $eventBus
+     * @param MessageBusSupportingMiddleware $commandBus
      */
-    public function __construct(Connection $legacy_db, EntityManagerInterface $entityManager, EntityRepository $repository, MessageBusSupportingMiddleware $eventBus)
+    public function __construct(Connection $legacy_db, EntityManagerInterface $entityManager, EntityRepository $repository, MessageBusSupportingMiddleware $eventBus, MessageBusSupportingMiddleware $commandBus)
     {
         $this->legacyDatabase = $legacy_db;
         $this->entityManager = $entityManager;
         $this->projectRepository = $repository;
         $this->eventBus = $eventBus;
+        $this->commandBus = $commandBus;
     }
 
     /**
@@ -70,46 +77,10 @@ class QueueWidgetMigrationEventListener
             ->execute()->fetchAll();
 
         foreach ($results as $key => $result) {
-            // Retrieve blocks for the widget page.
-            $blockQueryBuilder = $this->legacyDatabase->createQueryBuilder();
-            $blocks = $blockQueryBuilder
-                ->select('type', 'region', 'settings')
-                ->from('cul_block')
-                ->where('page = ?')
-                ->setParameter(0, $result['page_id'])
-                ->execute()->fetchAll();
-            $results[$key]['blocks'] = $blocks;
 
-            // Check if the project exists in our database.
-            $project = $this->projectRepository->findOneBy(['liveConsumerKey' => $result['live_consumer_key']]);
-            if (!$project) {
-                // Create new project.
-                $project = new Project();
-                $project->setName($result['project']);
-                $project->setDescription($result['description']); // No database column for description.
-                $project->setUserId($result['live_uid']);
-                $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE); // TODO: determine correct status from retrieved status id.
-                $project->setLiveConsumerKey($result['live_consumer_key']);
-
-                // Set timestamps.
-                $dt_created = new \DateTime();
-                $dt_changed = new \DateTime();
-                $dt_created->setTimestamp($result['created']);
-                $dt_changed->setTimestamp($result['changed']);
-                $project->setCreated($dt_created);
-                $project->setUpdated($dt_changed);
-
-                // Persist to database.
-                $this->entityManager->persist($project);
-            }
-
-            // Update project/widget pages.
-
-            // Save to DB (entity manager)
+            $this->commandBus->handle(new MigrateWidgetPage($result));
 
         }
-
-        $this->entityManager->flush();
 
         // As long as we get the maximum number of objects, add event to queue with next starting index.
         if (count($results) == $event->getMax()) {
