@@ -65,7 +65,7 @@ class SyncConsumerEventListener
             if (!$project) {
                 $project = new Project();
                 $project->setName(!empty($consumerData['name']) ? $consumerData['name'] : '');
-                $project->setDescription(!empty($consumerData['description']) ? $consumerData['description'] : '');
+                $project->setDescription(!empty($consumerData['description']) ? $consumerData['description'] : ''); // No database column for description.
                 $project->setStatus(!empty($consumerData['status']) &&  $consumerData['status'] == 'active' ? ProjectInterface::PROJECT_STATUS_ACTIVE : ProjectInterface::PROJECT_STATUS_BLOCKED);
 
                 $this->entityManager->persist($project);

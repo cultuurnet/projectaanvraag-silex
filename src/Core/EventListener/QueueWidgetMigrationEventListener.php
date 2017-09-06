@@ -86,9 +86,9 @@ class QueueWidgetMigrationEventListener
                 // Create new project.
                 $project = new Project();
                 $project->setName($result['project']);
-                $project->setDescription($result['description']);
+                $project->setDescription($result['description']); // No database column for description.
                 $project->setUserId($result['live_uid']);
-                $project->setStatus('application_sent'); // TODO: determine correct status from retrieved status id.
+                $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE); // TODO: determine correct status from retrieved status id.
                 $project->setLiveConsumerKey($result['live_consumer_key']);
 
                 // Set timestamps.
