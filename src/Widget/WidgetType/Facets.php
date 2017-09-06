@@ -21,27 +21,27 @@ use Pimple\Container;
  *          },
  *          "group_filters" :{
  *              "enabled":true,
- *              "filters": [
+ *              "filters": {
  *                  {
  *                      "label": "Extra",
  *                      "type": "link",
  *                      "placeholder": "",
- *                      "options": [
+ *                      "options": {
  *                          {
  *                              "label": "Voor UiTPAS en Paspartoe",
  *                              "query": "uitpas=true"
  *                          },
  *                          {
  *                              "label": "Voor kinderen",
- *                              "query": "maxAge=12 OR labels:\"ook voor kinderen\""
+ *                              "query": "maxAge=12 OR labels:""ook voor kinderen"""
  *                          },
  *                          {
  *                              "label": "Gratis activiteiten",
  *                              "query": "price:0.0"
  *                          }
- *                      ]
+ *                      }
  *                  }
- *              ]
+ *              }
  *          }
  *      },
  *      allowedSettings = {
