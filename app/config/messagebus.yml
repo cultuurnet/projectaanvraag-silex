@@ -59,6 +59,8 @@ listeners:
         class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueWidgetMigrationEventListener
         arguments:
             - legacy_widgets_db
+            - orm.em
+            - project_repository
             - event_bus
 
 handlers:

@@ -3,8 +3,14 @@
 namespace CultuurNet\ProjectAanvraag\Core\EventListener;
 
 use CultuurNet\ProjectAanvraag\Core\Event\QueueWidgetMigration;
+use CultuurNet\ProjectAanvraag\Project\ProjectService;
+use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use Doctrine\DBAL\Connection;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+
 
 /**
  * Event listener for queuing old widget data for migration.
@@ -18,18 +24,32 @@ class QueueWidgetMigrationEventListener
     protected $legacyDatabase;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $projectRepository;
+
+    /**
      * @var MessageBusSupportingMiddleware
      */
     protected $eventBus;
 
     /**
-     * QueueConsumersEventListener constructor.
+     * QueueWidgetMigrationEventListener constructor.
+     * @param Connection $legacy_db
+     * @param EntityManagerInterface $entityManager
+     * @param EntityRepository $repository
      * @param MessageBusSupportingMiddleware $eventBus
      */
-    public function __construct(Connection $legacy_db, MessageBusSupportingMiddleware $eventBus)
+    public function __construct(Connection $legacy_db, EntityManagerInterface $entityManager, EntityRepository $repository, MessageBusSupportingMiddleware $eventBus)
     {
-
         $this->legacyDatabase = $legacy_db;
+        $this->entityManager = $entityManager;
+        $this->projectRepository = $repository;
         $this->eventBus = $eventBus;
     }
 
@@ -49,8 +69,8 @@ class QueueWidgetMigrationEventListener
             ->setMaxResults($event->getMax())
             ->execute()->fetchAll();
 
-        // Retrieve blocks for each page.
         foreach ($results as $key => $result) {
+            // Retrieve blocks for the widget page.
             $blockQueryBuilder = $this->legacyDatabase->createQueryBuilder();
             $blocks = $blockQueryBuilder
                 ->select('type', 'region', 'settings')
@@ -59,6 +79,7 @@ class QueueWidgetMigrationEventListener
                 ->setParameter(0, $result['page_id'])
                 ->execute()->fetchAll();
             $results[$key]['blocks'] = $blocks;
+
         }
 
         // As long as we get the maximum number of objects, add event to queue with next starting index.
