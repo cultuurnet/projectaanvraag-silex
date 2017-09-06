@@ -62,7 +62,7 @@ class QueueWidgetMigrationEventListener
         // Retrieve chunk of pages from legacy DB.
         $pageQueryBuilder = $this->legacyDatabase->createQueryBuilder();
         $results = $pageQueryBuilder
-            ->select('pa.pid AS page_id', 'pa.layout', 'pa.name AS title', 'pr.name AS project', 'pr.userpoolkey AS live_uid', 'pr.application_key AS live_consumer_key', 'pr.status', 'pa.created', 'pa.changed')
+            ->select('pa.pid AS page_id', 'pa.layout', 'pa.name AS title', 'pr.name AS project', 'pr.description', 'pr.userpoolkey AS live_uid', 'pr.application_key AS live_consumer_key', 'pr.status', 'pa.created', 'pa.changed')
             ->from('cul_page', 'pa')
             ->leftJoin('pa', 'cul_project', 'pr', 'pa.project = pr.pid')
             ->setFirstResult($event->getStart())
@@ -86,6 +86,7 @@ class QueueWidgetMigrationEventListener
                 // Create new project.
                 $project = new Project();
                 $project->setName($result['project']);
+                $project->setDescription($result['description']);
                 $project->setUserId($result['live_uid']);
                 $project->setStatus('application_sent'); // TODO: determine correct status from retrieved status id.
                 $project->setLiveConsumerKey($result['live_consumer_key']);
