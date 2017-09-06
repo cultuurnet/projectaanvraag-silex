@@ -62,7 +62,7 @@ class QueueWidgetMigrationEventListener
         // Retrieve chunk of pages from legacy DB.
         $pageQueryBuilder = $this->legacyDatabase->createQueryBuilder();
         $results = $pageQueryBuilder
-            ->select('pa.pid AS page_id', 'pa.layout', 'pa.name AS title', 'pr.name AS project', 'pr.userpoolkey AS live_uid', 'pr.application_key AS live_consumer_key', 'pa.created', 'pa.changed')
+            ->select('pa.pid AS page_id', 'pa.layout', 'pa.name AS title', 'pr.name AS project', 'pr.userpoolkey AS live_uid', 'pr.application_key AS live_consumer_key', 'pr.status', 'pa.created', 'pa.changed')
             ->from('cul_page', 'pa')
             ->leftJoin('pa', 'cul_project', 'pr', 'pa.project = pr.pid')
             ->setFirstResult($event->getStart())
@@ -80,7 +80,35 @@ class QueueWidgetMigrationEventListener
                 ->execute()->fetchAll();
             $results[$key]['blocks'] = $blocks;
 
+            // Check if the project exists in our database.
+            $project = $this->projectRepository->findOneBy(['liveConsumerKey' => $result['live_consumer_key']]);
+            if (!$project) {
+                // Create new project.
+                $project = new Project();
+                $project->setName($result['project']);
+                $project->setUserId($result['live_uid']);
+                $project->setStatus('application_sent'); // TODO: determine correct status from retrieved status id.
+                $project->setLiveConsumerKey($result['live_consumer_key']);
+
+                // Set timestamps.
+                $dt_created = new \DateTime();
+                $dt_changed = new \DateTime();
+                $dt_created->setTimestamp($result['created']);
+                $dt_changed->setTimestamp($result['changed']);
+                $project->setCreated($dt_created);
+                $project->setUpdated($dt_changed);
+
+                // Persist to database.
+                $this->entityManager->persist($project);
+            }
+
+            // Update project/widget pages.
+
+            // Save to DB (entity manager)
+
         }
+
+        $this->entityManager->flush();
 
         // As long as we get the maximum number of objects, add event to queue with next starting index.
         if (count($results) == $event->getMax()) {
