@@ -159,3 +159,4 @@ handlers:
                   - legacy_widgets_db
                   - orm.em
                   - project_repository
+                  - widget_layout_manager

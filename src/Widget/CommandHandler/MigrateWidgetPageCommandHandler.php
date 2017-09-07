@@ -2,12 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\CommandHandler;
 
-use CultuurNet\ProjectAanvraag\User\UserInterface;
 use CultuurNet\ProjectAanvraag\Widget\Command\MigrateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPageMigrated;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,6 +46,11 @@ class MigrateWidgetPageCommandHandler
     protected $projectRepository;
 
     /**
+     * @var WidgetPluginManager
+     */
+    protected $widgetLayoutManager;
+
+    /**
      * MigrateWidgetPageCommandHandler constructor.
      *
      * @param MessageBusSupportingMiddleware $eventBus
@@ -53,22 +58,24 @@ class MigrateWidgetPageCommandHandler
      * @param Connection $legacy_db
      * @param EntityManagerInterface $entityManager
      * @param EntityRepository $repository
+     * @param WidgetPluginManager $widgetLayoutManager
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, Connection $legacy_db, EntityManagerInterface $entityManager, EntityRepository $repository)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, Connection $legacy_db, EntityManagerInterface $entityManager, EntityRepository $repository, WidgetPluginManager $widgetLayoutManager)
     {
         $this->eventBus = $eventBus;
         $this->documentManager = $documentManager;
         $this->legacyDatabase = $legacy_db;
         $this->entityManager = $entityManager;
         $this->projectRepository = $repository;
+        $this->widgetLayoutManager = $widgetLayoutManager;
     }
 
     /**
      * Handle the command
      *
-     * @param $data
+     * @param MigrateWidgetPage $data
      */
-    public function handle($data)
+    public function handle(MigrateWidgetPage $data)
     {
         $result = $data->getResult();
 
@@ -81,6 +88,10 @@ class MigrateWidgetPageCommandHandler
             ->setParameter(0, $result['page_id'])
             ->execute()->fetchAll();
         $result['blocks'] = $blocks;
+
+        // UTF8-encoding.
+        $result['title'] = utf8_encode($result['title']);
+        $result['description'] = utf8_encode($result['description']);
 
         // Check if the project exists in our database.
         $project = $this->projectRepository->findOneBy(['liveConsumerKey' => $result['live_consumer_key']]);
@@ -107,7 +118,7 @@ class MigrateWidgetPageCommandHandler
 
         $widgetPage = $this->serializeWidgetPage($result, $project);
 
-        //$this->documentManager->persist($widgetPage);
+        $this->documentManager->persist($widgetPage);
         $this->documentManager->flush();
 
 
@@ -121,8 +132,8 @@ class MigrateWidgetPageCommandHandler
     protected function serializeWidgetPage($data, $project) {
         $widgetPageEntity = new WidgetPageEntity();
 
-        if (isset($data['pid'])) {
-            $widgetPageEntity->setId($data['id']);
+        if (isset($data['page_id'])) {
+            $widgetPageEntity->setId($data['page_id']);
         }
 
         $widgetPageEntity->setVersion(2);
@@ -145,25 +156,27 @@ class MigrateWidgetPageCommandHandler
         }
         */
 
-        if ($project->getCreated()) {
-            $widgetPageEntity->setCreated($project->getCreated());
+
+        if ($data['created']) {
+            $widgetPageEntity->setCreated($data['created']);
         }
 
-        if ($project->getUpdated()) {
-            $widgetPageEntity->setLastUpdated($project->getUpdated());
+        if ($data['changed']) {
+            $widgetPageEntity->setLastUpdated($data['changed']);
         }
 
-        /*
-        $rows = [];
-        if (isset($data['rows']) && is_array($data['rows'])) {
-            foreach ($data['rows'] as $row) {
-                $rows[] = $this->widgetLayoutManager->createInstance($row['type'], $row, true);
-            }
+        if (isset($data['blocks'])) {
+            // Convert block and layout data to current version format.
+            $rows = $this->convertBlocksToRows($data['layout'], $data['blocks']);
+            //$widgetPageEntity->setRows($rows);
         }
-
-        $widgetPageEntity->setRows($rows);
-        */
 
         return $widgetPageEntity;
+    }
+
+    protected function convertBlocksToRows($layout, $blocks) {
+        $rows = [];
+        //$rows[] = $this->widgetLayoutManager->createInstance('one-col', $row, true);
+        return $rows;
     }
 }
