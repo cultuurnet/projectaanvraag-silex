@@ -168,7 +168,7 @@ class MigrateWidgetPageCommandHandler
         if (isset($data['blocks'])) {
             // Convert block and layout data to current version format.
             $rows = $this->convertBlocksToRows($data['layout'], $data['blocks']);
-            //$widgetPageEntity->setRows($rows);
+            $widgetPageEntity->setRows($rows);
         }
 
         return $widgetPageEntity;
@@ -176,7 +176,125 @@ class MigrateWidgetPageCommandHandler
 
     protected function convertBlocksToRows($layout, $blocks) {
         $rows = [];
-        //$rows[] = $this->widgetLayoutManager->createInstance('one-col', $row, true);
+
+        // TODO: need to check for ideal structure with minimal redundancy.
+        switch ($layout) {
+            case 'Cultuurnet_Widgets_Layout_SingleBoxLayout':
+                $type = 'one-col';
+                $widgets = [];
+                foreach ($blocks as $block) {
+                    $widgets[] = $this->convertBlockToWidget($block);
+                }
+                $row = [
+                    'type' => $type,
+                    'regions' => [
+                        'content' => [
+                            'widgets' => $widgets,
+                        ],
+                    ],
+                ];
+                // TODO - ERROR: Identifier "twig" is not defined.
+                $rows[] = $this->widgetLayoutManager->createInstance($type, $row, true);
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithSidebarLayout':
+                $type = '2col-sidebar-left';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithRightSidebarLayout':
+                $type = '2col-sidebar-right';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithTwoSidebarsLayout':
+                $type = '3col-double-sidebar';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderLayout':
+                // one col + one col
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderSidebarLayout':
+                // one col + 2col-sidebar-left
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderRightSidebarLayout':
+                // one col + 2col-sidebar-right
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderTwoSidebarsLayout':
+                // one col + 3col-double-sidebar
+                break;
+        }
+
         return $rows;
+    }
+
+    protected function convertBlockToWidget($block) {
+        $widget = [];
+        $settings = unserialize($block['settings']);
+        switch ($block['type']) {
+            case 'Cultuurnet_Widgets_Widget_SearchBoxWidget':
+                $widget = [
+                    'name' => 'zoekformulier-1',
+                    'type' => 'search-form',
+                    'settings' => [],
+                ];
+                // header
+                if (isset($settings['control_header']['html'])) {
+                    $widget['settings']['header']['body'] = $settings['control_header']['html'];
+                }
+                // footer
+                if (isset($settings['control_footer']['html'])) {
+                    $widget['settings']['footer']['body'] = $settings['control_footer']['html'];
+                }
+                break;
+            case 'Cultuurnet_Widgets_Widget_SearchResultWidget':
+                $widget = [
+                    'name' => 'search-results-1',
+                    'type' => 'search-results',
+                    'settings' => [],
+                ];
+                // header
+                if (isset($settings['control_header']['html'])) {
+                    $widget['settings']['header']['body'] = $settings['control_header']['html'];
+                }
+                // footer
+                if (isset($settings['control_footer']['html'])) {
+                    $widget['settings']['footer']['body'] = $settings['control_footer']['html'];
+                }
+                // current search
+                if (isset($settings['control_results']['visual']['results']['current_search']['enabled'])) {
+                    $widget['settings']['general']['current_search'] = $settings['control_results']['visual']['results']['current_search']['enabled'];
+                }
+                // items image
+                if (isset($settings['control_results']['visual']['results']['image'])) {
+                    $img_settings = $settings['control_results']['visual']['results']['image'];
+                    $widget['settings']['items']['image'] = [
+                        'enabled' => $img_settings['show'],
+                        'width' => $img_settings['size']['width'],
+                        'height' => $img_settings['size']['height'],
+                        'default_image' => $img_settings['show_default'],
+                        'position' => 'left',
+                    ];
+                }
+                // items icon vlieg
+                if (isset($settings['control_results']['visual']['results']['logo_vlieg']['show'])) {
+                    $widget['settings']['items']['icon_vlieg'] = $settings['control_results']['visual']['results']['logo_vlieg']['show'];
+                }
+                // detail map
+                if (isset($settings['control_results']['visual']['detail']['map'])) {
+                    $widget['settings']['detail_page']['map'] = $settings['control_results']['visual']['detail']['map']['show'];
+                }
+                // detail image
+                if (isset($settings['control_results']['visual']['detail']['image'])) {
+                    $img_settings = $settings['control_results']['visual']['detail']['image'];
+                    $widget['settings']['detail_page']['image'] = [
+                        'enabled' => $img_settings['show'],
+                        'width' => $img_settings['size']['width'],
+                        'height' => $img_settings['size']['height'],
+                        'default_image' => false,
+                        'position' => 'left',
+                    ];
+                }
+                // detail icon vlieg
+                if (isset($settings['control_results']['visual']['detail']['logo_vlieg']['show'])) {
+                    $widget['settings']['detail_page']['icon_vlieg'] = $settings['control_results']['visual']['detail']['logo_vlieg']['show'];
+                }
+                break;
+        }
+        return $widget;
     }
 }
