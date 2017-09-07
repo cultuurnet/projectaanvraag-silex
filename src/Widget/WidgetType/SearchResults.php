@@ -14,6 +14,10 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *      defaultSettings = {
  *          "general":{
  *              "current_search":true,
+ *              "exclude": {
+ *                  "long_term":"true",
+ *                  "permanent":"true"
+ *              }
  *          },
  *          "header":{
  *              "body":"",
@@ -111,7 +115,11 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *      },
  *      allowedSettings = {
  *          "general":{
- *              "current_search":"boolean"
+ *              "current_search":"boolean",
+ *              "exclude": {
+ *                  "long_term":"boolean",
+ *                  "permanent":"boolean"
+ *              }
  *          },
  *          "header":{
  *              "body":"string"
