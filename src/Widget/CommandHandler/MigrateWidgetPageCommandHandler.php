@@ -112,21 +112,20 @@ class MigrateWidgetPageCommandHandler
             $project->setCreated($dt_created);
             $project->setUpdated($dt_changed);
 
-            // Persist to database.
+            // Persist project to MySQL database.
             $this->entityManager->persist($project);
         }
 
+        // Build widget page entity and persist to MongoDB database.
         $widgetPage = $this->serializeWidgetPage($result, $project);
-
         $this->documentManager->persist($widgetPage);
         $this->documentManager->flush();
-
 
         // TODO: do through event to flush at the end?
         $this->entityManager->flush();
 
         // Dispatch the event.
-        //$this->eventBus->handle(new WidgetPageMigrated($widgetPage));
+        // $this->eventBus->handle(new WidgetPageMigrated($widgetPage));
     }
 
     /**
@@ -139,19 +138,15 @@ class MigrateWidgetPageCommandHandler
     protected function serializeWidgetPage($data, $project) {
         $widgetPageEntity = new WidgetPageEntity();
 
+        $widgetPageEntity->setVersion(2);
+        $widgetPageEntity->setProjectId($project->getId());
+
         if (isset($data['page_id'])) {
             $widgetPageEntity->setId($data['page_id']);
         }
-
-        $widgetPageEntity->setVersion(2);
-
-
         if (isset($data['title'])) {
             $widgetPageEntity->setTitle($data['title']);
         }
-
-        $widgetPageEntity->setProjectId($project->getId());
-
         if (isset($data['live_uid'])) {
             $widgetPageEntity->setCreatedBy($data['live_uid']);
         }
@@ -166,7 +161,6 @@ class MigrateWidgetPageCommandHandler
         if ($data['created']) {
             $widgetPageEntity->setCreated($data['created']);
         }
-
         if ($data['changed']) {
             $widgetPageEntity->setLastUpdated($data['changed']);
         }
@@ -175,6 +169,9 @@ class MigrateWidgetPageCommandHandler
             // Convert block and layout data to current version format.
             $rows = $this->convertBlocksToRows($data['layout'], $data['blocks']);
             $widgetPageEntity->setRows($rows);
+            // Combine and set CSS.
+            $css = $this->combineCssRecursively($data['blocks']);
+            $widgetPageEntity->setCss($css);
         }
 
         return $widgetPageEntity;
@@ -209,17 +206,19 @@ class MigrateWidgetPageCommandHandler
         // If there are header regions: add header row
         // (we simulate old header layouts with an extra one-col row).
         if (!empty($regions_header)) {
-            $rows[] = [
+            $row_header = [
                 'type' => 'one-col',
                 'regions' => $regions_header,
             ];
+            $rows[] = $this->widgetLayoutManager->createInstance('one-col', $row_header, true);
         }
 
         // Add main content row (old page version only ever had a single row).
-        $rows[] = [
+        $row_main = [
             'type' => $this->convertType($layout),
             'regions' => $regions_main,
         ];
+        $rows[] = $this->widgetLayoutManager->createInstance($this->convertType($layout), $row_main, true);
         return $rows;
     }
 
@@ -303,7 +302,9 @@ class MigrateWidgetPageCommandHandler
                 }
                 break;
             case 'Cultuurnet_Widgets_Widget_HtmlWidget':
-                //
+                if (!empty($settings['html'])) {
+                    $widget['settings']['content']['body'] = $settings['html'];
+                }
                 break;
         }
         return $widget;
@@ -354,5 +355,31 @@ class MigrateWidgetPageCommandHandler
             default:
                 return $region;
         }
+    }
+
+    /**
+     * Combine the CSS strings from every block recursively into a single string.
+     *
+     * @param $blocks
+     * @return string
+     */
+    protected function combineCssRecursively($blocks) {
+        global $css;
+        foreach ($blocks as $block) {
+            $settings = unserialize($block['settings']);
+
+            // Recursively retrieve "css" key values.
+            $callback = function(&$value, $key) {
+                global $css;
+                if ($key == 'css') {
+                    if ($css != '') {
+                        $css .= '\n';
+                    }
+                    $css .= "$value";
+                }
+            };
+            array_walk_recursive($settings, $callback);
+        }
+        return $css;
     }
 }
