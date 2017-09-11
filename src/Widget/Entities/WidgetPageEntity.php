@@ -97,7 +97,9 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $lastUpdatedBy;
 
     /**
-     * @var
+     * @var string
+     *
+     * @ODM\Field(type="string", name="css")
      */
     protected $css;
 
