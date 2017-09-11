@@ -176,48 +176,35 @@ class MigrateWidgetPageCommandHandler
 
     protected function convertBlocksToRows($layout, $blocks) {
         $rows = [];
+        $regions_main = [];
+        $regions_header = [];
 
-        // TODO: need to check for ideal structure with minimal redundancy.
-        switch ($layout) {
-            case 'Cultuurnet_Widgets_Layout_SingleBoxLayout':
-                $type = 'one-col';
-                $widgets = [];
-                foreach ($blocks as $block) {
-                    $widgets[] = $this->convertBlockToWidget($block);
-                }
-                $row = [
-                    'type' => $type,
-                    'regions' => [
-                        'content' => [
-                            'widgets' => $widgets,
-                        ],
-                    ],
-                ];
-                // TODO - ERROR: Identifier "twig" is not defined.
-                $rows[] = $this->widgetLayoutManager->createInstance($type, $row, true);
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithSidebarLayout':
-                $type = '2col-sidebar-left';
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithRightSidebarLayout':
-                $type = '2col-sidebar-right';
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithTwoSidebarsLayout':
-                $type = '3col-double-sidebar';
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderLayout':
-                // one col + one col
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderSidebarLayout':
-                // one col + 2col-sidebar-left
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderRightSidebarLayout':
-                // one col + 2col-sidebar-right
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderTwoSidebarsLayout':
-                // one col + 3col-double-sidebar
-                break;
+        foreach ($blocks as $block) {
+            $widgets = [];
+            $widgets[] = $this->convertBlockToWidget($block);
+
+            if ($block['region'] == 'header') {
+                $regions_header['content']['widgets'] = $widgets;
+            }
+            else {
+                $regions_main[$this->regionConverter($block['region'])]['widgets'] = $widgets;
+            }
         }
+
+        // Check for header regions.
+        if (!empty($regions_header)) {
+            // Add header row.
+            $rows[] = [
+                'type' => 'one-col',
+                'regions' => $regions_header,
+            ];
+        }
+
+        // Add main content row.
+        $rows[] = [
+            'type' => $this->typeHelper($layout),
+            'regions' => $regions_main,
+        ];
 
         return $rows;
     }
@@ -294,7 +281,58 @@ class MigrateWidgetPageCommandHandler
                     $widget['settings']['detail_page']['icon_vlieg'] = $settings['control_results']['visual']['detail']['logo_vlieg']['show'];
                 }
                 break;
+            case 'Cultuurnet_Widgets_Widget_HtmlWidget':
+                //
+                break;
         }
         return $widget;
+    }
+
+    protected function typeHelper($layout) {
+        switch ($layout) {
+            case 'Cultuurnet_Widgets_Layout_SingleBoxLayout':
+                return 'one-col';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithSidebarLayout':
+                return '2col-sidebar-left';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithRightSidebarLayout':
+                return '2col-sidebar-right';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithTwoSidebarsLayout':
+                return '3col-double-sidebar';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderLayout':
+                // one col + one col
+                return 'one-col';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderSidebarLayout':
+                // one col + 2col-sidebar-left
+                return '2col-sidebar-left';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderRightSidebarLayout':
+                // one col + 2col-sidebar-right
+                return '2col-sidebar-right';
+                break;
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderTwoSidebarsLayout':
+                // one col + 3col-double-sidebar
+                return '3col-double-sidebar';
+                break;
+            default:
+                return '';
+        }
+    }
+
+
+    protected function regionConverter($region) {
+        switch ($region) {
+            case 'sidebar':
+                return 'sidebar_left';
+                break;
+            case 'main':
+                return 'content';
+            default:
+                return $region;
+        }
     }
 }
