@@ -247,6 +247,29 @@ class MigrateWidgetPageCommandHandler
                 if (isset($settings['control_footer']['html'])) {
                     $widget['settings']['footer']['body'] = $settings['control_footer']['html'];
                 }
+                // what
+                if (isset($settings['control_what']['fields'])) {
+                    // what enabled
+                    $widget['settings']['fields']['type']['keyword_search']['enabled'] = $settings['control_what']['fields']['q']['enabled'];
+                    // what label
+                    $widget['settings']['fields']['type']['keyword_search']['label'] = $settings['control_what']['fields']['q']['label'];
+                    // what placeholder
+                    $widget['settings']['fields']['type']['keyword_search']['placeholder'] = $settings['control_what']['fields']['q']['placeholder'];
+                }
+                // where
+                if (isset($settings['control_where']['fields'])) {
+                    // where enabled
+                    $widget['settings']['fields']['location']['keyword_search']['enabled'] = $settings['control_where']['fields']['location']['enabled'];
+                    // where label
+                    $widget['settings']['fields']['location']['keyword_search']['label'] = $settings['control_where']['fields']['location']['label'];
+                }
+                // when
+                if (isset($settings['control_when']['fields'])) {
+                    // when enabled
+                    $widget['settings']['fields']['time']['date_search']['enabled'] = $settings['control_when']['fields']['datetype']['enabled'];
+                    // when label
+                    $widget['settings']['fields']['time']['date_search']['label'] = $settings['control_when']['fields']['datetype']['label'];
+                }
                 break;
             case 'Cultuurnet_Widgets_Widget_SearchResultWidget':
                 $widget = [
