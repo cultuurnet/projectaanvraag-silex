@@ -129,6 +129,13 @@ class MigrateWidgetPageCommandHandler
         //$this->eventBus->handle(new WidgetPageMigrated($widgetPage));
     }
 
+    /**
+     * Convert the legacy widget page data to the proper v3 format.
+     *
+     * @param $data
+     * @param $project
+     * @return WidgetPageEntity
+     */
     protected function serializeWidgetPage($data, $project) {
         $widgetPageEntity = new WidgetPageEntity();
 
@@ -156,7 +163,6 @@ class MigrateWidgetPageCommandHandler
         }
         */
 
-
         if ($data['created']) {
             $widgetPageEntity->setCreated($data['created']);
         }
@@ -174,42 +180,57 @@ class MigrateWidgetPageCommandHandler
         return $widgetPageEntity;
     }
 
+    /**
+     * Convert legacy blocks to proper v3 formatted rows.
+     *
+     * @param $layout
+     * @param $blocks
+     * @return array
+     */
     protected function convertBlocksToRows($layout, $blocks) {
         $rows = [];
         $regions_main = [];
         $regions_header = [];
 
+        // Convert block data to widgets and add to correct regions array.
         foreach ($blocks as $block) {
             $widgets = [];
-            $widgets[] = $this->convertBlockToWidget($block);
+            $widgets[] = $this->convertBlockDataToWidget($block);
 
             if ($block['region'] == 'header') {
                 $regions_header['content']['widgets'] = $widgets;
             }
             else {
-                $regions_main[$this->regionConverter($block['region'])]['widgets'] = $widgets;
+                // We need to convert the region name to the corresponding v3 name.
+                $regions_main[$this->convertRegion($block['region'])]['widgets'] = $widgets;
             }
         }
 
-        // Check for header regions.
+        // If there are header regions: add header row
+        // (we simulate old header layouts with an extra one-col row).
         if (!empty($regions_header)) {
-            // Add header row.
             $rows[] = [
                 'type' => 'one-col',
                 'regions' => $regions_header,
             ];
         }
 
-        // Add main content row.
+        // Add main content row (old page version only ever had a single row).
         $rows[] = [
-            'type' => $this->typeHelper($layout),
+            'type' => $this->convertType($layout),
             'regions' => $regions_main,
         ];
-
         return $rows;
     }
 
-    protected function convertBlockToWidget($block) {
+    /**
+     * Convert legacy block data to corresponding formatted v3 widgets, including settings.
+     * TODO: WIP
+     *
+     * @param $block
+     * @return array
+     */
+    protected function convertBlockDataToWidget($block) {
         $widget = [];
         $settings = unserialize($block['settings']);
         switch ($block['type']) {
@@ -288,43 +309,42 @@ class MigrateWidgetPageCommandHandler
         return $widget;
     }
 
-    protected function typeHelper($layout) {
+    /**
+     * Convert a legacy page layout name to a corresponding row layout (for main content row).
+     *
+     * @param $layout
+     * @return string
+     */
+    protected function convertType($layout) {
         switch ($layout) {
             case 'Cultuurnet_Widgets_Layout_SingleBoxLayout':
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderLayout':
                 return 'one-col';
                 break;
             case 'Cultuurnet_Widgets_Layout_ContentWithSidebarLayout':
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderSidebarLayout':
                 return '2col-sidebar-left';
                 break;
             case 'Cultuurnet_Widgets_Layout_ContentWithRightSidebarLayout':
+            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderRightSidebarLayout':
                 return '2col-sidebar-right';
                 break;
             case 'Cultuurnet_Widgets_Layout_ContentWithTwoSidebarsLayout':
-                return '3col-double-sidebar';
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderLayout':
-                // one col + one col
-                return 'one-col';
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderSidebarLayout':
-                // one col + 2col-sidebar-left
-                return '2col-sidebar-left';
-                break;
-            case 'Cultuurnet_Widgets_Layout_ContentWithHeaderRightSidebarLayout':
-                // one col + 2col-sidebar-right
-                return '2col-sidebar-right';
-                break;
             case 'Cultuurnet_Widgets_Layout_ContentWithHeaderTwoSidebarsLayout':
-                // one col + 3col-double-sidebar
                 return '3col-double-sidebar';
                 break;
             default:
-                return '';
+                return 'one-col';
         }
     }
 
-
-    protected function regionConverter($region) {
+    /**
+     * Convert a legacy region name to a corresponding v3 region name.
+     *
+     * @param $region
+     * @return string
+     */
+    protected function convertRegion($region) {
         switch ($region) {
             case 'sidebar':
                 return 'sidebar_left';
