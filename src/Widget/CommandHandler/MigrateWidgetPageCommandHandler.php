@@ -248,11 +248,6 @@ class MigrateWidgetPageCommandHandler
         /*
         switch ($block['type']) {
             case 'Cultuurnet_Widgets_Widget_SearchBoxWidget':
-                $widget = [
-                    'name' => 'zoekformulier-1',
-                    'type' => 'search-form',
-                    'settings' => [],
-                ];
                 // header
                 if (isset($settings['control_header']['html'])) {
                     $widget['settings']['header']['body'] = $settings['control_header']['html'];
@@ -294,11 +289,6 @@ class MigrateWidgetPageCommandHandler
                 }
                 break;
             case 'Cultuurnet_Widgets_Widget_SearchResultWidget':
-                $widget = [
-                    'name' => 'search-results-1',
-                    'type' => 'search-results',
-                    'settings' => [],
-                ];
                 // header
                 if (isset($settings['control_header']['html'])) {
                     $widget['settings']['header']['body'] = $settings['control_header']['html'];
@@ -352,11 +342,6 @@ class MigrateWidgetPageCommandHandler
                 // detail language icons
                 if (isset($settings['control_results']['visual']['detail']['taaliconen']['show'])) {
                     $widget['settings']['detail_page']['language_icons'] = $settings['control_results']['visual']['detail']['taaliconen']['show'];
-                }
-                break;
-            case 'Cultuurnet_Widgets_Widget_HtmlWidget':
-                if (!empty($settings['html'])) {
-                    $widget['settings']['content']['body'] = $settings['html'];
                 }
                 break;
             case 'Cultuurnet_Widgets_Widget_PushWidget':

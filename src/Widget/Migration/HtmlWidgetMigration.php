@@ -11,12 +11,18 @@ class HtmlWidgetMigration extends WidgetMigration
     /**
      * WidgetMigration constructor.
      *
-     * @param $settings
+     * @param $legacySettings
      */
-    public function __construct($settings)
+    public function __construct($legacySettings)
     {
         $name = 'html-1';
         $type = 'html';
+
+        $settings = [];
+        if (!empty($legacySettings['html'])) {
+            $settings['content']['body'] = $legacySettings['html'];
+        }
+
         parent::__construct($settings, $name, $type);
     }
 
