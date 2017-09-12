@@ -20,7 +20,7 @@ class PushWidgetMigration extends WidgetMigration
 
         $settings = [];
 
-        parent::__construct($settings, $name, $type);
+        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $name, $type);
     }
 
 }

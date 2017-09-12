@@ -23,7 +23,7 @@ class HtmlWidgetMigration extends WidgetMigration
             $settings['content']['body'] = $legacySettings['html'];
         }
 
-        parent::__construct($settings, $name, $type);
+        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $name, $type);
     }
 
 }

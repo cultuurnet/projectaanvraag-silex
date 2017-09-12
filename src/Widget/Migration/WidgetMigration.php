@@ -85,4 +85,16 @@ abstract class WidgetMigration
         $this->type = $type;
     }
 
+    protected function extendWithGenericSettings($legacySettings, $settings) {
+        // header
+        if (isset($legacySettings['control_header']['html'])) {
+            $settings['header']['body'] = $legacySettings['control_header']['html'];
+        }
+        // footer
+        if (isset($legacySettings['control_footer']['html'])) {
+            $settings['footer']['body'] = $legacySettings['control_footer']['html'];
+        }
+        return $settings;
+    }
+
 }

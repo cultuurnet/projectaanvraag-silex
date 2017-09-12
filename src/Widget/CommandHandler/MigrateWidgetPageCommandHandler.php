@@ -248,14 +248,7 @@ class MigrateWidgetPageCommandHandler
         /*
         switch ($block['type']) {
             case 'Cultuurnet_Widgets_Widget_SearchBoxWidget':
-                // header
-                if (isset($settings['control_header']['html'])) {
-                    $widget['settings']['header']['body'] = $settings['control_header']['html'];
-                }
-                // footer
-                if (isset($settings['control_footer']['html'])) {
-                    $widget['settings']['footer']['body'] = $settings['control_footer']['html'];
-                }
+
                 // what
                 if (isset($settings['control_what']['fields'])) {
                     // what enabled
@@ -289,14 +282,6 @@ class MigrateWidgetPageCommandHandler
                 }
                 break;
             case 'Cultuurnet_Widgets_Widget_SearchResultWidget':
-                // header
-                if (isset($settings['control_header']['html'])) {
-                    $widget['settings']['header']['body'] = $settings['control_header']['html'];
-                }
-                // footer
-                if (isset($settings['control_footer']['html'])) {
-                    $widget['settings']['footer']['body'] = $settings['control_footer']['html'];
-                }
                 // current search
                 if (isset($settings['control_results']['visual']['results']['current_search']['enabled'])) {
                     $widget['settings']['general']['current_search'] = $settings['control_results']['visual']['results']['current_search']['enabled'];
@@ -345,14 +330,6 @@ class MigrateWidgetPageCommandHandler
                 }
                 break;
             case 'Cultuurnet_Widgets_Widget_PushWidget':
-                // header
-                if (isset($settings['control_header']['html'])) {
-                    $widget['settings']['header']['body'] = $settings['control_header']['html'];
-                }
-                // footer
-                if (isset($settings['control_footer']['html'])) {
-                    $widget['settings']['footer']['body'] = $settings['control_footer']['html'];
-                }
                 // items amount
                 if (isset($settings['content']['count'])) {
                     $widget['settings']['general']['items'] = $settings['content']['count'];
