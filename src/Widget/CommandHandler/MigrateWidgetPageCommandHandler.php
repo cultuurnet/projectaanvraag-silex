@@ -83,7 +83,7 @@ class MigrateWidgetPageCommandHandler
         // Retrieve blocks for the widget page.
         $blockQueryBuilder = $this->legacyDatabase->createQueryBuilder();
         $blocks = $blockQueryBuilder
-            ->select('type', 'region', 'settings')
+            ->select('bid AS id', 'type', 'region', 'settings')
             ->from('cul_block')
             ->where('page = ?')
             ->setParameter(0, $result['page_id'])
@@ -235,6 +235,7 @@ class MigrateWidgetPageCommandHandler
             $settings = unserialize($block['settings']);
             $widgetMigration = new $className($settings);
             $widget = [
+                'id' => $block['id'],
                 'name' => $widgetMigration->getName(),
                 'type' => $widgetMigration->getType(),
                 'settings' => $widgetMigration->getSettings(),
