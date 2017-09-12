@@ -29,6 +29,7 @@ use MongoDB\Client;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\TwigServiceProvider;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -194,6 +195,17 @@ class ApplicationBase extends SilexApplication
                             'path' => __DIR__.'/../src/Widget/Entities',
                         ],
                     ],
+                ],
+            ]
+        );
+
+        // Twig
+        $this->register(
+            new TwigServiceProvider(),
+            [
+                'twig.path' => __DIR__ . '/../views',
+                'twig.options'    => [
+                    'cache' => $this['cache_directory'] . '/twig',
                 ],
             ]
         );

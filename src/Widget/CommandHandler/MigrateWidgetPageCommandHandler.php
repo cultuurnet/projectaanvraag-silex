@@ -151,12 +151,9 @@ class MigrateWidgetPageCommandHandler
             $widgetPageEntity->setCreatedBy($data['live_uid']);
         }
 
-        /*
-         * TODO: always the same as created by?
         if (isset($data['last_updated_by'])) {
-            $widgetPageEntity->setLastUpdatedBy($data['last_updated_by']);
+            $widgetPageEntity->setLastUpdatedBy($data['live_uid']);
         }
-        */
 
         if ($data['created']) {
             $widgetPageEntity->setCreated($data['created']);
@@ -271,6 +268,14 @@ class MigrateWidgetPageCommandHandler
                     // when label
                     $widget['settings']['fields']['time']['date_search']['label'] = $settings['control_when']['fields']['datetype']['label'];
                 }
+                // url
+                if (isset($settings['url'])) {
+                    $widget['settings']['general']['destination'] = $settings['url'];
+                }
+                // open in new window
+                if (isset($settings['new_window'])) {
+                    $widget['settings']['general']['new_window'] = $settings['new_window'];
+                }
                 break;
             case 'Cultuurnet_Widgets_Widget_SearchResultWidget':
                 $widget = [
@@ -289,6 +294,10 @@ class MigrateWidgetPageCommandHandler
                 // current search
                 if (isset($settings['control_results']['visual']['results']['current_search']['enabled'])) {
                     $widget['settings']['general']['current_search'] = $settings['control_results']['visual']['results']['current_search']['enabled'];
+                }
+                // items character limit
+                if (isset($settings['control_results']['visual']['results']['char_limit'])){
+                    $widget['settings']['items']['description']['characters'] = $settings['control_results']['visual']['results']['char_limit'];
                 }
                 // items image
                 if (isset($settings['control_results']['visual']['results']['image'])) {
@@ -323,6 +332,10 @@ class MigrateWidgetPageCommandHandler
                 // detail icon vlieg
                 if (isset($settings['control_results']['visual']['detail']['logo_vlieg']['show'])) {
                     $widget['settings']['detail_page']['icon_vlieg'] = $settings['control_results']['visual']['detail']['logo_vlieg']['show'];
+                }
+                // detail language icons
+                if (isset($settings['control_results']['visual']['detail']['taaliconen']['show'])) {
+                    $widget['settings']['detail_page']['language_icons'] = $settings['control_results']['visual']['detail']['taaliconen']['show'];
                 }
                 break;
             case 'Cultuurnet_Widgets_Widget_HtmlWidget':

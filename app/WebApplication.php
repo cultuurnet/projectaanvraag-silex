@@ -127,17 +127,6 @@ class WebApplication extends ApplicationBase
             ];
         };
 
-        // Twig
-        $this->register(
-            new TwigServiceProvider(),
-            [
-                'twig.path' => __DIR__ . '/../views',
-                'twig.options'    => [
-                    'cache' => $this['cache_directory'] . '/twig',
-                ],
-            ]
-        );
-
         // HTTP cache
         $this->register(new HttpCacheServiceProvider(), [
             'http_cache.cache_dir' => $this['cache_directory'] . '/http',
