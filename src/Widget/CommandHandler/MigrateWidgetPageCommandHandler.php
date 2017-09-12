@@ -344,7 +344,6 @@ class MigrateWidgetPageCommandHandler
                 }
                 break;
             case 'Cultuurnet_Widgets_Widget_PushWidget':
-                // Tips?
                 // header
                 if (isset($settings['control_header']['html'])) {
                     $widget['settings']['header']['body'] = $settings['control_header']['html'];
