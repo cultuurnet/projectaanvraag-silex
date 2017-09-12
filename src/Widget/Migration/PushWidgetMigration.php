@@ -15,7 +15,9 @@ class PushWidgetMigration extends WidgetMigration
      */
     public function __construct($settings)
     {
-        parent::__construct($settings);
+        $name = 'tips-1';
+        $type = 'tips';
+        parent::__construct($settings, $name, $type);
     }
 
 }

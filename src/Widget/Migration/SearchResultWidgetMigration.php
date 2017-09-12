@@ -15,7 +15,9 @@ class SearchResultWidgetMigration extends WidgetMigration
      */
     public function __construct($settings)
     {
-        parent::__construct($settings);
+        $name = 'search-results-1';
+        $type = 'search-results';
+        parent::__construct($settings, $name, $type);
     }
 
 }

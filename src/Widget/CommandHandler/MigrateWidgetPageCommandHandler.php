@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
+use CultuurNet\ProjectAanvraag\Widget\Migration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -227,9 +228,23 @@ class MigrateWidgetPageCommandHandler
      * @return array
      */
     protected function convertBlockDataToWidget($block) {
-        $widget = [];
-        $settings = unserialize($block['settings']);
-        // TODO: refactor to reduce duplicate code (once all widgets are in).
+        // Build migration class name.
+        $type = array_pop(explode('_', $block['type']));
+        $className = 'CultuurNet\ProjectAanvraag\Widget\Migration\\' . $type . 'Migration';
+        if (class_exists($className)) {
+            $settings = unserialize($block['settings']);
+            $widgetMigration = new $className($settings);
+            $widget = [
+                'name' => $widgetMigration->getName(),
+                'type' => $widgetMigration->getType(),
+                'settings' => $widgetMigration->getSettings(),
+            ];
+        }
+        else {
+            return [];
+        }
+
+        /*
         switch ($block['type']) {
             case 'Cultuurnet_Widgets_Widget_SearchBoxWidget':
                 $widget = [
@@ -380,7 +395,7 @@ class MigrateWidgetPageCommandHandler
                     $widget['settings']['items']['read_more']['enabled'] = $settings['visual']['fields']['readmore'];
                 }
                 break;
-        }
+        }*/
         return $widget;
     }
 

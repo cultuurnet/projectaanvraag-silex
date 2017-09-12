@@ -15,7 +15,9 @@ class SearchBoxWidgetMigration extends WidgetMigration
      */
     public function __construct($settings)
     {
-        parent::__construct($settings);
+        $name = 'zoekformulier-1';
+        $type = 'search-form';
+        parent::__construct($settings, $name, $type);
     }
 
 }

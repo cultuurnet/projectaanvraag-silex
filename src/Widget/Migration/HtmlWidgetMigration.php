@@ -15,7 +15,9 @@ class HtmlWidgetMigration extends WidgetMigration
      */
     public function __construct($settings)
     {
-        parent::__construct($settings);
+        $name = 'html-1';
+        $type = 'html';
+        parent::__construct($settings, $name, $type);
     }
 
 }
