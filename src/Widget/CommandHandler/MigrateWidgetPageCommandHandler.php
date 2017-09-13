@@ -226,7 +226,8 @@ class MigrateWidgetPageCommandHandler
      */
     protected function convertBlockDataToWidget($block) {
         // Build migration class name.
-        $type = array_pop(explode('_', $block['type']));
+        $expl_type = explode('_', $block['type']);
+        $type = array_pop($expl_type);
         $className = 'CultuurNet\ProjectAanvraag\Widget\Migration\\' . $type . 'Migration';
         if (class_exists($className)) {
             $settings = unserialize($block['settings']);
