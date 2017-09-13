@@ -3,6 +3,8 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
 use Guzzle\Http\Url;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -22,14 +24,21 @@ class TwigPreprocessor
     protected $twig;
 
     /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
+    protected $request;
+
+    /**
      * TwigPreprocessor constructor.
      * @param TranslatorInterface $translator
      * @param \Twig_Environment $twig
+     * @param RequestContext $requestContext
      */
-    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig)
+    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack)
     {
         $this->translator = $translator;
         $this->twig = $twig;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
     /**
@@ -48,19 +57,23 @@ class TwigPreprocessor
         foreach ($events as $event) {
             $preprocessedEvent = $this->preprocessEvent($event, $langcode, $settings['items']);
 
+            $linkType = 'query';
+            $detailUrl = $this->request->get('base_url');
             if (isset($settings['general']['detail_link'])) {
-                $detailLinkSettings = $settings['general']['detail_link'];
-                $url = Url::factory($detailLinkSettings['url'] ?? 'http://www.test.be');
-                if (isset($detailLinkSettings['cdbid']) && $detailLinkSettings['cdbid'] === 'url') {
-                    $url->addPath($preprocessedEvent['id']);
-                } else {
-                    $query = $url->getQuery();
-                    $query['cdbid'] = $preprocessedEvent['id'];
-                    $url->setQuery($query);
-                }
-
-                $preprocessedEvent['detail_link'] = $url->__toString();
+                $detailUrl = $settings['general']['detail_link']['url'] ?? $detailUrl;
+                $linkType = $settings['general']['detail_link']['cdbid'] ?? $linkType;
             }
+
+            $url = Url::factory($detailUrl);
+            if ($linkType === 'url') {
+                $url->addPath($preprocessedEvent['id']);
+            } else {
+                $query = $url->getQuery();
+                $query['cdbid'] = $preprocessedEvent['id'];
+                $url->setQuery($query);
+            }
+
+            $preprocessedEvent['detail_link'] = $url->__toString();
 
             $preprocessedEvents[] = $preprocessedEvent;
         }
@@ -93,6 +106,18 @@ class TwigPreprocessor
             'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
             'uitpas' => $event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false,
         ];
+
+        if (!empty($variables['image'])) {
+            $url = Url::factory($variables['image']);
+            $query = $url->getQuery();
+            $query['crop'] = 'auto';
+            $query['scale'] = 'both';
+            $query['height'] = $settings['image']['height'];
+            $query['width'] = $settings['image']['width'];
+            $variables['image'] = $url->__toString();
+        } elseif ($settings['image']['default_image']) {
+            $variables['image'] = $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/assets/images/event.png';
+        }
 
         if (!empty($settings['description']['characters'])) {
             $variables['description'] = substr($variables['description'], 0, $settings['description']['characters']);

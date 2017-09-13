@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPager;
 use Pimple\Container;
 
 class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInterface
@@ -130,6 +131,45 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
             'type' => $this->pluginDefinition['annotation']->getId(),
             'settings' => $this->settings,
         ];
+    }
+
+    /**
+     * Trim the first
+     * parameter.
+     *
+     * @param $params
+     * @return array
+     */
+    protected function filterUrlQueryParams($params)
+    {
+        if (!empty($params)) {
+            foreach ($params as $key => $param) {
+                // Check key for question mark.
+                if (substr($key, 0, 1) == '?') {
+                    // Trim question mark.
+                    $trimmedKey = ltrim($key, '?');
+                    // Replace key.
+                    $params[$trimmedKey] = $param;
+                    unset($params[$key]);
+                }
+            }
+        }
+        return $params;
+    }
+
+    /**
+     * Return a WidgetPager object for the given data.
+     *
+     * @param int $itemsPerPage
+     * @param int $totalItems
+     * @param int $pageIndex
+     * @return WidgetPager
+     */
+    protected function retrievePagerData(int $itemsPerPage, int $totalItems, int $pageIndex)
+    {
+        // Determine number of pages.
+        $pages = ceil($totalItems / $itemsPerPage);
+        return new WidgetPager($pages, $pageIndex, $itemsPerPage);
     }
 
     /**
