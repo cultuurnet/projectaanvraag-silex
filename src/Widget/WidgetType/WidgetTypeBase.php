@@ -53,15 +53,15 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected $settings;
 
     /**
-     * LayoutBase constructor.
-     *
+     * WidgetTypeBase constructor.
      * @param array $pluginDefinition
-     * @param \Twig_Environment $twig
-     * @param RendererInterface $renderer
      * @param array $configuration
      * @param bool $cleanup
+     * @param \Twig_Environment $twig
+     * @param TwigPreprocessor $twigPreprocessor
+     * @param RendererInterface $renderer
      */
-    public function __construct(array $pluginDefinition, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, array $configuration, bool $cleanup)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer)
     {
         $this->pluginDefinition = $pluginDefinition;
         $this->renderer = $renderer;
@@ -96,11 +96,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         return new static(
             $pluginDefinition,
+            $configuration,
+            $cleanup,
             $container['twig'],
             $container['widget_twig_preprocessor'],
-            $container['widget_renderer'],
-            $configuration,
-            $cleanup
+            $container['widget_renderer']
         );
     }
 

@@ -139,19 +139,18 @@ class Tips extends WidgetTypeBase
     protected $searchClient;
 
     /**
-     * LayoutBase constructor.
-     *
+     * Tips constructor.
      * @param array $pluginDefinition
+     * @param array $configuration
+     * @param bool $cleanup
      * @param \Twig_Environment $twig
      * @param TwigPreprocessor $twigPreprocessor
      * @param RendererInterface $renderer
-     * @param array $configuration
-     * @param bool $cleanup
      * @param SearchClient $searchClient
      */
-    public function __construct(array $pluginDefinition, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient)
     {
-        parent::__construct($pluginDefinition, $twig, $twigPreprocessor, $renderer, $configuration, $cleanup);
+        parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->searchClient = $searchClient;
     }
 
@@ -162,11 +161,11 @@ class Tips extends WidgetTypeBase
     {
         return new static(
             $pluginDefinition,
+            $configuration,
+            $cleanup,
             $container['twig'],
             $container['widget_twig_preprocessor'],
             $container['widget_renderer'],
-            $configuration,
-            $cleanup,
             $container['search_api']
         );
     }
