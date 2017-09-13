@@ -46,6 +46,41 @@ class CssMigration
             $css .= ($settings['css'] ? $settings['css'] : '');
             $css .= (isset($settings['style']) ? $this->convertStyleConfigToCss($settings['style'], 'cultuurnet-widget') : '');
 
+            // Header
+            if (isset($settings['control_header'])) {
+                $css .= ($settings['control_header']['css'] ? $settings['control_header']['css'] : '');
+                $css .= (isset($settings['control_header']['style']) ? $this->convertStyleConfigToCss($settings['control_header']['style'], 'cultuurnet-control-header') : '');
+            };
+
+            // Footer
+            if (isset($settings['control_footer'])) {
+                $css .= ($settings['control_footer']['css'] ? $settings['control_footer']['css'] : '');
+                $css .= (isset($settings['control_footer']['style']) ? $this->convertStyleConfigToCss($settings['control_footer']['style'], 'cultuurnet-control-footer') : '');
+            };
+
+            // What
+            if (isset($settings['control_what'])) {
+                $css .= ($settings['control_what']['css'] ? $settings['control_what']['css'] : '');
+                $css .= (isset($settings['control_what']['style']) ? $this->convertStyleConfigToCss($settings['control_what']['style'], 'cultuurnet-control-what') : '');
+            };
+
+            // Where
+            if (isset($settings['control_where'])) {
+                $css .= ($settings['control_where']['css'] ? $settings['control_where']['css'] : '');
+                $css .= (isset($settings['control_where']['style']) ? $this->convertStyleConfigToCss($settings['control_where']['style'], 'cultuurnet-control-where') : '');
+            };
+
+            // When
+            if (isset($settings['control_when'])) {
+                $css .= ($settings['control_when']['css'] ? $settings['control_when']['css'] : '');
+                $css .= (isset($settings['control_when']['style']) ? $this->convertStyleConfigToCss($settings['control_when']['style'], 'cultuurnet-control-when') : '');
+            };
+
+            // Results
+            if (isset($settings['control_results'])) {
+                $css .= ($settings['control_results']['css'] ? $settings['control_results']['css'] : '');
+                $css .= (isset($settings['control_results']['style']) ? $this->convertStyleConfigToCss($settings['control_results']['style'], 'cultuurnet-control-results') : '');
+            };
 
         }
 
@@ -113,11 +148,11 @@ class CssMigration
         $paddingLeft = $config['padding']['left'];
         $css .= ($paddingLeft != '' ? "padding-left: $paddingLeft;\n" : '');
 
-        $css = ($css != '' ? ".$wrapperClass {\n $css \n}" : '');
+        $css = ($css != '' ? ".$wrapperClass {\n $css \n}\n" : '');
 
         // Add possible freestyle CSS from style config.
         $css .= ($config['css'] ? $config['css'] : '');
-        return $css;
+        return "$css\n";
     }
 
 }
