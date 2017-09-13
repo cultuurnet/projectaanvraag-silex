@@ -135,7 +135,7 @@ class SearchForm extends WidgetTypeBase
                 'settings_general' => $this->settings['general'],
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
-                'settings_fields' => $this->settings['fields']
+                'settings_fields' => $this->settings['fields'],
             ]
         );
     }

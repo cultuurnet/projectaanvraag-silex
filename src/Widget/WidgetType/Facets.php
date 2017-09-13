@@ -1,9 +1,12 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
+
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
 use CultuurNet\SearchV3\ValueObjects\FacetResults;
@@ -61,7 +64,15 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 class Facets extends WidgetTypeBase
 {
 
+    /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
     protected $request;
+
+    /**
+     * @var SearchClient
+     */
+    protected $searchClient;
 
     /**
      * SearchResults constructor.
@@ -104,76 +115,24 @@ class Facets extends WidgetTypeBase
     public function render()
     {
         // Sample facet results.
-        // @todo: These should be retrieved from the SearchResults query.
-        $facetResults = new FacetResults();
-        $facetResults->setFacetResults([
-            new FacetResult('themes', [
-                new FacetResultItem('1.40.0.0.0', [
-                    'nl' => 'Erfgoed',
-                ],2,[]),
-            ]),
-            new FacetResult('themes', [
-                new FacetResultItem('1.64.0.0.0', [
-                    'nl' => 'Milieu en natuur',
-                ],12,[]),
-            ]),
-            new FacetResult('themes', [
-                new FacetResultItem('1.51.14.0.0', [
-                    'nl' => 'Atletiek, wandelen en fietsen',
-                ],46,[]),
-            ]),
-            new FacetResult('themes', [
-                new FacetResultItem('1.37.2.0.0', [
-                    'nl' => 'Samenleving',
-                ],17,[]),
-            ]),
-            new FacetResult('types', [
-                new FacetResultItem('0.6.0.0.0', [
-                    'nl' => 'Beurs',
-                ],5,[]),
-            ]),
-            new FacetResult('types', [
-                new FacetResultItem('0.7.0.0.0', [
-                    'nl' => 'Begeleide uitstap of rondleiding',
-                ],11,[]),
-            ]),
-            new FacetResult('types', [
-                new FacetResultItem('0.3.1.0.0', [
-                    'nl' => 'Cursus of workshop',
-                ],27,[]),
-            ]),
-            new FacetResult('regions', [
-                new FacetResultItem('prv-vlaams-brabant', [
-                    'nl' => 'Vlaams-Brabant',
-                ],22,[]),
-            ]),
-            new FacetResult('regions', [
-                new FacetResultItem('prv-west-vlaanderen', [
-                    'nl' => 'West-Vlaanderen',
-                ],31,[]),
-            ]),
-            new FacetResult('regions', [
-                new FacetResultItem('prv-oost-vlaanderen', [
-                    'nl' => 'Oost-Vlaanderen',
-                ],29,[]),
-            ]),
-            new FacetResult('regions', [
-                new FacetResultItem('prv-antwerpen', [
-                    'nl' => 'Antwerpen',
-                ],62,[]),
-            ]),
-            new FacetResult('regions', [
-                new FacetResultItem('prv-limburg', [
-                    'nl' => 'Limburg',
-                ],17,[]),
-            ]),
-        ]);
+        $query = new SearchQuery(true);
+
+        // Limit items per page.
+        $query->setLimit(1);
+
+        // Add facets
+        $query->addParameter(new Facet('regions'));
+        $query->addParameter(new Facet('types'));
+        $query->addParameter(new Facet('themes'));
+        $query->addParameter(new Facet('facilities'));
+
+        $result = $this->searchClient->searchEvents($query);
 
         // Render twig with settings.
         return $this->twig->render(
             'widgets/facets-widget/facets-widget.html.twig',
             [
-                'facets' => $this->formatFacetResults($facetResults, 'nl'),
+                'facets' => $this->twigPreprocessor->preprocessFacetResults($result->getFacets(), 'nl'),
                 'settings_filters' => $this->settings['filters'],
                 'settings_group_filters' => $this->settings['group_filters'],
             ]
