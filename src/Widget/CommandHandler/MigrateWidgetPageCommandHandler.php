@@ -247,40 +247,6 @@ class MigrateWidgetPageCommandHandler
 
         /*
         switch ($block['type']) {
-            case 'Cultuurnet_Widgets_Widget_SearchBoxWidget':
-
-                // what
-                if (isset($settings['control_what']['fields'])) {
-                    // what enabled
-                    $widget['settings']['fields']['type']['keyword_search']['enabled'] = $settings['control_what']['fields']['q']['enabled'];
-                    // what label
-                    $widget['settings']['fields']['type']['keyword_search']['label'] = $settings['control_what']['fields']['q']['label'];
-                    // what placeholder
-                    $widget['settings']['fields']['type']['keyword_search']['placeholder'] = $settings['control_what']['fields']['q']['placeholder'];
-                }
-                // where
-                if (isset($settings['control_where']['fields'])) {
-                    // where enabled
-                    $widget['settings']['fields']['location']['keyword_search']['enabled'] = $settings['control_where']['fields']['location']['enabled'];
-                    // where label
-                    $widget['settings']['fields']['location']['keyword_search']['label'] = $settings['control_where']['fields']['location']['label'];
-                }
-                // when
-                if (isset($settings['control_when']['fields'])) {
-                    // when enabled
-                    $widget['settings']['fields']['time']['date_search']['enabled'] = $settings['control_when']['fields']['datetype']['enabled'];
-                    // when label
-                    $widget['settings']['fields']['time']['date_search']['label'] = $settings['control_when']['fields']['datetype']['label'];
-                }
-                // url
-                if (isset($settings['url'])) {
-                    $widget['settings']['general']['destination'] = $settings['url'];
-                }
-                // open in new window
-                if (isset($settings['new_window'])) {
-                    $widget['settings']['general']['new_window'] = $settings['new_window'];
-                }
-                break;
             case 'Cultuurnet_Widgets_Widget_PushWidget':
                 // items amount
                 if (isset($settings['content']['count'])) {
