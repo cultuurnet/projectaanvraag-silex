@@ -42,49 +42,30 @@ class CssMigration
              * these are just added as is to the combined CSS.
              */
 
-            // Root CSS
+            // Root CSS.
             $css .= ($settings['css'] ? $settings['css'] : '');
             $css .= (isset($settings['style']) ? $this->convertStyleConfigToCss($settings['style'], 'cultuurnet-widget') : '');
 
-            // Header
-            if (isset($settings['control_header'])) {
-                $css .= ($settings['control_header']['css'] ? $settings['control_header']['css'] : '');
-                $css .= (isset($settings['control_header']['style']) ? $this->convertStyleConfigToCss($settings['control_header']['style'], 'cultuurnet-control-header') : '');
-            };
-
-            // Footer
-            if (isset($settings['control_footer'])) {
-                $css .= ($settings['control_footer']['css'] ? $settings['control_footer']['css'] : '');
-                $css .= (isset($settings['control_footer']['style']) ? $this->convertStyleConfigToCss($settings['control_footer']['style'], 'cultuurnet-control-footer') : '');
-            };
-
-            // What
-            if (isset($settings['control_what'])) {
-                $css .= ($settings['control_what']['css'] ? $settings['control_what']['css'] : '');
-                $css .= (isset($settings['control_what']['style']) ? $this->convertStyleConfigToCss($settings['control_what']['style'], 'cultuurnet-control-what') : '');
-            };
-
-            // Where
-            if (isset($settings['control_where'])) {
-                $css .= ($settings['control_where']['css'] ? $settings['control_where']['css'] : '');
-                $css .= (isset($settings['control_where']['style']) ? $this->convertStyleConfigToCss($settings['control_where']['style'], 'cultuurnet-control-where') : '');
-            };
-
-            // When
-            if (isset($settings['control_when'])) {
-                $css .= ($settings['control_when']['css'] ? $settings['control_when']['css'] : '');
-                $css .= (isset($settings['control_when']['style']) ? $this->convertStyleConfigToCss($settings['control_when']['style'], 'cultuurnet-control-when') : '');
-            };
-
-            // Results
-            if (isset($settings['control_results'])) {
-                $css .= ($settings['control_results']['css'] ? $settings['control_results']['css'] : '');
-                $css .= (isset($settings['control_results']['style']) ? $this->convertStyleConfigToCss($settings['control_results']['style'], 'cultuurnet-control-results') : '');
-            };
-
+            // Controls CSS.
+            $css .= (isset($settings['control_header']) ? $this->getControlCss($settings['control_header'], 'control_header') : '');
+            $css .= (isset($settings['control_footer']) ? $this->getControlCss($settings['control_footer'], 'control_footer') : '');
+            $css .= (isset($settings['control_what']) ? $this->getControlCss($settings['control_what'], 'control_what') : '');
+            $css .= (isset($settings['control_where']) ? $this->getControlCss($settings['control_where'], 'control_where') : '');
+            $css .= (isset($settings['control_when']) ? $this->getControlCss($settings['control_when'], 'control_when') : '');
+            $css .= (isset($settings['control_results']) ? $this->getControlCss($settings['control_results'], 'control_results') : '');
         }
 
         $this->css = $css;
+    }
+
+    protected function getControlCss ($settings, $control) {
+        $css = '';
+        $css .= ($settings['css'] ? $settings['css'] : '');
+
+        $wrapperClass = 'cultuurnet-' . str_replace('_', '-', $control);
+
+        $css .= (isset($settings['style']) ? $this->convertStyleConfigToCss($settings['style'], $wrapperClass) : '');
+        return $css;
     }
 
     protected function convertStyleConfigToCss($config, $wrapperClass) {
