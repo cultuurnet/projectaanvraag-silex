@@ -29,6 +29,11 @@ class CssMigration
         $this->css = $css;
     }
 
+    /**
+     * CssMigration constructor.
+     *
+     * @param array $blocks
+     */
     public function __construct(array $blocks)
     {
         $css = '';
@@ -58,6 +63,13 @@ class CssMigration
         $this->css = $css;
     }
 
+    /**
+     * Helper function to make retrieving control CSS code more generic.
+     *
+     * @param $settings
+     * @param $control
+     * @return string
+     */
     protected function getControlCss ($settings, $control) {
         $css = '';
         $css .= ($settings['css'] ? $settings['css'] : '');
@@ -68,10 +80,17 @@ class CssMigration
         return $css;
     }
 
+    /**
+     * Check every style parameter and add a corresponding CSS line if filled in.
+     *
+     * @param $config
+     * @param $wrapperClass
+     * @return string
+     */
     protected function convertStyleConfigToCss($config, $wrapperClass) {
         $css = '';
 
-        // font
+        // Font.
         $fontFamily = $config['font']['family'];
         $css .= ($fontFamily != '' ? "font-family: $fontFamily;\n" : '');
         $fontSize = $config['font']['size'];
@@ -88,7 +107,7 @@ class CssMigration
         $fontStyleUnderline = $config['font']['style']['underline'];
         $css .= ($fontStyleUnderline ? "text-decoration: underline;\n" : '');
 
-        // border
+        // Border.
         $borderTop = $config['border']['top'];
         $css .= ($borderTop != '' ? "border-top: $borderTop;\n" : '');
         $borderRight = $config['border']['right'];
@@ -102,14 +121,14 @@ class CssMigration
         $borderStyle = $config['border']['style'];
         $css .= ($borderStyle != '' ? "border-style: $borderStyle;\n" : '');
 
-        // background
+        // Background.
         $backgroundUrl = ($config['background']['url'] ? 'url("' . $config['background']['url'] . '")' : '');
         $backgroundRepeat = $config['background']['repeat'];
         $backgroundColor = $config['background']['color'];
         $background = trim("$backgroundColor $backgroundUrl $backgroundRepeat", ' ');
         $css .= ($background != '' ? "background: $background;\n" : '');
 
-        // margin
+        // Margin.
         $marginTop = $config['margin']['top'];
         $css .= ($marginTop != '' ? "margin-top: $marginTop;\n" : '');
         $marginRight = $config['margin']['right'];
@@ -119,7 +138,7 @@ class CssMigration
         $marginLeft = $config['margin']['left'];
         $css .= ($marginLeft != '' ? "margin-left: $marginLeft;\n" : '');
 
-        // padding
+        // Padding.
         $paddingTop = $config['padding']['top'];
         $css .= ($paddingTop != '' ? "padding-top: $paddingTop;\n" : '');
         $paddingRight = $config['padding']['right'];
