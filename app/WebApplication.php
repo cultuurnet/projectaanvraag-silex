@@ -104,6 +104,8 @@ class WebApplication extends ApplicationBase
                     [
                         new Path('^/culturefeed/oauth', 'GET'),
                         new Path('^/integration-types', 'GET'),
+                        new Path('^/widgets/layout', 'GET'),
+                        new Path('^/widgets/api/render', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
@@ -139,10 +141,13 @@ class WebApplication extends ApplicationBase
         );
 
         // HTTP cache
-        $this->register(new HttpCacheServiceProvider(), [
-            'http_cache.cache_dir' => $this['cache_directory'] . '/http',
-            'http_cache.esi'       => null,
-        ]);
+        $this->register(
+            new HttpCacheServiceProvider(),
+            [
+                'http_cache.cache_dir' => $this['cache_directory'] . '/http',
+                'http_cache.esi'       => null,
+            ]
+        );
     }
 
     /**

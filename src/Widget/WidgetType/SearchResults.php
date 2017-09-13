@@ -2,9 +2,16 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
-
+use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\SearchQuery;
+use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+
+use Pimple\Container;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides the search form widget type.
@@ -14,6 +21,10 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *      defaultSettings = {
  *          "general":{
  *              "current_search":true,
+ *              "exclude": {
+ *                  "long_term":"true",
+ *                  "permanent":"true"
+ *              }
  *          },
  *          "header":{
  *              "body":"",
@@ -111,7 +122,11 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *      },
  *      allowedSettings = {
  *          "general":{
- *              "current_search":"boolean"
+ *              "current_search":"boolean",
+ *              "exclude": {
+ *                  "long_term":"boolean",
+ *                  "permanent":"boolean"
+ *              }
  *          },
  *          "header":{
  *              "body":"string"
@@ -162,6 +177,9 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *                  "label":"string"
  *              }
  *          },
+ *          "search_params" : {
+ *              "query":"string"
+ *          },
  *          "detail_page":{
  *              "map":"boolean",
  *              "price_information":"boolean",
@@ -194,13 +212,6 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *              "language_icons":{
  *                  "enabled":"boolean"
  *              },
- *              "image":{
- *                  "enabled":"boolean",
- *                  "width":"integer",
- *                  "height":"integer",
- *                  "default_image":"boolean",
- *                  "position":"string"
- *              },
  *              "labels":{
  *                  "enabled":"boolean",
  *                  "limit_labels":{
@@ -216,11 +227,108 @@ class SearchResults extends WidgetTypeBase
 {
 
     /**
+     * Items per pager is currently fixed.
+     */
+    const ITEMS_PER_PAGE = 10;
+
+    /**
+     * @var SearchClient
+     */
+    protected $searchClient;
+
+    /**
+     * @var RequestStack
+     */
+    protected $request;
+
+    /**
+     * SearchResults constructor.
+     *
+     * @param array $pluginDefinition
+     * @param array $configuration
+     * @param bool $cleanup
+     * @param \Twig_Environment $twig
+     * @param TwigPreprocessor $twigPreprocessor
+     * @param RendererInterface $renderer
+     * @param SearchClient $searchClient
+     */
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack)
+    {
+        parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
+        $this->searchClient = $searchClient;
+        $this->request = $requestStack->getCurrentRequest();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
+    {
+        return new static(
+            $pluginDefinition,
+            $configuration,
+            $cleanup,
+            $container['twig'],
+            $container['widget_twig_preprocessor'],
+            $container['widget_renderer'],
+            $container['search_api'],
+            $container['request_stack']
+        );
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function render()
     {
-        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', []);
+        // Retrieve the current request query parameters using the global Application object and filter.
+        $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
+
+        $query = new SearchQuery(true);
+
+        // Pagination settings.
+        $currentPageIndex = 0;
+        // Limit items per page.
+        $query->setLimit(self::ITEMS_PER_PAGE);
+        // Check for page query param.
+        if (isset($urlQueryParams['page'])) {
+            // Set current page index.
+            $currentPageIndex = $urlQueryParams['page'];
+            // Move start according to the active page.
+            $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
+        }
+
+        // Read settings for search parameters from settings.
+        if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
+            // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+            $query->addParameter(
+                new Query(
+                    str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
+                )
+            );
+        }
+
+        // Sort by event end date.
+        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+
+        // Retrieve results from Search API.
+        $result = $this->searchClient->searchEvents($query);
+
+        // Retrieve pager object.
+        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
+
+        // Render twig with formatted results and item settings.
+        return $this->twig->render(
+            'widgets/search-results-widget/search-results-widget.html.twig',
+            [
+                'result_count' => $result->getTotalItems(),
+                'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
+                'pager' => $pager,
+                'settings_items' => $this->settings['items'],
+                'settings_header' => $this->settings['header'],
+                'settings_general' => $this->settings['general'],
+            ]
+        );
     }
 
     /**

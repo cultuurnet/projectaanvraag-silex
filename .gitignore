@@ -9,3 +9,5 @@ config.yml
 /cache
 /web/xhprof
 .DS_STORE
+web/widgets-static/node_modules
+web/widgets-static/.tmp

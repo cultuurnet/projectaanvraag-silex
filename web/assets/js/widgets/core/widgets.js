@@ -14,7 +14,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         if (window.jQuery) {
             CultuurnetWidgets.attachBehaviors();
         }
-        // If jQuery does not exists, load it and attach beviors.
+        // If jQuery does not exists, load it and attach behaviors.
         else {
             var script = document.createElement('script');
             document.head.appendChild(script);
@@ -125,6 +125,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.apiRequest = function(url, params) {
         params = params || {};
+
+        // Add current querystring to the URL.
+        params.data = window.location.search;
 
         if (typeof params.dataType == 'undefined') {
             params.dataType = 'jsonp';
