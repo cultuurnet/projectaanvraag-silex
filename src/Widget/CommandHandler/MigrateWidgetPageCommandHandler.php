@@ -281,54 +281,6 @@ class MigrateWidgetPageCommandHandler
                     $widget['settings']['general']['new_window'] = $settings['new_window'];
                 }
                 break;
-            case 'Cultuurnet_Widgets_Widget_SearchResultWidget':
-                // current search
-                if (isset($settings['control_results']['visual']['results']['current_search']['enabled'])) {
-                    $widget['settings']['general']['current_search'] = $settings['control_results']['visual']['results']['current_search']['enabled'];
-                }
-                // items character limit
-                if (isset($settings['control_results']['visual']['results']['char_limit'])){
-                    $widget['settings']['items']['description']['characters'] = $settings['control_results']['visual']['results']['char_limit'];
-                }
-                // items image
-                if (isset($settings['control_results']['visual']['results']['image'])) {
-                    $img_settings = $settings['control_results']['visual']['results']['image'];
-                    $widget['settings']['items']['image'] = [
-                        'enabled' => $img_settings['show'],
-                        'width' => $img_settings['size']['width'],
-                        'height' => $img_settings['size']['height'],
-                        'default_image' => $img_settings['show_default'],
-                        'position' => 'left',
-                    ];
-                }
-                // items icon vlieg
-                if (isset($settings['control_results']['visual']['results']['logo_vlieg']['show'])) {
-                    $widget['settings']['items']['icon_vlieg'] = $settings['control_results']['visual']['results']['logo_vlieg']['show'];
-                }
-                // detail map
-                if (isset($settings['control_results']['visual']['detail']['map'])) {
-                    $widget['settings']['detail_page']['map'] = $settings['control_results']['visual']['detail']['map']['show'];
-                }
-                // detail image
-                if (isset($settings['control_results']['visual']['detail']['image'])) {
-                    $img_settings = $settings['control_results']['visual']['detail']['image'];
-                    $widget['settings']['detail_page']['image'] = [
-                        'enabled' => $img_settings['show'],
-                        'width' => $img_settings['size']['width'],
-                        'height' => $img_settings['size']['height'],
-                        'default_image' => false,
-                        'position' => 'left',
-                    ];
-                }
-                // detail icon vlieg
-                if (isset($settings['control_results']['visual']['detail']['logo_vlieg']['show'])) {
-                    $widget['settings']['detail_page']['icon_vlieg'] = $settings['control_results']['visual']['detail']['logo_vlieg']['show'];
-                }
-                // detail language icons
-                if (isset($settings['control_results']['visual']['detail']['taaliconen']['show'])) {
-                    $widget['settings']['detail_page']['language_icons'] = $settings['control_results']['visual']['detail']['taaliconen']['show'];
-                }
-                break;
             case 'Cultuurnet_Widgets_Widget_PushWidget':
                 // items amount
                 if (isset($settings['content']['count'])) {
