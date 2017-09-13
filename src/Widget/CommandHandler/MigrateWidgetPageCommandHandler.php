@@ -306,7 +306,7 @@ class MigrateWidgetPageCommandHandler
             // Recursively retrieve "css" key values.
             $callback = function(&$value, $key) {
                 global $css;
-                if ($key == 'css') {
+                if ($key === 'css') {
                     if ($css != '') {
                         $css .= '\n';
                     }
@@ -314,7 +314,30 @@ class MigrateWidgetPageCommandHandler
                 }
             };
             array_walk_recursive($settings, $callback);
+
+            $test = $this->getArray($settings, 'style');
+
         }
         return $css;
+    }
+
+    // temp function
+    protected function getArray($array, $index) {
+        $results = [];
+        $arrayIt = new \RecursiveArrayIterator($array);
+        $it = new \RecursiveIteratorIterator(
+            $arrayIt,
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+        foreach ($it as $key => $value) {
+            if ($key === $index) {
+                // Filter non-arrays and font style sub arrays (which are smaller than those we need).
+                if (is_array($value) && count($value) > 3) {
+                    $results[] = $value;
+                }
+            }
+        }
+
+        return (!empty($results) ? $results : null);
     }
 }
