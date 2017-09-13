@@ -8,7 +8,7 @@ use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
-use CultuurNet\ProjectAanvraag\Widget\Migration;
+use CultuurNet\ProjectAanvraag\Widget\Migration\CssMigration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -166,8 +166,8 @@ class MigrateWidgetPageCommandHandler
             $rows = $this->convertBlocksToRows($data['layout'], $data['blocks']);
             $widgetPageEntity->setRows($rows);
             // Combine and set CSS.
-            $css = $this->combineCssRecursively($data['blocks']);
-            $widgetPageEntity->setCss($css);
+            $cssMigration = new CssMigration($data['blocks']);
+            $widgetPageEntity->setCss($cssMigration->getCss());
         }
 
         return $widgetPageEntity;
@@ -290,54 +290,5 @@ class MigrateWidgetPageCommandHandler
             default:
                 return $region;
         }
-    }
-
-    /**
-     * Combine the CSS strings from every block recursively into a single string.
-     *
-     * @param $blocks
-     * @return string
-     */
-    protected function combineCssRecursively($blocks) {
-        global $css;
-        foreach ($blocks as $block) {
-            $settings = unserialize($block['settings']);
-
-            // Recursively retrieve "css" key values.
-            $callback = function(&$value, $key) {
-                global $css;
-                if ($key === 'css') {
-                    if ($css != '') {
-                        $css .= '\n';
-                    }
-                    $css .= "$value";
-                }
-            };
-            array_walk_recursive($settings, $callback);
-
-            $test = $this->getArray($settings, 'style');
-
-        }
-        return $css;
-    }
-
-    // temp function
-    protected function getArray($array, $index) {
-        $results = [];
-        $arrayIt = new \RecursiveArrayIterator($array);
-        $it = new \RecursiveIteratorIterator(
-            $arrayIt,
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-        foreach ($it as $key => $value) {
-            if ($key === $index) {
-                // Filter non-arrays and font style sub arrays (which are smaller than those we need).
-                if (is_array($value) && count($value) > 3) {
-                    $results[] = $value;
-                }
-            }
-        }
-
-        return (!empty($results) ? $results : null);
     }
 }

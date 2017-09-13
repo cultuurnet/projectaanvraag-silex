@@ -8,9 +8,39 @@ namespace CultuurNet\ProjectAanvraag\Widget\Migration;
  */
 class CssMigration
 {
-    public function __construct()
+    /**
+     * @var string
+     */
+    private $css;
+
+    /**
+     * @return string
+     */
+    public function getCss()
     {
-        //
+        return $this->css;
+    }
+
+    /**
+     * @param string $css
+     */
+    public function setCss($css)
+    {
+        $this->css = $css;
+    }
+
+    public function __construct(array $blocks)
+    {
+        $css = '';
+
+        foreach ($blocks as $block) {
+            $settings = unserialize($block['settings']);
+
+            // TODO
+
+        }
+
+        $this->css = $css;
     }
 
 }
