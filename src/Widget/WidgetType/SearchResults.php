@@ -8,6 +8,7 @@ use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
+use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 
 use Pimple\Container;
 
@@ -225,6 +226,11 @@ class SearchResults extends WidgetTypeBase
 {
 
     /**
+     * Items per pager is currently fixed.
+     */
+    const ITEMS_PER_PAGE = 10;
+
+    /**
      * @var SearchClient
      */
     protected $searchClient;
@@ -275,18 +281,17 @@ class SearchResults extends WidgetTypeBase
         // Pagination settings.
         $currentPageIndex = 0;
         // Limit items per page.
-        // @todo: This should probably be a setting for the widget.
-        $query->setLimit(20);
+        $query->setLimit(self::ITEMS_PER_PAGE);
         // Check for page query param.
         if (isset($urlQueryParams['page'])) {
             // Set current page index.
             $currentPageIndex = $urlQueryParams['page'];
             // Move start according to the active page.
-            $query->setStart($currentPageIndex * 20);
+            $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
         }
 
         // Read settings for search parameters from settings.
-        if ($this->settings['search_params']['query']) {
+        if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $query->addParameter(
                 new Query(
@@ -305,13 +310,15 @@ class SearchResults extends WidgetTypeBase
         $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
 
         // Render twig with formatted results and item settings.
-        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig',
+        return $this->twig->render(
+            'widgets/search-results-widget/search-results-widget.html.twig',
             [
                 'result_count' => $result->getTotalItems(),
-                'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
+                'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
                 'pager' => $pager,
                 'settings_items' => $this->settings['items'],
                 'settings_header' => $this->settings['header'],
+                'settings_general' => $this->settings['general'],
             ]
         );
     }

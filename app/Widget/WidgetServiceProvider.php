@@ -75,7 +75,7 @@ class WidgetServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['widget_twig_preprocessor'] = function (Container $pimple) {
-            return new TwigPreprocessor($pimple['translator'], $pimple['twig']);
+            return new TwigPreprocessor($pimple['translator'], $pimple['twig'], $pimple['request_stack']);
         };
     }
 }

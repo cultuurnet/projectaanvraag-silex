@@ -7,15 +7,35 @@ namespace CultuurNet\ProjectAanvraag\Widget;
  */
 class WidgetPager
 {
-    
+
+    /**
+     * Total pages.
+     * @var int
+     */
     public $pageCount;
 
+    /**
+     * Current page
+     * @var int
+     */
     public $activePageIndex;
 
+    /**
+     * Items to show per page
+     * @var int
+     */
     public $itemsPerPage;
 
+    /**
+     * Total items visible before current page.
+     * @var int
+     */
     public $visibleBefore = 2;
 
+    /**
+     * Total items visible after current page.
+     * @var int
+     */
     public $visibleAfter = 2;
 
     /**
@@ -61,5 +81,4 @@ class WidgetPager
             return $this->activePageIndex + $this->visibleAfter + 1;
         }
     }
-
 }
