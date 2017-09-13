@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
+use CultuurNet\SearchV3\ValueObjects\FacetResult;
+use CultuurNet\SearchV3\ValueObjects\FacetResults;
 use Guzzle\Http\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
@@ -149,6 +151,48 @@ class TwigPreprocessor
         if (!empty($variables['labels']) && !empty($settings['labels']['limit_labels']) && $settings['labels']['limit_labels']['enabled']) {
             $allowedLabels = explode(', ', $settings['labels']['limit_labels']['labels']);
             $variables['labels'] = array_intersect($variables['labels'], $allowedLabels);
+        }
+
+        return $variables;
+    }
+
+    /**
+     * Preprocess facet results for sending to a template.
+     *
+     * @param FacetResults $facetResults
+     * @param string $langcode
+     * @return array
+     */
+    public function preprocessFacetResults(FacetResults $facetResults, $langcode)
+    {
+        $variables = [];
+
+        // Filter results by field and format.
+        foreach ($facetResults as $facetResult) {
+            $variables[$facetResult->getField()] = $this->preprocessFacetResult($facetResult, $langcode);
+        }
+
+        return $variables;
+    }
+
+    /**
+     * Preprocess 1 facet result.
+     *
+     * @param FacetResult $facetResult
+     * @param $langcode
+     * @return array
+     */
+    protected function preprocessFacetResult(FacetResult $facetResult, $langcode)
+    {
+
+        $variables = [];
+        $results = $facetResult->getResults();
+        foreach ($results as $result) {
+            $variables[] = [
+                'value' => $result->getValue(),
+                'count' => $result->getCount(),
+                'name' => $result->getNames()[$langcode] ?? '',
+            ];
         }
 
         return $variables;

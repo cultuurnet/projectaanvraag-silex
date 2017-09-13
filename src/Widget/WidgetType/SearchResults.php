@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
@@ -290,6 +291,7 @@ class SearchResults extends WidgetTypeBase
         $currentPageIndex = 0;
         // Limit items per page.
         $query->setLimit(self::ITEMS_PER_PAGE);
+
         // Check for page query param.
         if (isset($urlQueryParams['page'])) {
             // Set current page index.
@@ -298,12 +300,33 @@ class SearchResults extends WidgetTypeBase
             $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
         }
 
+        // Add facets (datetime is missing from v3?).
+        //$query->addParameter(new Facet('regions'));
+        //$query->addParameter(new Facet('types'));
+        //$query->addParameter(new Facet('themes'));
+        //$query->addParameter(new Facet('facilities'));
+
+
+        // Build advanced query string
+        $advancedQuery = [];
+
         // Read settings for search parameters from settings.
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+            $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
+        }
+
+        // / Check for facets query params.
+        if (isset($urlQueryParams['region'])) {
+            $advancedQuery[] = 'regions=' . $urlQueryParams['region'];
+        }
+        //@todo: types & datetypes (not recognised query parameters?)
+
+        // Add adanced query string to API request.
+        if (!empty($advancedQuery)) {
             $query->addParameter(
                 new Query(
-                    str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
+                    implode('AND', $advancedQuery)
                 )
             );
         }
