@@ -2,6 +2,7 @@
 <ruleset name="Projectaanvraag">
 
     <exclude-pattern>*/cache/*</exclude-pattern>
+    <exclude-pattern>web/xhprof/*</exclude-pattern>
 
     <rule ref="PSR2" />
 

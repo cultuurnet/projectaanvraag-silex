@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -71,6 +72,10 @@ class WidgetServiceProvider implements ServiceProviderInterface
             $renderer->addSettings(['apiUrl' => $requestContext->getScheme() . '://' . $requestContext->getHost() . $requestContext->getBaseUrl() . '/widgets/api']);
 
             return $renderer;
+        };
+
+        $pimple['widget_twig_preprocessor'] = function (Container $pimple) {
+            return new TwigPreprocessor($pimple['translator'], $pimple['twig']);
         };
     }
 }

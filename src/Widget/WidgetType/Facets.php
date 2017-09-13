@@ -20,7 +20,28 @@ use Pimple\Container;
  *              "when":false,
  *          },
  *          "group_filters" :{
- *              "enabled":false
+ *              "enabled":true,
+ *              "filters": {
+ *                  {
+ *                      "label": "Extra",
+ *                      "type": "link",
+ *                      "placeholder": "",
+ *                      "options": {
+ *                          {
+ *                              "label": "Voor UiTPAS en Paspartoe",
+ *                              "query": "uitpas=true"
+ *                          },
+ *                          {
+ *                              "label": "Voor kinderen",
+ *                              "query": "maxAge=12 OR labels:""ook voor kinderen"""
+ *                          },
+ *                          {
+ *                              "label": "Gratis activiteiten",
+ *                              "query": "price:0.0"
+ *                          }
+ *                      }
+ *                  }
+ *              }
  *          }
  *      },
  *      allowedSettings = {

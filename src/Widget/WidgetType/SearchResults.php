@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
@@ -18,6 +19,10 @@ use Pimple\Container;
  *      defaultSettings = {
  *          "general":{
  *              "current_search":true,
+ *              "exclude": {
+ *                  "long_term":"true",
+ *                  "permanent":"true"
+ *              }
  *          },
  *          "header":{
  *              "body":"",
@@ -115,7 +120,11 @@ use Pimple\Container;
  *      },
  *      allowedSettings = {
  *          "general":{
- *              "current_search":"boolean"
+ *              "current_search":"boolean",
+ *              "exclude": {
+ *                  "long_term":"boolean",
+ *                  "permanent":"boolean"
+ *              }
  *          },
  *          "header":{
  *              "body":"string"
@@ -230,9 +239,9 @@ class SearchResults extends WidgetTypeBase
      * @param bool $cleanup
      * @param SearchClient $searchClient
      */
-    public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
+    public function __construct(array $pluginDefinition, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
     {
-        parent::__construct($pluginDefinition, $twig, $renderer, $configuration, $cleanup);
+        parent::__construct($pluginDefinition, $twig, $twigPreprocessor, $renderer, $configuration, $cleanup);
         $this->searchClient = $searchClient;
     }
 
@@ -244,6 +253,7 @@ class SearchResults extends WidgetTypeBase
         return new static(
             $pluginDefinition,
             $container['twig'],
+            $container['widget_twig_preprocessor'],
             $container['widget_renderer'],
             $configuration,
             $cleanup,

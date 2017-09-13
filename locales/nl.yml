@@ -1,0 +1,2 @@
+event_full_date: %date% om %hour% uur
+event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
