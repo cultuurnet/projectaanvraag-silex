@@ -222,7 +222,6 @@ class MigrateWidgetPageCommandHandler
 
     /**
      * Convert legacy block data to corresponding formatted v3 widgets, including settings.
-     * TODO: WIP
      *
      * @param $block
      * @return array
@@ -244,39 +243,6 @@ class MigrateWidgetPageCommandHandler
         else {
             return [];
         }
-
-        /*
-        switch ($block['type']) {
-            case 'Cultuurnet_Widgets_Widget_PushWidget':
-                // items amount
-                if (isset($settings['content']['count'])) {
-                    $widget['settings']['general']['items'] = $settings['content']['count'];
-                }
-                // items image
-                if (isset($settings['visual']['image'])) {
-                    $img_settings = $settings['visual']['image'];
-                    $widget['settings']['items']['image'] = [
-                        'enabled' => $img_settings['show'],
-                        'width' => $img_settings['size']['width'],
-                        'height' => $img_settings['size']['height'],
-                        'default_image' => $img_settings['show_default'] ?? false,
-                        'position' => 'left',
-                    ];
-                }
-                // where
-                if (isset($settings['visual']['fields']['location'])) {
-                    $widget['settings']['items']['where']['enabled'] = $settings['visual']['fields']['location'];
-                }
-                // age
-                if (isset($settings['visual']['fields']['agefrom'])) {
-                    $widget['settings']['items']['age']['enabled'] = $settings['visual']['fields']['agefrom'];
-                }
-                // read more
-                if (isset($settings['visual']['fields']['readmore'])) {
-                    $widget['settings']['items']['read_more']['enabled'] = $settings['visual']['fields']['readmore'];
-                }
-                break;
-        }*/
         return $widget;
     }
 
