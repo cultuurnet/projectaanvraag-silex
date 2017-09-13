@@ -151,11 +151,9 @@ class MigrateWidgetPageCommandHandler
         if (isset($data['live_uid'])) {
             $widgetPageEntity->setCreatedBy($data['live_uid']);
         }
-
         if (isset($data['last_updated_by'])) {
             $widgetPageEntity->setLastUpdatedBy($data['live_uid']);
         }
-
         if ($data['created']) {
             $widgetPageEntity->setCreated($data['created']);
         }
