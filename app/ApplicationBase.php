@@ -27,7 +27,10 @@ use Doctrine\ODM\MongoDB\Types\Type;
 use MongoDB\Client;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -83,6 +86,18 @@ class ApplicationBase extends SilexApplication
                 'cache.odm_orm' => $this['config']['odm_orm']['cache'],
             ]
         );
+
+        // Translation
+        $this['locale'] = $this['config']['locale'] ?? 'nl';
+        $this->register(new TranslationServiceProvider());
+        $this->extend('translator', function($translator, $app) {
+            $translator->addLoader('yaml', new YamlFileLoader());
+
+            $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
+            $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
+
+            return $translator;
+        });
 
         // Monolog
         $this->register(new MonologServiceProvider());

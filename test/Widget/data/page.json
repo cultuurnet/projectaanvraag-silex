@@ -58,6 +58,64 @@
                 },
                 "abc": "ok"
               }
+            },
+            {
+              "id": "225a9799-c13b-8679-01f1-c31a2c5ce656",
+              "name": "tips-3",
+              "type": "tips",
+              "settings": {
+                "general": {
+                  "items": 3,
+                  "detail_link": {
+                    "enabled": false,
+                    "cdbid": "query_string"
+                  }
+                },
+                "items": {
+                  "icon_vlieg": {
+                    "enabled": true
+                  },
+                  "icon_uitpas": {
+                    "enabled": true
+                  },
+                  "description": {
+                    "enabled": true,
+                    "characters": 200
+                  },
+                  "when": {
+                    "enabled": false,
+                    "label": "Wanneer"
+                  },
+                  "where": {
+                    "enabled": true,
+                    "label": "Waar"
+                  },
+                  "age": {
+                    "enabled": true,
+                    "label": "Leeftijd"
+                  },
+                  "language_icons": {
+                    "enabled": false
+                  },
+                  "image": {
+                    "enabled": true,
+                    "width": 100,
+                    "height": 80,
+                    "default_image": true,
+                    "position": "left"
+                  },
+                  "labels": {
+                    "enabled": false,
+                    "limit_labels": {
+                      "enabled": false
+                    }
+                  },
+                  "read_more": {
+                    "enabled": true,
+                    "label": "Lees verder"
+                  }
+                }
+              }
             }
           ]
         },

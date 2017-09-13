@@ -4,7 +4,10 @@ namespace CultuurNet\ProjectAanvraag\Console\Command;
 
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\RedisCache;
+use FilesystemIterator;
 use Knp\Command\Command;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
@@ -33,15 +36,28 @@ class CacheClearCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        /** @var FilesystemCache $filesystemCache */
-        $filesystemCache = new FilesystemCache($this->getInstance('cache_directory'));
-        $filesystemCache->flushAll();
+        // Empty cache folder.
+        $this->emptyCacheDirectory();
 
         /** @var RedisCache $redisCache */
         $redisCache = $this->getInstance('cache_doctrine_redis');
         $redisCache->flushAll();
 
         $output->writeln('Redis and filesystem cache was cleared');
+    }
+
+    /**
+     * Remove the given directory.
+     */
+    private function emptyCacheDirectory() {
+        $directoryIterator = new RecursiveDirectoryIterator($this->getInstance('cache_directory'), FilesystemIterator::SKIP_DOTS);
+        $recursiveIterator = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
+        /** @var \DirectoryIterator $file */
+        foreach ($recursiveIterator as $file ) {
+            if (!$file->isDir()) {
+                unlink($file);
+            }
+        }
     }
 
     /**
