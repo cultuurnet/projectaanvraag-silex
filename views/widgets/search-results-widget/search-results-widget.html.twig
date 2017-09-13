@@ -68,6 +68,13 @@
                 <!--  PAGINATION END-->
 
             </div>
+
+            {% if settings_footer.body %}
+                <div class="cnw_searchresult_footer">
+                    {{ settings_footer.body | raw }}
+                </div>
+            {% endif %}
+
         </div>
     </div>
 </div>

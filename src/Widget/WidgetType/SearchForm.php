@@ -54,7 +54,8 @@ use Pimple\Container;
  *                          "days_14": true,
  *                          "days_30": true,
  *                          "custom_date": true
- *                      }
+ *                      },
+ *                      "default_option": "today"
  *                  },
  *                  "group_filters": {
  *                      "enabled": false
@@ -107,7 +108,8 @@ use Pimple\Container;
  *                          "days_14": "boolean",
  *                          "days_30": "boolean",
  *                          "custom_date": "boolean"
- *                      }
+ *                      },
+ *                      "default_option": "string"
  *                  },
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },

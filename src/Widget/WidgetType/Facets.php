@@ -26,7 +26,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *              "when":false,
  *          },
  *          "group_filters" :{
- *              "enabled":true,
+ *              "enabled":false,
  *              "filters": {
  *                  {
  *                      "label": "Extra",
