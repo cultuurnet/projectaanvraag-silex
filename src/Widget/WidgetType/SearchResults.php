@@ -3,16 +3,16 @@
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
-
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
-use Pimple\Container;
 
+use Pimple\Container;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides the search form widget type.
@@ -22,6 +22,10 @@ use Pimple\Container;
  *      defaultSettings = {
  *          "general":{
  *              "current_search":true,
+ *              "exclude": {
+ *                  "long_term":"true",
+ *                  "permanent":"true"
+ *              }
  *          },
  *          "header":{
  *              "body":"",
@@ -119,7 +123,11 @@ use Pimple\Container;
  *      },
  *      allowedSettings = {
  *          "general":{
- *              "current_search":"boolean"
+ *              "current_search":"boolean",
+ *              "exclude": {
+ *                  "long_term":"boolean",
+ *                  "permanent":"boolean"
+ *              }
  *          },
  *          "header":{
  *              "body":"string"
@@ -220,24 +228,36 @@ class SearchResults extends WidgetTypeBase
 {
 
     /**
+     * Items per pager is currently fixed.
+     */
+    const ITEMS_PER_PAGE = 10;
+
+    /**
      * @var SearchClient
      */
     protected $searchClient;
 
     /**
-     * LayoutBase constructor.
+     * @var RequestStack
+     */
+    protected $request;
+
+    /**
+     * SearchResults constructor.
      *
      * @param array $pluginDefinition
-     * @param \Twig_Environment $twig
-     * @param RendererInterface $renderer
      * @param array $configuration
      * @param bool $cleanup
+     * @param \Twig_Environment $twig
+     * @param TwigPreprocessor $twigPreprocessor
+     * @param RendererInterface $renderer
      * @param SearchClient $searchClient
      */
-    public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack)
     {
-        parent::__construct($pluginDefinition, $twig, $renderer,$configuration, $cleanup);
+        parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->searchClient = $searchClient;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
     /**
@@ -247,11 +267,13 @@ class SearchResults extends WidgetTypeBase
     {
         return new static(
             $pluginDefinition,
-            $container['twig'],
-            $container['widget_renderer'],
             $configuration,
             $cleanup,
-            $container['search_api']
+            $container['twig'],
+            $container['widget_twig_preprocessor'],
+            $container['widget_renderer'],
+            $container['search_api'],
+            $container['request_stack']
         );
     }
 
@@ -261,52 +283,53 @@ class SearchResults extends WidgetTypeBase
     public function render()
     {
         // Retrieve the current request query parameters using the global Application object and filter.
-        global $app;
-        $urlQueryParams = $this->filterUrlQueryParams($app['request_stack']->getCurrentRequest()->query->all());
+        $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
 
         $query = new SearchQuery(true);
 
         // Pagination settings.
         $currentPageIndex = 0;
         // Limit items per page.
-        // @todo: This should probably be a setting for the widget.
-        $query->setLimit(20);
+        $query->setLimit(self::ITEMS_PER_PAGE);
+
         // Check for page query param.
         if (isset($urlQueryParams['page'])) {
             // Set current page index.
             $currentPageIndex = $urlQueryParams['page'];
             // Move start according to the active page.
-            $query->setStart($currentPageIndex * 20);
+            $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
         }
 
         // Add facets (datetime is missing from v3?).
-        $query->addParameter(new Facet('regions'));
-        $query->addParameter(new Facet('types'));
-        $query->addParameter(new Facet('themes'));
-        $query->addParameter(new Facet('facilities'));
+        //$query->addParameter(new Facet('regions'));
+        //$query->addParameter(new Facet('types'));
+        //$query->addParameter(new Facet('themes'));
+        //$query->addParameter(new Facet('facilities'));
 
 
         // Build advanced query string
-        $advancedQuery = '';
+        $advancedQuery = [];
 
-        // Read settings for possible search parameters from settings.
-        if ($this->settings['search_params']['query']) {
+        // Read settings for search parameters from settings.
+        if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
-            $advancedQuery = str_replace(',', ' AND ',rtrim($this->settings['search_params']['query'], ','));
+            $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
         }
 
         // / Check for facets query params.
         if (isset($urlQueryParams['region'])) {
-            $advancedQuery = ($advancedQuery ? $advancedQuery . ' AND regions=' . $urlQueryParams['region'] : 'regions=' . $urlQueryParams['region']);
+            $advancedQuery[] = 'regions=' . $urlQueryParams['region'];
         }
         //@todo: types & datetypes (not recognised query parameters?)
 
         // Add adanced query string to API request.
-        $query->addParameter(
-            new Query(
-                $advancedQuery
-            )
-        );
+        if (!empty($advancedQuery)) {
+            $query->addParameter(
+                new Query(
+                    implode('AND', $advancedQuery)
+                )
+            );
+        }
 
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
@@ -315,16 +338,20 @@ class SearchResults extends WidgetTypeBase
         $result = $this->searchClient->searchEvents($query);
 
         // Retrieve pager object.
-        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int)$currentPageIndex);
+        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
 
         // Render twig with formatted results and item settings.
-        return $this->twig->render('widgets/search-results-widget/search-results-widget.html.twig', [
-            'result_count' => $result->getTotalItems(),
-            'events' => $this->formatEventData($result->getMember()->getItems(), 'nl'),
-            'pager' => $pager,
-            'settings' => $this->settings['items'],
-            'header' => $this->settings['header']
-        ]);
+        return $this->twig->render(
+            'widgets/search-results-widget/search-results-widget.html.twig',
+            [
+                'result_count' => $result->getTotalItems(),
+                'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
+                'pager' => $pager,
+                'settings_items' => $this->settings['items'],
+                'settings_header' => $this->settings['header'],
+                'settings_general' => $this->settings['general'],
+            ]
+        );
     }
 
     /**

@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPager;
 use CultuurNet\SearchV3\ValueObjects\FacetResults;
@@ -17,6 +18,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @var \Twig_Environment
      */
     protected $twig;
+
+    /**
+     * @var TwigPreprocessor
+     */
+    protected $twigPreprocessor;
 
     /**
      * @var RendererInterface
@@ -49,18 +55,19 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected $settings;
 
     /**
-     * LayoutBase constructor.
-     *
+     * WidgetTypeBase constructor.
      * @param array $pluginDefinition
-     * @param \Twig_Environment $twig
-     * @param RendererInterface $renderer
      * @param array $configuration
      * @param bool $cleanup
+     * @param \Twig_Environment $twig
+     * @param TwigPreprocessor $twigPreprocessor
+     * @param RendererInterface $renderer
      */
-    public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer)
     {
         $this->pluginDefinition = $pluginDefinition;
         $this->renderer = $renderer;
+        $this->twigPreprocessor = $twigPreprocessor;
         $this->twig = $twig;
 
         if (isset($configuration['id'])) {
@@ -91,10 +98,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         return new static(
             $pluginDefinition,
-            $container['twig'],
-            $container['widget_renderer'],
             $configuration,
-            $cleanup
+            $cleanup,
+            $container['twig'],
+            $container['widget_twig_preprocessor'],
+            $container['widget_renderer']
         );
     }
 
@@ -128,35 +136,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Format array of Event objects for sending to a template.
-     *
-     * @param array $events
-     * @param string $langcode
-     * @return array
-     */
-    public function formatEventData(array $events, string $langcode)
-    {
-        $formattedEvents = [];
-
-        foreach ($events as $event) {
-            $formattedEvents[] = [
-                'name' => $event->getName()[$langcode],
-                'description' => $event->getDescription()[$langcode],
-                'image' => $event->getImage(),
-                'when_start' => ($event->getStartDate() ? $this->formatDate($event->getStartDate(), $langcode) : null),
-                'where' => $event->getLocation()->getName()[$langcode],
-                'organizer' => ($event->getOrganizer() ? $event->getOrganizer()->getName() : null),
-                'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
-                'themes' => $event->getTermsByDomain('theme'),
-                'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
-                'uitpas' => ($event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false),
-            ];
-        }
-
-        return $formattedEvents;
-    }
-
-    /**
      * Format facet results for sending to a template.
      *
      * @param FacetResults $facetResults
@@ -186,201 +165,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Format a datetime object to a specific format.
-     *
-     * @param \DateTime $datetime
-     * @param string $langcode
-     * @return string
-     */
-    protected function formatDate($datetime, string $langcode)
-    {
-        // Format date according to language.
-        $fullDate = '';
-        switch ($langcode) {
-            case 'nl':
-                $date = $this->translateDate($datetime->format('l d F Y'), $langcode);
-                $time = $datetime->format('h:i');
-                $fullDate = "$date om $time uur";
-                break;
-        }
-
-        return $fullDate;
-    }
-
-    /**
-     * Temporary function to translate a date string to localized values (only NL for now).
-     * @todo: Remove this when i18n is properly implemented.
-     *
-     * @param string $date
-     * @param string $langcode
-     * @return string
-     */
-    protected function translateDate($date, $langcode)
-    {
-        switch ($langcode) {
-            case 'nl':
-                return str_replace(
-                    [
-                        'January',
-                        'Jan',
-                        'February',
-                        'Feb',
-                        'March',
-                        'Mar',
-                        'April',
-                        'Apr',
-                        'May',
-                        'June',
-                        'Jun',
-                        'July',
-                        'Jul',
-                        'August',
-                        'Aug',
-                        'September',
-                        'Sep',
-                        'October',
-                        'Oct',
-                        'November',
-                        'Nov',
-                        'December',
-                        'Dec',
-                        'Sunday',
-                        'Sun',
-                        'Monday',
-                        'Mon',
-                        'Tuesday',
-                        'Tue',
-                        'Wednesday',
-                        'Wed',
-                        'Thursday',
-                        'Thu',
-                        'Friday',
-                        'Fri',
-                        'Saturday',
-                        'Sat',
-                    ],
-                    [
-                        'Januari',
-                        'Jan',
-                        'Februari',
-                        'Feb',
-                        'Maart',
-                        'Mar',
-                        'April',
-                        'Apr',
-                        'Mei',
-                        'Juni',
-                        'Jun',
-                        'Juli',
-                        'Jul',
-                        'Augustus',
-                        'Aug',
-                        'September',
-                        'Sep',
-                        'Oktober',
-                        'Okt',
-                        'November',
-                        'Nov',
-                        'December',
-                        'Dec',
-                        'Zondag',
-                        'Zo',
-                        'Maandag',
-                        'Ma',
-                        'Dinsdag',
-                        'Di',
-                        'Woensdag',
-                        'Wo',
-                        'Donderdag',
-                        'Do',
-                        'Vrijdag',
-                        'Vr',
-                        'Zaterdag',
-                        'Za',
-                    ],
-                    $date
-                );
-            default:
-                return '';
-                break;
-        }
-    }
-
-    /**
-     * Format an age range value according to langcode.
-     *
-     * @param string $range
-     * @param string $langcode
-     * @return string
-     */
-    protected function formatAgeRange($range, string $langcode)
-    {
-        // Check for empty range values.
-        if ($range == '-') {
-            return null;
-        }
-        // Explode range on dash.
-        $explRange = explode('-', $range);
-
-        // Build range string according to language.
-        $rangeStr = '';
-        switch ($langcode) {
-            case 'nl':
-                $rangeStr = "Vanaf $explRange[0] jaar tot $explRange[1] jaar.";
-                break;
-        }
-
-        return $rangeStr;
-    }
-
-    /**
-     * Check if event is considered a "Vlieg" event and return either
-     * the minimum age or a boolean value.
-     *
-     * @param string $range
-     * @param array $labels
-     * @return bool|string
-     */
-    protected function checkVliegEvent($range, $labels)
-    {
-        // Check age range if there is one.
-        if ($range) {
-            // Check for empty range values.
-            if ($range !== '-') {
-                // Explode range on dash.
-                $explRange = explode('-', $range);
-                // Check min age and return it if it's lower than 12.
-                if ($explRange[0] < 12) {
-                    return "$explRange[0]+";
-                }
-            }
-        }
-
-        // Check for certain labels that also determine "Vlieg" events.
-        return ($labels && count(array_intersect($labels, ['ook voor kinderen', 'uit met vlieg'])) > 0 ? '0+' : false);
-    }
-
-    /**
-     * Check if event is considered an "Uitpas" event.
-     *
-     * @param array $hiddenLabels
-     * @return bool
-     */
-    protected function checkUitpasEvent($hiddenLabels)
-    {
-        // Check for label values containing "Uitpas".
-        if ($hiddenLabels) {
-            foreach ($hiddenLabels as $label) {
-                if (stripos($label, 'uitpas') !== false) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Function used by formatFacetResults to format each individual result.
      *
      * @param FacetResult $facetResult
@@ -405,7 +189,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param $params
      * @return array
      */
-    protected function filterUrlQueryParams($params) {
+    protected function filterUrlQueryParams($params)
+    {
         if (!empty($params)) {
             foreach ($params as $key => $param) {
                 // Check key for question mark.
@@ -429,7 +214,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @param int $pageIndex
      * @return WidgetPager
      */
-    protected function retrievePagerData(int $itemsPerPage, int $totalItems, int $pageIndex) {
+    protected function retrievePagerData(int $itemsPerPage, int $totalItems, int $pageIndex)
+    {
         // Determine number of pages.
         $pages = ceil($totalItems / $itemsPerPage);
         return new WidgetPager($pages, $pageIndex, $itemsPerPage);

@@ -1,3 +1,5 @@
+# Default locale
+locale: nl
 # Cross-origin resource sharing related settings.
 cors:
   # Allowed origins. Add one entry for each domain allowed to access the application.

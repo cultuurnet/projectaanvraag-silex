@@ -2,34 +2,21 @@
     <div class="cnw_container-fluid">
 
         <div class="cnw_row">
-            {% if header.body %}
+            {% if settings_header.body %}
                 <div class="cnw_searchresult_header">
-                    {{ header.body | raw }}
+                    {{ settings_header.body | raw }}
                 </div>
             {% endif %}
 
             <!--  facetedSearch  START -->
             <div class="cnw_searchresult__facetedSearch">
-                <!--  je zocht op  START -->
-                <div class="cnw_searchresult__selectedSearchFilters cnw_container-fluid">
-                    <p>Je zocht op :
-                        <button type="button" class="cnw_close cnw_btn--zoekresult" aria-label="Close">
-                            Zoekresult1
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-
-                        <button type="button" class="cnw_close cnw_btn--zoekresult" aria-label="Close">
-                            Zoekresult2
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </p>
-                </div>
-
 
                 <!-- ZoekOpties  START -->
+                {%  if settings_general.exclude.long_term or settings_general.exclude.permanent %}
                 <form>
                     <div class="cnw_searchresult__options cnw_container-fluid">
                         <div class="cnw_row">
+                            {%  if settings_general.exclude.long_term %}
                             <div class="cnw_col">
                                 <div class="cnw_form-check ">
                                     <label class="cnw_form-check-label">
@@ -38,6 +25,9 @@
                                     </label>
                                 </div>
                             </div>
+                            {% endif %}
+
+                            {%  if settings_general.exclude.permanent %}
                             <div class="cnw_col">
                                 <div class="cnw_form-check ">
                                     <label class="cnw_form-check-label">
@@ -46,18 +36,22 @@
                                     </label>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </form>
                 <!-- ZoekOpties  END -->
+                {% endif %}
 
                 <!--  facetedSearch  END -->
 
+                {%  if settings_general.current_search %}
                 <!--  searchWords  START -->
                 <div class="cnw_searchresult__searchwords">
                     <p>Je zocht op <span class="cnw_searchresult__searchword">Zoekwoord</span></p>
                 </div>
                 <!--  searchWords END -->
+                {% endif %}
 
                 <!--  counter  START -->
                 <div class="cnw_searchresult__counter">
@@ -66,114 +60,11 @@
                 <!--  counter END -->
 
                 {% for event in events %}
-                    <!--  results - CARD  START -->
-                    <div class="cnw_searchresult--block cnw_row ">
-
-                        <div class="cnw_col-4">
-                            {% if settings.image.enabled %}
-                                <div class="cnw_col-12">
-                                    <img src="{{ event.image }}" class="cnw_img_responsive {{ settings.image.position }}">
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        <div class="cnw_col-8">
-                            <div class="card-block ">
-                                <h3 class="cnw_card-title">{{ event.name }}</h3>
-                                <span class="cnw_stickers ">
-                                {% if settings.icon_vlieg.enabled %}
-                                    <span class="cnw_sticker cnw_sticker--vlieg">
-                                        <span class="cnw_txt">7+</span>
-                                    </span>
-                                {% endif %}
-                            </span>
-                                {% if settings.description.enabled %}
-                                    <p class="cnw_card-description">{{ event.description }}</p>
-                                {% endif %}
-                                <dl class="cnw_row">
-                                    {% if settings.where.enabled %}
-                                        <dt class="cnw_col-3">{{ settings.where.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.where }}</dd>
-                                    {% endif %}
-
-                                    {% if event.organizer %}
-                                        <dt class="cnw_col-3">Organisatie</dt>
-                                        <dd class="cnw_col-9">{{ event.organizer }}</dd>
-                                    {% endif %}
-
-                                    {% if settings.when.enabled %}
-                                        <dt class="cnw_col-3">{{ settings.when.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.when_start }}</dd>
-                                    {% endif %}
-
-                                    {% if settings.age.enabled and event.age_range %}
-                                        <dt class="cnw_col-3">{{ settings.age.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.age_range }}</dd>
-                                    {% endif %}
-
-                                    {% if settings.language_icons.enabled %}
-                                        <dt class="cnw_col-3">Taal</dt>
-                                        <dd class="cnw_col-9">Nl - Fr - De</dd>
-                                    {% endif %}
-
-                                    {% if event.themes %}
-                                        <dt class="cnw_col-3">Thema</dt>
-                                        <dd class="cnw_col-9">
-                                            {% for theme in event.themes %}
-                                                <a href="" class="cnw_link__card-thema">{{ theme.getLabel }}</a>
-                                            {% endfor %}
-                                        </dd>
-                                    {% endif %}
-                                </dl>
-                                {% if settings.read_more.enabled %}
-                                    <a href="#" class="cnw_btn cnw_btn__card-readmore">{{ settings.read_more.label }}</a>
-                                {% endif %}
-
-                            </div>
-                        </div>
-                    </div>
-                    <!--  results - CARD  END -->
+                    {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
                 {% endfor %}
 
                 <!--  PAGINATION Start -->
-                {% if pager and pager.pageCount > 1 %}
-                <nav aria-label="Page navigation example">
-                    <ul class="cnw_pagination cnw_justify-content-center">
-
-                        {% if pager.activePageIndex != 0 %}
-                            <li class="cnw_page-item ">
-                                <a class="cnw_page-link" href="#" tabindex="-1" onclick="CultuurnetWidgets.switchPage(0)">Eerste</a>
-                            </li>
-                            <li class="cnw_page-item">
-                                <a class="cnw_page-link" href="#" tabindex="-1" onclick="CultuurnetWidgets.switchPage({{ pager.activePageIndex - 1 }})">Vorige</a>
-                            </li>
-                        {% endif %}
-
-                        {% if pager.getLowestVisible != 1 %}
-                            <li class="pager-ellipsis disabled"><span>…</span></li>
-                        {% endif %}
-
-                        {% for i in pager.getLowestVisible..pager.getHighestVisible %}
-                            <li class="cnw_page-item {% if i == pager.activePageIndex + 1 %}cnw_disabled{% endif %}">
-                                <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ i-1 }})">{{ i }}</a>
-                            </li>
-                        {% endfor %}
-
-                        {% if pager.getHighestVisible != pager.pageCount %}
-                            <li class="pager-ellipsis disabled"><span>…</span></li>
-                        {% endif %}
-
-                        {% if pager.activePageIndex != pager.pageCount-1 %}
-                            <li class="cnw_page-item">
-                                <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ pager.activePageIndex + 1 }})">Volgende</a>
-                            </li>
-                            <li class="cnw_page-item">
-                                <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ pager.pageCount - 1 }})">Laatste</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-                {% endif %}
+                {% include 'widgets/widget-pager.html.twig' with {'pager': pager} %}
                 <!--  PAGINATION END-->
 
             </div>

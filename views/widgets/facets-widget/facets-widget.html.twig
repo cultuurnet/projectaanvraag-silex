@@ -9,33 +9,27 @@
                     <h3 class="cnw_block-title">Wanneer</h3>
 
                     <ul class="cnw_facet-search" data-size="6">
-                        <li class="cnw_facet-label ">
+                        <li class="cnw_facet-label">
                             <a href="#" onclick="CultuurnetWidgets.facetDateFilter('today')">Vandaag</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
-                        <li class="cnw_facet-label ">
+                        <li class="cnw_facet-label">
                             <a href="#" onclick="CultuurnetWidgets.facetDateFilter('tomorrow')">Morgen</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
 
-                        <li class="cnw_facet-label ">
+                        <li class="cnw_facet-label">
                             <a href="#" onclick="CultuurnetWidgets.facetDateFilter('thisweekend')">Dit weekend</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
 
-                        <li class="cnw_facet-label ">
+                        <li class="cnw_facet-label">
                             <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next7days')">Volgende 7 dagen</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
 
-                        <li class="cnw_facet-label ">
+                        <li class="cnw_facet-label">
                             <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next14days')">Volgende 14 dagen</a>
-                            <small class="cnw_facet-count  cnw_push-right">(23)</small>
                         </li>
 
-                        <li class="cnw_facet-label ">
+                        <li class="cnw_facet-label">
                             <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next30days')">Volgende 30 dagen</a>
-                            <small class="fcnw_acet-count  cnw_push-right">(23)</small>
                         </li>
                     </ul>
 
@@ -114,27 +108,21 @@
 
             <!--  Faceted search - extra -->
             {% if settings_group_filters.enabled %}
-                <section class="cnw_facetedsearch cnw_facetedsearch--extra">
 
-                    <h3 class="cnw_block-title">Extra</h3>
+                {% for group in settings_group_filters.filters  %}
+                <section class="cnw_facetedsearch cnw_facetedsearch--extra">
+                    <h3 class="cnw_block-title">{{ group.label }}</h3>
 
                     <ul class="cnw_facet-search" data-size="6">
-                        {% for group in settings_group_filters.filters  %}
+                        {% for option in group.options %}
                             <li class="cnw_facet-label ">
-                                <h4>{{ group.label }}</h4>
-                                <ul>
-                                    {% for option in group.options %}
-                                        <li>
-                                            <a href="#">{{ option.label }}</a>
-                                            <small class="cnw_facet-count cnw_push-right">(23)</small>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
+                                <a href="#">{{ option.label }}</a>
                             </li>
                         {% endfor %}
                     </ul>
-
                 </section>
+                {% endfor %}
+
             {% endif %}
             <!--  Faceted search -   extra -->
         </div>

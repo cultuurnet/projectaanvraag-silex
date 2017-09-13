@@ -45,6 +45,7 @@ use Pimple\Container;
  *              "time": {
  *                  "date_search": {
  *                      "enabled" : true,
+ *                      "label": "Waar",
  *                      "options": {
  *                          "today": true,
  *                          "tomorrow": true,
@@ -97,6 +98,7 @@ use Pimple\Container;
  *              "time": {
  *                  "date_search": {
  *                      "enabled" : "boolean",
+ *                      "label": "string",
  *                      "options": {
  *                          "today": "boolean",
  *                          "tomorrow": "boolean",
@@ -127,7 +129,15 @@ class SearchForm extends WidgetTypeBase
      */
     public function render()
     {
-        return $this->twig->render('widgets/search-form-widget/search-form-widget.html.twig');
+        return $this->twig->render(
+            'widgets/search-form-widget/search-form-widget.html.twig',
+            [
+                'settings_general' => $this->settings['general'],
+                'settings_header' => $this->settings['header'],
+                'settings_footer' => $this->settings['footer'],
+                'settings_fields' => $this->settings['fields']
+            ]
+        );
     }
 
     /**
