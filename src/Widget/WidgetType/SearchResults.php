@@ -30,6 +30,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          "header":{
  *              "body":"",
  *          },
+ *          "footer":{
+ *              "body":"",
+ *          },
  *          "items":{
  *              "icon_vlieg":{
  *                  "enabled":true
@@ -130,6 +133,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              }
  *          },
  *          "header":{
+ *              "body":"string"
+ *          },
+ *          "footer":{
  *              "body":"string"
  *          },
  *          "items":{
@@ -349,6 +355,7 @@ class SearchResults extends WidgetTypeBase
                 'pager' => $pager,
                 'settings_items' => $this->settings['items'],
                 'settings_header' => $this->settings['header'],
+                'settings_footer' => $this->settings['footer'],
                 'settings_general' => $this->settings['general'],
             ]
         );
