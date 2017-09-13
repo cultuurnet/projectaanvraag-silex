@@ -52,8 +52,7 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
         $config = [];
         if (file_exists($pimple['cache_directory'] . '/messagebus-config.php')) {
             $config = require $pimple['cache_directory'] . '/messagebus-config.php';
-        }
-        else {
+        } else {
             $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/messagebus.yml'));
             file_put_contents($pimple['cache_directory'] . '/messagebus-config.php', '<?php return ' . var_export($config, true) . ';');
         }

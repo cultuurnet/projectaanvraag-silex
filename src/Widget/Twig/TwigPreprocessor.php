@@ -41,33 +41,31 @@ class TwigPreprocessor
      *   Settings for the links to a detail of every event.
      * @return array
      */
-    public function preprocessEventList(array $events, string $langcode, array $settings) {
+    public function preprocessEventList(array $events, string $langcode, array $settings)
+    {
 
-        $preprocessed_events = [];
+        $preprocessedEvents = [];
         foreach ($events as $event) {
-            $preprocessed_event = $this->preprocessEvent($event, $langcode, $settings['items']);
+            $preprocessedEvent = $this->preprocessEvent($event, $langcode, $settings['items']);
 
             if (isset($settings['general']['detail_link'])) {
-                $detail_link_settings = $settings['general']['detail_link'];
-                $url = Url::factory($detail_link_settings['url'] ?? 'http://www.test.be');
-                if (isset($detail_link_settings['cdbid']) && $detail_link_settings['cdbid'] === 'url') {
-                    $url->addPath($preprocessed_event['id']);
-                }
-                else {
+                $detailLinkSettings = $settings['general']['detail_link'];
+                $url = Url::factory($detailLinkSettings['url'] ?? 'http://www.test.be');
+                if (isset($detailLinkSettings['cdbid']) && $detailLinkSettings['cdbid'] === 'url') {
+                    $url->addPath($preprocessedEvent['id']);
+                } else {
                     $query = $url->getQuery();
-                    $query['cdbid'] = $preprocessed_event['id'];
+                    $query['cdbid'] = $preprocessedEvent['id'];
                     $url->setQuery($query);
                 }
 
-                $preprocessed_event['detail_link'] = $url->__toString();
-
+                $preprocessedEvent['detail_link'] = $url->__toString();
             }
 
-            $preprocessed_events[] = $preprocessed_event;
-
+            $preprocessedEvents[] = $preprocessedEvent;
         }
 
-        return $preprocessed_events;
+        return $preprocessedEvents;
     }
 
     /**
@@ -101,7 +99,7 @@ class TwigPreprocessor
         }
 
         $labels = $event->getLabels();
-        $language_icon_keywords = [
+        $languageIconKeywords = [
             'één taalicoon' => 1,
             'twee taaliconen' => 2,
             'drie taaliconen' => 3,
@@ -109,23 +107,23 @@ class TwigPreprocessor
         ];
 
         // Search for language keywords. Take the highest value of all items that match..
-        $total_language_icons = 0;
+        $totalLanguageIcons = 0;
         if (!empty($labels)) {
-            foreach ($language_icon_keywords as $keyword => $value) {
+            foreach ($languageIconKeywords as $keyword => $value) {
                 if (in_array($keyword, $labels)) {
-                    $total_language_icons = $value;
+                    $totalLanguageIcons = $value;
                 }
             }
         }
 
         $variables['language_icons']= '';
-        if ($total_language_icons) {
-            $variables['language_icons'] = $this->twig->render('widgets/language-icons.html.twig', ['score' => $total_language_icons]);
+        if ($totalLanguageIcons) {
+            $variables['language_icons'] = $this->twig->render('widgets/language-icons.html.twig', ['score' => $totalLanguageIcons]);
         }
 
         if (!empty($variables['labels']) && !empty($settings['labels']['limit_labels']) && $settings['labels']['limit_labels']['enabled']) {
-            $allowed_labels = explode(', ', $settings['labels']['limit_labels']['labels']);
-            $variables['labels'] = array_intersect($variables['labels'], $allowed_labels);
+            $allowedLabels = explode(', ', $settings['labels']['limit_labels']['labels']);
+            $variables['labels'] = array_intersect($variables['labels'], $allowedLabels);
         }
 
         return $variables;
@@ -141,13 +139,13 @@ class TwigPreprocessor
     protected function formatDate(\DateTime $datetime, string $langcode)
     {
 
-        $originalLocale = setlocale  (LC_TIME,"0");
+        $originalLocale = setlocale(LC_TIME, '0');
 
         // Switch the time locale to the requested langcode.
         switch ($langcode) {
             case 'nl':
                 setlocale(LC_TIME, 'nl_NL');
-            break;
+                break;
 
             case 'fr':
                 setlocale(LC_TIME, 'fr_FR');
@@ -239,5 +237,4 @@ class TwigPreprocessor
 
         return false;
     }
-
 }

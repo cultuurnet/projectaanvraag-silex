@@ -46,7 +46,7 @@ class CacheProvider implements ServiceProviderInterface
         $pimple['odm_orm_cache'] = function (Container $pimple) {
 
             if (!$pimple['cache.odm_orm']['enabled']) {
-                return NULL;
+                return null;
             }
 
             $settings = [
@@ -54,14 +54,13 @@ class CacheProvider implements ServiceProviderInterface
             ];
 
             switch ($pimple['cache.odm_orm']['backend']) {
-
                 case 'filesystem':
                     $settings['path'] = $pimple['cache_directory'] . '/odm-orm';
-                break;
+                    break;
 
                 case 'redis':
                     $settings += $pimple['cache.redis'];
-                break;
+                    break;
             }
 
             return $settings;

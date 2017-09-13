@@ -49,11 +49,12 @@ class CacheClearCommand extends Command
     /**
      * Remove the given directory.
      */
-    private function emptyCacheDirectory() {
+    private function emptyCacheDirectory()
+    {
         $directoryIterator = new RecursiveDirectoryIterator($this->getInstance('cache_directory'), FilesystemIterator::SKIP_DOTS);
         $recursiveIterator = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::CHILD_FIRST);
         /** @var \DirectoryIterator $file */
-        foreach ($recursiveIterator as $file ) {
+        foreach ($recursiveIterator as $file) {
             if (!$file->isDir()) {
                 unlink($file);
             }

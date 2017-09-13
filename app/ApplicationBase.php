@@ -90,14 +90,15 @@ class ApplicationBase extends SilexApplication
         // Translation
         $this['locale'] = $this['config']['locale'] ?? 'nl';
         $this->register(new TranslationServiceProvider());
-        $this->extend('translator', function($translator, $app) {
-            $translator->addLoader('yaml', new YamlFileLoader());
-
-            $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
-            $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
-
-            return $translator;
-        });
+        $this->extend(
+            'translator',
+            function ($translator, $app) {
+                $translator->addLoader('yaml', new YamlFileLoader());
+                $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
+                $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
+                return $translator;
+            }
+        );
 
         // Monolog
         $this->register(new MonologServiceProvider());
