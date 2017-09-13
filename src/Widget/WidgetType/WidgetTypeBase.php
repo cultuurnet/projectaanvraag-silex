@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use Pimple\Container;
 
@@ -14,6 +15,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @var \Twig_Environment
      */
     protected $twig;
+
+    /**
+     * @var TwigPreprocessor
+     */
+    protected $twigPreprocessor;
 
     /**
      * @var RendererInterface
@@ -48,16 +54,17 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     /**
      * LayoutBase constructor.
      *
-     * @param array $plugin_definition
+     * @param array $pluginDefinition
      * @param \Twig_Environment $twig
      * @param RendererInterface $renderer
      * @param array $configuration
      * @param bool $cleanup
      */
-    public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup)
+    public function __construct(array $pluginDefinition, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, array $configuration, bool $cleanup)
     {
         $this->pluginDefinition = $pluginDefinition;
         $this->renderer = $renderer;
+        $this->twigPreprocessor = $twigPreprocessor;
         $this->twig = $twig;
 
         if (isset($configuration['id'])) {
@@ -89,6 +96,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         return new static(
             $pluginDefinition,
             $container['twig'],
+            $container['widget_twig_preprocessor'],
             $container['widget_renderer'],
             $configuration,
             $cleanup
@@ -129,7 +137,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      */
     protected function mergeDefaults($settings, $defaultSettings)
     {
-
         foreach ($defaultSettings as $id => $defaultSetting) {
             if (!isset($settings[$id])) {
                 $settings[$id] = $defaultSetting;
@@ -146,7 +153,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      */
     protected function cleanupConfiguration($settings, $allowedSettings)
     {
-
         foreach ($settings as $id => $value) {
             // Unknown property? Remove from settings.
             if (!isset($allowedSettings[$id])) {

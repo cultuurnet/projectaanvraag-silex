@@ -141,10 +141,13 @@ class WebApplication extends ApplicationBase
         );
 
         // HTTP cache
-        $this->register(new HttpCacheServiceProvider(), [
-            'http_cache.cache_dir' => $this['cache_directory'] . '/http',
-            'http_cache.esi'       => null,
-        ]);
+        $this->register(
+            new HttpCacheServiceProvider(),
+            [
+                'http_cache.cache_dir' => $this['cache_directory'] . '/http',
+                'http_cache.esi'       => null,
+            ]
+        );
     }
 
     /**

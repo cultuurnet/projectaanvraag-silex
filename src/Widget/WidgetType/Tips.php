@@ -3,9 +3,13 @@
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
-
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\SearchQuery;
+use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+
 use Pimple\Container;
 
 /**
@@ -18,7 +22,7 @@ use Pimple\Container;
  *              "items":3,
  *              "detail_link":{
  *                  "enabled":false,
- *                  "cbdid":"query_string"
+ *                  "cdbid":"query_string"
  *              }
  *          },
  *          "items":{
@@ -72,7 +76,7 @@ use Pimple\Container;
  *              "detail_link":{
  *                  "enabled":"boolean",
  *                  "url":"string",
- *                  "cbdid":"string"
+ *                  "cdbid":"string"
  *              }
  *          },
  *          "items":{
@@ -120,19 +124,89 @@ use Pimple\Container;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              }
+ *          },
+ *          "search_params" : {
+ *              "query": "string"
  *          }
  *      }
  * )
  */
 class Tips extends WidgetTypeBase
 {
+    /**
+     * @var SearchClient
+     */
+    protected $searchClient;
+
+    /**
+     * LayoutBase constructor.
+     *
+     * @param array $pluginDefinition
+     * @param \Twig_Environment $twig
+     * @param TwigPreprocessor $twigPreprocessor
+     * @param RendererInterface $renderer
+     * @param array $configuration
+     * @param bool $cleanup
+     * @param SearchClient $searchClient
+     */
+    public function __construct(array $pluginDefinition, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, array $configuration, bool $cleanup, SearchClient $searchClient)
+    {
+        parent::__construct($pluginDefinition, $twig, $twigPreprocessor, $renderer, $configuration, $cleanup);
+        $this->searchClient = $searchClient;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
+    {
+        return new static(
+            $pluginDefinition,
+            $container['twig'],
+            $container['widget_twig_preprocessor'],
+            $container['widget_renderer'],
+            $configuration,
+            $cleanup,
+            $container['search_api']
+        );
+    }
 
     /**
      * {@inheritdoc}
      */
     public function render()
     {
-        return 'tips widget render result';
+        $query = new SearchQuery(true);
+
+        // Read settings for search parameters and limit.
+        if ($this->settings['general']['items']) {
+            // Set limit.
+            $query->setLimit($this->settings['general']['items']);
+        }
+
+        if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
+            // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+            $query->addParameter(
+                new Query(
+                    str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
+                )
+            );
+        }
+
+        // Sort by event end date.
+        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+
+        // Retrieve results from Search API.
+        $result = $this->searchClient->searchEvents($query);
+
+        // Render twig with formatted results and item settings.
+        return $this->twig->render(
+            'widgets/tips-widget/tips-widget.html.twig',
+            [
+                'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
+                'settings_items' => $this->settings['items'],
+            ]
+        );
     }
 
     /**
