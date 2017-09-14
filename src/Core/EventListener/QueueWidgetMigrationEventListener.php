@@ -74,10 +74,9 @@ class QueueWidgetMigrationEventListener
             ->setMaxResults($event->getMax())
             ->execute()->fetchAll();
 
+        // Send a migrate command for each legacy widget page result.
         foreach ($results as $key => $result) {
-
             $this->commandBus->handle(new MigrateWidgetPage($result));
-
         }
 
         // As long as we get the maximum number of objects, add event to queue with next starting index.

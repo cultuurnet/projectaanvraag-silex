@@ -231,6 +231,11 @@ class MigrateWidgetPageCommandHandler
         $className = 'CultuurNet\ProjectAanvraag\Widget\Migration\\' . $type . 'Migration';
         if (class_exists($className)) {
             // Fix possible malformed serialized settings.
+            $block['settings'] = utf8_encode($block['settings']);
+            $block['settings'] = str_replace(["\r", "\n", "\t"], "", $block['settings']);
+            // This fixes issues with CSS in settings messing with the character count (for the replace callback).
+            $block['settings'] = preg_replace('/";(?!\w:|\}|N)/', '" ;', $block['settings']);
+            // Fix character counts in serialized string.
             $block['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m){
                 $len = strlen($m[2]);
                 $result = "s:$len:\"{$m[2]}\";";
@@ -238,7 +243,7 @@ class MigrateWidgetPageCommandHandler
             },
                 $block['settings']
             );
-            $settings = ($block['settings'] != null ? unserialize($block['settings']) : []);
+            $settings = ($block['settings'] != null && $block['settings'] != '' ? unserialize($block['settings']) : []);
 
             $widgetMigration = new $className($settings);
             $widget = [
