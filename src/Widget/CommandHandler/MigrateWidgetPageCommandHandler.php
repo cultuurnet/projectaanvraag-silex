@@ -161,7 +161,7 @@ class MigrateWidgetPageCommandHandler
             $widgetPageEntity->setLastUpdated($data['changed']);
         }
 
-        if (isset($data['blocks'])) {
+        if (isset($data['blocks']) && !empty($data['blocks'])) {
             // Convert block and layout data to current version format.
             $rows = $this->convertBlocksToRows($data['layout'], $data['blocks']);
             $widgetPageEntity->setRows($rows);
@@ -230,7 +230,16 @@ class MigrateWidgetPageCommandHandler
         $type = array_pop($explType);
         $className = 'CultuurNet\ProjectAanvraag\Widget\Migration\\' . $type . 'Migration';
         if (class_exists($className)) {
-            $settings = unserialize($block['settings']);
+            // Fix possible malformed serialized settings.
+            $block['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m){
+                $len = strlen($m[2]);
+                $result = "s:$len:\"{$m[2]}\";";
+                return $result;
+            },
+                $block['settings']
+            );
+            $settings = ($block['settings'] != null ? unserialize($block['settings']) : []);
+
             $widgetMigration = new $className($settings);
             $widget = [
                 'id' => $block['id'],

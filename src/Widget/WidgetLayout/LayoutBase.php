@@ -94,8 +94,10 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
             }
 
             foreach ($region['widgets'] as $widget) {
-                $this->widgets[$widget['id']] = $regionId;
-                $this->regions[$regionId]['widgets'][$widget['id']] = $this->widgetManager->createInstance($widget['type'], $widget, $this->cleanup);
+                if (!empty($widget)) {
+                    $this->widgets[$widget['id']] = $regionId;
+                    $this->regions[$regionId]['widgets'][$widget['id']] = $this->widgetManager->createInstance($widget['type'], $widget, $this->cleanup);
+                }
             }
         }
     }

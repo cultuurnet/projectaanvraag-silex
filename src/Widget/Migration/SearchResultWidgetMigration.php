@@ -35,13 +35,13 @@ class SearchResultWidgetMigration extends WidgetMigration
                 'enabled' => $img_settings['show'],
                 'width' => $img_settings['size']['width'],
                 'height' => $img_settings['size']['height'],
-                'default_image' => $img_settings['show_default'],
+                'default_image' => (isset($img_settings['show_default']) ? $img_settings['show_default'] : false),
                 'position' => 'left',
             ];
         }
         // items icon vlieg
         if (isset($legacySettings['control_results']['visual']['results']['logo_vlieg']['show'])) {
-            $settings['items']['icon_vlieg'] = $legacySettings['control_results']['visual']['results']['logo_vlieg']['show'];
+            $settings['items']['icon_vlieg']['enabled'] = $legacySettings['control_results']['visual']['results']['logo_vlieg']['show'];
         }
         // detail map
         if (isset($legacySettings['control_results']['visual']['detail']['map'])) {
@@ -60,7 +60,7 @@ class SearchResultWidgetMigration extends WidgetMigration
         }
         // detail icon vlieg
         if (isset($legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'])) {
-            $settings['detail_page']['icon_vlieg'] = $legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'];
+            $settings['detail_page']['icon_vlieg']['enabled'] = $legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'];
         }
         // detail language icons
         if (isset($legacySettings['control_results']['visual']['detail']['taaliconen']['show'])) {

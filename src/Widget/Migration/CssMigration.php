@@ -39,7 +39,15 @@ class CssMigration
         $css = '';
 
         foreach ($blocks as $block) {
-            $settings = unserialize($block['settings']);
+            // Fix possible malformed serialized settings.
+            $block['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m){
+                    $len = strlen($m[2]);
+                    $result = "s:$len:\"{$m[2]}\";";
+                    return $result;
+                },
+                $block['settings']
+            );
+            $settings = ($block['settings'] != null ? unserialize($block['settings']) : []);
 
             /*
              * TODO:
@@ -48,7 +56,7 @@ class CssMigration
              */
 
             // Root CSS.
-            $css .= ($settings['css'] ? $settings['css'] : '');
+            $css .= (isset($settings['css']) ? $settings['css'] . "\n" : '');
             $css .= (isset($settings['style']) ? $this->convertStyleConfigToCss($settings['style'], 'cultuurnet-widget') : '');
 
             // Controls CSS.
@@ -60,7 +68,7 @@ class CssMigration
             $css .= (isset($settings['control_results']) ? $this->getControlCss($settings['control_results'], 'control_results') : '');
         }
 
-        $this->css = $css;
+        $this->css = rtrim($css, "\n");
     }
 
     /**
@@ -72,12 +80,12 @@ class CssMigration
      */
     protected function getControlCss ($settings, $control) {
         $css = '';
-        $css .= ($settings['css'] ? $settings['css'] : '');
+        $css .= (isset($settings['css']) ? $settings['css'] : '');
 
         $wrapperClass = 'cultuurnet-' . str_replace('_', '-', $control);
 
-        $css .= (isset($settings['style']) ? $this->convertStyleConfigToCss($settings['style'], $wrapperClass) : '');
-        return $css;
+        $css .= (isset($settings['style']) ? $this->convertStyleConfigToCss($settings['style'], $wrapperClass) . "\n" : '');
+        return "$css\n";
     }
 
     /**
@@ -123,8 +131,8 @@ class CssMigration
 
         // Background.
         $backgroundUrl = ($config['background']['url'] ? 'url("' . $config['background']['url'] . '")' : '');
-        $backgroundRepeat = $config['background']['repeat'];
-        $backgroundColor = $config['background']['color'];
+        $backgroundRepeat = (isset($config['background']['repeat']) ? $config['background']['repeat'] : 'repeat');
+        $backgroundColor = (isset($config['background']['color']) ? $config['background']['color'] : '');
         $background = trim("$backgroundColor $backgroundUrl $backgroundRepeat", ' ');
         $css .= ($background != '' ? "background: $background;\n" : '');
 
@@ -151,8 +159,8 @@ class CssMigration
         $css = ($css != '' ? ".$wrapperClass {\n $css \n}\n" : '');
 
         // Add possible freestyle CSS from style config.
-        $css .= ($config['css'] ? $config['css'] : '');
-        return "$css\n";
+        $css .= ($config['css'] ? $config['css'] . "\n" : '');
+        return "$css";
     }
 
 }
