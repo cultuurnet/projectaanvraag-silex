@@ -347,6 +347,10 @@ class SearchResults extends WidgetTypeBase
         // Retrieve pager object.
         $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
 
+        if (!isset($this->settings['items']['description']['label'])) {
+            $this->settings['items']['description']['label'] = '';
+        }
+
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/search-results-widget/search-results-widget.html.twig',

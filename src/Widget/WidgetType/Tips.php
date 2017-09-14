@@ -199,6 +199,10 @@ class Tips extends WidgetTypeBase
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
 
+        if (!isset($this->settings['items']['description']['label'])) {
+            $this->settings['items']['description']['label'] = '';
+        }
+
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/tips-widget/tips-widget.html.twig',
