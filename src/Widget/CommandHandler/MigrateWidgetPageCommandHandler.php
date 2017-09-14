@@ -106,12 +106,12 @@ class MigrateWidgetPageCommandHandler
             $project->setLiveConsumerKey($result['live_consumer_key']);
 
             // Set timestamps.
-            $dt_created = new \DateTime();
-            $dt_changed = new \DateTime();
-            $dt_created->setTimestamp($result['created']);
-            $dt_changed->setTimestamp($result['changed']);
-            $project->setCreated($dt_created);
-            $project->setUpdated($dt_changed);
+            $dtCreated = new \DateTime();
+            $dtChanged = new \DateTime();
+            $dtCreated->setTimestamp($result['created']);
+            $dtChanged->setTimestamp($result['changed']);
+            $project->setCreated($dtCreated);
+            $project->setUpdated($dtChanged);
 
             // Persist project to MySQL database.
             $this->entityManager->persist($project);
@@ -182,8 +182,8 @@ class MigrateWidgetPageCommandHandler
      */
     protected function convertBlocksToRows($layout, $blocks) {
         $rows = [];
-        $regions_main = [];
-        $regions_header = [];
+        $regionsMain = [];
+        $regionsHeader = [];
 
         // Convert block data to widgets and add to correct regions array.
         foreach ($blocks as $block) {
@@ -191,30 +191,30 @@ class MigrateWidgetPageCommandHandler
             $widgets[] = $this->convertBlockDataToWidget($block);
 
             if ($block['region'] == 'header') {
-                $regions_header['content']['widgets'] = $widgets;
+                $regionsHeader['content']['widgets'] = $widgets;
             }
             else {
                 // We need to convert the region name to the corresponding v3 name.
-                $regions_main[$this->convertRegion($block['region'])]['widgets'] = $widgets;
+                $regionsMain[$this->convertRegion($block['region'])]['widgets'] = $widgets;
             }
         }
 
         // If there are header regions: add header row
         // (we simulate old header layouts with an extra one-col row).
-        if (!empty($regions_header)) {
-            $row_header = [
+        if (!empty($regionsHeader)) {
+            $rowHeader = [
                 'type' => 'one-col',
-                'regions' => $regions_header,
+                'regions' => $regionsHeader,
             ];
-            $rows[] = $this->widgetLayoutManager->createInstance('one-col', $row_header, true);
+            $rows[] = $this->widgetLayoutManager->createInstance('one-col', $rowHeader, true);
         }
 
         // Add main content row (old page version only ever had a single row).
-        $row_main = [
+        $rowMain = [
             'type' => $this->convertType($layout),
-            'regions' => $regions_main,
+            'regions' => $regionsMain,
         ];
-        $rows[] = $this->widgetLayoutManager->createInstance($this->convertType($layout), $row_main, true);
+        $rows[] = $this->widgetLayoutManager->createInstance($this->convertType($layout), $rowMain, true);
         return $rows;
     }
 
@@ -226,8 +226,8 @@ class MigrateWidgetPageCommandHandler
      */
     protected function convertBlockDataToWidget($block) {
         // Build migration class name.
-        $expl_type = explode('_', $block['type']);
-        $type = array_pop($expl_type);
+        $explType = explode('_', $block['type']);
+        $type = array_pop($explType);
         $className = 'CultuurNet\ProjectAanvraag\Widget\Migration\\' . $type . 'Migration';
         if (class_exists($className)) {
             $settings = unserialize($block['settings']);
