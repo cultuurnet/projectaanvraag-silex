@@ -97,7 +97,9 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $lastUpdatedBy;
 
     /**
-     * @var
+     * @var string
+     *
+     * @ODM\Field(type="string", name="css")
      */
     protected $css;
 
@@ -328,6 +330,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'last_updated_by' => $this->lastUpdatedBy,
             'created' => (string) $this->created,
             'last_updated' => (string) $this->lastUpdated,
+            'css' => (string) $this->css,
         ];
     }
 }

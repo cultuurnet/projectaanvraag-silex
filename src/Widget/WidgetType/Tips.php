@@ -34,7 +34,8 @@ use Pimple\Container;
  *              },
  *              "description":{
  *                  "enabled":true,
- *                  "characters":200
+ *                  "characters":200,
+ *                  "label":"",
  *              },
  *              "when":{
  *                  "enabled":false,
