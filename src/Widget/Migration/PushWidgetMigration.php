@@ -21,9 +21,7 @@ class PushWidgetMigration extends WidgetMigration
         $settings = [];
 
         // items amount
-        if (isset($legacySettings['content']['count'])) {
-            $settings['general']['items'] = $legacySettings['content']['count'];
-        }
+        $settings['general']['items'] = (isset($legacySettings['content']['count']) ? $legacySettings['content']['count'] : 3);
         // items image
         if (isset($legacySettings['visual']['image'])) {
             $img_settings = $legacySettings['visual']['image'];
@@ -35,17 +33,26 @@ class PushWidgetMigration extends WidgetMigration
                 'position' => 'left',
             ];
         }
-        // where
-        if (isset($legacySettings['visual']['fields']['location'])) {
-            $settings['items']['where']['enabled'] = $legacySettings['visual']['fields']['location'];
+
+        if (isset($legacySettings['visual']['fields'])) {
+            $settings = $this->convertFieldsSettings($legacySettings['visual']['fields'], $settings);
+
+            // Add extra setting if there is a read more field added.
+            if (isset($settings['items']['read_more'])) {
+                // There is no checkbox on the legacy tips form.
+                $settings['general']['detail_link']['enabled'] = true;
+            }
         }
-        // age
-        if (isset($legacySettings['visual']['fields']['agefrom'])) {
-            $settings['items']['age']['enabled'] = $legacySettings['visual']['fields']['agefrom'];
+
+        // detail url
+        if (isset($legacySettings['visual']['detail_url'])) {
+            $settings['general']['detail_link']['url'] = $legacySettings['visual']['detail_url']; // ??
         }
-        // read more
-        if (isset($legacySettings['visual']['fields']['readmore'])) {
-            $settings['items']['read_more']['enabled'] = $legacySettings['visual']['fields']['readmore'];
+        // cdbid
+        if (isset($legacySettings['visual']['cdbid_querystring'])) {
+            if (!$legacySettings['visual']['cdbid_querystring']) {
+                $settings['general']['detail_link']['cbdid'] = 'query_string';
+            }
         }
 
         parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $name, $type);

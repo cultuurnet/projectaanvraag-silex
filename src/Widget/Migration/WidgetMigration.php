@@ -102,4 +102,52 @@ abstract class WidgetMigration
         return $settings;
     }
 
+    protected function convertFieldsSettings($legacyFields, $settings) {
+        foreach ($legacyFields as $key => $value) {
+            $label = '';
+            if (is_array($value)) {
+                $label = $value['label'];
+                $key = $value['id'];
+                $value = $value['id'];
+            }
+
+            switch ($key) {
+                case 'location':
+                    // where
+                    $settings['items']['where']['enabled'] = $value;
+                    $settings['items']['where']['label'] = $label;
+                    break;
+                case 'calendarsummary':
+                    // when
+                    $settings['items']['when']['enabled'] = $value;
+                    $settings['items']['when']['label'] = $label;
+                    break;
+                case 'agefrom':
+                    // age
+                    $settings['items']['age']['enabled'] = $value;
+                    $settings['items']['age']['label'] = $label;
+                    break;
+                case 'taaliconen':
+                    // language icons
+                    $settings['items']['language_icons']['enabled'] = $value;
+                    $settings['items']['language_icons']['label'] = $label;
+                    break;
+                case 'readmore':
+                    $settings['items']['read_more']['enabled'] = $value;
+                    $settings['items']['read_more']['label'] = $label;
+                    break;
+                case 'shortdescription':
+                    // description
+                    $settings['items']['description']['enabled'] = $value;
+                    $settings['items']['description']['label'] = $label;
+                    break;
+                case 'labels':
+                    $settings['items']['labels']['enabled'] = $value;
+                    $settings['items']['labels']['label'] = $label;
+                    break;
+            }
+        }
+        return $settings;
+    }
+
 }
