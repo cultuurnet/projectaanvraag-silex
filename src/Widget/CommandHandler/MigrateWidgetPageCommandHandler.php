@@ -122,7 +122,6 @@ class MigrateWidgetPageCommandHandler
         $this->documentManager->persist($widgetPage);
         $this->documentManager->flush();
 
-        // TODO: do through event to flush at the end?
         $this->entityManager->flush();
 
         // Dispatch the event.
