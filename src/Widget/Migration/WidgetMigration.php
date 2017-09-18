@@ -90,7 +90,7 @@ abstract class WidgetMigration
      *
      * @param $legacySettings
      * @param $settings
-     * @return mixed
+     * @return array
      */
     protected function extendWithGenericSettings($legacySettings, $settings) {
         if (isset($legacySettings['control_header']['html']) && $legacySettings['control_header']['html'] != '') {
@@ -102,9 +102,17 @@ abstract class WidgetMigration
         return $settings;
     }
 
+    /**
+     * Convert legacy "fields" settings to generic settings.
+     *
+     * @param $legacyFields
+     * @param $settings
+     * @return array
+     */
     protected function convertFieldsSettings($legacyFields, $settings) {
         foreach ($legacyFields as $key => $value) {
             $label = '';
+            // Change variables when values are subarrays.
             if (is_array($value)) {
                 $label = $value['label'];
                 $key = $value['id'];
