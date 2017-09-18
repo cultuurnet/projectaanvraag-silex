@@ -34,6 +34,7 @@ class PushWidgetMigration extends WidgetMigration
             ];
         }
 
+        // Add generic fields settings;
         if (isset($legacySettings['visual']['fields'])) {
             $settings = $this->convertFieldsSettings($legacySettings['visual']['fields'], $settings);
 

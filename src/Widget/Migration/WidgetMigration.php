@@ -145,9 +145,8 @@ abstract class WidgetMigration
                     $settings['items']['read_more']['label'] = $label;
                     break;
                 case 'shortdescription':
-                    // description
+                    // description (no label)
                     $settings['items']['description']['enabled'] = $value;
-                    $settings['items']['description']['label'] = $label;
                     break;
                 case 'labels':
                     $settings['items']['labels']['enabled'] = $value;

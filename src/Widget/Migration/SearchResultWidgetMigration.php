@@ -20,6 +20,11 @@ class SearchResultWidgetMigration extends WidgetMigration
 
         $settings = [];
 
+        // Add generic fields settings;
+        if (isset($legacySettings['control_results']['visual']['results']['fields'])) {
+            $settings = $this->convertFieldsSettings($legacySettings['control_results']['visual']['results']['fields'], $settings);
+        }
+
         // current search
         if (isset($legacySettings['control_results']['visual']['results']['current_search']['enabled'])) {
             $settings['general']['current_search'] = $legacySettings['control_results']['visual']['results']['current_search']['enabled'];
@@ -60,11 +65,24 @@ class SearchResultWidgetMigration extends WidgetMigration
         }
         // detail icon vlieg
         if (isset($legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'])) {
-            $settings['detail_page']['icon_vlieg']['enabled'] = $legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'];
+            $settings['detail_page']['language_switcher'] = $legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'];
         }
         // detail language icons
         if (isset($legacySettings['control_results']['visual']['detail']['taaliconen']['show'])) {
             $settings['detail_page']['language_icons'] = $legacySettings['control_results']['visual']['detail']['taaliconen']['show'];
+        }
+        // detail language switcher
+        if (isset($legacySettings['control_results']['visual']['detail']['multilingual']['show'])) {
+            $settings['detail_page']['language_switcher'] = $legacySettings['control_results']['visual']['detail']['multilingual']['show'];
+        }
+        // detail share buttons
+        if (isset($legacySettings['control_results']['visual']['detail']['uitid']['share_links'])) {
+            $settings['detail_page']['share_buttons'] = $legacySettings['control_results']['visual']['detail']['uitid']['share_links'];
+        }
+
+        // parameters
+        if (isset($legacySettings['control_results']['parameters']['raw'])) {
+            $settings['search_params']['query'] = $legacySettings['control_results']['parameters']['raw'];
         }
 
         parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $name, $type);
