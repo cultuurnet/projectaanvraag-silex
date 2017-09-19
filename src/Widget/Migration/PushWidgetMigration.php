@@ -15,7 +15,6 @@ class PushWidgetMigration extends WidgetMigration
      */
     public function __construct($legacySettings)
     {
-        $name = 'tips-1';
         $type = 'tips';
 
         $settings = [];
@@ -56,7 +55,7 @@ class PushWidgetMigration extends WidgetMigration
             }
         }
 
-        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $name, $type);
+        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
 
 }

@@ -16,24 +16,17 @@ abstract class WidgetMigration
     /**
      * @var string
      */
-    private $name;
-
-    /**
-     * @var string
-     */
     private $type;
 
     /**
      * WidgetMigration constructor.
      *
      * @param array $settings
-     * @param string $name
      * @param string $type
      */
-    public function __construct(array $settings, $name, $type)
+    public function __construct(array $settings, $type)
     {
         $this->settings = $settings;
-        $this->name = $name;
         $this->type = $type;
     }
 
@@ -51,22 +44,6 @@ abstract class WidgetMigration
     public function setSettings($settings)
     {
         $this->settings = $settings;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
     }
 
     /**

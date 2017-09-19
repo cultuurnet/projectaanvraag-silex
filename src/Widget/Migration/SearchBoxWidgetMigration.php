@@ -15,7 +15,6 @@ class SearchBoxWidgetMigration extends WidgetMigration
      */
     public function __construct($legacySettings)
     {
-        $name = 'zoekformulier-1';
         $type = 'search-form';
 
         $settings = [];
@@ -84,7 +83,7 @@ class SearchBoxWidgetMigration extends WidgetMigration
             $settings['search_params']['query'] = $legacySettings['parameters']['raw'];
         }
 
-        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $name, $type);
+        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
 
 }

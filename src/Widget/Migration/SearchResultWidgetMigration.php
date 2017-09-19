@@ -15,7 +15,6 @@ class SearchResultWidgetMigration extends WidgetMigration
      */
     public function __construct($legacySettings)
     {
-        $name = 'search-results-1';
         $type = 'search-results';
 
         $settings = [];
@@ -85,7 +84,7 @@ class SearchResultWidgetMigration extends WidgetMigration
             $settings['search_params']['query'] = $legacySettings['control_results']['parameters']['raw'];
         }
 
-        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $name, $type);
+        parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
 
 }
