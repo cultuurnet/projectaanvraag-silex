@@ -183,8 +183,10 @@ class MigrateWidgetPageCommandHandler
         $regionsHeader = [];
 
         // Convert block data to widgets and add to correct regions array.
-        foreach ($blocks as $block) {
+        foreach ($blocks as $i => $block) {
             $widget = $this->convertBlockDataToWidget($block);
+
+            $widget['name'] = (count($blocks) == $i+1 ? $this->getWidgetName($widget['type'], true) : $this->getWidgetName($widget['type']));
 
             if ($block['region'] == 'header') {
                 $regionsHeader['content']['widgets'][] = $widget;
@@ -242,10 +244,10 @@ class MigrateWidgetPageCommandHandler
             $settings = ($block['settings'] != null && $block['settings'] != '' ? unserialize($block['settings']) : []);
 
             $widgetMigration = new $className($settings);
+            $widgetType = $widgetMigration->getType();
             $widget = [
                 'id' => $block['id'],
-                'name' => $widgetMigration->getName(),
-                'type' => $widgetMigration->getType(),
+                'type' => $widgetType,
                 'settings' => $widgetMigration->getSettings(),
             ];
         }
@@ -300,5 +302,48 @@ class MigrateWidgetPageCommandHandler
             default:
                 return $region;
         }
+    }
+
+    /**
+     * Keep track of widget type counts and determine name accordingly.
+     *
+     * @param $type
+     * @param bool $reset
+     * @return string
+     */
+    protected function getWidgetName($type, $reset = false) {
+        static $countHtml = 0;
+        static $countSearchResults = 0;
+        static $countSearchBox = 0;
+        static $countTips = 0;
+
+        $name = '';
+        switch ($type) {
+            case 'html':
+                $countHtml++;
+                $name = "html-$countHtml";
+                break;
+            case 'search-results':
+                $countSearchResults++;
+                $name = "search-results-$countSearchResults";
+                break;
+            case 'search-form':
+                $countSearchBox++;
+                $name = "search-form-$countSearchBox";
+                break;
+            case 'tips':
+                $countTips++;
+                $name = "tips-$countTips";
+                break;
+        }
+
+        if ($reset) {
+            $countHtml = 0;
+            $countSearchResults = 0;
+            $countSearchBox = 0;
+            $countTips = 0;
+        }
+
+        return $name;
     }
 }
