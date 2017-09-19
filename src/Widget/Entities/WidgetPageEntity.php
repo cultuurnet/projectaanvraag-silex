@@ -330,6 +330,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'last_updated_by' => $this->lastUpdatedBy,
             'created' => (string) $this->created,
             'last_updated' => (string) $this->lastUpdated,
+            'css' => (string) $this->css,
         ];
     }
 }

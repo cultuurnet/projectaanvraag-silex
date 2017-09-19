@@ -4,7 +4,11 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
+use CultuurNet\ProjectAanvraag\Widget\WidgetPager;
+use CultuurNet\SearchV3\ValueObjects\FacetResults;
+use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use Pimple\Container;
 
 class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInterface
@@ -14,6 +18,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      * @var \Twig_Environment
      */
     protected $twig;
+
+    /**
+     * @var TwigPreprocessor
+     */
+    protected $twigPreprocessor;
 
     /**
      * @var RendererInterface
@@ -46,18 +55,19 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected $settings;
 
     /**
-     * LayoutBase constructor.
-     *
-     * @param array $plugin_definition
-     * @param \Twig_Environment $twig
-     * @param RendererInterface $renderer
+     * WidgetTypeBase constructor.
+     * @param array $pluginDefinition
      * @param array $configuration
      * @param bool $cleanup
+     * @param \Twig_Environment $twig
+     * @param TwigPreprocessor $twigPreprocessor
+     * @param RendererInterface $renderer
      */
-    public function __construct(array $pluginDefinition, \Twig_Environment $twig, RendererInterface $renderer, array $configuration, bool $cleanup)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer)
     {
         $this->pluginDefinition = $pluginDefinition;
         $this->renderer = $renderer;
+        $this->twigPreprocessor = $twigPreprocessor;
         $this->twig = $twig;
 
         if (isset($configuration['id'])) {
@@ -88,10 +98,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         return new static(
             $pluginDefinition,
-            $container['twig'],
-            $container['widget_renderer'],
             $configuration,
-            $cleanup
+            $cleanup,
+            $container['twig'],
+            $container['widget_twig_preprocessor'],
+            $container['widget_renderer']
         );
     }
 
@@ -125,11 +136,49 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * Trim the first
+     * parameter.
+     *
+     * @param $params
+     * @return array
+     */
+    protected function filterUrlQueryParams($params)
+    {
+        if (!empty($params)) {
+            foreach ($params as $key => $param) {
+                // Check key for question mark.
+                if (substr($key, 0, 1) == '?') {
+                    // Trim question mark.
+                    $trimmedKey = ltrim($key, '?');
+                    // Replace key.
+                    $params[$trimmedKey] = $param;
+                    unset($params[$key]);
+                }
+            }
+        }
+        return $params;
+    }
+
+    /**
+     * Return a WidgetPager object for the given data.
+     *
+     * @param int $itemsPerPage
+     * @param int $totalItems
+     * @param int $pageIndex
+     * @return WidgetPager
+     */
+    protected function retrievePagerData(int $itemsPerPage, int $totalItems, int $pageIndex)
+    {
+        // Determine number of pages.
+        $pages = ceil($totalItems / $itemsPerPage);
+        return new WidgetPager($pages, $pageIndex, $itemsPerPage);
+    }
+
+    /**
      * Merge all defaults into the $settings array.
      */
     protected function mergeDefaults($settings, $defaultSettings)
     {
-
         foreach ($defaultSettings as $id => $defaultSetting) {
             if (!isset($settings[$id])) {
                 $settings[$id] = $defaultSetting;
@@ -146,7 +195,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
      */
     protected function cleanupConfiguration($settings, $allowedSettings)
     {
-
         foreach ($settings as $id => $value) {
             // Unknown property? Remove from settings.
             if (!isset($allowedSettings[$id])) {

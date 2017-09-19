@@ -28,8 +28,11 @@ use Doctrine\ODM\MongoDB\Types\Type;
 use MongoDB\Client;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TwigServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -46,8 +49,7 @@ class ApplicationBase extends SilexApplication
         // Load the config.
         if (file_exists($this['cache_directory'] . '/config.php')) {
             $this['config'] = require $this['cache_directory'] . '/config.php';
-        }
-        else {
+        } else {
             $this->register(new YamlConfigServiceProvider(__DIR__ . '/../config.yml'));
             file_put_contents($this['cache_directory'] . '/config.php', '<?php return ' . var_export($this['config'], true) . ';');
         }
@@ -83,8 +85,21 @@ class ApplicationBase extends SilexApplication
             [
                 'cache.redis' => $this['config']['cache']['redis'],
                 'cache.annotations' => $this['config']['annotations']['cache'],
-                'cache.odm_orm' => $this['config']['odm_orm']['cache']
+                'cache.odm_orm' => $this['config']['odm_orm']['cache'],
             ]
+        );
+
+        // Translation
+        $this['locale'] = $this['config']['locale'] ?? 'nl';
+        $this->register(new TranslationServiceProvider());
+        $this->extend(
+            'translator',
+            function ($translator, $app) {
+                $translator->addLoader('yaml', new YamlFileLoader());
+                $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
+                $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
+                return $translator;
+            }
         );
 
         // Monolog

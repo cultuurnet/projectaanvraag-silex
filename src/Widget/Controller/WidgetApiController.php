@@ -106,26 +106,22 @@ class WidgetApiController
      */
     public function getWidgetPages(ProjectInterface $project)
     {
-
         if (!$this->authorizationChecker->isGranted(ProjectVoter::VIEW, $project)) {
             throw new AccessDeniedHttpException();
         }
 
         $widgetPages = $this->widgetPageRepository->findBy(
-            [
-                'projectId' => (string) $project->getId(),
-            ],
+            ['projectId' => (string) $project->getId()],
             ['title' => 'ASC']
         );
 
-        $widgetPagesList = array();
-        /**
-         * @var WidgetPageInterface $widgetPage
-         */
-        foreach ($widgetPages as $key => $widgetPage) {
+        $widgetPagesList = [];
+
+        /** @var WidgetPageInterface $widgetPage */
+        foreach ($widgetPages as $widgetPage) {
             // When there is a draft version, add the draft version, otherwise only add the published version if it is not already included in the array
-            if ($widgetPage->isDraft() || !isset($key, $widgetPagesList)) {
-                $widgetPagesList[$key] = $widgetPage;
+            if ($widgetPage->isDraft() || empty($widgetPagesList[$widgetPage->getId()])) {
+                $widgetPagesList[$widgetPage->getId()] = $widgetPage;
             }
         }
 

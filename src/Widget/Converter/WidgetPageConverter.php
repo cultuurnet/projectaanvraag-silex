@@ -49,8 +49,8 @@ class WidgetPageConverter implements ConverterInterface
         );
 
         if (empty($page)) {
-          $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-          $page = $this->widgetPageEntityDeserializer->deserialize($json);
+            $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
+            $page = $this->widgetPageEntityDeserializer->deserialize($json);
         }
 
         if (empty($page)) {

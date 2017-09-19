@@ -45,6 +45,7 @@ use Pimple\Container;
  *              "time": {
  *                  "date_search": {
  *                      "enabled" : true,
+ *                      "label": "Waar",
  *                      "options": {
  *                          "today": true,
  *                          "tomorrow": true,
@@ -53,7 +54,8 @@ use Pimple\Container;
  *                          "days_14": true,
  *                          "days_30": true,
  *                          "custom_date": true
- *                      }
+ *                      },
+ *                      "default_option": "today"
  *                  },
  *                  "group_filters": {
  *                      "enabled": false
@@ -97,6 +99,7 @@ use Pimple\Container;
  *              "time": {
  *                  "date_search": {
  *                      "enabled" : "boolean",
+ *                      "label": "string",
  *                      "options": {
  *                          "today": "boolean",
  *                          "tomorrow": "boolean",
@@ -105,7 +108,8 @@ use Pimple\Container;
  *                          "days_14": "boolean",
  *                          "days_30": "boolean",
  *                          "custom_date": "boolean"
- *                      }
+ *                      },
+ *                      "default_option": "string"
  *                  },
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
@@ -127,7 +131,15 @@ class SearchForm extends WidgetTypeBase
      */
     public function render()
     {
-        return $this->twig->render('widgets/search-form-widget/search-form-widget.html.twig', ['fields' => $this->settings['fields']]);
+        return $this->twig->render(
+            'widgets/search-form-widget/search-form-widget.html.twig',
+            [
+                'settings_general' => $this->settings['general'],
+                'settings_header' => $this->settings['header'],
+                'settings_footer' => $this->settings['footer'],
+                'settings_fields' => $this->settings['fields'],
+            ]
+        );
     }
 
     /**

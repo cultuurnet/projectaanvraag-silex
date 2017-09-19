@@ -8,6 +8,8 @@ namespace CultuurNet\ProjectAanvraag\Widget\Settings;
 class GroupFilter
 {
 
+    public $filters;
+
     /**
      * Cleanup the configuration.
      */
