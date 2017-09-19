@@ -270,9 +270,9 @@ class Project extends PrimaryEntityBase
 
         $data += [
             'PROJECT_ID' => $this->getId(),
-            'PROJECT_NAME' => $this->getName(),
+            'PROJECT_NAME' => $this->stripSlashes($this->getName()),
             'STATUS' => $this->getStatus(),
-            'PROJECT_DETAILS' => $this->getDetails(),
+            'PROJECT_DETAILS' => $this->stripSlashes($this->getDetails()),
             'OPPORTUNITY_ID' => $this->getOpportunityId(),
             'STARTED_DATE' => !empty($this->getStartedDate()) ? $this->getStartedDate()->format('Y-m-d H:i:s') : null,
             'COMPLETED_DATE' => !empty($this->getCompletedDate()) ? $this->getCompletedDate()->format('Y-m-d H:i:s') : null,
@@ -283,5 +283,10 @@ class Project extends PrimaryEntityBase
         ];
 
         return array_filter($data);
+    }
+
+    private function stripSlashes($string)
+    {
+        return str_replace('/', '-', $string);
     }
 }
