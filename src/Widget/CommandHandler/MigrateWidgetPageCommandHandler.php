@@ -184,15 +184,14 @@ class MigrateWidgetPageCommandHandler
 
         // Convert block data to widgets and add to correct regions array.
         foreach ($blocks as $block) {
-            $widgets = [];
-            $widgets[] = $this->convertBlockDataToWidget($block);
+            $widget = $this->convertBlockDataToWidget($block);
 
             if ($block['region'] == 'header') {
-                $regionsHeader['content']['widgets'] = $widgets;
+                $regionsHeader['content']['widgets'][] = $widget;
             }
             else {
                 // We need to convert the region name to the corresponding v3 name.
-                $regionsMain[$this->convertRegion($block['region'])]['widgets'] = $widgets;
+                $regionsMain[$this->convertRegion($block['region'])]['widgets'][] = $widget;
             }
         }
 
