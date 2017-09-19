@@ -78,19 +78,26 @@ class WidgetController
     protected $debugMode;
 
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
      * WidgetController constructor.
      *
      * @param RendererInterface $renderer
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode, array $config)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->debugMode = $debugMode;
+        $this->config = $config;
+
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
         $doc = json_decode($json, true);
@@ -120,10 +127,23 @@ print_r($test2);
     }
 
     /**
-     * Hardcoded example of a render page.
+     * Render the widget page.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @return string
      */
     public function renderPage(Request $request, WidgetPageInterface $widgetPage)
     {
+
+        // Check if page is from old version.
+        if ($widgetPage->getVersion() != 3) {
+            $legacyBaseUrl = $this->config['legacy_host'];
+            // TODO: check if js file exists (where?)
+            // TODO: if not, download js file
+            // TODO: \-> save js file (where?)
+        }
+
         $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage));
 
         // Only write the javascript files, when we are not in debug mode.

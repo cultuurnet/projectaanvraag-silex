@@ -84,3 +84,5 @@ cache:
     host:
     port: 6379
 
+# Legacy widget host settings
+legacy_host: http://tools.uitdatabank.be
