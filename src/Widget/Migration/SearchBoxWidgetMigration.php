@@ -68,7 +68,26 @@ class SearchBoxWidgetMigration extends WidgetMigration
                     'days_30' => (isset($options['next30days']) ? true : false),
                 ];
             }
-            // TODO: default_option
+            // when default
+            if (isset($legacySettings['control_when']['fields']['datetype']['default'])) {
+                $default_date = '';
+                switch ($legacySettings['control_when']['fields']['datetype']['default']) {
+                    case 'today':
+                        $default_date = 'today';
+                        break;
+                    case 'tomorrow':
+                        $default_date = 'tomorrow';
+                        break;
+                    case 'thisweekend':
+                        $default_date = 'weekend';
+                        break;
+                    case 'next30days':
+                        $default_date = 'days_30';
+                        break;
+                }
+                // TODO: double check with new JSON structure.
+                $settings['fields']['time']['date_search']['default_option'] = $default_date;
+            }
         }
         // url
         if (isset($legacySettings['url'])) {
