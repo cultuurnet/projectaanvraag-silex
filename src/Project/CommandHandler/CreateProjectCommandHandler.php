@@ -88,7 +88,7 @@ class CreateProjectCommandHandler
             $createConsumer = new \CultureFeed_Consumer();
             $createConsumer->name = $createProject->getName();
             $createConsumer->description = $createProject->getDescription();
-            $createConsumer->group = [5, $createProject->getIntegrationType()];
+            $createConsumer->group = [3, $createProject->getIntegrationType()];
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
             $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
