@@ -102,8 +102,20 @@ class MigrateWidgetPageCommandHandler
             $project->setName($result['project']);
             $project->setDescription($result['description']); // No database column for description.
             $project->setUserId($result['live_uid']);
-            $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE); // TODO: determine correct status from retrieved status id.
             $project->setLiveConsumerKey($result['live_consumer_key']);
+
+            // Set status.
+            switch ($result['status']) {
+                case '0':
+                    $project->setStatus(ProjectInterface::PROJECT_STATUS_APPLICATION_SENT);
+                    break;
+                case '1':
+                    $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);
+                    break;
+                default:
+                    $project->setStatus(ProjectInterface::PROJECT_STATUS_BLOCKED);
+                    break;
+            }
 
             // Set timestamps.
             $dtCreated = new \DateTime();
