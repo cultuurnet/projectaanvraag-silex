@@ -92,8 +92,8 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $consumer = new \CultureFeed_Consumer();
         $consumer->name = $this->project->getName();
         $consumer->description = $this->project->getDescription();
-        $consumer->group = [5, $this->project->getGroupId()];
-        
+        $consumer->group = [3, $this->project->getGroupId()];
+
         $consumerWithId = clone $consumer;
         $consumerWithId->consumerKey = 'test';
 

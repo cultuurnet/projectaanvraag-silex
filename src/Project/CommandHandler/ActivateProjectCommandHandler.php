@@ -63,7 +63,7 @@ class ActivateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $project->getName();
         $createConsumer->description = $project->getDescription();
-        $createConsumer->group = [5, $project->getGroupId()];
+        $createConsumer->group = [3, $project->getGroupId()];
 
         // Save consumer in live api.
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */

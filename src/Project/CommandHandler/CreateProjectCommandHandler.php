@@ -169,7 +169,7 @@ class CreateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
         $createConsumer->description = $createProject->getDescription();
-        $createConsumer->group = [5, $createProject->getIntegrationType()];
+        $createConsumer->group = [3, $createProject->getIntegrationType()];
 
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
 

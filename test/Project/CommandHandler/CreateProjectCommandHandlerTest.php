@@ -121,7 +121,7 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $cultureFeedConsumer = new \CultureFeed_Consumer();
         $cultureFeedConsumer->name = 'Project name';
         $cultureFeedConsumer->description = 'Project description';
-        $cultureFeedConsumer->group = [5, 123];
+        $cultureFeedConsumer->group = [3, 123];
 
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $culturefeedTestconsumer = new \CultureFeed_Consumer();
