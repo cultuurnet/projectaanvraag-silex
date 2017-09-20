@@ -67,6 +67,10 @@ class SearchBoxWidgetMigration extends WidgetMigration
                     'weekend' => (isset($options['thisweekend']) ? true : false),
                     'days_30' => (isset($options['next30days']) ? true : false),
                 ];
+                // when custom date option
+                if (isset($legacySettings['control_when']['fields']['daterange']['enabled']) && $legacySettings['control_when']['fields']['daterange']['enabled']) {
+                    $settings['fields']['time']['date_search']['options']['custom_date'] = true;
+                }
             }
             // when default
             if (isset($legacySettings['control_when']['fields']['datetype']['default'])) {
