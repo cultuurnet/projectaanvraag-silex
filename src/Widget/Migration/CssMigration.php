@@ -55,7 +55,6 @@ class CssMigration
             $settings = ($block['settings'] != null && $block['settings'] != '' ? unserialize($block['settings']) : []);
 
             /*
-             * TODO:
              * The freeform CSS values are difficult to place under specific control contexts, so for now
              * these are just added as is to the combined CSS.
              */

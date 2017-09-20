@@ -136,15 +136,20 @@ print_r($test2);
     public function renderPage(Request $request, WidgetPageInterface $widgetPage)
     {
 
+        $jsContent = '';
         // Check if page is from old version.
         if ($widgetPage->getVersion() != 3) {
             $legacyBaseUrl = $this->config['legacy_host'];
-            // TODO: check if js file exists (where?)
-            // TODO: if not, download js file
-            // TODO: \-> save js file (where?)
-        }
+            $jsContent = 'load old js file tools.uitdatabank';
+            // TODO: check if js file exists (root)
 
-        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage));
+            // TODO: if not, download js file
+            // TODO: \-> save js file
+        }
+        else {
+            $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage));
+            $jsContent = $javascriptResponse->getContent();
+        }
 
         // Only write the javascript files, when we are not in debug mode.
         if (!$this->debugMode) {
@@ -152,10 +157,10 @@ print_r($test2);
             if (!file_exists($directory)) {
                 mkdir($directory, 0777, true);
             }
-            file_put_contents(WWW_ROOT . $request->getPathInfo(), $javascriptResponse->getContent());
+            file_put_contents(WWW_ROOT . $request->getPathInfo(), $jsContent);
         }
 
-        return $javascriptResponse->getContent();
+        return $jsContent;
     }
 
     /**

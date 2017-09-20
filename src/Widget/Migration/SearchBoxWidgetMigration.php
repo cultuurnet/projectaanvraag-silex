@@ -29,7 +29,6 @@ class SearchBoxWidgetMigration extends WidgetMigration
             $settings['fields']['type']['keyword_search']['placeholder'] = $legacySettings['control_what']['fields']['q']['placeholder'] ?? '';
 
             // what group filters
-            // TODO: there are 2 pages with "headings" instead of "heading" as key (ignored for now).
             $settings['fields']['type']['group_filters']['enabled'] =  $legacySettings['control_what']['fields']['heading']['enabled'] ?? false;
 
             /* Does not fit with new query builder.
@@ -69,6 +68,7 @@ class SearchBoxWidgetMigration extends WidgetMigration
                     'days_30' => (isset($options['next30days']) ? true : false),
                 ];
             }
+            // TODO: default_option
         }
         // url
         if (isset($legacySettings['url'])) {
