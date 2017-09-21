@@ -167,7 +167,7 @@ $(document).ready(function(){
     let loadExternalCss = function(loaded) {
 
         let link = document.createElement( 'link' );
-        link.href = '../styles/main.css';
+        link.href = 'http://widgetbeheer-api.dev/assets/css/main.css';
         link.type = 'text/css';
         link.rel = 'stylesheet';
         link.media = 'screen';
