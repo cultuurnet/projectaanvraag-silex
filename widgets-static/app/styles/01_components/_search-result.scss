@@ -1,0 +1,57 @@
+.searchresult__options,
+.searchresult__selectedSearchFilters {
+
+}
+
+
+
+/*
+*   STICKERS
+*/
+
+.cnw_stickers {
+  float: right;
+  display: inline-block;
+  margin-left: 15px;
+  margin-bottom: 6px;
+  width: 48px;
+  height: 48px;
+  position: relative;
+  margin-right: 6px;
+  border-radius: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.cnw_stickers--mini {
+  margin-bottom: 0px;
+  margin-left: 6px;
+}
+
+.cnw_stickers--mini .cnw_sticker--vlieg {
+  width: inherit;
+  border: 1px solid #ccc;
+  padding: 1px 4px;
+  padding-left: 22px;
+  border-radius: 2px;
+  background-image: none;
+  background-color: #F3F3F3;
+  background-position: right center;
+  position: relative;
+}
+
+
+.cnw_stickers--mini .sticker {
+  height: 18px;
+  float: left;
+}
+
+.cnw_sticker--vlieg {
+  background-image: url(https://www.uitinvlaanderen.be/sites/all/themes/uitinvlaanderen_bootstrap/img/stickers/vlieg--sticker.png);
+  background-position: top center;
+  background-color: #F3F3F3;
+  border: 1px solid #ccc;
+}
+
+

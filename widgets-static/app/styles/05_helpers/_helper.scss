@@ -1,0 +1,25 @@
+
+.cnw_align-items-center {
+  -webkit-box-align: center !important;
+  -webkit-align-items: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+}
+
+.cnw_align-items-end {
+  -webkit-box-align: end !important;
+  -webkit-align-items: flex-end !important;
+  -ms-flex-align: end !important;
+  align-items: flex-end !important;
+}
+
+
+
+.cnw_push-right {
+  float: right;
+}
+
+
+.cnw_clips .cnw_searchresult--block [class*="cnw_col-"] {
+  max-width:100%;
+}
