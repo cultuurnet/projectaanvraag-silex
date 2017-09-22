@@ -27,18 +27,6 @@ class SearchBoxWidgetMigration extends WidgetMigration
             $settings['fields']['type']['keyword_search']['label'] = $legacySettings['control_what']['fields']['q']['label'];
             // what placeholder
             $settings['fields']['type']['keyword_search']['placeholder'] = $legacySettings['control_what']['fields']['q']['placeholder'] ?? '';
-
-            // what group filters
-            $settings['fields']['type']['group_filters']['enabled'] =  $legacySettings['control_what']['fields']['heading']['enabled'] ?? false;
-
-            /* Does not fit with new query builder.
-            if ($legacySettings['control_what']['fields']['heading']['enabled']) {
-                $settings['fields']['type']['group_filters']['filters'][] = [
-                    'label' => $legacySettings['control_what']['fields']['heading']['label'],
-                    'placeholder' => $legacySettings['control_what']['fields']['heading']['placeholder'] ?? '',
-                ];
-            }
-            */
         }
         // where
         if (isset($legacySettings['control_where']['fields'])) {
