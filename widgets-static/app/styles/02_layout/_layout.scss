@@ -1,6 +1,6 @@
 
 .cnw_container-fluid {
-   @include make-container()
+  // @include make-container()
 }
 
 .cnw_container {
@@ -82,7 +82,7 @@
   max-width: 100%;
 
 }
-
+/*
 .cnw_form,
 .cnw_sideCol {
   //border:1px solid blue;
@@ -92,6 +92,8 @@
    // border:1px solid orange;
   }
 }
+*/
+
 
 @include media-breakpoint-up(xs) {
   .cnw_flex-md-last {
