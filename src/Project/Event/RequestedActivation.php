@@ -81,7 +81,7 @@ class RequestedActivation extends ProjectEvent
      * @param string $email
      * @return RequestedActivation
      */
-    public function setPayEmail($email)
+    public function setPaymentEmail($email)
     {
         $this->email = paymentEmail;
         return $this;
