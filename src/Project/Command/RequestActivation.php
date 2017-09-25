@@ -40,7 +40,7 @@ class RequestActivation extends ProjectCommand
      * @param $address
      * @param $vatNumber
      */
-    public function __construct(ProjectInterface $project, $paymentEmail = '', $name, $address, $vatNumber = '')
+    public function __construct(ProjectInterface $project, $name, $address, $vatNumber = '', $paymentEmail = '')
     {
         parent::__construct($project);
         $this->paymentEmail = $paymentEmail;
