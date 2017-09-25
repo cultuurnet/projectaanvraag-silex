@@ -20,7 +20,7 @@ class RequestActivation extends ProjectCommand
     /**
      * @var string
      */
-    private $payment_email;
+    private $paymentEmail;
 
     /**
      * @var Address
@@ -40,10 +40,10 @@ class RequestActivation extends ProjectCommand
      * @param $address
      * @param $vatNumber
      */
-    public function __construct(ProjectInterface $project, $payment_email, $name, $address, $vatNumber = '')
+    public function __construct(ProjectInterface $project, $paymentEmail = '', $name, $address, $vatNumber = '')
     {
         parent::__construct($project);
-        $this->payment_email = $payment_email;
+        $this->paymentEmail = $paymentEmail;
         $this->name = $name;
         $this->address = $address;
         $this->vatNumber = $vatNumber;
@@ -72,16 +72,16 @@ class RequestActivation extends ProjectCommand
      */
     public function getPaymentEmail()
     {
-        return $this->payment_email;
+        return $this->paymentEmail;
     }
 
     /**
      * @param string $email
      * @return RequestActivation
      */
-    public function setPayMentEmail($email)
+    public function setPaymentEmail($email)
     {
-        $this->payment_email = $email;
+        $this->paymentEmail = $email;
         return $this;
     }
 
