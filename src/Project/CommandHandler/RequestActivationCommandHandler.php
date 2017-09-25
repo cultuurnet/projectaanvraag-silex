@@ -86,7 +86,7 @@ class RequestActivationCommandHandler
             }
 
             if (!empty($this->insightlyConfig['custom_fields']['payment'])) {
-                $organisation->addCustomField($this->insightlyConfig['custom_fields']['payment'], $requestActivation->getEmail());
+                $organisation->addCustomField($this->insightlyConfig['custom_fields']['payment'], $requestActivation->getPaymentEmail());
             }
 
             // Address.

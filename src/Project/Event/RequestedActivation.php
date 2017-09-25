@@ -18,7 +18,7 @@ class RequestedActivation extends ProjectEvent
      * @Type("string")
      * @var string
      */
-    private $email;
+    private $payment_email;
 
     /**
      * @Type("CultuurNet\ProjectAanvraag\Address")
@@ -45,7 +45,7 @@ class RequestedActivation extends ProjectEvent
     {
         parent::__construct($project);
 
-        $this->email = $email;
+        $this->payment_email = $email;
         $this->name = $name;
         $this->address = $address;
         $this->vatNumber = $vatNumber;
@@ -72,18 +72,18 @@ class RequestedActivation extends ProjectEvent
     /**
      * @return string
      */
-    public function getEmail()
+    public function getPaymentEmail()
     {
-        return $this->email;
+        return $this->payment_email;
     }
 
     /**
      * @param string $email
      * @return RequestedActivation
      */
-    public function setEmail($email)
+    public function setPayEmail($email)
     {
-        $this->email = $email;
+        $this->email = $payment_email;
         return $this;
     }
 

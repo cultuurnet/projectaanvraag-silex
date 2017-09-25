@@ -242,7 +242,7 @@ class ProjectController
 
         $postedData = json_decode($request->getContent());
         $this->validateRequiredFields(
-            ['name', 'addresses', 'contactInfo'],
+            ['name', 'addresses'],
             $postedData
         );
 
