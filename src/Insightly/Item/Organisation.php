@@ -20,15 +20,9 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
      */
     protected $addresses;
 
-    /**
-     * @var EntityList
-     */
-    protected $contactInfo;
-
     public function __construct()
     {
         parent::__construct();
-        $this->contactInfo = new EntityList();
         $this->addresses = new EntityList();
     }
 
@@ -87,33 +81,6 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
     }
 
     /**
-     * @return EntityList
-     */
-    public function getContactInfo()
-    {
-        return $this->contactInfo;
-    }
-
-    /**
-     * @param EntityList
-     * @return Organisation
-     */
-    public function setContactInfo($contactInfo)
-    {
-        $this->contactInfo = $contactInfo;
-        return $this;
-    }
-
-    /**
-     * Add contact info.
-     * @param ContactInfo $contactInfo
-     */
-    public function addContactInfo($contactInfo)
-    {
-        $this->contactInfo[] = $contactInfo;
-    }
-
-    /**
      * Unserialize json to an Organisation
      * @param string $json
      * @return Organisation
@@ -145,13 +112,6 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
             }
         }
 
-        // Contact info
-        if (!empty($data->contactInfo)) {
-            foreach ($data->contactInfo as $item) {
-                $organisation->contactInfo->append(ContactInfo::jsonUnSerialize($item));
-            }
-        }
-
         // Links
         if (!empty($data->links)) {
             foreach ($data->links as $item) {
@@ -179,19 +139,15 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
             $addresses[] = $address->toInsightly();
         }
 
-        $contactInfo = [];
-        foreach ($this->contactInfo as $info) {
-            $contactInfo[] = $info->toInsightly();
-        }
-
         $data = parent::toInsightly();
+
+        echo print_r($this, true);
 
         $data += [
             'ORGANISATION_ID' => $this->getId(),
             'ORGANISATION_NAME' => $this->getName(),
             'BACKGROUND' => $this->getBackground(),
-            'ADDRESSES' => $addresses,
-            'CONTACTINFOS' => $contactInfo,
+            'ADDRESSES' => $addresses
         ];
 
         unset($data['VISIBLE_TO']);
@@ -199,6 +155,8 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
         unset($data['CAN_DELETE']);
         unset($data['DATE_CREATED_UTC']);
         unset($data['DATE_UPDATED_UTC']);
+
+        echo "boe";
 
         return array_filter($data);
     }

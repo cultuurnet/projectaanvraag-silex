@@ -329,11 +329,12 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             'postal' => 'postal',
             'city' => 'city',
             'vat' => 'VAT',
+            'payment' => 'payment'
         ];
         $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
 
         $address = new Address($postData['street'], $postData['postal'], $postData['city']);
-        $requestActivation = new RequestActivation($project, 'email', 'name', $address, 'VAT');
+        $requestActivation = new RequestActivation($project, 'name', $address, 'VAT', 'email');
         $this->messageBus
             ->expects($this->any())
             ->method('handle')
@@ -503,10 +504,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $address->setId(48270160);
         $organisation->setAddresses([$address]);
 
-        $contactInfo = new Contact();
-        $contactInfo->setId(102388049);
-        $organisation->setContactInfo([$contactInfo]);
-
         $link = new Link();
         $link->setId(125674597);
         $organisation->addLink($link);
@@ -565,10 +562,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $address = new \CultuurNet\ProjectAanvraag\Insightly\Item\Address();
         $address->setId(482701602);
         $organisation->setAddresses([$address]);
-
-        $contactInfo = new Contact();
-        $contactInfo->setId(1023880549);
-        $organisation->setContactInfo([$contactInfo]);
 
         $link = new Link();
         $link->setId(1256745979);

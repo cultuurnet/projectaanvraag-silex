@@ -7,7 +7,6 @@ use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Address;
-use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
@@ -95,6 +94,7 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ],
             'custom_fields' => [
                 'vat' => 'vatfield',
+                'payment' => 'paymentfield'
             ],
         ];
 
@@ -133,21 +133,17 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRequestWithVat()
     {
-        $this->requestTest('vat');
+        $this->requestTest('vat', '');
     }
 
     /**
      * Test the request handling.
      */
-    private function requestTest($vat = '')
+    private function requestTest($vat = '', $payment = '')
     {
 
         $address = new \CultuurNet\ProjectAanvraag\Address('street number', '9000', 'Gent');
-        $requestActivation = new RequestActivation($this->project, 'email@email.com', 'name', $address, $vat);
-
-        // Contact info that should be created.
-        /*$contactInfo = new ContactInfo(ContactInfo::TYPE_EMAIL);
-        $contactInfo->setDetail('email@email.com');*/
+        $requestActivation = new RequestActivation($this->project, 'name', $address, $vat, $payment);
 
         // Address that should be created.
         $address = new Address();
@@ -159,11 +155,13 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
         // Organisation that should be created.
         $organisation = new Organisation();
         $organisation->setName('name');
-        //$organisation->getContactInfo()->append($contactInfo);
-        $organisation->getAddresses()->append($address);
 
         if ($vat) {
-            $organisation->addCustomField('vatfield', 'vat');
+          $organisation->addCustomField('vatfield', 'vat');
+        }
+
+        if ($payment) {
+          $organisation->addCustomField('paymentfield', 'payment');
         }
 
         $createdOrganisation = clone $organisation;

@@ -10,15 +10,9 @@
       "postal": 8020
     }
   ],
-  "contactInfo": [
-    {
-      "id": 102388049,
-      "type": "EMAIL",
-      "label": "WORK",
-      "detail": "test@test.be"
-    }
+  "customFields": [
+
   ],
-  "customFields": [],
   "links": {
     "0": {
       "id": 125674597
