@@ -90,12 +90,6 @@ class RequestActivationCommandHandler
                 $organisation->addCustomField($this->insightlyConfig['custom_fields']['payment'], $requestActivation->getPayment());
             }
 
-            // Add contact.
-            // @todo: this isn't the right way to link a contact -> PROJ-41
-            // $contact = new ContactInfo(ContactInfo::TYPE_EMAIL);
-            // $contact->setDetail($requestActivation->getEmail());
-            // $organisation->getContactInfo()->append($contact);
-
             // Address.
             $givenAddress = $requestActivation->getAddress();
             $address = new Address();
