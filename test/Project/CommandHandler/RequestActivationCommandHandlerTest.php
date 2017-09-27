@@ -95,6 +95,7 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ],
             'custom_fields' => [
                 'vat' => 'vatfield',
+                'payment' => 'paymentfield',
             ],
         ];
 
@@ -139,11 +140,11 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test the request handling.
      */
-    private function requestTest($vat = '')
+    private function requestTest($vat = '', $payment = '')
     {
 
         $address = new \CultuurNet\ProjectAanvraag\Address('street number', '9000', 'Gent');
-        $requestActivation = new RequestActivation($this->project, 'email@email.com', 'name', $address, $vat);
+        $requestActivation = new RequestActivation($this->project, 'email@email.com', 'name', $address, $vat, $payment);
 
         // Contact info that should be created.
         /*$contactInfo = new ContactInfo(ContactInfo::TYPE_EMAIL);
@@ -164,6 +165,10 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
 
         if ($vat) {
             $organisation->addCustomField('vatfield', 'vat');
+        }
+
+        if ($payment) {
+            $organisation->addCustomField('paymentfield', 'payment');
         }
 
         $createdOrganisation = clone $organisation;

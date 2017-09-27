@@ -329,11 +329,12 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             'postal' => 'postal',
             'city' => 'city',
             'vat' => 'VAT',
+            'payment' => 'payment',
         ];
         $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
 
         $address = new Address($postData['street'], $postData['postal'], $postData['city']);
-        $requestActivation = new RequestActivation($project, 'email', 'name', $address, 'VAT');
+        $requestActivation = new RequestActivation($project, 'email', 'name', $address, 'VAT', 'payment');
         $this->messageBus
             ->expects($this->any())
             ->method('handle')

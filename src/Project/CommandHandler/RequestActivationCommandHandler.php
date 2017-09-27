@@ -80,9 +80,14 @@ class RequestActivationCommandHandler
             // Create an organisation. (We can't search on VAT, so always create a new)
             $organisation = new Organisation();
             $organisation->setName($requestActivation->getName());
+
             // @todo The field is currently not known for test, ask Reinout for real field name.
             if ($requestActivation->getVatNumber() && !empty($this->insightlyConfig['custom_fields']['vat'])) {
                 $organisation->addCustomField($this->insightlyConfig['custom_fields']['vat'], $requestActivation->getVatNumber());
+            }
+
+            if ($requestActivation->getPayment() && !empty($this->insightlyConfig['custom_fields']['payment'])) {
+                $organisation->addCustomField($this->insightlyConfig['custom_fields']['payment'], $requestActivation->getPayment());
             }
 
             // Add contact.

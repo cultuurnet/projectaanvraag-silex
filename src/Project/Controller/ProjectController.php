@@ -174,8 +174,10 @@ class ProjectController
 
             $vat = !empty($postedData->vat) ? $postedData->vat : '';
 
+            $payment = !empty($postedData->payment) ? $postedData->payment : '';
+
             $address = new Address($postedData->street, $postedData->postal, $postedData->city);
-            $this->commandBus->handle(new RequestActivation($project, $postedData->email, $postedData->name, $address, $vat));
+            $this->commandBus->handle(new RequestActivation($project, $postedData->email, $postedData->name, $address, $vat, $payment));
         }
 
         return new JsonResponse($project);
