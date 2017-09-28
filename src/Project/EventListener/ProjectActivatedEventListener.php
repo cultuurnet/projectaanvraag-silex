@@ -26,6 +26,8 @@ class ProjectActivatedEventListener extends ProjectCrudEventListener
 
         $this->saveInsightlyProject();
 
+        $this->insightlyProject->setStatus(Project::STATUS_COMPLETED);
+
         if ($projectActivated->getUsedCoupon()) {
             $this->updatePipelineStage($this->insightlyConfig['stages']['live_met_coupon']);
         } else {
