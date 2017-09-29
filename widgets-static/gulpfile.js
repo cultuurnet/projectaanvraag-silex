@@ -23,22 +23,24 @@ let dev = true;
 gulp.task('serve', () => {
     runSequence(['clean','wiredep'], ['createStyles', 'scripts', 'fonts'],  () => {
         browserSync.init({
-            notify: false,
+            notify: true,
             port: 12000,
+            proxy: 'http://widgetbeheer-api.dev/demo/'
+            /*
             server: {
                 baseDir: [distCssDir, 'app'],
                 routes: {
                     '/bower_components': 'bower_components'
                 }
             }
+            */
         });
         gulp.watch([
-            //    'app/*.html',
             'app/templates/**/*.html',
             'app/images/**/*',
             'app/tmp/fonts/**/*'
         ]
-        ).on('change', reload);
+        );
 
         gulp.watch('app/styles/**/*.scss', ['createStyles']);
         gulp.watch('app/scripts/**/*.js', ['scripts']);
@@ -82,9 +84,9 @@ gulp.task('styles', () => {
       includePaths: ['.']
     }).on('error', $.sass.logError))
     .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
-    //.pipe($.if(dev, $.sourcemaps.write()))
+    .pipe($.if(dev, $.sourcemaps.write()))
     .pipe(gulp.dest(distCssDir))
-    .pipe(reload({stream: true}));
+    .pipe(browserSync.stream());
 });
 
 
