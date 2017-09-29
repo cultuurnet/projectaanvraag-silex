@@ -91,19 +91,21 @@
             </div>
         {% endif %}
 
-        <div class="cnw_col">
-            {% if  settings_fields.extra.group_filters.enabled %}
+
+        {% if  settings_fields.extra.group_filters.enabled %}
+            <div class="cnw_col">
                 {% for filter in  settings_fields.extra.group_filters.filters %}
                     {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options} %}
                 {% endfor %}
+            </div>
             {% endif %}
-        </div>
+
 
     </div>
 
 
     <div class="cnw_row">
-        <div class="cnw_col">
+        <div class="cnw_col cnw_btn-search--holder">
             <button type="submit" class="cnw_btn cnw_btn-search">{{ settings_general.button_label }}</button>
         </div>
     </div>
