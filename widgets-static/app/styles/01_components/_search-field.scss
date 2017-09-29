@@ -10,3 +10,27 @@
 
 }
 
+.cnw_sideCol .cnw_form--extended {
+  .cnw_row {
+    .cnw_col {
+      flex-basis: unset;
+    }
+  }
+}
+
+html .cnw_w label {
+  display: block;
+}
+
+.cnw_btn-search--holder {
+  text-align: right;
+}
+
+.cnw_form-check {
+  margin-bottom: 1.5rem;
+  .cnw_form-check--label {
+    display: block;
+    margin-bottom: 0.7rem;
+  }
+
+}
