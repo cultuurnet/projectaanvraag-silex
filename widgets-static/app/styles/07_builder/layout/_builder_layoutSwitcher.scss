@@ -1,0 +1,178 @@
+
+.preview-col {
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.lg {
+  width: 100%; }
+
+.md-2 {
+  width: 70%; }
+
+.sm-2 {
+  width: 30%; }
+
+.xs-3 {
+  width: 25%; }
+
+.md-3 {
+  width: 50%; }
+
+
+
+
+.desktop {
+  .preview-inner {
+    width: 96%;
+  }
+}
+
+  .mobile {
+    .preview-inner {
+      width: 320px;
+    }
+  }
+
+  .tablet {
+    .preview-inner {
+      width: 768px;
+    }
+  }
+
+  .mobile {
+    .xs,
+    .sm,
+    .md,
+    .lg,
+    .md-2,
+    .sm-2,
+    .xs-3,
+    .md-3 {
+      width: 100%; }
+  }
+
+
+.builder--edit-modus {
+
+  .lg .selected .inner-preview-wrapper {
+    width: 100%;
+  }
+
+  .md-2 .selected .inner-preview-wrapper {
+    width: 70%;
+  }
+
+  .sm-2 .selected .inner-preview-wrapper {
+    width: 30%;
+  }
+
+  .xs-3 .selected .inner-preview-wrapper {
+    width: 25%;
+  }
+
+  .md-3 .selected .inner-preview-wrapper {
+    width: 50%;
+  }
+
+  .selected .inner-preview-wrapper {
+    margin: 0 auto;
+  }
+}
+
+                   /*
+
+                   !* *!
+                   .w-label {
+                     font-size: 110%;
+                     font-weight: bold;
+                     display: block; }
+
+                   .w-textfield {
+                     display: block;
+                     width: 100%;
+                     margin: 0 auto;
+                     padding: 5px 10px;
+                     line-height: 1.42857143; }
+
+                   .w-select {
+                     display: block;
+                     width: 100%;
+                     margin: 0 auto;
+                     padding: 5px 10px;
+                     background-color: #fff;
+                     background-image: none;
+                     border: 1px solid #ccc;
+                     border-radius: 4px;
+                     height: 34px; }
+
+                   .w-group {
+                     margin-bottom: 10px; }
+
+                   .w-checkbox label,
+                   .w-radio label {
+                     min-height: 20px;
+                     padding-left: 20px;
+                     margin-bottom: 0;
+                     cursor: pointer; }
+                   .w-checkbox label input[type=checkbox],
+                   .w-checkbox label input[type=radio],
+                   .w-radio label input[type=checkbox],
+                   .w-radio label input[type=radio] {
+                     position: absolute;
+                     margin-top: 4px;
+                     margin-left: -20px; }
+
+                   .tablet .lg .sections-3 .w-section,
+                   .tablet .md .sections-3 .w-section, .desktop .lg .sections-3 .w-section,
+                   .desktop .md .sections-3 .w-section {
+                     width: 33%;
+                     float: left;
+                     padding: 0 5px; }
+                   .tablet .lg .sections-4 .w-section,
+                   .tablet .md .sections-4 .w-section, .desktop .lg .sections-4 .w-section,
+                   .desktop .md .sections-4 .w-section {
+                     width: 25%;
+                     float: left;
+                     padding: 0 5px; }
+
+                   .w-searchbox {
+                     display: inline-block;
+                     width: 100%; }
+
+                   .w-searchbox header,
+                   .w-searchbox footer {
+                     clear: both;
+                     width: 100%; }
+
+                   .w-searchbutton {
+                     width: 100% !important;
+                     clear: both;
+                     display: block;
+                     text-align: right; }
+
+                   */
+
+                 .device-switcher {
+                   text-align: center;
+                   margin-right: 30px;
+
+                   .btn--device-switcher {
+                     width: 44px;
+                     background-color: $cnw_color-blueLight;
+                     &.active {
+                       background-color: darken( $cnw_color-blueLight, 10);
+                     }
+                   }
+                   span {
+                     display: none;
+                   }
+
+                   span {
+                     display: none;
+                   }
+                 }
+

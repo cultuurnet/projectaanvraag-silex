@@ -1,0 +1,178 @@
+
+.components-add,
+.layouts-add {
+  margin-top: 40px;
+  background-color: transparent;
+  padding: 15px;
+  transition: all 0.5s ease;
+  text-align: center;
+  cursor: pointer;
+}
+
+.layouts-add {
+  margin-top: 10px;
+  padding: 0;
+}
+
+.btn-add {
+  display: block;
+  margin: -30px auto 0 auto;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  background-color: #004F94;
+  color: #FFF;
+  border: 0px solid #FFF;
+  position: relative;
+  transition: all 0.5s ease;
+  outline: 0;
+}
+
+.btn-add:hover {
+  background-color: #003461;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  transform: translate(0, -4px);
+}
+
+.btn-layout {
+  border-radius: 15px;
+  background-color: #004F94;
+  color: #FFF;
+  border: 0px solid #FFF;
+  position: relative;
+  transition: all 0.5s ease;
+  outline: 0;
+}
+
+.btn-layout:hover {
+  background-color: #003461;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  transform: translate(0, -4px);
+}
+
+@mixin addWidgetComponentButton() {
+
+  .btn {
+    width: 100%;
+
+    background-color: #f9fcff;
+    border: 1px dashed gray;
+    color: gray;
+    text-transform: uppercase;
+
+    padding: 1rem 0.5rem 0.8rem 1rem;
+    line-height: 2rem;
+    &:focus, &.focus {
+      outline: none;
+      box-shadow: none;
+    }
+    .fa {
+      float: left;
+    }
+  }
+}
+
+.builder--wrapper {
+  .sidebar {
+    .btn-cnw-filtergroup--add {
+      margin: 1rem auto;
+      width: 100%;
+
+      background-color: #f9fcff;
+      border: 1px dashed gray;
+      color: gray;
+      text-transform: uppercase;
+
+      &.btn-sm {
+        padding: 0.5rem;
+      }
+
+      &:hover {
+        background-color: $cnw_color-blueHeader;
+        border-color: $cnw_color-blueHeader;
+        color: white;
+        cursor: pointer;
+      }
+      &:disabled {
+        background-color: #ffffff;
+        border-color: #bcc8d0;
+        color: #dde2e6;
+        cursor: not-allowed;
+
+      }
+
+      .fa {
+        float: left;
+      }
+    }
+  }
+
+  .row-add,
+  .component-add {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    cursor: pointer;
+
+    @include addWidgetComponentButton();
+
+    .dropdown-menu {
+      width: 100%;
+      top: inherit;
+    }
+
+    .dropup.show {
+      .dropdown-item {
+        border-bottom: 1px solid #EDEDED;
+        &:last-child {
+          border: 0;
+        }
+      }
+      .btn {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        background-color: $cnw_color-blueHeader;
+        border-color: $cnw_color-blueHeader;
+        z-index: 40;
+        position: relative;
+        color: white;
+      }
+      .dropdown-menu {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-top: 0;
+        bottom: 205%
+      }
+
+      .btn, .btn-primary:focus, .btn-primary.focus {
+        outline: none;
+        box-shadow: none;
+      }
+
+    }
+
+    .dropdown.show {
+      .dropdown-item {
+        border-bottom: 1px solid #EDEDED;
+        &:last-child {
+          border: 0;
+        }
+      }
+      .btn {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        background-color: $cnw_color-blueHeader;
+        border-color: $cnw_color-blueHeader;
+        z-index: 40;
+        position: relative;
+      }
+      .dropdown-menu {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        margin-top: 0;
+      }
+    }
+
+  }
+
+}

@@ -1,0 +1,46 @@
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #111;
+}
+
+*, .fa {
+  -webkit-font-smoothing: antialiased;
+}
+
+.block-title {
+  color: #222;
+  font-weight: bold;
+}
+
+.loader {
+  font-size: 80px;
+  text-align: center;
+}
+
+// Angular ng-hide has problem with fontawesome animations (it only hides them after x seconds). Add important.
+.ng-hide {
+  display: none !important;
+}
+
+.well {
+  background-color: #FFF;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 0;
+  color: #777;
+
+  h4 {
+    color: #004F94;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+}

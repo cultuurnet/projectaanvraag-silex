@@ -1,0 +1,27 @@
+.topnav-acties {
+  margin-right: 1rem;
+  a, .btn {
+    color: $cnw_color-blueHeader;
+  }
+
+}
+
+.btn.topnav-acties--user{
+  border: 1px solid #d5dde4;
+  background-color: white;
+}
+
+.fixed-top {
+  box-shadow: 0px 4px 0px 0px rgba(213, 226, 236, 0.69);
+}
+
+
+
+.builder--edit-modus .btn--css {
+ opacity: 0.2;
+}
+
+app-widgetbuilder-toolbar {
+  width: 100%;
+  display: block;
+}

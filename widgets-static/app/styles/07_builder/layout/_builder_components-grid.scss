@@ -1,0 +1,31 @@
+.outer-row {
+
+  padding: 5px;
+  position: relative;
+  border: 1px dotted #ccc;
+  margin-bottom: 1rem;
+}
+
+
+.page {
+  position: relative;
+}
+
+.preview {
+
+  padding-bottom: 100px;
+  transition: all 0.2s;
+  border-right: 1px solid #e0e0e0;
+}
+
+.preview-inner {
+  padding: 5px;
+  margin: 0 auto;
+  transition: all 1s;
+}
+
+
+
+.row-add {
+  margin: 5px 0;
+  display: inline-block; }
