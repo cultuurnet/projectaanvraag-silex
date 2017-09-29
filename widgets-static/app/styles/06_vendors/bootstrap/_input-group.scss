@@ -2,7 +2,7 @@
 // Base styles
 //
 
-.input-group {
+.cnw_input-group {
   position: relative;
   display: flex;
   width: 100%;
@@ -25,9 +25,9 @@
   }
 }
 
-.input-group-addon,
-.input-group-btn,
-.input-group .form-control {
+.cnw_input-group-addon,
+.cnw_input-group-btn,
+.cnw_input-group .cnw_form-control {
   // Vertically centers the content of the addons within the input group
   display: flex;
   flex-direction: column;
@@ -38,8 +38,8 @@
   }
 }
 
-.input-group-addon,
-.input-group-btn {
+.cnw_input-group-addon,
+.cnw_input-group-btn {
   white-space: nowrap;
   vertical-align: middle; // Match the inputs
 }
@@ -50,15 +50,15 @@
 // Remix the default form control sizing classes into new ones for easier
 // manipulation.
 
-.input-group-lg > .form-control,
-.input-group-lg > .input-group-addon,
-.input-group-lg > .input-group-btn > .btn {
-  @extend .form-control-lg;
+.cnw_input-group-lg > .cnw_form-control,
+.cnw_input-group-lg > .cnw_input-group-addon,
+.cnw_input-group-lg > .cnw_input-group-btn > .btn {
+  @extend .cnw_form-control-lg;
 }
-.input-group-sm > .form-control,
-.input-group-sm > .input-group-addon,
-.input-group-sm > .input-group-btn > .btn {
-  @extend .form-control-sm;
+.cnw_input-group-sm > .cnw_form-control,
+.cnw_input-group-sm > .cnw_input-group-addon,
+.cnw_input-group-sm > .cnw_input-group-btn > .btn {
+  @extend .cnw_form-control-sm;
 }
 
 
@@ -66,7 +66,7 @@
 // Text input groups
 //
 
-.input-group-addon {
+.cnw_input-group-addon {
   padding: $input-padding-y $input-padding-x;
   margin-bottom: 0; // Allow use of <label> elements by overriding our default margin-bottom
   font-size: $font-size-base; // Match inputs
@@ -79,12 +79,12 @@
   @include border-radius($input-border-radius);
 
   // Sizing
-  &.form-control-sm {
+  &.cnw_form-control-sm {
     padding: $input-padding-y-sm $input-padding-x-sm;
     font-size: $font-size-sm;
     @include border-radius($input-border-radius-sm);
   }
-  &.form-control-lg {
+  &.cnw_form-control-lg {
     padding: $input-padding-y-lg $input-padding-x-lg;
     font-size: $font-size-lg;
     @include border-radius($input-border-radius-lg);
@@ -104,28 +104,28 @@
 // Reset rounded corners
 //
 
-.input-group .form-control:not(:last-child),
-.input-group-addon:not(:last-child),
-.input-group-btn:not(:last-child) > .btn,
-.input-group-btn:not(:last-child) > .btn-group > .btn,
-.input-group-btn:not(:last-child) > .dropdown-toggle,
-.input-group-btn:not(:first-child) > .btn:not(:last-child):not(.dropdown-toggle),
-.input-group-btn:not(:first-child) > .btn-group:not(:last-child) > .btn {
+.cnw_input-group .cnw_form-control:not(:last-child),
+.cnw_input-group-addon:not(:last-child),
+.cnw_input-group-btn:not(:last-child) > .cnw_btn,
+.cnw_input-group-btn:not(:last-child) > .cnw_btn-group > .cnw_btn,
+.cnw_input-group-btn:not(:last-child) > .cnw_dropdown-toggle,
+.cnw_input-group-btn:not(:first-child) > .cnw_btn:not(:last-child):not(.cnw_dropdown-toggle),
+.cnw_input-group-btn:not(:first-child) > .cnw_btn-group:not(:last-child) > .cnw_btn {
   @include border-right-radius(0);
 }
-.input-group-addon:not(:last-child) {
+.cnw_input-group-addon:not(:last-child) {
   border-right: 0;
 }
-.input-group .form-control:not(:first-child),
-.input-group-addon:not(:first-child),
-.input-group-btn:not(:first-child) > .btn,
-.input-group-btn:not(:first-child) > .btn-group > .btn,
-.input-group-btn:not(:first-child) > .dropdown-toggle,
-.input-group-btn:not(:last-child) > .btn:not(:first-child),
-.input-group-btn:not(:last-child) > .btn-group:not(:first-child) > .btn {
+.cnw_input-group .form-control:not(:first-child),
+.cnw_input-group-addon:not(:first-child),
+.cnw_input-group-btn:not(:first-child) > .cnw_btn,
+.cnw_input-group-btn:not(:first-child) > .cnw_btn-group > .cnw_btn,
+.cnw_input-group-btn:not(:first-child) > .cnw_dropdown-toggle,
+.cnw_input-group-btn:not(:last-child) > .cnw_btn:not(:first-child),
+.cnw_input-group-btn:not(:last-child) > .cnw_btn-group:not(:first-child) > .cnw_btn {
   @include border-left-radius(0);
 }
-.form-control + .input-group-addon:not(:first-child) {
+.cnw_form-control + .cnw_input-group-addon:not(:first-child) {
   border-left: 0;
 }
 
@@ -133,7 +133,7 @@
 // Button input groups
 //
 
-.input-group-btn {
+.cnw_input-group-btn {
   position: relative;
   // Jankily prevent input button groups from wrapping with `white-space` and
   // `font-size` in combination with `inline-block` on buttons.
@@ -142,12 +142,12 @@
 
   // Negative margin for spacing, position for bringing hovered/focused/actived
   // element above the siblings.
-  > .btn {
+  > .cnw_btn {
     position: relative;
     // Vertically stretch the button and center its content
     flex: 1;
 
-    + .btn {
+    + .cnw_btn {
       margin-left: (-$input-btn-border-width);
     }
 
@@ -159,14 +159,14 @@
 
   // Negative margin to only have a single, shared border between the two
   &:not(:last-child) {
-    > .btn,
-    > .btn-group {
+    > .cnw_btn,
+    > .cnw_btn-group {
       margin-right: (-$input-btn-border-width);
     }
   }
   &:not(:first-child) {
-    > .btn,
-    > .btn-group {
+    > .cnw_btn,
+    > .cnw_btn-group {
       z-index: 2;
       margin-left: (-$input-btn-border-width);
       // Because specificity
