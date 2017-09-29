@@ -4,7 +4,7 @@
 // Base styles
 //
 
-.btn {
+.cnw_btn {
   display: inline-block;
   font-weight: $btn-font-weight;
   line-height: $btn-line-height;
@@ -42,7 +42,7 @@
 }
 
 // Future-proof disabling of clicks on `<a>` elements
-a.btn.disabled,
+a.cnw_btn.disabled,
 fieldset[disabled] a.btn {
   pointer-events: none;
 }
@@ -51,53 +51,53 @@ fieldset[disabled] a.btn {
 //
 // Alternate buttons
 //
-
-.btn-primary {
+/*
+.cnw_btn-primary {
   @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
 }
-.btn-secondary {
+.cnw_btn-secondary {
   @include button-variant($btn-secondary-color, $btn-secondary-bg, $btn-secondary-border);
 }
-.btn-info {
+.cnw_btn-info {
   @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
 }
-.btn-success {
+.cnw_btn-success {
   @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
 }
-.btn-warning {
+.cnw_btn-warning {
   @include button-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border);
 }
-.btn-danger {
+.cnw_btn-danger {
   @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }
 
 // Remove all backgrounds
-.btn-outline-primary {
+.cnw_btn-outline-primary {
   @include button-outline-variant($btn-primary-bg);
 }
-.btn-outline-secondary {
+.cnw_btn-outline-secondary {
   @include button-outline-variant($btn-secondary-border);
 }
-.btn-outline-info {
+.cnw_btn-outline-info {
   @include button-outline-variant($btn-info-bg);
 }
-.btn-outline-success {
+.cnw_btn-outline-success {
   @include button-outline-variant($btn-success-bg);
 }
-.btn-outline-warning {
+.cnw_btn-outline-warning {
   @include button-outline-variant($btn-warning-bg);
 }
-.btn-outline-danger {
+.cnw_btn-outline-danger {
   @include button-outline-variant($btn-danger-bg);
 }
 
-
+*/
 //
 // Link buttons
 //
-
+/*
 // Make a button look and behave like a link
-.btn-link {
+.cnw_btn-link {
   font-weight: $font-weight-normal;
   color: $link-color;
   border-radius: 0;
@@ -131,16 +131,16 @@ fieldset[disabled] a.btn {
   }
 }
 
-
+*/
 //
 // Button Sizes
 //
 
-.btn-lg {
+.cnw_btn-lg {
   // line-height: ensure even-numbered height of button next to large input
   @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $font-size-lg, $btn-border-radius-lg);
 }
-.btn-sm {
+.cnw_btn-sm {
   // line-height: ensure proper height of button next to small input
   @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, $btn-border-radius-sm);
 }
@@ -150,13 +150,13 @@ fieldset[disabled] a.btn {
 // Block button
 //
 
-.btn-block {
+.cnw_btn-block {
   display: block;
   width: 100%;
 }
 
 // Vertically space out multiple block buttons
-.btn-block + .btn-block {
+.cnw_btn-block + .cnw_btn-block {
   margin-top: $btn-block-spacing-y;
 }
 
@@ -164,7 +164,7 @@ fieldset[disabled] a.btn {
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
-  &.btn-block {
+  &.cnw_btn-block {
     width: 100%;
   }
 }
