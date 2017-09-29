@@ -8,25 +8,25 @@
 
 .cnw_page-item {
   &:first-child {
-    .page-link {
+    .cnw_page-link {
       margin-left: 0;
       @include border-left-radius($border-radius);
     }
   }
   &:last-child {
-    .page-link {
+    .cnw_page-link {
       @include border-right-radius($border-radius);
     }
   }
 
-  &.active .page-link {
+  &.active .cnw_page-link {
     z-index: 2;
     color: $pagination-active-color;
     background-color: $pagination-active-bg;
     border-color: $pagination-active-border;
   }
 
-  &.disabled .page-link {
+  &.disabled .cnw_page-link {
     color: $pagination-disabled-color;
     pointer-events: none;
     cursor: $cursor-disabled; // While `pointer-events: none` removes the cursor in modern browsers, we provide a disabled cursor as a fallback.
