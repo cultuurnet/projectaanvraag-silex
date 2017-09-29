@@ -7,13 +7,12 @@
                         <!--  results - CARD  START -->
                         <div class="cnw_searchresult--block">
                             {% if settings_items.image.enabled %}
-                                <div class="cnw_col-12">
+
                                     <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
-                                </div>
                             {% endif %}
 
-                            <div class="cnw_col-12">
-                                <div class="card-block ">
+
+                                <div class="cnw_card-block ">
                                     <h3 class="cnw_card-title">{{ event.name }}</h3>
                                     <span class="cnw_stickers ">
                                         {% if settings_items.icon_vlieg.enabled and event.vlieg %}
@@ -31,7 +30,7 @@
                                         <dt class="cnw_col-3">{{ settings_items.description.label }}</dt>
                                         <dd class="cnw_col-9">{{ event.description }}</dd>
                                     {% else %}
-                                        <p class="cnw_card-description">{{ event.description }}</p>
+                                        <p class="cnw_card-description--tips">{{ event.description }}</p>
                                     {% endif %}
                                     {% endif %}
                                     <dl class="cnw_row">
@@ -61,7 +60,7 @@
                                         {% endif %}
 
                                         {% if event.labels %}
-                                            <div class="cnw_card-labels">
+                                            <div class="cnw_col cnw_card-labels">
                                                 {{ event.labels|join(', ') }}
                                             </div>
                                         {% endif %}
@@ -72,7 +71,7 @@
                                     {% endif %}
 
                                 </div>
-                            </div>
+
                         </div>
                         <!--  results - CARD  END -->
                     </div>
