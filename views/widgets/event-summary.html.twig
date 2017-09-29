@@ -1,15 +1,14 @@
 <!--  results - CARD  START -->
-<div class="cnw_searchresult--block  cnw_row">
-    <div class="cnw_col-3">
-        {% if settings_items.image.enabled %}
 
+<div class="cnw_searchresult--block  cnw_row ">
+    {% if settings_items.image.enabled %}
+    <div class="cnw_col-3 {% if settings_items.image.position == 'right' %} cnw_flex-last {% endif %}">
                 <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
-
-        {% endif %}
     </div>
+    {% endif %}
 
-    <div class="cnw_col-9">
-        <div class="card-block ">
+    <div class="{% if settings_items.image.enabled %}cnw_col-9 {% else %} cnw_col-12{% endif %}">
+        <div class="cnw_card-block ">
             <h3 class="cnw_card-title">{{ event.name }}</h3>
             <span class="cnw_stickers ">
                 {% if settings_items.icon_vlieg.enabled %}
@@ -53,12 +52,17 @@
 
                 {% if settings_items.language_icons.enabled and event.language_icons %}
                     <dt class="cnw_col-3">Taaliconen</dt>
-                    <dd class="cnw_col-9">{{ event.language_icons }}</dd>
+                    <dd class="cnw_col-9">{{ event.language_icons | raw }}
+                    </dd>
                 {% endif %}
 
                 {% if event.labels %}
-                    <div class="cnw_card-labels">
-                        {{ event.labels|join(', ') }}
+                    <div class="cnw_card-labels cnw_col">
+
+                        {%  for label in event.labels %}
+                            <span class="cnw_search-result-tags-item">{{ label }}</span>
+                        {% endfor %}
+
                     </div>
                 {% endif %}
             </dl>
