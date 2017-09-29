@@ -123,13 +123,7 @@ html .cnw_w {
   //
 
   a {
-    color: $link-color;
-    text-decoration: $link-decoration;
 
-    @include hover-focus {
-      color: $link-hover-color;
-      text-decoration: $link-hover-decoration;
-    }
   }
 
   // And undo these styles for placeholder links/named anchors (without href)
