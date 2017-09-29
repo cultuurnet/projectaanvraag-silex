@@ -1,4 +1,5 @@
 .cnw_img_responsive {
   @include img-fluid;
-  width: 100%;
+   width: 100%;
+  margin-bottom: 1.5rem;
 }
