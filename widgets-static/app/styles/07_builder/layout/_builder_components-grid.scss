@@ -22,6 +22,7 @@
   padding: 5px;
   margin: 0 auto;
   transition: all 1s;
+  background-color: white;
 }
 
 
@@ -29,3 +30,9 @@
 .row-add {
   margin: 5px 0;
   display: inline-block; }
+
+
+html .cnw_w {
+  width: 100%;
+  background-color: transparent;
+}

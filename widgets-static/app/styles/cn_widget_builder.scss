@@ -22,9 +22,14 @@ $font-family-sans-serif: "Open Sans";
 @import "07_builder/components/messages";
 @import "07_builder/components/modal";
 @import "07_builder/layout/builder_layoutSwitcher";
+@import "07_builder/components/page-list";
+
+
+// @import "06_vendors/cn_projectaanvraag.scss";
+
   body {
     font-size:0.8rem;
-    font-family:$font-family-base;
+    font-family:$font-family-sans-serif;
   }
 
   // disable all scroll
@@ -32,6 +37,7 @@ $font-family-sans-serif: "Open Sans";
 
 
 
-  @import "06_vendors/cultuurnet.css";
+
+
 
 

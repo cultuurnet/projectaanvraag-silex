@@ -69,6 +69,7 @@
   ul.actions-list {
     min-height: 36px;
     padding-top: 3px;
+    margin-bottom: 0;
   }
 }
 
@@ -94,11 +95,20 @@
     float: right;
   }
 
+  &.bnt-cnw-action--instellingen {
+    background-color: #66addc;
+    color: white;
+
+  }
+
   &.bnt-cnw-action--loading {
     background-color: transparent;
   }
+
+
   &.bnt-cnw-action--drag {
     cursor: grab;
+    background-color: #e4c448;
   }
 
   &:hover {

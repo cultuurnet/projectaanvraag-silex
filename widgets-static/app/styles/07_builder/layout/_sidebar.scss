@@ -8,6 +8,7 @@
   transition: all 0.2s;
 
   background-color: #f1f1f1;
+  background-color: #fff;
 
   border-left: 1px solid $cnw_color-grayLight;
   height: auto;
@@ -151,13 +152,17 @@
   border-right: 0px;
 }
 
+.btn--publicing,
 .btn--stop-editing {
-  background-color: yellow;
+  color: #fff;
+  background: #5cb85c;
 }
 
 
 
 .builder--edit-modus .sidebar {
   animation: slide-in-right 0.3s cubic-bezier(0.770, 0.000, 0.175, 1.000) both;
+  -webkit-box-shadow: 22px -22px 13px 26px rgba(100, 108, 115, 0.69);
+  box-shadow: 22px -22px 13px 26px rgba(100, 108, 115, 0.69);
 
 }

@@ -3,6 +3,7 @@
   padding: 2%;
   margin: 20px auto;
   background-color: white;
+  box-shadow: 5px 3px 8px 1px #646c73;
 }
 .preview {
 
@@ -22,6 +23,10 @@
       .cnw_col-#{$i} {
         @include make-col(12);
       }
+    }
+
+    .cnw_col {
+      flex-basis: auto;
     }
     .cnw_form {
       div[class*='cnw_col-'],
