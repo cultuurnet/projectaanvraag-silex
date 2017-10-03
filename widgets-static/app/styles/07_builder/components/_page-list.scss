@@ -56,6 +56,9 @@
       background-color: #004F94;
       color: #FFF;
       transition: all .15s ease-out;
+      cursor: pointer;
+      text-decoration: none;
+
     }
 
     &.btn-link--remove {
@@ -72,25 +75,38 @@
     color: #fff;
   }
 
+
+}
+.clipboard-group {
   .btn-copy-clipboard {
     line-height: inherit;
     border-radius: 0.25rem;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    background-color: #337ab7;
+    background-color: #fff;
+    border-color: #dadada;
+    color: #dadada;
+    .fa {
+      color: #004F92;
+    }
 
     &:hover {
       background-color: #004F94;
+      .fa {
+        color: #fff;
+      }
     }
-    color: white;
 
     &.btn-success {
       background-color: #449d44;
       border-color: #449d44;
+      color: #fff;
+      .fa {
+        color: #fff;
+      }
     }
   }
 }
-
 
 
 .page-template {
