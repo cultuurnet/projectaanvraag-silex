@@ -1,0 +1,70 @@
+.topnav-acties {
+  margin-right: 1rem;
+  a, .btn {
+    color: $cnw_color-blueHeader;
+  }
+  .btn {
+    border-radius: 2px !important;
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+
+}
+
+.btn.topnav-acties--user{
+  border: 1px solid #d5dde4;
+  background-color: white;
+}
+
+
+.page-title  {
+
+  h4 {
+    float: left;
+    font-weight: 300;
+    line-height: 1.9rem;
+  }
+
+
+  .btn {
+    color: #FFF;
+
+    border-radius: 50%;
+    background-color: #b6c4d0;
+    padding: 2px;
+    margin: 5px;
+    border: 0px;
+    margin-left: 15px;
+    width: 1.6rem;
+    height: 1.6rem;
+
+
+    &:hover {
+      box-shadow: 1px 1px 1px 1px #d4d4d4;
+      cursor: pointer;
+
+    }
+    .fa {
+      color: white;}
+  }
+}
+
+
+
+  .fixed-top {
+    box-shadow: 0px 4px 0px 0px rgba(213, 226, 236, 0.69);
+  }
+
+
+
+  .builder--edit-modus .btn--css {
+    opacity: 0.2;
+  }
+
+  app-widgetbuilder-toolbar {
+    width: 100%;
+    display: block;
+  }

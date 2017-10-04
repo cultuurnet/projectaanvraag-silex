@@ -1,0 +1,163 @@
+
+.cnw_container-fluid {
+  // @include make-container()
+}
+
+.cnw_container {
+   @include make-container()
+}
+
+.cnw_row {
+  @include make-row();
+}
+
+.cnw_col-2 {
+  @include make-col-ready();
+  @include make-col(2);
+
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+.cnw_col-3 {
+  @include make-col-ready();
+  @include make-col(3);
+
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+.cnw_col-4 {
+  @include make-col-ready();
+  @include make-col(4);
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+.cnw_col-5 {
+  @include make-col-ready();
+  @include make-col(5);
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+.cnw_col-6 {
+  @include make-col-ready();
+  @include make-col(6);
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+
+.cnw_col-7 {
+  @include make-col-ready();
+  @include make-col(7);
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+
+.cnw_col-8 {
+  @include make-col-ready();
+  @include make-col(8);
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+.cnw_col-9 {
+  @include make-col-ready();
+  @include make-col(9);
+  @include media-breakpoint-down(xs) {
+    @include make-col(12);
+  }
+}
+
+.cnw_col-12 {
+  @include make-col-ready();
+  @include make-col(12);
+
+}
+
+.cnw_col {
+  @include make-col-ready();
+
+  -webkit-flex-basis: 0;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+
+
+  flex-grow: 1;
+  max-width: 100%;
+
+}
+
+.cnw_sideCol {
+  //border:1px solid blue;
+  div[class*='cnw_col-'],
+  .cnw_col {
+    flex-basis: auto;
+    width: 100%;
+   // border:1px solid orange;
+  }
+}
+
+
+.cnw_form_header,
+.cnw_form_footer {
+  padding:1.5rem 0;
+}
+
+
+
+@media (max-width: 1018px) {
+
+ .cnw_center .cnw_searchresult--block {
+    //border:1px solid blue;
+    div[class*='cnw_col-'],
+    .cnw_col {
+      flex-basis: unset;
+      max-width: 100%;
+
+    }
+  }
+}
+
+.cnw_flex-last {
+  -webkit-box-ordinal-group: 2;
+  -ms-flex-order: 1;
+  order: 1;
+}
+
+@include media-breakpoint-up(xs) {
+  .cnw_flex-md-last {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+
+  .cnw_clips .cnw_col {
+    flex-basis: unset;
+  }
+
+}
+
+@include media-breakpoint-down(xs) {
+  .cnw_flex-md-last {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+  }
+}

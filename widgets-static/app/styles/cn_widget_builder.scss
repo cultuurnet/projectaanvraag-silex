@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+$font-family-sans-serif: "Open Sans";
+
+
+@import "cn_widget_styling";
+
+
+//  CNW builder styles
+@import "07_builder/layout/builder_components-grid";
+
+@import '07_builder/helper/keyframes';
+//@import "02_layout/header";
+@import "06_vendors/projectaanvraag/base/footer";
+@import "07_builder/helper/cnwBuilder-mixins";
+@import "07_builder/layout/preview--layout";
+@import "07_builder/layout/sidebar";
+@import "07_builder/components/builder_components";
+@import "07_builder/components/topnav";
+@import "07_builder/components/edit-searchfilters";
+@import "07_builder/components/action-bar";
+@import "07_builder/components/addComponent--buttons";
+@import "07_builder/components/messages";
+@import "07_builder/components/modal";
+@import "07_builder/layout/builder_layoutSwitcher";
+@import "07_builder/components/page-list";
+
+
+// @import "06_vendors/cn_projectaanvraag.scss";
+
+  body {
+    font-size:0.8rem;
+    font-family:$font-family-sans-serif;
+  }
+
+  // disable all scroll
+  html, body {margin: 0; height: 100%; }
+
+
+
+
+
+
+

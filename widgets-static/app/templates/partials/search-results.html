@@ -1,0 +1,111 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Search form</title>
+
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="../../styles/main.css">
+
+    <link rel="stylesheet" href="/../../css/nonCompiled.css">
+
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+</head>
+<body>
+
+
+    <div class="cnw_w">
+        <div class="cnw_container-fluid">
+            <div id="loadcontent">
+
+            <div class="cnw_row">
+
+                <!--  facetedSearch  START -->
+                <div class="cnw_searchresult__facetedSearch">
+                    <!--  je zocht op  START -->
+                    <div class="cnw_searchresult__selectedSearchFilters cnw_container-fluid">
+                        <p>Je zocht op :
+                            <button type="button" class="cnw_close cnw_btn--zoekresult" aria-label="Close">
+                                Zoekresult1
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                            <button type="button" class="cnw_close cnw_btn--zoekresult" aria-label="Close">
+                                Zoekresult2
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </p>
+                    </div>
+
+
+                    <!-- ZoekOpties  START -->
+                    <form>
+                        <div class="cnw_searchresult__options cnw_container-fluid">
+                            <div class="cnw_row">
+                                <div class="cnw_col">
+                                    <div class="cnw_form-check ">
+                                        <label class="cnw_form-check-label">
+                                            <input type="checkbox" class="cnw_form-check-input">
+                                            Verbeg langlopende reeksen
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="cnw_col">
+                                    <div class="cnw_form-check ">
+                                        <label class="cnw_form-check-label">
+                                            <input type="checkbox" class="cnw_form-check-input">
+                                            Verberg permantente bezienswaardigheden
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- ZoekOpties  END -->
+
+                    <!--  facetedSearch  END -->
+
+                    <!--  searchWords  START -->
+                    <div class="cnw_searchresult__searchwords">
+                        <p>Je zocht op <span class="cnw_searchresult__searchword">Zoekwoord</span></p>
+                    </div>
+                    <!--  searchWords END -->
+
+
+                    <!--  counter  START -->
+                    <div class="cnw_searchresult__counter">
+                        <p><span class="cnw_searchresult__counter-total">4545454545</span> resultaten gevonden</p>
+                    </div>
+                    <!--  counter END -->
+
+
+                    <!--  results  START -->
+                    <div class="load" data-path="templates/partials/search_result-card.html" data-amount="5"></div>
+                    <!--  results  END -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/tether/dist/js/tether.js"></script>
+<script src="/bower_components/modernizr/modernizr.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js scripts/main.js -->
+<script src="/scripts/main.js"></script>
+<!-- endbuild -->
+</body>
+</html>

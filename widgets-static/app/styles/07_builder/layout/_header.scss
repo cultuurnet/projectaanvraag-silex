@@ -1,0 +1,43 @@
+header {
+  height:$cnw_header-height;
+  line-height: 1;
+  background-color: #f3f3f3;
+  text-align: center;
+
+  .header-background {
+    background-image: url("../assets/images/header-image.png");
+    background-repeat: repeat-x;
+    background-position: center center;
+    background-size: auto 100%;
+    width: 100%;
+    padding-top: $cnw_header-height;
+  }
+
+  .header-content {
+    padding: 1em;
+
+    .row {
+     // position: relative;
+
+      h1 {
+        font-size: 2em;
+        font-weight: 600;
+        color: $cnw_color-blueHeader;
+        margin: 20px 0;
+      }
+
+      p {
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.2em;
+        color: $cnw_color-blueLight;
+      }
+
+      .btn-group {
+        position: absolute;
+        right: 15px;
+        top: 20px;
+      }
+    }
+  }
+}

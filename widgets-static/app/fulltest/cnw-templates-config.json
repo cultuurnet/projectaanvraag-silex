@@ -1,0 +1,117 @@
+{
+  "layouts": {
+    "path": "templates/layouts",
+    "elements": {
+      "single": {
+        "path": "grid-singleBox.html",
+        "name": "center",
+        "regions" : ["center"]
+      },
+      "rightSidebar": {
+        "path": "grid-rightSidebar.html",
+        "name": "Right",
+        "regions" : ["center", "right"]
+      },
+      "leftSidebar": {
+        "path": "grid-leftSidebar.html",
+        "name": "Left",
+        "regions" : ["left", "center"]
+      },
+      "LeftRightSidebar": {
+        "path": "grid-TwoSidebars.html",
+        "name": "Left - center -  right ",
+        "regions" : ["left", "center", "right"]
+      },
+      "spacer": {
+        "path": "",
+        "name": "-- with Headers -- ",
+        "regions" : [""]
+      },
+      "header": {
+        "path": "grid-header.html",
+        "name": "Header",
+        "regions" : ["header"]
+      },
+      "headerRightSidebar": {
+        "path": "grid-header_rightSidebar.html",
+        "name": "header + center - right",
+        "regions" : ["header", "center", "right"]
+      },
+      "headerLeftSidebar": {
+        "path": "grid-header_leftSidebar.html",
+        "name": "header + Left - center",
+        "regions" : ["header", "left", "center"]
+      },
+
+      "headerLeftRightSidebar": {
+        "path": "grid-header-twoSidebars.html",
+        "name": "Header  + left - center - right",
+        "regions" : ["header", "left", "center", "right"]
+      }
+    }
+  },
+
+  "partials" : {
+   "path" : "templates/partials",
+    "elements": {
+      "searchForm": {
+        "path": "search-form.html",
+        "name": "Simpel search form"
+      },
+      "searchFormExtended": {
+        "path": "search-form_extended.html",
+        "name": "Extended search form"
+      },
+      "sp1": {
+        "path": "",
+        "name": "-- Faceted search -- ",
+        "regions" : [""]
+      },
+      "facetedSearchLinks": {
+        "path": "search_facetedSearch-link.html",
+        "name": "Faceted Search Links"
+      },
+      "sp2": {
+        "path": "",
+        "name": "-- results -- ",
+        "regions" : [""]
+      },
+      "resultCard": {
+        "path": "search_result-card.html",
+        "name": "Result Card"
+      },
+      "resultCards": {
+        "path": "search_result-tips.html",
+        "name": "Result Cards (tips)"
+      },
+      "detail": {
+        "path": "search_detail-result.html",
+        "name": "Detail"
+      },
+
+      "fullSearchResultsdetail": {
+        "path": "search-results.html",
+        "name": "Full search result"
+      },
+      "sp3": {
+        "path": "",
+        "name": "-- components -- "
+      },
+      "resultPagination": {
+        "path": "search_result-pagination.html",
+        "name": "pagination"
+      },
+      "resultOptions": {
+        "path": "search_result-options.html",
+        "name": "result Options"
+      },
+      "resultCounter": {
+        "path": "search_result-counter.html",
+        "name": "result Counter"
+      }
+
+
+    }
+  }
+
+}

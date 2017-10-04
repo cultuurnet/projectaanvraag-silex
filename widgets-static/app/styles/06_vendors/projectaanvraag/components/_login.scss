@@ -1,0 +1,46 @@
+.login {
+  text-align: center;
+  margin-bottom: 30px;
+
+  .login-lead {
+    @extend .lead;
+    max-width: 720px;
+    margin: 0 auto 20px auto;
+    font-size: 22px;
+    font-weight: 100;
+  }
+}
+
+.integration-title {
+  margin: 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.integration-price {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+}
+
+.integration-benefits {
+  margin-bottom: 20px;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding-left: 30px;
+    position: relative;
+
+    &:before {
+      color: #A3C351;
+      content: "✔";
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}
+
+.integration-description {
+  color: #222;
+}

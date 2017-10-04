@@ -1,80 +1,73 @@
-<div class="cnw_w">
-    <div class="cnw_container-fluid">
 
-        <div class="cnw_row">
-            {% if settings_header.body %}
-                <div class="cnw_searchresult_header">
-                    {{ settings_header.body | raw }}
-                </div>
-            {% endif %}
-
-            <!--  facetedSearch  START -->
-            <div class="cnw_searchresult__facetedSearch">
-
-                <!-- ZoekOpties  START -->
-                {%  if settings_general.exclude.long_term or settings_general.exclude.permanent %}
-                <form>
-                    <div class="cnw_searchresult__options cnw_container-fluid">
-                        <div class="cnw_row">
-                            {%  if settings_general.exclude.long_term %}
-                            <div class="cnw_col">
-                                <div class="cnw_form-check ">
-                                    <label class="cnw_form-check-label">
-                                        <input type="checkbox" class="cnw_form-check-input">
-                                        Verberg langlopende reeksen
-                                    </label>
-                                </div>
-                            </div>
-                            {% endif %}
-
-                            {%  if settings_general.exclude.permanent %}
-                            <div class="cnw_col">
-                                <div class="cnw_form-check ">
-                                    <label class="cnw_form-check-label">
-                                        <input type="checkbox" class="cnw_form-check-input">
-                                        Verberg permanente bezienswaardigheden
-                                    </label>
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </form>
-                <!-- ZoekOpties  END -->
-                {% endif %}
-
-                <!--  facetedSearch  END -->
-
-                {%  if settings_general.current_search %}
-                <!--  searchWords  START -->
-                <div class="cnw_searchresult__searchwords">
-                    <p>Je zocht op <span class="cnw_searchresult__searchword">Zoekwoord</span></p>
-                </div>
-                <!--  searchWords END -->
-                {% endif %}
-
-                <!--  counter  START -->
-                <div class="cnw_searchresult__counter">
-                    <p><span class="cnw_searchresult__counter-total">{{ result_count }}</span> resultaten gevonden</p>
-                </div>
-                <!--  counter END -->
-
-                {% for event in events %}
-                    {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
-                {% endfor %}
-
-                <!--  PAGINATION Start -->
-                {% include 'widgets/widget-pager.html.twig' with {'pager': pager} %}
-                <!--  PAGINATION END-->
-
-            </div>
-
-            {% if settings_footer.body %}
-                <div class="cnw_searchresult_footer">
-                    {{ settings_footer.body | raw }}
-                </div>
-            {% endif %}
-
-        </div>
+{% if settings_header.body %}
+    <div class="cnw_searchresult_header">
+        {{ settings_header.body | raw }}
     </div>
+{% endif %}
+
+<!--  facetedSearch  START -->
+<div class="cnw_searchresult__facetedSearch">
+
+    <!-- ZoekOpties  START -->
+    {%  if settings_general.exclude.long_term or settings_general.exclude.permanent %}
+    <form>
+        <div class="cnw_searchresult__options cnw_container-fluid">
+            <div class="cnw_row">
+                {%  if settings_general.exclude.long_term %}
+                <div class="cnw_col">
+                    <div class="cnw_form-check ">
+                        <label class="cnw_form-check-label">
+                            <input type="checkbox" class="cnw_form-check-input">
+                            Verberg langlopende reeksen
+                        </label>
+                    </div>
+                </div>
+                {% endif %}
+
+                {%  if settings_general.exclude.permanent %}
+                <div class="cnw_col">
+                    <div class="cnw_form-check ">
+                        <label class="cnw_form-check-label">
+                            <input type="checkbox" class="cnw_form-check-input">
+                            Verberg permanente bezienswaardigheden
+                        </label>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+    <!-- ZoekOpties  END -->
+    {% endif %}
+
+    <!--  facetedSearch  END -->
+
+    {%  if settings_general.current_search %}
+    <!--  searchWords  START -->
+    <div class="cnw_searchresult__searchwords">
+        <p>Je zocht op <span class="cnw_searchresult__searchword">Zoekwoord</span></p>
+    </div>
+    <!--  searchWords END -->
+    {% endif %}
+
+    <!--  counter  START -->
+    <div class="cnw_searchresult__counter">
+        <p><span class="cnw_searchresult__counter-total">{{ result_count }}</span> resultaten gevonden</p>
+    </div>
+    <!--  counter END -->
+
+    {% for event in events %}
+        {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
+    {% endfor %}
+
+    <!--  PAGINATION Start -->
+    {% include 'widgets/widget-pager.html.twig' with {'pager': pager} %}
+    <!--  PAGINATION END-->
+
 </div>
+
+{% if settings_footer.body %}
+    <div class="cnw_searchresult_footer">
+        {{ settings_footer.body | raw }}
+    </div>
+{% endif %}

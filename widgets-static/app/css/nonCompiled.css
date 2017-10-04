@@ -1,0 +1,11 @@
+
+.cnw_w {
+    box-sizing: border-box;
+
+}
+
+.cnw_w *,
+.cnw_w *::before,
+.cnw_w *::after {
+    box-sizing: inherit;
+}
