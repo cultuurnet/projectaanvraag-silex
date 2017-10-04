@@ -52,6 +52,7 @@ insightly:
 # Search API settings
 search_api:
   base_url: https://search-acc.uitdatabank.be
+  api_key:
   cache:
     enabled: true
     backend: filesystem # supported cache: filesystem or redis
