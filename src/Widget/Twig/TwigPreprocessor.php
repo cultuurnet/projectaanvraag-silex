@@ -99,7 +99,7 @@ class TwigPreprocessor
             'name' => $event->getName()[$langcode] ?? null,
             'description' => $event->getDescription()[$langcode] ?? null,
             'image' => $event->getImage(),
-            'when_start' => $this->formatDate($event->getStartDate(), $langcode),
+            'when_start' => $event->getStartDate() ? $this->formatDate($event->getStartDate(), $langcode) : null,
             'where' => $event->getLocation() ? $event->getLocation()->getName()[$langcode] ?? null : null,
             'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName() : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
