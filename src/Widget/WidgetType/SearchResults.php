@@ -318,10 +318,12 @@ class SearchResults extends WidgetTypeBase
         $advancedQuery = [];
 
         // Read settings for search parameters from settings.
+        /*
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
         }
+        */
 
         // / Check for facets query params.
         if (isset($urlQueryParams['region'])) {
@@ -329,6 +331,13 @@ class SearchResults extends WidgetTypeBase
         }
         if (isset($urlQueryParams['type'])) {
             $advancedQuery[] = 'terms.id:' . $urlQueryParams['type'];
+        }
+        if (isset($urlQueryParams['date'])) {
+            // Create ISO-8601 daterange from datetype.
+            $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['date']);
+            if (!empty($dateRange)) {
+                $advancedQuery[] = 'dateRange:' . $dateRange;
+            }
         }
 
         // Add adanced query string to API request.

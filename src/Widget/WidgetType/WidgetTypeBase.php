@@ -136,8 +136,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Trim the first
-     * parameter.
+     * Trim the first parameter.
      *
      * @param $params
      * @return array
@@ -157,6 +156,83 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
             }
         }
         return $params;
+    }
+
+    /**
+     * @param $dateType
+     * @return string
+     */
+    protected function convertDateTypeToDateRange($dateType)
+    {
+        $cetTimezone = new \DateTimeZone('CET');
+
+        $dateStart = '';
+        $dateEnd = '';
+        switch ($dateType) {
+            case 'today':
+                $date = date('Y-m-d H:i:s', strtotime('now'));
+                $dateDT = new \DateTime($date, $cetTimezone);
+                $dateDT->setTime(0,0,0);
+                $dateStart = $dateDT->format('c');
+
+                $dateDT->setTime(23, 59, 59);
+                $dateEnd = $dateDT->format('c');
+                break;
+            case 'tomorrow':
+                $date = date('Y-m-d H:i:s', strtotime('+1 day'));
+                $dateDT = new \DateTime($date, $cetTimezone);
+                $dateDT->setTime(0,0,0);
+                $dateStart = $dateDT->format('c');
+                $dateDT->setTime(23, 59, 59);
+                $dateEnd = $dateDT->format('c');
+                break;
+            case 'thisweekend':
+                $date1 = date('Y-m-d H:i:s', strtotime('next Saturday'));
+                $dt1 = new \DateTime($date1, $cetTimezone);
+                $dt1->setTime(0,0,0);
+                $dateStart = $dt1->format('c');
+
+                $date2 = date('Y-m-d H:i:s', strtotime('next Sunday'));
+                $dt2 = new \DateTime($date2, $cetTimezone);
+                $dt2->setTime(23,59,59);
+                $dateEnd = $dt2->format('c');
+                break;
+            case 'next7days':
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $dt1 = new \DateTime($date1, $cetTimezone);
+                $dt1->setTime(0,0,0);
+                $dateStart = $dt1->format('c');
+
+                $date2 = date('Y-m-d H:i:s', strtotime('+7 days'));
+                $dt2 = new \DateTime($date2, $cetTimezone);
+                $dt2->setTime(23,59,59);
+                $dateEnd = $dt2->format('c');
+                break;
+            case 'next14days':
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $dt1 = new \DateTime($date1, $cetTimezone);
+                $dt1->setTime(0,0,0);
+                $dateStart = $dt1->format('c');
+
+                $date2 = date('Y-m-d H:i:s', strtotime('+14 days'));
+                $dt2 = new \DateTime($date2, $cetTimezone);
+                $dt2->setTime(23,59,59);
+                $dateEnd = $dt2->format('c');
+                break;
+            case 'next30days':
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $dt1 = new \DateTime($date1, $cetTimezone);
+                $dt1->setTime(0,0,0);
+                $dateStart = $dt1->format('c');
+
+                $date2 = date('Y-m-d H:i:s', strtotime('+30 days'));
+                $dt2 = new \DateTime($date2, $cetTimezone);
+                $dt2->setTime(23,59,59);
+                $dateEnd = $dt2->format('c');
+                break;
+        }
+
+        return (!empty($dateStart) && !empty($dateEnd) ? "[$dateStart TO $dateEnd]" : '');
     }
 
     /**
