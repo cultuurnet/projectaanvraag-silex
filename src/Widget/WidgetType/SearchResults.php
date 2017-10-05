@@ -323,15 +323,15 @@ class SearchResults extends WidgetTypeBase
         }
 
         // / Check for facets query params.
-        if (isset($urlQueryParams['region'])) {
-            $advancedQuery[] = 'regions=' . $urlQueryParams['region'];
+        if (isset($urlQueryParams['facet-region'])) {
+            $advancedQuery[] = 'regions=' . $urlQueryParams['facet-region'];
         }
-        if (isset($urlQueryParams['type'])) {
-            $advancedQuery[] = 'terms.id:' . $urlQueryParams['type'];
+        if (isset($urlQueryParams['facet-type'])) {
+            $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
         }
-        if (isset($urlQueryParams['date'])) {
+        if (isset($urlQueryParams['facet-date'])) {
             // Create ISO-8601 daterange from datetype.
-            $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['date']);
+            $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['facet-date']);
             if (!empty($dateRange)) {
                 $advancedQuery[] = 'dateRange:' . $dateRange;
             }
