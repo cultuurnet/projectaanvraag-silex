@@ -96,7 +96,7 @@
                     <ul class="cnw_facet-search" data-size="6">
                         {% for facet in facets.types %}
                             <li class="cnw_facet-label ">
-                                <a href="#">{{ facet.name }}</a>
+                                <a href="#" onclick="CultuurnetWidgets.facetTypeFilter('{{ facet.value }}')">{{ facet.name }}</a>
                                 <small class="cnw_facet-count cnw_push-right">({{ facet.count }})</small>
                             </li>
                         {% endfor %}

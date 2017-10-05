@@ -327,7 +327,9 @@ class SearchResults extends WidgetTypeBase
         if (isset($urlQueryParams['region'])) {
             $advancedQuery[] = 'regions=' . $urlQueryParams['region'];
         }
-        //@todo: types & datetypes (not recognised query parameters?)
+        if (isset($urlQueryParams['type'])) {
+            $advancedQuery[] = 'terms.id:' . $urlQueryParams['type'];
+        }
 
         // Add adanced query string to API request.
         if (!empty($advancedQuery)) {

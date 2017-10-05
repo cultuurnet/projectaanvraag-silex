@@ -76,4 +76,34 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         }
     };
 
+    /**
+     * Temporary facet type filter function.
+     * TODO: this is probably not the right way?
+     *
+     * @param type
+     */
+    CultuurnetWidgets.facetTypeFilter = function(type) {
+        var queryString = window.location.search;
+
+        if (queryString) {
+            // Convert existing query string to an object.
+            var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+
+            if (typeof currentParams.type !== 'undefined' && type === 0) {
+                delete currentParams.type;
+            }
+            else {
+                currentParams.type = type;
+            }
+
+            // Convert updated params to a query string.
+            var newParams = $.param(currentParams);
+
+            // TODO: This should eventually work asynchronously (using $.ajax ?).
+            window.location.href = window.location.pathname + '?' + newParams;
+        } else {
+            window.location.href = window.location.pathname + '?type=' + type;
+        }
+    };
+
 })(CultuurnetWidgets, jQuery);
