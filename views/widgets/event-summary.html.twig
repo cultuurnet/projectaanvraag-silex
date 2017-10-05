@@ -9,7 +9,7 @@
 
     <div class="{% if settings_items.image.enabled %}cnw_col-9 {% else %} cnw_col-12{% endif %}">
         <div class="cnw_card-block ">
-            <h3 class="cnw_card-title">{{ event.name }}</h3>
+            <a href="{{ event.detail_link }}"><h3 class="cnw_card-title">{{ event.name }}</h3></a>
             <span class="cnw_stickers ">
                 {% if settings_items.icon_vlieg.enabled %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
