@@ -35,6 +35,15 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
 
             $client = new \Guzzle\Http\Client($pimple['search_api.base_url']);
 
+            // Add search API key as default header.
+            if (isset($pimple['config']['search_api']['api_key'])) {
+                $search_api_key = $pimple['config']['search_api']['api_key'];
+                $headers = [
+                    'X-Api-Key' => $search_api_key,
+                ];
+                $client->setDefaultHeaders($headers);
+            }
+
             if ($pimple['search_api.cache.enabled']) {
                 $client->addSubscriber($pimple['search_api_cache']);
             }
