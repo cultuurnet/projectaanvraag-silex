@@ -26,12 +26,7 @@
                                         {% endif %}
                                     </span>
                                     {% if settings_items.description.enabled %}
-                                    {% if settings_items.description.label %}
-                                        <dt class="cnw_col-3">{{ settings_items.description.label }}</dt>
-                                        <dd class="cnw_col-9">{{ event.description }}</dd>
-                                    {% else %}
                                         <p class="cnw_card-description--tips">{{ event.description }}</p>
-                                    {% endif %}
                                     {% endif %}
                                     <dl class="cnw_row">
                                         {% if settings_items.where.enabled %}
@@ -56,7 +51,7 @@
 
                                         {% if settings_items.language_icons.enabled and event.language_icons %}
                                         <dt class="cnw_col-3">Taaliconen</dt>
-                                        <dd class="cnw_col-9">{{ event.language_icons }}</dd>
+                                        <dd class="cnw_col-9">{{ event.language_icons | raw }}</dd>
                                         {% endif %}
 
                                         {% if event.labels %}

@@ -21,14 +21,8 @@
             <dl class="cnw_row">
 
                 {% if settings_items.description.enabled %}
-                    {% if settings_items.description.label %}
-                        <dt class="cnw_col-3">{{ settings_items.description.label }}</dt>
-                        <dd class="cnw_col-9">{{ event.description }}</dd>
-                    {% else %}
-                        <p class="cnw_card-description">{{ event.description }}</p>
-                    {% endif %}
+                    <p class="cnw_card-description">{{ event.description }}</p>
                 {% endif %}
-
 
                 {% if settings_items.where.enabled %}
                     <dt class="cnw_col-3">{{ settings_items.where.label }}</dt>

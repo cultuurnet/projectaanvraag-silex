@@ -109,16 +109,16 @@ class TwigPreprocessor
             'uitpas' => $event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false,
         ];
 
-        if (!empty($variables['image'])) {
-            $url = Url::factory($variables['image']);
+        $default_image = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
+        $image = $variables['image'] ?? $default_image;
+        if (!empty($image)) {
+            $url = Url::factory($image);
             $query = $url->getQuery();
             $query['crop'] = 'auto';
             $query['scale'] = 'both';
             $query['height'] = $settings['image']['height'];
             $query['width'] = $settings['image']['width'];
             $variables['image'] = $url->__toString();
-        } elseif ($settings['image']['default_image']) {
-            $variables['image'] = $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/assets/images/event.png';
         }
 
         if (!empty($settings['description']['characters'])) {
