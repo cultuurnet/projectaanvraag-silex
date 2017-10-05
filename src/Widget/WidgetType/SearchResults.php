@@ -313,7 +313,6 @@ class SearchResults extends WidgetTypeBase
         //$query->addParameter(new Facet('themes'));
         //$query->addParameter(new Facet('facilities'));
 
-
         // Build advanced query string
         $advancedQuery = [];
 

@@ -17,92 +17,32 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     };
 
     /**
-     * Temporary facet date filter function.
-     * TODO: this is probably not the right way?
+     * Facet filter function.
      *
-     * @param date
+     * @param value
+     * @param param
      */
-    CultuurnetWidgets.facetDateFilter = function(date) {
+    CultuurnetWidgets.facetFilter = function(param, value) {
         var queryString = window.location.search;
 
         if (queryString) {
             // Convert existing query string to an object.
             var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
 
-            if (typeof currentParams.date !== 'undefined' && date === 0) {
-                delete currentParams.date;
+            if (typeof currentParams[param] !== 'undefined' && value === 0) {
+                delete currentParams[param];
             }
             else {
-                currentParams.date = date;
+                currentParams[param] = value;
             }
 
             // Convert updated params to a query string.
             var newParams = $.param(currentParams);
 
-            // TODO: This should eventually work asynchronously (using $.ajax ?).
+            // TODO: Should this eventually work asynchronously?.
             window.location.href = window.location.pathname + '?' + newParams;
         } else {
-            window.location.href = window.location.pathname + '?date=' + date;
-        }
-    };
-
-    /**
-     * Temporary facet region filter function.
-     * TODO: this is probably not the right way?
-     *
-     * @param region
-     */
-    CultuurnetWidgets.facetRegionFilter = function(region) {
-        var queryString = window.location.search;
-
-        if (queryString) {
-            // Convert existing query string to an object.
-            var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
-
-            if (typeof currentParams.region !== 'undefined' && region === 0) {
-                delete currentParams.region;
-            }
-            else {
-                currentParams.region = region;
-            }
-
-            // Convert updated params to a query string.
-            var newParams = $.param(currentParams);
-
-            // TODO: This should eventually work asynchronously (using $.ajax ?).
-            window.location.href = window.location.pathname + '?' + newParams;
-        } else {
-            window.location.href = window.location.pathname + '?region=' + region;
-        }
-    };
-
-    /**
-     * Temporary facet type filter function.
-     * TODO: this is probably not the right way?
-     *
-     * @param type
-     */
-    CultuurnetWidgets.facetTypeFilter = function(type) {
-        var queryString = window.location.search;
-
-        if (queryString) {
-            // Convert existing query string to an object.
-            var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
-
-            if (typeof currentParams.type !== 'undefined' && type === 0) {
-                delete currentParams.type;
-            }
-            else {
-                currentParams.type = type;
-            }
-
-            // Convert updated params to a query string.
-            var newParams = $.param(currentParams);
-
-            // TODO: This should eventually work asynchronously (using $.ajax ?).
-            window.location.href = window.location.pathname + '?' + newParams;
-        } else {
-            window.location.href = window.location.pathname + '?type=' + type;
+            window.location.href = window.location.pathname + '?' + param + '=' + value;
         }
     };
 
