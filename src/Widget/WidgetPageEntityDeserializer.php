@@ -87,6 +87,10 @@ class WidgetPageEntityDeserializer
 
         $widgetPageEntity->setRows($rows);
 
+        if (isset($jsonObject['css'])) {
+            $widgetPageEntity->setCss($jsonObject['css']);
+        }
+
         return $widgetPageEntity;
     }
 }

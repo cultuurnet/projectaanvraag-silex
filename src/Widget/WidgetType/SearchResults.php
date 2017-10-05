@@ -92,7 +92,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "description":{
  *                  "enabled":true,
- *                  "characters":200
+ *                  "characters":200,
+ *                  "label":"",
  *              },
  *              "when":{
  *                  "enabled":false,
@@ -345,6 +346,10 @@ class SearchResults extends WidgetTypeBase
 
         // Retrieve pager object.
         $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
+
+        if (!isset($this->settings['items']['description']['label'])) {
+            $this->settings['items']['description']['label'] = '';
+        }
 
         // Render twig with formatted results and item settings.
         return $this->twig->render(
