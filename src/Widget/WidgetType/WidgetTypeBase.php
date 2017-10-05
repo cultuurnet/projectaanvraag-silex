@@ -136,7 +136,9 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Trim the first parameter.
+     * Trim question mark from first parameter.
+     *
+     * Remove non query parameters.
      *
      * @param $params
      * @return array
@@ -145,13 +147,18 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         if (!empty($params)) {
             foreach ($params as $key => $param) {
-                // Check key for question mark.
-                if (substr($key, 0, 1) == '?') {
-                    // Trim question mark.
-                    $trimmedKey = ltrim($key, '?');
-                    // Replace key.
-                    $params[$trimmedKey] = $param;
+                if (in_array($key, ['callback', '_'])) {
                     unset($params[$key]);
+                }
+                else {
+                    // Check key for question mark.
+                    if (substr($key, 0, 1) == '?') {
+                        // Trim question mark.
+                        $trimmedKey = ltrim($key, '?');
+                        // Replace key.
+                        $params[$trimmedKey] = $param;
+                        unset($params[$key]);
+                    }
                 }
             }
         }

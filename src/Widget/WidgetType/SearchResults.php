@@ -325,9 +325,11 @@ class SearchResults extends WidgetTypeBase
         // / Check for facets query params.
         if (isset($urlQueryParams['facet-region'])) {
             $advancedQuery[] = 'regions=' . $urlQueryParams['facet-region'];
+            unset($urlQueryParams['facet-region']);
         }
         if (isset($urlQueryParams['facet-type'])) {
             $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
+            unset($urlQueryParams['facet-type']);
         }
         if (isset($urlQueryParams['facet-date'])) {
             // Create ISO-8601 daterange from datetype.
@@ -335,9 +337,15 @@ class SearchResults extends WidgetTypeBase
             if (!empty($dateRange)) {
                 $advancedQuery[] = 'dateRange:' . $dateRange;
             }
+            unset($urlQueryParams['facet-date']);
         }
 
-        // Add adanced query string to API request.
+        // Check for remaining extra query params.
+        foreach ($urlQueryParams as $param => $value) {
+            $advancedQuery[] = "$param=$value";
+        }
+
+        // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
             $query->addParameter(
                 new Query(
