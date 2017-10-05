@@ -116,7 +116,7 @@
                     <ul class="cnw_facet-search" data-size="6">
                         {% for option in group.options %}
                             <li class="cnw_facet-label ">
-                                <a href="#">{{ option.label }}</a>
+                                <a href="#" onclick="CultuurnetWidgets.extraFilter('{{ option.query }}')">{{ option.label }}</a>
                             </li>
                         {% endfor %}
                     </ul>
