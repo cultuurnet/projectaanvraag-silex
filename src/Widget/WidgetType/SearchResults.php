@@ -342,7 +342,7 @@ class SearchResults extends WidgetTypeBase
         if (!empty($advancedQuery)) {
             $query->addParameter(
                 new Query(
-                    implode('AND', $advancedQuery)
+                    implode(' AND ', $advancedQuery)
                 )
             );
         }
