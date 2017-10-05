@@ -46,6 +46,7 @@ use Pimple\Container;
  *                  "date_search": {
  *                      "enabled" : true,
  *                      "label": "Waar",
+ *                      "placeholder": "Kies een periode",
  *                      "options": {
  *                          "today": true,
  *                          "tomorrow": true,
@@ -55,7 +56,7 @@ use Pimple\Container;
  *                          "days_30": true,
  *                          "custom_date": true
  *                      },
- *                      "default_option": "today"
+ *                      "default_option": "placeholder"
  *                  },
  *                  "group_filters": {
  *                      "enabled": false
@@ -100,6 +101,7 @@ use Pimple\Container;
  *                  "date_search": {
  *                      "enabled" : "boolean",
  *                      "label": "string",
+ *                      "placeholder": "string",
  *                      "options": {
  *                          "today": "boolean",
  *                          "tomorrow": "boolean",
@@ -131,6 +133,7 @@ class SearchForm extends WidgetTypeBase
      */
     public function render()
     {
+
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',
             [
@@ -138,6 +141,7 @@ class SearchForm extends WidgetTypeBase
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
                 'settings_fields' => $this->settings['fields'],
+                'defaults' => $this->getDefaults(),
             ]
         );
     }
@@ -151,5 +155,32 @@ class SearchForm extends WidgetTypeBase
         $this->renderer->attachCss(__DIR__ . '/../../../web/assets/css/widgets/search-form/search-form.css');*/
 
         return $this->render();
+    }
+
+    /**
+     * Get the default values based on current request.
+     */
+    protected function getDefaults() {
+        $defaults = [];
+        if ($this->settings['fields']['time']['date_search']['enabled']) {
+            $defaults['current_date'] = $this->settings['fields']['time']['date_search']['default_option'];
+        }
+
+        $group_filter_types = [
+            'type',
+            'location',
+            'time',
+            'extra',
+        ];
+
+        foreach ($group_filter_types as $type) {
+            if ($this->settings['fields'][$type]['group_filters']['enabled']) {
+                foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $group_filter) {
+                    $defaults[$type]['group_filters'][$key] = $group_filter['default_option'] ?? '';
+                }
+            }
+        }
+
+        return $defaults;
     }
 }

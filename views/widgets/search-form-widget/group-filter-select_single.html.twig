@@ -1,12 +1,12 @@
 <div class="cnw_form-group">
     {% if label %}
-        <label for="cnw_zoek_wanneer">
+        <label>
            {{ label }}
         </label>
     {% endif %}
-    <select class="cnw_form-control" id="cnw_zoek_wanneer">
+    <select class="cnw_form-control">
         {% for option in options %}
-           <option>{{ option.label }}</option>
+           <option{% if default_option == option.label %} selected{% endif %}>{{ option.label }}</option>
         {% endfor %}
     </select>
 </div>

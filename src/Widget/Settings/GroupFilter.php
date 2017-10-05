@@ -25,9 +25,10 @@ class GroupFilter
             $cleanedConfiguration['filters'] = [];
             foreach ($configuration['filters'] as $key => $filter) {
                 $cleanedFilter = [];
-                $cleanedFilter['label'] = (string) $filter['label'] ?? '';
-                $cleanedFilter['placeholder'] = (string) $filter['placeholder'] ?? '';
-                $cleanedFilter['type'] = (string) $filter['type'] ?? '';
+                $cleanedFilter['label'] = (string) ($filter['label'] ?? '');
+                $cleanedFilter['placeholder'] = (string) ($filter['placeholder'] ?? '');
+                $cleanedFilter['type'] = (string) ($filter['type'] ?? '');
+                $cleanedFilter['default_option'] = (string) ($filter['default_option'] ?? '');
 
                 // All strings are empty? Skip the filter.
                 if (empty($cleanedFilter['label']) && empty($cleanedFilter['placeholder']) && empty($cleanedFilter['type'])) {
