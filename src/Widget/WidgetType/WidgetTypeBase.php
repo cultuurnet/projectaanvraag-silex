@@ -159,80 +159,54 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * Convert date type parameter to ISO-8601 date range.
+     *
      * @param $dateType
      * @return string
      */
     protected function convertDateTypeToDateRange($dateType)
     {
-        $cetTimezone = new \DateTimeZone('CET');
-
-        $dateStart = '';
-        $dateEnd = '';
+        // Determine start & end date.
         switch ($dateType) {
             case 'today':
-                $date = date('Y-m-d H:i:s', strtotime('now'));
-                $dateDT = new \DateTime($date, $cetTimezone);
-                $dateDT->setTime(0,0,0);
-                $dateStart = $dateDT->format('c');
-
-                $dateDT->setTime(23, 59, 59);
-                $dateEnd = $dateDT->format('c');
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $date2 = date('Y-m-d H:i:s', strtotime('now'));
                 break;
             case 'tomorrow':
-                $date = date('Y-m-d H:i:s', strtotime('+1 day'));
-                $dateDT = new \DateTime($date, $cetTimezone);
-                $dateDT->setTime(0,0,0);
-                $dateStart = $dateDT->format('c');
-                $dateDT->setTime(23, 59, 59);
-                $dateEnd = $dateDT->format('c');
+                $date1 = date('Y-m-d H:i:s', strtotime('+1 day'));
+                $date2 = date('Y-m-d H:i:s', strtotime('+1 day'));
                 break;
             case 'thisweekend':
                 $date1 = date('Y-m-d H:i:s', strtotime('next Saturday'));
-                $dt1 = new \DateTime($date1, $cetTimezone);
-                $dt1->setTime(0,0,0);
-                $dateStart = $dt1->format('c');
-
                 $date2 = date('Y-m-d H:i:s', strtotime('next Sunday'));
-                $dt2 = new \DateTime($date2, $cetTimezone);
-                $dt2->setTime(23,59,59);
-                $dateEnd = $dt2->format('c');
                 break;
             case 'next7days':
                 $date1 = date('Y-m-d H:i:s', strtotime('now'));
-                $dt1 = new \DateTime($date1, $cetTimezone);
-                $dt1->setTime(0,0,0);
-                $dateStart = $dt1->format('c');
-
                 $date2 = date('Y-m-d H:i:s', strtotime('+7 days'));
-                $dt2 = new \DateTime($date2, $cetTimezone);
-                $dt2->setTime(23,59,59);
-                $dateEnd = $dt2->format('c');
                 break;
             case 'next14days':
                 $date1 = date('Y-m-d H:i:s', strtotime('now'));
-                $dt1 = new \DateTime($date1, $cetTimezone);
-                $dt1->setTime(0,0,0);
-                $dateStart = $dt1->format('c');
-
                 $date2 = date('Y-m-d H:i:s', strtotime('+14 days'));
-                $dt2 = new \DateTime($date2, $cetTimezone);
-                $dt2->setTime(23,59,59);
-                $dateEnd = $dt2->format('c');
                 break;
             case 'next30days':
                 $date1 = date('Y-m-d H:i:s', strtotime('now'));
-                $dt1 = new \DateTime($date1, $cetTimezone);
-                $dt1->setTime(0,0,0);
-                $dateStart = $dt1->format('c');
-
                 $date2 = date('Y-m-d H:i:s', strtotime('+30 days'));
-                $dt2 = new \DateTime($date2, $cetTimezone);
-                $dt2->setTime(23,59,59);
-                $dateEnd = $dt2->format('c');
+                break;
+            default:
+                return '';
                 break;
         }
 
-        return (!empty($dateStart) && !empty($dateEnd) ? "[$dateStart TO $dateEnd]" : '');
+        // Convert dates to DateTime objects (CET), set time and format to ISO-8601.
+        $cetTimezone = new \DateTimeZone('CET');
+        $dt1 = new \DateTime($date1, $cetTimezone);
+        $dt2 = new \DateTime($date2, $cetTimezone);
+        $dt1->setTime(0,0,0);
+        $dt2->setTime(23,59,59);
+        $dateStart = $dt1->format('c');
+        $dateEnd = $dt2->format('c');
+
+        return "[$dateStart TO $dateEnd]";
     }
 
     /**
