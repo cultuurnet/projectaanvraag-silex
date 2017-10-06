@@ -7,14 +7,9 @@
     <meta property="og:url" content="{{ url }}">
     <meta property="og:description" content="{{ description }}">
     <meta property="og:image" content="{{ image }}">
-    <!--<meta property="og:site_name" content="natuurpuntbrussel">-->
-    <!--<meta name="twitter:domain" content="natuurpuntbrussel">-->
     <meta name="twitter:card" content="summary_large_image">
     <script>
-        // TODO: check which SM service is requested.
-        var url = window.location.href;
-        //window.location.replace("https://www.facebook.com/sharer/sharer.php?u=" + url);
-        window.location.replace("http://twitter.com/share?url=" + url);
+        window.location.replace({{ url }});
     </script>
 </head>
 <body>

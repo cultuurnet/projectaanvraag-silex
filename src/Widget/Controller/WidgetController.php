@@ -237,9 +237,5 @@ print_r($test2);
                 ]
             );
         }
-        else {
-            // TODO: redirect back to origin URL?
-            return 'foo';
-        }
     }
 }
