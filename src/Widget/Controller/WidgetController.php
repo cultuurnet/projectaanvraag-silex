@@ -45,6 +45,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 
 /**
  * Provides a controller to render widget pages and widgets.
@@ -78,6 +80,11 @@ class WidgetController
     protected $twig;
 
     /**
+     * @var RequestStack
+     */
+    protected $request;
+
+    /**
      * @var bool
      */
     protected $debugMode;
@@ -89,13 +96,14 @@ class WidgetController
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, \Twig_Environment $twig, bool $debugMode)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, \Twig_Environment $twig, RequestStack $requestStack, bool $debugMode)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->twig = $twig;
+        $this->request = $requestStack->getCurrentRequest();
         $this->debugMode = $debugMode;
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
@@ -205,6 +213,9 @@ print_r($test2);
      * Social share proxy page.
      */
     public function socialShareProxy($cdbid) {
+        // Get origin url.
+        $originUrl = ($this->request->query->get('origin') ? $this->request->query->get('origin') : '');
+
         // Retrieve event corresponding to ID.
         $query = new SearchQuery(true);
         $query->addParameter(
@@ -221,12 +232,13 @@ print_r($test2);
                 [
                     'name' => $event->getName()['nl'],
                     'description' => $event->getDescription()['nl'],
-                    'image' => $event->getImage()
+                    'image' => $event->getImage(),
+                    'url' => $originUrl
                 ]
             );
         }
         else {
-            // TODO: redirect to origin URL?
+            // TODO: redirect back to origin URL?
             return 'foo';
         }
     }
