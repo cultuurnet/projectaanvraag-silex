@@ -205,16 +205,13 @@ print_r($test2);
      * Social share proxy page.
      */
     public function socialShareProxy($cdbid) {
-
+        // Retrieve event corresponding to ID.
         $query = new SearchQuery(true);
-
         $query->addParameter(
             new Query($cdbid)
         );
-
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
-
         $items = $result->getMember()->getItems();
 
         if (!empty($items)) {
@@ -229,6 +226,7 @@ print_r($test2);
             );
         }
         else {
+            // TODO: redirect to origin URL?
             return 'foo';
         }
     }
