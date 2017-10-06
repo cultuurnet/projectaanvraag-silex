@@ -73,6 +73,11 @@ class WidgetController
     protected $widgetPageEntityDeserializer;
 
     /**
+     * @var \Twig_Environment
+     */
+    protected $twig;
+
+    /**
      * @var bool
      */
     protected $debugMode;
@@ -84,12 +89,13 @@ class WidgetController
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, \Twig_Environment $twig, bool $debugMode)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
+        $this->twig = $twig;
         $this->debugMode = $debugMode;
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
@@ -193,5 +199,37 @@ print_r($test2);
         $result = $this->searchClient->searchEvents($query);
         print_r($result);
         die();
+    }
+
+    /**
+     * Social share proxy page.
+     */
+    public function socialShareProxy($cdbid) {
+
+        $query = new SearchQuery(true);
+
+        $query->addParameter(
+            new Query($cdbid)
+        );
+
+        // Retrieve results from Search API.
+        $result = $this->searchClient->searchEvents($query);
+
+        $items = $result->getMember()->getItems();
+
+        if (!empty($items)) {
+            $event = $items[0];
+            return $this->twig->render(
+                'widgets/widget-share-proxy.html.twig',
+                [
+                    'name' => $event->getName()['nl'],
+                    'description' => $event->getDescription()['nl'],
+                    'image' => $event->getImage()
+                ]
+            );
+        }
+        else {
+            return 'foo';
+        }
     }
 }

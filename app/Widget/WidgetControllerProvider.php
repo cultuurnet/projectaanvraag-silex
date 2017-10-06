@@ -13,7 +13,7 @@ class WidgetControllerProvider implements ControllerProviderInterface
     {
 
         $app['widget_controller'] = function (Application $app) {
-            return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['mongodb'], $app['search_api'], $app['widget_page_deserializer'], $app['debug']);
+            return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['mongodb'], $app['search_api'], $app['widget_page_deserializer'], $app['twig'], $app['debug']);
         };
 
         /* @var ControllerCollection $controllers */
@@ -23,6 +23,8 @@ class WidgetControllerProvider implements ControllerProviderInterface
             ->convert('widgetPage', 'widget_page_convertor:convert');
 
         $controllers->get('/search', 'widget_controller:searchExample');
+
+        $controllers->get('/event/{cdbid}', 'widget_controller:socialShareProxy');
 
         return $controllers;
     }
