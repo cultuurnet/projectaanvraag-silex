@@ -33,7 +33,7 @@ class OfferCbidConverter implements ConverterInterface
 
     /**
      * {@inheritdoc}
-     * @return string|null
+     * @return object|null
      */
     public function convert($cdbid)
     {

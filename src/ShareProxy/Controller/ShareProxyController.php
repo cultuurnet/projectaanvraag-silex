@@ -114,7 +114,7 @@ class ShareProxyController
     /**
      * Social share proxy page.
      *
-     * @param $offer
+     * @param object $offer
      * @return string
      */
     public function socialShareProxy($offer) {
