@@ -22,3 +22,7 @@ $font-family-sans-serif: "Open Sans";
 
 @import '01_components/widget-loader';
 @import '01_components/widget-loader--box';
+
+body {
+  background: red;
+}
