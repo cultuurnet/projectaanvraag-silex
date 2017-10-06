@@ -75,16 +75,6 @@ class WidgetController
     protected $widgetPageEntityDeserializer;
 
     /**
-     * @var \Twig_Environment
-     */
-    protected $twig;
-
-    /**
-     * @var RequestStack
-     */
-    protected $request;
-
-    /**
      * @var bool
      */
     protected $debugMode;
@@ -96,14 +86,12 @@ class WidgetController
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, \Twig_Environment $twig, RequestStack $requestStack, bool $debugMode)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
-        $this->twig = $twig;
-        $this->request = $requestStack->getCurrentRequest();
         $this->debugMode = $debugMode;
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
