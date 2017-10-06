@@ -90,11 +90,15 @@ class ShareProxyController
     protected $debugMode;
 
     /**
-     * WidgetController constructor.
-     *
+     * ShareProxyController constructor.
      * @param RendererInterface $renderer
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
+     * @param SearchClient $searchClient
+     * @param WidgetPageEntityDeserializer $widgetPageEntityDeserializer
+     * @param \Twig_Environment $twig
+     * @param RequestStack $requestStack
+     * @param bool $debugMode
      */
     public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, \Twig_Environment $twig, RequestStack $requestStack, bool $debugMode)
     {
@@ -109,31 +113,21 @@ class ShareProxyController
 
     /**
      * Social share proxy page.
+     *
+     * @param $offer
+     * @return string
      */
-    public function socialShareProxy($cdbid) {
+    public function socialShareProxy($offer) {
         // Get origin url.
         $originUrl = ($this->request->query->get('origin') ? $this->request->query->get('origin') : '');
-
-        // Retrieve event corresponding to ID.
-        $query = new SearchQuery(true);
-        $query->addParameter(
-            new Query($cdbid)
+        return $this->twig->render(
+            'share-proxy/share-proxy.html.twig',
+            [
+                'name' => $offer->getName()['nl'],
+                'description' => $offer->getDescription()['nl'],
+                'image' => $offer->getImage(),
+                'url' => $originUrl
+            ]
         );
-        // Retrieve results from Search API.
-        $result = $this->searchClient->searchEvents($query);
-        $items = $result->getMember()->getItems();
-
-        if (!empty($items)) {
-            $event = $items[0];
-            return $this->twig->render(
-                'share-proxy/share-proxy.html.twig',
-                [
-                    'name' => $event->getName()['nl'],
-                    'description' => $event->getDescription()['nl'],
-                    'image' => $event->getImage(),
-                    'url' => $originUrl
-                ]
-            );
-        }
     }
 }

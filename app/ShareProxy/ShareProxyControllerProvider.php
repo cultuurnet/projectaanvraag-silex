@@ -19,7 +19,8 @@ class ShareProxyControllerProvider implements ControllerProviderInterface
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
 
-        $controllers->get('/event/{cdbid}', 'share_proxy_controller:socialShareProxy');
+        $controllers->get('/event/{offer}', 'share_proxy_controller:socialShareProxy')
+            ->convert('offer', 'offer_cbid_convertor:convert');
 
         return $controllers;
     }
