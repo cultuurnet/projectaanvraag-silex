@@ -5,7 +5,6 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
-use CultuurNet\ProjectAanvraag\ShareProxy\Converter\OfferCbidConverter;
 use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -77,10 +76,6 @@ class WidgetServiceProvider implements ServiceProviderInterface
 
         $pimple['widget_twig_preprocessor'] = function (Container $pimple) {
             return new TwigPreprocessor($pimple['translator'], $pimple['twig'], $pimple['request_stack']);
-        };
-
-        $pimple['offer_cbid_convertor'] = function (Container $pimple) {
-            return new OfferCbidConverter($pimple['search_api']);
         };
     }
 }
