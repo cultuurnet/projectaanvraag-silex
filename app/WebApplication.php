@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\WidgetAPIControllerProvider;
 use CultuurNet\ProjectAanvraag\Widget\WidgetControllerProvider;
+use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyControllerProvider;
 use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
@@ -173,6 +174,11 @@ class WebApplication extends ApplicationBase
         $this->mount(
             'widgets',
             new WidgetControllerProvider()
+        );
+
+        $this->mount(
+            null,
+            new ShareProxyControllerProvider()
         );
     }
 }

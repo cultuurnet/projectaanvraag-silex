@@ -24,8 +24,6 @@ class WidgetControllerProvider implements ControllerProviderInterface
 
         $controllers->get('/search', 'widget_controller:searchExample');
 
-        $controllers->get('/event/{cdbid}', 'widget_controller:socialShareProxy');
-
         return $controllers;
     }
 }
