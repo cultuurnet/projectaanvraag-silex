@@ -2,10 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use CultuurNet\SearchV3\SearchQueryInterface;
 use Pimple\Container;
 
 /**
@@ -125,7 +127,7 @@ use Pimple\Container;
  *      }
  * )
  */
-class SearchForm extends WidgetTypeBase
+class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 {
 
     /**
@@ -183,4 +185,14 @@ class SearchForm extends WidgetTypeBase
 
         return $defaults;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
+    {
+
+    }
+
+
 }

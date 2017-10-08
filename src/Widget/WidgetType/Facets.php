@@ -2,11 +2,13 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
+use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
 use CultuurNet\SearchV3\ValueObjects\FacetResults;
@@ -61,7 +63,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *      }
  * )
  */
-class Facets extends WidgetTypeBase
+class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 {
 
     /**
@@ -114,17 +116,11 @@ class Facets extends WidgetTypeBase
      */
     public function render()
     {
-        // Sample facet results.
+        // If a render is requested without search results context, perform a full search.
         $query = new SearchQuery(true);
 
         // Limit items per page.
         $query->setLimit(1);
-
-        // Add facets
-        $query->addParameter(new Facet('regions'));
-        $query->addParameter(new Facet('types'));
-        $query->addParameter(new Facet('themes'));
-        $query->addParameter(new Facet('facilities'));
 
         $result = $this->searchClient->searchEvents($query);
 
@@ -145,5 +141,26 @@ class Facets extends WidgetTypeBase
     public function renderPlaceholder()
     {
         return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
+    {
+        // TODO: Implement alterSearchResultsQuery() method.
+    }
+
+    /**
+     * Build the query object.
+     */
+    private function buildQuery(SearchQueryInterface $searchQuery) {
+
+        // Add facets
+        $searchQuery->addParameter(new Facet('regions'));
+        $searchQuery->addParameter(new Facet('types'));
+        $searchQuery->addParameter(new Facet('themes'));
+        $searchQuery->addParameter(new Facet('facilities'));
+
     }
 }

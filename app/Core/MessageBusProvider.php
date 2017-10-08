@@ -210,8 +210,8 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
 
         foreach ($servicesToCreate as $serviceId => $serviceProperties) {
             $pimple[$serviceId] = function (Container $pimple) use ($serviceProperties) {
+                $arguments = [];
                 if (isset($serviceProperties['arguments'])) {
-                    $arguments = [];
                     foreach ($serviceProperties['arguments'] as $argument) {
                         $arguments[] = $pimple[$argument];
                     }

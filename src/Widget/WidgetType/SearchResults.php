@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Query;
@@ -12,6 +13,7 @@ use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 
 use Pimple\Container;
+use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -244,9 +246,14 @@ class SearchResults extends WidgetTypeBase
     protected $searchClient;
 
     /**
-     * @var RequestStack
+     * @var null|\Symfony\Component\HttpFoundation\Request
      */
     protected $request;
+
+    /**
+     * @var MessageBusSupportingMiddleware
+     */
+    protected $eventBus;
 
     /**
      * SearchResults constructor.
@@ -259,11 +266,12 @@ class SearchResults extends WidgetTypeBase
      * @param RendererInterface $renderer
      * @param SearchClient $searchClient
      */
-    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack, MessageBusSupportingMiddleware $eventBus)
     {
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->searchClient = $searchClient;
         $this->request = $requestStack->getCurrentRequest();
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -279,7 +287,8 @@ class SearchResults extends WidgetTypeBase
             $container['widget_twig_preprocessor'],
             $container['widget_renderer'],
             $container['search_api'],
-            $container['request_stack']
+            $container['request_stack'],
+            $container['event_bus']
         );
     }
 
@@ -339,6 +348,8 @@ class SearchResults extends WidgetTypeBase
 
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+
+        $this->eventBus->handle(new SearchResultsQueryAlter($this->id, $query));
 
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);

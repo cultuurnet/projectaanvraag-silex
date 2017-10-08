@@ -1,5 +1,7 @@
 subscribers:
     synchronous:
+        CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter:
+            - widget_search_results_query_alter_listener
     asynchronous:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
             - project_created_listener
@@ -53,6 +55,11 @@ listeners:
             - project_repository
             - orm.em
             - insightly.project_config
+
+    widget_search_results_query_alter_listener:
+        class: \CultuurNet\ProjectAanvraag\Widget\EventListener\SearchResultsQueryAlterListener
+        arguments:
+            - request_stack
 
 handlers:
     create_project_handler:
