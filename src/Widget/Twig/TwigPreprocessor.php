@@ -109,8 +109,8 @@ class TwigPreprocessor
             'uitpas' => $event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false,
         ];
 
-        $default_image = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
-        $image = $variables['image'] ?? $default_image;
+        $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
+        $image = $variables['image'] ?? $defaultImage;
         if (!empty($image)) {
             $url = Url::factory($image);
             $query = $url->getQuery();

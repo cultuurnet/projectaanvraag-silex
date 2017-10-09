@@ -37,9 +37,9 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
 
             // Add search API key as default header.
             if (isset($pimple['config']['search_api']['api_key'])) {
-                $search_api_key = $pimple['config']['search_api']['api_key'];
+                $searchApiKey = $pimple['config']['search_api']['api_key'];
                 $headers = [
-                    'X-Api-Key' => $search_api_key,
+                    'X-Api-Key' => $searchApiKey,
                 ];
                 $client->setDefaultHeaders($headers);
             }

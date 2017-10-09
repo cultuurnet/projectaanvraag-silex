@@ -154,13 +154,13 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     /**
      * Build the query object.
      */
-    private function buildQuery(SearchQueryInterface $searchQuery) {
+    private function buildQuery(SearchQueryInterface $searchQuery)
+    {
 
         // Add facets
         $searchQuery->addParameter(new Facet('regions'));
         $searchQuery->addParameter(new Facet('types'));
         $searchQuery->addParameter(new Facet('themes'));
         $searchQuery->addParameter(new Facet('facilities'));
-
     }
 }

@@ -14,5 +14,4 @@ interface AlterSearchResultsQueryInterface
      * Alter the given search results query for a given widget id..
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery);
-
 }
