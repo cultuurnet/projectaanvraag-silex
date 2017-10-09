@@ -158,4 +158,23 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         return deferred;
     };
 
+
+    /**
+     * Render a given search results widget + all related facets.
+     */
+    CultuurnetWidgets.renderSearchResults = function(widgetId) {
+
+        var deferred = $.Deferred();
+
+        // Only render the widget if it's a known id.
+        if (CultuurnetWidgetsSettings.widgetMapping && CultuurnetWidgetsSettings.widgetMapping.hasOwnProperty(widgetId)) {
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings.apiUrl + '/render/' + CultuurnetWidgetsSettings.widgetMapping[widgetId] + '/' + widgetId + '/search-results-with-facets');
+        }
+        else {
+            deferred.reject('The given widget id was not found');
+        }
+
+        return deferred;
+    };
+
 })(CultuurnetWidgets, jQuery);

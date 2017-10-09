@@ -13,6 +13,8 @@ use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use CultuurNet\SearchV3\PagedCollection;
 use CultuurNet\SearchV3\Parameter\Facet;
@@ -165,6 +167,64 @@ print_r($test2);
 
         $data = [
             'data' => $this->renderer->renderWidget($widget),
+        ];
+        $response = new JsonResponse($data);
+
+        // If this is a jsonp request, set the requested callback.
+        if ($request->query->has('callback')) {
+            $response->setCallback($request->query->get('callback'));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Render the given search results widget + all related facets and return it as a json response.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @param $widgetId
+     * @return JsonResponse
+     */
+    public function renderSearchResultsWidgetWithFacets(Request $request, WidgetPageInterface $widgetPage, $widgetId)
+    {
+
+        $searchResultsWidget = null;
+        $facetWidgets = [];
+        $rows = $widgetPage->getRows();
+
+        // Search for the requested widget and facets that apply to it.
+        foreach ($rows as $row) {
+            $widgets = $row->getWidgets();
+            foreach ($widgets as $id => $widget) {
+                if ($id === $widgetId) {
+                    $searchResultsWidget = $widget;
+                }
+
+                if ($widget instanceof Facets && ($widget->getTargettedSearchResultsWidgetId() === $widgetId || $widget->getTargettedSearchResultsWidgetId() === '')) {
+                    $facetWidgets[$id] = $widget;
+                }
+            }
+        }
+
+        // If the widget is not a search result. This method should return 404.
+        if (empty($searchResultsWidget) || !$searchResultsWidget instanceof SearchResults) {
+            throw new NotFoundHttpException();
+        }
+
+        $renderedWidgets = [
+            'search_results' => $this->renderer->renderWidget($searchResultsWidget),
+            'facets' => [],
+        ];
+
+        $searchResult = $searchResultsWidget->getSearchResult();
+        foreach ($facetWidgets as $facetWidgetId => $facetWidget) {
+            $facetWidget->setSearchResult($searchResult);
+            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget);
+        }
+
+        $data = [
+            'data' => $renderedWidgets,
         ];
         $response = new JsonResponse($data);
 

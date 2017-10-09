@@ -12,6 +12,7 @@ use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
 use CultuurNet\SearchV3\ValueObjects\FacetResults;
+use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
@@ -77,6 +78,11 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     protected $searchClient;
 
     /**
+     * @var PagedCollection $searchResult
+     */
+    private $searchResult;
+
+    /**
      * SearchResults constructor.
      *
      * @param array $pluginDefinition
@@ -112,23 +118,43 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     }
 
     /**
+     * Get the id of the targetted search results widget.
+     */
+    public function getTargettedSearchResultsWidgetId()
+    {
+        return $this->settings['search_results'] ?? '';
+    }
+
+    /**
+     * Set the search result for current facet.
+     * @param PagedCollection $searchResult
+     */
+    public function setSearchResult(PagedCollection $searchResult)
+    {
+        $this->searchResult = $searchResult;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function render()
     {
+
         // If a render is requested without search results context, perform a full search.
-        $query = new SearchQuery(true);
+        if (empty($this->searchResult)) {
+            $query = new SearchQuery(true);
 
-        // Limit items per page.
-        $query->setLimit(1);
-
-        $result = $this->searchClient->searchEvents($query);
+            // Limit items per page.
+            $query->setLimit(1);
+            $this->buildQuery($query);
+            $this->searchResult = $this->searchClient->searchEvents($query);
+        }
 
         // Render twig with settings.
         return $this->twig->render(
             'widgets/facets-widget/facets-widget.html.twig',
             [
-                'facets' => $this->twigPreprocessor->preprocessFacetResults($result->getFacets(), 'nl'),
+                'facets' => $this->twigPreprocessor->preprocessFacetResults($this->searchResult->getFacets(), 'nl'),
                 'settings_filters' => $this->settings['filters'],
                 'settings_group_filters' => $this->settings['group_filters'],
             ]
@@ -140,7 +166,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'facets', 'autoload' => false]);
     }
 
     /**
@@ -148,7 +174,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
     {
-        // TODO: Implement alterSearchResultsQuery() method.
+        $this->buildQuery($searchQuery);
     }
 
     /**

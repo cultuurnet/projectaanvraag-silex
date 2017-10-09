@@ -212,6 +212,6 @@ class Tips extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'tips', 'autoload' => true]);
     }
 }

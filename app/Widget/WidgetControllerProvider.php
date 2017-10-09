@@ -22,6 +22,14 @@ class WidgetControllerProvider implements ControllerProviderInterface
         $controllers->get('/layout/{widgetPage}.js', 'widget_controller:renderPage')
             ->convert('widgetPage', 'widget_page_convertor:convert');
 
+        // Render widgets.
+        $controllers->get('widgets/api/render/{widgetPage}/{widgetId}', 'widget_controller:renderWidget')
+            ->convert('widgetPage', 'widget_page_convertor:convert');
+        $controllers->get('widgets/api/render/{widgetPage}/{widgetId}/draft', 'widget_controller:renderWidget')
+            ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
+        $controllers->get('/api/render/{widgetPage}/{widgetId}/search-results-with-facets', 'widget_controller:renderSearchResultsWidgetWithFacets')
+            ->convert('widgetPage', 'widget_page_convertor:convert');
+
         $controllers->get('/search', 'widget_controller:searchExample');
 
         return $controllers;
