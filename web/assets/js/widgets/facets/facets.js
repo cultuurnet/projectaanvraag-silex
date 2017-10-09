@@ -11,9 +11,21 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.behaviors.facets = {
 
         attach: function(context) {
-            //
-        }
+            // Click event binding for facet filters.
+            $(context).find('a[data-facet-type]').each(function() {
+                $(this).bind('click', function() {
+                    var type = $(this).attr('data-facet-type');
+                    var value = $(this).attr('data-facet-value');
 
+                    if (type !== 'extra') {
+                        CultuurnetWidgets.facetFilter('facet_' + type, value);
+                    }
+                    else {
+                        CultuurnetWidgets.extraFilter(value);
+                    }
+                });
+            });
+        }
     };
 
     /**

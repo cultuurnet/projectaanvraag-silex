@@ -2,7 +2,6 @@
     <div class="cnw_container">
         <div id="loadcontent">
             <!--  Faceted search - Date -->
-            {% if settings_filters.when %}
                 <section class="cnw_facetedsearch cnw_facetedsearch--date">
 
                     <!-- TODO: needs to be built from facet? -->
@@ -10,31 +9,30 @@
 
                     <ul class="cnw_facet-search" data-size="6">
                         <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetFilter('facet-date', 'today')">Vandaag</a>
+                            <a href="#" data-facet-type="date" data-facet-value="today">Vandaag</a>
                         </li>
                         <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetFilter('facet-date', 'tomorrow')">Morgen</a>
-                        </li>
-
-                        <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetFilter('facet-date', 'thisweekend')">Dit weekend</a>
+                            <a href="#" data-facet-type="date" data-facet-value="tomorrow">Morgen</a>
                         </li>
 
                         <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetFilter('facet-date', 'next7days')">Volgende 7 dagen</a>
+                            <a href="#" data-facet-type="date" data-facet-value="thisweekend">Dit weekend</a>
                         </li>
 
                         <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetFilter('facet-date', 'next14days')">Volgende 14 dagen</a>
+                            <a href="#" data-facet-type="date" data-facet-value="next7days">Volgende 7 dagen</a>
                         </li>
 
                         <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetFilter('facet-date', 'next30days')">Volgende 30 dagen</a>
+                            <a href="#" data-facet-type="date" data-facet-value="next14days">Volgende 14 dagen</a>
+                        </li>
+
+                        <li class="cnw_facet-label">
+                            <a href="#" data-facet-type="date" data-facet-value="next30days">Volgende 30 dagen</a>
                         </li>
                     </ul>
 
                 </section>
-            {% endif %}
             <!--  Faceted search -   Date -->
 
             <!--  Faceted search - Location -->
@@ -97,7 +95,7 @@
                     <ul class="cnw_facet-search" data-size="6">
                         {% for option in group.options %}
                             <li class="cnw_facet-label ">
-                                <a href="#" onclick="CultuurnetWidgets.extraFilter('{{ option.query }}')">{{ option.label }}</a>
+                                <a href="#" data-facet-type="extra" data-facet-value="{{ option.query }}">{{ option.label }}</a>
                             </li>
                         {% endfor %}
                     </ul>
