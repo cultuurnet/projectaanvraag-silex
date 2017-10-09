@@ -157,45 +157,104 @@ class TwigPreprocessor
     }
 
     /**
-     * Preprocess facet results for sending to a template.
-     *
-     * @param FacetResults $facetResults
-     * @param string $langcode
-     * @return array
-     */
-    public function preprocessFacetResults(FacetResults $facetResults, $langcode)
-    {
-        $variables = [];
-
-        // Filter results by field and format.
-        foreach ($facetResults as $facetResult) {
-            $variables[$facetResult->getField()] = $this->preprocessFacetResult($facetResult, $langcode);
-        }
-
-        return $variables;
-    }
-
-    /**
-     * Preprocess 1 facet result.
+     * Preprocess facet for sending to a template.
      *
      * @param FacetResult $facetResult
+     * @param $type
      * @param $langcode
      * @return array
      */
-    protected function preprocessFacetResult(FacetResult $facetResult, $langcode)
-    {
+    public function preprocessFacet(FacetResult $facetResult, $type, $langcode) {
+        $facet = [
+            'type' => $type,
+            'count' => count($facetResult->getResults()),
+            'options' => []
+        ];
 
-        $variables = [];
-        $results = $facetResult->getResults();
-        foreach ($results as $result) {
-            $variables[] = [
+        switch ($type) {
+            case 'type':
+                $facet['label'] = 'Type';
+                break;
+            case 'location':
+                $facet['label'] = 'Waar';
+                break;
+            default:
+                $facet['label'] = ucfirst($type);
+                break;
+        }
+
+        foreach($facetResult->getResults() as $result) {
+            $facet['options'][] = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
                 'name' => $result->getNames()[$langcode] ?? '',
             ];
         }
 
-        return $variables;
+        return $facet;
+    }
+
+    /**
+     * Preprocess extra facet for sending to a template.
+     *
+     * @param $filter
+     * @return array
+     */
+    public function preprocessExtraFacet($filter) {
+        $facet = [
+            'type' => 'extra',
+            'label' => $filter['label'] ?? '',
+            'count' => count($filter['options']),
+            'options' => []
+        ];
+
+        foreach($filter['options'] as $option) {
+            $facet['options'][] = [
+                'value' => $option['query'],
+                'name' => $option['label'] ?? '',
+            ];
+        }
+
+        return $facet;
+    }
+
+    /**
+     * Return fixed values for date facet.
+     *
+     * @return array
+     */
+    public function getDateFacet() {
+        return [
+            'type' => 'date',
+            'label' => 'Wanneer',
+            'count' => 6,
+            'options' => [
+                [
+                    'value' => 'today',
+                    'name' => 'Vandaag'
+                ],
+                [
+                    'value' => 'tomorrow',
+                    'name' => 'Morgen'
+                ],
+                [
+                    'value' => 'thisweekend',
+                    'name' => 'Dit weekend'
+                ],
+                [
+                    'value' => 'next7days',
+                    'name' => 'Volgende 7 dagen'
+                ],
+                [
+                    'value' => 'next14days',
+                    'name' => 'Volgende 14 dagen'
+                ],
+                [
+                    'value' => 'next30days',
+                    'name' => 'Volgende 30 dagen'
+                ],
+            ]
+        ];
     }
 
     /**

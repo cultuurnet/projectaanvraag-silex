@@ -1,0 +1,15 @@
+<!--  Faceted search -->
+<section class="cnw_facetedsearch cnw_facetedsearch--{{ facet.type }}">
+    <h3 class="cnw_block-title">{{ facet.label }}</h3>
+
+    <ul class="cnw_facet-search" data-size="{{ facet.count }}">
+        {% for option in facet.options %}
+            <li class="cnw_facet-label ">
+                <a href="#" data-facet-type="{{ facet.type }}" data-facet-value="{{ option.value }}">{{ option.name }}</a>
+                {% if option.count is defined %}
+                    <small class="cnw_facet-count cnw_push-right">({{ option.count }})</small>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>

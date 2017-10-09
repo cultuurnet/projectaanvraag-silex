@@ -128,13 +128,31 @@ class Facets extends WidgetTypeBase
 
         $result = $this->searchClient->searchEvents($query);
 
+        // Preprocess facets before sending to template.
+        $facets = [];
+        $facetsRaw = $result->getFacets();
+        if ($facetsRaw) {
+            if ($this->settings['filters']['when']) {
+                $facets[] = $this->twigPreprocessor->getDateFacet();
+            }
+            if ($this->settings['filters']['what']) {
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'type', 'nl');
+            }
+            if ($this->settings['filters']['where']) {
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'location', 'nl');
+            }
+            if ($this->settings['group_filters']['enabled']) {
+                foreach ($this->settings['group_filters']['filters'] as $filter) {
+                    $facets[] = $this->twigPreprocessor->preprocessExtraFacet($filter);
+                }
+            }
+        }
+
         // Render twig with settings.
         return $this->twig->render(
             'widgets/facets-widget/facets-widget.html.twig',
             [
-                'facets' => $this->twigPreprocessor->preprocessFacetResults($result->getFacets(), 'nl'),
-                'settings_filters' => $this->settings['filters'],
-                'settings_group_filters' => $this->settings['group_filters'],
+                'facets' => $facets,
             ]
         );
     }
