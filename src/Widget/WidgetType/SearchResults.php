@@ -329,12 +329,6 @@ class SearchResults extends WidgetTypeBase
             $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
         }
 
-        // Add facets (datetime is missing from v3?).
-        //$query->addParameter(new Facet('regions'));
-        //$query->addParameter(new Facet('types'));
-        //$query->addParameter(new Facet('themes'));
-        //$query->addParameter(new Facet('facilities'));
-
         // Build advanced query string
         $advancedQuery = [];
 
@@ -342,29 +336,6 @@ class SearchResults extends WidgetTypeBase
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
-        }
-
-        // / Check for facets query params.
-        if (isset($urlQueryParams['facet-region'])) {
-            $advancedQuery[] = 'regions=' . $urlQueryParams['facet-region'];
-            unset($urlQueryParams['facet-region']);
-        }
-        if (isset($urlQueryParams['facet-type'])) {
-            $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
-            unset($urlQueryParams['facet-type']);
-        }
-        if (isset($urlQueryParams['facet-date'])) {
-            // Create ISO-8601 daterange from datetype.
-            $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['facet-date']);
-            if (!empty($dateRange)) {
-                $advancedQuery[] = 'dateRange:' . $dateRange;
-            }
-            unset($urlQueryParams['facet-date']);
-        }
-
-        // Check for remaining extra query params.
-        foreach ($urlQueryParams as $param => $value) {
-            $advancedQuery[] = "$param=$value";
         }
 
         // Add advanced query string to API request.

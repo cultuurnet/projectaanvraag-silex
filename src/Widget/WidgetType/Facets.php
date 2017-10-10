@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Facet;
+use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
@@ -205,11 +206,49 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     private function buildQuery(SearchQueryInterface $searchQuery)
     {
-
         // Add facets
         $searchQuery->addParameter(new Facet('regions'));
         $searchQuery->addParameter(new Facet('types'));
         $searchQuery->addParameter(new Facet('themes'));
         $searchQuery->addParameter(new Facet('facilities'));
+
+        // Retrieve the current request query parameters using the global Application object and filter.
+        $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
+
+        // Build advanced query string
+        $advancedQuery = [];
+
+        // / Check for facets query params.
+        if (isset($urlQueryParams['facet-region'])) {
+            $advancedQuery[] = 'regions=' . $urlQueryParams['facet-region'];
+            unset($urlQueryParams['facet-region']);
+        }
+        if (isset($urlQueryParams['facet-type'])) {
+            $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
+            unset($urlQueryParams['facet-type']);
+        }
+        if (isset($urlQueryParams['facet-date'])) {
+            // Create ISO-8601 daterange from datetype.
+            $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['facet-date']);
+            if (!empty($dateRange)) {
+                $advancedQuery[] = 'dateRange:' . $dateRange;
+            }
+            unset($urlQueryParams['facet-date']);
+        }
+
+        // Check for remaining extra query params.
+        foreach ($urlQueryParams as $param => $value) {
+            $advancedQuery[] = "$param=$value";
+        }
+
+        // Add advanced query string to API request.
+        if (!empty($advancedQuery)) {
+            $searchQuery->addParameter(
+                new Query(
+                    implode(' AND ', $advancedQuery)
+                )
+            );
+        }
+
     }
 }
