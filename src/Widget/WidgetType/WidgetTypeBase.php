@@ -149,8 +149,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
             foreach ($params as $key => $param) {
                 if (in_array($key, ['callback', '_'])) {
                     unset($params[$key]);
-                }
-                else {
+                } else {
                     // Check key for question mark.
                     if (substr($key, 0, 1) == '?') {
                         // Trim question mark.
@@ -162,6 +161,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 }
             }
         }
+
         return $params;
     }
 
@@ -208,8 +208,8 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         $cetTimezone = new \DateTimeZone('CET');
         $dt1 = new \DateTime($date1, $cetTimezone);
         $dt2 = new \DateTime($date2, $cetTimezone);
-        $dt1->setTime(0,0,0);
-        $dt2->setTime(23,59,59);
+        $dt1->setTime(0, 0, 0);
+        $dt2->setTime(23, 59, 59);
         $dateStart = $dt1->format('c');
         $dateEnd = $dt2->format('c');
 
@@ -228,6 +228,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         // Determine number of pages.
         $pages = ceil($totalItems / $itemsPerPage);
+
         return new WidgetPager($pages, $pageIndex, $itemsPerPage);
     }
 

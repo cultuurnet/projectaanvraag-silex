@@ -143,7 +143,7 @@ class TwigPreprocessor
             }
         }
 
-        $variables['language_icons']= '';
+        $variables['language_icons'] = '';
         if ($totalLanguageIcons) {
             $variables['language_icons'] = $this->twig->render('widgets/language-icons.html.twig', ['score' => $totalLanguageIcons]);
         }
@@ -164,11 +164,12 @@ class TwigPreprocessor
      * @param $langcode
      * @return array
      */
-    public function preprocessFacet(FacetResult $facetResult, $type, $langcode) {
+    public function preprocessFacet(FacetResult $facetResult, $type, $langcode)
+    {
         $facet = [
             'type' => $type,
             'count' => count($facetResult->getResults()),
-            'options' => []
+            'options' => [],
         ];
 
         switch ($type) {
@@ -183,7 +184,7 @@ class TwigPreprocessor
                 break;
         }
 
-        foreach($facetResult->getResults() as $result) {
+        foreach ($facetResult->getResults() as $result) {
             $facet['options'][] = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
@@ -200,15 +201,16 @@ class TwigPreprocessor
      * @param $filter
      * @return array
      */
-    public function preprocessExtraFacet($filter) {
+    public function preprocessExtraFacet($filter)
+    {
         $facet = [
             'type' => 'extra',
             'label' => $filter['label'] ?? '',
             'count' => count($filter['options']),
-            'options' => []
+            'options' => [],
         ];
 
-        foreach($filter['options'] as $option) {
+        foreach ($filter['options'] as $option) {
             $facet['options'][] = [
                 'value' => $option['query'],
                 'name' => $option['label'] ?? '',
@@ -223,7 +225,8 @@ class TwigPreprocessor
      *
      * @return array
      */
-    public function getDateFacet() {
+    public function getDateFacet()
+    {
         return [
             'type' => 'date',
             'label' => 'Wanneer',
@@ -231,29 +234,29 @@ class TwigPreprocessor
             'options' => [
                 [
                     'value' => 'today',
-                    'name' => 'Vandaag'
+                    'name' => 'Vandaag',
                 ],
                 [
                     'value' => 'tomorrow',
-                    'name' => 'Morgen'
+                    'name' => 'Morgen',
                 ],
                 [
                     'value' => 'thisweekend',
-                    'name' => 'Dit weekend'
+                    'name' => 'Dit weekend',
                 ],
                 [
                     'value' => 'next7days',
-                    'name' => 'Volgende 7 dagen'
+                    'name' => 'Volgende 7 dagen',
                 ],
                 [
                     'value' => 'next14days',
-                    'name' => 'Volgende 14 dagen'
+                    'name' => 'Volgende 14 dagen',
                 ],
                 [
                     'value' => 'next30days',
-                    'name' => 'Volgende 30 dagen'
+                    'name' => 'Volgende 30 dagen',
                 ],
-            ]
+            ],
         ];
     }
 
