@@ -1,12 +1,9 @@
-<div class="cnw_w">
+<div class="cnw_w" data-widget-id="{{ id }}">
     <div class="cnw_container">
         <div id="loadcontent">
             {% for facet in facets %}
                 {% include 'widgets/facet.html.twig' with { 'facet': facet } %}
             {% endfor %}
         </div>
-        {% endfor %}
-
-    {% endif %}
-<!--  Faceted search -   extra -->
-</section>
+    </div>
+</div>

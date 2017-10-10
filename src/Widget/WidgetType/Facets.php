@@ -150,7 +150,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $this->searchResult = $this->searchClient->searchEvents($query);
         }
 
-        $result = $this->searchClient->searchEvents($query);
+        // Temp fix
+        $result = $this->searchResult;
+        //$result = $this->searchClient->searchEvents($query);
 
         // Preprocess facets before sending to template.
         $facets = [];
@@ -176,6 +178,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         return $this->twig->render(
             'widgets/facets-widget/facets-widget.html.twig',
             [
+                'id' => $this->id,
                 'facets' => $facets,
             ]
         );
