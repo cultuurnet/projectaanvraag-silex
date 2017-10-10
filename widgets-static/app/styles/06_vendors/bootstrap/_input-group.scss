@@ -1,0 +1,178 @@
+//
+// Base styles
+//
+
+.cnw_input-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  .form-control {
+    // Ensure that the input is always above the *appended* addon button for
+    // proper border colors.
+    position: relative;
+    z-index: 2;
+    flex: 1 1 auto;
+    // Add width 1% and flex-basis auto to ensure that button will not wrap out
+    // the column. Applies to IE Edge+ and Firefox. Chrome does not require this.
+    width: 1%;
+    margin-bottom: 0;
+
+    // Bring the "active" form control to the front
+    @include hover-focus-active {
+      z-index: 3;
+    }
+  }
+}
+
+.cnw_input-group-addon,
+.cnw_input-group-btn,
+.cnw_input-group .cnw_form-control {
+  // Vertically centers the content of the addons within the input group
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &:not(:first-child):not(:last-child) {
+    @include border-radius(0);
+  }
+}
+
+.cnw_input-group-addon,
+.cnw_input-group-btn {
+  white-space: nowrap;
+  vertical-align: middle; // Match the inputs
+}
+
+
+// Sizing options
+//
+// Remix the default form control sizing classes into new ones for easier
+// manipulation.
+
+.cnw_input-group-lg > .cnw_form-control,
+.cnw_input-group-lg > .cnw_input-group-addon,
+.cnw_input-group-lg > .cnw_input-group-btn > .btn {
+  @extend .cnw_form-control-lg;
+}
+.cnw_input-group-sm > .cnw_form-control,
+.cnw_input-group-sm > .cnw_input-group-addon,
+.cnw_input-group-sm > .cnw_input-group-btn > .btn {
+  @extend .cnw_form-control-sm;
+}
+
+
+//
+// Text input groups
+//
+
+.cnw_input-group-addon {
+  padding: $input-padding-y $input-padding-x;
+  margin-bottom: 0; // Allow use of <label> elements by overriding our default margin-bottom
+  font-size: $font-size-base; // Match inputs
+  font-weight: $font-weight-normal;
+  line-height: $input-line-height;
+  color: $input-color;
+  text-align: center;
+  background-color: $input-group-addon-bg;
+  border: $input-btn-border-width solid $input-group-addon-border-color;
+  @include border-radius($input-border-radius);
+
+  // Sizing
+  &.cnw_form-control-sm {
+    padding: $input-padding-y-sm $input-padding-x-sm;
+    font-size: $font-size-sm;
+    @include border-radius($input-border-radius-sm);
+  }
+  &.cnw_form-control-lg {
+    padding: $input-padding-y-lg $input-padding-x-lg;
+    font-size: $font-size-lg;
+    @include border-radius($input-border-radius-lg);
+  }
+
+  // scss-lint:disable QualifyingElement
+  // Nuke default margins from checkboxes and radios to vertically center within.
+  input[type="radio"],
+  input[type="checkbox"] {
+    margin-top: 0;
+  }
+  // scss-lint:enable QualifyingElement
+}
+
+
+//
+// Reset rounded corners
+//
+
+.cnw_input-group .cnw_form-control:not(:last-child),
+.cnw_input-group-addon:not(:last-child),
+.cnw_input-group-btn:not(:last-child) > .cnw_btn,
+.cnw_input-group-btn:not(:last-child) > .cnw_btn-group > .cnw_btn,
+.cnw_input-group-btn:not(:last-child) > .cnw_dropdown-toggle,
+.cnw_input-group-btn:not(:first-child) > .cnw_btn:not(:last-child):not(.cnw_dropdown-toggle),
+.cnw_input-group-btn:not(:first-child) > .cnw_btn-group:not(:last-child) > .cnw_btn {
+  @include border-right-radius(0);
+}
+.cnw_input-group-addon:not(:last-child) {
+  border-right: 0;
+}
+.cnw_input-group .form-control:not(:first-child),
+.cnw_input-group-addon:not(:first-child),
+.cnw_input-group-btn:not(:first-child) > .cnw_btn,
+.cnw_input-group-btn:not(:first-child) > .cnw_btn-group > .cnw_btn,
+.cnw_input-group-btn:not(:first-child) > .cnw_dropdown-toggle,
+.cnw_input-group-btn:not(:last-child) > .cnw_btn:not(:first-child),
+.cnw_input-group-btn:not(:last-child) > .cnw_btn-group:not(:first-child) > .cnw_btn {
+  @include border-left-radius(0);
+}
+.cnw_form-control + .cnw_input-group-addon:not(:first-child) {
+  border-left: 0;
+}
+
+//
+// Button input groups
+//
+
+.cnw_input-group-btn {
+  position: relative;
+  // Jankily prevent input button groups from wrapping with `white-space` and
+  // `font-size` in combination with `inline-block` on buttons.
+  font-size: 0;
+  white-space: nowrap;
+
+  // Negative margin for spacing, position for bringing hovered/focused/actived
+  // element above the siblings.
+  > .cnw_btn {
+    position: relative;
+    // Vertically stretch the button and center its content
+    flex: 1;
+
+    + .cnw_btn {
+      margin-left: (-$input-btn-border-width);
+    }
+
+    // Bring the "active" button to the front
+    @include hover-focus-active {
+      z-index: 3;
+    }
+  }
+
+  // Negative margin to only have a single, shared border between the two
+  &:not(:last-child) {
+    > .cnw_btn,
+    > .cnw_btn-group {
+      margin-right: (-$input-btn-border-width);
+    }
+  }
+  &:not(:first-child) {
+    > .cnw_btn,
+    > .cnw_btn-group {
+      z-index: 2;
+      margin-left: (-$input-btn-border-width);
+      // Because specificity
+      @include hover-focus-active {
+        z-index: 3;
+      }
+    }
+  }
+}

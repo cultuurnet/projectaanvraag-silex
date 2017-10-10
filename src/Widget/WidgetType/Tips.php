@@ -34,8 +34,7 @@ use Pimple\Container;
  *              },
  *              "description":{
  *                  "enabled":true,
- *                  "characters":200,
- *                  "label":"",
+ *                  "characters":200
  *              },
  *              "when":{
  *                  "enabled":false,
@@ -89,7 +88,6 @@ use Pimple\Container;
  *              },
  *              "description":{
  *                  "enabled":"boolean",
- *                  "label":"string",
  *                  "characters":"integer"
  *              },
  *              "when":{
@@ -199,10 +197,6 @@ class Tips extends WidgetTypeBase
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
 
-        if (!isset($this->settings['items']['description']['label'])) {
-            $this->settings['items']['description']['label'] = '';
-        }
-
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/tips-widget/tips-widget.html.twig',
@@ -218,6 +212,6 @@ class Tips extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'tips', 'autoload' => true]);
     }
 }

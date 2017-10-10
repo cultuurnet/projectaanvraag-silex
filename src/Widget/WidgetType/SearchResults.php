@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Query;
@@ -11,7 +12,9 @@ use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 
+use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
+use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -31,7 +34,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "body":"",
  *          },
  *          "footer":{
- *              "body":"",
+ *              "body":"<p>Zelf een activiteit toevoegen? Dat kan via <a href='http://www.uitdatabank.be'>www.UiTdatabank.be</a></p>",
  *          },
  *          "items":{
  *              "icon_vlieg":{
@@ -148,7 +151,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "description":{
  *                  "enabled":"boolean",
- *                  "label":"string",
  *                  "characters":"integer"
  *              },
  *              "when":{
@@ -245,9 +247,19 @@ class SearchResults extends WidgetTypeBase
     protected $searchClient;
 
     /**
-     * @var RequestStack
+     * @var null|\Symfony\Component\HttpFoundation\Request
      */
     protected $request;
+
+    /**
+     * @var MessageBusSupportingMiddleware
+     */
+    protected $eventBus;
+
+    /**
+     * @var PagedCollection
+     */
+    protected $searchResult;
 
     /**
      * SearchResults constructor.
@@ -260,11 +272,12 @@ class SearchResults extends WidgetTypeBase
      * @param RendererInterface $renderer
      * @param SearchClient $searchClient
      */
-    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack, MessageBusSupportingMiddleware $eventBus)
     {
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->searchClient = $searchClient;
         $this->request = $requestStack->getCurrentRequest();
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -280,8 +293,17 @@ class SearchResults extends WidgetTypeBase
             $container['widget_twig_preprocessor'],
             $container['widget_renderer'],
             $container['search_api'],
-            $container['request_stack']
+            $container['request_stack'],
+            $container['event_bus']
         );
+    }
+
+    /**
+     * Get the search result for current widget.
+     */
+    public function getSearchResult()
+    {
+        return $this->searchResult;
     }
 
     /**
@@ -357,11 +379,13 @@ class SearchResults extends WidgetTypeBase
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
 
+        $this->eventBus->handle(new SearchResultsQueryAlter($this->id, $query));
+
         // Retrieve results from Search API.
-        $result = $this->searchClient->searchEvents($query);
+        $this->searchResult = $this->searchClient->searchEvents($query);
 
         // Retrieve pager object.
-        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
+        $pager = $this->retrievePagerData($this->searchResult->getItemsPerPage(), $this->searchResult->getTotalItems(), (int) $currentPageIndex);
 
         if (!isset($this->settings['items']['description']['label'])) {
             $this->settings['items']['description']['label'] = '';
@@ -371,8 +395,8 @@ class SearchResults extends WidgetTypeBase
         return $this->twig->render(
             'widgets/search-results-widget/search-results-widget.html.twig',
             [
-                'result_count' => $result->getTotalItems(),
-                'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
+                'result_count' => $this->searchResult->getTotalItems(),
+                'events' => $this->twigPreprocessor->preprocessEventList($this->searchResult->getMember()->getItems(), 'nl', $this->settings),
                 'pager' => $pager,
                 'settings_items' => $this->settings['items'],
                 'settings_header' => $this->settings['header'],
@@ -387,6 +411,6 @@ class SearchResults extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'search-results', 'autoload' => true]);
     }
 }

@@ -46,9 +46,6 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
 
-        // Render widget pages.
-        $controllers->get('/api/render/{widgetPage}/{widgetId}', 'widget_controller:renderWidget')
-            ->convert('widgetPage', 'widget_page_convertor:convert');
 
         return $controllers;
     }
