@@ -230,39 +230,45 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
 
         // Merge parameters per facet widget id.
-        $mergedQueryParams = array_merge_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
+        if (!empty($urlQueryParams)) {
 
-        // Get parameters for current facet.
-        $urlQueryParams = $mergedQueryParams[$this->id];
-
-        // Build advanced query string
-        $advancedQuery = [];
-
-        // / Check for facets query params.
-        if (isset($urlQueryParams['facet-location'])) {
-            $advancedQuery[] = 'regions=' . $urlQueryParams['facet-location'];
-            unset($urlQueryParams['facet-location']);
-        }
-        if (isset($urlQueryParams['facet-type'])) {
-            $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
-            unset($urlQueryParams['facet-type']);
-        }
-        if (isset($urlQueryParams['facet-date'])) {
-            // Create ISO-8601 daterange from datetype.
-            $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['facet-date']);
-            if (!empty($dateRange)) {
-                $advancedQuery[] = 'dateRange:' . $dateRange;
+            if (count($urlQueryParams) > 1) {
+                $mergedQueryParams = array_merge_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
+                // Get parameters for current facet if there are any.
+                if (isset($mergedQueryParams[$this->id])) {
+                    $urlQueryParams = $mergedQueryParams[$this->id];
+                }
+                else {
+                    $urlQueryParams = [];
+                }
             }
-            unset($urlQueryParams['facet-date']);
-        }
 
-        // Check for remaining extra query params.
-        // TODO
-        /*
-        foreach ($urlQueryParams as $param => $value) {
-            $advancedQuery[] = "$param=$value";
+            // Build advanced query string.
+            $advancedQuery = [];
+
+            // / Check for facets query params.
+            if (isset($urlQueryParams['facet-location'])) {
+                $advancedQuery[] = 'regions=' . $urlQueryParams['facet-location'];
+                unset($urlQueryParams['facet-location']);
+            }
+            if (isset($urlQueryParams['facet-type'])) {
+                $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
+                unset($urlQueryParams['facet-type']);
+            }
+            if (isset($urlQueryParams['facet-date'])) {
+                // Create ISO-8601 daterange from datetype.
+                $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['facet-date']);
+                if (!empty($dateRange)) {
+                    $advancedQuery[] = 'dateRange:' . $dateRange;
+                }
+                unset($urlQueryParams['facet-date']);
+            }
+
+            // Check for extra query params.
+            if (isset($urlQueryParams['extra'])) {
+                //
+            }
         }
-        */
 
         // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
