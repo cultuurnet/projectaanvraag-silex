@@ -140,7 +140,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function render()
     {
-
         // If a render is requested without search results context, perform a full search.
         if (empty($this->searchResult)) {
             $query = new SearchQuery(true);
@@ -151,13 +150,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $this->searchResult = $this->searchClient->searchEvents($query);
         }
 
-        // Temp fix
-        $result = $this->searchResult;
-        //$result = $this->searchClient->searchEvents($query);
-
         // Preprocess facets before sending to template.
         $facets = [];
-        $facetsRaw = $result->getFacets();
+        $facetsRaw = $this->searchResult->getFacets();
         if ($facetsRaw) {
             if ($this->settings['filters']['when']) {
                 $facets[] = $this->twigPreprocessor->getDateFacet();
@@ -198,6 +193,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
     {
+        // TODO: check search results ID hier.
         $this->buildQuery($searchQuery);
     }
 
@@ -206,7 +202,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     private function buildQuery(SearchQueryInterface $searchQuery)
     {
-        // Add facets
+        // Add facets // TODO: check settings to see which to add.
         $searchQuery->addParameter(new Facet('regions'));
         $searchQuery->addParameter(new Facet('types'));
         $searchQuery->addParameter(new Facet('themes'));
@@ -214,9 +210,10 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         // Retrieve the current request query parameters using the global Application object and filter.
         $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
+        //$urlQueryParams =
 
         // Build advanced query string
-        $advancedQuery = [];
+        /*x$advancedQuery = [];
 
         // / Check for facets query params.
         if (isset($urlQueryParams['facet-region'])) {
@@ -249,5 +246,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 )
             );
         }
+        */
     }
 }

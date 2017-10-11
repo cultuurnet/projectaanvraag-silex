@@ -136,8 +136,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Trim question mark from first parameter.
-     *
      * Remove non query parameters.
      *
      * @param $params
@@ -149,19 +147,9 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
             foreach ($params as $key => $param) {
                 if (in_array($key, ['callback', '_'])) {
                     unset($params[$key]);
-                } else {
-                    // Check key for question mark.
-                    if (substr($key, 0, 1) == '?') {
-                        // Trim question mark.
-                        $trimmedKey = ltrim($key, '?');
-                        // Replace key.
-                        $params[$trimmedKey] = $param;
-                        unset($params[$key]);
-                    }
                 }
             }
         }
-
         return $params;
     }
 
