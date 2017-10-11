@@ -202,13 +202,22 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     private function buildQuery(SearchQueryInterface $searchQuery)
     {
-        // Add facets // TODO: check settings to see which to add.
-        // TEMP FIX FOR MULTIPLE FACETS.
-        if ($this->name !== 'zoekverfijningen-2') {
-            $searchQuery->addParameter(new Facet('regions'));
-            $searchQuery->addParameter(new Facet('types'));
-            $searchQuery->addParameter(new Facet('themes'));
-            $searchQuery->addParameter(new Facet('facilities'));
+        // Add facets (if they haven't been added already).
+        if ($this->settings['filters']['what']) {
+            $existingFacets = array_filter($searchQuery->getParameters(), function($o) {
+                return $o instanceof Facet && $o->getValue() == 'types';
+            });
+            if (empty($existingFacets)) {
+                $searchQuery->addParameter(new Facet('types'));
+            }
+        }
+        if ($this->settings['filters']['where']) {
+            $existingFacets = array_filter($searchQuery->getParameters(), function($o) {
+                return $o instanceof Facet && $o->getValue() == 'regions';
+            });
+            if (empty($existingFacets)) {
+                $searchQuery->addParameter(new Facet('regions'));
+            }
         }
 
         // Retrieve the current request query parameters using the global Application object and filter.
@@ -254,8 +263,8 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $advancedQueryString = '';
 
             // Check for existing Query parameter.
-            $existingQueries = array_filter($searchQuery->getParameters(), function($v) {
-                return $v instanceof Query;
+            $existingQueries = array_filter($searchQuery->getParameters(), function($o) {
+                return $o instanceof Query;
             });
 
             if (!empty($existingQueries)) {
