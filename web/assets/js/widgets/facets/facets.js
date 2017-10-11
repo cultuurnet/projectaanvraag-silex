@@ -19,7 +19,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                     var value = $(this).data('facet-value');
 
                     if (type !== 'extra') {
-                        CultuurnetWidgets.facetFilter(widget_id, 'facet_' + type, value);
+                        CultuurnetWidgets.facetFilter(widget_id, 'facet-' + type, value);
                     }
                     else {
                         var facet_id = $(this).data('facet-id');

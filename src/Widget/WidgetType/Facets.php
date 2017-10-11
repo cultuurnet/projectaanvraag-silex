@@ -203,22 +203,30 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     private function buildQuery(SearchQueryInterface $searchQuery)
     {
         // Add facets // TODO: check settings to see which to add.
-        $searchQuery->addParameter(new Facet('regions'));
-        $searchQuery->addParameter(new Facet('types'));
-        $searchQuery->addParameter(new Facet('themes'));
-        $searchQuery->addParameter(new Facet('facilities'));
+        // TEMP FIX FOR MULTIPLE FACETS.
+        if ($this->name !== 'zoekverfijningen-2') {
+            $searchQuery->addParameter(new Facet('regions'));
+            $searchQuery->addParameter(new Facet('types'));
+            $searchQuery->addParameter(new Facet('themes'));
+            $searchQuery->addParameter(new Facet('facilities'));
+        }
 
         // Retrieve the current request query parameters using the global Application object and filter.
         $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
-        //$urlQueryParams =
+
+        // Merge parameters per facet widget id.
+        $mergedQueryParams = array_merge_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
+
+        // Get parameters for current facet.
+        $urlQueryParams = $mergedQueryParams[$this->id];
 
         // Build advanced query string
-        /*x$advancedQuery = [];
+        $advancedQuery = [];
 
         // / Check for facets query params.
-        if (isset($urlQueryParams['facet-region'])) {
-            $advancedQuery[] = 'regions=' . $urlQueryParams['facet-region'];
-            unset($urlQueryParams['facet-region']);
+        if (isset($urlQueryParams['facet-location'])) {
+            $advancedQuery[] = 'regions=' . $urlQueryParams['facet-location'];
+            unset($urlQueryParams['facet-location']);
         }
         if (isset($urlQueryParams['facet-type'])) {
             $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
@@ -234,18 +242,37 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         }
 
         // Check for remaining extra query params.
+        // TODO
+        /*
         foreach ($urlQueryParams as $param => $value) {
             $advancedQuery[] = "$param=$value";
         }
+        */
 
         // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
+            $advancedQueryString = '';
+
+            // Check for existing Query parameter.
+            $existingQueries = array_filter($searchQuery->getParameters(), function($v) {
+                return $v instanceof Query;
+            });
+
+            if (!empty($existingQueries)) {
+                // Remove existing Query parameter.
+                $existingQuery = array_shift($existingQueries);
+                $searchQuery->removeParameter($existingQuery);
+                // Start new string with existing value.
+                $existingQueryString = $existingQuery->getValue();
+                $advancedQueryString = $existingQueryString . ' AND ';
+            }
+
+            // Add current facet parameters.
+            $advancedQueryString .= implode(' AND ', $advancedQuery);
+
             $searchQuery->addParameter(
-                new Query(
-                    implode(' AND ', $advancedQuery)
-                )
+                new Query($advancedQueryString)
             );
         }
-        */
     }
 }

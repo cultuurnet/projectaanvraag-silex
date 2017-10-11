@@ -312,7 +312,7 @@ class SearchResults extends WidgetTypeBase
     public function render()
     {
         // Retrieve the current request query parameters using the global Application object and filter.
-        $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
+        $urlQueryParams = $this->request->query->all();
 
         $query = new SearchQuery(true);
 
