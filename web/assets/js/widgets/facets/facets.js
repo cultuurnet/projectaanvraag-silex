@@ -5,28 +5,26 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
     'use strict';
 
-    CultuurnetWidgets.id = '';
-
     /**
      * Provide a behavior for facets.
      */
     CultuurnetWidgets.behaviors.facets = {
 
         attach: function(context) {
-            CultuurnetWidgets.id = $(context).find('[data-widget-id]').data('widget-id');
             // Click event binding for facet filters.
             $(context).find('a[data-facet-type]').each(function() {
                 $(this).bind('click', function() {
+                    var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
                     var type = $(this).data('facet-type');
                     var value = $(this).data('facet-value');
 
                     if (type !== 'extra') {
-                        CultuurnetWidgets.facetFilter('facet_' + type, value);
+                        CultuurnetWidgets.facetFilter(widget_id, 'facet_' + type, value);
                     }
                     else {
                         var facet_id = $(this).data('facet-id');
                         var option_id = $(this).data('facet-option-id');
-                        CultuurnetWidgets.extraFilter(facet_id, option_id);
+                        CultuurnetWidgets.extraFilter(widget_id, facet_id, option_id);
                     }
                 });
             });
@@ -36,12 +34,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Facet filter function.
      *
+     * @param widget_id
      * @param value
      * @param param
      */
-    CultuurnetWidgets.facetFilter = function(param, value) {
+    CultuurnetWidgets.facetFilter = function(widget_id, param, value) {
         // Change param to proper format.
-        param = 'facets[' + CultuurnetWidgets.id + '][' + param + ']';
+        param = 'facets[' + widget_id + '][' + param + ']';
 
         // Check for existing query parameters.
         var queryString = window.location.search;
@@ -72,12 +71,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Extra filter function.
      *
+     * @param widget_id
      * @param facet_id
      * @param option_id
      */
-    CultuurnetWidgets.extraFilter = function(facet_id, option_id) {
+    CultuurnetWidgets.extraFilter = function(widget_id ,facet_id, option_id) {
         // Change param to proper format.
-        var param = 'facets[' + CultuurnetWidgets.id + '][extra][' + facet_id + '][' + option_id + ']';
+        var param = 'facets[' + widget_id + '][extra][' + facet_id + '][' + option_id + ']';
 
         // Check for existing query parameters.
         var queryString = window.location.search;
