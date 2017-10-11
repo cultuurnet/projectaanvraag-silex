@@ -53,9 +53,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 currentParams[param] = value;
             }
 
-            // Convert updated params to a query string.
-            var newParams = $.param(currentParams);
-            window.location.href = window.location.pathname + '?' + newParams;
+            // Build a query string from updated params.
+            var newParams = '';
+            for (var key in currentParams) {
+                newParams += key + '=' + currentParams[key] + '&';
+            }
+
+            window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
         } else {
             window.location.href = window.location.pathname + '?facets[' + CultuurnetWidgets.id + '][' + param + ']=' + value;
         }
@@ -86,10 +90,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 currentParams[param] = value;
             }
 
-            // Convert updated params to a query string.
-            var newParams = $.param(currentParams);
+            // Build a query string from updated params.
+            var newParams = '';
+            for (var key in currentParams) {
+                newParams += key + '=' + currentParams[key] + '&';
+            }
 
-            window.location.href = window.location.pathname + '?' + newParams;
+            window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
         } else {
             window.location.href = window.location.pathname + '?' + query;
         }
