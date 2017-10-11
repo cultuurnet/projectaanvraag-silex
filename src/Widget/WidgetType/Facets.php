@@ -204,17 +204,23 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     {
         // Add facets (if they haven't been added already).
         if ($this->settings['filters']['what']) {
-            $existingFacets = array_filter($searchQuery->getParameters(), function($o) {
-                return $o instanceof Facet && $o->getValue() == 'types';
-            });
+            $existingFacets = array_filter(
+                $searchQuery->getParameters(),
+                function ($o) {
+                    return $o instanceof Facet && $o->getValue() == 'types';
+                }
+            );
             if (empty($existingFacets)) {
                 $searchQuery->addParameter(new Facet('types'));
             }
         }
         if ($this->settings['filters']['where']) {
-            $existingFacets = array_filter($searchQuery->getParameters(), function($o) {
-                return $o instanceof Facet && $o->getValue() == 'regions';
-            });
+            $existingFacets = array_filter(
+                $searchQuery->getParameters(),
+                function ($o) {
+                    return $o instanceof Facet && $o->getValue() == 'regions';
+                }
+            );
             if (empty($existingFacets)) {
                 $searchQuery->addParameter(new Facet('regions'));
             }
@@ -263,9 +269,12 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $advancedQueryString = '';
 
             // Check for existing Query parameter.
-            $existingQueries = array_filter($searchQuery->getParameters(), function($o) {
-                return $o instanceof Query;
-            });
+            $existingQueries = array_filter(
+                $searchQuery->getParameters(),
+                function ($o) {
+                    return $o instanceof Query;
+                }
+            );
 
             if (!empty($existingQueries)) {
                 // Remove existing Query parameter.
