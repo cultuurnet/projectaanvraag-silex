@@ -233,8 +233,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         if (count($urlQueryParams) > 1) {
             // Merge parameters per facet widget id.
             $urlQueryParams = array_merge_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
-        }
-        else {
+        } else {
             // Go one level deeper.
             $urlQueryParams = array_shift($urlQueryParams);
         }
@@ -242,8 +241,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         // Get parameters for current facet if there are any.
         if (isset($urlQueryParams[$this->id])) {
             $urlQueryParams = $urlQueryParams[$this->id];
-        }
-        else {
+        } else {
             // Discard the parameters (will be added in the corresponding widget context).
             $urlQueryParams = [];
         }
