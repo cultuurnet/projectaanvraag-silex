@@ -5,7 +5,7 @@
     <ul class="cnw_facet-search" data-size="{{ facet.count }}">
         {% for option in facet.options %}
             <li class="cnw_facet-label ">
-                <a href="#" data-facet-type="{{ facet.type }}" data-facet-value="{{ option.value }}">{{ option.name }}</a>
+                <a href="#" data-facet-type="{{ facet.type }}" data-facet-value="{{ option.value }}" data-facet-id="{{ facet.id is defined ? facet.id : '' }}" data-facet-option-id="{{ loop.index0 }}">{{ option.name }}</a>
                 {% if option.count is defined %}
                     <small class="cnw_facet-count cnw_push-right">({{ option.count }})</small>
                 {% endif %}

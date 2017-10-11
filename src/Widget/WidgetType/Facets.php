@@ -39,11 +39,11 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *                      "options": {
  *                          {
  *                              "label": "Voor UiTPAS en Paspartoe",
- *                              "query": "uitpas=true"
+ *                              "query": "labels:uitpas* OR labels:paspartoe"
  *                          },
  *                          {
  *                              "label": "Voor kinderen",
- *                              "query": "maxAge=12 OR labels:""ook voor kinderen"""
+ *                              "query": "typicalAgeRange:12 OR labels:""ook voor kinderen"""
  *                          },
  *                          {
  *                              "label": "Gratis activiteiten",
@@ -169,8 +169,8 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'location', 'nl');
             }
             if ($this->settings['group_filters']['enabled']) {
-                foreach ($this->settings['group_filters']['filters'] as $filter) {
-                    $facets[] = $this->twigPreprocessor->preprocessExtraFacet($filter);
+                foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
+                    $facets[] = $this->twigPreprocessor->preprocessExtraFacet($filter, $i);
                 }
             }
         }

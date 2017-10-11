@@ -199,13 +199,15 @@ class TwigPreprocessor
      * Preprocess extra facet for sending to a template.
      *
      * @param $filter
+     * @param $index
      * @return array
      */
-    public function preprocessExtraFacet($filter)
+    public function preprocessExtraFacet($filter, $index)
     {
         $facet = [
             'type' => 'extra',
             'label' => $filter['label'] ?? '',
+            'id' => $index,
             'count' => count($filter['options']),
             'options' => [],
         ];
