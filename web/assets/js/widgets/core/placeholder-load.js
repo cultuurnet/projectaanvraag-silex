@@ -28,7 +28,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                             $placeholder.html(response.data.search_results);
                             CultuurnetWidgets.attachBehaviors($placeholder);
                             for (var facet_id in response.data.facets) {
-                                $(context).find('[data-widget-placeholder-id="' + facet_id + '"]').html(response.data.facets[facet_id]);
+                                var $facet_placeholder = $(context).find('[data-widget-placeholder-id="' + facet_id + '"]');
+                                $facet_placeholder.html(response.data.facets[facet_id]);
+                                CultuurnetWidgets.attachBehaviors($facet_placeholder);
                             }
 
                         });

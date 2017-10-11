@@ -190,7 +190,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'facets', 'autoload' => true]);
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'facets', 'autoload' => false]);
     }
 
     /**
