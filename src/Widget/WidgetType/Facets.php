@@ -166,8 +166,8 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'type', 'nl', $active);
             }
             if ($this->settings['filters']['where']) {
-                $active = (isset($urlQueryParams['facet-location']) ? $urlQueryParams['facet-location'] : '');
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'location', 'nl', $active);
+                $active = (isset($urlQueryParams['facet-region']) ? $urlQueryParams['facet-region'] : '');
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'region', 'nl', $active);
             }
             if ($this->settings['group_filters']['enabled']) {
                 foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
@@ -243,9 +243,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $advancedQuery = [];
 
             // / Check for facets query params.
-            if (isset($urlQueryParams['facet-location'])) {
-                $advancedQuery[] = 'regions=' . $urlQueryParams['facet-location'];
-                unset($urlQueryParams['facet-location']);
+            if (isset($urlQueryParams['facet-region'])) {
+                $advancedQuery[] = 'regions=' . $urlQueryParams['facet-region'];
+                unset($urlQueryParams['facet-region']);
             }
             if (isset($urlQueryParams['facet-type'])) {
                 $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
