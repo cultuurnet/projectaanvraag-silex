@@ -231,7 +231,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         // Check if parameters require merging.
         if (count($urlQueryParams) > 1) {
-            // Merge parameters per facet widget id.
+            // Merge parameters per facet widget id. TODO: test with more than 2 facet widgets.
             $urlQueryParams = array_merge_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
         } else {
             // Go one level deeper.

@@ -154,6 +154,29 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * Clean URL query parameters from question marks.
+     *
+     * @param $params
+     * @return array
+     */
+    protected function cleanUrlQueryParams($params)
+    {
+        if (!empty($params)) {
+            foreach ($params as $key => $param) {
+                // Check key for question mark.
+                if (substr($key, 0, 1) == '?') {
+                    // Trim question mark.
+                    $trimmedKey = ltrim($key, '?');
+                    // Replace key.
+                    $params[$trimmedKey] = $param;
+                    unset($params[$key]);
+                }
+            }
+        }
+        return $params;
+    }
+
+    /**
      * Convert date type parameter to ISO-8601 date range.
      *
      * @param $dateType
