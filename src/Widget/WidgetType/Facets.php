@@ -154,7 +154,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $facets = [];
         $facetsRaw = $this->searchResult->getFacets();
         if ($facetsRaw) {
-
             // Retrieve current url parameters (for checking active options).
             $urlQueryParams = $this->retrieveFilteredParameters();
 
@@ -318,7 +317,8 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      *
      * @return array|mixed
      */
-    private function retrieveFilteredParameters() {
+    private function retrieveFilteredParameters()
+    {
         // Retrieve the current request query parameters using the global Application object and filter.
         $urlQueryParams = $this->filterFacetQueryParams($this->request->query->all());
 
