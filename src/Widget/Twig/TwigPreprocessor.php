@@ -223,43 +223,38 @@ class TwigPreprocessor
     }
 
     /**
-     * Return fixed values for date facet.
+     * Return fixed values for date facet (and check if one is active).
      *
+     * @param $active
      * @return array
      */
-    public function getDateFacet()
+    public function getDateFacet($active)
     {
-        return [
+        $facet = [
             'type' => 'date',
             'label' => 'Wanneer',
             'count' => 6,
-            'options' => [
-                [
-                    'value' => 'today',
-                    'name' => 'Vandaag',
-                ],
-                [
-                    'value' => 'tomorrow',
-                    'name' => 'Morgen',
-                ],
-                [
-                    'value' => 'thisweekend',
-                    'name' => 'Dit weekend',
-                ],
-                [
-                    'value' => 'next7days',
-                    'name' => 'Volgende 7 dagen',
-                ],
-                [
-                    'value' => 'next14days',
-                    'name' => 'Volgende 14 dagen',
-                ],
-                [
-                    'value' => 'next30days',
-                    'name' => 'Volgende 30 dagen',
-                ],
-            ],
+            'options' => [],
         ];
+
+        $options = [
+            'today' => 'Vandaag',
+            'tomorrow' => 'Morgen',
+            'thisweekend' => 'Dit weekend',
+            'next7days' => 'Volgende 7 dagen',
+            'next14days' => 'Volgende 14 dagen',
+            'next30days' => 'Volgende 30 dagen',
+        ];
+
+        foreach ($options as $value => $label) {
+            $facet[] = [
+                'value' => $value,
+                'label' => $label,
+                'active' => ($active == $value ? true : false),
+            ];
+        }
+
+        return $facet;
     }
 
     /**

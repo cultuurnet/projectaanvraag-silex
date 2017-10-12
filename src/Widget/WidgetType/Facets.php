@@ -154,8 +154,13 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $facets = [];
         $facetsRaw = $this->searchResult->getFacets();
         if ($facetsRaw) {
+
+            // Retrieve current url parameters (for active checking).
+            $urlQueryParams = $this->retrieveFilteredParameters();
+
             if ($this->settings['filters']['when']) {
-                $facets[] = $this->twigPreprocessor->getDateFacet();
+                $active = (isset($urlQueryParams['facet-date']) ? $urlQueryParams['facet-date'] : false);
+                $facets[] = $this->twigPreprocessor->getDateFacet($active);
             }
             if ($this->settings['filters']['what']) {
                 $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'type', 'nl');
