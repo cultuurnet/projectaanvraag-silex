@@ -227,7 +227,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         }
 
         // Retrieve the current request query parameters using the global Application object and filter.
-        $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
+        $urlQueryParams = $this->filterFacetQueryParams($this->request->query->all());
 
         // Check if parameters require merging.
         if (count($urlQueryParams) > 1) {

@@ -136,16 +136,16 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Remove non query parameters.
+     * Remove non facet query parameters.
      *
      * @param $params
      * @return array
      */
-    protected function filterUrlQueryParams($params)
+    protected function filterFacetQueryParams($params)
     {
         if (!empty($params)) {
             foreach ($params as $key => $param) {
-                if (in_array($key, ['callback', '_'])) {
+                if (!in_array($key, ['facets', '?facets'])) {
                     unset($params[$key]);
                 }
             }
