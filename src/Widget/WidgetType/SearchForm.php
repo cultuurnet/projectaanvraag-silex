@@ -2,10 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use CultuurNet\SearchV3\SearchQueryInterface;
 use Pimple\Container;
 
 /**
@@ -125,7 +127,7 @@ use Pimple\Container;
  *      }
  * )
  */
-class SearchForm extends WidgetTypeBase
+class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 {
 
     /**
@@ -160,27 +162,35 @@ class SearchForm extends WidgetTypeBase
     /**
      * Get the default values based on current request.
      */
-    protected function getDefaults() {
+    protected function getDefaults()
+    {
         $defaults = [];
         if ($this->settings['fields']['time']['date_search']['enabled']) {
             $defaults['current_date'] = $this->settings['fields']['time']['date_search']['default_option'];
         }
 
-        $group_filter_types = [
+        $groupFilterTypes = [
             'type',
             'location',
             'time',
             'extra',
         ];
 
-        foreach ($group_filter_types as $type) {
+        foreach ($groupFilterTypes as $type) {
             if ($this->settings['fields'][$type]['group_filters']['enabled']) {
-                foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $group_filter) {
-                    $defaults[$type]['group_filters'][$key] = $group_filter['default_option'] ?? '';
+                foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $groupFilter) {
+                    $defaults[$type]['group_filters'][$key] = $groupFilter['default_option'] ?? '';
                 }
             }
         }
 
         return $defaults;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
+    {
     }
 }

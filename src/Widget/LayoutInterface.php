@@ -34,4 +34,10 @@ interface LayoutInterface extends \JsonSerializable
      * @return array
      */
     public function getWidgetIds();
+
+    /**
+     * Get a list of all widgets in this layout.
+     * @return WidgetTypeInterface[]
+     */
+    public function getWidgets();
 }

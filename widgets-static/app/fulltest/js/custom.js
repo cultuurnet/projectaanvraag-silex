@@ -167,7 +167,7 @@ $(document).ready(function(){
     let loadExternalCss = function(loaded) {
 
         let link = document.createElement( 'link' );
-        link.href = 'http://widgetbeheer-api.dev/assets/css/main.css';
+        link.href = 'http://widgetbeheer-api.dev/assets/css/cn_widget_styling.css';
         link.type = 'text/css';
         link.rel = 'stylesheet';
         link.media = 'screen';
@@ -177,7 +177,7 @@ $(document).ready(function(){
             document.getElementsByTagName( 'head')[0].appendChild( link );
         } else {
 
-            $('link[rel=stylesheet][href="../styles/main.css"]').remove();
+            $('link[rel=stylesheet][href="../styles/cn_widget_styling.css"]').remove();
         }
 
 
