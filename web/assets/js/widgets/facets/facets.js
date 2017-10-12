@@ -14,17 +14,18 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Click event binding for facet filters.
             $(context).find('a[data-facet-type]').each(function() {
                 $(this).bind('click', function() {
+                    // Retrieve all data values.
                     var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
                     var type = $(this).data('facet-type');
                     var value = $(this).data('facet-value');
+                    var facet_id = $(this).data('facet-id');
+                    var option_id = $(this).data('facet-option-id');
 
                     if ($(this).parents('li').hasClass('active') === true) {
                         if (type !== 'extra') {
                             CultuurnetWidgets.removeFilter(widget_id, 'facet-' + type, null);
                         }
                         else {
-                            var facet_id = $(this).data('facet-id');
-                            var option_id = $(this).data('facet-option-id');
                             CultuurnetWidgets.removeFilter(widget_id, facet_id, option_id);
                         }
                     }
@@ -33,8 +34,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                             CultuurnetWidgets.facetFilter(widget_id, 'facet-' + type, value);
                         }
                         else {
-                            var facet_id = $(this).data('facet-id');
-                            var option_id = $(this).data('facet-option-id');
                             CultuurnetWidgets.extraFilter(widget_id, facet_id, option_id);
                         }
                     }
