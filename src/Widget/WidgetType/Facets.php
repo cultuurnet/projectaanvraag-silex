@@ -303,4 +303,22 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             }
         }
     }
+
+    /**
+     * Remove non facet query parameters.
+     *
+     * @param $params
+     * @return array
+     */
+    private function filterFacetQueryParams($params)
+    {
+        if (!empty($params)) {
+            foreach ($params as $key => $param) {
+                if (!in_array($key, ['facets', '?facets'])) {
+                    unset($params[$key]);
+                }
+            }
+        }
+        return $params;
+    }
 }
