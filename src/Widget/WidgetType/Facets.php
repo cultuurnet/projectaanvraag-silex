@@ -193,8 +193,10 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
     {
-        // TODO: check search results ID hier.
-        $this->buildQuery($searchQuery);
+        // Only alter query if the widget is not targetting different search results.
+        if (empty($this->getTargettedSearchResultsWidgetId()) || $this->getTargettedSearchResultsWidgetId() == $searchResultswidgetId) {
+            $this->buildQuery($searchQuery);
+        }
     }
 
     /**
