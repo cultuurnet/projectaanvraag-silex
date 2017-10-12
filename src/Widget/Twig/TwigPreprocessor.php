@@ -157,7 +157,7 @@ class TwigPreprocessor
     }
 
     /**
-     * Preprocess facet for sending to a template.
+     * Preprocess facet for sending to a template (and check if one is active).
      *
      * @param FacetResult $facetResult
      * @param $type
@@ -198,13 +198,14 @@ class TwigPreprocessor
     }
 
     /**
-     * Preprocess extra facet for sending to a template.
+     * Preprocess extra facet for sending to a template (and check which options are active)
      *
      * @param $filter
      * @param $index
+     * @param $actives
      * @return array
      */
-    public function preprocessExtraFacet($filter, $index)
+    public function preprocessExtraFacet($filter, $index, $actives)
     {
         $facet = [
             'type' => 'extra',
@@ -214,10 +215,11 @@ class TwigPreprocessor
             'options' => [],
         ];
 
-        foreach ($filter['options'] as $option) {
+        foreach ($filter['options'] as $i => $option) {
             $facet['options'][] = [
                 'value' => $option['query'],
                 'name' => $option['label'] ?? '',
+                'active' => (isset($actives[$i]) ? true : false),
             ];
         }
 

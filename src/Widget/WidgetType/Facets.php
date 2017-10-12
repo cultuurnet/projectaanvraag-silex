@@ -172,7 +172,8 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             }
             if ($this->settings['group_filters']['enabled']) {
                 foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
-                    $facets[] = $this->twigPreprocessor->preprocessExtraFacet($filter, $i);
+                    $active = (isset($urlQueryParams['extra'][$i]) ? $urlQueryParams['extra'][$i] : []);
+                    $facets[] = $this->twigPreprocessor->preprocessExtraFacet($filter, $i, $active);
                 }
             }
         }
