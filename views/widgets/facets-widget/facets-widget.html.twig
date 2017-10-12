@@ -2,7 +2,9 @@
     <div class="cnw_container">
         <div id="loadcontent">
             {% for facet in facets %}
-                {% include 'widgets/facet.html.twig' with { 'facet': facet } %}
+                {% if facet.count > 0 %}
+                    {% include 'widgets/facet.html.twig' with { 'facet': facet } %}
+                {% endif %}
             {% endfor %}
         </div>
     </div>
