@@ -7,6 +7,9 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
 
+/**
+ * Provider for sharing related controllers.
+ */
 class ShareProxyControllerProvider implements ControllerProviderInterface
 {
     public function connect(Application $app)

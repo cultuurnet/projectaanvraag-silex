@@ -47,7 +47,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-
 /**
  * Provides a controller to render a share proxy page.
  */
@@ -117,7 +116,8 @@ class ShareProxyController
      * @param object $offer
      * @return string
      */
-    public function socialShareProxy($offer) {
+    public function socialShareProxy($offer)
+    {
         // Get origin url.
         $originUrl = ($this->request->query->get('origin') ? $this->request->query->get('origin') : '');
         return $this->twig->render(
@@ -126,7 +126,7 @@ class ShareProxyController
                 'name' => $offer->getName()['nl'],
                 'description' => $offer->getDescription()['nl'],
                 'image' => $offer->getImage(),
-                'url' => $originUrl
+                'url' => $originUrl,
             ]
         );
     }

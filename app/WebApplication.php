@@ -106,7 +106,8 @@ class WebApplication extends ApplicationBase
                         new Path('^/culturefeed/oauth', 'GET'),
                         new Path('^/integration-types', 'GET'),
                         new Path('^/widgets/layout', 'GET'),
-                        new Path('^/widgets/api/render', 'GET'),
+                        new Path('^/widgets/layout', 'GET'),
+                        new Path('^/event/', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
