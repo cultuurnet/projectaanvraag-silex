@@ -232,7 +232,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         // Check if parameters require merging.
         if (count($urlQueryParams) > 1) {
             // Merge parameters per facet widget id. TODO: test with more than 2 facet widgets.
-            $urlQueryParams = array_merge_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
+            $urlQueryParams = array_replace_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
         } else {
             // Go one level deeper.
             $urlQueryParams = array_shift($urlQueryParams);
@@ -268,9 +268,18 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 unset($urlQueryParams['facet-date']);
             }
 
-            // Check for custom (extra) query params.
+            // Check for custom (extra) query params and retrieve options from settings.
+            $extraQueries = [];
             if (isset($urlQueryParams['extra'])) {
-                //
+                if ($this->settings['group_filters']['enabled']) {
+                    $extraFilters = $this->settings['group_filters']['filters'];
+                    foreach ($urlQueryParams['extra'] as $groupKey => $extraGroup) {
+                        $options = $extraFilters[$groupKey]['options'];
+                        foreach ($extraGroup as $key => $extra) {
+                            $extraQueries[] = $options[$key]['query'];
+                        }
+                    }
+                }
             }
 
             // Add advanced query string to API request.
@@ -296,6 +305,13 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
                 // Add current facet parameters.
                 $advancedQueryString .= implode(' AND ', $advancedQuery);
+
+                // Attach extra queries.
+                if (!empty($extraQueries)) {
+                    foreach ($extraQueries as $query) {
+                        $advancedQueryString .= " AND ($query)";
+                    }
+                }
 
                 $searchQuery->addParameter(
                     new Query($advancedQueryString)
