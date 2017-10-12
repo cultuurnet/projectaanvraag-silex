@@ -155,18 +155,20 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $facetsRaw = $this->searchResult->getFacets();
         if ($facetsRaw) {
 
-            // Retrieve current url parameters (for active checking).
+            // Retrieve current url parameters (for checking active options).
             $urlQueryParams = $this->retrieveFilteredParameters();
 
             if ($this->settings['filters']['when']) {
-                $active = (isset($urlQueryParams['facet-date']) ? $urlQueryParams['facet-date'] : false);
+                $active = (isset($urlQueryParams['facet-date']) ? $urlQueryParams['facet-date'] : '');
                 $facets[] = $this->twigPreprocessor->getDateFacet($active);
             }
             if ($this->settings['filters']['what']) {
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'type', 'nl');
+                $active = (isset($urlQueryParams['facet-type']) ? $urlQueryParams['facet-type'] : '');
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'type', 'nl', $active);
             }
             if ($this->settings['filters']['where']) {
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'location', 'nl');
+                $active = (isset($urlQueryParams['facet-location']) ? $urlQueryParams['facet-location'] : '');
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'location', 'nl', $active);
             }
             if ($this->settings['group_filters']['enabled']) {
                 foreach ($this->settings['group_filters']['filters'] as $i => $filter) {

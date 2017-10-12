@@ -162,9 +162,10 @@ class TwigPreprocessor
      * @param FacetResult $facetResult
      * @param $type
      * @param $langcode
+     * @param $active
      * @return array
      */
-    public function preprocessFacet(FacetResult $facetResult, $type, $langcode)
+    public function preprocessFacet(FacetResult $facetResult, $type, $langcode, $active)
     {
         $facet = [
             'type' => $type,
@@ -189,6 +190,7 @@ class TwigPreprocessor
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
                 'name' => $result->getNames()[$langcode] ?? '',
+                'active' => ($active == $result->getValue() ? true : false),
             ];
         }
 
