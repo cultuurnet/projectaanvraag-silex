@@ -73,10 +73,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
             // Build a query string from updated params.
-            var newParams = '';
-            for (var key in currentParams) {
-                newParams += key + '=' + currentParams[key] + '&';
-            }
+            var newParams = CultuurnetWidgets.buildQueryUrl(currentParams);
 
             window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
         }
@@ -110,10 +107,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
             // Build a query string from updated params.
-            var newParams = '';
-            for (var key in currentParams) {
-                newParams += key + '=' + currentParams[key] + '&';
-            }
+            var newParams = CultuurnetWidgets.buildQueryUrl(currentParams);
 
             window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
         } else {
@@ -149,13 +143,24 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             delete currentParams[param];
         }
 
-        // Build a new query string with remaining params.
+        // Build a query string from updated params.
+        var newParams = CultuurnetWidgets.buildQueryUrl(currentParams);
+
+        window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
+    };
+
+    /**
+     * Build a query string from updated params.
+     *
+     * @param currentParams
+     * @returns {string}
+     */
+    CultuurnetWidgets.buildQueryUrl = function(currentParams) {
         var newParams = '';
         for (var key in currentParams) {
             newParams += key + '=' + currentParams[key] + '&';
         }
-
-        window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
-    };
+        return newParams;
+    }
 
 })(CultuurnetWidgets, jQuery);
