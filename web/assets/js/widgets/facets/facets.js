@@ -13,11 +13,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         attach: function(context) {
             // Click event binding for facet filters.
             $(context).find('a[data-facet-type]').each(function() {
-                if ($(this).parents('li').hasClass('active') === true) {
-                    $(this).bind('click', function() {
-                        var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
-                        var type = $(this).data('facet-type');
+                $(this).bind('click', function() {
+                    var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
+                    var type = $(this).data('facet-type');
+                    var value = $(this).data('facet-value');
 
+                    if ($(this).parents('li').hasClass('active') === true) {
                         if (type !== 'extra') {
                             CultuurnetWidgets.removeFilter(widget_id, 'facet-' + type, null);
                         }
@@ -26,14 +27,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                             var option_id = $(this).data('facet-option-id');
                             CultuurnetWidgets.removeFilter(widget_id, facet_id, option_id);
                         }
-                    });
-                }
-                else {
-                    $(this).bind('click', function() {
-                        var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
-                        var type = $(this).data('facet-type');
-                        var value = $(this).data('facet-value');
-
+                    }
+                    else {
                         if (type !== 'extra') {
                             CultuurnetWidgets.facetFilter(widget_id, 'facet-' + type, value);
                         }
@@ -42,8 +37,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                             var option_id = $(this).data('facet-option-id');
                             CultuurnetWidgets.extraFilter(widget_id, facet_id, option_id);
                         }
-                    });
-                }
+                    }
+                });
             });
         }
     };
