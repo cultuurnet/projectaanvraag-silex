@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\WidgetAPIControllerProvider;
 use CultuurNet\ProjectAanvraag\Widget\WidgetControllerProvider;
+use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyControllerProvider;
 use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
@@ -105,7 +106,8 @@ class WebApplication extends ApplicationBase
                         new Path('^/culturefeed/oauth', 'GET'),
                         new Path('^/integration-types', 'GET'),
                         new Path('^/widgets/layout', 'GET'),
-                        new Path('^/widgets/api/render', 'GET'),
+                        new Path('^/widgets/layout', 'GET'),
+                        new Path('^/event/', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
@@ -173,6 +175,11 @@ class WebApplication extends ApplicationBase
         $this->mount(
             'widgets',
             new WidgetControllerProvider()
+        );
+
+        $this->mount(
+            null,
+            new ShareProxyControllerProvider()
         );
     }
 }
