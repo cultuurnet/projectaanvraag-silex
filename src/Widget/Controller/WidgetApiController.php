@@ -9,6 +9,7 @@ use CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
@@ -214,6 +215,25 @@ class WidgetApiController
         } else {
             throw new RequirementsNotSatisfiedException('No Widget Page was found');
         }
+
+        return new JsonResponse();
+    }
+
+    /**
+     * Upgrade the requested widget page to the latest version.
+     *
+     * @param ProjectInterface $project
+     * @param $pageId
+     *
+     * @return JsonResponse
+     *
+     */
+    public function upgradeWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
+    {
+
+        // Check if user has edit access.
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
+        $this->commandBus->handle(new UpgradeWidgetPage($widgetPage));
 
         return new JsonResponse();
     }

@@ -37,7 +37,9 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
         $controllers->delete('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:deleteWidgetPage')
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convert');
-        
+        $controllers->post('api/project/{project}/widget-page/{widgetPage}/upgrade', 'widget_builder_api_controller:upgradeWidgetPage')
+            ->convert('project', 'project_converter:convert')
+            ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
 
         // Retrieve widget pages.
         $controllers->get('/api/project/{project}/widget-page', 'widget_builder_api_controller:getWidgetPages')
