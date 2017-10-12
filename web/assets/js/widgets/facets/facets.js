@@ -13,20 +13,37 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         attach: function(context) {
             // Click event binding for facet filters.
             $(context).find('a[data-facet-type]').each(function() {
-                $(this).bind('click', function() {
-                    var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
-                    var type = $(this).data('facet-type');
-                    var value = $(this).data('facet-value');
+                if ($(this).parents('li').hasClass('active') === true) {
+                    $(this).bind('click', function() {
+                        var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
+                        var type = $(this).data('facet-type');
 
-                    if (type !== 'extra') {
-                        CultuurnetWidgets.facetFilter(widget_id, 'facet-' + type, value);
-                    }
-                    else {
-                        var facet_id = $(this).data('facet-id');
-                        var option_id = $(this).data('facet-option-id');
-                        CultuurnetWidgets.extraFilter(widget_id, facet_id, option_id);
-                    }
-                });
+                        if (type !== 'extra') {
+                            CultuurnetWidgets.removeFilter(widget_id, 'facet-' + type, null);
+                        }
+                        else {
+                            var facet_id = $(this).data('facet-id');
+                            var option_id = $(this).data('facet-option-id');
+                            CultuurnetWidgets.removeFilter(widget_id, facet_id, option_id);
+                        }
+                    });
+                }
+                else {
+                    $(this).bind('click', function() {
+                        var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
+                        var type = $(this).data('facet-type');
+                        var value = $(this).data('facet-value');
+
+                        if (type !== 'extra') {
+                            CultuurnetWidgets.facetFilter(widget_id, 'facet-' + type, value);
+                        }
+                        else {
+                            var facet_id = $(this).data('facet-id');
+                            var option_id = $(this).data('facet-option-id');
+                            CultuurnetWidgets.extraFilter(widget_id, facet_id, option_id);
+                        }
+                    });
+                }
             });
         }
     };
@@ -102,6 +119,43 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         } else {
             window.location.href = window.location.pathname + '?' + param + '=true';
         }
+    };
+
+    /**
+     * Remove filter function.
+     *
+     * @param widget_id
+     * @param key
+     * @param option_id
+     */
+    CultuurnetWidgets.removeFilter = function(widget_id, key, option_id) {
+        // Determine param in proper format (for regular or extra filters).
+        var param = '';
+        if (option_id !== null) {
+            param = 'facets[' + widget_id + '][extra][' + key + '][' + option_id + ']';
+        }
+        else {
+            param = 'facets[' + widget_id + '][' + key + ']';
+        }
+
+        // Check for existing query parameters.
+        var queryString = window.location.search;
+
+        // Convert existing query string to an object.
+        var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+
+        // Delete corresponding parameter from URL.
+        if (typeof currentParams[param] !== 'undefined') {
+            delete currentParams[param];
+        }
+
+        // Build a new query string with remaining params.
+        var newParams = '';
+        for (var key in currentParams) {
+            newParams += key + '=' + currentParams[key] + '&';
+        }
+
+        window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
     };
 
 })(CultuurnetWidgets, jQuery);
