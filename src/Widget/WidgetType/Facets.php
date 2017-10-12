@@ -228,25 +228,8 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             }
         }
 
-        // Retrieve the current request query parameters using the global Application object and filter.
-        $urlQueryParams = $this->filterFacetQueryParams($this->request->query->all());
-
-        // Check if parameters require merging.
-        if (count($urlQueryParams) > 1) {
-            // Merge parameters per facet widget id. TODO: test with more than 2 facet widgets.
-            $urlQueryParams = array_replace_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
-        } else {
-            // Go one level deeper.
-            $urlQueryParams = array_shift($urlQueryParams);
-        }
-
-        // Get parameters for current facet if there are any.
-        if (isset($urlQueryParams[$this->id])) {
-            $urlQueryParams = $urlQueryParams[$this->id];
-        } else {
-            // Discard the parameters (will be added in the corresponding widget context).
-            $urlQueryParams = [];
-        }
+        // Retrieve filtered parameters.
+        $urlQueryParams = $this->retrieveFilteredParameters();
 
         if (!empty($urlQueryParams)) {
             // Build advanced query string.
@@ -320,6 +303,35 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 );
             }
         }
+    }
+
+    /**
+     * Retrieve the current request query parameters using the global Application object and filter.
+     *
+     * @return array|mixed
+     */
+    private function retrieveFilteredParameters() {
+        // Retrieve the current request query parameters using the global Application object and filter.
+        $urlQueryParams = $this->filterFacetQueryParams($this->request->query->all());
+
+        // Check if parameters require merging.
+        if (count($urlQueryParams) > 1) {
+            // Merge parameters per facet widget id. TODO: test with more than 2 facet widgets.
+            $urlQueryParams = array_replace_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
+        } else {
+            // Go one level deeper.
+            $urlQueryParams = array_shift($urlQueryParams);
+        }
+
+        // Get parameters for current facet if there are any.
+        if (isset($urlQueryParams[$this->id])) {
+            $urlQueryParams = $urlQueryParams[$this->id];
+        } else {
+            // Discard the parameters (will be added in the corresponding widget context).
+            $urlQueryParams = [];
+        }
+
+        return $urlQueryParams;
     }
 
     /**
