@@ -247,9 +247,9 @@ class TwigPreprocessor
         ];
 
         foreach ($options as $value => $label) {
-            $facet[] = [
+            $facet['options'][] = [
                 'value' => $value,
-                'label' => $label,
+                'name' => $label,
                 'active' => ($active == $value ? true : false),
             ];
         }
