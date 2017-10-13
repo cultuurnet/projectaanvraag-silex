@@ -146,6 +146,18 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     /**
      * {@inheritdoc}
      */
+    public function updateWidget($widgetId, $updatedWidget)
+    {
+        foreach ($this->widgetMapping as $mappedWidgetId => $region) {
+            if ($mappedWidgetId == $widgetId) {
+                $this->regions[$region]['widgets'][$widgetId] = $updatedWidget;
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getWidgetIds()
     {
         return array_keys($this->widgetMapping);

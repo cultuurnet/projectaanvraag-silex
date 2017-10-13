@@ -119,11 +119,25 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     }
 
     /**
-     * Get the id of the targetted search results widget.
+     * Get the id of the targeted search results widget.
      */
     public function getTargettedSearchResultsWidgetId()
     {
         return $this->settings['search_results'] ?? '';
+    }
+
+    /**
+     * Set the id of the targeted search results widget.
+     */
+
+    /**
+     * Set the id of the targeted search results widget.
+     *
+     * @param string $targetId
+     */
+    public function setTargettedSearchResultsWidgetId($targetId)
+    {
+        $this->settings['search_results'] = $targetId;
     }
 
     /**
@@ -200,8 +214,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
     {
-        // Only alter query if the widget is not targetting different search results.
-        if (empty($this->getTargettedSearchResultsWidgetId()) || $this->getTargettedSearchResultsWidgetId() == $searchResultswidgetId) {
+        if ($this->getTargettedSearchResultsWidgetId() == $searchResultswidgetId) {
             $this->buildQuery($searchQuery);
         }
     }
@@ -245,7 +258,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
             // / Check for facets query params.
             if (isset($urlQueryParams['facet-region'])) {
-                $advancedQuery[] = 'regions=' . $urlQueryParams['facet-region'];
+                $advancedQuery[] = 'regions:' . $urlQueryParams['facet-region'];
                 unset($urlQueryParams['facet-region']);
             }
             if (isset($urlQueryParams['facet-type'])) {

@@ -41,9 +41,7 @@ class PublishWidgetPageCommandHandler extends WidgetPageCommandHandler
      */
     public function handle(PublishWidgetPage $publishWidgetPage)
     {
-
         $originalWidgetPage = $publishWidgetPage->getWidgetPage();
-
 
         if (!$originalWidgetPage->isDraft()) {
            // If the widgetPage is already published, we do not have to do anything anymore
@@ -60,6 +58,8 @@ class PublishWidgetPageCommandHandler extends WidgetPageCommandHandler
 
         $originalWidgetPage->setLastUpdatedBy($this->user->id);
         $originalWidgetPage->publish();
+
+        $originalWidgetPage = $this->determineFacetTargeting($originalWidgetPage);
 
         $this->documentManager->persist($originalWidgetPage);
         $this->documentManager->flush();

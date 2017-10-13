@@ -30,6 +30,14 @@ interface LayoutInterface extends \JsonSerializable
     public function getWidget($widgetId);
 
     /**
+     * Update the widget with given id.
+     * @param string $widgetId
+     * @param object $updatedWidget
+     * @return WidgetTypeInterface|null
+     */
+    public function updateWidget($widgetId, $updatedWidget);
+
+    /**
      * Get a list of all widget ids in this layout.
      * @return array
      */
