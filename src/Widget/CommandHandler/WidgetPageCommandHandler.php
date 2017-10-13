@@ -45,15 +45,13 @@ abstract class WidgetPageCommandHandler
     }
 
     public function determineFacetTargeting(WidgetPageEntity $widgetPage) {
-        // Check for facet widgets.
         $widgetResultsCount = 0;
         $resultIdToTarget = false;
-        $facetWidgetIds = [];
-
+        $facetWidgets = [];
         $rows = $widgetPage->getRows();
 
         /** @var LayoutInterface $row */
-        foreach ($rows as $index => $row) {
+        foreach ($rows as $row) {
             $widgets = $row->getWidgets();
             foreach ($widgets as $id => $widget) {
                 if ($widget instanceof SearchResults && !$widgetResultsCount) {
@@ -61,24 +59,18 @@ abstract class WidgetPageCommandHandler
                     $resultIdToTarget = $id;
                 }
                 if ($widget instanceof Facets && $widgetResultsCount === 1) {
-                    // Use row index as key.
-                    $facetWidgetIds[$index] = $id;
+                    $facetWidgets[] = $widget;
                 }
             }
         }
 
         // Check facet widgets and target first search results if there's no targeting.
-        if (!empty($facetWidgetIds)) {
+        if (!empty($facetWidgets)) {
             /** @var Facets $facetWidget */
-            foreach ($facetWidgetIds as $rowId => $facetWidgetId) {
-                $row = $rows[$rowId];
-                $facetWidget = $row->getWidget($facetWidgetId);
+            foreach ($facetWidgets as $facetWidget) {
                 if ($facetWidget->getTargettedSearchResultsWidgetId() === '' && $resultIdToTarget) {
                     // Set targeting.
                     $facetWidget->setTargettedSearchResultsWidgetId($resultIdToTarget);
-                    // Update widget page.
-                    $rows[$rowId]->updateWidget($facetWidgetId, $facetWidget);
-                    $widgetPage->setRows($rows);
                 }
             }
         }
