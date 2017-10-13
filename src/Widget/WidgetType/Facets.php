@@ -240,6 +240,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         if (!empty($urlQueryParams)) {
             // Build advanced query string.
+            $advancedQueryString = '';
             $advancedQuery = [];
 
             // / Check for facets query params.
@@ -260,24 +261,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 unset($urlQueryParams['facet-date']);
             }
 
-            // Check for custom (extra) query params and retrieve options from settings.
-            $extraQueries = [];
-            if (isset($urlQueryParams['extra'])) {
-                if ($this->settings['group_filters']['enabled']) {
-                    $extraFilters = $this->settings['group_filters']['filters'];
-                    foreach ($urlQueryParams['extra'] as $groupKey => $extraGroup) {
-                        $options = $extraFilters[$groupKey]['options'];
-                        foreach ($extraGroup as $key => $extra) {
-                            $extraQueries[] = $options[$key]['query'];
-                        }
-                    }
-                }
-            }
-
-            // Add advanced query string to API request.
             if (!empty($advancedQuery)) {
-                $advancedQueryString = '';
-
                 // Check for existing Query parameter.
                 $existingQueries = array_filter(
                     $searchQuery->getParameters(),
@@ -297,18 +281,36 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
                 // Add current facet parameters.
                 $advancedQueryString .= implode(' AND ', $advancedQuery);
+            }
 
-                // Attach extra queries.
-                if (!empty($extraQueries)) {
-                    foreach ($extraQueries as $query) {
-                        $advancedQueryString .= " AND ($query)";
+            // Check for custom (extra) query params and retrieve options from settings.
+            $extraQueries = [];
+            if (isset($urlQueryParams['extra'])) {
+                if ($this->settings['group_filters']['enabled']) {
+                    $extraFilters = $this->settings['group_filters']['filters'];
+                    foreach ($urlQueryParams['extra'] as $groupKey => $extraGroup) {
+                        $options = $extraFilters[$groupKey]['options'];
+                        foreach ($extraGroup as $key => $extra) {
+                            $extraQueries[] = $options[$key]['query'];
+                        }
                     }
                 }
-
-                $searchQuery->addParameter(
-                    new Query($advancedQueryString)
-                );
             }
+
+            if (!empty($extraQueries)) {
+                // Attach extra queries.
+                foreach ($extraQueries as $query) {
+                    if (!empty($advancedQueryString)) {
+                        $advancedQueryString .= ' AND ';
+                    }
+                    $advancedQueryString .= "($query)";
+                }
+            }
+
+            // Add advanced query string to API request.
+            $searchQuery->addParameter(
+                new Query($advancedQueryString)
+            );
         }
     }
 
