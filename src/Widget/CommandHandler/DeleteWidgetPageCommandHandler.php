@@ -12,23 +12,8 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 /**
  * Provides a command handler to delete a given widget page.
  */
-class DeleteWidgetPageCommandHandler
+class DeleteWidgetPageCommandHandler extends WidgetPageCommandHandler
 {
-    /**
-     * @var MessageBusSupportingMiddleware
-     */
-    protected $eventBus;
-
-    /**
-     * @var DocumentManager
-     */
-    protected $documentManager;
-
-    /**
-     * @var UserInterface
-     */
-    protected $user;
-
     /**
      * @var DocumentRepository
      */
@@ -44,9 +29,7 @@ class DeleteWidgetPageCommandHandler
      */
     public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, DocumentRepository $documentRepository, UserInterface $user)
     {
-        $this->eventBus = $eventBus;
-        $this->documentManager = $documentManager;
-        $this->user = $user;
+        parent::__construct($eventBus, $documentManager, $user);
         $this->documentRepository = $documentRepository;
     }
 

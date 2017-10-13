@@ -14,23 +14,8 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 /**
  * Provides a command handler to create a new widget page.
  */
-class CreateWidgetPageCommandHandler
+class CreateWidgetPageCommandHandler extends WidgetPageCommandHandler
 {
-
-    /**
-     * @var MessageBusSupportingMiddleware
-     */
-    protected $eventBus;
-
-    /**
-     * @var DocumentManager
-     */
-    protected $documentManager;
-
-    /**
-     * @var UserInterface
-     */
-    protected $user;
 
     /**
      * @var UuidGenerator
@@ -46,9 +31,7 @@ class CreateWidgetPageCommandHandler
      */
     public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, UserInterface $user, UuidGenerator $uuidGenerator)
     {
-        $this->eventBus = $eventBus;
-        $this->documentManager = $documentManager;
-        $this->user = $user;
+        parent::__construct($eventBus, $documentManager, $user);
         $this->uuidGenerator = $uuidGenerator;
     }
 
