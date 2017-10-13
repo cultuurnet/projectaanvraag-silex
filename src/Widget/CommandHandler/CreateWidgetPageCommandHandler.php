@@ -23,11 +23,12 @@ class CreateWidgetPageCommandHandler extends WidgetPageCommandHandler
     protected $uuidGenerator;
 
     /**
-     * CreateProjectCommandHandler constructor.
+     * CreateWidgetPageCommandHandler constructor.
      *
      * @param MessageBusSupportingMiddleware $eventBus
-     * @param DocumentRepository $documentRepository
+     * @param DocumentManager $documentManager
      * @param UserInterface $user
+     * @param UuidGenerator $uuidGenerator
      */
     public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, UserInterface $user, UuidGenerator $uuidGenerator)
     {
@@ -38,7 +39,7 @@ class CreateWidgetPageCommandHandler extends WidgetPageCommandHandler
     /**
      * Handle the command
      *
-     * @param CreateWidgetPage $widgetPage
+     * @param CreateWidgetPage $createWidgetPage
      */
     public function handle(CreateWidgetPage $createWidgetPage)
     {

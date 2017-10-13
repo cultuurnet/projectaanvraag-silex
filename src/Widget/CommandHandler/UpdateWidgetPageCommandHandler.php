@@ -15,14 +15,11 @@ class UpdateWidgetPageCommandHandler extends WidgetPageCommandHandler
 {
 
     /**
-     * CreateProjectCommandHandler constructor.
+     * UpdateWidgetPageCommandHandler constructor.
      *
      * @param MessageBusSupportingMiddleware $eventBus
      * @param DocumentManager $documentManager
-     *
      * @param UserInterface $user
-     *
-     * @internal param DocumentRepository $documentRepository
      */
     public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, UserInterface $user)
     {

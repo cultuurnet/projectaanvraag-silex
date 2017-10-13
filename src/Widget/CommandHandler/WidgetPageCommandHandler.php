@@ -31,7 +31,7 @@ abstract class WidgetPageCommandHandler
     protected $user;
 
     /**
-     * DeleteWidgetPageCommandHandler constructor.
+     * WidgetPageCommandHandler constructor.
      *
      * @param MessageBusSupportingMiddleware $eventBus
      * @param DocumentManager $documentManager
