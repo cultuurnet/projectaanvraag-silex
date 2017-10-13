@@ -44,6 +44,11 @@ abstract class WidgetPageCommandHandler
         $this->user = $user;
     }
 
+    /**
+     * Fill in empty search results targeting settings for facet widgets.
+     *
+     * @param WidgetPageEntity $widgetPage
+     */
     public function determineFacetTargeting(WidgetPageEntity $widgetPage) {
         $widgetResultsCount = 0;
         $resultIdToTarget = false;
@@ -64,17 +69,14 @@ abstract class WidgetPageCommandHandler
             }
         }
 
-        // Check facet widgets and target first search results if there's no targeting.
+        // Check facet widgets and target first search results if there's no target set.
         if (!empty($facetWidgets)) {
             /** @var Facets $facetWidget */
             foreach ($facetWidgets as $facetWidget) {
                 if ($facetWidget->getTargettedSearchResultsWidgetId() === '' && $resultIdToTarget) {
-                    // Set targeting.
                     $facetWidget->setTargettedSearchResultsWidgetId($resultIdToTarget);
                 }
             }
         }
-
-        return $widgetPage;
     }
 }

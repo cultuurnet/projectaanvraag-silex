@@ -51,7 +51,7 @@ class CreateWidgetPageCommandHandler extends WidgetPageCommandHandler
         $widgetPage->setCreated($_SERVER['REQUEST_TIME']);
         $widgetPage->setLastUpdated($_SERVER['REQUEST_TIME']);
 
-        $widgetPage = $this->determineFacetTargeting($widgetPage);
+        $this->determineFacetTargeting($widgetPage);
 
         // Save the project to the local database.
         $this->documentManager->persist($widgetPage);

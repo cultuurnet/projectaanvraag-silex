@@ -59,7 +59,7 @@ class PublishWidgetPageCommandHandler extends WidgetPageCommandHandler
         $originalWidgetPage->setLastUpdatedBy($this->user->id);
         $originalWidgetPage->publish();
 
-        $originalWidgetPage = $this->determineFacetTargeting($originalWidgetPage);
+        $this->determineFacetTargeting($originalWidgetPage);
 
         $this->documentManager->persist($originalWidgetPage);
         $this->documentManager->flush();
