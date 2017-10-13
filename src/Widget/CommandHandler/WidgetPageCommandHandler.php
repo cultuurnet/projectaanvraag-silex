@@ -49,7 +49,8 @@ abstract class WidgetPageCommandHandler
      *
      * @param WidgetPageEntity $widgetPage
      */
-    public function determineFacetTargeting(WidgetPageEntity $widgetPage) {
+    public function determineFacetTargeting(WidgetPageEntity $widgetPage)
+    {
         $widgetResultsCount = 0;
         $resultIdToTarget = false;
         $facetWidgets = [];
