@@ -37,6 +37,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "body":"<p>Zelf een activiteit toevoegen? Dat kan via <a href='http://www.uitdatabank.be'>www.UiTdatabank.be</a></p>",
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":true
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -143,6 +146,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "body":"string"
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":"boolean"
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":"boolean"
  *              },

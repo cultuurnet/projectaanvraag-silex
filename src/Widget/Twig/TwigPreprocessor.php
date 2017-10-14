@@ -104,7 +104,7 @@ class TwigPreprocessor
             'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName() : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'themes' => $event->getTermsByDomain('theme'),
-            'labels' => $event->getLabels(),
+            'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
             'uitpas' => $event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false,
         ];
@@ -125,7 +125,6 @@ class TwigPreprocessor
             $variables['description'] = substr($variables['description'], 0, $settings['description']['characters']);
         }
 
-        $labels = $event->getLabels();
         $languageIconKeywords = [
             'één taalicoon' => 1,
             'twee taaliconen' => 2,
@@ -135,9 +134,9 @@ class TwigPreprocessor
 
         // Search for language keywords. Take the highest value of all items that match..
         $totalLanguageIcons = 0;
-        if (!empty($labels)) {
+        if (!empty($variables['labels'])) {
             foreach ($languageIconKeywords as $keyword => $value) {
-                if (in_array($keyword, $labels)) {
+                if (in_array($keyword, $variables['labels'])) {
                     $totalLanguageIcons = $value;
                 }
             }
@@ -148,9 +147,22 @@ class TwigPreprocessor
             $variables['language_icons'] = $this->twig->render('widgets/language-icons.html.twig', ['score' => $totalLanguageIcons]);
         }
 
+        // Strip not allowed types.
         if (!empty($variables['labels']) && !empty($settings['labels']['limit_labels']) && $settings['labels']['limit_labels']['enabled']) {
             $allowedLabels = explode(', ', $settings['labels']['limit_labels']['labels']);
             $variables['labels'] = array_intersect($variables['labels'], $allowedLabels);
+        }
+
+        // Add types as first labels, if enabled.
+        if (!empty($settings['type']['enabled'])) {
+            $types = $event->getTermsByDomain('eventtype');
+            $typeLabels = [];
+            if (!empty($types)) {
+                foreach ($types as $type) {
+                    $typeLabels[] = $type->getLabel();
+                }
+            }
+            $variables['labels'] =  array_merge($typeLabels, $variables['labels']);
         }
 
         return $variables;

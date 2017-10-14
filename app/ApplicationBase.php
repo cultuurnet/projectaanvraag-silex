@@ -16,6 +16,7 @@ use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
+use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
@@ -237,6 +238,12 @@ class ApplicationBase extends SilexApplication
                 'insightly.host' => $this['config']['insightly']['host'],
                 'insightly.api_key' => $this['config']['insightly']['api_key'],
             ]
+        );
+
+        // ShareProxy
+        $this->register(
+            new ShareProxyServiceProvider(),
+            []
         );
     }
 }
