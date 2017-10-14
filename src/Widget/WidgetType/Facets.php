@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Facet;
+use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
@@ -38,11 +39,11 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *                      "options": {
  *                          {
  *                              "label": "Voor UiTPAS en Paspartoe",
- *                              "query": "uitpas=true"
+ *                              "query": "labels:uitpas* OR labels:paspartoe"
  *                          },
  *                          {
  *                              "label": "Voor kinderen",
- *                              "query": "maxAge=12 OR labels:""ook voor kinderen"""
+ *                              "query": "typicalAgeRange:12 OR labels:""ook voor kinderen"""
  *                          },
  *                          {
  *                              "label": "Gratis activiteiten",
@@ -118,11 +119,25 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     }
 
     /**
-     * Get the id of the targetted search results widget.
+     * Get the id of the targeted search results widget.
      */
-    public function getTargettedSearchResultsWidgetId()
+    public function getTargetedSearchResultsWidgetId()
     {
         return $this->settings['search_results'] ?? '';
+    }
+
+    /**
+     * Set the id of the targeted search results widget.
+     */
+
+    /**
+     * Set the id of the targeted search results widget.
+     *
+     * @param string $targetId
+     */
+    public function setTargettedSearchResultsWidgetId($targetId)
+    {
+        $this->settings['search_results'] = $targetId;
     }
 
     /**
@@ -139,7 +154,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function render()
     {
-
         // If a render is requested without search results context, perform a full search.
         if (empty($this->searchResult)) {
             $query = new SearchQuery(true);
@@ -150,13 +164,39 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $this->searchResult = $this->searchClient->searchEvents($query);
         }
 
+        // Preprocess facets before sending to template.
+        $facets = [];
+        $facetsRaw = $this->searchResult->getFacets();
+        if ($facetsRaw) {
+            // Retrieve current url parameters (for checking active options).
+            $urlQueryParams = $this->getFacetParameters();
+
+            if ($this->settings['filters']['what']) {
+                $activeValue = $urlQueryParams['what'] ?? '';
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+            }
+            if ($this->settings['filters']['where']) {
+                $activeValue = $urlQueryParams['where'] ?? '';
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
+            }
+            if ($this->settings['filters']['when']) {
+                $activeValue = $urlQueryParams['when'] ?? '';
+                $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
+            }
+            if ($this->settings['group_filters']['enabled']) {
+                foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
+                    $activeValue = $urlQueryParams['custom'][$i] ?? [];
+                    $facets[] = $this->twigPreprocessor->preprocessCustomFacet($filter, $i, $activeValue);
+                }
+            }
+        }
+
         // Render twig with settings.
         return $this->twig->render(
             'widgets/facets-widget/facets-widget.html.twig',
             [
-                'facets' => $this->twigPreprocessor->preprocessFacetResults($this->searchResult->getFacets(), 'nl'),
-                'settings_filters' => $this->settings['filters'],
-                'settings_group_filters' => $this->settings['group_filters'],
+                'id' => $this->id,
+                'facets' => $facets,
             ]
         );
     }
@@ -174,7 +214,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
     {
-        $this->buildQuery($searchQuery);
+        if ($this->getTargetedSearchResultsWidgetId() == $searchResultswidgetId) {
+            $this->buildQuery($searchQuery);
+        }
     }
 
     /**
@@ -183,10 +225,119 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     private function buildQuery(SearchQueryInterface $searchQuery)
     {
 
-        // Add facets
-        $searchQuery->addParameter(new Facet('regions'));
-        $searchQuery->addParameter(new Facet('types'));
-        $searchQuery->addParameter(new Facet('themes'));
-        $searchQuery->addParameter(new Facet('facilities'));
+        // Check what facets are already added.
+        $existingFacets = [];
+        foreach ($searchQuery->getParameters() as $parameter) {
+            if ($parameter instanceof Facet) {
+                $existingFacets[] = $parameter->getValue();
+            }
+        }
+
+        // Add facets (if they haven't been added already).
+        if ($this->settings['filters']['what']) {
+            if (!in_array('types', $existingFacets)) {
+                $searchQuery->addParameter(new Facet('types'));
+            }
+        }
+        if ($this->settings['filters']['where']) {
+            if (!in_array('regions', $existingFacets)) {
+                $searchQuery->addParameter(new Facet('regions'));
+            }
+        }
+
+        // Build advanced query string.
+        $advancedQuery = [];
+
+        // Retrieve filtered parameters and add them to the query.
+        $enabledFacetOptions = $this->getEnabledFacetOptions();
+        foreach ($enabledFacetOptions as $key => $value) {
+            switch ($key) {
+                case 'what':
+                    $advancedQuery[] = 'terms.id:' . $value;
+                    break;
+
+                case 'where':
+                    $advancedQuery[] = 'regions:' . $value;
+                    break;
+
+                case 'when':
+                    // Create ISO-8601 daterange from datetype.
+                    $dateRange = $this->convertDateTypeToDateRange($value);
+                    if (!empty($dateRange)) {
+                        $advancedQuery[] = 'dateRange:' . $dateRange;
+                    }
+                    break;
+
+                case 'custom':
+                    // Check for custom (extra) query params and retrieve options from settings.
+                    $extraFilters = $this->settings['group_filters']['filters'];
+                    foreach ($value as $groupKey => $extraGroup) {
+                        $options = $extraFilters[$groupKey]['options'];
+                        foreach ($extraGroup as $key => $extra) {
+                            $advancedQuery[] = '(' . $options[$key]['query'] . ')';
+                        }
+                    }
+
+                    break;
+            }
+        }
+
+        // Add advanced query string to API request.
+        if (!empty($advancedQuery)) {
+            $searchQuery->addParameter(
+                new Query(implode($advancedQuery, ' AND '))
+            );
+        }
+    }
+
+    /**
+     * Get all enabled facet options for current facets widget.
+     */
+    private function getEnabledFacetOptions()
+    {
+
+        $facetParameters = $this->getFacetParameters();
+        $activeOptions = [];
+
+        if ($this->settings['filters']['when'] && isset($facetParameters['when'])) {
+            $activeOptions['when'] = $facetParameters['date'] ?? '';
+        }
+        if ($this->settings['filters']['what'] && isset($facetParameters['what'])) {
+            $activeOptions['what'] = $facetParameters['type'] ?? '';
+        }
+        if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
+            $activeOptions['where'] = $facetParameters['where'];
+        }
+
+        // For group filter, check per filter what options are active.
+        if ($this->settings['group_filters']['enabled']) {
+            foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
+                if (isset($facetParameters['custom'][$i])) {
+                    foreach ($facetParameters['custom'][$i] as $activeOption => $indication) {
+                        $activeOptions['custom'][$i][$activeOption] = true;
+                    }
+                }
+            }
+        }
+
+        return $activeOptions;
+    }
+
+    /**
+     * Retrieve the current facet query parameters to use.
+     *
+     * @return array|mixed
+     */
+    private function getFacetParameters()
+    {
+        // Retrieve all the query parameters for facets.
+        $facetQueryParams = $this->request->query->get('facets');
+
+        // Get parameters for current facet if there are any.
+        if (isset($facetQueryParams[$this->id])) {
+            return $facetQueryParams[$this->id];
+        }
+
+        return [];
     }
 }

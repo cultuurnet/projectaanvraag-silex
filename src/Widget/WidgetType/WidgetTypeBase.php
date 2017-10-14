@@ -136,13 +136,12 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
-     * Trim the first
-     * parameter.
+     * Clean URL query parameters from question marks.
      *
      * @param $params
      * @return array
      */
-    protected function filterUrlQueryParams($params)
+    protected function cleanUrlQueryParams($params)
     {
         if (!empty($params)) {
             foreach ($params as $key => $param) {
@@ -160,6 +159,57 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * Convert date type parameter to ISO-8601 date range.
+     *
+     * @param $dateType
+     * @return string
+     */
+    protected function convertDateTypeToDateRange($dateType)
+    {
+        // Determine start & end date.
+        switch ($dateType) {
+            case 'today':
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $date2 = date('Y-m-d H:i:s', strtotime('now'));
+                break;
+            case 'tomorrow':
+                $date1 = date('Y-m-d H:i:s', strtotime('+1 day'));
+                $date2 = date('Y-m-d H:i:s', strtotime('+1 day'));
+                break;
+            case 'thisweekend':
+                $date1 = date('Y-m-d H:i:s', strtotime('next Saturday'));
+                $date2 = date('Y-m-d H:i:s', strtotime('next Sunday'));
+                break;
+            case 'next7days':
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $date2 = date('Y-m-d H:i:s', strtotime('+7 days'));
+                break;
+            case 'next14days':
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $date2 = date('Y-m-d H:i:s', strtotime('+14 days'));
+                break;
+            case 'next30days':
+                $date1 = date('Y-m-d H:i:s', strtotime('now'));
+                $date2 = date('Y-m-d H:i:s', strtotime('+30 days'));
+                break;
+            default:
+                return '';
+                break;
+        }
+
+        // Convert dates to DateTime objects (CET), set time and format to ISO-8601.
+        $cetTimezone = new \DateTimeZone('CET');
+        $dt1 = new \DateTime($date1, $cetTimezone);
+        $dt2 = new \DateTime($date2, $cetTimezone);
+        $dt1->setTime(0, 0, 0);
+        $dt2->setTime(23, 59, 59);
+        $dateStart = $dt1->format('c');
+        $dateEnd = $dt2->format('c');
+
+        return "[$dateStart TO $dateEnd]";
+    }
+
+    /**
      * Return a WidgetPager object for the given data.
      *
      * @param int $itemsPerPage
@@ -171,6 +221,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         // Determine number of pages.
         $pages = ceil($totalItems / $itemsPerPage);
+
         return new WidgetPager($pages, $pageIndex, $itemsPerPage);
     }
 

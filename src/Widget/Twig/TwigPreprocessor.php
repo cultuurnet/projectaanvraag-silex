@@ -99,7 +99,7 @@ class TwigPreprocessor
             'name' => $event->getName()[$langcode] ?? null,
             'description' => $event->getDescription()[$langcode] ?? null,
             'image' => $event->getImage(),
-            'when_start' => $this->formatDate($event->getStartDate(), $langcode),
+            'when_start' => $event->getStartDate() ? $this->formatDate($event->getStartDate(), $langcode) : null,
             'where' => $event->getLocation() ? $event->getLocation()->getName()[$langcode] ?? null : null,
             'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName() : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
@@ -142,7 +142,7 @@ class TwigPreprocessor
             }
         }
 
-        $variables['language_icons']= '';
+        $variables['language_icons'] = '';
         if ($totalLanguageIcons) {
             $variables['language_icons'] = $this->twig->render('widgets/language-icons.html.twig', ['score' => $totalLanguageIcons]);
         }
@@ -169,45 +169,97 @@ class TwigPreprocessor
     }
 
     /**
-     * Preprocess facet results for sending to a template.
-     *
-     * @param FacetResults $facetResults
-     * @param string $langcode
-     * @return array
-     */
-    public function preprocessFacetResults(FacetResults $facetResults, $langcode)
-    {
-        $variables = [];
-
-        // Filter results by field and format.
-        foreach ($facetResults as $facetResult) {
-            $variables[$facetResult->getField()] = $this->preprocessFacetResult($facetResult, $langcode);
-        }
-
-        return $variables;
-    }
-
-    /**
-     * Preprocess 1 facet result.
+     * Preprocess facet for sending to a template (and check if one is active).
      *
      * @param FacetResult $facetResult
-     * @param $langcode
+     * @param $type
+     * @param $label
+     * @param $activeValue
      * @return array
      */
-    protected function preprocessFacetResult(FacetResult $facetResult, $langcode)
+    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue)
     {
+        $facet = [
+            'type' => $type,
+            'label' => $label,
+            'count' => count($facetResult->getResults()),
+            'options' => [],
+        ];
 
-        $variables = [];
-        $results = $facetResult->getResults();
-        foreach ($results as $result) {
-            $variables[] = [
+        foreach ($facetResult->getResults() as $result) {
+            $facet['options'][] = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                'name' => $result->getNames()[$langcode] ?? '',
+                'name' => $result->getNames()['nl'] ?? '',
+                'active' => ($activeValue == $result->getValue() ? true : false),
             ];
         }
 
-        return $variables;
+        return $facet;
+    }
+
+    /**
+     * Preprocess a custom facet (group filter) for sending to a template (and check which options are active)
+     *
+     * @param $filter
+     * @param $index
+     * @param $actives
+     * @return array
+     */
+    public function preprocessCustomFacet($filter, $index, $actives)
+    {
+        $facet = [
+            'type' => 'custom',
+            'label' => $filter['label'] ?? '',
+            'id' => $index,
+            'count' => count($filter['options']),
+            'options' => [],
+        ];
+
+        foreach ($filter['options'] as $i => $option) {
+            $facet['options'][] = [
+                'value' => $option['query'],
+                'name' => $option['label'] ?? '',
+                'active' => (isset($actives[$i]) ? true : false),
+            ];
+        }
+
+        return $facet;
+    }
+
+    /**
+     * Return fixed values for date facet (and check if one is active).
+     *
+     * @param $active
+     * @return array
+     */
+    public function getDateFacet($active)
+    {
+        $facet = [
+            'type' => 'when',
+            'label' => 'Wanneer',
+            'count' => 6,
+            'options' => [],
+        ];
+
+        $options = [
+            'today' => 'Vandaag',
+            'tomorrow' => 'Morgen',
+            'thisweekend' => 'Dit weekend',
+            'next7days' => 'Volgende 7 dagen',
+            'next14days' => 'Volgende 14 dagen',
+            'next30days' => 'Volgende 30 dagen',
+        ];
+
+        foreach ($options as $value => $label) {
+            $facet['options'][] = [
+                'value' => $value,
+                'name' => $label,
+                'active' => ($active == $value ? true : false),
+            ];
+        }
+
+        return $facet;
     }
 
     /**

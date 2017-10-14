@@ -8,7 +8,12 @@ use CultuurNet\SearchV3\Serializer\Serializer;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\RedisCache;
 use Guzzle\Cache\DoctrineCacheAdapter;
+use Guzzle\Log\MessageFormatter;
+use Guzzle\Log\PsrLogAdapter;
 use Guzzle\Plugin\Cache\CachePlugin;
+use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -46,6 +51,19 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
 
             if ($pimple['search_api.cache.enabled']) {
                 $client->addSubscriber($pimple['search_api_cache']);
+            }
+
+            if ($pimple['debug']) {
+                $logger = new Logger('search_api');
+                $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
+                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/search-api/search-api.log', 0, Logger::DEBUG));
+
+                $logAdapter = new PsrLogAdapter($logger);
+                $logPlugin = new \Guzzle\Plugin\Log\LogPlugin(
+                    $logAdapter,
+                    MessageFormatter::SHORT_FORMAT
+                );
+                $client->addSubscriber($logPlugin);
             }
 
             return new SearchClient($client, new Serializer());

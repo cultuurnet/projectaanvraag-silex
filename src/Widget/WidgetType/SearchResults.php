@@ -318,7 +318,7 @@ class SearchResults extends WidgetTypeBase
     public function render()
     {
         // Retrieve the current request query parameters using the global Application object and filter.
-        $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
+        $urlQueryParams = $this->cleanUrlQueryParams($this->request->query->all());
 
         $query = new SearchQuery(true);
 
@@ -335,13 +335,6 @@ class SearchResults extends WidgetTypeBase
             $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
         }
 
-        // Add facets (datetime is missing from v3?).
-        //$query->addParameter(new Facet('regions'));
-        //$query->addParameter(new Facet('types'));
-        //$query->addParameter(new Facet('themes'));
-        //$query->addParameter(new Facet('facilities'));
-
-
         // Build advanced query string
         $advancedQuery = [];
 
@@ -351,17 +344,11 @@ class SearchResults extends WidgetTypeBase
             $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
         }
 
-        // / Check for facets query params.
-        if (isset($urlQueryParams['region'])) {
-            $advancedQuery[] = 'regions=' . $urlQueryParams['region'];
-        }
-        //@todo: types & datetypes (not recognised query parameters?)
-
-        // Add adanced query string to API request.
+        // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
             $query->addParameter(
                 new Query(
-                    implode('AND', $advancedQuery)
+                    implode(' AND ', $advancedQuery)
                 )
             );
         }

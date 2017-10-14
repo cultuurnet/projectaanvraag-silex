@@ -11,39 +11,19 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 /**
  * Provides a command handler to update a given widget page.
  */
-class UpdateWidgetPageCommandHandler
+class UpdateWidgetPageCommandHandler extends WidgetPageCommandHandler
 {
 
     /**
-     * @var MessageBusSupportingMiddleware
-     */
-    protected $eventBus;
-
-    /**
-     * @var DocumentManager
-     */
-    protected $documentManager;
-
-    /**
-     * @var UserInterface
-     */
-    protected $user;
-
-    /**
-     * CreateProjectCommandHandler constructor.
+     * UpdateWidgetPageCommandHandler constructor.
      *
      * @param MessageBusSupportingMiddleware $eventBus
      * @param DocumentManager $documentManager
-     *
      * @param UserInterface $user
-     *
-     * @internal param DocumentRepository $documentRepository
      */
     public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, UserInterface $user)
     {
-        $this->eventBus = $eventBus;
-        $this->documentManager = $documentManager;
-        $this->user = $user;
+        parent::__construct($eventBus, $documentManager, $user);
     }
 
     /**

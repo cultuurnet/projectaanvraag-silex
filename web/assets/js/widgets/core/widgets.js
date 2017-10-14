@@ -127,7 +127,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         params = params || {};
 
         // Add current querystring to the URL.
-        params.data = window.location.search;
+        params.data = window.location.search.substring(1);
 
         if (typeof params.dataType == 'undefined') {
             params.dataType = 'jsonp';

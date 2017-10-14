@@ -202,7 +202,8 @@ print_r($test2);
                     $searchResultsWidget = $widget;
                 }
 
-                if ($widget instanceof Facets && ($widget->getTargettedSearchResultsWidgetId() === $widgetId || $widget->getTargettedSearchResultsWidgetId() === '')) {
+                // Apply the facet
+                if ($widget instanceof Facets && $widget->getTargetedSearchResultsWidgetId() === $widgetId) {
                     $facetWidgets[$id] = $widget;
                 }
             }
