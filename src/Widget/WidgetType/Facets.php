@@ -121,7 +121,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     /**
      * Get the id of the targeted search results widget.
      */
-    public function getTargettedSearchResultsWidgetId()
+    public function getTargetedSearchResultsWidgetId()
     {
         return $this->settings['search_results'] ?? '';
     }
@@ -169,24 +169,24 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $facetsRaw = $this->searchResult->getFacets();
         if ($facetsRaw) {
             // Retrieve current url parameters (for checking active options).
-            $urlQueryParams = $this->retrieveFilteredParameters();
+            $urlQueryParams = $this->getFacetParameters();
 
-            if ($this->settings['filters']['when']) {
-                $active = (isset($urlQueryParams['facet-date']) ? $urlQueryParams['facet-date'] : '');
-                $facets[] = $this->twigPreprocessor->getDateFacet($active);
-            }
             if ($this->settings['filters']['what']) {
-                $active = (isset($urlQueryParams['facet-type']) ? $urlQueryParams['facet-type'] : '');
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'type', 'nl', $active);
+                $activeValue = $urlQueryParams['what'] ?? '';
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
             }
             if ($this->settings['filters']['where']) {
-                $active = (isset($urlQueryParams['facet-region']) ? $urlQueryParams['facet-region'] : '');
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'region', 'nl', $active);
+                $activeValue = $urlQueryParams['where'] ?? '';
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
+            }
+            if ($this->settings['filters']['when']) {
+                $activeValue = $urlQueryParams['when'] ?? '';
+                $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
             }
             if ($this->settings['group_filters']['enabled']) {
                 foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
-                    $active = (isset($urlQueryParams['extra'][$i]) ? $urlQueryParams['extra'][$i] : []);
-                    $facets[] = $this->twigPreprocessor->preprocessExtraFacet($filter, $i, $active);
+                    $activeValue = $urlQueryParams['custom'][$i] ?? [];
+                    $facets[] = $this->twigPreprocessor->preprocessCustomFacet($filter, $i, $activeValue);
                 }
             }
         }
@@ -214,7 +214,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
     {
-        if ($this->getTargettedSearchResultsWidgetId() == $searchResultswidgetId) {
+        if ($this->getTargetedSearchResultsWidgetId() == $searchResultswidgetId) {
             $this->buildQuery($searchQuery);
         }
     }
@@ -224,154 +224,120 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     private function buildQuery(SearchQueryInterface $searchQuery)
     {
+
+        // Check what facets are already added.
+        $existingFacets = [];
+        foreach ($searchQuery->getParameters() as $parameter) {
+            if ($parameter instanceof Facet) {
+                $existingFacets[] = $parameter->getValue();
+            }
+        }
+
         // Add facets (if they haven't been added already).
         if ($this->settings['filters']['what']) {
-            $existingFacets = array_filter(
-                $searchQuery->getParameters(),
-                function ($o) {
-                    return $o instanceof Facet && $o->getValue() == 'types';
-                }
-            );
-            if (empty($existingFacets)) {
+            if (!in_array('types', $existingFacets)) {
                 $searchQuery->addParameter(new Facet('types'));
             }
         }
         if ($this->settings['filters']['where']) {
-            $existingFacets = array_filter(
-                $searchQuery->getParameters(),
-                function ($o) {
-                    return $o instanceof Facet && $o->getValue() == 'regions';
-                }
-            );
-            if (empty($existingFacets)) {
+            if (!in_array('regions', $existingFacets)) {
                 $searchQuery->addParameter(new Facet('regions'));
             }
         }
 
-        // Retrieve filtered parameters.
-        $urlQueryParams = $this->retrieveFilteredParameters();
+        // Build advanced query string.
+        $advancedQuery = [];
 
-        if (!empty($urlQueryParams)) {
-            // Build advanced query string.
-            $advancedQueryString = '';
-            $advancedQuery = [];
+        // Retrieve filtered parameters and add them to the query.
+        $enabledFacetOptions = $this->getEnabledFacetOptions();
+        foreach ($enabledFacetOptions as $key => $value) {
+            switch ($key) {
+                case 'what':
+                    $advancedQuery[] = 'terms.id:' . $value;
+                    break;
 
-            // / Check for facets query params.
-            if (isset($urlQueryParams['facet-region'])) {
-                $advancedQuery[] = 'regions:' . $urlQueryParams['facet-region'];
-                unset($urlQueryParams['facet-region']);
-            }
-            if (isset($urlQueryParams['facet-type'])) {
-                $advancedQuery[] = 'terms.id:' . $urlQueryParams['facet-type'];
-                unset($urlQueryParams['facet-type']);
-            }
-            if (isset($urlQueryParams['facet-date'])) {
-                // Create ISO-8601 daterange from datetype.
-                $dateRange = $this->convertDateTypeToDateRange($urlQueryParams['facet-date']);
-                if (!empty($dateRange)) {
-                    $advancedQuery[] = 'dateRange:' . $dateRange;
-                }
-                unset($urlQueryParams['facet-date']);
-            }
+                case 'where':
+                    $advancedQuery[] = 'regions:' . $value;
+                    break;
 
-            if (!empty($advancedQuery)) {
-                // Check for existing Query parameter.
-                $existingQueries = array_filter(
-                    $searchQuery->getParameters(),
-                    function ($o) {
-                        return $o instanceof Query;
+                case 'when':
+                    // Create ISO-8601 daterange from datetype.
+                    $dateRange = $this->convertDateTypeToDateRange($value);
+                    if (!empty($dateRange)) {
+                        $advancedQuery[] = 'dateRange:' . $dateRange;
                     }
-                );
+                    break;
 
-                if (!empty($existingQueries)) {
-                    // Remove existing Query parameter.
-                    $existingQuery = array_shift($existingQueries);
-                    $searchQuery->removeParameter($existingQuery);
-                    // Start new string with existing value.
-                    $existingQueryString = $existingQuery->getValue();
-                    $advancedQueryString = $existingQueryString . ' AND ';
-                }
-
-                // Add current facet parameters.
-                $advancedQueryString .= implode(' AND ', $advancedQuery);
-            }
-
-            // Check for custom (extra) query params and retrieve options from settings.
-            $extraQueries = [];
-            if (isset($urlQueryParams['extra'])) {
-                if ($this->settings['group_filters']['enabled']) {
+                case 'custom':
+                    // Check for custom (extra) query params and retrieve options from settings.
                     $extraFilters = $this->settings['group_filters']['filters'];
-                    foreach ($urlQueryParams['extra'] as $groupKey => $extraGroup) {
+                    foreach ($value as $groupKey => $extraGroup) {
                         $options = $extraFilters[$groupKey]['options'];
                         foreach ($extraGroup as $key => $extra) {
-                            $extraQueries[] = $options[$key]['query'];
+                            $advancedQuery[] = '(' . $options[$key]['query'] . ')';
                         }
                     }
-                }
-            }
 
-            if (!empty($extraQueries)) {
-                // Attach extra queries.
-                foreach ($extraQueries as $query) {
-                    if (!empty($advancedQueryString)) {
-                        $advancedQueryString .= ' AND ';
-                    }
-                    $advancedQueryString .= "($query)";
-                }
+                    break;
             }
+        }
 
-            // Add advanced query string to API request.
+        // Add advanced query string to API request.
+        if (!empty($advancedQuery)) {
             $searchQuery->addParameter(
-                new Query($advancedQueryString)
+                new Query(implode($advancedQuery, ' AND '))
             );
         }
     }
 
     /**
-     * Retrieve the current request query parameters using the global Application object and filter.
-     *
-     * @return array|mixed
+     * Get all enabled facet options for current facets widget.
      */
-    private function retrieveFilteredParameters()
+    private function getEnabledFacetOptions()
     {
-        // Retrieve the current request query parameters using the global Application object and filter.
-        $urlQueryParams = $this->filterFacetQueryParams($this->request->query->all());
 
-        // Check if parameters require merging.
-        if (count($urlQueryParams) > 1) {
-            // Merge parameters per facet widget id. TODO: test with more than 2 facet widgets.
-            $urlQueryParams = array_replace_recursive(array_shift($urlQueryParams), $urlQueryParams['facets']);
-        } else {
-            // Go one level deeper.
-            $urlQueryParams = array_shift($urlQueryParams);
+        $facetParameters = $this->getFacetParameters();
+        $activeOptions = [];
+
+        if ($this->settings['filters']['when'] && isset($facetParameters['when'])) {
+            $activeOptions['when'] = $facetParameters['date'] ?? '';
+        }
+        if ($this->settings['filters']['what'] && isset($facetParameters['what'])) {
+            $activeOptions['what'] = $facetParameters['type'] ?? '';
+        }
+        if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
+            $activeOptions['where'] = $facetParameters['where'];
         }
 
-        // Get parameters for current facet if there are any.
-        if (isset($urlQueryParams[$this->id])) {
-            $urlQueryParams = $urlQueryParams[$this->id];
-        } else {
-            // Discard the parameters (will be added in the corresponding widget context).
-            $urlQueryParams = [];
-        }
-
-        return $urlQueryParams;
-    }
-
-    /**
-     * Remove non facet query parameters.
-     *
-     * @param $params
-     * @return array
-     */
-    private function filterFacetQueryParams($params)
-    {
-        if (!empty($params)) {
-            foreach ($params as $key => $param) {
-                if (!in_array($key, ['facets', '?facets'])) {
-                    unset($params[$key]);
+        // For group filter, check per filter what options are active.
+        if ($this->settings['group_filters']['enabled']) {
+            foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
+                if (isset($facetParameters['custom'][$i])) {
+                    foreach ($facetParameters['custom'][$i] as $activeOption => $indication) {
+                        $activeOptions['custom'][$i][$activeOption] = true;
+                    }
                 }
             }
         }
-        return $params;
+
+        return $activeOptions;
+    }
+
+    /**
+     * Retrieve the current facet query parameters to use.
+     *
+     * @return array|mixed
+     */
+    private function getFacetParameters()
+    {
+        // Retrieve all the query parameters for facets.
+        $facetQueryParams = $this->request->query->get('facets');
+
+        // Get parameters for current facet if there are any.
+        if (isset($facetQueryParams[$this->id])) {
+            return $facetQueryParams[$this->id];
+        }
+
+        return [];
     }
 }

@@ -13,28 +13,33 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         attach: function(context) {
             // Click event binding for facet filters.
             $(context).find('a[data-facet-type]').each(function() {
-                $(this).bind('click', function() {
-                    // Retrieve all data values.
-                    var widget_id = $(this).parents('[data-widget-id]').data('widget-id');
-                    var type = $(this).data('facet-type');
-                    var value = $(this).data('facet-value');
-                    var facet_id = $(this).data('facet-id');
-                    var option_id = $(this).data('facet-option-id');
+                $(this).bind('click', function(e) {
 
-                    if ($(this).parents('li').hasClass('active') === true) {
-                        if (type !== 'extra') {
-                            CultuurnetWidgets.removeFilter(widget_id, 'facet-' + type, null);
+                    e.preventDefault();
+
+                    var $this = $(this);
+
+                    // Retrieve all data values.
+                    var widget_id = $this.parents('[data-widget-id]').data('widget-id');
+                    var type = $this.data('facet-type');
+                    var value = $this.data('facet-value');
+                    var facet_id = $this.data('facet-id');
+                    var option_id = $this.data('facet-option-id');
+
+                    if ($this.parents('li').hasClass('active') === true) {
+                        if (type !== 'custom') {
+                            CultuurnetWidgets.removeFilter(widget_id, type, null);
                         }
                         else {
                             CultuurnetWidgets.removeFilter(widget_id, facet_id, option_id);
                         }
                     }
                     else {
-                        if (type !== 'extra') {
-                            CultuurnetWidgets.facetFilter(widget_id, 'facet-' + type, value);
+                        if (type !== 'custom') {
+                            CultuurnetWidgets.facetFilter(widget_id, type, value);
                         }
                         else {
-                            CultuurnetWidgets.extraFilter(widget_id, facet_id, option_id);
+                            CultuurnetWidgets.customFilter(widget_id, facet_id, option_id);
                         }
                     }
                 });
@@ -77,15 +82,15 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     };
 
     /**
-     * Extra filter function.
+     * Custom filter function.
      *
      * @param widget_id
      * @param facet_id
      * @param option_id
      */
-    CultuurnetWidgets.extraFilter = function(widget_id ,facet_id, option_id) {
+    CultuurnetWidgets.customFilter = function(widget_id ,facet_id, option_id) {
         // Change param to proper format.
-        var param = 'facets[' + widget_id + '][extra][' + facet_id + '][' + option_id + ']';
+        var param = 'facets[' + widget_id + '][custom][' + facet_id + '][' + option_id + ']';
 
         // Check for existing query parameters.
         var queryString = window.location.search;
@@ -120,7 +125,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         // Determine param in proper format (for regular or extra filters).
         var param = '';
         if (option_id !== null) {
-            param = 'facets[' + widget_id + '][extra][' + key + '][' + option_id + ']';
+            param = 'facets[' + widget_id + '][custom][' + key + '][' + option_id + ']';
         }
         else {
             param = 'facets[' + widget_id + '][' + key + ']';

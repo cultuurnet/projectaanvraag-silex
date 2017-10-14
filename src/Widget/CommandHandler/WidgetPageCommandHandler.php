@@ -11,7 +11,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 /**
- * Provides a command handler to create a new widget page.
+ * Provides an abstract class for crud actions on widget pages.
  */
 abstract class WidgetPageCommandHandler
 {
@@ -45,14 +45,15 @@ abstract class WidgetPageCommandHandler
     }
 
     /**
-     * Fill in empty search results targeting settings for facet widgets.
+     * Make sure every facet widget is targetting a search results widget
+     * If a facet widget does not target a search widget. It should target the first search result on the page.
      *
      * @param WidgetPageEntity $widgetPage
      */
     public function determineFacetTargeting(WidgetPageEntity $widgetPage)
     {
         $widgetResultsCount = 0;
-        $resultIdToTarget = false;
+        $resultIdToTarget = 0;
         $facetWidgets = [];
         $rows = $widgetPage->getRows();
 
@@ -71,10 +72,10 @@ abstract class WidgetPageCommandHandler
         }
 
         // Check facet widgets and target first search results if there's no target set.
-        if (!empty($facetWidgets)) {
+        if (!empty($facetWidgets) && $resultIdToTarget) {
             /** @var Facets $facetWidget */
             foreach ($facetWidgets as $facetWidget) {
-                if ($facetWidget->getTargettedSearchResultsWidgetId() === '' && $resultIdToTarget) {
+                if ($facetWidget->getTargetedSearchResultsWidgetId() === '') {
                     $facetWidget->setTargettedSearchResultsWidgetId($resultIdToTarget);
                 }
             }

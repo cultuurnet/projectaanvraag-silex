@@ -173,36 +173,25 @@ class TwigPreprocessor
      *
      * @param FacetResult $facetResult
      * @param $type
-     * @param $langcode
-     * @param $active
+     * @param $label
+     * @param $activeValue
      * @return array
      */
-    public function preprocessFacet(FacetResult $facetResult, $type, $langcode, $active)
+    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue)
     {
         $facet = [
             'type' => $type,
+            'label' => $label,
             'count' => count($facetResult->getResults()),
             'options' => [],
         ];
-
-        switch ($type) {
-            case 'type':
-                $facet['label'] = 'Type';
-                break;
-            case 'location':
-                $facet['label'] = 'Waar';
-                break;
-            default:
-                $facet['label'] = ucfirst($type);
-                break;
-        }
 
         foreach ($facetResult->getResults() as $result) {
             $facet['options'][] = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                'name' => $result->getNames()[$langcode] ?? '',
-                'active' => ($active == $result->getValue() ? true : false),
+                'name' => $result->getNames()['nl'] ?? '',
+                'active' => ($activeValue == $result->getValue() ? true : false),
             ];
         }
 
@@ -210,17 +199,17 @@ class TwigPreprocessor
     }
 
     /**
-     * Preprocess extra facet for sending to a template (and check which options are active)
+     * Preprocess a custom facet (group filter) for sending to a template (and check which options are active)
      *
      * @param $filter
      * @param $index
      * @param $actives
      * @return array
      */
-    public function preprocessExtraFacet($filter, $index, $actives)
+    public function preprocessCustomFacet($filter, $index, $actives)
     {
         $facet = [
-            'type' => 'extra',
+            'type' => 'custom',
             'label' => $filter['label'] ?? '',
             'id' => $index,
             'count' => count($filter['options']),
@@ -247,7 +236,7 @@ class TwigPreprocessor
     public function getDateFacet($active)
     {
         $facet = [
-            'type' => 'date',
+            'type' => 'when',
             'label' => 'Wanneer',
             'count' => 6,
             'options' => [],
