@@ -32,7 +32,11 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
         // CRUD actions.
         $controllers->put('api/project/{project}/widget-page', 'widget_builder_api_controller:updateWidgetPage')
             ->convert('project', 'project_converter:convert');
-        $controllers->post('api/project/{project}/widget-page/{pageId}/publish', 'widget_builder_api_controller:publishWidgetPage')
+        $controllers->post('api/project/{project}/widget-page/{widgetPage}/publish', 'widget_builder_api_controller:publishWidgetPage')
+            ->convert('widgetPage', 'widget_page_convertor:convertToDraft')
+            ->convert('project', 'project_converter:convert');
+        $controllers->post('api/project/{project}/widget-page/{widgetPage}/revert', 'widget_builder_api_controller:revertWidgetPage')
+            ->convert('widgetPage', 'widget_page_convertor:convertToDraft')
             ->convert('project', 'project_converter:convert');
         $controllers->delete('/api/project/{project}/widget-page/{widgetPage}', 'widget_builder_api_controller:deleteWidgetPage')
             ->convert('project', 'project_converter:convert')

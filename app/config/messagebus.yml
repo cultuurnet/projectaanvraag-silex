@@ -138,6 +138,13 @@ handlers:
               - widget_repository
               - uitid_user_session_data_complete
 
+    revert_widget_page_handler:
+          command: CultuurNet\ProjectAanvraag\Widget\Command\RevertWidgetPage
+          class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\RevertWidgetPageCommandHandler
+          arguments:
+              - event_bus
+              - widget_repository
+
     upgrade_widget_page_handler:
           command: CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage
           class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\UpgradeWidgetPageCommandHandler

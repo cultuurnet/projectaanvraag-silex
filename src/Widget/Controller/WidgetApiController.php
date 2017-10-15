@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Command\RevertWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
@@ -190,31 +191,44 @@ class WidgetApiController
      * @return JsonResponse
      *
      */
-    public function publishWidgetPage(ProjectInterface $project, $pageId)
+    public function publishWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
 
-        // Load the widget page.
-        $existingWidgetPages = $this->loadExistingWidgetPages($pageId, $project->getId());
+        // Check if user has edit access.
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
 
-        if (empty($existingWidgetPages)) {
-            throw new NotFoundHttpException('The given widget page does not exist for given project.');
+        // There was no draft, no publish action needed
+        if (!$widgetPage->isDraft()) {
+            return new JsonResponse();
         }
 
-        if (!empty($existingWidgetPages)) {
-            // Check if user has edit access.
-            $this->verifyProjectAccess($project, $existingWidgetPages[0], ProjectVoter::EDIT);
+        $this->commandBus->handle(new PublishWidgetPage($widgetPage));
 
-            // Search for a draft version.
-            $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
+        return new JsonResponse();
+    }
 
-            if (empty($draftWidgetPage)) {
-                return new JsonResponse();
-            }
 
-            $this->commandBus->handle(new PublishWidgetPage($draftWidgetPage));
-        } else {
-            throw new RequirementsNotSatisfiedException('No Widget Page was found');
+    /**
+     * Revert the requested widget page to the published version.
+     *
+     * @param ProjectInterface $project
+     * @param $pageId
+     *
+     * @return JsonResponse
+     *
+     */
+    public function revertWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
+    {
+
+        // Check if user has edit access.
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
+
+        // There was no draft, no revert action needed
+        if (!$widgetPage->isDraft()) {
+            return new JsonResponse();
         }
+
+        $this->commandBus->handle(new RevertWidgetPage($widgetPage));
 
         return new JsonResponse();
     }
