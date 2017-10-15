@@ -11,6 +11,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.behaviors.facets = {
 
         attach: function(context) {
+
+            CultuurnetWidgets.attachFacetsToggle(context);
+
             // Click event binding for facet filters.
             $(context).find('a[data-facet-type]').each(function() {
                 $(this).bind('click', function(e) {
@@ -44,6 +47,32 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                     }
                 });
             });
+        }
+    };
+
+    /**
+     * Attach the facets toggle to the context.
+     * @param context
+     */
+    CultuurnetWidgets.attachFacetsToggle = function(context) {
+        var $facetWrapper = $(context).find('.cnw_facets_content');
+        if ($facetWrapper.length) {
+
+            var $facetsToggle = $(context).find('.cnw_facets_toggle');
+
+            // Facets are default hidden for mobile.
+            if ($(window).width() < 768) {
+                $facetsToggle.html('Toon verfijningen');
+                $facetsToggle.toggleClass('cnw_facets_toggle--open');
+                $facetWrapper.hide();
+            }
+
+            $facetsToggle.bind('click', function(e) {
+                e.preventDefault();
+                $facetsToggle.toggleClass('cnw_facets_toggle--open');
+                $facetWrapper.toggle();
+            });
+
         }
     };
 

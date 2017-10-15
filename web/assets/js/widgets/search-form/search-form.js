@@ -106,7 +106,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
             else if ($field.is(':radio')) {
                 if ($field.is(':checked')) {
-                    console.log(value);
                     paramsToSubmit[$field.attr('name')] = value;
                 }
             }
