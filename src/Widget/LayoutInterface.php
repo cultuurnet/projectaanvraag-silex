@@ -40,4 +40,10 @@ interface LayoutInterface extends \JsonSerializable
      * @return WidgetTypeInterface[]
      */
     public function getWidgets();
+
+    /**
+     * Get the index of last widget.
+     * @return mixed
+     */
+    public function getLastWidgetIndex();
 }

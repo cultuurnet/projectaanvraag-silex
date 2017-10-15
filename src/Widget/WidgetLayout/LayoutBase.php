@@ -54,6 +54,12 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     protected $cleanup;
 
     /**
+     * The last index that was used.
+     * @var int
+     */
+    protected $lastWidgetIndex;
+
+    /**
      * LayoutBase constructor.
      *
      * @param array $pluginDefinition
@@ -68,6 +74,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         $this->widgetManager = $widgetManager;
         $this->twig = $twig;
         $this->cleanup = $cleanup;
+        $this->lastWidgetIndex = $configuration['lastIndex'] ?? -1;
 
         if (isset($configuration['regions'])) {
             $this->parseRegions($configuration['regions']);
@@ -89,6 +96,14 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getLastWidgetIndex()
+    {
+        return $this->lastWidgetIndex;
+    }
+
+    /**
      * Parse the given region content to widgets.
      * @param $regions
      */
@@ -101,8 +116,10 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
             }
 
             foreach ($region['widgets'] as $widget) {
+                $this->lastWidgetIndex++;
                 $this->widgetMapping[$widget['id']] = $regionId;
                 $this->regions[$regionId]['widgets'][$widget['id']] = $this->widgetManager->createInstance($widget['type'], $widget, $this->cleanup);
+                $this->regions[$regionId]['widgets'][$widget['id']]->setIndex($this->lastWidgetIndex);
             }
         }
     }

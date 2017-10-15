@@ -212,6 +212,35 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     };
 
     /**
+     * Perform a redirect without the given parameters.
+     * @param paramsToDelete
+     */
+    CultuurnetWidgets.redirectAndDeleteParams = function(paramsToDelete) {
+
+        // Check for existing query parameters.
+        var queryString = window.location.search;
+
+        if (queryString) {
+
+            // Convert existing query string to an object.
+            var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+
+            for (var index in paramsToDelete) {
+                // Delete corresponding parameter from URL.
+                if (typeof currentParams[paramsToDelete[index]] !== 'undefined') {
+                    delete currentParams[paramsToDelete[index]];
+                }
+            }
+
+            window.location.href = window.location.pathname + '?' + CultuurnetWidgets.buildQueryUrl(currentParams);
+
+        }
+        else {
+            window.location.href = window.location.pathname;
+        }
+    };
+
+    /**
      * Build a query string from updated params.
      *
      * @param currentParams

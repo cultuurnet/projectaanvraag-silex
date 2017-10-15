@@ -79,9 +79,13 @@ class WidgetPageEntityDeserializer
         }
 
         $rows = [];
+        $widgetIndex = -1;
         if (isset($jsonObject['rows']) && is_array($jsonObject['rows'])) {
             foreach ($jsonObject['rows'] as $row) {
-                $rows[] = $this->widgetLayoutManager->createInstance($row['type'], $row, true);
+                $row['lastIndex'] = $widgetIndex;
+                $layout = $this->widgetLayoutManager->createInstance($row['type'], $row, true);
+                $widgetIndex = $layout->getLastWidgetIndex();
+                $rows[] = $layout;
             }
         }
 

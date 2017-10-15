@@ -55,6 +55,12 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected $settings;
 
     /**
+     * Index of position in the page.
+     * @var int
+     */
+    protected $index;
+
+    /**
      * WidgetTypeBase constructor.
      * @param array $pluginDefinition
      * @param array $configuration
@@ -133,6 +139,22 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
             'type' => $this->pluginDefinition['annotation']->getId(),
             'settings' => $this->settings,
         ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
+
+    /**
+     * @param int $index
+     */
+    public function setIndex($index)
+    {
+        $this->index = $index;
     }
 
     /**

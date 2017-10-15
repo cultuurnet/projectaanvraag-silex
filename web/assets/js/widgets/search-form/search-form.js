@@ -88,12 +88,33 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         e.preventDefault();
 
-        var submittedValues = $(this).serializeArray();
+        // Search all input fields.
         var paramsToSubmit = {};
+        $(this).find(':input').each(function() {
 
-        for (var submittedValue in submittedValues) {
-            paramsToSubmit[submittedValues[submittedValue].name] = submittedValues[submittedValue].value;
-        }
+            var $field = $(this);
+
+            if (!$field.attr('name')) {
+                return true;
+            }
+
+            var value = $field.val();
+            if ($field.is(':text')) {
+                if (value) {
+                    paramsToSubmit[$field.attr('name')] = value;
+                }
+            }
+            else if ($field.is(':radio')) {
+                if ($field.is(':checked')) {
+                    console.log(value);
+                    paramsToSubmit[$field.attr('name')] = value;
+                }
+            }
+            else {
+                paramsToSubmit[$field.attr('name')] = value;
+            }
+
+        });
 
         CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
     };
@@ -105,7 +126,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var widgetId = $searchForm.data('widget-id');
 
-        var currentParams = JSON.parse('{"' + decodeURI(window.location.search.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+        var currentParams = undefined;
+        var queryString = decodeURI(window.location.search.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\""));
+        if (queryString) {
+            currentParams = JSON.parse('{"' + queryString + '"}');
+        }
 
         if (currentParams) {
             // Search all input fields.

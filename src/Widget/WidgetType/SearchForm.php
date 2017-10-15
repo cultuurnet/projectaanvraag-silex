@@ -187,7 +187,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',
             [
-                'id' => $this->id,
+                'id' => $this->index, // Use the index as identifier for smaller querystrings.
                 'settings_general' => $this->settings['general'],
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
@@ -250,8 +250,8 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         $activeFilters = $this->getDefaults();
         if ($this->request->query->has('search-form')) {
             $searchFormFilters = $this->request->query->get('search-form');
-            if (isset($searchFormFilters[$this->id])) {
-                foreach ($searchFormFilters[$this->id] as $key => $activeFilter) {
+            if (isset($searchFormFilters[$this->index])) {
+                foreach ($searchFormFilters[$this->index] as $key => $activeFilter) {
                     if ($key === 'custom' && is_array($activeFilter)) {
                         foreach ($activeFilter as $groupFilterKey => $groupFilterValue) {
                             if (is_array($groupFilterValue)) {

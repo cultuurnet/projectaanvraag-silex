@@ -195,7 +195,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         return $this->twig->render(
             'widgets/facets-widget/facets-widget.html.twig',
             [
-                'id' => $this->id,
+                'id' => $this->index, // Use the index as identifier for smaller querystrings.
                 'facets' => $facets,
             ]
         );
@@ -335,8 +335,8 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $facetQueryParams = $this->request->query->get('facets');
 
         // Get parameters for current facet if there are any.
-        if (isset($facetQueryParams[$this->id])) {
-            return $facetQueryParams[$this->id];
+        if (isset($facetQueryParams[$this->index])) {
+            return $facetQueryParams[$this->index];
         }
 
         return [];
