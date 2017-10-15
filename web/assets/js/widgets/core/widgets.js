@@ -25,12 +25,24 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     };
 
     /**
+     * Load jquery ui and bootstrap widgets.
+     */
+    CultuurnetWidgets.loadJqueryUi = function() {
+        var script = document.createElement('script');
+        document.head.appendChild(script);
+        script.type = 'text/javascript';
+        script.src = "//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
+        script.onload = CultuurnetWidgets.attachBehaviors;
+    };
+
+    /**
      * Attaches all registered behaviors to a page element.
      *
      * @param {HTMLDocument|HTMLElement} [context=document]
      *   An element to attach behaviors to.*
      */
     CultuurnetWidgets.attachBehaviors = function (context) {
+
         context = context || document;
         var behaviors = CultuurnetWidgets.behaviors;
         // Execute all of them.
@@ -88,21 +100,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     };
 
     /**
-     * Adds the provided inline CSS to the head
-     * @param string css CSS script to add inline
+     * Adds the provided external CSS to the head
+     * @param string css_file Url to the css file to load.
      * @return null
      */
-    CultuurnetWidgets.addStyle = function (css) {
+    CultuurnetWidgets.addExternalStyle = function (css_file) {
 
         var head = document.getElementsByTagName('head')[0];
         var styleElement = document.createElement("style");
         styleElement.setAttribute("type", "text/css");
-        if (styleElement.styleSheet) {
-            styleElement.styleSheet.cssText = css;
-        } else {
-            var styleTextElement = document.createTextNode(css);
-            styleElement.appendChild(styleTextElement);
-        }
+        styleElement.setAttribute("src", link);
         head.appendChild(styleElement);
     };
 
@@ -176,5 +183,46 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         return deferred;
     };
+
+    /**
+     * Perform a redirect with new parameters.
+     */
+    CultuurnetWidgets.redirectWithNewParams = function(paramsToAdd) {
+
+        // Check for existing query parameters.
+        var queryString = window.location.search;
+        var newParams = [];
+        if (queryString) {
+            // Convert existing query string to an object.
+            var newParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+
+            // Add every param to the params.
+            for (var param in paramsToAdd) {
+                if (typeof newParams[param] !== 'undefined') {
+                    delete newParams[param];
+                }
+                newParams[param] = paramsToAdd[param];
+            }
+        }
+        else {
+            newParams = paramsToAdd;
+        }
+
+        window.location.href = window.location.pathname + '?' + CultuurnetWidgets.buildQueryUrl(newParams);
+    };
+
+    /**
+     * Build a query string from updated params.
+     *
+     * @param currentParams
+     * @returns {string}
+     */
+    CultuurnetWidgets.buildQueryUrl = function(currentParams) {
+        var newParams = [];
+        for (var key in currentParams) {
+            newParams.push(key + '=' + currentParams[key]);
+        }
+        return newParams.join('&');
+    }
 
 })(CultuurnetWidgets, jQuery);

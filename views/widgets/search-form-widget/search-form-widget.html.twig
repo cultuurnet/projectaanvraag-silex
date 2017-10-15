@@ -4,23 +4,23 @@
     </div>
 {% endif %}
 
-<form class="cnw_form cnw_form--extended">
+<form class="cnw_form cnw_form--extended" data-widget-id="{{ id }}">
     <div class="cnw_row">
 
         {% if settings_fields.type.keyword_search.enabled or settings_fields.type.group_filters.enabled %}
             <div class="cnw_col">
                 {% if settings_fields.type.keyword_search.enabled %}
                     <div class="cnw_form-group cnw_zoek-wat">
-                        <label for="cnw_zoek-wat">
+                        <label>
                             {{  settings_fields.type.keyword_search.label }}
                         </label>
-                        <input type="text" class="cnw_form-control" placeholder="{{  settings_fields.type.keyword_search.placeholder }}">
+                        <input type="text" class="cnw_form-control" name="search-form[{{ id }}][what]" placeholder="{{  settings_fields.type.keyword_search.placeholder }}">
                     </div>
                 {% endif %}
 
                 {% if settings_fields.type.group_filters.enabled %}
                     {% for key, filter in  settings_fields.type.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options, 'default_option': defaults.type.group_filters[key]} %}
+                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][0][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[0].group_filters[key]} %}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -30,16 +30,16 @@
             <div class="cnw_col">
                 {% if  settings_fields.location.keyword_search.enabled %}
                     <div class="cnw_form-group cnw_zoek-waar">
-                        <label for="cnw_zoek-waar">
+                        <label>
                             {{  settings_fields.location.keyword_search.label }}
                         </label>
-                        <input type="text" class="cnw_form-control" placeholder="{{  settings_fields.location.keyword_search.placeholder }}">
+                        <input type="text" class="cnw_form-control" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}">
                     </div>
                 {% endif %}
 
                 {% if settings_fields.location.group_filters.enabled %}
                     {% for key, filter in  settings_fields.location.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options, 'default_option': defaults.location.group_filters[key]} %}
+                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][1][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[1].group_filters[key]} %}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -49,40 +49,40 @@
             <div class="cnw_col">
                 {%  if  settings_fields.time.date_search.enabled %}
                     <div class="cnw_form-group cnw_zoek-wanneer">
-                        <label for="cnw_zoek_wanneer">
+                        <label>
                             {{  settings_fields.time.date_search.label }}
                         </label>
-                        <select class="cnw_form-control">
+                        <select class="cnw_form-control cnw_form-control-date" name="search-form[{{ id }}][when]">
                             {% if settings_fields.time.date_search.placeholder %}
-                                <option>{{ settings_fields.time.date_search.placeholder }}</option>
+                                <option value="">{{ settings_fields.time.date_search.placeholder }}</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.today %}
-                            <option value="today"{% if defaults.current_date == 'today' %} selected{% endif %} }}>Vandaag</option>
+                            <option value="today"{% if defaults.when == 'today' %} selected{% endif %} }}>Vandaag</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.tomorrow %}
-                            <option value="tomorrow"{% if defaults.current_date == 'tomorrow' %} selected{% endif %}>Morgen</option>
+                            <option value="tomorrow"{% if defaults.when == 'tomorrow' %} selected{% endif %}>Morgen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.weekend %}
-                            <option value="weekend"{% if defaults.current_date == 'weekend' %} selected{% endif %}>Dit weekend</option>
+                            <option value="weekend"{% if defaults.when == 'weekend' %} selected{% endif %}>Dit weekend</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.days_7 %}
-                            <option value="days_7"{% if defaults.current_date == 'days_7' %} selected{% endif %}>Binnen 7 dagen</option>
+                            <option value="days_7"{% if defaults.when == 'days_7' %} selected{% endif %}>Binnen 7 dagen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.days_14 %}
-                            <option value="days_14"{% if defaults.current_date == 'days_14' %} selected{% endif %}>Binnen 14 dagen</option>
+                            <option value="days_14"{% if defaults.when == 'days_14' %} selected{% endif %}>Binnen 14 dagen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.days_30 %}
-                            <option value="days_30"{% if defaults.current_date == 'days_30' %} selected{% endif %}>Binnen 30 dagen</option>
+                            <option value="days_30"{% if defaults.when == 'days_30' %} selected{% endif %}>Binnen 30 dagen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.custom_date %}
-                            <option value="custom_date"{% if defaults.current_date == 'custom_date' %} selected{% endif %}>Aangepaste datum</option>
+                            <option value="custom_date"{% if defaults.when == 'custom_date' %} selected{% endif %}>Aangepaste datum</option>
                             {% endif %}
                         </select>
 
                         {% if settings_fields.time.date_search.options.custom_date %}
-                            <div class="cnw_zoek-custom-date"{% if defaults.current_date != 'custom_date' %} style="display: none;" {% endif %}>
-                                <input type="text" class="cnw_form-control" />
-                                <input type="text" class="cnw_form-control" />
+                            <div class="cnw_form-custom-date"{% if defaults.when != 'custom_date' %} style="display: none;" {% endif %}>
+                                <input type="text" class="cnw_form-control cnw_form-date-start" name="search-form[{{ id }}][date-start]"/>
+                                <input type="text" class="cnw_form-control cnw_form-date-end" name="search-form[{{ id }}][date-end]"/>
                             </div>
                         {% endif %}
 
@@ -91,7 +91,7 @@
 
                 {% if settings_fields.time.group_filters.enabled %}
                     {% for key, filter in  settings_fields.time.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label': filter.label, 'placeholder': filter.placeholder, 'options': filter.options, 'default_option': defaults.time.group_filters[key]} %}
+                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label': filter.label, 'placeholder': filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][2][' ~ key ~ ']', 'options': filter.options, 'default_option': defaults[2].group_filters[key]} %}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -101,7 +101,7 @@
         {% if  settings_fields.extra.group_filters.enabled %}
             <div class="cnw_col">
                 {% for key, filter in  settings_fields.extra.group_filters.filters %}
-                    {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'options':filter.options, 'default_option': defaults.extra.group_filters[key]} %}
+                    {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[3].group_filters[key]} %}
                 {% endfor %}
             </div>
             {% endif %}

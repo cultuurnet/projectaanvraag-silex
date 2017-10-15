@@ -388,6 +388,7 @@ class SearchResults extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
+        $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-results/pager.js');
         return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'search-results', 'autoload' => true]);
     }
 }

@@ -41,8 +41,6 @@ class Renderer implements RendererInterface
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/widgets.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/settings-loader.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/placeholder-load.js');
-        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/pager/pager.js');
-        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/facets/facets.js');
 
         $output = '';
 

@@ -206,6 +206,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
      */
     public function renderPlaceholder()
     {
+        $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/facets/facets.js');
         return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'facets', 'autoload' => false]);
     }
 
@@ -300,10 +301,10 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $activeOptions = [];
 
         if ($this->settings['filters']['when'] && isset($facetParameters['when'])) {
-            $activeOptions['when'] = $facetParameters['date'] ?? '';
+            $activeOptions['when'] = $facetParameters['when'];
         }
         if ($this->settings['filters']['what'] && isset($facetParameters['what'])) {
-            $activeOptions['what'] = $facetParameters['type'] ?? '';
+            $activeOptions['what'] = $facetParameters['what'];
         }
         if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
             $activeOptions['where'] = $facetParameters['where'];

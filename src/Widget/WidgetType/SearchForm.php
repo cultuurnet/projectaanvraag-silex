@@ -4,11 +4,14 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
+use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchQueryInterface;
 use Pimple\Container;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides the search form widget type.
@@ -131,14 +134,60 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
 {
 
     /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
+    protected $request;
+
+    /**
+     * @var array
+     */
+    private $groupFilterTypes = [
+        'type',
+        'location',
+        'time',
+        'extra',
+    ];
+
+    /**
+     * WidgetTypeBase constructor.
+     * @param array $pluginDefinition
+     * @param array $configuration
+     * @param bool $cleanup
+     * @param \Twig_Environment $twig
+     * @param TwigPreprocessor $twigPreprocessor
+     * @param RendererInterface $renderer
+     * @param RequestStack $requestStack
+     */
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, RequestStack $requestStack)
+    {
+        parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
+        $this->request = $requestStack->getCurrentRequest();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
+    {
+        return new static(
+            $pluginDefinition,
+            $configuration,
+            $cleanup,
+            $container['twig'],
+            $container['widget_twig_preprocessor'],
+            $container['widget_renderer'],
+            $container['request_stack']
+        );
+    }
+    /**
      * {@inheritdoc}
      */
     public function render()
     {
-
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',
             [
+                'id' => $this->id,
                 'settings_general' => $this->settings['general'],
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
@@ -153,8 +202,12 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
      */
     public function renderPlaceholder()
     {
-        /*$this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
-        $this->renderer->attachCss(__DIR__ . '/../../../web/assets/css/widgets/search-form/search-form.css');*/
+        $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/search-form.js');
+
+        if ($this->settings['fields']['time']['date_search']['enabled']) {
+            $this->renderer->attachJavascript(WWW_ROOT . '/assets/vendor/pickaday/pickaday.js');
+            $this->renderer->attachCss(WWW_ROOT . '/assets/vendor/pickaday/pickaday.css');
+        }
 
         return $this->render();
     }
@@ -166,20 +219,20 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     {
         $defaults = [];
         if ($this->settings['fields']['time']['date_search']['enabled']) {
-            $defaults['current_date'] = $this->settings['fields']['time']['date_search']['default_option'];
+            $defaults['when'] = $this->settings['fields']['time']['date_search']['default_option'];
         }
 
-        $groupFilterTypes = [
-            'type',
-            'location',
-            'time',
-            'extra',
-        ];
-
-        foreach ($groupFilterTypes as $type) {
+        foreach ($this->groupFilterTypes as $typeKey => $type) {
             if ($this->settings['fields'][$type]['group_filters']['enabled']) {
                 foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $groupFilter) {
-                    $defaults[$type]['group_filters'][$key] = $groupFilter['default_option'] ?? '';
+                    $defaults[$typeKey]['group_filters'][$key] = '';
+                    if (isset($groupFilter['default_option'])) {
+                        foreach ($groupFilter['options'] as $optionKey => $option) {
+                            if ($option['label'] === $groupFilter['default_option']) {
+                                $defaults[$typeKey]['group_filters'][$key] = $optionKey;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -192,5 +245,85 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
      */
     public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
     {
+
+        // Check what filters should be placed active.
+        $activeFilters = $this->getDefaults();
+        if ($this->request->query->has('search-form')) {
+            $searchFormFilters = $this->request->query->get('search-form');
+            if (isset($searchFormFilters[$this->id])) {
+                foreach ($searchFormFilters[$this->id] as $key => $activeFilter) {
+                    if ($key === 'custom' && is_array($activeFilter)) {
+                        foreach ($activeFilter as $groupFilterKey => $groupFilterValue) {
+                            if (is_array($groupFilterValue)) {
+                                $activeFilters[$groupFilterKey]['group_filters'] = $groupFilterValue;
+                            }
+                        }
+                    } elseif (!empty($activeFilter)) {
+                        $activeFilters[$key] = $activeFilter;
+                    }
+                }
+            }
+        }
+
+        // Add every active filter to the query.
+        $advancedQuery = [];
+        foreach ($activeFilters as $key => $activeValue) {
+            // Group filters => Search the options related with the default option.
+            if (is_numeric($key) && isset($activeFilters[$key]['group_filters'])) {
+                foreach ($activeFilters[$key]['group_filters'] as $groupFilterKey => $selectedOption) {
+                    if (isset($this->groupFilterTypes[$key])) {
+                        $type = $this->groupFilterTypes[$key];
+                        if (isset($this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey])) {
+                            $groupFilter = $this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey];
+                            if (isset($groupFilter['options'][$selectedOption])) {
+                                $advancedQuery[] = $groupFilter['options'][$selectedOption]['query'];
+                            }
+                        }
+                    }
+                }
+            } elseif ($key === 'when') {
+                // Custom date requested? Construct the date range.
+                if ($activeValue === 'custom_date') {
+                    $cetTimezone = new \DateTimeZone('CET');
+                    $query = '';
+                    if (isset($activeFilters['date-start'])) {
+                        $dateTime = \DateTime::createFromFormat('d/m/Y', $activeFilters['date-start'], $cetTimezone);
+                        if ($dateTime) {
+                            $dateTime->setTime(0, 0, 0);
+                            $query .= $dateTime->format('c');
+                        }
+                    } else {
+                        $query .= '*';
+                    }
+                    if (isset($activeFilters['date-end'])) {
+                        $dateTime = \DateTime::createFromFormat('d/m/Y', $activeFilters['date-end'], $cetTimezone);
+                        if ($dateTime) {
+                            $dateTime->setTime(23, 59, 59);
+                            $query .= (' TO ' . $dateTime->format('c'));
+                        }
+                    } else {
+                        $query .= ' TO *';
+                    }
+
+                    $advancedQuery[] = 'dateRange:[' . $query . ']';
+                } else {
+                    // Create ISO-8601 daterange from datetype.
+                    $dateRange = $this->convertDateTypeToDateRange($activeValue);
+                    if (!empty($dateRange)) {
+                        $advancedQuery[] = 'dateRange:' . $dateRange;
+                    }
+                }
+            } elseif ($key === 'what') {
+                $advancedQuery[] = $activeValue;
+            } elseif ($key === 'where') {
+                $advancedQuery[] = 'regions:' . $activeValue;
+            }
+        }
+
+        if (!empty($advancedQuery)) {
+            $searchQuery->addParameter(
+                new Query(implode($advancedQuery, ' AND '))
+            );
+        }
     }
 }

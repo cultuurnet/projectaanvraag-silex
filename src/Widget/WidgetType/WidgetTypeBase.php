@@ -167,46 +167,42 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected function convertDateTypeToDateRange($dateType)
     {
         // Determine start & end date.
+        $cetTimezone = new \DateTimeZone('CET');
         switch ($dateType) {
             case 'today':
-                $date1 = date('Y-m-d H:i:s', strtotime('now'));
-                $date2 = date('Y-m-d H:i:s', strtotime('now'));
+                $startDate = new \DateTime('now', $cetTimezone);
+                $endDate = new \DateTime('now', $cetTimezone);
                 break;
             case 'tomorrow':
-                $date1 = date('Y-m-d H:i:s', strtotime('+1 day'));
-                $date2 = date('Y-m-d H:i:s', strtotime('+1 day'));
+                $startDate = new \DateTime('+1 day', $cetTimezone);
+                $endDate = new \DateTime('+1 day', $cetTimezone);
                 break;
             case 'thisweekend':
-                $date1 = date('Y-m-d H:i:s', strtotime('next Saturday'));
-                $date2 = date('Y-m-d H:i:s', strtotime('next Sunday'));
+                $startDate = new \DateTime('next Saturday', $cetTimezone);
+                $endDate = new \DateTime('next Sunday', $cetTimezone);
                 break;
             case 'next7days':
-                $date1 = date('Y-m-d H:i:s', strtotime('now'));
-                $date2 = date('Y-m-d H:i:s', strtotime('+7 days'));
+                $startDate = new \DateTime('now', $cetTimezone);
+                $endDate = new \DateTime('+7 days', $cetTimezone);
                 break;
             case 'next14days':
-                $date1 = date('Y-m-d H:i:s', strtotime('now'));
-                $date2 = date('Y-m-d H:i:s', strtotime('+14 days'));
+                $startDate = new \DateTime('now', $cetTimezone);
+                $endDate = new \DateTime('+14 days', $cetTimezone);
                 break;
             case 'next30days':
-                $date1 = date('Y-m-d H:i:s', strtotime('now'));
-                $date2 = date('Y-m-d H:i:s', strtotime('+30 days'));
+                $startDate = new \DateTime('now', $cetTimezone);
+                $endDate = new \DateTime('+30 days', $cetTimezone);
                 break;
             default:
                 return '';
                 break;
         }
 
-        // Convert dates to DateTime objects (CET), set time and format to ISO-8601.
-        $cetTimezone = new \DateTimeZone('CET');
-        $dt1 = new \DateTime($date1, $cetTimezone);
-        $dt2 = new \DateTime($date2, $cetTimezone);
-        $dt1->setTime(0, 0, 0);
-        $dt2->setTime(23, 59, 59);
-        $dateStart = $dt1->format('c');
-        $dateEnd = $dt2->format('c');
+        // Set time and format to ISO-8601 and set correct start and end hour.
+        $startDate->setTime(0, 0, 0);
+        $endDate->setTime(23, 59, 59);
 
-        return "[$dateStart TO $dateEnd]";
+        return '[' . $startDate->format('c') . ' TO ' . $endDate->format('c') . ']';
     }
 
     /**

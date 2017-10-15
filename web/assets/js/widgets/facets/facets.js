@@ -148,18 +148,4 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         window.location.href = window.location.pathname + '?' + newParams.substring(0, newParams.length-1);
     };
 
-    /**
-     * Build a query string from updated params.
-     *
-     * @param currentParams
-     * @returns {string}
-     */
-    CultuurnetWidgets.buildQueryUrl = function(currentParams) {
-        var newParams = '';
-        for (var key in currentParams) {
-            newParams += key + '=' + currentParams[key] + '&';
-        }
-        return newParams;
-    }
-
 })(CultuurnetWidgets, jQuery);
