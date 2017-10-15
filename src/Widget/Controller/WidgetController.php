@@ -16,6 +16,7 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
+use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use CultuurNet\SearchV3\PagedCollection;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\Parameter\Labels;
@@ -152,22 +153,8 @@ print_r($test2);
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
 
-        $widget = null;
-        $rows = $widgetPage->getRows();
-
-        // Search for the requested widget.
-        foreach ($rows as $row) {
-            if ($row->hasWidget($widgetId)) {
-                $widget = $row->getWidget($widgetId);
-            }
-        }
-
-        if (empty($widget)) {
-            throw new NotFoundHttpException();
-        }
-
         $data = [
-            'data' => $this->renderer->renderWidget($widget),
+            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId)),
         ];
         $response = new JsonResponse($data);
 
@@ -236,6 +223,54 @@ print_r($test2);
         }
 
         return $response;
+    }
+
+    /**
+     * Render the detailpage of an event, based on the settings for a given widget.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @param $widgetId
+     */
+    public function renderDetailPage(Request $request, WidgetPageInterface $widgetPage, $widgetId)
+    {
+
+        $widget = $this->getWidget($widgetPage, $widgetId);
+        if (!$widget instanceof SearchResults) {
+            throw new NotFoundHttpException();
+        }
+
+        $data = [
+            'data' => $this->renderer->renderDetailPage($widget),
+        ];
+        $response = new JsonResponse($data);
+
+        // If this is a jsonp request, set the requested callback.
+        if ($request->query->has('callback')) {
+            $response->setCallback($request->query->get('callback'));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get the given widget from the widget page.
+     * @return WidgetTypeInterface
+     * @throws NotFoundHttpException
+     */
+    private function getWidget(WidgetPageInterface $widgetPage, $widgetId)
+    {
+        $widget = null;
+        $rows = $widgetPage->getRows();
+
+        // Search for the requested widget.
+        foreach ($rows as $row) {
+            if ($row->hasWidget($widgetId)) {
+                return $row->getWidget($widgetId);
+            }
+        }
+
+        throw new NotFoundHttpException();
     }
 
     /**

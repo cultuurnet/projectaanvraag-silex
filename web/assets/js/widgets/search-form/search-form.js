@@ -125,12 +125,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var widgetId = $searchForm.data('widget-id');
 
-        var currentParams = undefined;
-        var queryString = decodeURI(window.location.search.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\""));
-        if (queryString) {
-            currentParams = JSON.parse('{"' + queryString + '"}');
-        }
-
+        var currentParams = CultuurnetWidgets.getCurrentParams();
         if (currentParams) {
             // Search all input fields.
             $searchForm.find(':input').each(function() {

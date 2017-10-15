@@ -5,6 +5,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
     'use strict';
 
+    CultuurnetWidgets.currentParams = undefined;
+
     /**
      * Bootstrap the widgets.
      */
@@ -165,7 +167,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         return deferred;
     };
 
-
     /**
      * Render a given search results widget + all related facets.
      */
@@ -182,6 +183,42 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         }
 
         return deferred;
+    };
+
+    /**
+     * Render a given detail page for a search results widget.
+     */
+    CultuurnetWidgets.renderDetailPage = function(widgetId) {
+
+        var deferred = $.Deferred();
+
+        // Only render the widget if it's a known id.
+        if (CultuurnetWidgetsSettings.widgetMapping && CultuurnetWidgetsSettings.widgetMapping.hasOwnProperty(widgetId)) {
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings.apiUrl + '/render/' + CultuurnetWidgetsSettings.widgetMapping[widgetId] + '/' + widgetId + '/detail');
+        }
+        else {
+            deferred.reject('The given widget id was not found');
+        }
+
+        return deferred;
+    };
+
+    /**
+     * Get the current query params.
+     */
+    CultuurnetWidgets.getCurrentParams = function() {
+
+        if (CultuurnetWidgets.currentParams === undefined) {
+
+            CultuurnetWidgets.currentParams = {};
+
+            var queryString = decodeURI(window.location.search.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\""));
+            if (queryString) {
+                CultuurnetWidgets.currentParams = JSON.parse('{"' + queryString + '"}');
+            }
+        }
+
+        return CultuurnetWidgets.currentParams;
     };
 
     /**

@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
+
 /**
  * The rendered used to render widget pages or widget details in javascript.
  */
@@ -68,6 +70,11 @@ class Renderer implements RendererInterface
     public function renderWidget(WidgetTypeInterface $widgetType)
     {
         return $widgetType->render();
+    }
+
+    public function renderDetailPage(SearchResults $searchResultsWidget)
+    {
+        return $searchResultsWidget->renderDetail();
     }
 
     /**

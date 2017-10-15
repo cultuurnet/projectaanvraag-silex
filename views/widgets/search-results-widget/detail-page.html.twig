@@ -1,0 +1,77 @@
+<div class="cnw_row cnw_d-flex ">
+
+    {% if settings.image.enabled %}
+        <div class="cnw_col-4 {% if settings.image.position == 'right' %} cnw_flex-last {% endif %}">
+            <img src="{{ event.image }}" class="cnw_img_responsive {{ settings.image.position }}">
+        </div>
+    {% endif %}
+
+    <div class="{% if settings.image.enabled %}cnw_col-8 {% else %} cnw_col-12{% endif %} cnw_flex-md-first">
+        <div class="cnw_region cnw_region-content">
+
+
+            <section id="cnw_block-system-main" class="cnw_block cnw_block-system cnw_clearfix">
+                <h1 class="cnw_page-title">{{ event.name }}</h1>
+
+                <div class="cnw_detail-summary">
+                    <p>
+                        {{ event.description }}
+                    </p>
+
+                </div>
+
+                <p class="cnw_block-title">Info</p>
+
+
+                <dl class="cnw_row">
+                    {% if settings.where.enabled %}
+                    <dt class="cnw_col-3">{{ settings.where.label }}</dt>
+                    <dd class="cnw_col-9">{{ event.where }}</dd>
+                    {% endif %}
+
+                    {% if settings.when.enabled %}
+                    <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
+                    <dd class="cnw_col-9">{{ event.when_start }}</dd>
+                    {% endif %}
+
+                    {% if settings.age.enabled and event.age_range %}
+                    <dt class="cnw_col-3">{{ settings_items.age.label }}</dt>
+                    <dd class="cnw_col-9">{{ event.age_range }}</dd>
+                    {% endif %}
+
+                    {% if settings.language_icons.enabled and event.language_icons %}
+                        <dt class="cnw_col-3">Taaliconen</dt>
+                        <dd class="cnw_col-9">{{ event.language_icons | raw }}
+                        </dd>
+                    {% endif %}
+
+                </dl>
+
+                <dl class="cnw_row">
+                    <dt class="cnw_col-3">Contact</dt>
+                    <dd class="cnw_col-9">contact@email.tld</dd>
+
+                    <dt class="cnw_col-3">Links</dt>
+                    <dd class="cnw_col-9"><a href="#">This is a link</a></dd>
+
+                    <dt class="cnw_col-3">Talen</dt>
+                    <dd class="cnw_col-9">NL | FR | DE</dd>
+
+                    {% if event.labels %}
+                    <dt class="cnw_col-3">Labels</dt>
+                    <dd class="cnw_col-9">
+                        {%  for label in event.labels %}
+                            <span class="cnw_link__card-tags-item">{{ label }}</span>
+                        {% endfor %}
+                    </dd>
+                    {% endif %}
+                </dl>
+
+
+            </section>
+
+
+        </div>
+    </div>
+
+</div>

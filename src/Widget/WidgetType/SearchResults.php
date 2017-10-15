@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\SearchClient;
@@ -388,7 +389,36 @@ class SearchResults extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-results/pager.js');
+        $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-results/search-results.js');
         return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'search-results', 'autoload' => true]);
+    }
+
+    /**
+     * Render the details for a requested item.
+     */
+    public function renderDetail()
+    {
+
+        if (!$this->request->query->has('cdbid')) {
+            return '';
+        }
+
+        $query = new SearchQuery(true);
+        $query->addParameter(new Id($this->request->query->get('cdbid')));
+        $this->searchResult = $this->searchClient->searchEvents($query);
+
+        $events = $this->searchResult->getMember()->getItems();
+        if (count($events) === 0) {
+            return '';
+        }
+
+        // Render twig with formatted results and item settings.
+        return $this->twig->render(
+            'widgets/search-results-widget/detail-page.html.twig',
+            [
+                'event' => $this->twigPreprocessor->preprocessEvent($events[0], 'nl', $this->settings['detail_page']),
+                'settings' => $this->settings['detail_page'],
+            ]
+        );
     }
 }

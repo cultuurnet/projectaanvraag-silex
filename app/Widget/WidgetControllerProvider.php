@@ -29,6 +29,8 @@ class WidgetControllerProvider implements ControllerProviderInterface
             ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
         $controllers->get('/api/render/{widgetPage}/{widgetId}/search-results-with-facets', 'widget_controller:renderSearchResultsWidgetWithFacets')
             ->convert('widgetPage', 'widget_page_convertor:convert');
+        $controllers->get('/api/render/{widgetPage}/{widgetId}/detail', 'widget_controller:renderDetailPage')
+            ->convert('widgetPage', 'widget_page_convertor:convert');
 
         $controllers->get('/search', 'widget_controller:searchExample');
 

@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
+
 /**
  * Defines an interface for rendering a widget page.
  */
@@ -34,6 +36,14 @@ interface RendererInterface
      * @return string
      */
     public function renderWidget(WidgetTypeInterface $widgetType);
+
+    /**
+     * Renders a detail page for the given widget.
+     *
+     * @param SearchResults $searchResultsWidget
+     * @return mixed
+     */
+    public function renderDetailPage(SearchResults $searchResultsWidget);
 
     /**
      * Attach a javascript file to the renderer.
