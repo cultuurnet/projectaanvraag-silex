@@ -4,71 +4,7 @@
 
                 {% for event in events %}
                     <div class="cnw_col">
-                        <!--  results - CARD  START -->
-                        <div class="cnw_searchresult--block">
-                            {% if settings_items.image.enabled %}
-
-                                    <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
-                            {% endif %}
-
-
-                                <div class="cnw_card-block ">
-                                    <h3 class="cnw_card-title"><a href="{{ event.detail_link }}">{{ event.name }}</a></h3>
-                                    <span class="cnw_stickers ">
-                                        {% if settings_items.icon_vlieg.enabled and event.vlieg %}
-                                            <span class="cnw_sticker cnw_sticker--vlieg">
-                                                <span class="cnw_txt">{{ event.vlieg }}</span>
-                                            </span>
-                                        {% endif %}
-                                        {% if settings_items.icon_uitpas.enabled and event.uitpas %}
-                                            {# The text is here because there is no background image for the logo yet. #}
-                                            <span class="cnw_sticker cnw_sticker--uitpas">UITPAS</span>
-                                        {% endif %}
-                                    </span>
-                                    {% if settings_items.description.enabled %}
-                                        <p class="cnw_card-description--tips">{{ event.description }}</p>
-                                    {% endif %}
-                                    <dl class="cnw_row">
-                                        {% if settings_items.where.enabled %}
-                                            <dt class="cnw_col-3">{{ settings_items.where.label }}</dt>
-                                            <dd class="cnw_col-9">{{ event.where }}</dd>
-                                        {% endif %}
-
-                                        {% if event.organizer %}
-                                            <dt class="cnw_col-3">Organisatie</dt>
-                                            <dd class="cnw_col-9">{{ event.organizer }}</dd>
-                                        {% endif %}
-
-                                        {% if settings_items.when.enabled %}
-                                            <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
-                                            <dd class="cnw_col-9">{{ event.when_start }}</dd>
-                                        {% endif %}
-
-                                        {% if settings_items.age.enabled and event.age_range %}
-                                            <dt class="cnw_col-3">{{ settings_items.age.label }}</dt>
-                                            <dd class="cnw_col-9">{{ event.age_range }}</dd>
-                                        {% endif %}
-
-                                        {% if settings_items.language_icons.enabled and event.language_icons %}
-                                        <dt class="cnw_col-3">Taaliconen</dt>
-                                        <dd class="cnw_col-9">{{ event.language_icons | raw }}</dd>
-                                        {% endif %}
-
-                                        {% if event.labels %}
-                                            <div class="cnw_col cnw_card-labels">
-                                                {{ event.labels|join(', ') }}
-                                            </div>
-                                        {% endif %}
-                                    </dl>
-
-                                    {% if settings_items.read_more.enabled %}
-                                        <a href="{{ event.detail_link }}" class="cnw_btn cnw_btn__card-readmore">{{ settings_items.read_more.label }}</a>
-                                    {% endif %}
-
-                                </div>
-
-                        </div>
-                        <!--  results - CARD  END -->
+                        {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
                     </div>
                 {% endfor %}
 
