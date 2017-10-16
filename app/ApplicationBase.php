@@ -45,6 +45,14 @@ class ApplicationBase extends SilexApplication
 
         $this['cache_directory'] = __DIR__ . '/../cache';
 
+        // Make sure the cache directory exists.
+        if (!file_exists($this['cache_directory'])) {
+            mkdir($this['cache_directory']);
+        }
+        elseif (!is_writable($this['cache_directory'])) {
+            die('The cache directory is not writable');
+        }
+
         // Load the config.
         if (file_exists($this['cache_directory'] . '/config.php')) {
             $this['config'] = require $this['cache_directory'] . '/config.php';
