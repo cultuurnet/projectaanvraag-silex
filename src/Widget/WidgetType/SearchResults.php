@@ -59,6 +59,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "label":"Waar"
  *              },
+ *              "organizer":{
+ *                  "enabled":false
+ *              },
  *              "age":{
  *                  "enabled":true,
  *                  "label":"Leeftijd"
@@ -86,6 +89,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          },
  *          "detail_page":{
  *              "price_information":true,
+ *              "contact_information":true,
+ *              "reservation_information":true,
  *              "share_buttons":true,
  *              "back_button":{
  *                  "enabled":true,
@@ -109,6 +114,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "where":{
  *                  "enabled":true,
  *                  "label":"Waar"
+ *              },
+ *              "organizer":{
+ *                  "enabled":false
  *              },
  *              "age":{
  *                  "enabled":true,
@@ -168,6 +176,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
+ *              },
  *              "age":{
  *                  "enabled":"boolean",
  *                  "label":"string"
@@ -200,6 +211,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          "detail_page":{
  *              "map":"boolean",
  *              "price_information":"boolean",
+ *              "contact_information":"boolean",
+ *              "reservation_information":"boolean",
  *              "language_switcher":"boolean",
  *              "uitpas_benefits":"boolean",
  *              "share_buttons":"boolean",
@@ -221,6 +234,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "where":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
  *              },
  *              "age":{
  *                  "enabled":"boolean",

@@ -29,6 +29,11 @@
                     <dd class="cnw_col-9">{{ event.where }}</dd>
                 {% endif %}
 
+                {% if settings_items.organizer.enabled and event.organizer %}
+                    <dt class="cnw_col-3">Organisatie</dt>
+                    <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                {% endif %}
+
                 {% if settings_items.when.enabled %}
                     <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
                     <dd class="cnw_col-9">{{ event.when_start }}</dd>
