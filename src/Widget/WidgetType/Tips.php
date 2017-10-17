@@ -51,6 +51,9 @@ use Pimple\Container;
  *              "language_icons":{
  *                  "enabled":false
  *              },
+ *               "organizer":{
+ *                  "enabled":false
+ *              },
  *              "image":{
  *                  "enabled":true,
  *                  "width":100,
