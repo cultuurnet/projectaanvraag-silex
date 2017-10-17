@@ -101,6 +101,9 @@ use Pimple\Container;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
+ *              },
  *              "age":{
  *                  "enabled":"boolean",
  *                  "label":"string"
