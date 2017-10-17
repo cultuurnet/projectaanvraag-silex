@@ -91,26 +91,32 @@ cnw_stickers {
 }
 
 .cnw_sticker--vlieg {
-  background-image: url(https://www.uitinvlaanderen.be/sites/all/themes/uitinvlaanderen_bootstrap/img/stickers/vlieg--sticker.png);
+  background-image: url(../images/vlieg--sticker.png);
   background-position: 50% 50%;
   background-repeat: no-repeat;
-  background-color: #F3F3F3;
-  border: 1px solid #ccc;
+
   display: block;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   border-radius: 100%;
   float: right;
+  box-shadow: 2px 3px 3px #9591af;
 
 
   .cnw_txt{
-    background-color: black;
+    background-color: #746dad;
     color: white;
     border-radius: 150%;
-    padding: 3px 4px;
+
+    display: inline-block;
     position: relative;
-    bottom: -32px;
-    right: -34px;
+    bottom: -30px;
+    right: -20px;
+    font-size: 0.7rem;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 200%;
   }
 }
 
