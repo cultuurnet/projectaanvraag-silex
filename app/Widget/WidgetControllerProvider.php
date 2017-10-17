@@ -32,6 +32,9 @@ class WidgetControllerProvider implements ControllerProviderInterface
         $controllers->get('/api/render/{widgetPage}/{widgetId}/detail', 'widget_controller:renderDetailPage')
             ->convert('widgetPage', 'widget_page_convertor:convert');
 
+        // Autocompletes
+        $controllers->get('/autocomplete/regions/{searchString}', 'widget_controller:getRegionAutocompleteResult');
+
         $controllers->get('/search', 'widget_controller:searchExample');
 
         return $controllers;

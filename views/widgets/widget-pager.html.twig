@@ -4,10 +4,10 @@
 
             {% if pager.activePageIndex != 0 %}
                 <li class="cnw_page-item ">
-                    <a class="cnw_page-link" href="#" tabindex="-1" onclick="CultuurnetWidgets.switchPage(0)">Eerste</a>
+                    <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="0">Eerste</a>
                 </li>
                 <li class="cnw_page-item">
-                    <a class="cnw_page-link" href="#" tabindex="-1" onclick="CultuurnetWidgets.switchPage({{ pager.activePageIndex - 1 }})">Vorige</a>
+                    <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="{{ pager.activePageIndex - 1 }}">Vorige</a>
                 </li>
             {% endif %}
 
@@ -17,7 +17,7 @@
 
             {% for i in pager.getLowestVisible..pager.getHighestVisible %}
                 <li class="cnw_page-item {% if i == pager.activePageIndex + 1 %}cnw_disabled{% endif %}">
-                    <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ i-1 }})">{{ i }}</a>
+                    <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ i-1 }}">{{ i }}</a>
                 </li>
             {% endfor %}
 
@@ -27,10 +27,10 @@
 
             {% if pager.activePageIndex != pager.pageCount-1 %}
                 <li class="cnw_page-item">
-                    <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ pager.activePageIndex + 1 }})">Volgende</a>
+                    <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ pager.activePageIndex + 1 }}">Volgende</a>
                 </li>
                 <li class="cnw_page-item">
-                    <a class="cnw_page-link" href="#" onclick="CultuurnetWidgets.switchPage({{ pager.pageCount - 1 }})">Laatste</a>
+                    <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ pager.pageCount - 1 }}">Laatste</a>
                 </li>
             {% endif %}
         </ul>
