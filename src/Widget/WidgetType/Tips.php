@@ -44,6 +44,9 @@ use Pimple\Container;
  *                  "enabled":true,
  *                  "label":"Waar"
  *              },
+ *              "organizer":{
+ *                  "enabled":false
+ *              },
  *              "age":{
  *                  "enabled":true,
  *                  "label":"Leeftijd"
@@ -97,6 +100,9 @@ use Pimple\Container;
  *              "where":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
  *              },
  *              "age":{
  *                  "enabled":"boolean",
