@@ -48,5 +48,28 @@ section.cnw_facetedsearch--wrapper {
     }
 
   }
+
+
+}
+
+.cnw_w a.cnw_facets_toggle {
+  &:after {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0,0);
+    content: '\f0da';
+    margin-left: 10px;
+
+  }
+  &.cnw_facets_toggle--open:after {
+    content: "\f106";
+    margin-left: 10px;
+  }
+
+
 }
 
