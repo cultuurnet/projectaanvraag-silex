@@ -2,13 +2,28 @@
     <div class="cnw_container-fluid">
                 {% for event in events %}
 
+
                     {% if loop.index % 3  == 1 %}
                         <div class="cnw_row cnw_clips">
                      {% endif %}
 
-                    <div class="cnw_col-4">
-                        {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
-                    </div>
+                    {% if loop.length == 1 %}
+                    <div class="cnw_col-12">
+                    {% endif %}
+
+                    {% if loop.length == 2 %}
+                        <div class="cnw_col-6">
+                    {% endif %}
+
+                    {% if loop.length >= 3 %}
+                            <div class="cnw_col-4">
+                    {% endif %}
+
+
+                            {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
+                        </div>
+
+
 
                      {% if loop.index % 3  == 0 %}
                          </div>
