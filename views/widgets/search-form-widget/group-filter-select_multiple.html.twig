@@ -2,7 +2,7 @@
     <span class="cnw_form-check--label">{{  label }}</span>
     {% if placeholder %}
         <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="{{ name }}" value=""{% if default_option == "placeholder" %} checked{% endif %}>
+            <input class="form-check-input" type="radio" name="{{ name }}" value=""{% if default_option == -1 %} checked{% endif %}>
             {{ placeholder }}
         </label>
     {% endif %}

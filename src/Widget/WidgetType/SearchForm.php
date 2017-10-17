@@ -193,6 +193,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 'settings_footer' => $this->settings['footer'],
                 'settings_fields' => $this->settings['fields'],
                 'defaults' => $this->getDefaults(),
+                'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
             ]
         );
     }
@@ -203,6 +204,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     public function renderPlaceholder()
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/search-form.js');
+        $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/autocomplete.js');
 
         if ($this->settings['fields']['time']['date_search']['enabled']) {
             $this->renderer->attachJavascript(WWW_ROOT . '/assets/vendor/pickaday/pickaday.js');
@@ -225,7 +227,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         foreach ($this->groupFilterTypes as $typeKey => $type) {
             if ($this->settings['fields'][$type]['group_filters']['enabled']) {
                 foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $groupFilter) {
-                    $defaults[$typeKey]['group_filters'][$key] = '';
+                    $defaults[$typeKey]['group_filters'][$key] = -1;
                     if (isset($groupFilter['default_option'])) {
                         foreach ($groupFilter['options'] as $optionKey => $option) {
                             if ($option['label'] === $groupFilter['default_option']) {

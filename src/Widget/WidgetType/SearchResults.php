@@ -59,6 +59,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "label":"Waar"
  *              },
+ *              "organizer":{
+ *                  "enabled":false
+ *              },
  *              "age":{
  *                  "enabled":true,
  *                  "label":"Leeftijd"
@@ -86,6 +89,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          },
  *          "detail_page":{
  *              "price_information":true,
+ *              "contact_information":true,
+ *              "reservation_information":true,
  *              "share_buttons":true,
  *              "back_button":{
  *                  "enabled":true,
@@ -109,6 +114,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "where":{
  *                  "enabled":true,
  *                  "label":"Waar"
+ *              },
+ *              "organizer":{
+ *                  "enabled":false
  *              },
  *              "age":{
  *                  "enabled":true,
@@ -168,6 +176,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
+ *              },
  *              "age":{
  *                  "enabled":"boolean",
  *                  "label":"string"
@@ -200,6 +211,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          "detail_page":{
  *              "map":"boolean",
  *              "price_information":"boolean",
+ *              "contact_information":"boolean",
+ *              "reservation_information":"boolean",
  *              "language_switcher":"boolean",
  *              "uitpas_benefits":"boolean",
  *              "share_buttons":"boolean",
@@ -221,6 +234,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "where":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
  *              },
  *              "age":{
  *                  "enabled":"boolean",
@@ -319,7 +335,7 @@ class SearchResults extends WidgetTypeBase
     public function render()
     {
         // Retrieve the current request query parameters using the global Application object and filter.
-        $urlQueryParams = $this->cleanUrlQueryParams($this->request->query->all());
+        $urlQueryParams = $this->request->query->all();
 
         $query = new SearchQuery(true);
 
@@ -329,9 +345,9 @@ class SearchResults extends WidgetTypeBase
         $query->setLimit(self::ITEMS_PER_PAGE);
 
         // Check for page query param.
-        if (isset($urlQueryParams['page'])) {
+        if (isset($urlQueryParams['page']) && is_array($urlQueryParams['page']) && isset($urlQueryParams['page'][$this->index])) {
             // Set current page index.
-            $currentPageIndex = $urlQueryParams['page'];
+            $currentPageIndex = $urlQueryParams['page'][$this->index];
             // Move start according to the active page.
             $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
         }
@@ -380,6 +396,7 @@ class SearchResults extends WidgetTypeBase
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
                 'settings_general' => $this->settings['general'],
+                'id' => $this->index,
             ]
         );
     }

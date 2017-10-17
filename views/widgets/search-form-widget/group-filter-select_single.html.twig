@@ -6,7 +6,7 @@
     {% endif %}
     <select class="cnw_form-control" name="{{ name }}">
         {% if placeholder %}
-            <option value="" {% if default_option == "placeholder" %} selected{% endif %}>{{ placeholder }}</option>
+            <option value="" {% if default_option == -1 %} selected{% endif %}>{{ placeholder }}</option>
         {% endif %}
         {% for option_key, option in options %}
            <option value="{{ option_key }}" {% if default_option == option_key %} selected{% endif %}>{{ option.label }}</option>

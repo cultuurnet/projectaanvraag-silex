@@ -274,6 +274,15 @@ print_r($test2);
     }
 
     /**
+     * Provide autocompletion results for regions.
+     * @param $searchString
+     */
+    public function getRegionAutocompleteResult($searchString)
+    {
+        return new JsonResponse(['test', 'test2']);
+    }
+
+    /**
      * Example of a search request.
      */
     public function searchExample()

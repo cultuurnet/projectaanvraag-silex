@@ -1,5 +1,5 @@
 .idea
-vendor
+/vendor
 config.yml
 /user_roles.yml
 /integration_types.yml
