@@ -1,3 +1,13 @@
+.cnw_form-custom-date {
+  display: flex;
+  margin-top: 1rem;
+  .cnw_form-date-start {
+    margin-right: 10px;
+  }
+}
+
+
+
 @media (max-width: 768px) {
 
   .cnw_form--extended {

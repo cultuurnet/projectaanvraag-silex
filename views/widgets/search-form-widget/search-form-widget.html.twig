@@ -81,8 +81,8 @@
 
                         {% if settings_fields.time.date_search.options.custom_date %}
                             <div class="cnw_form-custom-date"{% if defaults.when != 'custom_date' %} style="display: none;" {% endif %}>
-                                <input type="text" class="cnw_form-control cnw_form-date-start" name="search-form[{{ id }}][date-start]"/>
-                                <input type="text" class="cnw_form-control cnw_form-date-end" name="search-form[{{ id }}][date-end]"/>
+                                <input type="text" class="cnw_form-control cnw_col cnw_form-date-start" name="search-form[{{ id }}][date-start]"/>
+                                <input type="text" class="cnw_form-control cnw_col  cnw_form-date-end" name="search-form[{{ id }}][date-end]"/>
                             </div>
                         {% endif %}
 
