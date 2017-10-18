@@ -26,6 +26,9 @@ use Pimple\Container;
  *              }
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":true
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -83,6 +86,9 @@ use Pimple\Container;
  *              }
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":"boolean"
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":"boolean"
  *              },
