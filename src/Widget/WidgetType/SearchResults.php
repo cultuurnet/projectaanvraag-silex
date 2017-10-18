@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\CalendarType;
 use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\Facet;
@@ -344,12 +345,29 @@ class SearchResults extends WidgetTypeBase
         // Limit items per page.
         $query->setLimit(self::ITEMS_PER_PAGE);
 
-        // Check for page query param.
-        if (isset($urlQueryParams['page']) && is_array($urlQueryParams['page']) && isset($urlQueryParams['page'][$this->index])) {
-            // Set current page index.
-            $currentPageIndex = $urlQueryParams['page'][$this->index];
-            // Move start according to the active page.
-            $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
+        $extraFilters = [];
+        // Change query / defaults based on query string.
+        if (isset($urlQueryParams['search-result']) && is_array($urlQueryParams['search-result']) && isset($urlQueryParams['search-result'][$this->index])) {
+
+            $searchResultOptions = $urlQueryParams['search-result'][$this->index];
+            // Check for page query param.
+            if (isset($searchResultOptions['page'])) {
+                // Set current page index.
+                $currentPageIndex = $searchResultOptions['page'];
+                // Move start according to the active page.
+                $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
+            }
+
+            if (!empty($searchResultOptions['hide-long-term'])) {
+                $extraFilters['hide-long-term'] = true;
+                $query->addParameter(new Query('!' . CalendarType::TYPE_PERIODIC));
+            }
+
+            if (!empty($searchResultOptions['hide-permanent'])) {
+                $extraFilters['hide-permanent'] = true;
+                $query->addParameter(new CalendarType(CalendarType::TYPE_PERMANENT));
+            }
+
         }
 
         // Build advanced query string
@@ -373,17 +391,15 @@ class SearchResults extends WidgetTypeBase
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
 
-        $this->eventBus->handle(new SearchResultsQueryAlter($this->id, $query));
+        $activeFilters = [];
+        $searchResultsQueryAlter = new SearchResultsQueryAlter($this->id, $query, $activeFilters);
+        $this->eventBus->handle($searchResultsQueryAlter);
 
         // Retrieve results from Search API.
         $this->searchResult = $this->searchClient->searchEvents($query);
 
         // Retrieve pager object.
         $pager = $this->retrievePagerData($this->searchResult->getItemsPerPage(), $this->searchResult->getTotalItems(), (int) $currentPageIndex);
-
-        if (!isset($this->settings['items']['description']['label'])) {
-            $this->settings['items']['description']['label'] = '';
-        }
 
         // Render twig with formatted results and item settings.
         return $this->twig->render(
@@ -397,6 +413,8 @@ class SearchResults extends WidgetTypeBase
                 'settings_footer' => $this->settings['footer'],
                 'settings_general' => $this->settings['general'],
                 'id' => $this->index,
+                'active_filters' => $searchResultsQueryAlter->getActiveFilters(),
+                'extra_filters' => $extraFilters,
             ]
         );
     }

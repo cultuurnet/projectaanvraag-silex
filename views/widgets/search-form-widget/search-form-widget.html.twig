@@ -20,7 +20,7 @@
 
                 {% if settings_fields.type.group_filters.enabled %}
                     {% for key, filter in  settings_fields.type.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][0][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[0].group_filters[key]} %}
+                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][0][' ~ key ~ ']', 'options':filter.options, 'default_options': defaults[0].group_filters[key]} %}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -39,7 +39,7 @@
 
                 {% if settings_fields.location.group_filters.enabled %}
                     {% for key, filter in  settings_fields.location.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][1][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[1].group_filters[key]} %}
+                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][1][' ~ key ~ ']', 'options':filter.options, 'default_options': defaults[1].group_filters[key]} %}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -91,7 +91,7 @@
 
                 {% if settings_fields.time.group_filters.enabled %}
                     {% for key, filter in  settings_fields.time.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label': filter.label, 'placeholder': filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][2][' ~ key ~ ']', 'options': filter.options, 'default_option': defaults[2].group_filters[key]} %}
+                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label': filter.label, 'placeholder': filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][2][' ~ key ~ ']', 'options': filter.options, 'default_options': defaults[2].group_filters[key]} %}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -101,7 +101,7 @@
         {% if  settings_fields.extra.group_filters.enabled %}
             <div class="cnw_col">
                 {% for key, filter in  settings_fields.extra.group_filters.filters %}
-                    {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[3].group_filters[key]} %}
+                    {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_options': defaults[3].group_filters[key]} %}
                 {% endfor %}
             </div>
             {% endif %}

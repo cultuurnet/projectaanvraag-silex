@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
+use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\Facet;
@@ -213,17 +214,17 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery)
+    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter)
     {
-        if ($this->getTargetedSearchResultsWidgetId() == $searchResultswidgetId) {
-            $this->buildQuery($searchQuery);
+        if ($this->getTargetedSearchResultsWidgetId() == $searchResultsQueryAlter->getWidgetId()) {
+            $this->buildQuery($searchResultsQueryAlter->getSearchQuery(), $searchResultsQueryAlter);
         }
     }
 
     /**
      * Build the query object.
      */
-    private function buildQuery(SearchQueryInterface $searchQuery)
+    private function buildQuery(SearchQueryInterface $searchQuery, SearchResultsQueryAlter $searchResultsQueryAlter = null)
     {
 
         // Check what facets are already added.
@@ -248,39 +249,78 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         // Build advanced query string.
         $advancedQuery = [];
+        $searchResultsActiveFilters = [];
+        if ($searchResultsQueryAlter) {
+            $searchResultsActiveFilters = $searchResultsQueryAlter->getActiveFilters();
+        }
 
         // Retrieve filtered parameters and add them to the query.
         $enabledFacetOptions = $this->getEnabledFacetOptions();
         foreach ($enabledFacetOptions as $key => $value) {
-            switch ($key) {
-                case 'what':
-                    $advancedQuery[] = 'terms.id:' . $value;
-                    break;
 
-                case 'where':
-                    $advancedQuery[] = 'regions:' . $value;
-                    break;
+            if (is_array($value)) {
+                switch ($key) {
+                    case 'what':
+                        $advancedQuery[] = 'terms.id:' . key($value);
 
-                case 'when':
-                    // Create ISO-8601 daterange from datetype.
-                    $dateRange = $this->convertDateTypeToDateRange($value);
-                    if (!empty($dateRange)) {
-                        $advancedQuery[] = 'dateRange:' . $dateRange;
-                    }
-                    break;
+                        $searchResultsActiveFilters[] = [
+                            'label' => current($value),
+                            'name' => 'facets[' . $this->index . '][what][' . key($value) . ']',
+                            'is_default' => false,
+                        ];
+                        break;
 
-                case 'custom':
-                    // Check for custom (extra) query params and retrieve options from settings.
-                    $extraFilters = $this->settings['group_filters']['filters'];
-                    foreach ($value as $groupKey => $extraGroup) {
-                        $options = $extraFilters[$groupKey]['options'];
-                        foreach ($extraGroup as $key => $extra) {
-                            $advancedQuery[] = '(' . $options[$key]['query'] . ')';
+                    case 'where':
+                        $advancedQuery[] = 'regions:' . key($value);
+
+                        $searchResultsActiveFilters[] = [
+                            'label' => current($value),
+                            'name' => 'facets[' . $this->index . '][when][' . key($value) . ']',
+                            'is_default' => false,
+                        ];
+
+                        break;
+
+                    case 'when':
+                        // Create ISO-8601 daterange from datetype.
+                        $dateRange = $this->convertDateTypeToDateRange(key($value));
+                        if (!empty($dateRange)) {
+                            $advancedQuery[] = 'dateRange:' . $dateRange['query'];
+
+                            $searchResultsActiveFilters[] = [
+                                'label' => current($value),
+                                'name' => 'facets[' . $this->index . '][when][' . key($value) . ']',
+                                'is_default' => false,
+                            ];
+
                         }
-                    }
+                        break;
 
-                    break;
+                    case 'custom':
+                        // Check for custom (extra) query params and retrieve options from settings.
+                        $extraFilters = $this->settings['group_filters']['filters'];
+                        foreach ($value as $groupKey => $extraGroup) {
+                            if (isset($extraFilters[$groupKey])) {
+
+                                $options = $extraFilters[$groupKey]['options'];
+                                foreach ($extraGroup as $key => $extra) {
+                                    $advancedQuery[] = '(' . $options[$key]['query'] . ')';
+
+                                    $searchResultsActiveFilters[] = [
+                                        'label' => $options[$key]['label'],
+                                        'name' => 'facets[' . $this->index . '][custom][' . $groupKey . '][' . $key . ']',
+                                        'is_default' => false,
+                                    ];
+                                }
+
+
+                            }
+                        }
+
+                        break;
+                }
             }
+
         }
 
         // Add advanced query string to API request.
@@ -288,6 +328,10 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $searchQuery->addParameter(
                 new Query(implode($advancedQuery, ' AND '))
             );
+
+            if ($searchResultsQueryAlter) {
+                $searchResultsQueryAlter->setActiveFilters($searchResultsActiveFilters);
+            }
         }
     }
 

@@ -1,14 +1,8 @@
 <div class="cnw_form-check">
     <span class="cnw_form-check--label">{{  label }}</span>
-    {% if placeholder %}
-        <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" name="{{ name }}" value=""{% if default_option == -1 %} checked{% endif %}>
-            {{ placeholder }}
-        </label>
-    {% endif %}
     {% for option_key, option in options %}
         <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" name="{{ name }}" value="{{ option_key }}"{% if default_option == option_key %} checked{% endif %}>
+            <input class="form-check-input" type="checkbox" name="{{ name }}" value="{{ option_key }}"{% if option_key in default_options %} checked{% endif %}>
             {{ option.label }}
         </label>
     {% endfor %}

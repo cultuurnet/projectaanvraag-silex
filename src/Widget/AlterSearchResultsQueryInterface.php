@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\SearchV3\SearchQueryInterface;
 
 /**
@@ -11,7 +12,7 @@ interface AlterSearchResultsQueryInterface
 {
 
     /**
-     * Alter the given search results query for a given widget id..
+     * Alter a search results query.
      */
-    public function alterSearchResultsQuery(string $searchResultswidgetId, SearchQueryInterface $searchQuery);
+    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter);
 }

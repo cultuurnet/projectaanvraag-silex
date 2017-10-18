@@ -30,6 +30,11 @@
             }
         }
     },
+    "config": {
+        "platform": {
+            "php": "7.0"
+        }
+    },
     "autoload": {
         "psr-4": {
             "CultuurNet\\ProjectAanvraag\\": ["src", "app"]

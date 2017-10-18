@@ -88,6 +88,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         e.preventDefault();
 
+        // Don't submit if there was an autocomplete open.
+        if (!CultuurnetWidgets.autocompleteSubmit()) {
+            return;
+        }
+
         // Search all input fields.
         var paramsToSubmit = {};
         $(this).find(':input').each(function() {
@@ -99,16 +104,30 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
             var value = $field.val();
+            // Text field => Just submit the entered value.
             if ($field.is(':text')) {
                 if (value) {
                     paramsToSubmit[$field.attr('name')] = value;
                 }
             }
+            // Radios => Only submit the checked radios.
             else if ($field.is(':radio')) {
                 if ($field.is(':checked')) {
                     paramsToSubmit[$field.attr('name')] = value;
                 }
             }
+            // Checkboxes => Only submit the checked checkboxes, add a separator.
+            else if ($field.is(':checkbox')) {
+                if ($field.is(':checked')) {
+                    if (paramsToSubmit[$field.attr('name')]) {
+                        paramsToSubmit[$field.attr('name')] = paramsToSubmit[$field.attr('name')] + '|' + value;
+                    }
+                    else {
+                        paramsToSubmit[$field.attr('name')] = value;
+                    }
+                }
+            }
+            // Other input => Just submit the value.
             else {
                 paramsToSubmit[$field.attr('name')] = value;
             }
@@ -138,6 +157,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                     if ($field.is(':radio')) {
                         $field.attr('checked', false);
                         $field.filter('[value="' + currentParams[fieldName] + '"]').attr('checked', true);
+                    }
+                    else if ($field.is(':checkbox')) {
+
+                        // For checkboxes. Check all the one that were submitted.
+                        $field.attr('checked', false);
+                        var selectedOptions = currentParams[fieldName].split('|');
+                        for (var selectedOption in selectedOptions) {
+                            $field.filter('[value="' + selectedOption + '"]').attr('checked', true);
+                        }
+
                     }
                     else {
                         $field.val(currentParams[fieldName]);
