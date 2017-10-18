@@ -1,3 +1,9 @@
+.cnw_zoek-waar {
+  .element-invisible {
+    display: none;
+  }
+}
+
 .cnw_form-custom-date {
   display: flex;
   margin-top: 1rem;
@@ -5,8 +11,44 @@
     margin-right: 10px;
   }
 }
+.cnw_form-autocomplete--hasresults {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom: 0px;
+}
+
+.cnw_form-autocomplete.throbbing {
+  background: url(../images/throbbing.gif);
+  background-repeat: no-repeat;
+  background-position:  95%  center ;
+
+}
 
 
+#autocomplete {
+  border: 1px solid #e1e1e1;
+  border-top: 0px;
+  background-color: white;
+
+
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+
+  position: absolute;
+  z-index: 6777;
+
+
+  ul {
+    list-style-type: none;
+    padding:0;
+
+    li {
+      margin: 5px 0 0 10px;
+
+    }
+  }
+
+}
 
 @media (max-width: 768px) {
 

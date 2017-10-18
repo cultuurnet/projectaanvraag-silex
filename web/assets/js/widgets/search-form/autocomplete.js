@@ -28,6 +28,8 @@
                     );
                 new CultuurnetWidgets.jsAC($input, acdb[uri]);
             });
+
+        
         }
     };
 
@@ -119,7 +121,8 @@
      * Puts the currently highlighted suggestion into the autocomplete field.
      */
     CultuurnetWidgets.jsAC.prototype.select = function (node) {
-        this.input.value = $(node).data('autocompleteValue');
+        console.log($(node));
+        this.input.value = $(node)[0].innerText;
     };
 
     /**
@@ -204,12 +207,11 @@
         this.popup = $('<div id="autocomplete"></div>')[0];
         this.popup.owner = this;
         $(this.popup).css({
-            top: parseInt(position.top + this.input.offsetHeight, 10) + 'px',
-            left: parseInt(position.left, 10) + 'px',
-            width: $input.innerWidth() + 'px',
+
+            width: $input.outerWidth() + 'px',
             display: 'none'
         });
-        $input.before(this.popup);
+        $input.after(this.popup);
 
         // Do search.
         this.db.owner = this;
@@ -243,10 +245,12 @@
             if (ul.children().length) {
                 $(this.popup).empty().append(ul).show();
                 $(this.ariaLive).html('Autocomplete popup');
+                $(this.input).addClass('cnw_form-autocomplete--hasresults');
             }
             else {
                 $(this.popup).css({ visibility: 'hidden' });
                 this.hidePopup();
+                $(this.input).removeClass('cnw_form-autocomplete--hasresults');
             }
         }
     };
