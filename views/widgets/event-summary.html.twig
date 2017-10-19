@@ -1,6 +1,7 @@
 <!--  results - CARD  START -->
 
 <div class="cnw_searchresult--block cnw_row ">
+
     {% if settings_items.image.enabled %}
     <div class="cnw_col-3 {% if settings_items.image.position == 'right' %} cnw_flex-last {% endif %}">
                 <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
@@ -42,9 +43,16 @@
             </span>
 
             <dl class="cnw_row">
-
                 {% if settings_items.description.enabled %}
-                    <p class="cnw_card-description">{{ event.description }}</p>
+                    <p class="cnw_card-description">
+                        {% if event.type.0 %}
+                            <span class="cnw_badge cnw_badge-default" >
+                                    <i class="fa fa-tags" aria-hidden="true"></i>
+                                {{ event.type.0 }}
+                            </span>
+                        {% endif %}
+                        {{ event.description }}
+                    </p>
                 {% endif %}
 
                 {% if settings_items.where.enabled %}

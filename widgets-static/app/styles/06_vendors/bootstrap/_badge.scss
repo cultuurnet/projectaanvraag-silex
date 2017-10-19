@@ -3,7 +3,7 @@
 // Requires one of the contextual, color modifier classes for `color` and
 // `background-color`.
 
-.badge {
+.cnw_badge {
   display: inline-block;
   padding: $badge-padding-y $badge-padding-x;
   font-size: $badge-font-size;
@@ -22,14 +22,14 @@
 }
 
 // Quick fix for badges in buttons
-.btn .badge {
+.cnw_btn .cnw_badge {
   position: relative;
   top: -1px;
 }
 
 // scss-lint:disable QualifyingElement
 // Add hover effects, but only for links
-a.badge {
+a.cnw_badge {
   @include hover-focus {
     color: $badge-link-hover-color;
     text-decoration: none;
@@ -42,7 +42,7 @@ a.badge {
 //
 // Make them extra rounded with a modifier to replace v3's badges.
 
-.badge-pill {
+.cnw_badge-pill {
   padding-right: $badge-pill-padding-x;
   padding-left: $badge-pill-padding-x;
   @include border-radius($badge-pill-border-radius);
@@ -52,26 +52,26 @@ a.badge {
 //
 // Contextual variations (linked badges get darker on :hover).
 
-.badge-default {
+.cnw_badge-default {
   @include badge-variant($badge-default-bg);
 }
 
-.badge-primary {
+.cnw_badge-primary {
   @include badge-variant($badge-primary-bg);
 }
 
-.badge-success {
+.cnw_badge-success {
   @include badge-variant($badge-success-bg);
 }
 
-.badge-info {
+.cnw_badge-info {
   @include badge-variant($badge-info-bg);
 }
 
-.badge-warning {
+.cnw_badge-warning {
   @include badge-variant($badge-warning-bg);
 }
 
-.badge-danger {
+.cnw_adge-danger {
   @include badge-variant($badge-danger-bg);
 }

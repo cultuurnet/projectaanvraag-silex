@@ -162,7 +162,8 @@ class TwigPreprocessor
                     $typeLabels[] = $type->getLabel();
                 }
             }
-            $variables['labels'] =  array_merge($typeLabels, $variables['labels']);
+
+            $variables['type'] = $typeLabels;
         }
 
         return $variables;
