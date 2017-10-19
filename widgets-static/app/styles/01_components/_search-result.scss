@@ -51,19 +51,9 @@
 */
 
 
-cnw_stickers {
-  right: 0;
-  top: -11px;
-  display: inline-block;
-
-  width: 65px;
-  height: 46px;
-  position: absolute;
-  margin-right: 6px;
-  border-radius: 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
+.cnw_stickers {
+  display: block;
+  float: right;
 }
 
 
@@ -99,8 +89,9 @@ cnw_stickers {
   height: 40px;
   width: 40px;
   border-radius: 100%;
-  float: right;
+
   box-shadow: 2px 3px 3px #9591af;
+  margin-bottom: 20px;
 
 
   .cnw_txt{
@@ -118,6 +109,17 @@ cnw_stickers {
     text-align: center;
     line-height: 200%;
   }
+}
+.cnw_sticker--uitpas {
+
+  background-repeat: no-repeat;
+  display: block;
+  height: 40px;
+  width:70px;
+
+  background-image: url(../images/uitpas--sticker__mini.png);
+  background-size: 60%;
+  border: none;
 }
 
 

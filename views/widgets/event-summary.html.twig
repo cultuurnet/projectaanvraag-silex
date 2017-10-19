@@ -16,8 +16,9 @@
                         <span class="cnw_txt">7+</span>
                     </span>
                 {% endif %}
-
-                Uitpas
+                {% if settings_items.icon_uitpas.enabled %}
+                    <span class="cnw_sticker cnw_sticker--uitpas"></span>
+                {% endif %}
             </span>
 
             <dl class="cnw_row">
