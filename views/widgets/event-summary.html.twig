@@ -20,7 +20,7 @@
             <span class="cnw_stickers ">
                 {% if settings_items.icon_vlieg.enabled and event.vlieg %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
-                        <span class="cnw_txt">7+</span>
+                        <span class="cnw_txt">{{ event.vlieg }}</span>
                     </span>
                 {% endif %}
                 {% if settings_items.icon_uitpas.enabled and event.uitpas %}

@@ -107,7 +107,7 @@ class TwigPreprocessor
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
-            'vlieg' => $this->checkVliegEvent($event),
+            'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
         ];
 
@@ -377,7 +377,7 @@ class TwigPreprocessor
      * @param array $labels
      * @return bool|string
      */
-    protected function checkVliegEvent(Event $event)
+    protected function isVliegEvent(Event $event)
     {
         $range = $event->getTypicalAgeRange();
         $labels = $event->getLabels();
