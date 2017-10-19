@@ -151,10 +151,12 @@ p.cnw_card-description {
 
 }
 
-.cnw_clips .cnw_searchresult--block [class*="cnw_col-"] {
+
+.cnw_clips  div:not(.cnw_reset_row) .cnw_searchresult--block [class*="cnw_col-"] {
   max-width:100%;
   flex-basis: unset;
 }
+
 
 .cnw_clips    .cnw_searchresult--block dl div[class*='cnw_col-'] {
     flex-basis: unset;
