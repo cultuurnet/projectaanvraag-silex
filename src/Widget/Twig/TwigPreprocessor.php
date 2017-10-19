@@ -106,7 +106,7 @@ class TwigPreprocessor
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
-            'uitpas' => $event->getOrganizer() ? $this->checkUitpasEvent($event->getOrganizer()->getHiddenLabels()) : false,
+            'uitpas' => $event->getOrganizer() ? $this->checkUitpasEvent($event) : false,
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -354,14 +354,17 @@ class TwigPreprocessor
     /**
      * Check if event is considered an "Uitpas" event.
      *
-     * @param array $hiddenLabels
+     * @param \CultuurNet\SearchV3\ValueObjects\Event $event
      * @return bool
      */
-    protected function checkUitpasEvent($hiddenLabels)
+    protected function checkUitpasEvent(\CultuurNet\SearchV3\ValueObjects\Event $event)
     {
+
+        $labels = $event->getLabels();
+
         // Check for label values containing "Uitpas".
-        if ($hiddenLabels) {
-            foreach ($hiddenLabels as $label) {
+        if ($labels) {
+            foreach ($labels as $label) {
                 if (stripos($label, 'uitpas') !== false) {
                     return true;
                 }
