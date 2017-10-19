@@ -289,6 +289,6 @@ print_r($test2);
         $matches = $this->regionService->getAutocompletResults($searchString);
 
         // Only return 5 matches.
-        return new JsonResponse(array_slice($matches, 0,5));
+        return new JsonResponse(array_slice($matches, 0, 5));
     }
 }

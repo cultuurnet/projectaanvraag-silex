@@ -59,7 +59,8 @@ class SearchResultsQueryAlter
     /**
      * @return array
      */
-    public function getActiveFilters() {
+    public function getActiveFilters()
+    {
         return $this->activeFilters;
     }
 
@@ -67,7 +68,8 @@ class SearchResultsQueryAlter
      * Set the active filters.
      * @param array $activeFilters
      */
-    public function setActiveFilters(array $activeFilters) {
+    public function setActiveFilters(array $activeFilters)
+    {
         $this->activeFilters = $activeFilters;
         return $this;
     }

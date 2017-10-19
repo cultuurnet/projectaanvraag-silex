@@ -257,7 +257,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         // Retrieve filtered parameters and add them to the query.
         $enabledFacetOptions = $this->getEnabledFacetOptions();
         foreach ($enabledFacetOptions as $key => $value) {
-
             if (is_array($value)) {
                 switch ($key) {
                     case 'what':
@@ -292,7 +291,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                                 'name' => 'facets[' . $this->index . '][when][' . key($value) . ']',
                                 'is_default' => false,
                             ];
-
                         }
                         break;
 
@@ -301,7 +299,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                         $extraFilters = $this->settings['group_filters']['filters'];
                         foreach ($value as $groupKey => $extraGroup) {
                             if (isset($extraFilters[$groupKey])) {
-
                                 $options = $extraFilters[$groupKey]['options'];
                                 foreach ($extraGroup as $key => $extra) {
                                     $advancedQuery[] = '(' . $options[$key]['query'] . ')';
@@ -312,15 +309,12 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                                         'is_default' => false,
                                     ];
                                 }
-
-
                             }
                         }
 
                         break;
                 }
             }
-
         }
 
         // Add advanced query string to API request.

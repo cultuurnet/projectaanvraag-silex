@@ -269,7 +269,8 @@ class TwigPreprocessor
      * Format all the event dates to 1 summary variable.
      * @param Event $event
      */
-    protected function formatEventDatesSummary(Event $event, string $langcode) {
+    protected function formatEventDatesSummary(Event $event, string $langcode)
+    {
 
         $originalLocale = setlocale(LC_TIME, '0');
 
@@ -297,8 +298,7 @@ class TwigPreprocessor
             }
 
             $summary = implode($dateParts, ' ');
-        }
-        elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
+        } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
             $summary = $event->getStartDate()->format('l d F Y');
         }
 

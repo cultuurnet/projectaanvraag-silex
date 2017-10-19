@@ -270,8 +270,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                 foreach ($groupFilterGroups as $groupKey => $groupFilterSubmittedValue) {
                                     if (!is_numeric($groupFilterSubmittedValue)) {
                                         $activeFilters[$groupFilterKey]['group_filters'][$groupKey] = explode('|', $groupFilterSubmittedValue);
-                                    }
-                                    else {
+                                    } else {
                                         $activeFilters[$groupFilterKey]['group_filters'][$groupKey] = [$groupFilterSubmittedValue];
                                     }
                                 }
@@ -309,19 +308,18 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     }
                 }
             } elseif ($key === 'when') {
-
                 // Custom date requested? Construct the date range.
                 if ($activeValue === 'custom_date') {
                     $cetTimezone = new \DateTimeZone('CET');
                     $query = '';
-                    $label_parts = ['activiteiten'];
+                    $labelParts = ['activiteiten'];
                     if (isset($activeFilters['date-start'])) {
                         $dateTime = \DateTime::createFromFormat('d/m/Y', $activeFilters['date-start'], $cetTimezone);
                         if ($dateTime) {
                             $dateTime->setTime(0, 0, 0);
                             $query .= $dateTime->format('c');
                         }
-                        $label_parts[] = 'van ' . $activeFilters['date-start'];
+                        $labelParts[] = 'van ' . $activeFilters['date-start'];
                     } else {
                         $query .= '*';
                     }
@@ -330,7 +328,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                         if ($dateTime) {
                             $dateTime->setTime(23, 59, 59);
                             $query .= (' TO ' . $dateTime->format('c'));
-                            $label_parts[] = 'tot ' .  $activeFilters['date-end'];
+                            $labelParts[] = 'tot ' .  $activeFilters['date-end'];
                         }
                     } else {
                         $query .= ' TO *';
@@ -339,11 +337,10 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     $advancedQuery[] = 'dateRange:[' . $query . ']';
 
                     $searchResultsActiveFilters[] = [
-                        'label' => implode(' ', $label_parts),
+                        'label' => implode(' ', $labelParts),
                         'name' => 'search-form[' . $this->index . '][when]',
                         'is_default' => false,
                     ];
-
                 } else {
                     // Create ISO-8601 daterange from datetype.
                     $dateRange = $this->convertDateTypeToDateRange($activeValue);
@@ -355,9 +352,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                             'name' => 'search-form[' . $this->index . '][when]',
                             'is_default' => false,
                         ];
-
                     }
-
                 }
             } elseif ($key === 'what') {
                 $advancedQuery[] = $activeValue;
@@ -367,7 +362,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     'is_default' => false,
                 ];
             } elseif ($key === 'where') {
-
                 $region = $this->regionService->getItemByName($activeValue);
                 if ($region) {
                     $searchResultsActiveFilters[] = [
@@ -377,7 +371,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     ];
                     $advancedQuery[] = 'regions:' . $region->key;
                 }
-
             }
         }
 

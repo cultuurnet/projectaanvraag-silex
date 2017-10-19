@@ -348,7 +348,6 @@ class SearchResults extends WidgetTypeBase
         $extraFilters = [];
         // Change query / defaults based on query string.
         if (isset($urlQueryParams['search-result']) && is_array($urlQueryParams['search-result']) && isset($urlQueryParams['search-result'][$this->index])) {
-
             $searchResultOptions = $urlQueryParams['search-result'][$this->index];
             // Check for page query param.
             if (isset($searchResultOptions['page'])) {
@@ -367,7 +366,6 @@ class SearchResults extends WidgetTypeBase
                 $extraFilters['hide-permanent'] = true;
                 $query->addParameter(new CalendarType(CalendarType::TYPE_PERMANENT));
             }
-
         }
 
         // Build advanced query string
