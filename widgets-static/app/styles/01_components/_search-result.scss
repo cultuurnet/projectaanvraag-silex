@@ -111,15 +111,16 @@
   }
 }
 .cnw_sticker--uitpas {
-
-  background-repeat: no-repeat;
   display: block;
-  height: 40px;
-  width:70px;
-
-  background-image: url(../images/uitpas--sticker__mini.png);
-  background-size: 60%;
+  width:45px;
   border: none;
+
+  .uit-logo-bg {
+    stop-color : #F0B32C;
+  }
+  .uit-logo-text {
+    fill : #b58d35;
+  }
 }
 
 
