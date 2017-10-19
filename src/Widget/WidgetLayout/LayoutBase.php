@@ -183,6 +183,14 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     /**
      * {@inheritdoc}
      */
+    public function addWidget($region, $widget)
+    {
+        $this->regions[$region]['widgets'][] = $widget;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize()
     {
         $regions = [];

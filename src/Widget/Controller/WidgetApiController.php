@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
+use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
@@ -57,19 +58,25 @@ class WidgetApiController
     protected $authorizationChecker;
 
     /**
+     * @var RendererInterface
+     */
+    protected $renderer;
+
+    /**
      * WidgetApiController constructor.
      *
      * @param DocumentRepository $widgetPageRepository
      * @param WidgetPluginManager $widgetTypePluginManager
      * @param WidgetPageEntityDeserializer $widgetPageDeserializer
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, DocumentRepository $widgetPageRepository, WidgetTypeDiscovery $widgetTypeDiscovery, WidgetPageEntityDeserializer $widgetPageDeserializer, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, DocumentRepository $widgetPageRepository, WidgetTypeDiscovery $widgetTypeDiscovery, WidgetPageEntityDeserializer $widgetPageDeserializer, AuthorizationCheckerInterface $authorizationChecker, RendererInterface $renderer)
     {
         $this->commandBus = $commandBus;
         $this->widgetPageRepository = $widgetPageRepository;
         $this->widgetTypeDiscovery = $widgetTypeDiscovery;
         $this->widgetPageDeserializer = $widgetPageDeserializer;
         $this->authorizationChecker = $authorizationChecker;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -170,10 +177,9 @@ class WidgetApiController
             'widgetPage' => $widgetPage->jsonSerialize(),
         ];
 
-        $renderer = new Renderer();
         if ($request->query->has('render')) {
             if ($widget = $widgetPage->getWidget($request->query->get('render'))) {
-                $data['preview'] = $renderer->renderWidget($widget);
+                $data['preview'] = $this->renderer->renderWidget($widget);
             } else {
                 $data['preview'] = '';
             }

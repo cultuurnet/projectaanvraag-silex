@@ -6,6 +6,7 @@ use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResults;
 use CultuurNet\SearchV3\ValueObjects\Offer;
+use CultuurNet\SearchV3\ValueObjects\Place;
 use Guzzle\Http\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
@@ -94,7 +95,7 @@ class TwigPreprocessor
      *   Settings for the event display
      * @return array
      */
-    public function preprocessEvent(\CultuurNet\SearchV3\ValueObjects\Event $event, string $langcode, array $settings)
+    public function preprocessEvent(Event $event, string $langcode, array $settings)
     {
         $variables = [
             'id' => $event->getCdbid(),
@@ -172,6 +173,23 @@ class TwigPreprocessor
     }
 
     /**
+     * Preprocess an event detail page.
+     *
+     * @param Event $event
+     * @param string $langcode
+     * @param array $settings
+     */
+    public function preprocessEventDetail(Event $event, string $langcode, array $settings)
+    {
+        $variables = $this->preprocessEvent($event, $langcode, $settings);
+
+        $variables['where'] = $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null;
+        $variables['when_details'] = $this->formatEventDatesDetail($event, $langcode);
+
+        return $variables;
+    }
+
+    /**
      * Preprocess facet for sending to a template (and check if one is active).
      *
      * @param FacetResult $facetResult
@@ -228,6 +246,26 @@ class TwigPreprocessor
         }
 
         return $facet;
+    }
+
+    /**
+     * Preprocess a place.
+     * @param Place $place
+     * @param $langcode
+     */
+    public function preprocessPlace(Place $place, $langcode)
+    {
+
+        $variables = [];
+        $variables['name'] = $place->getName()[$langcode] ?? null;
+        $variables['address'] = [];
+        if ($address = $place->getAddress()) {
+            $variables['address']['street'] = $address->getStreetAddress();
+            $variables['address']['postalcode'] = $address->getPostalCode();
+            $variables['address']['city'] = $address->getAddressLocality();
+        }
+
+        return $variables;
     }
 
     /**
@@ -305,6 +343,19 @@ class TwigPreprocessor
         setlocale(LC_TIME, $originalLocale);
 
         return $summary;
+    }
+
+    /**
+     * Format the event dates for the detail page.
+     *
+     * @param Event $event
+     * @param string $langcode
+     */
+    protected function formatEventDatesDetail(Event $event, string $langcode)
+    {
+
+        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
+        }
     }
 
     /**

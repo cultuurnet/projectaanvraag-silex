@@ -14,7 +14,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // If jquery exists on the site, attach behaviors.
         if (window.jQuery) {
-            CultuurnetWidgets.attachBehaviors();
+            CultuurnetWidgets.bootstrap();
         }
         // If jQuery does not exists, load it and attach behaviors.
         else {
@@ -22,19 +22,36 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             document.head.appendChild(script);
             script.type = 'text/javascript';
             script.src = "//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js";
-            script.onload = CultuurnetWidgets.attachBehaviors;
+            script.onload = CultuurnetWidgets.bootstrap;
         }
     };
 
     /**
-     * Load jquery ui and bootstrap widgets.
+     * Bootstrap the widgets page.
      */
-    CultuurnetWidgets.loadJqueryUi = function() {
-        var script = document.createElement('script');
-        document.head.appendChild(script);
-        script.type = 'text/javascript';
-        script.src = "//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
-        script.onload = CultuurnetWidgets.attachBehaviors;
+    CultuurnetWidgets.bootstrap = function() {
+
+        // No page id => nothing to do.
+        if (!CultuurnetWidgetsSettings.widgetPageId) {
+            console.log('no id');
+            return;
+        }
+
+        var $wrapper = $('#cultuurnet-widgets-' + CultuurnetWidgetsSettings.widgetPageId);
+        if ($wrapper.length === 0) {
+            return;
+        }
+
+        // If a cdbid is given in url, and a detail page is in settings. Load detail.
+        var params = CultuurnetWidgets.getCurrentParams();
+        if (params['cdbid'] && CultuurnetWidgetsSettings.detailPage) {
+            $wrapper.html(CultuurnetWidgetsSettings.detailPage);
+        }
+        else {
+            $wrapper.html(CultuurnetWidgetsSettings.widgetHtml);
+        }
+
+        CultuurnetWidgets.attachBehaviors($wrapper);
     };
 
     /**

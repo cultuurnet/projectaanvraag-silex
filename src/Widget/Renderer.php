@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\OneCol;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 
 /**
@@ -9,6 +10,11 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
  */
 class Renderer implements RendererInterface
 {
+
+    /**
+     * @var WidgetPluginManager
+     */
+    protected $widgetPluginManager;
 
     /**
      * @var array
@@ -24,6 +30,15 @@ class Renderer implements RendererInterface
      * @var array
      */
     private $settings = [];
+
+    /**
+     * Renderer constructor.
+     * @param WidgetPluginManager $widgetPluginManager
+     */
+    public function __construct(WidgetPluginManager $widgetPluginManager)
+    {
+        $this->widgetPluginManager = $widgetPluginManager;
+    }
 
     /**
      * @inheritDoc
@@ -48,20 +63,33 @@ class Renderer implements RendererInterface
 
         $widgetMapping = [];
         $rows = $widgetPage->getRows();
+        $searchResultWidget = null;
         foreach ($rows as $row) {
             $widgetIds = $row->getWidgetIds();
             foreach ($widgetIds as $widgetId) {
+                $widget = $row->getWidget($widgetId);
+                if (!$searchResultWidget && $widget instanceof SearchResults) {
+                    $searchResultWidget = $widget;
+                }
                 $widgetMapping[$widgetId] = $widgetPage->getId();
             }
 
             $output .= $row->render();
         }
+        $this->addSettings(['widgetHtml' => $output]);
+        $this->addSettings(['widgetPageId' => $widgetPage->getId()]);
+
+        // If there is a search results wiget, always include an empty 1row for a detail page.
+        /** @var OneCol $onecol */
+        $onecol = $this->widgetPluginManager->createInstance('one-col');
+        $onecol->addWidget('content', $searchResultWidget);
+        $this->addSettings(['detailPage' => $onecol->render()]);
 
         $this->addSettings(['widgetMapping' => $widgetMapping]);
 
         $this->attachJavascript('CultuurnetWidgets.loadSettings(' . json_encode($this->settings) . ')', 'inline');
 
-        return $output;
+        return '<div id="cultuurnet-widgets-' . $widgetPage->getId() . '"></div>';
     }
 
     /**

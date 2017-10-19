@@ -24,18 +24,25 @@
 
 
                 <dl class="cnw_row">
-                    {% if settings.where.enabled %}
+                    {% if settings.where.enabled and event.where %}
                     <dt class="cnw_col-3">{{ settings.where.label }}</dt>
-                    <dd class="cnw_col-9">{{ event.where }}</dd>
+                    <dd class="cnw_col-9">
+                        {{ event.where.name }}
+                        {% if event.where.address %}
+                        <br/>
+                        {{ event.where.address.street }}<br/>
+                        {{ event.where.address.postalcode }} {{ event.where.address.city }}
+                        {% endif %}
+                    </dd>
                     {% endif %}
 
                     {% if settings.when.enabled %}
-                    <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
-                    <dd class="cnw_col-9">{{ event.when_start }}</dd>
+                    <dt class="cnw_col-3">{{ settings.when.label }}</dt>
+                    <dd class="cnw_col-9">{{ event.when_summary }}</dd>
                     {% endif %}
 
                     {% if settings.age.enabled and event.age_range %}
-                    <dt class="cnw_col-3">{{ settings_items.age.label }}</dt>
+                    <dt class="cnw_col-3">{{ settings.age.label }}</dt>
                     <dd class="cnw_col-9">{{ event.age_range }}</dd>
                     {% endif %}
 

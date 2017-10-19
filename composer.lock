@@ -330,12 +330,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "5bd8c6f99e009539dc7db1357b1e254987e5a3e2"
+                "reference": "2915f40b6117f0b2d91e8c6c5ed3408291323f1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/5bd8c6f99e009539dc7db1357b1e254987e5a3e2",
-                "reference": "5bd8c6f99e009539dc7db1357b1e254987e5a3e2",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/2915f40b6117f0b2d91e8c6c5ed3408291323f1d",
+                "reference": "2915f40b6117f0b2d91e8c6c5ed3408291323f1d",
                 "shasum": ""
             },
             "require": {

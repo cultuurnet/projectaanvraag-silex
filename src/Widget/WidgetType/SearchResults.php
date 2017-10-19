@@ -449,7 +449,7 @@ class SearchResults extends WidgetTypeBase
         return $this->twig->render(
             'widgets/search-results-widget/detail-page.html.twig',
             [
-                'event' => $this->twigPreprocessor->preprocessEvent($events[0], 'nl', $this->settings['detail_page']),
+                'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], 'nl', $this->settings['detail_page']),
                 'settings' => $this->settings['detail_page'],
             ]
         );

@@ -46,4 +46,11 @@ interface LayoutInterface extends \JsonSerializable
      * @return mixed
      */
     public function getLastWidgetIndex();
+
+    /**
+     * Add a widget to the given region.
+     * @param $region
+     * @param $widget
+     */
+    public function addWidget($region, $widget);
 }

@@ -88,15 +88,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             if (paramToDelete == 'all') {
 
                 var params = [];
-                var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
-                // Make sure empty defaults are set again. (in case a search form has a default value set via the builder)
-                for (var key in currentParams) {
-                    if (currentParams[key] === '') {
-                        params[key] = '';
-                    }
-                }
-
-                var params = [];
                 // Create a new list of params. Filters marked as default should stay in url
                 // but with an empty value
                 $activeFilters.each(function() {
