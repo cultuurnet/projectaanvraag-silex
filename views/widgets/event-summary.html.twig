@@ -45,7 +45,8 @@
             <dl class="cnw_row">
                 {% if settings_items.description.enabled %}
                     <p class="cnw_card-description">
-                        {% if event.type.0 %}
+                    
+                        {% if settings_items.type.enabled and event.type.0 %}
                             <span class="cnw_badge cnw_badge-default" >
                                     <i class="fa fa-tags" aria-hidden="true"></i>
                                 {{ event.type.0 }}
