@@ -10,14 +10,20 @@
 
     <div class="{% if settings_items.image.enabled %}cnw_col-9 {% else %} cnw_col-12{% endif %}">
         <div class="cnw_card-block ">
-            <h3 class="cnw_card-title"><a href="{{ event.detail_link }}">{{ event.name }}</a></h3>
+            <h3 class="cnw_card-title">
+                {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
+                <a href="{{ event.detail_link }}">{{ event.name }}</a>
+                {% else %}
+                {{ event.name }}
+                {% endif %}
+            </h3>
             <span class="cnw_stickers ">
-                {% if settings_items.icon_vlieg.enabled %}
+                {% if settings_items.icon_vlieg.enabled and event.vlieg %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
                         <span class="cnw_txt">7+</span>
                     </span>
                 {% endif %}
-                {% if settings_items.icon_uitpas.enabled %}
+                {% if settings_items.icon_uitpas.enabled and event.uitpas %}
                     <span class="cnw_sticker cnw_sticker--uitpas">
 
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 343 180.774">
@@ -66,9 +72,9 @@
                     <dd class="cnw_col-9">{{ event.organizer }}</dd>
                 {% endif %}
 
-                {% if settings_items.when.enabled %}
+                {% if settings_items.when.enabled and event.when_summary %}
                     <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
-                    <dd class="cnw_col-9">{{ event.when_start }}</dd>
+                    <dd class="cnw_col-9">{{ event.when_summary }}</dd>
                 {% endif %}
 
                 {% if settings_items.age.enabled and event.age_range %}

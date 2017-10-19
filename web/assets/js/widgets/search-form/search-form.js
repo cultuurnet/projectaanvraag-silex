@@ -95,6 +95,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // Search all input fields.
         var paramsToSubmit = {};
+        var paramsToDelete = {};
         $(this).find(':input').each(function() {
 
             var $field = $(this);
@@ -104,6 +105,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
             var value = $field.val();
+            var checkboxes = {};
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
                 if (value) {
@@ -116,14 +118,22 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                     paramsToSubmit[$field.attr('name')] = value;
                 }
             }
-            // Checkboxes => Only submit the checked checkboxes, add a separator.
+            // Checkboxes
             else if ($field.is(':checkbox')) {
+
+                // Checked checkboxes => add a separator per value.
                 if ($field.is(':checked')) {
                     if (paramsToSubmit[$field.attr('name')]) {
                         paramsToSubmit[$field.attr('name')] = paramsToSubmit[$field.attr('name')] + '|' + value;
                     }
                     else {
                         paramsToSubmit[$field.attr('name')] = value;
+                    }
+                }
+                // Non checked checkbox. Make sure empty field is submitted, if no value was given yet.
+                else {
+                    if (paramsToSubmit[$field.attr('name')] === undefined) {
+                        paramsToSubmit[$field.attr('name')] = '';
                     }
                 }
             }
@@ -163,8 +173,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                         // For checkboxes. Check all the one that were submitted.
                         $field.attr('checked', false);
                         var selectedOptions = currentParams[fieldName].split('|');
-                        for (var selectedOption in selectedOptions) {
-                            $field.filter('[value="' + selectedOption + '"]').attr('checked', true);
+                        for (var key in selectedOptions) {
+                            $field.filter('[value="' + selectedOptions[key] + '"]').attr('checked', true);
                         }
 
                     }

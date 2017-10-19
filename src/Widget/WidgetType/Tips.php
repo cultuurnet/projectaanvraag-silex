@@ -59,8 +59,8 @@ use Pimple\Container;
  *              },
  *              "image":{
  *                  "enabled":true,
- *                  "width":100,
- *                  "height":80,
+ *                  "width":480,
+ *                  "height":360,
  *                  "default_image":true,
  *                  "position":"left"
  *              },
@@ -215,6 +215,7 @@ class Tips extends WidgetTypeBase
             [
                 'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
                 'settings_items' => $this->settings['items'],
+                'settings_general' => $this->settings['general'],
             ]
         );
     }

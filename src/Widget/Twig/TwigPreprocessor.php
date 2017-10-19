@@ -2,8 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
+use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResults;
+use CultuurNet\SearchV3\ValueObjects\Offer;
 use Guzzle\Http\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
@@ -99,14 +101,14 @@ class TwigPreprocessor
             'name' => $event->getName()[$langcode] ?? null,
             'description' => $event->getDescription()[$langcode] ?? null,
             'image' => $event->getImage(),
-            'when_start' => $event->getStartDate() ? $this->formatDate($event->getStartDate(), $langcode) : null,
+            'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'where' => $event->getLocation() ? $event->getLocation()->getName()[$langcode] ?? null : null,
             'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName() : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
-            'vlieg' => $this->checkVliegEvent($event->getTypicalAgeRange(), $event->getLabels()),
-            'uitpas' => $event->getOrganizer() ? $this->checkUitpasEvent($event) : false,
+            'vlieg' => $this->checkVliegEvent($event),
+            'uitpas' => $this->isUitpasEvent($event),
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -264,6 +266,48 @@ class TwigPreprocessor
     }
 
     /**
+     * Format all the event dates to 1 summary variable.
+     * @param Event $event
+     */
+    protected function formatEventDatesSummary(Event $event, string $langcode) {
+
+        $originalLocale = setlocale(LC_TIME, '0');
+
+        // Switch the time locale to the requested langcode.
+        switch ($langcode) {
+            case 'nl':
+                setlocale(LC_TIME, 'nl_NL.UTF-8');
+                break;
+
+            case 'fr':
+                setlocale(LC_TIME, 'fr_FR.UTF-8');
+        }
+
+        $summary = '';
+        // Multiple and periodic events should show from and to date.
+        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE || $event->getCalendarType() === Offer::CALENDAR_TYPE_PERIODIC) {
+            $dateParts = [];
+
+            if ($event->getStartDate()) {
+                $dateParts[] = 'van ' . $event->getStartDate()->format('d F Y');
+            }
+
+            if ($event->getEndDate()) {
+                $dateParts[] = 'tot ' . $event->getEndDate()->format('d F Y');
+            }
+
+            $summary = implode($dateParts, ' ');
+        }
+        elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
+            $summary = $event->getStartDate()->format('l d F Y');
+        }
+
+        setlocale(LC_TIME, $originalLocale);
+
+        return $summary;
+    }
+
+    /**
      * Format a datetime object to a specific format.
      *
      * @param \DateTime $datetime
@@ -333,8 +377,12 @@ class TwigPreprocessor
      * @param array $labels
      * @return bool|string
      */
-    protected function checkVliegEvent($range, $labels)
+    protected function checkVliegEvent(Event $event)
     {
+        $range = $event->getTypicalAgeRange();
+        $labels = $event->getLabels();
+        $labels = array_merge($labels, $event->getHiddenLabels());
+
         // Check age range if there is one.
         if ($range) {
             // Check for empty range values.
@@ -358,15 +406,16 @@ class TwigPreprocessor
      * @param \CultuurNet\SearchV3\ValueObjects\Event $event
      * @return bool
      */
-    protected function checkUitpasEvent(\CultuurNet\SearchV3\ValueObjects\Event $event)
+    protected function isUitpasEvent(\CultuurNet\SearchV3\ValueObjects\Event $event)
     {
 
         $labels = $event->getLabels();
+        $labels = array_merge($labels, $event->getHiddenLabels());
 
         // Check for label values containing "Uitpas".
         if ($labels) {
             foreach ($labels as $label) {
-                if (stripos($label, 'uitpas') !== false) {
+                if (stripos($label, 'uitpas') !== false || stripos($label, 'paspartoe') !== false) {
                     return true;
                 }
             }
