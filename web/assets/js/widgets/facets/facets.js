@@ -39,7 +39,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                     }
                     else {
                         if (type !== 'custom') {
-                            CultuurnetWidgets.facetFilter(widget_id, type, value);
+                            CultuurnetWidgets.facetFilter(widget_id, type, value, $this.text());
                         }
                         else {
                             CultuurnetWidgets.customFilter(widget_id, facet_id, option_id);
@@ -60,18 +60,22 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
             var $facetsToggle = $(context).find('.cnw_facets_toggle');
 
-            // Facets are default hidden for mobile.
-            if ($(window).width() < 768) {
-                $facetsToggle.html('Toon verfijningen');
-                $facetsToggle.toggleClass('cnw_facets_toggle--open');
-                $facetWrapper.hide();
-            }
-
             $facetsToggle.bind('click', function(e) {
                 e.preventDefault();
                 $facetsToggle.toggleClass('cnw_facets_toggle--open');
                 $facetWrapper.toggle();
+                if ($facetsToggle.hasClass('cnw_facets_toggle--open')) {
+                    $facetsToggle.html('Verberg verfijningen');
+                }
+                else {
+                    $facetsToggle.html('Toon verfijningen');
+                }
             });
+            
+            // Facets are default hidden for mobile.
+            if ($(window).width() < 768) {
+                $facetsToggle.trigger('click');
+            }
 
         }
     };
@@ -83,9 +87,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * @param value
      * @param param
      */
-    CultuurnetWidgets.facetFilter = function(widget_id, param, value) {
+    CultuurnetWidgets.facetFilter = function(widget_id, param, value, label) {
         var paramsToSubmit = {};
-        paramsToSubmit['facets[' + widget_id + '][' + param + ']'] = value;
+        paramsToSubmit['facets[' + widget_id + '][' + param + '][' + value + ']'] = label;
         CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
     };
 

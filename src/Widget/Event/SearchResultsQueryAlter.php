@@ -23,15 +23,21 @@ class SearchResultsQueryAlter
     private $searchQuery;
 
     /**
+     * @var array
+     */
+    private $activeFilters;
+
+    /**
      * SearchResultQueryAlter constructor.
      *
      * @param string $widgetId
      * @param SearchQueryInterface $searchQuery
      */
-    public function __construct(string $widgetId, SearchQueryInterface $searchQuery)
+    public function __construct(string $widgetId, SearchQueryInterface $searchQuery, array $activeFilters)
     {
         $this->widgetId = $widgetId;
         $this->searchQuery = $searchQuery;
+        $this->activeFilters = $activeFilters;
     }
 
     /**
@@ -48,5 +54,21 @@ class SearchResultsQueryAlter
     public function getSearchQuery()
     {
         return $this->searchQuery;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActiveFilters() {
+        return $this->activeFilters;
+    }
+
+    /**
+     * Set the active filters.
+     * @param array $activeFilters
+     */
+    public function setActiveFilters(array $activeFilters) {
+        $this->activeFilters = $activeFilters;
+        return $this;
     }
 }

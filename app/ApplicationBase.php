@@ -224,7 +224,9 @@ class ApplicationBase extends SilexApplication
 
         $this->register(
             new WidgetServiceProvider(),
-            []
+            [
+                'region_json_location' => $this['config']['search_api']['region-list']
+            ]
         );
 
         $this->register(new MessageBusProvider());

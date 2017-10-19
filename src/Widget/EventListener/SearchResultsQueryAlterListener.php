@@ -43,7 +43,7 @@ class SearchResultsQueryAlterListener
             $widgets = $row->getWidgets();
             foreach ($widgets as $widget) {
                 if ($widget instanceof AlterSearchResultsQueryInterface) {
-                    $widget->alterSearchResultsQuery($searchResultsQueryAlter->getWidgetId(), $searchResultsQueryAlter->getSearchQuery());
+                    $widget->alterSearchResultsQuery($searchResultsQueryAlter);
                 }
             }
         }

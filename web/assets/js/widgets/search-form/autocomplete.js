@@ -14,7 +14,6 @@
                 var $input = $(this)
                     .attr('autocomplete', 'OFF')
                     .attr('aria-autocomplete', 'list');
-                $($input[0].form).submit(CultuurnetWidgets.autocompleteSubmit);
 
                 var uri = $input.data('autocomplete-path');
                 if (!acdb[uri]) {
@@ -154,9 +153,9 @@
      */
     CultuurnetWidgets.jsAC.prototype.highlight = function (node) {
         if (this.selected) {
-            $(this.selected).removeClass('selected');
+            $(this.selected).removeClass('autocomplete-option-selected');
         }
-        $(node).addClass('selected');
+        $(node).addClass('autocomplete-option-selected');
         this.selected = node;
         $(this.ariaLive).html($(this.selected).html());
     };
@@ -165,7 +164,7 @@
      * Unhighlights a suggestion.
      */
     CultuurnetWidgets.jsAC.prototype.unhighlight = function (node) {
-        $(node).removeClass('selected');
+        $(node).removeClass('autocomplete-option-selected');
         this.selected = false;
         $(this.ariaLive).empty();
     };
@@ -174,10 +173,6 @@
      * Hides the autocomplete suggestions.
      */
     CultuurnetWidgets.jsAC.prototype.hidePopup = function (keycode) {
-
-        // Do not hide to allow easier styling.
-        return;
-
 
         // Select item if the right key or mousebutton was pressed.
         if (this.selected && ((keycode && keycode != 46 && keycode != 8 && keycode != 27) || !keycode)) {

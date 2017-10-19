@@ -190,33 +190,40 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     {
         // Determine start & end date.
         $cetTimezone = new \DateTimeZone('CET');
+        $label = '';
         switch ($dateType) {
             case 'today':
                 $startDate = new \DateTime('now', $cetTimezone);
                 $endDate = new \DateTime('now', $cetTimezone);
+                $label = 'Vandaag';
                 break;
             case 'tomorrow':
                 $startDate = new \DateTime('+1 day', $cetTimezone);
                 $endDate = new \DateTime('+1 day', $cetTimezone);
+                $label = 'Morgen';
                 break;
             case 'thisweekend':
                 $startDate = new \DateTime('next Saturday', $cetTimezone);
                 $endDate = new \DateTime('next Sunday', $cetTimezone);
+                $label = 'Dit weekend';
                 break;
             case 'next7days':
                 $startDate = new \DateTime('now', $cetTimezone);
                 $endDate = new \DateTime('+7 days', $cetTimezone);
+                $label = 'Volgende 7 dagen';
                 break;
             case 'next14days':
                 $startDate = new \DateTime('now', $cetTimezone);
                 $endDate = new \DateTime('+14 days', $cetTimezone);
+                $label = 'Volgende 14 dagen';
                 break;
             case 'next30days':
                 $startDate = new \DateTime('now', $cetTimezone);
                 $endDate = new \DateTime('+30 days', $cetTimezone);
+                $label = 'Volgende 30 dagen';
                 break;
             default:
-                return '';
+                return;
                 break;
         }
 
@@ -224,7 +231,10 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         $startDate->setTime(0, 0, 0);
         $endDate->setTime(23, 59, 59);
 
-        return '[' . $startDate->format('c') . ' TO ' . $endDate->format('c') . ']';
+        return [
+            'query' => '[' . $startDate->format('c') . ' TO ' . $endDate->format('c') . ']',
+            'label' => $label,
+        ];
     }
 
     /**

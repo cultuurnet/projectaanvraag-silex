@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
 use CultuurNet\ProjectAanvraag\Widget\JavascriptResponse;
 use CultuurNet\ProjectAanvraag\Widget\LayoutDiscovery;
 use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
+use CultuurNet\ProjectAanvraag\Widget\RegionService;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
@@ -82,19 +83,25 @@ class WidgetController
     protected $debugMode;
 
     /**
+     * @var RegionService
+     */
+    protected $regionService;
+
+    /**
      * WidgetController constructor.
      *
      * @param RendererInterface $renderer
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode, RegionService $regionService)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->debugMode = $debugMode;
+        $this->regionService = $regionService;
 
 /*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
         $doc = json_decode($json, true);
@@ -279,25 +286,9 @@ print_r($test2);
      */
     public function getRegionAutocompleteResult($searchString)
     {
-        return new JsonResponse(['test', 'test2']);
-    }
+        $matches = $this->regionService->getAutocompletResults($searchString);
 
-    /**
-     * Example of a search request.
-     */
-    public function searchExample()
-    {
-        $query = new SearchQuery(true);
-        $query->addParameter(new Facet('regions'));
-        $query->addParameter(new Facet('types'));
-        //$query->addParameter(new Labels('bouwen'));
-        //$query->addParameter(new Labels('Kiditech'));
-        $query->addParameter(new Query('regions:gem-leuven OR regions:gem-gent'));
-
-        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
-
-        $result = $this->searchClient->searchEvents($query);
-        print_r($result);
-        die();
+        // Only return 5 matches.
+        return new JsonResponse(array_slice($matches, 0,5));
     }
 }

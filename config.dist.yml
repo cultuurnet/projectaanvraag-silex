@@ -52,6 +52,7 @@ insightly:
 # Search API settings
 search_api:
   base_url: https://search-acc.uitdatabank.be
+  region-list: # location of the region export
   api_key:
   cache:
     enabled: true
