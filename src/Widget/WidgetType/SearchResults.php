@@ -252,6 +252,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled":"boolean",
  *                      "labels":"string"
  *                  }
+ *              },
+ *              "image":{
+ *                  "enabled":"boolean",
+ *                  "width":"integer",
+ *                  "height":"integer",
+ *                  "default_image":"boolean",
+ *                  "position":"string"
  *              }
  *          }
  *     }
@@ -359,7 +366,7 @@ class SearchResults extends WidgetTypeBase
 
             if (!empty($searchResultOptions['hide-long-term'])) {
                 $extraFilters['hide-long-term'] = true;
-                $query->addParameter(new Query('!' . CalendarType::TYPE_PERIODIC));
+                $query->addParameter(new Query('!(calendarType:' . CalendarType::TYPE_PERIODIC . ')'));
             }
 
             if (!empty($searchResultOptions['hide-permanent'])) {

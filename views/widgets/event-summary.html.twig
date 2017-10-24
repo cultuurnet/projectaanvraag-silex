@@ -10,13 +10,13 @@
 
     <div class="{% if settings_items.image.enabled %}cnw_col-9 {% else %} cnw_col-12{% endif %}">
         <div class="cnw_card-block ">
-            <h3 class="cnw_card-title">
+            <h2 class="cnw_card-title">
                 {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
                 <a href="{{ event.detail_link }}">{{ event.name }}</a>
                 {% else %}
                 {{ event.name }}
                 {% endif %}
-            </h3>
+            </h2>
             <span class="cnw_stickers ">
                 {% if settings_items.icon_vlieg.enabled and event.vlieg %}
                     <span class="cnw_sticker cnw_sticker--vlieg">

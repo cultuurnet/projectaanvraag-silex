@@ -8,6 +8,7 @@ use CultuurNet\SearchV3\ValueObjects\FacetResults;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
 use Guzzle\Http\Url;
+use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -101,7 +102,6 @@ class TwigPreprocessor
             'id' => $event->getCdbid(),
             'name' => $event->getName()[$langcode] ?? null,
             'description' => $event->getDescription()[$langcode] ?? null,
-            'image' => $event->getImage(),
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'where' => $event->getLocation() ? $event->getLocation()->getName()[$langcode] ?? null : null,
             'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName() : null,
@@ -113,7 +113,7 @@ class TwigPreprocessor
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
-        $image = $variables['image'] ?? $defaultImage;
+        $image = $event->getImage() ?? $defaultImage;
         if (!empty($image)) {
             $url = Url::factory($image);
             $query = $url->getQuery();
@@ -185,6 +185,69 @@ class TwigPreprocessor
 
         $variables['where'] = $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null;
         $variables['when_details'] = $this->formatEventDatesDetail($event, $langcode);
+
+        // Directions are done via direct link too google.
+        if ($event->getLocation()) {
+            $directionData = '';
+            if ($event->getLocation()->getGeo()) {
+                $geoInfo = $event->getLocation()->getGeo();
+                $directionData = $geoInfo->getLatitude() . ',' . $geoInfo->getLongitude();
+            } else {
+                $address = $event->getLocation()->getAddress();
+                $directionData = $address->getStreetAddress() . ' ' . $address->getPostalCode() . ' ' . $address->getAddressLocality();
+            }
+
+            $variables['directions_link'] = 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($directionData);
+        }
+
+        // Price information.
+        $variables['price'] = '';
+        if ($event->getPriceInfo()) {
+            $priceInfo = $event->getPriceInfo()[0];
+            $variables['price'] = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
+            $variables['price'] = str_replace('.', ',', $variables['price']);
+        }
+
+        // Booking information.
+        $variables['booking_info'] = [];
+        if ($event->getBookingInfo()) {
+            $bookingInfo = $event->getBookingInfo();
+            $variables['booking_info'] = [];
+            if ($bookingInfo->getEmail()) {
+                $variables['booking_info']['email'] = $bookingInfo->getEmail();
+            }
+            if ($bookingInfo->getPhone()) {
+                $variables['booking_info']['phone'] = $bookingInfo->getPhone();
+            }
+            if ($bookingInfo->getUrl()) {
+                $variables['booking_info']['url'] = [
+                    'url' => $bookingInfo->getUrl(),
+                    'label' => $bookingInfo->getUrlLabel() ?? $bookingInfo->getUrl(),
+                ];
+            }
+        }
+
+        // Contact info.
+        $variables['contact_info'] = [];
+        $variables['links'] = [];
+        if ($event->getContactPoint()) {
+            $contactPoint = $event->getContactPoint();
+            $variables['contact_info']['emails'] = $contactPoint->getEmails();
+            $variables['contact_info']['phone_numbers'] = $contactPoint->getPhoneNumbers();
+            $variables['links'] = $contactPoint->getUrls();
+        }
+
+        // Language links.
+        $variables['language_switcher'] = [];
+        if (!empty($_SERVER['HTTP_REFERER'])) {
+            $url = Url::factory($_SERVER['HTTP_REFERER']);
+            $query = $url->getQuery();
+            // Language switch links are based on the languages available for the title.
+            foreach (array_keys($event->getName()) as $langcode) {
+                $query['langcode'] = $langcode;
+                $variables['language_switcher'][$langcode] = '<a href="' . $url->__toString() . '">' . strtoupper($langcode) . '</a>';
+            }
+        }
 
         return $variables;
     }
@@ -310,37 +373,53 @@ class TwigPreprocessor
     protected function formatEventDatesSummary(Event $event, string $langcode)
     {
 
-        $originalLocale = setlocale(LC_TIME, '0');
-
         // Switch the time locale to the requested langcode.
         switch ($langcode) {
-            case 'nl':
-                setlocale(LC_TIME, 'nl_NL.UTF-8');
+            case 'fr':
+                $locale = 'fr_FR';
                 break;
 
-            case 'fr':
-                setlocale(LC_TIME, 'fr_FR.UTF-8');
+            case 'nl':
+            default:
+                $locale = 'nl_NL';
+                break;
         }
 
         $summary = '';
         // Multiple and periodic events should show from and to date.
         if ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE || $event->getCalendarType() === Offer::CALENDAR_TYPE_PERIODIC) {
+            $dateFormatter = new IntlDateFormatter(
+                $locale,
+                IntlDateFormatter::FULL,
+                IntlDateFormatter::FULL,
+                date_default_timezone_get(),
+                IntlDateFormatter::GREGORIAN,
+                'd MMMM Y'
+            );
+
             $dateParts = [];
 
             if ($event->getStartDate()) {
-                $dateParts[] = 'van ' . $event->getStartDate()->format('d F Y');
+                $dateParts[] = 'van ' . $dateFormatter->format($event->getStartDate());
             }
 
             if ($event->getEndDate()) {
-                $dateParts[] = 'tot ' . $event->getEndDate()->format('d F Y');
+                $dateParts[] = 'tot ' . $dateFormatter->format($event->getEndDate());
             }
 
             $summary = implode($dateParts, ' ');
         } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
-            $summary = $event->getStartDate()->format('l d F Y');
-        }
+            $dateFormatter = new IntlDateFormatter(
+                $locale,
+                IntlDateFormatter::FULL,
+                IntlDateFormatter::FULL,
+                date_default_timezone_get(),
+                IntlDateFormatter::GREGORIAN,
+                'd MMMM Y'
+            );
 
-        setlocale(LC_TIME, $originalLocale);
+            $summary = $dateFormatter->format($event->getStartDate());
+        }
 
         return $summary;
     }
@@ -354,43 +433,143 @@ class TwigPreprocessor
     protected function formatEventDatesDetail(Event $event, string $langcode)
     {
 
+        // Switch the time locale to the requested langcode.
+        switch ($langcode) {
+            case 'fr':
+                $locale = 'fr_FR';
+                break;
+
+            case 'nl':
+            default:
+                $locale = 'nl_NL';
+                break;
+        }
+
         if ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
+            return $this->formatSingleDate($event->getStartDate(), $event->getEndDate(), $locale);
+        } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_PERIODIC) {
+            return $this->formatPeriod($event->getStartDate(), $event->getEndDate(), $locale);
+        } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
+            $output = '<ul>';
+            $subEvents = $event->getSubEvents();
+            foreach ($subEvents as $subEvent) {
+                $output .= '<li>' . $this->formatSingleDate($subEvent->getStartDate(), $subEvent->getEndDate(), $locale) . '</li>';
+            }
+            $output .= '</ul>';
+
+            return $output;
         }
     }
 
     /**
-     * Format a datetime object to a specific format.
+     * Format the given start and end date as period.
      *
-     * @param \DateTime $datetime
-     * @param string $langcode
+     * @param \DateTime $dateFrom
+     * @param \DateTime $dateTo
+     * @param $locale
      * @return string
      */
-    protected function formatDate(\DateTime $datetime, string $langcode)
+    protected function formatPeriod(\DateTime $dateFrom, \DateTime $dateTo, $locale)
     {
 
-        $originalLocale = setlocale(LC_TIME, '0');
+        $dateFormatter = new IntlDateFormatter(
+            $locale,
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::FULL,
+            date_default_timezone_get(),
+            IntlDateFormatter::GREGORIAN,
+            'd MMMM yyyy'
+        );
 
-        // Switch the time locale to the requested langcode.
-        switch ($langcode) {
-            case 'nl':
-                setlocale(LC_TIME, 'nl_NL');
-                break;
+        $intlDateFrom = $dateFormatter->format($dateFrom);
+        $intlDateTo = $dateFormatter->format($dateTo);
 
-            case 'fr':
-                setlocale(LC_TIME, 'fr_FR');
+        $output = '<p class="cf-period">';
+        $output .= '<span class="cf-from cf-meta">van</span>';
+        $output .= '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . '">';
+        $output .= '<span class="cf-date">' . $intlDateFrom . '</span> </time>';
+        $output .= '<span class="cf-to cf-meta">tot</span>';
+        $output .= '<time itemprop="endDate" datetime="' . $dateTo->format('Y-m-d') . '">';
+        $output .= '<span class="cf-date">' . $intlDateTo . '</span> </time>';
+        $output .= '</p>';
+
+        return $output;
+    }
+
+    /**
+     * Format a single date.
+     *
+     * @param \DateTime $dateFrom
+     * @param \DateTime $dateTo
+     * @param $locale
+     */
+    protected function formatSingleDate(\DateTime $dateFrom, \DateTime $dateTo, $locale)
+    {
+
+        $weekDayFormatter = new IntlDateFormatter(
+            $locale,
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::FULL,
+            date_default_timezone_get(),
+            IntlDateFormatter::GREGORIAN,
+            'EEEE'
+        );
+
+        $dateFormatter = new IntlDateFormatter(
+            $locale,
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::FULL,
+            date_default_timezone_get(),
+            IntlDateFormatter::GREGORIAN,
+            'd MMMM yyyy'
+        );
+
+        $timeFormatter = new IntlDateFormatter(
+            $locale,
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::FULL,
+            new \DateTimeZone('Europe/Brussels'),
+            IntlDateFormatter::GREGORIAN,
+            'HH:mm'
+        );
+
+
+        $startTime = $timeFormatter->format($dateFrom);
+        $endTime = $timeFormatter->format($dateTo);
+
+        if (!empty($startTime)) {
+            $output = '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . 'T' . $startTime . '">';
+        } else {
+            $output = '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . '">';
         }
 
-        // Format date according to language.
-        $fullDate = '';
-        switch ($langcode) {
-            case 'nl':
-                $date = $datetime->format('l d F Y');
-                $time = $datetime->format('h:i');
-                $fullDate = "$date om $time uur";
-                break;
-        }
+        $output .= '<span class="cf-weekday cf-meta">' . $weekDayFormatter->format($dateFrom) . '</span>';
+        $output .= ' ';
+        $output .= '<span class="cf-date">' . $dateFormatter->format($dateFrom) . '</span>';
 
-        return $fullDate;
+        if (!empty($startTime)) {
+            $output .= ' ';
+            if (!empty($endTime)) {
+                $output .= '<span class="cf-from cf-meta">van</span>';
+                $output .= ' ';
+            } else {
+                $output .= '<span class="cf-from cf-meta">om</span>';
+                $output .= ' ';
+            }
+            $output .= '<span class="cf-time">' . $startTime . '</span>';
+            $output .= '</time>';
+            if (!empty($endTime)) {
+                $output .= ' ';
+                $output .= '<span class="cf-to cf-meta">tot</span>';
+                $output .= ' ';
+                $output .= '<time itemprop="endDate" datetime="' . $dateTo->format('Y-m-d') . 'T' . $endTime . '">';
+                $output .= '<span class="cf-time">' . $endTime . '</span>';
+                $output .= '</time>';
+            }
+        } else {
+            $output .= ' </time>';
+        }
+        return $output;
     }
 
     /**
@@ -409,15 +588,12 @@ class TwigPreprocessor
         // Explode range on dash.
         $explRange = explode('-', $range);
 
-        // Build range string according to language.
-        $rangeStr = '';
-        switch ($langcode) {
-            case 'nl':
-                $rangeStr = "Vanaf $explRange[0] jaar tot $explRange[1] jaar.";
-                break;
+        if ($explRange[0] === $explRange[1]) {
+            return $explRange[0] . ' jaar';
         }
-
-        return $rangeStr;
+        
+        // Build range string according to language.
+        return "Vanaf $explRange[0] jaar tot $explRange[1] jaar.";
     }
 
     /**

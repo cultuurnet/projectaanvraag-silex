@@ -10,15 +10,20 @@
         <div class="cnw_region cnw_region-content">
 
 
-            <section id="cnw_block-system-main" class="cnw_block cnw_block-system cnw_clearfix">
+            <section class="cnw_block cnw_block-system cnw_clearfix">
                 <h1 class="cnw_page-title">{{ event.name }}</h1>
 
                 <div class="cnw_detail-summary">
                     <p>
                         {{ event.description }}
                     </p>
-
                 </div>
+
+                {% if settings.icon_vlieg.enabled and event.vlieg %}
+                    <span class="cnw_sticker cnw_sticker--vlieg">
+                        <span class="cnw_txt">{{ event.vlieg }}</span>
+                    </span>
+                {% endif %}
 
                 <p class="cnw_block-title">Info</p>
 
@@ -32,13 +37,17 @@
                         <br/>
                         {{ event.where.address.street }}<br/>
                         {{ event.where.address.postalcode }} {{ event.where.address.city }}
+                        {% if settings.map %}
+                            <br/>
+                            <a href="{{ event.directions_link }} "target="_blank">Hoe geraak ik hier?</a>
+                        {% endif %}
                         {% endif %}
                     </dd>
                     {% endif %}
 
                     {% if settings.when.enabled %}
                     <dt class="cnw_col-3">{{ settings.when.label }}</dt>
-                    <dd class="cnw_col-9">{{ event.when_summary }}</dd>
+                    <dd class="cnw_col-9">{{ event.when_details | raw }}</dd>
                     {% endif %}
 
                     {% if settings.age.enabled and event.age_range %}
@@ -52,17 +61,62 @@
                         </dd>
                     {% endif %}
 
+                    {% if settings.price_information and event.price %}
+                        <dt class="cnw_col-3">Prijs</dt>
+                        <dd class="cnw_col-9">{{ event.price | raw}}</dd>
+                    {% endif %}
+
+                    {% if settings.reservation_information and event.booking_info %}
+                        <dt class="cnw_col-3">Reservaties</dt>
+                        <dd class="cnw_col-9">
+                            {% if (event.booking_info.phone is defined) %}
+                                <li>Bel naar <strong>{{ event.booking_info.phone }}</strong></li>
+                            {% endif %}
+                            {% if (event.booking_info.mail is defined) %}
+                                <li>{{ event.booking_info.phone }}</li>
+                            {% endif %}
+                            {% if (event.booking_info.url is defined) %}
+                                <li><a href="{{ event.booking_info.url.url }}" target="_blank">{{ event.booking_info.url.label }}</a> </li>
+                            {% endif %}
+                        </dd>
+                    {% endif %}
+
                 </dl>
 
                 <dl class="cnw_row">
+                    {% if settings.organizer.enabled and event.organizer %}
+                        <dt class="cnw_col-3">Organisatie</dt>
+                        <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                    {% endif %}
+                    {% if settings.contact_information and event.contact_info and (event.contact_info.emails or event.contact_info.phone_numbers) %}
                     <dt class="cnw_col-3">Contact</dt>
-                    <dd class="cnw_col-9">contact@email.tld</dd>
+                    <dd class="cnw_col-9">
+                        {% for email in event.contact_info.emails %}
+                            <a href="mailto:{{ email }}">{{ email }}</a><br/>
+                        {% endfor %}
+                        {% for phone_number in event.contact_info.phone_numbers %}
+                           {{ phone_number }}<br/>
+                        {% endfor %}
+                    </dd>
+                    {% endif %}
 
+                    {% if settings.contact_information and event.links %}
                     <dt class="cnw_col-3">Links</dt>
-                    <dd class="cnw_col-9"><a href="#">This is a link</a></dd>
+                    <dd class="cnw_col-9">
+                        {% for link in event.links %}
+                            <a href="{{ link }}">{{ link }}</a><br/>
+                        {% endfor %}
+                    </dd>
+                    {% endif %}
 
+                    {% if settings.language_switcher and event.language_switcher|length > 1 %}
                     <dt class="cnw_col-3">Talen</dt>
-                    <dd class="cnw_col-9">NL | FR | DE</dd>
+                    <dd class="cnw_col-9">
+                        {% for link in event.language_switcher %}
+                            {{ link | raw }}
+                        {% endfor %}
+                    </dd>
+                    {% endif %}
 
                     {% if event.labels %}
                     <dt class="cnw_col-3">Labels</dt>

@@ -81,9 +81,9 @@ class Renderer implements RendererInterface
 
         // If there is a search results wiget, always include an empty 1row for a detail page.
         /** @var OneCol $onecol */
-        $onecol = $this->widgetPluginManager->createInstance('one-col');
+        /*$onecol = $this->widgetPluginManager->createInstance('one-col');
         $onecol->addWidget('content', $searchResultWidget);
-        $this->addSettings(['detailPage' => $onecol->render()]);
+        $this->addSettings(['detailPage' => $onecol->render()]);*/
 
         $this->addSettings(['widgetMapping' => $widgetMapping]);
 
