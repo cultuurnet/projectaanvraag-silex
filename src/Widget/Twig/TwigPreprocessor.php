@@ -34,6 +34,8 @@ class TwigPreprocessor
      */
     protected $request;
 
+    protected $cultureFeed;
+
     /**
      * TwigPreprocessor constructor.
      * @param TranslatorInterface $translator
@@ -45,6 +47,7 @@ class TwigPreprocessor
         $this->translator = $translator;
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
+        $this->cultureFeed = $cultureFeed;
     }
 
     /**
@@ -147,7 +150,7 @@ class TwigPreprocessor
 
         $variables['language_icons'] = '';
         if ($totalLanguageIcons) {
-            $variables['language_icons'] = $this->twig->render('widgets/language-icons.html.twig', ['score' => $totalLanguageIcons]);
+            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['score' => $totalLanguageIcons]);
         }
 
         // Strip not allowed types.
@@ -239,6 +242,7 @@ class TwigPreprocessor
 
         // Language links.
         $variables['language_switcher'] = [];
+        $variables['share_links'] = [];
         if (!empty($_SERVER['HTTP_REFERER'])) {
             $url = Url::factory($_SERVER['HTTP_REFERER']);
 
@@ -259,10 +263,41 @@ class TwigPreprocessor
                 'twitter' => 'https://twitter.com/intent/tweet?text='  . urlencode($shareUrl->__toString()),
                 'google_plus' => 'https://plus.google.com/share?url=' . urlencode($shareUrl->__toString()),
             ];
+        }
 
+        $variables['uitpas_promotions'] = '';
+        if ($variables['uitpas'] && $event->getOrganizer()) {
+            $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
+            $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
+
+            try {
+                $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
+                $variables['uitpas_promotions'] = $this->twig->render('widgets/search-results-widget/uitpas-promotions.html.twig', ['promotions' => $this->preprocessUitpasPromotions($uitpasPromotions)]);
+            } catch (\Exception $e) {
+               // Silent fail.
+            }
         }
 
         return $variables;
+    }
+
+    /**
+     * Preprocess the uitpas promotions.
+     * @param \CultureFeed_ResultSet $resultSet
+     */
+    public function preprocessUitpasPromotions(\CultureFeed_ResultSet $resultSet)
+    {
+
+        $promotions = [];
+        /** @var \CultureFeed_Uitpas_Passholder_PointsPromotion $object */
+        foreach ($resultSet->objects as $object) {
+            $promotions[] = [
+                'title' => $object->title,
+                'points' => $object->points,
+            ];
+        }
+
+        return $promotions;
     }
 
     /**
@@ -465,8 +500,11 @@ class TwigPreprocessor
         } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
             $output = '<ul>';
             $subEvents = $event->getSubEvents();
+            $now = new \DateTime();
             foreach ($subEvents as $subEvent) {
-                $output .= '<li>' . $this->formatSingleDate($subEvent->getStartDate(), $subEvent->getEndDate(), $locale) . '</li>';
+                if ($subEvent->getEndDate() > $now) {
+                    $output .= '<li>' . $this->formatSingleDate($subEvent->getStartDate(), $subEvent->getEndDate(), $locale) . '</li>';
+                }
             }
             $output .= '</ul>';
 
