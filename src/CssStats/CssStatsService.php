@@ -2,21 +2,21 @@
 
 namespace CultuurNet\ProjectAanvraag\CssStats;
 
-use GuzzleHttp\Client;
+use Guzzle\Http\ClientInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CssStatsService implements CssStatsServiceInterface
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     protected $client;
 
     /**
      * CssStatsService constructor.
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
@@ -38,11 +38,13 @@ class CssStatsService implements CssStatsServiceInterface
      */
     public function getCssFromUrl($url)
     {
+        $parsedUrl = parse_url($url);
+
         // All scraped CSS content
         $cssContent = '';
 
-        $resonse = $this->client->get($url);
-        $document = $resonse->getBody()->getContents();
+        $response = $this->client->get($url)->send();
+        $document = (string) $response->getBody();
 
         // Create crawler instance from document
         $crawler = new Crawler($document);
@@ -60,8 +62,19 @@ class CssStatsService implements CssStatsServiceInterface
 
         // Fetch all CSS content from the stylesheets and build a single string
         foreach ($cssFiles as $fileUrl) {
-            $response = $this->client->get($fileUrl);
-            $cssContent .= $response->getBody()->getContents();
+            // Attempt to parse the file URL
+            $url = parse_url($fileUrl);
+
+            // Check for relative paths and prepend the request host
+            if (empty($url['scheme']) && substr($fileUrl, 0, 1) === '/') {
+                $fileUrl = ($parsedUrl['scheme'] ?? '') . '://' . ($parsedUrl['host'] ?? '') . $url['path'];
+            }
+
+            // Check if we have a valid URL before attempting the request
+            if (filter_var($fileUrl, FILTER_VALIDATE_URL)) {
+                $response = $this->client->get($fileUrl)->send();
+                $cssContent .= (string) $response->getBody();
+            }
         }
 
         // Get all inline styles
@@ -81,9 +94,11 @@ class CssStatsService implements CssStatsServiceInterface
     {
         $cssStats = new CssStats();
 
-        // Colors
-        $colors = $this->getColors($css);
-        $cssStats->setColors($colors);
+        // Parse the CSS
+        $cssStats->setColors($this->getColors($css));
+        $cssStats->setFontFamilies($this->getFontFamilies($css));
+
+        die(print_r($cssStats->getFontFamilies()));
 
         return $cssStats;
     }
@@ -96,9 +111,8 @@ class CssStatsService implements CssStatsServiceInterface
      */
     private function getColors($css)
     {
-        preg_match_all('/#([a-f0-9]{3}){1,2}\b/i', $css, $matches);
-
         $cssColors = [];
+        preg_match_all('/#([a-f0-9]{3}){1,2}\b/i', $css, $matches);
 
         // Make sure all color codes are 6 chars
         if (!empty($matches[0])) {
@@ -109,5 +123,26 @@ class CssStatsService implements CssStatsServiceInterface
         }
 
         return $cssColors;
+    }
+
+    /**
+     * Get's an array of font families from a string of css.
+     *
+     * @param $css
+     * @return array
+     */
+    private function getFontFamilies($css)
+    {
+        $fontFamilies = [];
+        preg_match_all('/font-family:([\s\S]*?)(;|})/i', $css, $matches);
+
+        // Make sure all color codes are 6 chars
+        if (!empty($matches[1])) {
+            foreach ($matches[1] as $key => $match) {
+                $fontFamilies[] = $match;
+            }
+        }
+
+        return $fontFamilies;
     }
 }

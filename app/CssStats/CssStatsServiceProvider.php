@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\CssStats;
 
-use GuzzleHttp\Client as GuzzleClient;
+use Guzzle\Http\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -14,7 +14,7 @@ class CssStatsServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['css_stats'] = function (Container $app) {
-            $guzzleClient = new GuzzleClient(
+            $guzzleClient = new Client(
                 [
                     'timeout' => $app['css_stats.timeout'] ?? 5,
                     'connect_timeout' => $app['css_stats.connect_timeout'] ?? 1,

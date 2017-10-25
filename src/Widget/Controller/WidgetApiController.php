@@ -384,6 +384,6 @@ class WidgetApiController
             throw new \InvalidArgumentException('Provide a valid URL to scrape.');
         }
 
-        return new JsonResponse($this->cssStatsService->getCssStats($request->query->get('url')));
+        return new JsonResponse($this->cssStatsService->getCssStatsFromUrl($request->query->get('url')));
     }
 }

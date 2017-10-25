@@ -12,7 +12,7 @@ class CssStats implements CssStatsInterface
      *
      * @var array
      */
-    protected $fonts = [];
+    protected $fontFamilies = [];
 
     /**
      * Array of colors.
@@ -36,7 +36,6 @@ class CssStats implements CssStatsInterface
      */
     public function getColors($occurrence = true)
     {
-        // Count and sort
         if ($occurrence) {
             $cssColors = array_count_values($this->colors);
             arsort($cssColors);
@@ -62,6 +61,48 @@ class CssStats implements CssStatsInterface
     public function addColors($colors)
     {
         $this->colors += $colors;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addFontFamily($fontFamily)
+    {
+        $this->fontFamilies[] = $fontFamily;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFontFamilies($occurrence = true)
+    {
+        if ($occurrence) {
+            $fontFamilies = array_count_values($this->fontFamilies);
+            arsort($fontFamilies);
+
+            return $fontFamilies;
+        }
+
+        return $this->fontFamilies;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFontFamilies($fontFamilies)
+    {
+        $this->fontFamilies = $fontFamilies;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addFontFamilies($fontFamilies)
+    {
+        $this->fontFamilies += $fontFamilies;
         return $this;
     }
 }
