@@ -72,8 +72,13 @@ class CssStatsService implements CssStatsServiceInterface
 
             // Check if we have a valid URL before attempting the request
             if (filter_var($fileUrl, FILTER_VALIDATE_URL)) {
-                $response = $this->client->get($fileUrl)->send();
-                $cssContent .= (string) $response->getBody();
+                try {
+                    $response = $this->client->get($fileUrl)->send();
+                    $cssContent .= (string) $response->getBody();
+                } catch (\Throwable $t) {
+                    // Catch all exceptions but don't handle them.
+                    // We don't care if a css file does not load.
+                }
             }
         }
 
@@ -98,8 +103,6 @@ class CssStatsService implements CssStatsServiceInterface
         $cssStats->setColors($this->getColors($css));
         $cssStats->setFontFamilies($this->getFontFamilies($css));
 
-        die(print_r($cssStats->getFontFamilies()));
-
         return $cssStats;
     }
 
@@ -112,13 +115,20 @@ class CssStatsService implements CssStatsServiceInterface
     private function getColors($css)
     {
         $cssColors = [];
-        preg_match_all('/#([a-f0-9]{3}){1,2}\b/i', $css, $matches);
+        $values = $this->getCssPropertyValues('color', $css);
 
         // Make sure all color codes are 6 chars
-        if (!empty($matches[0])) {
-            foreach ($matches[0] as $key => $match) {
-                $color = ltrim($match, '#');
-                $cssColors[] = strlen($color) === 3 ? '#' . strtoupper($color . $color) : '#' .  strtoupper($color);
+        foreach ($values as $value) {
+            // Massage hex values so they are all 6 chars
+            if (substr($value, 0, 1) === '#') {
+                if (strlen($value) === 4) {
+                    $hex = $value;
+                    $value = $hex . substr($hex, 1, 3);
+                }
+            }
+
+            if (!empty($value)) {
+                $cssColors[] = $value;
             }
         }
 
@@ -133,16 +143,32 @@ class CssStatsService implements CssStatsServiceInterface
      */
     private function getFontFamilies($css)
     {
-        $fontFamilies = [];
-        preg_match_all('/font-family:([\s\S]*?)(;|})/i', $css, $matches);
+        return $this->getCssPropertyValues('font-family', $css);
+    }
 
-        // Make sure all color codes are 6 chars
-        if (!empty($matches[1])) {
-            foreach ($matches[1] as $key => $match) {
-                $fontFamilies[] = $match;
+    /**
+     * Get values for a css property from a css string.
+     * @param string $property
+     * @param $css
+     * @return array
+     */
+    private function getCssPropertyValues($property, $css)
+    {
+        $properties = [];
+        preg_match_all('/[^-]'.$property.'\s*:([\s\S]*?)(;|})/i', $css, $values);
+
+        if (!empty($values[1])) {
+            foreach ($values[1] as $value) {
+                // Remove some values we don't want
+                $blackList = ['!important', 'inherit', 'transparent'];
+                $replaced = trim(str_replace($blackList, '', $value));
+
+                if (!empty($replaced)) {
+                    $properties[] = $replaced;
+                }
             }
         }
 
-        return $fontFamilies;
+        return $properties;
     }
 }
