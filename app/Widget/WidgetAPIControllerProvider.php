@@ -20,7 +20,7 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
     {
 
         $app['widget_builder_api_controller'] = function (Application $app) {
-            return new WidgetApiController($app['command_bus'], $app['widget_repository'], $app['widget_type_discovery'], $app['widget_page_deserializer'], $app['security.authorization_checker'], $app['widget_renderer']);
+            return new WidgetApiController($app['command_bus'], $app['widget_repository'], $app['widget_type_discovery'], $app['widget_page_deserializer'], $app['security.authorization_checker'], $app['widget_renderer'], $app['css_stats']);
         };
 
         /* @var ControllerCollection $controllers */
@@ -52,6 +52,8 @@ class WidgetAPIControllerProvider implements ControllerProviderInterface
             ->convert('project', 'project_converter:convert')
             ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
 
+        // Get CSS stats.
+        $controllers->get('api/css-stats', 'widget_builder_api_controller:getCssStats');
 
         return $controllers;
     }

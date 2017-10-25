@@ -6,8 +6,9 @@ use CultuurNet\ProjectAanvraag\Core\CacheProvider;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
-use CultuurNet\ProjectAanvraag\Core\RabbitMQEventListenerProvider;
 use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
+use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceProvider;
+use CultuurNet\ProjectAanvraag\Goutte\GoutteServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
@@ -28,7 +29,6 @@ use Doctrine\ODM\MongoDB\Types\Type;
 use MongoDB\Client;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
@@ -253,6 +253,15 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new ShareProxyServiceProvider(),
             []
+        );
+
+        // CSS stats
+        $this->register(
+            new CssStatsServiceProvider(),
+            [
+                'css_stats.timeout' => $this['config']['css_stats']['timeout'],
+                'css_stats.connect_timeout' => $this['config']['css_stats']['connect_timeout'],
+            ]
         );
     }
 }
