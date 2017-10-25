@@ -126,6 +126,16 @@
                         {% endfor %}
                     </dd>
                     {% endif %}
+
+                    {% if settings.share_buttons and event.share_links %}
+                        <dt class="cnw_col-3">Deel deze pagina</dt>
+                        <dd class="cnw_col-9">
+                            <a href="{{ event.share_links.facebook }}">Facebook</a>
+                            <a href="{{ event.share_links.twitter }}">Twitter</a>
+                            <a href="{{ event.share_links.google_plus }}">Google+</a>
+                        </dd>
+                    {% endif %}
+
                 </dl>
 
 

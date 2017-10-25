@@ -40,7 +40,7 @@ class TwigPreprocessor
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
      */
-    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack)
+    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed)
     {
         $this->translator = $translator;
         $this->twig = $twig;
@@ -241,12 +241,25 @@ class TwigPreprocessor
         $variables['language_switcher'] = [];
         if (!empty($_SERVER['HTTP_REFERER'])) {
             $url = Url::factory($_SERVER['HTTP_REFERER']);
+
             $query = $url->getQuery();
             // Language switch links are based on the languages available for the title.
             foreach (array_keys($event->getName()) as $langcode) {
                 $query['langcode'] = $langcode;
                 $variables['language_switcher'][$langcode] = '<a href="' . $url->__toString() . '">' . strtoupper($langcode) . '</a>';
             }
+
+            // Share links
+            $shareUrl = Url::factory($this->request->getSchemeAndHttpHost() . '/event/' . $event->getCdbid());
+            $shareQuery = $shareUrl->getQuery();
+            $shareQuery['origin'] = $_SERVER['HTTP_REFERER'];
+
+            $variables['share_links'] = [
+                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
+                'twitter' => 'https://twitter.com/intent/tweet?text='  . urlencode($shareUrl->__toString()),
+                'google_plus' => 'https://plus.google.com/share?url=' . urlencode($shareUrl->__toString()),
+            ];
+
         }
 
         return $variables;
