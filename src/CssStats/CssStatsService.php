@@ -26,11 +26,8 @@ class CssStatsService implements CssStatsServiceInterface
      */
     public function getCssStatsFromUrl($url)
     {
-        // Fetch the css content
-        $css = $this->getCssFromUrl($url);
-
-        // Parse
-        return $this->parseCss($css);
+        // Parse the css
+        return $this->parseCss($this->getCssFromUrl($url));
     }
 
     /**
@@ -99,7 +96,7 @@ class CssStatsService implements CssStatsServiceInterface
     {
         $cssStats = new CssStats();
 
-        // Parse the CSS
+        // Set the css properties
         $cssStats->setColors($this->getColors($css));
         $cssStats->setFontFamilies($this->getFontFamilies($css));
 
@@ -143,7 +140,23 @@ class CssStatsService implements CssStatsServiceInterface
      */
     private function getFontFamilies($css)
     {
-        return $this->getCssPropertyValues('font-family', $css);
+        $fontFamilies = [];
+        $values = $this->getCssPropertyValues('font-family', $css);
+
+        foreach ($values as $value) {
+            // Double quotes to single
+            $transformed = str_replace('"', '\'', $value);
+
+            // Whitespace after comma
+            $fonts = explode(',', $transformed);
+            foreach ($fonts as &$font) {
+                trim($font);
+            }
+
+            $fontFamilies[] = implode(', ', $fonts);
+        }
+
+        return $fontFamilies;
     }
 
     /**

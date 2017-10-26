@@ -5,7 +5,7 @@ namespace CultuurNet\ProjectAanvraag\CssStats;
 /**
  * Contains CSS statistics including colors, font families, etc
  */
-class CssStats implements CssStatsInterface
+class CssStats implements CssStatsInterface, \JsonSerializable
 {
     /**
      * Array of font families.
@@ -104,5 +104,16 @@ class CssStats implements CssStatsInterface
     {
         $this->fontFamilies += $fontFamilies;
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'font_families' => $this->getFontFamilies(),
+            'colors' => $this->getColors(),
+        ];
     }
 }

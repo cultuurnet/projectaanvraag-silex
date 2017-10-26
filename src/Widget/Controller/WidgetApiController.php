@@ -362,7 +362,6 @@ class WidgetApiController
      */
     protected function filterOutDraftPage(array $widgetPages)
     {
-
         /** @var WidgetPageInterface $page */
         foreach ($widgetPages as $page) {
             if ($page->isDraft()) {
@@ -370,6 +369,8 @@ class WidgetApiController
                 break;
             }
         }
+
+        return null;
     }
 
     /**
@@ -384,6 +385,9 @@ class WidgetApiController
             throw new \InvalidArgumentException('Provide a valid URL to scrape.');
         }
 
-        return new JsonResponse($this->cssStatsService->getCssStatsFromUrl($request->query->get('url')));
+        $response = new JsonResponse($this->cssStatsService->getCssStatsFromUrl($request->query->get('url')));
+        $response->setTtl(86400);
+
+        return $response;
     }
 }
