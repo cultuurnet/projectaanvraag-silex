@@ -172,18 +172,21 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             // Retrieve current url parameters (for checking active options).
             $urlQueryParams = $this->getFacetParameters();
 
-            if ($this->settings['filters']['what']) {
-                $activeValue = $urlQueryParams['what'] ?? '';
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
-            }
-            if ($this->settings['filters']['where']) {
-                $activeValue = $urlQueryParams['where'] ?? '';
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
-            }
             if ($this->settings['filters']['when']) {
                 $activeValue = $urlQueryParams['when'] ?? '';
                 $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
             }
+
+            if ($this->settings['filters']['where']) {
+                $activeValue = $urlQueryParams['where'] ?? '';
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
+            }
+
+            if ($this->settings['filters']['what']) {
+                $activeValue = $urlQueryParams['what'] ?? '';
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+            }
+
             if ($this->settings['group_filters']['enabled']) {
                 foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
                     $activeValue = $urlQueryParams['custom'][$i] ?? [];
