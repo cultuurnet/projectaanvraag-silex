@@ -1,0 +1,5 @@
+<div>
+    {% for promotion in promotions %}
+        {{ promotion.title }} - {{ promotion.points }} {% if promotion.points == 1 %}punt{% else %}punten{% endif%}<br />
+    {% endfor %}
+</div>

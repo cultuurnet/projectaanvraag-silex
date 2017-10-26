@@ -81,6 +81,35 @@
                         </dd>
                     {% endif %}
 
+                    {% if settings.icon_uitpas.enabled and event.uitpas %}
+                        <span class="cnw_sticker cnw_sticker--uitpas">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 343 180.774">
+                            <defs>
+                                <path id="a" d="M0 .001v180.773l343-30.129v-120.515z"/>
+                            </defs>
+                            <clipPath id="b">
+                                <use xlink:href="#a" overflow="visible"/>
+                            </clipPath>
+                            <linearGradient id="c" gradientUnits="userSpaceOnUse" x1="-202.407" y1="756.838" x2="-201.407" y2="756.838" gradientTransform="matrix(343 0 0 -343 69425.75 259685.594)">
+                                <stop offset="0" class="uit-logo-bg" />
+                                <stop offset="1" class="uit-logo-bg" />
+                                <stop offset="1" class="uit-logo-bg" />
+                            </linearGradient>
+                            <path clip-path="url(#b)" fill="url(#c)" d="M0 .001h343v180.773h-343z"/>
+                            <path  fill="#fff" d="M94.35 95.196c0 3.974-.416 7.174-3.461 10.03-2.72 2.551-6.046 3.443-9.371 3.729-2.902.255-6.69-.186-9.138-1.905-3.368-2.435-4.016-6.027-4.016-10.618v-25.302l9.882.824v22.931c0 1.229-.05 2.892.595 3.996.742 1.139 2.218 1.547 3.462 1.494 1.11-.055 2.494-.478 3.325-1.348 1.247-1.236 1.107-3.082 1.107-4.734v-21.629l7.615.634v21.898zM106.487 106.176l-9.138.756v-22.887l9.138.287v21.844zm0-24.327l-9.138-.401v-7.898l9.138.759v7.54zM124.715 104.82l-9.231.771v-23.185l-6.647-.29v-7.608l22.385 1.868v6.711l-6.507-.283zM60.578 60.988h97.652v58.799h-97.652l78.124-9.801v-39.198z"/>
+                            <path class="uit-logo-text"   d="M260.182 102.723c3.168 12.768 14.135 17.906 26.473 17.906 12.166 0 26.217-5.654 26.217-19.791 0-6.424-2.999-11.907-8.74-14.989-5.138-2.658-11.051-3.601-16.62-4.712-2.228-.516-6.51-1.114-6.51-4.199 0-3.086 3.425-3.77 5.826-3.77 4.54 0 7.794 1.541 9.507 5.912l14.91-4.54c-3.602-10.198-13.452-14.394-23.646-14.394-5.826 0-12.08 1.114-16.877 4.454-4.713 3.343-7.541 8.998-7.541 14.738 0 13.965 13.109 16.959 24.159 19.103 2.656.517 7.196 1.201 7.196 4.798 0 3.258-4.626 3.598-6.938 3.598-5.229 0-9.166-1.885-10.711-7.108l-16.705 2.994zm-35.555-7.368l4.798-17.05 4.798 17.05h-9.596zm16.021 24.417h18.418l-18.418-58.77h-19.018l-18.25 58.77h14.648l3.602-11.563h15.678l3.34 11.563zm-64.168-33.923v-11.395h5.226c4.112 0 8.567.427 8.567 5.655 0 5.482-4.967 5.74-9.08 5.74h-4.713zm0 12.591h9.168c5.653 0 11.479-.856 16.02-4.54 4.369-3.515 6.512-8.826 6.512-14.394 0-6.339-3.254-12.166-8.74-15.42-5.053-2.913-11.478-3.084-17.217-3.084h-23.988v58.77h18.246v-21.332z"/>
+                            <path fill="none" d="M158.235 60.15h154.636v60.479h-154.636z"/>
+                        </svg>
+
+                    </span>
+
+                        {% if event.uitpas_promotions %}
+                            {{ event.uitpas_promotions | raw }}
+                        {% endif %}
+
+                    {% endif %}
+
                 </dl>
 
                 <dl class="cnw_row">
@@ -126,6 +155,20 @@
                         {% endfor %}
                     </dd>
                     {% endif %}
+
+                    {% if settings.share_buttons and event.share_links %}
+                        <dt class="cnw_col-3">Deel deze pagina</dt>
+                        <dd class="cnw_col-9">
+                            <a href="{{ event.share_links.facebook }}"><i class="fa fa-facebook"></i> Facebook</a>
+                            <a href="{{ event.share_links.twitter }}"><i class="fa fa-twitter"></i> Twitter</a>
+                            <a href="{{ event.share_links.google_plus }}"><i class="fa fa-google-plus"></i> Google+</a>
+                        </dd>
+                    {% endif %}
+
+                    {% if settings.back_button.enabled %}
+                        <a href="javascript:history.go(-1);">&laquo; {{ settings.back_button.label }}</a>
+                    {% endif %}
+
                 </dl>
 
 
