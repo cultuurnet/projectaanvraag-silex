@@ -8,6 +8,13 @@ namespace CultuurNet\ProjectAanvraag\CssStats;
 class CssStats implements CssStatsInterface, \JsonSerializable
 {
     /**
+     * The origin of the scraped css.
+     *
+     * @var string
+     */
+    protected $origin;
+
+    /**
      * Array of font families.
      *
      * @var array
@@ -20,6 +27,24 @@ class CssStats implements CssStatsInterface, \JsonSerializable
      * @var array
      */
     protected $colors = [];
+
+    /**
+     * @return string
+     */
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+
+    /**
+     * @param string $origin
+     * @return CssStats
+     */
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
@@ -40,7 +65,7 @@ class CssStats implements CssStatsInterface, \JsonSerializable
             $cssColors = array_count_values($this->colors);
             arsort($cssColors);
 
-            return $cssColors;
+            return $this->formatValueCount($cssColors);
         }
 
         return $this->colors;
@@ -82,7 +107,7 @@ class CssStats implements CssStatsInterface, \JsonSerializable
             $fontFamilies = array_count_values($this->fontFamilies);
             arsort($fontFamilies);
 
-            return $fontFamilies;
+            return $this->formatValueCount($fontFamilies);
         }
 
         return $this->fontFamilies;
@@ -107,11 +132,31 @@ class CssStats implements CssStatsInterface, \JsonSerializable
     }
 
     /**
+     * Format the property count into a keyed array
+     * @param array $values
+     * @return array
+     */
+    private function formatValueCount($values)
+    {
+        $formattedValues = [];
+
+        foreach ($values as $value => $count) {
+            $formattedValues[] = [
+                'value' => $value,
+                'count' => $count,
+            ];
+        }
+
+        return $formattedValues;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
     {
         return [
+            'origin' => $this->getOrigin(),
             'font_families' => $this->getFontFamilies(),
             'colors' => $this->getColors(),
         ];

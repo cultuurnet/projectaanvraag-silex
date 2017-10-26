@@ -23,8 +23,9 @@ interface CssStatsServiceInterface
     /**
      * Parses a css string.
      *
-     * @param $css
+     * @param string $css
+     * @param string $origin
      * @return CssStatsInterface
      */
-    public function parseCss($css);
+    public function parseCss($css, $origin);
 }

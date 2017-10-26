@@ -15,9 +15,15 @@ class CssStatsServiceProvider implements ServiceProviderInterface
     {
         $app['css_stats'] = function (Container $app) {
             $guzzleClient = new Client(
+                '',
                 [
                     'timeout' => $app['css_stats.timeout'] ?? 5,
                     'connect_timeout' => $app['css_stats.connect_timeout'] ?? 1,
+                    'curl.options' => [
+                        CURLOPT_TIMEOUT => $app['css_stats.timeout'],
+                        CURLOPT_CONNECTTIMEOUT => $app['css_stats.connect_timeout'],
+                        CURLOPT_RETURNTRANSFER => true,
+                    ],
                 ]
             );
 

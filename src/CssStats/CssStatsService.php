@@ -27,7 +27,7 @@ class CssStatsService implements CssStatsServiceInterface
     public function getCssStatsFromUrl($url)
     {
         // Parse the css
-        return $this->parseCss($this->getCssFromUrl($url));
+        return $this->parseCss($this->getCssFromUrl($url), $url);
     }
 
     /**
@@ -92,13 +92,14 @@ class CssStatsService implements CssStatsServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function parseCss($css)
+    public function parseCss($css, $origin)
     {
         $cssStats = new CssStats();
 
         // Set the css properties
         $cssStats->setColors($this->getColors($css));
         $cssStats->setFontFamilies($this->getFontFamilies($css));
+        $cssStats->setOrigin($origin);
 
         return $cssStats;
     }
@@ -125,7 +126,7 @@ class CssStatsService implements CssStatsServiceInterface
             }
 
             if (!empty($value)) {
-                $cssColors[] = $value;
+                $cssColors[] = strtoupper($value);
             }
         }
 
