@@ -142,6 +142,14 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return int
      */
     public function getIndex()

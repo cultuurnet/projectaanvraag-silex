@@ -9,6 +9,13 @@ interface WidgetTypeInterface extends \JsonSerializable
 {
 
     /**
+     * Get the id of the widget.
+     *
+     * @return string
+     */
+    public function getId();
+
+    /**
      * Render the widget.
      *
      * @return string

@@ -89,6 +89,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *          },
  *          "detail_page":{
+ *              "map":false,
  *              "price_information":true,
  *              "contact_information":true,
  *              "reservation_information":true,

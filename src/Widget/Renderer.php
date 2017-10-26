@@ -3,6 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\OneCol;
+use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarLeft;
+use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarRight;
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 
 /**
@@ -64,26 +67,41 @@ class Renderer implements RendererInterface
         $widgetMapping = [];
         $rows = $widgetPage->getRows();
         $searchResultWidget = null;
-        foreach ($rows as $row) {
+        $searchResultWidgetRow = null;
+        $searchResultWidgetRowIndex = null;
+        $facetsInRows = [];
+        $rowOutput = [];
+        foreach ($rows as $i => $row) {
             $widgetIds = $row->getWidgetIds();
             foreach ($widgetIds as $widgetId) {
                 $widget = $row->getWidget($widgetId);
                 if (!$searchResultWidget && $widget instanceof SearchResults) {
                     $searchResultWidget = $widget;
+                    $searchResultWidgetRow = $row;
+                    $searchResultWidgetRowIndex = $i;
                 }
+
+                if ($widget instanceof Facets) {
+                    $facetsInRows[$i][] = $widget;
+                }
+
                 $widgetMapping[$widgetId] = $widgetPage->getId();
             }
 
-            $output .= $row->render();
+            $rowOutput[$i] = $row->render();
         }
-        $this->addSettings(['widgetHtml' => $output]);
+
+
+        $this->addSettings(['widgetPageRows' => $rowOutput]);
         $this->addSettings(['widgetPageId' => $widgetPage->getId()]);
 
-        // If there is a search results wiget, always include an empty 1row for a detail page.
-        /** @var OneCol $onecol */
-        /*$onecol = $this->widgetPluginManager->createInstance('one-col');
-        $onecol->addWidget('content', $searchResultWidget);
-        $this->addSettings(['detailPage' => $onecol->render()]);*/
+        // If there is a search results wiget, include the detail page version also.
+        if ($searchResultWidget) {
+            $detailPageRow = $this->getDetailPageRow($searchResultWidgetRow, $searchResultWidgetRowIndex, $facetsInRows);
+            $this->addSettings(['detailPage' => $detailPageRow->render()]);
+            $this->addSettings(['detailPageRowId' => $searchResultWidgetRowIndex]);
+            $this->addSettings(['detailPageWidgetId' => $searchResultWidget->getId()]);
+        }
 
         $this->addSettings(['widgetMapping' => $widgetMapping]);
 
@@ -158,5 +176,66 @@ class Renderer implements RendererInterface
             return 0;
         }
         return ($aWeight < $bWeight) ? -1 : 1;
+    }
+
+    /**
+     * Get a cleaned up row for a detail page.
+     * All facets should get removed, and empty regions after removal should be merged to a new row layout.
+     */
+    protected function getDetailPageRow(LayoutInterface $sourceRow, $sourceRowIndex, $facetsInRows)
+    {
+        $detailPageRow = $sourceRow;
+
+        // If the row also has facets, we need to remove them, and merge regions if needed.
+        if (isset($facetsInRows[$sourceRowIndex])) {
+            // Remove all the facets.
+            foreach ($facetsInRows[$sourceRowIndex] as $widgetToRemove) {
+                $sourceRow->removeWidget($widgetToRemove);
+            }
+
+            // Check if regions have empty regions after the cleanup. If so, merge them.
+
+            // Rows with 2 regions. Merge to 1 col if needed.
+            if ($sourceRow instanceof TwoColSidebarLeft || $sourceRow instanceof TwoColSidebarRight) {
+                $sidebarRegion = $sourceRow instanceof TwoColSidebarRight ? 'sidebar_right' : 'sidebar_left';
+                if ($sourceRow->isRegionEmpty('content') || $sourceRow->isRegionEmpty($sidebarRegion)) {
+                    $detailPageRow = $this->widgetPluginManager->createInstance('one-col');
+                    $widgetIds = $sourceRow->getWidgetIds();
+                    foreach ($widgetIds as $widgetId) {
+                        $detailPageRow->addWidget('content', $sourceRow->getWidget($widgetId));
+                    }
+                }
+            } elseif ($sourceRow->isRegionEmpty('content') || $sourceRow->isRegionEmpty('sidebar_right') || $sourceRow->isRegionEmpty('sidebar_right')) {
+                // Rows with 3 regions. Merge to 1col or 2 col.
+
+                // Only 1 region left? Create a one col.
+                if ($sourceRow->isRegionEmpty('sidebar_right') && $sourceRow->isRegionEmpty('sidebar_left')) {
+                    $detailPageRow = $this->widgetPluginManager->createInstance('one-col');
+                    $widgetIds = $sourceRow->getWidgetIds();
+                    foreach ($widgetIds as $widgetId) {
+                        $detailPageRow->addWidget('content', $sourceRow->getWidget($widgetId));
+                    }
+                } else {
+                    $sidebarRegion = '';
+                    // Create a 2col if one of the regions was not empty.
+                    if ($sourceRow->isRegionEmpty('sidebar_right')) {
+                        $detailPageRow = $this->widgetPluginManager->createInstance('2col-sidebar-left');
+                        $sidebarRegion = 'sidebar_left';
+                    } else {
+                        $detailPageRow = $this->widgetPluginManager->createInstance('2col-sidebar-right');
+                        $sidebarRegion = 'sidebar_right';
+                    }
+
+                    $widgetIds = $sourceRow->getWidgetIds();
+                    $widgetMapping = $sourceRow->getWidgetMapping();
+                    foreach ($widgetIds as $widgetId) {
+                        $region = $widgetMapping[$widgetId] == 'content' ? 'content' : $sidebarRegion;
+                        $detailPageRow->addWidget($region, $sourceRow->getWidget($widgetId));
+                    }
+                }
+            }
+        }
+
+        return $detailPageRow;
     }
 }

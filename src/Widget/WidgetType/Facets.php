@@ -129,10 +129,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
     /**
      * Set the id of the targeted search results widget.
-     */
-
-    /**
-     * Set the id of the targeted search results widget.
      *
      * @param string $targetId
      */
@@ -211,7 +207,14 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     public function renderPlaceholder()
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/facets/facets.js');
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'facets', 'autoload' => false]);
+        return $this->twig->render(
+            'widgets/facets-widget/facet-placeholder.html.twig',
+            [
+                'id' => $this->id,
+                'type' => 'facets',
+                'facet_target_id' => $this->getTargetedSearchResultsWidgetId(),
+            ]
+        );
     }
 
     /**

@@ -104,6 +104,14 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getWidgetMapping()
+    {
+        return $this->widgetMapping;
+    }
+
+    /**
      * Parse the given region content to widgets.
      * @param $regions
      */
@@ -141,6 +149,14 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         }
 
         return $content;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRegionEmpty($region)
+    {
+        return empty($this->regions[$region]) || empty($this->regions[$region]['widgets']);
     }
 
     /**
@@ -186,6 +202,24 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     public function addWidget($region, $widget)
     {
         $this->regions[$region]['widgets'][] = $widget;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeWidget($widget)
+    {
+        if (isset($this->widgetMapping[$widget->getId()])) {
+            $region = $this->widgetMapping[$widget->getId()];
+
+            foreach ($this->regions[$region]['widgets'] as $key => $widgetInRegion) {
+                if ($widgetInRegion->getId() === $widget->getId()) {
+                    unset($this->regions[$region]['widgets'][$key]);
+                }
+            }
+
+            unset($this->widgetMapping[$widget->getId()]);
+        }
     }
 
     /**
