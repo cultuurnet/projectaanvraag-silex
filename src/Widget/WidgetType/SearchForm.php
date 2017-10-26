@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "button_label": "Zoeken"
  *          },
  *          "header": {
- *              "body": "<p>Uit in ...</p>",
+ *              "body": "<p>UiT in ...</p>",
  *          },
  *          "fields": {
  *              "type": {
@@ -43,7 +43,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "keyword_search": {
  *                      "enabled" : true,
  *                      "label": "Waar",
- *                      "placeholder": "",
+ *                      "placeholder": "Bv. Gent, 2000",
  *                  },
  *                  "group_filters": {
  *                      "enabled": false
@@ -52,7 +52,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "time": {
  *                  "date_search": {
  *                      "enabled" : true,
- *                      "label": "Waar",
+ *                      "label": "Wanneer",
  *                      "placeholder": "Kies een periode",
  *                      "options": {
  *                          "today": true,
@@ -295,7 +295,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                         if (isset($this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey])) {
                             $groupFilter = $this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey];
                             foreach ($selectedOptions as $selectedOption) {
-                                if (isset($groupFilter['options'][$selectedOption])) {
+                                if (isset($groupFilter['options'][$selectedOption]) && !empty($groupFilter['options'][$selectedOption]['query'])) {
                                     $advancedQuery[] = $groupFilter['options'][$selectedOption]['query'];
                                     $searchResultsActiveFilters[] = [
                                         'label' => $groupFilter['options'][$selectedOption]['label'],

@@ -53,7 +53,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "characters":200
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{
@@ -95,7 +95,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "share_buttons":true,
  *              "back_button":{
  *                  "enabled":true,
- *                  "label":"Volledig aanbod"
+ *                  "label":"Agenda"
  *              },
  *              "icon_vlieg":{
  *                  "enabled":true
@@ -109,7 +109,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"",
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{

@@ -34,7 +34,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *              "enabled":false,
  *              "filters": {
  *                  {
- *                      "label": "Extra",
+ *                      "label": "Extra opties",
  *                      "type": "link",
  *                      "placeholder": "",
  *                      "options": {

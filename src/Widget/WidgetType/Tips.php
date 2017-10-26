@@ -40,7 +40,7 @@ use Pimple\Container;
  *                  "characters":200
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{
