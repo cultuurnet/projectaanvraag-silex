@@ -142,6 +142,14 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return int
      */
     public function getIndex()
@@ -197,34 +205,50 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                 $endDate = new \DateTime('now', $cetTimezone);
                 $label = 'Vandaag';
                 break;
+
             case 'tomorrow':
                 $startDate = new \DateTime('+1 day', $cetTimezone);
                 $endDate = new \DateTime('+1 day', $cetTimezone);
                 $label = 'Morgen';
                 break;
+
             case 'thisweekend':
-                $startDate = new \DateTime('next Saturday', $cetTimezone);
-                $endDate = new \DateTime('next Sunday', $cetTimezone);
+                $now = new \DateTime();
+                // Check if we are already in a weekend or not.
+                if ($now->format('N') == 6) {
+                    $startDate = $now;
+                    $endDate = new \DateTime('next Sunday', $cetTimezone);
+                } elseif ($now->format('N') == 7) {
+                    $startDate = $now;
+                    $endDate = $now;
+                } else {
+                    $startDate = new \DateTime('next Saturday', $cetTimezone);
+                    $endDate = new \DateTime('next Sunday', $cetTimezone);
+                }
+
                 $label = 'Dit weekend';
                 break;
+
             case 'next7days':
                 $startDate = new \DateTime('now', $cetTimezone);
                 $endDate = new \DateTime('+7 days', $cetTimezone);
                 $label = 'Volgende 7 dagen';
                 break;
+
             case 'next14days':
                 $startDate = new \DateTime('now', $cetTimezone);
                 $endDate = new \DateTime('+14 days', $cetTimezone);
                 $label = 'Volgende 14 dagen';
                 break;
+
             case 'next30days':
                 $startDate = new \DateTime('now', $cetTimezone);
                 $endDate = new \DateTime('+30 days', $cetTimezone);
                 $label = 'Volgende 30 dagen';
                 break;
+
             default:
                 return;
-                break;
         }
 
         // Set time and format to ISO-8601 and set correct start and end hour.

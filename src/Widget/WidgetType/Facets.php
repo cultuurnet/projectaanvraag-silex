@@ -34,7 +34,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *              "enabled":false,
  *              "filters": {
  *                  {
- *                      "label": "Extra",
+ *                      "label": "Extra opties",
  *                      "type": "link",
  *                      "placeholder": "",
  *                      "options": {
@@ -129,10 +129,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
     /**
      * Set the id of the targeted search results widget.
-     */
-
-    /**
-     * Set the id of the targeted search results widget.
      *
      * @param string $targetId
      */
@@ -172,18 +168,27 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             // Retrieve current url parameters (for checking active options).
             $urlQueryParams = $this->getFacetParameters();
 
-            if ($this->settings['filters']['what']) {
-                $activeValue = $urlQueryParams['what'] ?? '';
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
-            }
-            if ($this->settings['filters']['where']) {
-                $activeValue = $urlQueryParams['where'] ?? '';
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
-            }
             if ($this->settings['filters']['when']) {
-                $activeValue = $urlQueryParams['when'] ?? '';
+                $activeValue = $urlQueryParams['when'] ?? [];
                 $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
             }
+
+            if ($this->settings['filters']['where']) {
+                $activeValue = $urlQueryParams['where'] ?? [];
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
+            }
+
+            if ($this->settings['filters']['what']) {
+                $activeValue = $urlQueryParams['what'] ?? [];
+
+                $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+                $facets[] = $facet;
+                if ($facet['hasActive'] || isset($urlQueryParams['theme'])) {
+                    $activeValue = $urlQueryParams['theme'] ?? [];
+                    $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue);
+                }
+            }
+
             if ($this->settings['group_filters']['enabled']) {
                 foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
                     $activeValue = $urlQueryParams['custom'][$i] ?? [];
@@ -208,7 +213,14 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     public function renderPlaceholder()
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/facets/facets.js');
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'facets', 'autoload' => false]);
+        return $this->twig->render(
+            'widgets/facets-widget/facet-placeholder.html.twig',
+            [
+                'id' => $this->id,
+                'type' => 'facets',
+                'facet_target_id' => $this->getTargetedSearchResultsWidgetId(),
+            ]
+        );
     }
 
     /**
@@ -240,6 +252,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             if (!in_array('types', $existingFacets)) {
                 $searchQuery->addParameter(new Facet('types'));
             }
+            if (!in_array('themes', $existingFacets)) {
+                $searchQuery->addParameter(new Facet('themes'));
+            }
         }
         if ($this->settings['filters']['where']) {
             if (!in_array('regions', $existingFacets)) {
@@ -269,12 +284,22 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                         ];
                         break;
 
+                    case 'theme':
+                        $advancedQuery[] = 'terms.id:' . key($value);
+
+                        $searchResultsActiveFilters[] = [
+                            'label' => current($value),
+                            'name' => 'facets[' . $this->index . '][what][' . key($value) . ']',
+                            'is_default' => false,
+                        ];
+                        break;
+
                     case 'where':
                         $advancedQuery[] = 'regions:' . key($value);
 
                         $searchResultsActiveFilters[] = [
                             'label' => current($value),
-                            'name' => 'facets[' . $this->index . '][when][' . key($value) . ']',
+                            'name' => 'facets[' . $this->index . '][where][' . key($value) . ']',
                             'is_default' => false,
                         ];
 
@@ -343,6 +368,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         }
         if ($this->settings['filters']['what'] && isset($facetParameters['what'])) {
             $activeOptions['what'] = $facetParameters['what'];
+        }
+        if ($this->settings['filters']['what'] && isset($facetParameters['theme'])) {
+            $activeOptions['theme'] = $facetParameters['theme'];
         }
         if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
             $activeOptions['where'] = $facetParameters['where'];

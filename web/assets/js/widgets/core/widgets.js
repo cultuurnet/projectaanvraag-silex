@@ -24,6 +24,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             script.src = "//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js";
             script.onload = CultuurnetWidgets.bootstrap;
         }
+
+        CultuurnetWidgets.initTagManager();
     };
 
     /**
@@ -33,7 +35,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // No page id => nothing to do.
         if (!CultuurnetWidgetsSettings.widgetPageId) {
-            console.log('no id');
             return;
         }
 
@@ -44,11 +45,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // If a cdbid is given in url, and a detail page is in settings. Load detail.
         var params = CultuurnetWidgets.getCurrentParams();
-        if (params['cdbid'] && CultuurnetWidgetsSettings.detailPage) {
-            $wrapper.html(CultuurnetWidgetsSettings.detailPage);
-        }
-        else {
-            $wrapper.html(CultuurnetWidgetsSettings.widgetHtml);
+        var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings.detailPage && CultuurnetWidgetsSettings.detailPageRowId;
+
+        $wrapper.html('');
+        for (var i in CultuurnetWidgetsSettings.widgetPageRows) {
+            if (loadDetail && i == CultuurnetWidgetsSettings.detailPageRowId) {
+                $wrapper.append(CultuurnetWidgetsSettings.detailPage);
+            }
+            else {
+                $wrapper.append(CultuurnetWidgetsSettings.widgetPageRows[i]);
+            }
         }
 
         CultuurnetWidgets.attachBehaviors($wrapper);

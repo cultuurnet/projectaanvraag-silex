@@ -1,5 +1,5 @@
 
-<div class="cnw_searchresult">
+<div class="cnw_searchresult" data-view-tracking-category="list" data-view-tracking-page-suffix="/searchresultwidget/list" data-view-tracking-extra-data="{{ tag_manager_data }}">
 
     {% if settings_header.body %}
         <div class="cnw_searchresult_header">
@@ -64,7 +64,7 @@
         <!--  counter END -->
 
         {% for event in events %}
-            {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
+            {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items, 'click_tracking_action' : 'list' } %}
         {% endfor %}
 
         <!--  PAGINATION Start -->

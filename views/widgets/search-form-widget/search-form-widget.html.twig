@@ -63,16 +63,16 @@
                             <option value="tomorrow"{% if defaults.when == 'tomorrow' %} selected{% endif %}>Morgen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.weekend %}
-                            <option value="weekend"{% if defaults.when == 'weekend' %} selected{% endif %}>Dit weekend</option>
+                            <option value="thisweekend"{% if defaults.when == 'thisweekend' %} selected{% endif %}>Dit weekend</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.days_7 %}
-                            <option value="days_7"{% if defaults.when == 'days_7' %} selected{% endif %}>Binnen 7 dagen</option>
+                            <option value="next7days"{% if defaults.when == 'next7days' %} selected{% endif %}>Binnen 7 dagen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.days_14 %}
-                            <option value="days_14"{% if defaults.when == 'days_14' %} selected{% endif %}>Binnen 14 dagen</option>
+                            <option value="next14days"{% if defaults.when == 'next14days' %} selected{% endif %}>Binnen 14 dagen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.days_30 %}
-                            <option value="days_30"{% if defaults.when == 'days_30' %} selected{% endif %}>Binnen 30 dagen</option>
+                            <option value="next30days"{% if defaults.when == 'next30days' %} selected{% endif %}>Binnen 30 dagen</option>
                             {% endif %}
                             {% if settings_fields.time.date_search.options.custom_date %}
                             <option value="custom_date"{% if defaults.when == 'custom_date' %} selected{% endif %}>Aangepaste datum</option>

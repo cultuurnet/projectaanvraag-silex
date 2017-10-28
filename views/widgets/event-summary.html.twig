@@ -12,7 +12,7 @@
         <div class="cnw_card-block ">
             <h2 class="cnw_card-title">
                 {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
-                <a href="{{ event.detail_link }}">{{ event.name }}</a>
+                <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="title">{{ event.name }}</a>
                 {% else %}
                 {{ event.name }}
                 {% endif %}
@@ -100,7 +100,7 @@
             </dl>
 
             {% if settings_items.read_more.enabled %}
-                <a href="{{ event.detail_link }}" class="cnw_btn cnw_btn__card-readmore">{{ settings_items.read_more.label }}</a>
+                <a href="{{ event.detail_link }}" class="cnw_btn cnw_btn__card-readmore" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="readmore">{{ settings_items.read_more.label }}</a>
             {% endif %}
 
         </div>

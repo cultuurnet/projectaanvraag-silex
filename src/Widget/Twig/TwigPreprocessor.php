@@ -34,17 +34,20 @@ class TwigPreprocessor
      */
     protected $request;
 
+    protected $cultureFeed;
+
     /**
      * TwigPreprocessor constructor.
      * @param TranslatorInterface $translator
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
      */
-    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack)
+    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed)
     {
         $this->translator = $translator;
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
+        $this->cultureFeed = $cultureFeed;
     }
 
     /**
@@ -147,7 +150,7 @@ class TwigPreprocessor
 
         $variables['language_icons'] = '';
         if ($totalLanguageIcons) {
-            $variables['language_icons'] = $this->twig->render('widgets/language-icons.html.twig', ['score' => $totalLanguageIcons]);
+            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['score' => $totalLanguageIcons]);
         }
 
         // Strip not allowed types.
@@ -239,17 +242,61 @@ class TwigPreprocessor
 
         // Language links.
         $variables['language_switcher'] = [];
+        $variables['share_links'] = [];
         if (!empty($_SERVER['HTTP_REFERER'])) {
             $url = Url::factory($_SERVER['HTTP_REFERER']);
+
             $query = $url->getQuery();
             // Language switch links are based on the languages available for the title.
             foreach (array_keys($event->getName()) as $langcode) {
                 $query['langcode'] = $langcode;
                 $variables['language_switcher'][$langcode] = '<a href="' . $url->__toString() . '">' . strtoupper($langcode) . '</a>';
             }
+
+            // Share links
+            $shareUrl = Url::factory($this->request->getSchemeAndHttpHost() . '/event/' . $event->getCdbid());
+            $shareQuery = $shareUrl->getQuery();
+            $shareQuery['origin'] = $_SERVER['HTTP_REFERER'];
+
+            $variables['share_links'] = [
+                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
+                'twitter' => 'https://twitter.com/intent/tweet?text='  . urlencode($shareUrl->__toString()),
+                'google_plus' => 'https://plus.google.com/share?url=' . urlencode($shareUrl->__toString()),
+            ];
+        }
+
+        $variables['uitpas_promotions'] = '';
+        if ($variables['uitpas'] && $event->getOrganizer()) {
+            $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
+            $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
+
+            try {
+                $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
+                $variables['uitpas_promotions'] = $this->twig->render('widgets/search-results-widget/uitpas-promotions.html.twig', ['promotions' => $this->preprocessUitpasPromotions($uitpasPromotions)]);
+            } catch (\Exception $e) {
+               // Silent fail.
+            }
         }
 
         return $variables;
+    }
+
+    /**
+     * Preprocess the uitpas promotions.
+     * @param \CultureFeed_ResultSet $resultSet
+     */
+    public function preprocessUitpasPromotions(\CultureFeed_ResultSet $resultSet)
+    {
+        $promotions = [];
+        /** @var \CultureFeed_Uitpas_Passholder_PointsPromotion $object */
+        foreach ($resultSet->objects as $object) {
+            $promotions[] = [
+                'title' => $object->title,
+                'points' => $object->points,
+            ];
+        }
+
+        return $promotions;
     }
 
     /**
@@ -267,19 +314,47 @@ class TwigPreprocessor
             'type' => $type,
             'label' => $label,
             'count' => count($facetResult->getResults()),
-            'options' => [],
         ];
 
-        foreach ($facetResult->getResults() as $result) {
-            $facet['options'][] = [
+        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue);
+
+        return $facet;
+    }
+
+    /**
+     * Get the list of facet options based on the given facet items.
+     */
+    private function getFacetOptions($facetItems, $activeValue)
+    {
+        $hasActive = false;
+        $options = [];
+        foreach ($facetItems as $result) {
+            $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
                 'name' => $result->getNames()['nl'] ?? '',
-                'active' => ($activeValue == $result->getValue() ? true : false),
+                'active' => isset($activeValue[$result->getValue()]),
+                'children' => [],
             ];
+
+            if ($option['active']) {
+                $hasActive = true;
+            }
+
+            if ($result->getChildren()) {
+                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue);
+                if ($option['children']['hasActive']) {
+                    $hasActive = true;
+                }
+            }
+
+            $options[] = $option;
         }
 
-        return $facet;
+        return [
+            'options' => $options,
+            'hasActive' => $hasActive,
+        ];
     }
 
     /**
@@ -305,6 +380,7 @@ class TwigPreprocessor
                 'value' => $option['query'],
                 'name' => $option['label'] ?? '',
                 'active' => (isset($actives[$i]) ? true : false),
+                'children' => [],
             ];
         }
 
@@ -360,6 +436,7 @@ class TwigPreprocessor
                 'value' => $value,
                 'name' => $label,
                 'active' => ($active == $value ? true : false),
+                'children' => [],
             ];
         }
 
@@ -452,8 +529,11 @@ class TwigPreprocessor
         } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
             $output = '<ul>';
             $subEvents = $event->getSubEvents();
+            $now = new \DateTime();
             foreach ($subEvents as $subEvent) {
-                $output .= '<li>' . $this->formatSingleDate($subEvent->getStartDate(), $subEvent->getEndDate(), $locale) . '</li>';
+                if ($subEvent->getEndDate() > $now) {
+                    $output .= '<li>' . $this->formatSingleDate($subEvent->getStartDate(), $subEvent->getEndDate(), $locale) . '</li>';
+                }
             }
             $output .= '</ul>';
 

@@ -226,6 +226,7 @@ class ApplicationBase extends SilexApplication
             new WidgetServiceProvider(),
             [
                 'region_json_location' => $this['config']['search_api']['region-list'],
+                'google_tag_manager' => $this['config']['google_tag_manager'],
             ]
         );
 

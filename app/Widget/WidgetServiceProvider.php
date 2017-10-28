@@ -68,14 +68,14 @@ class WidgetServiceProvider implements ServiceProviderInterface
 
             /** @var RequestContext $requestContext */
             $requestContext = $pimple['request_context'];
-            $renderer = new Renderer($pimple['widget_layout_manager']);
+            $renderer = new Renderer($pimple['widget_layout_manager'], $pimple['google_tag_manager'], $pimple['project_repository']);
             $renderer->addSettings(['apiUrl' => $requestContext->getScheme() . '://' . $requestContext->getHost() . $requestContext->getBaseUrl() . '/widgets/api']);
 
             return $renderer;
         };
 
         $pimple['widget_twig_preprocessor'] = function (Container $pimple) {
-            return new TwigPreprocessor($pimple['translator'], $pimple['twig'], $pimple['request_stack']);
+            return new TwigPreprocessor($pimple['translator'], $pimple['twig'], $pimple['request_stack'], $pimple['culturefeed']);
         };
 
         $pimple['widget_region_service'] = function (Container $pimple) {

@@ -1,0 +1,36 @@
+<!--  Faceted search -->
+<section class="cnw_facetedsearch cnw_facetedsearch--{{ facet.type }}">
+    <h3 class="cnw_block-title">{{ facet.label }}</h3>
+</section>
+
+{% import _self as facet_render %}
+
+{{ facet_render.facet_options(facet, facet.options) }}
+
+{% macro facet_options(facet, options) %}
+
+    {% import _self as facet_render %}
+
+    <ul class="cnw_facet-search">
+    {% for option in options %}
+        <li class="cnw_facet-label {{ option.active ? 'active' : '' }}">
+            {% if option.active %}
+                <span>{{ option.name }} <a href="#" data-facet-type="{{ facet.type }}" data-facet-id="{{ facet.id is defined ? facet.id : '' }}" data-facet-option-id="{{ loop.index0 }}">x</a></span>
+            {% else %}
+                <a href="#" data-facet-type="{{ facet.type }}" data-facet-value="{{ option.value }}" data-facet-id="{{ facet.id is defined ? facet.id : '' }}" data-facet-option-id="{{ loop.index0 }}">{{ option.name }}</a>
+                {% if option.count is defined %}
+                    <small class="cnw_facet-count cnw_push-right">({{ option.count }})</small>
+                {% endif %}
+            {% endif %}
+
+            {% if option.children and (option.active or option.children.hasActive) %}
+                {{ facet_render.facet_options(facet, option.children.options) }}
+            {% endif %}
+
+        </li>
+
+    {% endfor %}
+
+     </ul>
+
+{% endmacro %}

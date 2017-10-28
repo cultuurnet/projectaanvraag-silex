@@ -53,7 +53,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "characters":200
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{
@@ -89,13 +89,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *          },
  *          "detail_page":{
+ *              "map":false,
  *              "price_information":true,
  *              "contact_information":true,
  *              "reservation_information":true,
  *              "share_buttons":true,
  *              "back_button":{
  *                  "enabled":true,
- *                  "label":"Volledig aanbod"
+ *                  "label":"Agenda"
  *              },
  *              "icon_vlieg":{
  *                  "enabled":true
@@ -109,7 +110,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"",
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{
@@ -406,6 +407,23 @@ class SearchResults extends WidgetTypeBase
         // Retrieve pager object.
         $pager = $this->retrievePagerData($this->searchResult->getItemsPerPage(), $this->searchResult->getTotalItems(), (int) $currentPageIndex);
 
+        // Google tag manager wants to have some search terms in the tracked event.
+        $searchedLocation = '';
+        $searchedDate = '';
+        $allActiveFilters = $searchResultsQueryAlter->getActiveFilters();
+        foreach ($allActiveFilters as $activeFilter) {
+            if (strstr($activeFilter['name'], '[when]')) {
+                $searchedDate = $activeFilter['label'];
+            } elseif (strstr($activeFilter['name'], '[where]')) {
+                $searchedLocation = $activeFilter['label'];
+            }
+        }
+
+        $tagManagerData = [
+            'pageTitleSuffix' => $searchedLocation . '|' . $searchedDate . '|' . $currentPageIndex,
+            'search_query' => $query->__toString(),
+        ];
+
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/search-results-widget/search-results-widget.html.twig',
@@ -418,8 +436,9 @@ class SearchResults extends WidgetTypeBase
                 'settings_footer' => $this->settings['footer'],
                 'settings_general' => $this->settings['general'],
                 'id' => $this->index,
-                'active_filters' => $searchResultsQueryAlter->getActiveFilters(),
+                'active_filters' => $allActiveFilters,
                 'extra_filters' => $extraFilters,
+                'tag_manager_data' => json_encode($tagManagerData),
             ]
         );
     }
@@ -452,12 +471,18 @@ class SearchResults extends WidgetTypeBase
             return '';
         }
 
+        $name = $events[0]->getName()['nl'] ?? '';
+        $tagManagerData = [
+            'pageTitleSuffix' => 'Event | ' . $name,
+        ];
+
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/search-results-widget/detail-page.html.twig',
             [
                 'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], 'nl', $this->settings['detail_page']),
                 'settings' => $this->settings['detail_page'],
+                'tag_manager_data' => json_encode($tagManagerData),
             ]
         );
     }
