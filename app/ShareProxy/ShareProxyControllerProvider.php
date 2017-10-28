@@ -23,7 +23,7 @@ class ShareProxyControllerProvider implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/event/{offer}', 'share_proxy_controller:socialShareProxy')
-            ->convert('offer', 'offer_cbid_convertor:convert');
+            ->convert('offer', 'offer_cbid_converter:convert');
 
         return $controllers;
     }

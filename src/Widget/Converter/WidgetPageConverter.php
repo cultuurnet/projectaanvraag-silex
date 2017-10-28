@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Converter;
 
 use CultuurNet\ProjectAanvraag\ConverterInterface;
+use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use Doctrine\ODM\MongoDB\DocumentRepository;

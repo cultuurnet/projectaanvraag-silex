@@ -20,17 +20,17 @@ class WidgetControllerProvider implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/layout/{widgetPage}.js', 'widget_controller:renderPage')
-            ->convert('widgetPage', 'widget_page_convertor:convert');
+            ->convert('widgetPage', 'widget_page_converter:convert');
 
         // Render widgets.
         $controllers->get('/api/render/{widgetPage}/{widgetId}', 'widget_controller:renderWidget')
-            ->convert('widgetPage', 'widget_page_convertor:convert');
+            ->convert('widgetPage', 'widget_page_converter:convert');
         $controllers->get('/api/render/{widgetPage}/{widgetId}/draft', 'widget_controller:renderWidget')
-            ->convert('widgetPage', 'widget_page_convertor:convertToDraft');
+            ->convert('widgetPage', 'widget_page_converter:convertToDraft');
         $controllers->get('/api/render/{widgetPage}/{widgetId}/search-results-with-facets', 'widget_controller:renderSearchResultsWidgetWithFacets')
-            ->convert('widgetPage', 'widget_page_convertor:convert');
+            ->convert('widgetPage', 'widget_page_converter:convert');
         $controllers->get('/api/render/{widgetPage}/{widgetId}/detail', 'widget_controller:renderDetailPage')
-            ->convert('widgetPage', 'widget_page_convertor:convert');
+            ->convert('widgetPage', 'widget_page_converter:convert');
 
         // Autocompletes
         $controllers->get('/autocomplete/regions/{searchString}', 'widget_controller:getRegionAutocompleteResult');

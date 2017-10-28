@@ -17,7 +17,7 @@ class ShareProxyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['offer_cbid_convertor'] = function (Container $pimple) {
+        $pimple['offer_cbid_converter'] = function (Container $pimple) {
             return new OfferCbidConverter($pimple['search_api']);
         };
     }

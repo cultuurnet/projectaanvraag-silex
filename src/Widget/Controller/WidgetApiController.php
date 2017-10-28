@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
@@ -49,6 +50,11 @@ class WidgetApiController
     protected $widgetPageRepository;
 
     /**
+     * @var WidgetPageConverter
+     */
+    protected $widgetPageConverter;
+
+    /**
      * @var WidgetPageEntityDeserializer
      */
     protected $widgetPageDeserializer;
@@ -75,6 +81,7 @@ class WidgetApiController
      * @param DocumentRepository $widgetPageRepository
      * @param WidgetTypeDiscovery $widgetTypeDiscovery
      * @param WidgetPageEntityDeserializer $widgetPageDeserializer
+     * @param WidgetPageConverter $widgetPageConverter
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param RendererInterface $renderer
      * @param CssStatsServiceInterface $cssStatsService
@@ -84,6 +91,7 @@ class WidgetApiController
         DocumentRepository $widgetPageRepository,
         WidgetTypeDiscovery $widgetTypeDiscovery,
         WidgetPageEntityDeserializer $widgetPageDeserializer,
+        WidgetPageConverter $widgetPageConverter,
         AuthorizationCheckerInterface $authorizationChecker,
         RendererInterface $renderer,
         CssStatsServiceInterface $cssStatsService
@@ -91,6 +99,7 @@ class WidgetApiController
         $this->commandBus = $commandBus;
         $this->widgetPageRepository = $widgetPageRepository;
         $this->widgetTypeDiscovery = $widgetTypeDiscovery;
+        $this->widgetPageConverter = $widgetPageConverter;
         $this->widgetPageDeserializer = $widgetPageDeserializer;
         $this->authorizationChecker = $authorizationChecker;
         $this->renderer = $renderer;
@@ -139,7 +148,7 @@ class WidgetApiController
 
         $widgetPages = $this->widgetPageRepository->findBy(
             ['projectId' => (string) $project->getId()],
-            ['title' => 'ASC']
+            ['created' => 'DESC']
         );
 
         $widgetPagesList = [];
@@ -171,23 +180,11 @@ class WidgetApiController
         // Check if user has edit access.
         $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
 
-        // Load widget page if an ID was provided
-        $existingWidgetPages = [];
-        if ($widgetPage->getId()) {
-            $existingWidgetPages = $this->loadExistingWidgetPages($widgetPage->getId(), $project->getId());
-        }
-
-        if (count($existingWidgetPages) > 0) {
-            // Search for a draft version.
-            $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
-
-            // If no draft was found, use the published one as source.
-            if (empty($draftWidgetPage)) {
-                $draftWidgetPage = $existingWidgetPages[0];
-            }
-
+        try {
+            $draftWidgetPage = $this->widgetPageConverter->convertToDraft($widgetPage->getId());
             $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $draftWidgetPage));
-        } else {
+        }
+        catch (NotFoundHttpException $e) {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
 
@@ -290,36 +287,6 @@ class WidgetApiController
         return new JsonResponse();
     }
 
-    /**
-     * temp test
-     */
-    public function test(Request $request)
-    {
-
-        if ($request->getMethod() == 'GET') {
-            $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        } else {
-            $json = $request->getContent();
-        }
-
-        $page = $this->widgetPageDeserializer->deserialize($json);
-
-        $data = [
-            'page' => $page->jsonSerialize(),
-        ];
-
-        $renderer = new Renderer();
-        if ($request->query->has('render')) {
-            if ($widget = $page->getWidget($request->query->get('render'))) {
-                $data['preview'] = $renderer->renderWidget($widget);
-            } else {
-                $data['preview'] = '';
-            }
-        }
-
-        return new JsonResponse($data);
-    }
-
 
     /**
      * Validate if the user has access to given project, for a given widget page.
@@ -335,39 +302,6 @@ class WidgetApiController
 
         if (!$this->authorizationChecker->isGranted($access, $project)) {
             throw new AccessDeniedHttpException();
-        }
-    }
-
-    /**
-     * Load all the existing WidgetPages for a given ID
-     * @param string $pageId
-     * @param integer $projectId
-     * @return array
-     */
-    protected function loadExistingWidgetPages($pageId, $projectId)
-    {
-        return $this->widgetPageRepository->findBy(
-            [
-                'id' => $pageId,
-                'projectId' => (string) $projectId,
-            ]
-        );
-    }
-
-    /**
-     * Filter out the draft version out of a group of widget pages
-     * @param array $widgetPages
-     *
-     * @return WidgetPageInterface|null
-     */
-    protected function filterOutDraftPage(array $widgetPages)
-    {
-        /** @var WidgetPageInterface $page */
-        foreach ($widgetPages as $page) {
-            if ($page->isDraft()) {
-                return $page;
-                break;
-            }
         }
     }
 

@@ -60,7 +60,7 @@ class WidgetServiceProvider implements ServiceProviderInterface
             return new WidgetPageEntityDeserializer($pimple['widget_layout_manager'], $pimple['widget_type_manager']);
         };
 
-        $pimple['widget_page_convertor'] = function (Container $pimple) {
+        $pimple['widget_page_converter'] = function (Container $pimple) {
             return new WidgetPageConverter($pimple['widget_repository'], $pimple['widget_page_deserializer']);
         };
 

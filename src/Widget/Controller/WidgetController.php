@@ -102,32 +102,6 @@ class WidgetController
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->debugMode = $debugMode;
         $this->regionService = $regionService;
-
-/*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        $doc = json_decode($json, true);
-        $collection->insert($doc);
-        die();*/
-
-/*        $layoutDiscovery = new LayoutDiscovery();
-        $layoutDiscovery->register(__DIR__ . '/../WidgetLayout', 'CultuurNet\ProjectAanvraag\Widget\WidgetLayout');
-
-        $typeDiscovery = new WidgetTypeDiscovery();
-        $typeDiscovery->register(__DIR__ . '/../WidgetType', 'CultuurNet\ProjectAanvraag\Widget\WidgetType');
-
-        $layoutManager = new WidgetPluginManager($layoutDiscovery);
-        $test = $layoutManager->createInstance('one-col');
-
-        $widgetTypeManager = new WidgetPluginManager($typeDiscovery);
-        $test2 = $widgetTypeManager->createInstance('search-form');
-print_r($test);
-print_r($test2);
-        die();*/
-
-        /*$results = $collection->find();
-        while ($results->hasNext()) {
-            $document = $results->getNext();
-            //print '<pre>' . print_r($document, true) . '</pre>';
-        }*/
     }
 
     /**
