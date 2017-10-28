@@ -79,5 +79,10 @@ cache:
     host:
     port: 6379
 
+# CSS stats settings
+css_stats:
+  timeout: 5
+  connect_timeout: 1
+
 # Google tag manager code
 google_tag_manager:

@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
+use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceInterface;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
@@ -63,20 +64,37 @@ class WidgetApiController
     protected $renderer;
 
     /**
+     * @var CssStatsServiceInterface
+     */
+    protected $cssStatsService;
+
+    /**
      * WidgetApiController constructor.
      *
+     * @param MessageBusSupportingMiddleware $commandBus
      * @param DocumentRepository $widgetPageRepository
-     * @param WidgetPluginManager $widgetTypePluginManager
+     * @param WidgetTypeDiscovery $widgetTypeDiscovery
      * @param WidgetPageEntityDeserializer $widgetPageDeserializer
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param RendererInterface $renderer
+     * @param CssStatsServiceInterface $cssStatsService
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, DocumentRepository $widgetPageRepository, WidgetTypeDiscovery $widgetTypeDiscovery, WidgetPageEntityDeserializer $widgetPageDeserializer, AuthorizationCheckerInterface $authorizationChecker, RendererInterface $renderer)
-    {
+    public function __construct(
+        MessageBusSupportingMiddleware $commandBus,
+        DocumentRepository $widgetPageRepository,
+        WidgetTypeDiscovery $widgetTypeDiscovery,
+        WidgetPageEntityDeserializer $widgetPageDeserializer,
+        AuthorizationCheckerInterface $authorizationChecker,
+        RendererInterface $renderer,
+        CssStatsServiceInterface $cssStatsService
+    ) {
         $this->commandBus = $commandBus;
         $this->widgetPageRepository = $widgetPageRepository;
         $this->widgetTypeDiscovery = $widgetTypeDiscovery;
         $this->widgetPageDeserializer = $widgetPageDeserializer;
         $this->authorizationChecker = $authorizationChecker;
         $this->renderer = $renderer;
+        $this->cssStatsService = $cssStatsService;
     }
 
     /**
@@ -344,7 +362,6 @@ class WidgetApiController
      */
     protected function filterOutDraftPage(array $widgetPages)
     {
-
         /** @var WidgetPageInterface $page */
         foreach ($widgetPages as $page) {
             if ($page->isDraft()) {
@@ -352,5 +369,23 @@ class WidgetApiController
                 break;
             }
         }
+    }
+
+    /**
+     * Get CSS stats for a given URL
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getCssStats(Request $request)
+    {
+        if (!$request->query->has('url') || !filter_var($request->query->get('url'), FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('Provide a valid URL to scrape.');
+        }
+
+        $response = new JsonResponse($this->cssStatsService->getCssStatsFromUrl($request->query->get('url')));
+        $response->setTtl(86400);
+
+        return $response;
     }
 }
