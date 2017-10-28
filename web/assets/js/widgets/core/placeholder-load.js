@@ -36,6 +36,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                             CultuurnetWidgets.renderDetailPage(widgetId).then(function(response) {
                                 $placeholder.html(response.data);
+                                CultuurnetWidgets.attachBehaviors($placeholder);
                             });
                         }
                         else {

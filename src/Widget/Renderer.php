@@ -2,11 +2,14 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\OneCol;
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarLeft;
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarRight;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * The rendered used to render widget pages or widget details in javascript.
@@ -18,6 +21,16 @@ class Renderer implements RendererInterface
      * @var WidgetPluginManager
      */
     protected $widgetPluginManager;
+
+    /**
+     * @var string
+     */
+    protected $googleTagManagerId;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $projectRepository;
 
     /**
      * @var array
@@ -37,10 +50,14 @@ class Renderer implements RendererInterface
     /**
      * Renderer constructor.
      * @param WidgetPluginManager $widgetPluginManager
+     * @param $googleTagManagerId
+     * @param ProjectServiceInterface $projectService
      */
-    public function __construct(WidgetPluginManager $widgetPluginManager)
+    public function __construct(WidgetPluginManager $widgetPluginManager, $googleTagManagerId, EntityRepository $projectRepository)
     {
         $this->widgetPluginManager = $widgetPluginManager;
+        $this->googleTagManagerId = $googleTagManagerId;
+        $this->projectRepository = $projectRepository;
     }
 
     /**
@@ -61,8 +78,7 @@ class Renderer implements RendererInterface
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/widgets.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/settings-loader.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/placeholder-load.js');
-
-        $output = '';
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/tracking.js');
 
         $widgetMapping = [];
         $rows = $widgetPage->getRows();
@@ -104,6 +120,23 @@ class Renderer implements RendererInterface
         }
 
         $this->addSettings(['widgetMapping' => $widgetMapping]);
+
+        // Add extra info for google tag manager.
+        $criteria = [
+            'id' => $widgetPage->getProjectId(),
+        ];
+
+        /** @var Project $project */
+        $project = $this->projectRepository->findOneBy($criteria);
+        // Add settings for google tag manager.
+        $this->addSettings(
+            [
+            'googleTagManagerId' => $this->googleTagManagerId,
+            'widgetPageTitle' => $widgetPage->getTitle(),
+            'consumerKey' => $project->getLiveConsumerKey(),
+            'consumerName' => $project->getName(),
+            ]
+        );
 
         $this->attachJavascript('CultuurnetWidgets.loadSettings(' . json_encode($this->settings) . ')', 'inline');
 

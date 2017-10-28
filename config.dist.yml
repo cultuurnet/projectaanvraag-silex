@@ -79,3 +79,5 @@ cache:
     host:
     port: 6379
 
+# Google tag manager code
+google_tag_manager:

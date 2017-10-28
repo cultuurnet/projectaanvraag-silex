@@ -1,4 +1,4 @@
-<div class="cnw_row cnw_d-flex ">
+<div class="cnw_row cnw_d-flex cnw_searchresult-detail" data-view-tracking-category="detail" data-view-tracking-extra-data="{{ tag_manager_data }}">
 
     {% if settings.image.enabled %}
         <div class="cnw_col-4 {% if settings.image.position == 'right' %} cnw_flex-last {% endif %}">
@@ -76,7 +76,7 @@
                                 <li>{{ event.booking_info.phone }}</li>
                             {% endif %}
                             {% if (event.booking_info.url is defined) %}
-                                <li><a href="{{ event.booking_info.url.url }}" target="_blank">{{ event.booking_info.url.label }}</a> </li>
+                                <li><a href="{{ event.booking_info.url.url }}" target="_blank" data-click-tracking-category="detail" data-click-tracking-action="ticket" data-click-tracking-label="{{ event.name }}">{{ event.booking_info.url.label }}</a> </li>
                             {% endif %}
                         </dd>
                     {% endif %}
@@ -133,7 +133,7 @@
                     <dt class="cnw_col-3">Links</dt>
                     <dd class="cnw_col-9">
                         {% for link in event.links %}
-                            <a href="{{ link }}">{{ link }}</a><br/>
+                            <a href="{{ link }}" data-click-tracking-category="detail" data-click-tracking-action="contact"  data-click-tracking-label="{{ link }}">{{ link }}</a><br/>
                         {% endfor %}
                     </dd>
                     {% endif %}
@@ -159,9 +159,9 @@
                     {% if settings.share_buttons and event.share_links %}
                         <dt class="cnw_col-3">Deel deze pagina</dt>
                         <dd class="cnw_col-9">
-                            <a href="{{ event.share_links.facebook }}"><i class="fa fa-facebook"></i> Facebook</a>
-                            <a href="{{ event.share_links.twitter }}"><i class="fa fa-twitter"></i> Twitter</a>
-                            <a href="{{ event.share_links.google_plus }}"><i class="fa fa-google-plus"></i> Google+</a>
+                            <a href="{{ event.share_links.facebook }}" data-click-tracking-category="detail" data-click-tracking-action="share facebook"><i class="fa fa-facebook"></i> Facebook</a>
+                            <a href="{{ event.share_links.twitter }}" data-click-tracking-category="detail" data-click-tracking-action="share twitter"><i class="fa fa-twitter"></i> Twitter</a>
+                            <a href="{{ event.share_links.google_plus }}" data-click-tracking-category="detail" data-click-tracking-action="share google+"><i class="fa fa-google-plus"></i> Google+</a>
                         </dd>
                     {% endif %}
 
