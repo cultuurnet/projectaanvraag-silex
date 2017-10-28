@@ -369,8 +369,6 @@ class WidgetApiController
                 break;
             }
         }
-
-        return null;
     }
 
     /**

@@ -6,6 +6,9 @@ use Guzzle\Http\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * Provides css stats services.
+ */
 class CssStatsServiceProvider implements ServiceProviderInterface
 {
     /**

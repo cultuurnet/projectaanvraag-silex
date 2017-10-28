@@ -5,6 +5,9 @@ namespace CultuurNet\ProjectAanvraag\CssStats;
 use Guzzle\Http\ClientInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Service to get the css stats.
+ */
 class CssStatsService implements CssStatsServiceInterface
 {
     /**

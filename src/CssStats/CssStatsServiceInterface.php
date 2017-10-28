@@ -2,6 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\CssStats;
 
+/**
+ * Provides an interface to describe css stats services.
+ */
 interface CssStatsServiceInterface
 {
     /**
