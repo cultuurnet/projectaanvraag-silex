@@ -287,7 +287,6 @@ class TwigPreprocessor
      */
     public function preprocessUitpasPromotions(\CultureFeed_ResultSet $resultSet)
     {
-
         $promotions = [];
         /** @var \CultureFeed_Uitpas_Passholder_PointsPromotion $object */
         foreach ($resultSet->objects as $object) {
@@ -315,19 +314,47 @@ class TwigPreprocessor
             'type' => $type,
             'label' => $label,
             'count' => count($facetResult->getResults()),
-            'options' => [],
         ];
 
-        foreach ($facetResult->getResults() as $result) {
-            $facet['options'][] = [
+        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue);
+
+        return $facet;
+    }
+
+    /**
+     * Get the list of facet options based on the given facet items.
+     */
+    private function getFacetOptions($facetItems, $activeValue)
+    {
+        $hasActive = false;
+        $options = [];
+        foreach ($facetItems as $result) {
+            $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
                 'name' => $result->getNames()['nl'] ?? '',
-                'active' => ($activeValue == $result->getValue() ? true : false),
+                'active' => isset($activeValue[$result->getValue()]),
+                'children' => [],
             ];
+
+            if ($option['active']) {
+                $hasActive = true;
+            }
+
+            if ($result->getChildren()) {
+                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue);
+                if ($option['children']['hasActive']) {
+                    $hasActive = true;
+                }
+            }
+
+            $options[] = $option;
         }
 
-        return $facet;
+        return [
+            'options' => $options,
+            'hasActive' => $hasActive,
+        ];
     }
 
     /**
@@ -353,6 +380,7 @@ class TwigPreprocessor
                 'value' => $option['query'],
                 'name' => $option['label'] ?? '',
                 'active' => (isset($actives[$i]) ? true : false),
+                'children' => [],
             ];
         }
 
@@ -408,6 +436,7 @@ class TwigPreprocessor
                 'value' => $value,
                 'name' => $label,
                 'active' => ($active == $value ? true : false),
+                'children' => [],
             ];
         }
 

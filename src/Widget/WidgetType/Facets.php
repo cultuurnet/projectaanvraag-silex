@@ -169,18 +169,24 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $urlQueryParams = $this->getFacetParameters();
 
             if ($this->settings['filters']['when']) {
-                $activeValue = $urlQueryParams['when'] ?? '';
+                $activeValue = $urlQueryParams['when'] ?? [];
                 $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
             }
 
             if ($this->settings['filters']['where']) {
-                $activeValue = $urlQueryParams['where'] ?? '';
+                $activeValue = $urlQueryParams['where'] ?? [];
                 $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
             }
 
             if ($this->settings['filters']['what']) {
-                $activeValue = $urlQueryParams['what'] ?? '';
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+                $activeValue = $urlQueryParams['what'] ?? [];
+
+                $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+                $facets[] = $facet;
+                if ($facet['hasActive'] || isset($urlQueryParams['theme'])) {
+                    $activeValue = $urlQueryParams['theme'] ?? [];
+                    $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue);
+                }
             }
 
             if ($this->settings['group_filters']['enabled']) {
@@ -246,6 +252,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             if (!in_array('types', $existingFacets)) {
                 $searchQuery->addParameter(new Facet('types'));
             }
+            if (!in_array('themes', $existingFacets)) {
+                $searchQuery->addParameter(new Facet('themes'));
+            }
         }
         if ($this->settings['filters']['where']) {
             if (!in_array('regions', $existingFacets)) {
@@ -266,6 +275,16 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             if (is_array($value)) {
                 switch ($key) {
                     case 'what':
+                        $advancedQuery[] = 'terms.id:' . key($value);
+
+                        $searchResultsActiveFilters[] = [
+                            'label' => current($value),
+                            'name' => 'facets[' . $this->index . '][what][' . key($value) . ']',
+                            'is_default' => false,
+                        ];
+                        break;
+
+                    case 'theme':
                         $advancedQuery[] = 'terms.id:' . key($value);
 
                         $searchResultsActiveFilters[] = [
@@ -349,6 +368,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         }
         if ($this->settings['filters']['what'] && isset($facetParameters['what'])) {
             $activeOptions['what'] = $facetParameters['what'];
+        }
+        if ($this->settings['filters']['what'] && isset($facetParameters['theme'])) {
+            $activeOptions['theme'] = $facetParameters['theme'];
         }
         if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
             $activeOptions['where'] = $facetParameters['where'];
