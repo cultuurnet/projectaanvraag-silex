@@ -183,8 +183,7 @@ class WidgetApiController
         try {
             $draftWidgetPage = $this->widgetPageConverter->convertToDraft($widgetPage->getId());
             $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $draftWidgetPage));
-        }
-        catch (NotFoundHttpException $e) {
+        } catch (NotFoundHttpException $e) {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
 
