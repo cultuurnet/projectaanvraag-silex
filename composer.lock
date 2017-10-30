@@ -169,7 +169,7 @@
                 "Apache-2.0"
             ],
             "description": "Authentication service for CultuurNet web services",
-            "time": "2015-08-24 20:22:37"
+            "time": "2015-08-24T20:22:37+00:00"
         },
         {
             "name": "cultuurnet/cdb",
@@ -254,7 +254,7 @@
                 }
             ],
             "description": "Library with a Guzzle 3 replacement for the default, custom-made HTTP library of Culturefeed",
-            "time": "2016-02-23 08:43:30"
+            "time": "2016-02-23T08:43:30+00:00"
         },
         {
             "name": "cultuurnet/culturefeed-php",
@@ -322,7 +322,7 @@
                 }
             ],
             "description": "Culturefeed PHP library",
-            "time": "2017-02-23 10:03:27"
+            "time": "2017-02-23T10:03:27+00:00"
         },
         {
             "name": "cultuurnet/search-v3",
@@ -330,16 +330,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "d2be21b4a9156f04b432dc9172a23e2c3e3ef3e8"
+                "reference": "0a5e978268661240ea8ce283186f537f809cbec5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/d2be21b4a9156f04b432dc9172a23e2c3e3ef3e8",
-                "reference": "d2be21b4a9156f04b432dc9172a23e2c3e3ef3e8",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/0a5e978268661240ea8ce283186f537f809cbec5",
+                "reference": "0a5e978268661240ea8ce283186f537f809cbec5",
                 "shasum": ""
             },
             "require": {
                 "guzzle/guzzle": "~3.9.3"
+            },
+            "require-dev": {
+                "escapestudios/symfony2-coding-standard": "~2.0",
+                "mikey179/vfsstream": "~1.6.2",
+                "phing/phing": "~2.10",
+                "phpunit/phpunit": "~5.7",
+                "satooshi/php-coveralls": "~0.7",
+                "squizlabs/php_codesniffer": "2.6.1"
             },
             "type": "library",
             "autoload": {
@@ -355,10 +363,14 @@
                 {
                     "name": "Nils Destoop",
                     "email": "nils.destoop@wunderkraut.com"
+                },
+                {
+                    "name": "Stijn Swaanen",
+                    "email": "stijn.swaanen@publiq.be"
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2017-10-23 21:40:49"
+            "time": "2017-10-30T14:37:19+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -401,7 +413,7 @@
                 "GPL-3.0"
             ],
             "description": "Silex UiTID authentication provider.",
-            "time": "2016-10-28 15:50:42"
+            "time": "2016-10-28T15:50:42+00:00"
         },
         {
             "name": "cweagans/composer-patches",
@@ -1868,7 +1880,7 @@
             ],
             "authors": [
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 }
             ],
