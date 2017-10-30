@@ -285,6 +285,10 @@ class Project extends PrimaryEntityBase
         return array_filter($data);
     }
 
+    /**
+     * @param string $string
+     * @return string
+     */
     private function stripSlashes($string)
     {
         return str_replace('/', '-', $string);
