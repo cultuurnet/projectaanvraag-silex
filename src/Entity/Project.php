@@ -152,6 +152,12 @@ class Project implements ProjectInterface
     protected $contentFilter;
 
     /**
+     * The total widgets connected with this project.
+     * @var int
+     */
+    protected $totalWidgets;
+
+    /**
      * @return int
      */
     public function getId()
@@ -472,6 +478,23 @@ class Project implements ProjectInterface
     {
         $this->coupon = $coupon;
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setTotalWidgets($totalWidgets)
+    {
+        $this->totalWidgets = $totalWidgets;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTotalWidgets()
+    {
+        return $this->totalWidgets;
     }
 
     /**

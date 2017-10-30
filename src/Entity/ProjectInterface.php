@@ -199,6 +199,16 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     public function getContentFilter();
 
     /**
+     * @param int $totalWidgets
+     */
+    public function setTotalWidgets($totalWidgets);
+
+    /**
+     * @return int
+     */
+    public function getTotalWidgets();
+
+    /**
      * Enrich the project with CultureFeed_Consumer data.
      * @param \CultureFeed_Consumer $consumer
      */

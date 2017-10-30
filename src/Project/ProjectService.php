@@ -4,9 +4,11 @@ namespace CultuurNet\ProjectAanvraag\Project;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\MongoDB\Connection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 
@@ -42,6 +44,11 @@ class ProjectService implements ProjectServiceInterface
     protected $integrationTypeStorage;
 
     /**
+     * @var Connection
+     */
+    protected $mongodbConnection;
+
+    /**
      * Construct the project storage.
      * @param \ICultureFeed $cultureFeedLive
      * @param \ICultureFeed $cultureFeedTest
@@ -49,13 +56,14 @@ class ProjectService implements ProjectServiceInterface
      * @param IntegrationTypeStorageInterface $integrationTypeStorage
      * @param User $user
      */
-    public function __construct(\ICultureFeed $cultureFeedLive, \ICultureFeed $cultureFeedTest, EntityRepository $repository, IntegrationTypeStorageInterface $integrationTypeStorage, User $user)
+    public function __construct(\ICultureFeed $cultureFeedLive, \ICultureFeed $cultureFeedTest, EntityRepository $repository, IntegrationTypeStorageInterface $integrationTypeStorage, User $user, Connection $mongodbConnection)
     {
         $this->culturefeedLive = $cultureFeedLive;
         $this->culturefeedTest = $cultureFeedTest;
         $this->integrationTypeStorage = $integrationTypeStorage;
         $this->projectRepository = $repository;
         $this->user = $user;
+        $this->mongodbConnection = $mongodbConnection;
     }
 
     /**
@@ -153,6 +161,11 @@ class ProjectService implements ProjectServiceInterface
         $integrationType = $this->integrationTypeStorage->load($project->getGroupId());
         if ($integrationType) {
             $project->setGroup($integrationType);
+
+            // For a widgets project, we should set the total widgets connected with it.
+            if ($integrationType->getActionButton() == IntegrationType::ACTION_BUTTON_WIDGETS) {
+                $project->setTotalWidgets($this->getTotalWidgetsForProject($project));
+            }
         }
 
         return $project;
@@ -179,5 +192,14 @@ class ProjectService implements ProjectServiceInterface
             $testConsumer->searchPrefixFilterQuery = $project->getContentFilter();
             $this->culturefeedTest->updateServiceConsumer($testConsumer);
         }
+    }
+
+    /**
+     * Get the total widgets for this project.
+     */
+    private function getTotalWidgetsForProject(ProjectInterface $project)
+    {
+        $collection = $this->mongodbConnection->selectCollection('widgets', 'WidgetPage');
+        return $collection->count(['project_id' => (string) $project->getId()]);
     }
 }

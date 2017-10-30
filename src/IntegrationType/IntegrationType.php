@@ -7,6 +7,12 @@ namespace CultuurNet\ProjectAanvraag\IntegrationType;
  */
 class IntegrationType implements \JsonSerializable
 {
+
+    /**
+     * The action button that targets widget application.
+     */
+    const ACTION_BUTTON_WIDGETS = 'widgets';
+
     /**
      * @var string
      */
@@ -43,7 +49,7 @@ class IntegrationType implements \JsonSerializable
     protected $groupId;
 
     /**
-     * @var array
+     * @var string
      */
     protected $actionButton;
 
@@ -174,7 +180,7 @@ class IntegrationType implements \JsonSerializable
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getActionButton()
     {
@@ -182,7 +188,7 @@ class IntegrationType implements \JsonSerializable
     }
 
     /**
-     * @param array $actionButton
+     * @param string $actionButton
      * @return IntegrationType
      */
     public function setActionButton($actionButton)

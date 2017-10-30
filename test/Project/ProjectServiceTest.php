@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\MongoDB\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -48,8 +49,9 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
         $this->user = $this->getMock(User::class);
         $this->user->id = 'id';
+        $mongoDbConnection = $this->getMock(Connection::class);
 
-        $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $this->projectRepository, $this->integrationTypeStorage, $this->user);
+        $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $this->projectRepository, $this->integrationTypeStorage, $this->user, $mongoDbConnection);
     }
 
     /**

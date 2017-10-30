@@ -14,7 +14,7 @@ class IntegrationTypeTest extends \PHPUnit_Framework_TestCase
     public function testIntegrationType()
     {
         $type = new IntegrationType();
-        $actionButton = ['test' => 'test'];
+        $actionButton = 'test';
 
         $type->setId('api');
         $type->setUrl('http://www.culturefeed.be/api');

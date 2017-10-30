@@ -8,11 +8,7 @@ integration_types:
       extra_info: # list of bullet points that are shown in the footer of the application
         - 'Geschikt voor basisoplossingen'
         - 'Zelf of door CultuurNet in te stellen'
-      action_button:
-        liveUrl: http://tools.uitdatabank.be/authenticated?destination=project/
-        testUrl: http://acc.tools.uitdatabank.be/authenticated?destination=project/
-        urlSuffix: /page
-        text: Widgets bouwen
+      action_button: 'widgets'
       group_id: 'group_id'
   22679:
       name: 'Culturefeed'
