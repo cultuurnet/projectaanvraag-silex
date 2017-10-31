@@ -80,7 +80,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $this->user = $this->getMock(User::class);
         $this->user->id = 123;
 
-        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user);
+        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, 3);
     }
 
     /**
