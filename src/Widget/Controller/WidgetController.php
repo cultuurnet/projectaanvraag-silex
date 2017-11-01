@@ -121,27 +121,24 @@ class WidgetController
     {
         // Determine directory path to store js files.
         $directory = dirname(WWW_ROOT . $request->getPathInfo());
+        $pageId = $widgetPage->getId();
+
+        // Check if js file exists.
+        if (file_exists($directory . '/' . $pageId . '.js')) {
+            return file_get_contents($directory . '/' . $pageId . '.js');
+        }
 
         // Check if page is from old version.
         if ($widgetPage->getVersion() != 3) {
-            $pageId = $widgetPage->getId();
-
-            // Check if js file exists.
-            if (file_exists("$directory/$pageId.js")) {
-                $jsContent = file_get_contents("$directory/$pageId.js");
-            }
-            else {
-                // Retrieve file from old host URL.
-                $jsContent = file_get_contents("$this->legacyHost/widgets/layout/$pageId.js");
-            }
-        }
-        else {
+            // Retrieve file from old host URL.
+            $jsContent = file_get_contents($this->legacyHost . '/' . 'widgets/layout/' . $pageId . '.js');
+        } else {
             $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage));
             $jsContent = $javascriptResponse->getContent();
         }
 
         // Only write the javascript files, when we are not in debug mode.
-        if (!$this->debugMode) {
+        if (!$this->debugMode && $jsContent) {
             if (!file_exists($directory)) {
                 mkdir($directory, 0777, true);
             }

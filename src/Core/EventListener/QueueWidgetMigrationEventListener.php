@@ -9,7 +9,6 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
-
 /**
  * Event listener for queuing old widget data for migration.
  */
@@ -43,15 +42,15 @@ class QueueWidgetMigrationEventListener
 
     /**
      * QueueWidgetMigrationEventListener constructor.
-     * @param Connection $legacy_db
+     * @param Connection $legacyDatabase
      * @param EntityManagerInterface $entityManager
      * @param EntityRepository $repository
      * @param MessageBusSupportingMiddleware $eventBus
      * @param MessageBusSupportingMiddleware $commandBus
      */
-    public function __construct(Connection $legacy_db, EntityManagerInterface $entityManager, EntityRepository $repository, MessageBusSupportingMiddleware $eventBus, MessageBusSupportingMiddleware $commandBus)
+    public function __construct(Connection $legacyDatabase, EntityManagerInterface $entityManager, EntityRepository $repository, MessageBusSupportingMiddleware $eventBus, MessageBusSupportingMiddleware $commandBus)
     {
-        $this->legacyDatabase = $legacy_db;
+        $this->legacyDatabase = $legacyDatabase;
         $this->entityManager = $entityManager;
         $this->projectRepository = $repository;
         $this->eventBus = $eventBus;

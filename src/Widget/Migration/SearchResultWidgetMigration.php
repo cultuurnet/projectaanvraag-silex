@@ -29,17 +29,17 @@ class SearchResultWidgetMigration extends WidgetMigration
             $settings['general']['current_search'] = $legacySettings['control_results']['visual']['results']['current_search']['enabled'];
         }
         // items character limit
-        if (isset($legacySettings['control_results']['visual']['results']['char_limit'])){
+        if (isset($legacySettings['control_results']['visual']['results']['char_limit'])) {
             $settings['items']['description']['characters'] = $legacySettings['control_results']['visual']['results']['char_limit'];
         }
         // items image
         if (isset($legacySettings['control_results']['visual']['results']['image'])) {
-            $img_settings = $legacySettings['control_results']['visual']['results']['image'];
+            $imgSettings = $legacySettings['control_results']['visual']['results']['image'];
             $settings['items']['image'] = [
-                'enabled' => $img_settings['show'],
-                'width' => $img_settings['size']['width'],
-                'height' => $img_settings['size']['height'],
-                'default_image' => (isset($img_settings['show_default']) ? $img_settings['show_default'] : false),
+                'enabled' => $imgSettings['show'],
+                'width' => $imgSettings['size']['width'],
+                'height' => $imgSettings['size']['height'],
+                'default_image' => (isset($imgSettings['show_default']) ? $imgSettings['show_default'] : false),
                 'position' => 'left',
             ];
         }
@@ -53,11 +53,11 @@ class SearchResultWidgetMigration extends WidgetMigration
         }
         // detail image
         if (isset($legacySettings['control_results']['visual']['detail']['image'])) {
-            $img_settings = $legacySettings['control_results']['visual']['detail']['image'];
+            $imgSettings = $legacySettings['control_results']['visual']['detail']['image'];
             $settings['detail_page']['image'] = [
-                'enabled' => $img_settings['show'],
-                'width' => $img_settings['size']['width'],
-                'height' => $img_settings['size']['height'],
+                'enabled' => $imgSettings['show'],
+                'width' => $imgSettings['size']['width'],
+                'height' => $imgSettings['size']['height'],
                 'default_image' => false,
                 'position' => 'left',
             ];
@@ -86,5 +86,4 @@ class SearchResultWidgetMigration extends WidgetMigration
 
         parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
-
 }

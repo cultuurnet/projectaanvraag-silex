@@ -23,12 +23,12 @@ class PushWidgetMigration extends WidgetMigration
         $settings['general']['items'] = (isset($legacySettings['content']['count']) ? $legacySettings['content']['count'] : 3);
         // items image
         if (isset($legacySettings['visual']['image'])) {
-            $img_settings = $legacySettings['visual']['image'];
+            $imgSettings = $legacySettings['visual']['image'];
             $settings['items']['image'] = [
-                'enabled' => $img_settings['show'] ?? false,
-                'width' => $img_settings['size']['width'],
-                'height' => $img_settings['size']['height'],
-                'default_image' => $img_settings['show_default'] ?? false,
+                'enabled' => $imgSettings['show'] ?? false,
+                'width' => $imgSettings['size']['width'],
+                'height' => $imgSettings['size']['height'],
+                'default_image' => $imgSettings['show_default'] ?? false,
                 'position' => 'left',
             ];
         }
@@ -57,5 +57,4 @@ class PushWidgetMigration extends WidgetMigration
 
         parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
-
 }

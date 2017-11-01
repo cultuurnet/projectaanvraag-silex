@@ -62,23 +62,22 @@ class SearchBoxWidgetMigration extends WidgetMigration
             }
             // when default
             if (isset($legacySettings['control_when']['fields']['datetype']['default'])) {
-                $default_date = '';
+                $defaultDate = 'placeholder';
                 switch ($legacySettings['control_when']['fields']['datetype']['default']) {
                     case 'today':
-                        $default_date = 'today';
+                        $defaultDate = 'today';
                         break;
                     case 'tomorrow':
-                        $default_date = 'tomorrow';
+                        $defaultDate = 'tomorrow';
                         break;
                     case 'thisweekend':
-                        $default_date = 'weekend';
+                        $defaultDate = 'weekend';
                         break;
                     case 'next30days':
-                        $default_date = 'days_30';
+                        $defaultDate = 'days_30';
                         break;
                 }
-                // TODO: double check with new JSON structure.
-                $settings['fields']['time']['date_search']['default_option'] = $default_date;
+                $settings['fields']['time']['date_search']['default_option'] = $defaultDate;
             }
         }
         // url
@@ -96,5 +95,4 @@ class SearchBoxWidgetMigration extends WidgetMigration
 
         parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
-
 }

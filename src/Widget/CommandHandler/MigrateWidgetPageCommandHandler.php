@@ -61,11 +61,11 @@ class MigrateWidgetPageCommandHandler
      * @param EntityRepository $repository
      * @param WidgetPluginManager $widgetLayoutManager
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, Connection $legacy_db, EntityManagerInterface $entityManager, EntityRepository $repository, WidgetPluginManager $widgetLayoutManager)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, Connection $legacyDatabase, EntityManagerInterface $entityManager, EntityRepository $repository, WidgetPluginManager $widgetLayoutManager)
     {
         $this->eventBus = $eventBus;
         $this->documentManager = $documentManager;
-        $this->legacyDatabase = $legacy_db;
+        $this->legacyDatabase = $legacyDatabase;
         $this->entityManager = $entityManager;
         $this->projectRepository = $repository;
         $this->widgetLayoutManager = $widgetLayoutManager;
@@ -147,7 +147,8 @@ class MigrateWidgetPageCommandHandler
      * @param $project
      * @return WidgetPageEntity
      */
-    protected function serializeWidgetPage($data, $project) {
+    protected function serializeWidgetPage($data, $project)
+    {
         $widgetPageEntity = new WidgetPageEntity();
 
         $widgetPageEntity->setVersion(2);
@@ -189,7 +190,8 @@ class MigrateWidgetPageCommandHandler
      * @param $blocks
      * @return array
      */
-    protected function convertBlocksToRows($layout, $blocks) {
+    protected function convertBlocksToRows($layout, $blocks)
+    {
         $rows = [];
         $regionsMain = [];
         $regionsHeader = [];
@@ -202,8 +204,7 @@ class MigrateWidgetPageCommandHandler
 
             if ($block['region'] == 'header') {
                 $regionsHeader['content']['widgets'][] = $widget;
-            }
-            else {
+            } else {
                 // We need to convert the region name to the corresponding v3 name.
                 $regionsMain[$this->convertRegion($block['region'])]['widgets'][] = $widget;
             }
@@ -234,7 +235,8 @@ class MigrateWidgetPageCommandHandler
      * @param $block
      * @return array
      */
-    protected function convertBlockDataToWidget($block) {
+    protected function convertBlockDataToWidget($block)
+    {
         // Build migration class name.
         $explType = explode('_', $block['type']);
         $type = array_pop($explType);
@@ -246,11 +248,13 @@ class MigrateWidgetPageCommandHandler
             // This fixes issues with CSS in settings messing with the character count (for the replace callback).
             $block['settings'] = preg_replace('/";(?!\w:|\}|N)/', '" ;', $block['settings']);
             // Fix character counts in serialized string.
-            $block['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m){
-                $len = strlen($m[2]);
-                $result = "s:$len:\"{$m[2]}\";";
-                return $result;
-            },
+            $block['settings'] = preg_replace_callback(
+                '!s:(\d+):"(.*?)";!s',
+                function ($m) {
+                    $len = strlen($m[2]);
+                    $result = "s:$len:\"{$m[2]}\";";
+                    return $result;
+                },
                 $block['settings']
             );
             $settings = ($block['settings'] != null && $block['settings'] != '' ? unserialize($block['settings']) : []);
@@ -262,8 +266,7 @@ class MigrateWidgetPageCommandHandler
                 'type' => $widgetType,
                 'settings' => $widgetMigration->getSettings(),
             ];
-        }
-        else {
+        } else {
             return [];
         }
         return $widget;
@@ -275,7 +278,8 @@ class MigrateWidgetPageCommandHandler
      * @param $layout
      * @return string
      */
-    protected function convertType($layout) {
+    protected function convertType($layout)
+    {
         switch ($layout) {
             case 'Cultuurnet_Widgets_Layout_SingleBoxLayout':
             case 'Cultuurnet_Widgets_Layout_ContentWithHeaderLayout':
@@ -304,7 +308,8 @@ class MigrateWidgetPageCommandHandler
      * @param $region
      * @return string
      */
-    protected function convertRegion($region) {
+    protected function convertRegion($region)
+    {
         switch ($region) {
             case 'sidebar':
                 return 'sidebar_left';
@@ -323,7 +328,8 @@ class MigrateWidgetPageCommandHandler
      * @param bool $reset
      * @return string
      */
-    protected function getWidgetName($type, $reset = false) {
+    protected function getWidgetName($type, $reset = false)
+    {
         static $countHtml = 0;
         static $countSearchResults = 0;
         static $countSearchBox = 0;

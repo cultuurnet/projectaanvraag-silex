@@ -69,7 +69,8 @@ abstract class WidgetMigration
      * @param $settings
      * @return array
      */
-    protected function extendWithGenericSettings($legacySettings, $settings) {
+    protected function extendWithGenericSettings($legacySettings, $settings)
+    {
         if (isset($legacySettings['control_header']['html']) && $legacySettings['control_header']['html'] != '') {
             $settings['header']['body'] = $legacySettings['control_header']['html'];
         }
@@ -86,7 +87,8 @@ abstract class WidgetMigration
      * @param $settings
      * @return array
      */
-    protected function convertFieldsSettings($legacyFields, $settings) {
+    protected function convertFieldsSettings($legacyFields, $settings)
+    {
         foreach ($legacyFields as $key => $value) {
             $label = '';
             // Change variables when values are subarrays.
@@ -133,5 +135,4 @@ abstract class WidgetMigration
         }
         return $settings;
     }
-
 }

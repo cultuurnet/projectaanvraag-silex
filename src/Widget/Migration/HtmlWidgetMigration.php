@@ -24,5 +24,4 @@ class HtmlWidgetMigration extends WidgetMigration
 
         parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
-
 }

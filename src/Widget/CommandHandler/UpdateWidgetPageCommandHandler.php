@@ -54,6 +54,11 @@ class UpdateWidgetPageCommandHandler extends WidgetPageCommandHandler
         $this->documentManager->persist($widgetPageToSave);
         $this->documentManager->flush();
 
+        // Remove the cached version.
+        if (file_exists(WWW_ROOT . '/widgets/layout/' . $widgetPageToSave->getId() . '.js')) {
+            return unlink(WWW_ROOT . '/widgets/layout/' . $widgetPageToSave->getId() . '.js');
+        }
+
         // Dispatch the event.
         //$this->eventBus->handle(new WidgetPageUpdated($newWidgetPage, $originalWidgetPage));
     }

@@ -45,7 +45,9 @@ class CssMigration
             // This fixes issues with CSS in settings messing with the character count (for the replace callback).
             $block['settings'] = preg_replace('/";(?!\w:|\}|N)/', '" ;', $block['settings']);
             // Fix character counts in serialized string.
-            $block['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m){
+            $block['settings'] = preg_replace_callback(
+                '!s:(\d+):"(.*?)";!s',
+                function ($m) {
                     $len = strlen($m[2]);
                     $result = "s:$len:\"{$m[2]}\";";
                     return $result;
@@ -82,7 +84,8 @@ class CssMigration
      * @param $control
      * @return string
      */
-    protected function getControlCss ($settings, $control) {
+    protected function getControlCss($settings, $control)
+    {
         $css = '';
         $css .= (isset($settings['css']) ? $settings['css'] : '');
 
@@ -99,7 +102,8 @@ class CssMigration
      * @param $wrapperClass
      * @return string
      */
-    protected function convertStyleConfigToCss($config, $wrapperClass) {
+    protected function convertStyleConfigToCss($config, $wrapperClass)
+    {
         $css = '';
 
         // Font.
@@ -166,5 +170,4 @@ class CssMigration
         $css .= ($config['css'] ? $config['css'] . "\n" : '');
         return "$css";
     }
-
 }
