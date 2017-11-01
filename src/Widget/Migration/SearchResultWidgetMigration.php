@@ -64,7 +64,7 @@ class SearchResultWidgetMigration extends WidgetMigration
         }
         // detail icon vlieg
         if (isset($legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'])) {
-            $settings['detail_page']['language_switcher'] = $legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'];
+            $settings['detail_page']['icon_vlieg']['enabled'] = $legacySettings['control_results']['visual']['detail']['logo_vlieg']['show'];
         }
         // detail language icons
         if (isset($legacySettings['control_results']['visual']['detail']['taaliconen']['show'])) {
@@ -72,7 +72,7 @@ class SearchResultWidgetMigration extends WidgetMigration
         }
         // detail language switcher
         if (isset($legacySettings['control_results']['visual']['detail']['multilingual']['show'])) {
-            $settings['detail_page']['language_switcher'] = $legacySettings['control_results']['visual']['detail']['multilingual']['show'];
+            $settings['detail_page']['language_switcher']['enabled'] = $legacySettings['control_results']['visual']['detail']['multilingual']['show'];
         }
         // detail share buttons
         if (isset($legacySettings['control_results']['visual']['detail']['uitid']['share_links'])) {

@@ -131,6 +131,10 @@ abstract class WidgetMigration
                     $settings['items']['labels']['enabled'] = $value;
                     $settings['items']['labels']['label'] = $label;
                     break;
+                case 'performers':
+                    $settings['items']['organizer']['enabled'] = $value;
+                    $settings['items']['organizer']['label'] = $label;
+                    break;
             }
         }
         return $settings;

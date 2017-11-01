@@ -61,7 +61,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"Waar"
  *              },
  *              "organizer":{
- *                  "enabled":false
+ *                  "enabled":false,
+ *                  "label":"Organisatie"
  *              },
  *              "age":{
  *                  "enabled":true,
@@ -118,7 +119,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"Waar"
  *              },
  *              "organizer":{
- *                  "enabled":false
+ *                  "enabled":false,
+ *                  "label":"Organisatie"
  *              },
  *              "age":{
  *                  "enabled":true,
@@ -179,7 +181,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"string"
  *              },
  *              "organizer":{
- *                  "enabled":"boolean"
+ *                  "enabled":"boolean",
+ *                  "label":"string"
  *              },
  *              "age":{
  *                  "enabled":"boolean",
@@ -238,7 +241,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"string"
  *              },
  *              "organizer":{
- *                  "enabled":"boolean"
+ *                  "enabled":"boolean",
+ *                  "label":"string"
  *              },
  *              "age":{
  *                  "enabled":"boolean",
