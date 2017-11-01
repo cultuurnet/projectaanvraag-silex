@@ -66,60 +66,64 @@ class RequestActivationCommandHandler
     public function handle(RequestActivation $requestActivation)
     {
         $project = $requestActivation->getProject();
-        $insightlyProject = $this->insightlyClient->getProject($project->getInsightlyProjectId());
 
-        // Update the pipeline stage.
-        $this->insightlyClient->updateProjectPipelineStage(
-            $project->getInsightlyProjectId(),
-            $this->insightlyConfig['stages']['aanvraag']
-        );
+        // @todo: this shouldn't fail if $project->getInsightlyProjectId() doesn't return a value, instead try creating the project again -> PROJ-43
+        if (!empty($project->getInsightlyProjectId())) {
+            $insightlyProject = $this->insightlyClient->getProject($project->getInsightlyProjectId());
 
-        // Create an organisation. (We can't search on VAT, so always create a new)
-        $organisation = new Organisation();
-        $organisation->setName($requestActivation->getName());
-        // @todo The field is currently not known for test, ask Reinout for real field name.
-        if ($requestActivation->getVatNumber() && !empty($this->insightlyConfig['custom_fields']['vat'])) {
-            $organisation->addCustomField($this->insightlyConfig['custom_fields']['vat'], $requestActivation->getVatNumber());
-        }
+            // Update the pipeline stage.
+            $this->insightlyClient->updateProjectPipelineStage(
+                $project->getInsightlyProjectId(),
+                $this->insightlyConfig['stages']['aanvraag']
+            );
 
-        // Add contact.
-        $contact = new ContactInfo(ContactInfo::TYPE_EMAIL);
-        $contact->setDetail($requestActivation->getEmail());
-        $organisation->getContactInfo()->append($contact);
+            // Create an organisation. (We can't search on VAT, so always create a new)
+            $organisation = new Organisation();
+            $organisation->setName($requestActivation->getName());
 
-        // Address.
-        $givenAddress = $requestActivation->getAddress();
-        $address = new Address();
-        $address->setType('WORK');
-        $address->setStreet($givenAddress->getStreet());
-        $address->setCity($givenAddress->getCity());
-        $address->setPostal($givenAddress->getPostal());
-        $organisation->getAddresses()->append($address);
-
-        // Save organisation
-        $organisation = $this->insightlyClient->createOrganisation($organisation);
-
-        // Save the link organisation > project.
-        $links = $insightlyProject->getLinks();
-        $hasOrganisationLink = false;
-        // Check if existing organisation needs an update.
-        foreach ($links as $link) {
-            if ($link->getOrganisationId()) {
-                $link->setOrganisationId($organisation->getId());
-                $hasOrganisationLink = true;
+            // @todo The field is currently not known for test, ask Reinout for real field name.
+            if ($requestActivation->getVatNumber() && !empty($this->insightlyConfig['custom_fields']['vat'])) {
+                $organisation->addCustomField($this->insightlyConfig['custom_fields']['vat'], $requestActivation->getVatNumber());
             }
+
+            if ($requestActivation->getPayment() && !empty($this->insightlyConfig['custom_fields']['payment'])) {
+                $organisation->addCustomField($this->insightlyConfig['custom_fields']['payment'], $requestActivation->getPayment());
+            }
+
+            // Address.
+            $givenAddress = $requestActivation->getAddress();
+            $address = new Address();
+            $address->setType('WORK');
+            $address->setStreet($givenAddress->getStreet());
+            $address->setCity($givenAddress->getCity());
+            $address->setPostal($givenAddress->getPostal());
+            $organisation->getAddresses()->append($address);
+
+            // Save organisation
+            $organisation = $this->insightlyClient->createOrganisation($organisation);
+
+            // Save the link organisation > project.
+            $links = $insightlyProject->getLinks();
+            $hasOrganisationLink = false;
+            // Check if existing organisation needs an update.
+            foreach ($links as $link) {
+                if ($link->getOrganisationId()) {
+                    $link->setOrganisationId($organisation->getId());
+                    $hasOrganisationLink = true;
+                }
+            }
+
+            // No existing organisation id. Create a new.
+            if (!$hasOrganisationLink) {
+                $link = new Link();
+                $link->setOrganisationId($organisation->getId());
+                $links->append($link);
+            }
+
+            $insightlyProject->setLinks($links);
+
+            $this->insightlyClient->updateProject($insightlyProject);
         }
-
-        // No existing organisation id. Create a new.
-        if (!$hasOrganisationLink) {
-            $link = new Link();
-            $link->setOrganisationId($organisation->getId());
-            $links->append($link);
-        }
-
-        $insightlyProject->setLinks($links);
-
-        $this->insightlyClient->updateProject($insightlyProject);
 
         // Update the project state in local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_WAITING_FOR_PAYMENT);

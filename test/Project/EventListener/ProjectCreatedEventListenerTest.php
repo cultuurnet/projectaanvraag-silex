@@ -219,10 +219,12 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->project->setTestConsumerKey('testkey');
         $contact = new Contact();
         $contact->setId(20);
+        $contact->addContactInfo(ContactInfo::TYPE_EMAIL, 'email@email.com');
 
         $this->localUser->setInsightylContactId(20);
+        $this->localUser->setEmail('email@email.com');
         $this->insightlyClient->expects($this->once())
-            ->method('getContact')
+            ->method('getContactByEmail')
             ->willReturn($contact);
 
         $this->insightlyClient
@@ -257,21 +259,17 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test the handler when the user already exists, but not in insightly.
      */
-    public function testHandleWith404()
+    public function testHandleWithNonExistingAccount()
     {
         $this->setupContact();
         $this->project->setTestConsumerKey('testkey');
         $contact = new Contact();
         $contact->setId(20);
 
-        $exception = new ClientErrorResponseException();
-        $response = new Response(404);
-        $exception->setResponse($response);
-
         $this->localUser->setInsightylContactId(20);
         $this->insightlyClient->expects($this->once())
-            ->method('getContact')
-            ->willThrowException($exception);
+            ->method('getContactByEmail')
+            ->willReturn([]);
 
         $insightlyProject = new Project();
         $this->insightlyClient->expects($this->once())

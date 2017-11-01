@@ -46,6 +46,7 @@ class ConsumeCommand extends Command
     protected function configure()
     {
         $this
+            ->setDescription('Start consuming the rabbitmq messages.')
             ->addOption('memory-limit', 'l', InputOption::VALUE_OPTIONAL, 'Allowed memory for this process', null)
             ->addOption('debug', 'd', InputOption::VALUE_NONE, 'Enable Debugging');
     }

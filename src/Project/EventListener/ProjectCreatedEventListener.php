@@ -42,6 +42,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      */
     public function handle(ProjectEvent $projectCreated)
     {
+
         /**
          * @var ProjectInterface $project
          * @var ProjectCreated $projectCreated
@@ -57,13 +58,10 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
          */
         $createNew = $localUser->getInsightlyContactId() === 0 || $localUser->getInsightlyContactId() === null;
         if (!$createNew) {
-            try {
-                $this->insightlyClient->getContact($localUser->getInsightlyContactId());
-            } catch (ClientErrorResponseException $e) {
-                // User id is not found. Create a new contact.
-                if ($e->getResponse()->getStatusCode() === 404) {
-                    $createNew = true;
-                }
+            // Check whether insightly gives back an empty array or not.
+            // An empty array means that the contact doesn't exists in insightly.
+            if (empty($this->insightlyClient->getContactByEmail($localUser->getEmail()))) {
+                $createNew = true;
             }
         }
 

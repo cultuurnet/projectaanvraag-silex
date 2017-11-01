@@ -21,7 +21,7 @@ class SyncConsumersCommand extends Command
      */
     public function configure()
     {
-        $this->setName('sync-consumers')
+        $this->setName('projectaanvraag:sync-consumers')
             ->setDescription('Sync the culturefeed consumers to the local database.')
             ->addArgument('env', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Which environments do you want to sync (eg. test, live)?');
     }
@@ -43,7 +43,6 @@ class SyncConsumersCommand extends Command
         if (in_array(QueueConsumers::CONSUMER_TYPE_TEST, $env)) {
             $eventBus->handle(new QueueConsumers(QueueConsumers::CONSUMER_TYPE_TEST));
         }
-
         // live
         if (in_array(QueueConsumers::CONSUMER_TYPE_LIVE, $env)) {
             $eventBus->handle(new QueueConsumers(QueueConsumers::CONSUMER_TYPE_LIVE));
