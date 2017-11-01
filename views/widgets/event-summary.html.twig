@@ -1,47 +1,80 @@
 <!--  results - CARD  START -->
+
 <div class="cnw_searchresult--block cnw_row ">
 
-    <div class="cnw_col-4">
-        {% if settings_items.image.enabled %}
-            <div class="cnw_col-12">
+    {% if settings_items.image.enabled %}
+    <div class="cnw_col-3 {% if settings_items.image.position == 'right' %} cnw_flex-last {% endif %}">
                 <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
-            </div>
-        {% endif %}
     </div>
+    {% endif %}
 
-    <div class="cnw_col-8">
-        <div class="card-block ">
-            <h3 class="cnw_card-title">{{ event.name }}</h3>
+    <div class="{% if settings_items.image.enabled %}cnw_col-9 {% else %} cnw_col-12{% endif %}">
+        <div class="cnw_card-block ">
+            <h2 class="cnw_card-title">
+                {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
+                <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="title">{{ event.name }}</a>
+                {% else %}
+                {{ event.name }}
+                {% endif %}
+            </h2>
             <span class="cnw_stickers ">
-                                {% if settings_items.icon_vlieg.enabled %}
-                <span class="cnw_sticker cnw_sticker--vlieg">
-                    <span class="cnw_txt">7+</span>
-                </span>
+                {% if settings_items.icon_vlieg.enabled and event.vlieg %}
+                    <span class="cnw_sticker cnw_sticker--vlieg">
+                        <span class="cnw_txt">{{ event.vlieg }}</span>
+                    </span>
+                {% endif %}
+                {% if settings_items.icon_uitpas.enabled and event.uitpas %}
+                    <span class="cnw_sticker cnw_sticker--uitpas">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 343 180.774">
+                            <defs>
+                                <path id="a" d="M0 .001v180.773l343-30.129v-120.515z"/>
+                            </defs>
+                            <clipPath id="b">
+                                <use xlink:href="#a" overflow="visible"/>
+                            </clipPath>
+                            <linearGradient id="c" gradientUnits="userSpaceOnUse" x1="-202.407" y1="756.838" x2="-201.407" y2="756.838" gradientTransform="matrix(343 0 0 -343 69425.75 259685.594)">
+                                <stop offset="0" class="uit-logo-bg" />
+                                <stop offset="1" class="uit-logo-bg" />
+                                <stop offset="1" class="uit-logo-bg" />
+                            </linearGradient>
+                            <path clip-path="url(#b)" fill="url(#c)" d="M0 .001h343v180.773h-343z"/>
+                            <path  fill="#fff" d="M94.35 95.196c0 3.974-.416 7.174-3.461 10.03-2.72 2.551-6.046 3.443-9.371 3.729-2.902.255-6.69-.186-9.138-1.905-3.368-2.435-4.016-6.027-4.016-10.618v-25.302l9.882.824v22.931c0 1.229-.05 2.892.595 3.996.742 1.139 2.218 1.547 3.462 1.494 1.11-.055 2.494-.478 3.325-1.348 1.247-1.236 1.107-3.082 1.107-4.734v-21.629l7.615.634v21.898zM106.487 106.176l-9.138.756v-22.887l9.138.287v21.844zm0-24.327l-9.138-.401v-7.898l9.138.759v7.54zM124.715 104.82l-9.231.771v-23.185l-6.647-.29v-7.608l22.385 1.868v6.711l-6.507-.283zM60.578 60.988h97.652v58.799h-97.652l78.124-9.801v-39.198z"/>
+                            <path class="uit-logo-text"   d="M260.182 102.723c3.168 12.768 14.135 17.906 26.473 17.906 12.166 0 26.217-5.654 26.217-19.791 0-6.424-2.999-11.907-8.74-14.989-5.138-2.658-11.051-3.601-16.62-4.712-2.228-.516-6.51-1.114-6.51-4.199 0-3.086 3.425-3.77 5.826-3.77 4.54 0 7.794 1.541 9.507 5.912l14.91-4.54c-3.602-10.198-13.452-14.394-23.646-14.394-5.826 0-12.08 1.114-16.877 4.454-4.713 3.343-7.541 8.998-7.541 14.738 0 13.965 13.109 16.959 24.159 19.103 2.656.517 7.196 1.201 7.196 4.798 0 3.258-4.626 3.598-6.938 3.598-5.229 0-9.166-1.885-10.711-7.108l-16.705 2.994zm-35.555-7.368l4.798-17.05 4.798 17.05h-9.596zm16.021 24.417h18.418l-18.418-58.77h-19.018l-18.25 58.77h14.648l3.602-11.563h15.678l3.34 11.563zm-64.168-33.923v-11.395h5.226c4.112 0 8.567.427 8.567 5.655 0 5.482-4.967 5.74-9.08 5.74h-4.713zm0 12.591h9.168c5.653 0 11.479-.856 16.02-4.54 4.369-3.515 6.512-8.826 6.512-14.394 0-6.339-3.254-12.166-8.74-15.42-5.053-2.913-11.478-3.084-17.217-3.084h-23.988v58.77h18.246v-21.332z"/>
+                            <path fill="none" d="M158.235 60.15h154.636v60.479h-154.636z"/>
+                        </svg>
+
+                    </span>
                 {% endif %}
             </span>
 
-            {% if settings_items.description.enabled %}
-                {% if settings_items.description.label %}
-                    <dt class="cnw_col-3">{{ settings_items.description.label }}</dt>
-                    <dd class="cnw_col-9">{{ event.description }}</dd>
-                {% else %}
-                    <p class="cnw_card-description">{{ event.description }}</p>
-                {% endif %}
-            {% endif %}
             <dl class="cnw_row">
+                {% if settings_items.description.enabled %}
+                    <p class="cnw_card-description">
+                    
+                        {% if settings_items.type.enabled and event.type.0 %}
+                            <span class="cnw_badge cnw_badge-default" >
+                                    <i class="fa fa-tags" aria-hidden="true"></i>
+                                {{ event.type.0 }}
+                            </span>
+                        {% endif %}
+                        {{ event.description }}
+                    </p>
+                {% endif %}
+
                 {% if settings_items.where.enabled %}
                     <dt class="cnw_col-3">{{ settings_items.where.label }}</dt>
                     <dd class="cnw_col-9">{{ event.where }}</dd>
                 {% endif %}
 
-                {% if event.organizer %}
+                {% if settings_items.organizer.enabled and event.organizer %}
                     <dt class="cnw_col-3">Organisatie</dt>
                     <dd class="cnw_col-9">{{ event.organizer }}</dd>
                 {% endif %}
 
-                {% if settings_items.when.enabled %}
+                {% if settings_items.when.enabled and event.when_summary %}
                     <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
-                    <dd class="cnw_col-9">{{ event.when_start }}</dd>
+                    <dd class="cnw_col-9">{{ event.when_summary }}</dd>
                 {% endif %}
 
                 {% if settings_items.age.enabled and event.age_range %}
@@ -51,18 +84,23 @@
 
                 {% if settings_items.language_icons.enabled and event.language_icons %}
                     <dt class="cnw_col-3">Taaliconen</dt>
-                    <dd class="cnw_col-9">{{ event.language_icons }}</dd>
+                    <dd class="cnw_col-9">{{ event.language_icons | raw }}
+                    </dd>
                 {% endif %}
 
                 {% if event.labels %}
-                    <div class="cnw_card-labels">
-                        {{ event.labels|join(', ') }}
+                    <div class="cnw_card-labels cnw_col">
+
+                        {%  for label in event.labels %}
+                            <span class="cnw_search-result-tags-item">{{ label }}</span>
+                        {% endfor %}
+
                     </div>
                 {% endif %}
             </dl>
 
             {% if settings_items.read_more.enabled %}
-                <a href="{{ event.detail_link }}" class="cnw_btn cnw_btn__card-readmore">{{ settings_items.read_more.label }}</a>
+                <a href="{{ event.detail_link }}" class="cnw_btn cnw_btn__card-readmore" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="readmore">{{ settings_items.read_more.label }}</a>
             {% endif %}
 
         </div>

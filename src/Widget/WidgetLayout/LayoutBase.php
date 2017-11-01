@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetLayout;
 
 use CultuurNet\ProjectAanvraag\ContainerFactoryPluginInterface;
+use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
@@ -28,7 +29,13 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
      * Mapping of all widgets in this layout.
      * @var array
      */
-    protected $widgets = [];
+    protected $widgetMapping = [];
+
+    /**
+     * Flat list of all widgets in this layout.
+     * @var WidgetType[]
+     */
+    protected $widgets;
 
     /**
      * @var WidgetPluginManager
@@ -47,6 +54,12 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     protected $cleanup;
 
     /**
+     * The last index that was used.
+     * @var int
+     */
+    protected $lastWidgetIndex;
+
+    /**
      * LayoutBase constructor.
      *
      * @param array $pluginDefinition
@@ -61,6 +74,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         $this->widgetManager = $widgetManager;
         $this->twig = $twig;
         $this->cleanup = $cleanup;
+        $this->lastWidgetIndex = $configuration['lastIndex'] ?? -1;
 
         if (isset($configuration['regions'])) {
             $this->parseRegions($configuration['regions']);
@@ -82,6 +96,22 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getLastWidgetIndex()
+    {
+        return $this->lastWidgetIndex;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgetMapping()
+    {
+        return $this->widgetMapping;
+    }
+
+    /**
      * Parse the given region content to widgets.
      * @param $regions
      */
@@ -94,10 +124,10 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
             }
 
             foreach ($region['widgets'] as $widget) {
-                if (!empty($widget)) {
-                    $this->widgets[$widget['id']] = $regionId;
-                    $this->regions[$regionId]['widgets'][$widget['id']] = $this->widgetManager->createInstance($widget['type'], $widget, $this->cleanup);
-                }
+                $this->lastWidgetIndex++;
+                $this->widgetMapping[$widget['id']] = $regionId;
+                $this->regions[$regionId]['widgets'][$widget['id']] = $this->widgetManager->createInstance($widget['type'], $widget, $this->cleanup);
+                $this->regions[$regionId]['widgets'][$widget['id']]->setIndex($this->lastWidgetIndex);
             }
         }
     }
@@ -124,9 +154,17 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     /**
      * {@inheritdoc}
      */
+    public function isRegionEmpty($region)
+    {
+        return empty($this->regions[$region]) || empty($this->regions[$region]['widgets']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function hasWidget($widgetId)
     {
-        return isset($this->widgets[$widgetId]);
+        return isset($this->widgetMapping[$widgetId]);
     }
 
     /**
@@ -134,7 +172,8 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
      */
     public function getWidget($widgetId)
     {
-        return $this->regions[$this->widgets[$widgetId]]['widgets'][$widgetId] ?? null;
+        $region = $this->widgetMapping[$widgetId] ?? '';
+        return $this->regions[$region]['widgets'][$widgetId] ?? null;
     }
 
     /**
@@ -142,7 +181,45 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
      */
     public function getWidgetIds()
     {
-        return array_keys($this->widgets);
+        return array_keys($this->widgetMapping);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgets()
+    {
+        $widgets = [];
+        foreach ($this->widgetMapping as $widgetId => $region) {
+            $widgets[$widgetId] = $this->getWidget($widgetId);
+        }
+        return $widgets;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addWidget($region, $widget)
+    {
+        $this->regions[$region]['widgets'][] = $widget;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeWidget($widget)
+    {
+        if (isset($this->widgetMapping[$widget->getId()])) {
+            $region = $this->widgetMapping[$widget->getId()];
+
+            foreach ($this->regions[$region]['widgets'] as $key => $widgetInRegion) {
+                if ($widgetInRegion->getId() === $widget->getId()) {
+                    unset($this->regions[$region]['widgets'][$key]);
+                }
+            }
+
+            unset($this->widgetMapping[$widget->getId()]);
+        }
     }
 
     /**

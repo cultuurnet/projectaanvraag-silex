@@ -1,0 +1,36 @@
+@at-root {
+  @-ms-viewport { width: device-width; }
+}
+//
+// Grid mixins
+//
+@import "bootstrap/mixins/clearfix";
+@import "bootstrap/mixins/breakpoints";
+@import "bootstrap/mixins/grid-framework";
+@import "bootstrap/mixins/grid";
+
+//@import "bootstrap/utilities/spacing"; (20k)
+//@import "bootstrap/grid";
+
+
+@import "bootstrap/forms"; //(10k}
+
+@import "bootstrap/buttons";
+
+@import "bootstrap/pagination";
+
+@import "bootstrap/input-group";
+
+@import "bootstrap/badge";
+/*
+//@import "bootstrap/card";
+@import "bootstrap/images";
+
+@import "bootstrap/pagination";
+
+@import "bootstrap/type";
+@import "bootstrap/utilities/text";
+
+
+*/
+//@import "bootstrap/utilities/flex";

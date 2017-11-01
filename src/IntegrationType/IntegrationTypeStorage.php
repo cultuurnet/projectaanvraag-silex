@@ -66,7 +66,7 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
                 $integrationType->setGroupId(!empty($type['group_id']) ? $type['group_id'] : null);
                 $integrationType->setPrice(!empty($type['price']) ? $type['price'] : null);
                 $integrationType->setUrl(!empty($type['url']) ? $type['url'] : null);
-                $integrationType->setActionButton(!empty($type['action_button']) ? $type['action_button'] : array());
+                $integrationType->setActionButton(!empty($type['action_button']) ? $type['action_button'] : '');
 
                 $this->integrationTypes[$integrationType->getId()] = $integrationType;
             }

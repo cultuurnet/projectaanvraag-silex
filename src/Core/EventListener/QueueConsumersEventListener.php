@@ -50,10 +50,12 @@ class QueueConsumersEventListener
         $consumers = null;
         $type = $event->getType();
 
+        $filter = ['groupId' => 5,3];
+
         if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
-            $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
+            $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax(), $filter);
         } elseif ($type == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
-            $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax());
+            $consumers = $this->cultureFeed->getServiceConsumers($event->getStart(), $event->getMax(), $filter);
         }
 
         if (!empty($consumers->objects)) {

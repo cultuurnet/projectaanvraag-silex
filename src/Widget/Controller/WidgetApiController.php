@@ -2,14 +2,19 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
+use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceInterface;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Command\RevertWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage;
+use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
+use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
@@ -45,6 +50,11 @@ class WidgetApiController
     protected $widgetPageRepository;
 
     /**
+     * @var WidgetPageConverter
+     */
+    protected $widgetPageConverter;
+
+    /**
      * @var WidgetPageEntityDeserializer
      */
     protected $widgetPageDeserializer;
@@ -55,19 +65,45 @@ class WidgetApiController
     protected $authorizationChecker;
 
     /**
+     * @var RendererInterface
+     */
+    protected $renderer;
+
+    /**
+     * @var CssStatsServiceInterface
+     */
+    protected $cssStatsService;
+
+    /**
      * WidgetApiController constructor.
      *
+     * @param MessageBusSupportingMiddleware $commandBus
      * @param DocumentRepository $widgetPageRepository
-     * @param WidgetPluginManager $widgetTypePluginManager
+     * @param WidgetTypeDiscovery $widgetTypeDiscovery
      * @param WidgetPageEntityDeserializer $widgetPageDeserializer
+     * @param WidgetPageConverter $widgetPageConverter
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param RendererInterface $renderer
+     * @param CssStatsServiceInterface $cssStatsService
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, DocumentRepository $widgetPageRepository, WidgetTypeDiscovery $widgetTypeDiscovery, WidgetPageEntityDeserializer $widgetPageDeserializer, AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(
+        MessageBusSupportingMiddleware $commandBus,
+        DocumentRepository $widgetPageRepository,
+        WidgetTypeDiscovery $widgetTypeDiscovery,
+        WidgetPageEntityDeserializer $widgetPageDeserializer,
+        WidgetPageConverter $widgetPageConverter,
+        AuthorizationCheckerInterface $authorizationChecker,
+        RendererInterface $renderer,
+        CssStatsServiceInterface $cssStatsService
+    ) {
         $this->commandBus = $commandBus;
         $this->widgetPageRepository = $widgetPageRepository;
         $this->widgetTypeDiscovery = $widgetTypeDiscovery;
+        $this->widgetPageConverter = $widgetPageConverter;
         $this->widgetPageDeserializer = $widgetPageDeserializer;
         $this->authorizationChecker = $authorizationChecker;
+        $this->renderer = $renderer;
+        $this->cssStatsService = $cssStatsService;
     }
 
     /**
@@ -112,7 +148,7 @@ class WidgetApiController
 
         $widgetPages = $this->widgetPageRepository->findBy(
             ['projectId' => (string) $project->getId()],
-            ['title' => 'ASC']
+            ['created' => 'DESC']
         );
 
         $widgetPagesList = [];
@@ -144,23 +180,10 @@ class WidgetApiController
         // Check if user has edit access.
         $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
 
-        // Load widget page if an ID was provided
-        $existingWidgetPages = [];
-        if ($widgetPage->getId()) {
-            $existingWidgetPages = $this->loadExistingWidgetPages($widgetPage->getId(), $project->getId());
-        }
-
-        if (count($existingWidgetPages) > 0) {
-            // Search for a draft version.
-            $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
-
-            // If no draft was found, use the published one as source.
-            if (empty($draftWidgetPage)) {
-                $draftWidgetPage = $existingWidgetPages[0];
-            }
-
+        try {
+            $draftWidgetPage = $this->widgetPageConverter->convertToDraft($widgetPage->getId());
             $this->commandBus->handle(new UpdateWidgetPage($widgetPage, $draftWidgetPage));
-        } else {
+        } catch (NotFoundHttpException $e) {
             $this->commandBus->handle(new CreateWidgetPage($widgetPage));
         }
 
@@ -168,10 +191,9 @@ class WidgetApiController
             'widgetPage' => $widgetPage->jsonSerialize(),
         ];
 
-        $renderer = new Renderer();
         if ($request->query->has('render')) {
             if ($widget = $widgetPage->getWidget($request->query->get('render'))) {
-                $data['preview'] = $renderer->renderWidget($widget);
+                $data['preview'] = $this->renderer->renderWidget($widget);
             } else {
                 $data['preview'] = '';
             }
@@ -189,31 +211,63 @@ class WidgetApiController
      * @return JsonResponse
      *
      */
-    public function publishWidgetPage(ProjectInterface $project, $pageId)
+    public function publishWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
     {
 
-        // Load the widget page.
-        $existingWidgetPages = $this->loadExistingWidgetPages($pageId, $project->getId());
+        // Check if user has edit access.
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
 
-        if (empty($existingWidgetPages)) {
-            throw new NotFoundHttpException('The given widget page does not exist for given project.');
+        // There was no draft, no publish action needed
+        if (!$widgetPage->isDraft()) {
+            return new JsonResponse();
         }
 
-        if (!empty($existingWidgetPages)) {
-            // Check if user has edit access.
-            $this->verifyProjectAccess($project, $existingWidgetPages[0], ProjectVoter::EDIT);
+        $this->commandBus->handle(new PublishWidgetPage($widgetPage));
 
-            // Search for a draft version.
-            $draftWidgetPage = $this->filterOutDraftPage($existingWidgetPages);
+        return new JsonResponse();
+    }
 
-            if (empty($draftWidgetPage)) {
-                return new JsonResponse();
-            }
 
-            $this->commandBus->handle(new PublishWidgetPage($draftWidgetPage));
-        } else {
-            throw new RequirementsNotSatisfiedException('No Widget Page was found');
+    /**
+     * Revert the requested widget page to the published version.
+     *
+     * @param ProjectInterface $project
+     * @param $pageId
+     *
+     * @return JsonResponse
+     *
+     */
+    public function revertWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
+    {
+
+        // Check if user has edit access.
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
+
+        // There was no draft, no revert action needed
+        if (!$widgetPage->isDraft()) {
+            return new JsonResponse();
         }
+
+        $this->commandBus->handle(new RevertWidgetPage($widgetPage));
+
+        return new JsonResponse();
+    }
+
+    /**
+     * Upgrade the requested widget page to the latest version.
+     *
+     * @param ProjectInterface $project
+     * @param $pageId
+     *
+     * @return JsonResponse
+     *
+     */
+    public function upgradeWidgetPage(ProjectInterface $project, WidgetPageInterface $widgetPage)
+    {
+
+        // Check if user has edit access.
+        $this->verifyProjectAccess($project, $widgetPage, ProjectVoter::EDIT);
+        $this->commandBus->handle(new UpgradeWidgetPage($widgetPage));
 
         return new JsonResponse();
     }
@@ -230,36 +284,6 @@ class WidgetApiController
         $this->commandBus->handle(new DeleteWidgetPage($widgetPage));
 
         return new JsonResponse();
-    }
-
-    /**
-     * temp test
-     */
-    public function test(Request $request)
-    {
-
-        if ($request->getMethod() == 'GET') {
-            $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        } else {
-            $json = $request->getContent();
-        }
-
-        $page = $this->widgetPageDeserializer->deserialize($json);
-
-        $data = [
-            'page' => $page->jsonSerialize(),
-        ];
-
-        $renderer = new Renderer();
-        if ($request->query->has('render')) {
-            if ($widget = $page->getWidget($request->query->get('render'))) {
-                $data['preview'] = $renderer->renderWidget($widget);
-            } else {
-                $data['preview'] = '';
-            }
-        }
-
-        return new JsonResponse($data);
     }
 
 
@@ -281,36 +305,20 @@ class WidgetApiController
     }
 
     /**
-     * Load all the existing WidgetPages for a given ID
-     * @param string $pageId
-     * @param integer $projectId
-     * @return array
-     */
-    protected function loadExistingWidgetPages($pageId, $projectId)
-    {
-        return $this->widgetPageRepository->findBy(
-            [
-                'id' => $pageId,
-                'projectId' => (string) $projectId,
-            ]
-        );
-    }
-
-    /**
-     * Filter out the draft version out of a group of widget pages
-     * @param array $widgetPages
+     * Get CSS stats for a given URL
      *
-     * @return WidgetPageInterface|null
+     * @param Request $request
+     * @return JsonResponse
      */
-    protected function filterOutDraftPage(array $widgetPages)
+    public function getCssStats(Request $request)
     {
-
-        /** @var WidgetPageInterface $page */
-        foreach ($widgetPages as $page) {
-            if ($page->isDraft()) {
-                return $page;
-                break;
-            }
+        if (!$request->query->has('url') || !filter_var($request->query->get('url'), FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('Provide a valid URL to scrape.');
         }
+
+        $response = new JsonResponse($this->cssStatsService->getCssStatsFromUrl($request->query->get('url')));
+        $response->setTtl(86400);
+
+        return $response;
     }
 }

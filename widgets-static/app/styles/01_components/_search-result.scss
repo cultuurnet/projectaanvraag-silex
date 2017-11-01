@@ -1,0 +1,159 @@
+.searchresult__options,
+.searchresult__selectedSearchFilters {
+
+}
+
+.cnw_taaliconen {
+
+  .cnw_taalicoon {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: cover;
+    width: 15px;
+    height: 19px;
+  }
+
+  .cnw_taalicoon-face {
+    background-image: url(http://widgetbeheer-api.dev/assets/images/taalicoon-face.svg);
+  }
+
+  .cnw_taalicoon-ballon-filled {
+    background-image: url(http://widgetbeheer-api.dev/assets/images/taalicoon-ballon-filled.svg);
+  }
+
+  .cnw_taalicoon-ballon {
+    background-image: url(http://widgetbeheer-api.dev/assets/images/taalicoon-ballon.svg);
+  }
+
+}
+
+
+
+/*
+*   STICKERS
+*/
+
+.cnw_stickers {
+  display: block;
+  float: right;
+}
+
+
+.cnw_stickers--mini {
+  margin-bottom: 0px;
+  margin-left: 6px;
+}
+
+.cnw_stickers--mini .cnw_sticker--vlieg {
+  width: inherit;
+  border: 1px solid #ccc;
+  padding: 1px 4px;
+  padding-left: 22px;
+  border-radius: 2px;
+  background-image: none;
+  background-color: #F3F3F3;
+  background-position: right center;
+  position: relative;
+}
+
+
+.cnw_stickers--mini .sticker {
+  height: 18px;
+  float: left;
+}
+
+.cnw_sticker--vlieg {
+  background-image: url(../images/vlieg--sticker.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+
+  display: block;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+
+  box-shadow: 2px 3px 3px #9591af;
+  margin-bottom: 20px;
+
+
+  .cnw_txt{
+    background-color: #746dad;
+    color: white;
+    border-radius: 150%;
+
+    display: inline-block;
+    position: relative;
+    bottom: -30px;
+    right: -20px;
+    font-size: 0.7rem;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 200%;
+  }
+}
+.cnw_sticker--uitpas {
+  display: block;
+  width:45px;
+  border: none;
+
+  .uit-logo-bg {
+    stop-color : #F0B32C;
+  }
+  .uit-logo-text {
+    fill : #b58d35;
+  }
+}
+
+
+.cnw_searchresult--block {
+  margin-bottom: 3rem;
+}
+
+p.cnw_card-description {
+  padding: 15px;
+  width: 100%;
+}
+
+.cnw_page-link {
+  font-size: 0.8em;
+}
+
+.cnw_btn__card-readmore {
+  border: 1px solid gray;
+}
+
+
+.cnw_search-result-tags-item {
+    display: inline-block;
+    margin-right: 2rem;
+      &:before {
+      content: "\f02b";
+      font-family: "FontAwesome";
+      margin-right: 5px;
+      color: #999999;
+    }
+
+}
+
+
+.cnw_clips  div:not(.cnw_reset_row) .cnw_searchresult--block [class*="cnw_col-"] {
+  max-width:100%;
+  flex-basis: unset;
+}
+
+
+.cnw_clips    .cnw_searchresult--block dl div[class*='cnw_col-'] {
+    flex-basis: unset;
+    max-width: 100%;
+
+  }
+
+
+p span.cnw_badge {
+  font-family: $font-family-sans-serif !important;
+  font-weight: 100;
+  background-color: #a5a5a5;
+}
+

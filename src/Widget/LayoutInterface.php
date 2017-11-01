@@ -15,6 +15,21 @@ interface LayoutInterface extends \JsonSerializable
     public function render();
 
     /**
+     * Is the given region empty?
+     *
+     * @param $region
+     * @return bool
+     */
+    public function isRegionEmpty($region);
+
+    /**
+     * Get the widget to region mapping.
+     *
+     * @return array
+     */
+    public function getWidgetMapping();
+
+    /**
      * Returns true if the given widget id exists in the layout.
      *
      * @param $widgetId
@@ -34,4 +49,31 @@ interface LayoutInterface extends \JsonSerializable
      * @return array
      */
     public function getWidgetIds();
+
+    /**
+     * Get a list of all widgets in this layout.
+     * @return WidgetTypeInterface[]
+     */
+    public function getWidgets();
+
+    /**
+     * Get the index of last widget.
+     * @return mixed
+     */
+    public function getLastWidgetIndex();
+
+    /**
+     * Add a widget to the given region.
+     * @param $region
+     * @param $widget
+     */
+    public function addWidget($region, $widget);
+
+    /**
+     * Remove the given widget.
+     *
+     * @param $widget
+     * @return mixed
+     */
+    public function removeWidget($widget);
 }

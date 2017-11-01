@@ -2,8 +2,11 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\CalendarType;
+use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\SearchClient;
@@ -11,7 +14,9 @@ use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 
+use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
+use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -31,9 +36,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "body":"",
  *          },
  *          "footer":{
- *              "body":"",
+ *              "body":"<p>Zelf een activiteit toevoegen? Dat kan via <a href='http://www.uitdatabank.be'>www.UiTdatabank.be</a></p>",
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":true
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -45,12 +53,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "characters":200
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{
  *                  "enabled":true,
  *                  "label":"Waar"
+ *              },
+ *              "organizer":{
+ *                  "enabled":false
  *              },
  *              "age":{
  *                  "enabled":true,
@@ -61,8 +72,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "image":{
  *                  "enabled":true,
- *                  "width":100,
- *                  "height":80,
+ *                  "width":480,
+ *                  "height":360,
  *                  "default_image":true,
  *                  "position":"left"
  *              },
@@ -78,11 +89,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *          },
  *          "detail_page":{
+ *              "map":false,
  *              "price_information":true,
+ *              "contact_information":true,
+ *              "reservation_information":true,
  *              "share_buttons":true,
  *              "back_button":{
  *                  "enabled":true,
- *                  "label":"Volledig aanbod"
+ *                  "label":"Agenda"
  *              },
  *              "icon_vlieg":{
  *                  "enabled":true
@@ -96,12 +110,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"",
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{
  *                  "enabled":true,
  *                  "label":"Waar"
+ *              },
+ *              "organizer":{
+ *                  "enabled":false
  *              },
  *              "age":{
  *                  "enabled":true,
@@ -112,8 +129,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "image":{
  *                  "enabled":true,
- *                  "width":300,
- *                  "height":200,
+ *                  "width":480,
+ *                  "height":360,
  *                  "default_image":true,
  *                  "position":"left"
  *              },
@@ -140,6 +157,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "body":"string"
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":"boolean"
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":"boolean"
  *              },
@@ -148,7 +168,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "description":{
  *                  "enabled":"boolean",
- *                  "label":"string",
  *                  "characters":"integer"
  *              },
  *              "when":{
@@ -158,6 +177,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "where":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
  *              },
  *              "age":{
  *                  "enabled":"boolean",
@@ -191,6 +213,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          "detail_page":{
  *              "map":"boolean",
  *              "price_information":"boolean",
+ *              "contact_information":"boolean",
+ *              "reservation_information":"boolean",
  *              "language_switcher":"boolean",
  *              "uitpas_benefits":"boolean",
  *              "share_buttons":"boolean",
@@ -213,6 +237,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
+ *              },
  *              "age":{
  *                  "enabled":"boolean",
  *                  "label":"string"
@@ -226,6 +253,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled":"boolean",
  *                      "labels":"string"
  *                  }
+ *              },
+ *              "image":{
+ *                  "enabled":"boolean",
+ *                  "width":"integer",
+ *                  "height":"integer",
+ *                  "default_image":"boolean",
+ *                  "position":"string"
  *              }
  *          }
  *     }
@@ -245,9 +279,19 @@ class SearchResults extends WidgetTypeBase
     protected $searchClient;
 
     /**
-     * @var RequestStack
+     * @var null|\Symfony\Component\HttpFoundation\Request
      */
     protected $request;
+
+    /**
+     * @var MessageBusSupportingMiddleware
+     */
+    protected $eventBus;
+
+    /**
+     * @var PagedCollection
+     */
+    protected $searchResult;
 
     /**
      * SearchResults constructor.
@@ -260,11 +304,12 @@ class SearchResults extends WidgetTypeBase
      * @param RendererInterface $renderer
      * @param SearchClient $searchClient
      */
-    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack, MessageBusSupportingMiddleware $eventBus)
     {
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->searchClient = $searchClient;
         $this->request = $requestStack->getCurrentRequest();
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -280,8 +325,17 @@ class SearchResults extends WidgetTypeBase
             $container['widget_twig_preprocessor'],
             $container['widget_renderer'],
             $container['search_api'],
-            $container['request_stack']
+            $container['request_stack'],
+            $container['event_bus']
         );
+    }
+
+    /**
+     * Get the search result for current widget.
+     */
+    public function getSearchResult()
+    {
+        return $this->searchResult;
     }
 
     /**
@@ -290,7 +344,7 @@ class SearchResults extends WidgetTypeBase
     public function render()
     {
         // Retrieve the current request query parameters using the global Application object and filter.
-        $urlQueryParams = $this->filterUrlQueryParams($this->request->query->all());
+        $urlQueryParams = $this->request->query->all();
 
         $query = new SearchQuery(true);
 
@@ -299,20 +353,28 @@ class SearchResults extends WidgetTypeBase
         // Limit items per page.
         $query->setLimit(self::ITEMS_PER_PAGE);
 
-        // Check for page query param.
-        if (isset($urlQueryParams['page'])) {
-            // Set current page index.
-            $currentPageIndex = $urlQueryParams['page'];
-            // Move start according to the active page.
-            $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
+        $extraFilters = [];
+        // Change query / defaults based on query string.
+        if (isset($urlQueryParams['search-result']) && is_array($urlQueryParams['search-result']) && isset($urlQueryParams['search-result'][$this->index])) {
+            $searchResultOptions = $urlQueryParams['search-result'][$this->index];
+            // Check for page query param.
+            if (isset($searchResultOptions['page'])) {
+                // Set current page index.
+                $currentPageIndex = $searchResultOptions['page'];
+                // Move start according to the active page.
+                $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
+            }
+
+            if (!empty($searchResultOptions['hide-long-term'])) {
+                $extraFilters['hide-long-term'] = true;
+                $query->addParameter(new Query('!(calendarType:' . CalendarType::TYPE_PERIODIC . ')'));
+            }
+
+            if (!empty($searchResultOptions['hide-permanent'])) {
+                $extraFilters['hide-permanent'] = true;
+                $query->addParameter(new CalendarType(CalendarType::TYPE_PERMANENT));
+            }
         }
-
-        // Add facets (datetime is missing from v3?).
-        //$query->addParameter(new Facet('regions'));
-        //$query->addParameter(new Facet('types'));
-        //$query->addParameter(new Facet('themes'));
-        //$query->addParameter(new Facet('facilities'));
-
 
         // Build advanced query string
         $advancedQuery = [];
@@ -323,17 +385,11 @@ class SearchResults extends WidgetTypeBase
             $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
         }
 
-        // / Check for facets query params.
-        if (isset($urlQueryParams['region'])) {
-            $advancedQuery[] = 'regions=' . $urlQueryParams['region'];
-        }
-        //@todo: types & datetypes (not recognised query parameters?)
-
-        // Add adanced query string to API request.
+        // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
             $query->addParameter(
                 new Query(
-                    implode('AND', $advancedQuery)
+                    implode(' AND ', $advancedQuery)
                 )
             );
         }
@@ -341,27 +397,48 @@ class SearchResults extends WidgetTypeBase
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
 
+        $activeFilters = [];
+        $searchResultsQueryAlter = new SearchResultsQueryAlter($this->id, $query, $activeFilters);
+        $this->eventBus->handle($searchResultsQueryAlter);
+
         // Retrieve results from Search API.
-        $result = $this->searchClient->searchEvents($query);
+        $this->searchResult = $this->searchClient->searchEvents($query);
 
         // Retrieve pager object.
-        $pager = $this->retrievePagerData($result->getItemsPerPage(), $result->getTotalItems(), (int) $currentPageIndex);
+        $pager = $this->retrievePagerData($this->searchResult->getItemsPerPage(), $this->searchResult->getTotalItems(), (int) $currentPageIndex);
 
-        if (!isset($this->settings['items']['description']['label'])) {
-            $this->settings['items']['description']['label'] = '';
+        // Google tag manager wants to have some search terms in the tracked event.
+        $searchedLocation = '';
+        $searchedDate = '';
+        $allActiveFilters = $searchResultsQueryAlter->getActiveFilters();
+        foreach ($allActiveFilters as $activeFilter) {
+            if (strstr($activeFilter['name'], '[when]')) {
+                $searchedDate = $activeFilter['label'];
+            } elseif (strstr($activeFilter['name'], '[where]')) {
+                $searchedLocation = $activeFilter['label'];
+            }
         }
+
+        $tagManagerData = [
+            'pageTitleSuffix' => $searchedLocation . '|' . $searchedDate . '|' . $currentPageIndex,
+            'search_query' => $query->__toString(),
+        ];
 
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/search-results-widget/search-results-widget.html.twig',
             [
-                'result_count' => $result->getTotalItems(),
-                'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
+                'result_count' => $this->searchResult->getTotalItems(),
+                'events' => $this->twigPreprocessor->preprocessEventList($this->searchResult->getMember()->getItems(), 'nl', $this->settings),
                 'pager' => $pager,
                 'settings_items' => $this->settings['items'],
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
                 'settings_general' => $this->settings['general'],
+                'id' => $this->index,
+                'active_filters' => $allActiveFilters,
+                'extra_filters' => $extraFilters,
+                'tag_manager_data' => json_encode($tagManagerData),
             ]
         );
     }
@@ -371,6 +448,42 @@ class SearchResults extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
+        $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-results/search-results.js');
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'search-results', 'autoload' => true]);
+    }
+
+    /**
+     * Render the details for a requested item.
+     */
+    public function renderDetail()
+    {
+
+        if (!$this->request->query->has('cdbid')) {
+            return '';
+        }
+
+        $query = new SearchQuery(true);
+        $query->addParameter(new Id($this->request->query->get('cdbid')));
+        $this->searchResult = $this->searchClient->searchEvents($query);
+
+        $events = $this->searchResult->getMember()->getItems();
+        if (count($events) === 0) {
+            return '';
+        }
+
+        $name = $events[0]->getName()['nl'] ?? '';
+        $tagManagerData = [
+            'pageTitleSuffix' => 'Event | ' . $name,
+        ];
+
+        // Render twig with formatted results and item settings.
+        return $this->twig->render(
+            'widgets/search-results-widget/detail-page.html.twig',
+            [
+                'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], 'nl', $this->settings['detail_page']),
+                'settings' => $this->settings['detail_page'],
+                'tag_manager_data' => json_encode($tagManagerData),
+            ]
+        );
     }
 }

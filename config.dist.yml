@@ -59,6 +59,8 @@ insightly:
 # Search API settings
 search_api:
   base_url: https://search-acc.uitdatabank.be
+  region-list: # location of the region export
+  api_key:
   cache:
     enabled: true
     backend: filesystem # supported cache: filesystem or redis
@@ -86,3 +88,11 @@ cache:
 
 # Legacy widget host settings
 legacy_host: http://tools.uitdatabank.be
+
+# CSS stats settings
+css_stats:
+  timeout: 5
+  connect_timeout: 1
+
+# Google tag manager code
+google_tag_manager:

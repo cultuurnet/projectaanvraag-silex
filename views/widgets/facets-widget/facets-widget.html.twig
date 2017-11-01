@@ -1,130 +1,15 @@
-<div class="cnw_w">
+<div class="cnw_w cnw_facets" data-widget-id="{{ id }}">
     <div class="cnw_container">
-        <div id="loadcontent">
-            <!--  Faceted search - Date -->
-            {% if settings_filters.when %}
-                <section class="cnw_facetedsearch cnw_facetedsearch--date">
 
-                    <!-- TODO: needs to be built from facet? -->
-                    <h3 class="cnw_block-title">Wanneer</h3>
+        <a class="cnw_facets_toggle cnw_facets_toggle--open" href="#">Verberg verfijningen</a>
 
-                    <ul class="cnw_facet-search" data-size="6">
-                        <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('today')">Vandaag</a>
-                        </li>
-                        <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('tomorrow')">Morgen</a>
-                        </li>
-
-                        <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('thisweekend')">Dit weekend</a>
-                        </li>
-
-                        <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next7days')">Volgende 7 dagen</a>
-                        </li>
-
-                        <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next14days')">Volgende 14 dagen</a>
-                        </li>
-
-                        <li class="cnw_facet-label">
-                            <a href="#" onclick="CultuurnetWidgets.facetDateFilter('next30days')">Volgende 30 dagen</a>
-                        </li>
-                    </ul>
-
-                </section>
-            {% endif %}
-            <!--  Faceted search -   Date -->
-
-            <!--  Faceted search - Location -->
-            {% if settings_filters.where %}
-                <section class="cnw_facetedsearch cnw_facetedsearch--location">
-
-                    <h3 class="cnw_block-title">Waar</h3>
-
-                    <ul class="cnw_facet-search" data-size="6">
-                        {% for facet in facets.regions %}
-                            <li class="cnw_facet-label ">
-                                <a href="#" onclick="CultuurnetWidgets.facetRegionFilter('{{ facet.value }}')">{{ facet.name }}</a>
-                                <small class="cnw_facet-count cnw_push-right">({{ facet.count }})</small>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="cnw_row">
-                        <div class="cnw_col-6">
-                            <select>
-                                <option>+ 20 km</option>
-                                <option>+ 40 km</option>
-                                <option>+ 60 km</option>
-                            </select>
-                        </div>
-                        <div class="cnw_col-6">
-                            <button class="cnw_btn-link cnw_btn cnw_form-submit" name="op" value="Wijzig straal"
-                                    type="submit">Wijzig straal
-                            </button>
-                        </div>
-                    </div>
-                    <div class="cnw_row">
-                        <div class="cnw_col">
-                            <a data-toggle="collapse" href="#">Kies andere plaats <i class="fa"></i></a>
-                        </div>
-                    </div>
-                    <div class="cnw_row">
-                        <div class="cnw_col">
-                            <form class="cnw_form-inline">
-                                <div class="cnw_form-group">
-
-                                    <input type="text" id="searchPostcode" class="cnw_form-control"
-                                           placeholder="Postcode of gemeente">
-                                </div>
-                                <button type="submit" class="cnw_btn cnw_btn-primary">Ok</button>
-                            </form>
-                        </div>
-                    </div>
-
-                </section>
-            {% endif %}
-            <!--  Faceted search -   location -->
-
-            <!--  Faceted search - type -->
-            {% if settings_filters.what %}
-                <section class="cnw_facetedsearch cnw_facetedsearch--type">
-
-                    <h3 class="cnw_block-title">Type</h3>
-
-                    <ul class="cnw_facet-search" data-size="6">
-                        {% for facet in facets.types %}
-                            <li class="cnw_facet-label ">
-                                <a href="#">{{ facet.name }}</a>
-                                <small class="cnw_facet-count cnw_push-right">({{ facet.count }})</small>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                </section>
-            {% endif %}
-            <!--  Faceted search - type -->
-
-            <!--  Faceted search - extra -->
-            {% if settings_group_filters.enabled %}
-
-                {% for group in settings_group_filters.filters  %}
-                <section class="cnw_facetedsearch cnw_facetedsearch--extra">
-                    <h3 class="cnw_block-title">{{ group.label }}</h3>
-
-                    <ul class="cnw_facet-search" data-size="6">
-                        {% for option in group.options %}
-                            <li class="cnw_facet-label ">
-                                <a href="#">{{ option.label }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </section>
-                {% endfor %}
-
-            {% endif %}
-            <!--  Faceted search -   extra -->
+        <div class="cnw_facets_content">
+            {% for facet in facets %}
+                {% if facet.count > 0 %}
+                    {% include 'widgets/facets-widget/facet.html.twig' with { 'facet': facet } %}
+                {% endif %}
+            {% endfor %}
         </div>
+
     </div>
 </div>

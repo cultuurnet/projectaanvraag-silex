@@ -1,5 +1,7 @@
 subscribers:
     synchronous:
+        CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter:
+            - widget_search_results_query_alter_listener
     asynchronous:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
             - project_created_listener
@@ -63,6 +65,11 @@ listeners:
             - project_repository
             - event_bus
             - command_bus
+
+    widget_search_results_query_alter_listener:
+        class: \CultuurNet\ProjectAanvraag\Widget\EventListener\SearchResultsQueryAlterListener
+        arguments:
+            - request_stack
 
 handlers:
     create_project_handler:
@@ -135,6 +142,22 @@ handlers:
     publish_widget_page_handler:
           command: CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage
           class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\PublishWidgetPageCommandHandler
+          arguments:
+              - event_bus
+              - mongodbodm.dm
+              - widget_repository
+              - uitid_user_session_data_complete
+
+    revert_widget_page_handler:
+          command: CultuurNet\ProjectAanvraag\Widget\Command\RevertWidgetPage
+          class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\RevertWidgetPageCommandHandler
+          arguments:
+              - event_bus
+              - widget_repository
+
+    upgrade_widget_page_handler:
+          command: CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage
+          class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\UpgradeWidgetPageCommandHandler
           arguments:
               - event_bus
               - mongodbodm.dm

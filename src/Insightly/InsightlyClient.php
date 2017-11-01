@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
+use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactsResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetOrganisationResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectResult;
@@ -74,6 +75,10 @@ class InsightlyClient implements InsightlyClientInterface
             $query->add(['count_total' => $options['count_total'] ? 'true' : 'false']);
         }
 
+        if (!empty($options['email'])) {
+            $query->add(['email' => $options['email']]);
+        }
+
         return $query;
     }
 
@@ -89,7 +94,7 @@ class InsightlyClient implements InsightlyClientInterface
     {
         $key = $method . $uri;
         if (!empty($query)) {
-            $key += json_encode($query->all());
+            $key .= json_encode($query->all());
         }
 
         return md5($key);
@@ -155,6 +160,17 @@ class InsightlyClient implements InsightlyClientInterface
     public function getContact($id)
     {
         return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContactByEmail($email)
+    {
+        $options['top'] = 1;
+        $options['email'] = $email;
+        $query = $this->addQueryFilters($options);
+        return GetContactsResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/Search', $query));
     }
 
     /**

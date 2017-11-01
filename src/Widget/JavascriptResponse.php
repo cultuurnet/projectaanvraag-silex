@@ -20,7 +20,12 @@ class JavascriptResponse extends Response
      */
     public function __construct(RendererInterface $renderer, $content)
     {
-        $content = $this->renderContent($content);
+        if ($content) {
+            $content = $this->renderContent($content);
+        } else {
+            $content = '';
+        }
+
         $content .= $this->renderJs($renderer);
 
         $content .= "CultuurnetWidgets.prepareBootstrap();";

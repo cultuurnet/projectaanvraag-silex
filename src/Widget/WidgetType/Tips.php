@@ -26,6 +26,9 @@ use Pimple\Container;
  *              }
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":true
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -34,11 +37,10 @@ use Pimple\Container;
  *              },
  *              "description":{
  *                  "enabled":true,
- *                  "characters":200,
- *                  "label":"",
+ *                  "characters":200
  *              },
  *              "when":{
- *                  "enabled":false,
+ *                  "enabled":true,
  *                  "label":"Wanneer"
  *              },
  *              "where":{
@@ -52,10 +54,13 @@ use Pimple\Container;
  *              "language_icons":{
  *                  "enabled":false
  *              },
+ *               "organizer":{
+ *                  "enabled":false
+ *              },
  *              "image":{
  *                  "enabled":true,
- *                  "width":100,
- *                  "height":80,
+ *                  "width":480,
+ *                  "height":360,
  *                  "default_image":true,
  *                  "position":"left"
  *              },
@@ -81,6 +86,9 @@ use Pimple\Container;
  *              }
  *          },
  *          "items":{
+ *              "type":{
+ *                  "enabled":"boolean"
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":"boolean"
  *              },
@@ -89,7 +97,6 @@ use Pimple\Container;
  *              },
  *              "description":{
  *                  "enabled":"boolean",
- *                  "label":"string",
  *                  "characters":"integer"
  *              },
  *              "when":{
@@ -99,6 +106,9 @@ use Pimple\Container;
  *              "where":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "organizer":{
+ *                  "enabled":"boolean"
  *              },
  *              "age":{
  *                  "enabled":"boolean",
@@ -199,16 +209,13 @@ class Tips extends WidgetTypeBase
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
 
-        if (!isset($this->settings['items']['description']['label'])) {
-            $this->settings['items']['description']['label'] = '';
-        }
-
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/tips-widget/tips-widget.html.twig',
             [
                 'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
                 'settings_items' => $this->settings['items'],
+                'settings_general' => $this->settings['general'],
             ]
         );
     }
@@ -218,6 +225,6 @@ class Tips extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id]);
+        return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'tips', 'autoload' => true]);
     }
 }

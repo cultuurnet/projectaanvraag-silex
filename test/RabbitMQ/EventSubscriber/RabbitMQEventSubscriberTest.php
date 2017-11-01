@@ -30,6 +30,11 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
     protected $logger;
 
     /**
+     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $projectLogger;
+
+    /**
      * @var array
      */
     protected $config;
@@ -55,6 +60,11 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
     protected $amqpMessage;
 
     /**
+     * @var \Exception|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $exception;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -67,6 +77,7 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
 
         // Logger
         $this->logger = $this->getMock(LoggerInterface::class);
+        $this->projectLogger = $this->getMock(LoggerInterface::class);
 
         // ProjectEvent
         $this->projectEvent = $this->getMockBuilder(ProjectCreated::class)
@@ -81,6 +92,11 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
         $this->messageConsumptionFailedEvent = $this->getMockBuilder(MessageConsumptionFailed::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->exception = $this->getMockBuilder(\Exception::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
 
         $this->envelope = $this->getMockBuilder(Envelope::class)
             ->disableOriginalConstructor()
@@ -121,9 +137,16 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
             ->method('message')
             ->willReturn($this->projectEvent);
 
-        $this->messageConsumptionFailedEvent->expects($this->once())
+        $this->logger->expects($this->once())
+            ->method('error');
+
+        $this->messageConsumptionFailedEvent->expects($this->at(0))
             ->method('message')
             ->willReturn($this->amqpMessage);
+
+        $this->messageConsumptionFailedEvent->expects($this->at(1))
+            ->method('exception')
+            ->willReturn($this->exception);
 
         // Trigger the event
         $this->triggerOnconsumptionFailed();
@@ -148,12 +171,19 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->projectEvent);
 
         $this->logger->expects($this->once())
+            ->method('error');
+
+        $this->projectLogger->expects($this->once())
             ->method('error')
             ->with('Message: ' . 'message');
 
-        $this->messageConsumptionFailedEvent->expects($this->once())
+        $this->messageConsumptionFailedEvent->expects($this->at(0))
             ->method('message')
             ->willReturn($this->amqpMessage);
+
+        $this->messageConsumptionFailedEvent->expects($this->at(1))
+            ->method('exception')
+            ->willReturn($this->exception);
 
         // Trigger the event
         $this->triggerOnconsumptionFailed();
@@ -173,7 +203,7 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
      */
     private function triggerOnconsumptionFailed()
     {
-        $rabbitMQEventSubscriber = new RabbitMQEventSubscriber($this->eventBus, $this->messageInEnveloppeSerializer, $this->logger, $this->config);
+        $rabbitMQEventSubscriber = new RabbitMQEventSubscriber($this->eventBus, $this->messageInEnveloppeSerializer, $this->logger, $this->projectLogger, $this->config);
         $rabbitMQEventSubscriber->onConsumptionFailed($this->messageConsumptionFailedEvent);
     }
 }

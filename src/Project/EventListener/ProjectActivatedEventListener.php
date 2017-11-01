@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 
@@ -23,6 +24,8 @@ class ProjectActivatedEventListener extends ProjectCrudEventListener
         if ($projectActivated->getUsedCoupon() && !empty($this->insightlyConfig['custom_fields']['used_coupon'])) {
             $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['used_coupon'], $projectActivated->getUsedCoupon());
         }
+
+        $this->insightlyProject->setStatus(Project::STATUS_COMPLETED);
 
         $this->saveInsightlyProject();
 

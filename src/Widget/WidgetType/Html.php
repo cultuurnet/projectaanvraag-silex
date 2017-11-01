@@ -38,6 +38,12 @@ class Html extends WidgetTypeBase
      */
     public function renderPlaceholder()
     {
-        return 'html widget';
+        return $this->twig->render(
+            'widgets/html-widget/html-widget.html.twig',
+            [
+                'id' => $this->id,
+                'html' => isset($this->settings['content']['body']) ? $this->filterXss($this->settings['content']['body']) : '',
+            ]
+        );
     }
 }

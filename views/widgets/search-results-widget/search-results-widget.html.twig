@@ -1,80 +1,82 @@
-<div class="cnw_w">
-    <div class="cnw_container-fluid">
 
-        <div class="cnw_row">
-            {% if settings_header.body %}
-                <div class="cnw_searchresult_header">
-                    {{ settings_header.body | raw }}
-                </div>
-            {% endif %}
+<div class="cnw_searchresult" data-view-tracking-category="list" data-view-tracking-page-suffix="/searchresultwidget/list" data-view-tracking-extra-data="{{ tag_manager_data }}">
 
-            <!--  facetedSearch  START -->
-            <div class="cnw_searchresult__facetedSearch">
+    {% if settings_header.body %}
+        <div class="cnw_searchresult_header">
+            {{ settings_header.body | raw }}
+        </div>
+    {% endif %}
 
-                <!-- ZoekOpties  START -->
-                {%  if settings_general.exclude.long_term or settings_general.exclude.permanent %}
-                <form>
-                    <div class="cnw_searchresult__options cnw_container-fluid">
-                        <div class="cnw_row">
-                            {%  if settings_general.exclude.long_term %}
+    <!--  Results  START -->
+    <div class="cnw_searchresult__results">
+
+        <!-- Extra options  START -->
+        {%  if settings_general.exclude.long_term or settings_general.exclude.permanent %}
+            <form>
+                <div class="cnw_searchresult__options cnw_container-fluid">
+                    <div class="cnw_row">
+                        {%  if settings_general.exclude.long_term %}
                             <div class="cnw_col">
                                 <div class="cnw_form-check ">
                                     <label class="cnw_form-check-label">
-                                        <input type="checkbox" class="cnw_form-check-input">
+                                        <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-long-term]' }}"{% if extra_filters['hide-long-term'] is defined %} checked {% endif %}>
                                         Verberg langlopende reeksen
                                     </label>
                                 </div>
                             </div>
-                            {% endif %}
+                        {% endif %}
 
-                            {%  if settings_general.exclude.permanent %}
+                        {%  if settings_general.exclude.permanent %}
                             <div class="cnw_col">
                                 <div class="cnw_form-check ">
                                     <label class="cnw_form-check-label">
-                                        <input type="checkbox" class="cnw_form-check-input">
+                                        <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-permanent]' }}"{% if extra_filters['hide-permanent'] is defined %} checked {% endif %}>
                                         Verberg permanente bezienswaardigheden
                                     </label>
                                 </div>
                             </div>
-                            {% endif %}
-                        </div>
+                        {% endif %}
                     </div>
-                </form>
-                <!-- ZoekOpties  END -->
-                {% endif %}
-
-                <!--  facetedSearch  END -->
-
-                {%  if settings_general.current_search %}
-                <!--  searchWords  START -->
-                <div class="cnw_searchresult__searchwords">
-                    <p>Je zocht op <span class="cnw_searchresult__searchword">Zoekwoord</span></p>
                 </div>
-                <!--  searchWords END -->
-                {% endif %}
+            </form>
+            <!-- ZoekOpties  END -->
+        {% endif %}
 
-                <!--  counter  START -->
-                <div class="cnw_searchresult__counter">
-                    <p><span class="cnw_searchresult__counter-total">{{ result_count }}</span> resultaten gevonden</p>
-                </div>
-                <!--  counter END -->
+        <!--  facetedSearch  END -->
 
-                {% for event in events %}
-                    {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items } %}
-                {% endfor %}
-
-                <!--  PAGINATION Start -->
-                {% include 'widgets/widget-pager.html.twig' with {'pager': pager} %}
-                <!--  PAGINATION END-->
-
+        {%  if settings_general.current_search and active_filters|length > 0 %}
+            <!--  searchWords  START -->
+            <div class="cnw_searchresult__searchwords">
+                <p>Je zocht op
+                    {% for active_filter in active_filters %}
+                        {{ active_filter.label }} <a href="#" data-active-keywords-name="{{ active_filter.name }}" data-active-keywords-default-option="{{ active_filter.is_default }}">x</a>
+                    {% endfor %}
+                    <a href="#" data-active-keywords-name="all">Alle filters verwijderen</a>
+                </p>
             </div>
+            <!--  searchWords END -->
+        {% endif %}
 
-            {% if settings_footer.body %}
-                <div class="cnw_searchresult_footer">
-                    {{ settings_footer.body | raw }}
-                </div>
-            {% endif %}
-
+        <!--  counter  START -->
+        <div class="cnw_searchresult__counter">
+            <p><span class="cnw_searchresult__counter-total">{{ result_count }}</span> resultaten gevonden</p>
         </div>
+        <!--  counter END -->
+
+        {% for event in events %}
+            {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items, 'click_tracking_action' : 'list' } %}
+        {% endfor %}
+
+        <!--  PAGINATION Start -->
+        {% include 'widgets/widget-pager.html.twig' with {'pager': pager, 'id': id} %}
+        <!--  PAGINATION END-->
+
     </div>
+
+    {% if settings_footer.body %}
+        <div class="cnw_searchresult_footer">
+            {{ settings_footer.body | raw }}
+        </div>
+    {% endif %}
+
 </div>

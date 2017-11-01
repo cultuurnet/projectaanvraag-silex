@@ -9,7 +9,5 @@
     "Individuele oplossingen op maat zijn mogelijk"
   ],
   "groupId":"group_id",
-  "actionButton": {
-    "test": "test"
-  }
+  "actionButton": "test"
 }

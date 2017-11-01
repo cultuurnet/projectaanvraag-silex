@@ -1,0 +1,93 @@
+.cnw_zoek-waar {
+  .element-invisible {
+    display: none;
+  }
+}
+
+.cnw_form-custom-date {
+  display: flex;
+  margin-top: 1rem;
+  .cnw_form-date-start {
+    margin-right: 10px;
+  }
+}
+.cnw_form-autocomplete--hasresults {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom: 0px;
+}
+
+.cnw_form-autocomplete.throbbing {
+  background: url(../images/throbbing.gif);
+  background-repeat: no-repeat;
+  background-position:  95%  center ;
+
+}
+
+
+#autocomplete {
+  border: 1px solid #e1e1e1;
+  border-top: 0px;
+  background-color: white;
+
+
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+
+  position: absolute;
+  z-index: 6777;
+
+
+  ul {
+    list-style-type: none;
+    padding:0;
+
+    li {
+      padding: 5px 0 0 10px;
+      margin: 0;
+
+      &.autocomplete-option-selected {
+        background-color: $cnw_color-blueLight;
+      }
+
+    }
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .cnw_form--extended {
+    .cnw_row {
+      .cnw_col {
+        flex-basis: unset;
+      }
+    }
+  }
+
+}
+
+.cnw_sideCol .cnw_form--extended {
+  .cnw_row {
+    .cnw_col {
+      flex-basis: unset;
+    }
+  }
+}
+
+html .cnw_w label {
+  display: block;
+}
+
+.cnw_btn-search--holder {
+  text-align: right;
+}
+
+.cnw_form-check {
+  margin-bottom: 1.5rem;
+  .cnw_form-check--label {
+    display: block;
+    margin-bottom: 0.7rem;
+  }
+
+}

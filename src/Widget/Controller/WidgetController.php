@@ -8,12 +8,16 @@ use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
 use CultuurNet\ProjectAanvraag\Widget\JavascriptResponse;
 use CultuurNet\ProjectAanvraag\Widget\LayoutDiscovery;
 use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
+use CultuurNet\ProjectAanvraag\Widget\RegionService;
 use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
+use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use CultuurNet\SearchV3\PagedCollection;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\Parameter\Labels;
@@ -45,6 +49,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a controller to render widget pages and widgets.
@@ -78,9 +83,14 @@ class WidgetController
     protected $debugMode;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $config;
+    protected $legacyHost;
+
+    /**
+     * @var RegionService
+     */
+    protected $regionService;
 
     /**
      * WidgetController constructor.
@@ -89,41 +99,15 @@ class WidgetController
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode, array $config)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode, string $legacyHost, RegionService $regionService)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->debugMode = $debugMode;
-        $this->config = $config;
-
-
-/*        $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-        $doc = json_decode($json, true);
-        $collection->insert($doc);
-        die();*/
-
-/*        $layoutDiscovery = new LayoutDiscovery();
-        $layoutDiscovery->register(__DIR__ . '/../WidgetLayout', 'CultuurNet\ProjectAanvraag\Widget\WidgetLayout');
-
-        $typeDiscovery = new WidgetTypeDiscovery();
-        $typeDiscovery->register(__DIR__ . '/../WidgetType', 'CultuurNet\ProjectAanvraag\Widget\WidgetType');
-
-        $layoutManager = new WidgetPluginManager($layoutDiscovery);
-        $test = $layoutManager->createInstance('one-col');
-
-        $widgetTypeManager = new WidgetPluginManager($typeDiscovery);
-        $test2 = $widgetTypeManager->createInstance('search-form');
-print_r($test);
-print_r($test2);
-        die();*/
-
-        /*$results = $collection->find();
-        while ($results->hasNext()) {
-            $document = $results->getNext();
-            //print '<pre>' . print_r($document, true) . '</pre>';
-        }*/
+        $this->legacyHost = $legacyHost;
+        $this->regionService = $regionService;
     }
 
     /**
@@ -141,7 +125,6 @@ print_r($test2);
         // Check if page is from old version.
         if ($widgetPage->getVersion() != 3) {
             $pageId = $widgetPage->getId();
-            $legacyBaseUrl = $this->config['legacy_host'];
 
             // Check if js file exists.
             if (file_exists("$directory/$pageId.js")) {
@@ -149,7 +132,7 @@ print_r($test2);
             }
             else {
                 // Retrieve file from old host URL.
-                $jsContent = file_get_contents("$legacyBaseUrl/widgets/layout/$pageId.js");
+                $jsContent = file_get_contents("$this->legacyHost/widgets/layout/$pageId.js");
             }
         }
         else {
@@ -179,22 +162,95 @@ print_r($test2);
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
 
-        $widget = null;
+        $data = [
+            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId)),
+        ];
+        $response = new JsonResponse($data);
+
+        // If this is a jsonp request, set the requested callback.
+        if ($request->query->has('callback')) {
+            $response->setCallback($request->query->get('callback'));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Render the given search results widget + all related facets and return it as a json response.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @param $widgetId
+     * @return JsonResponse
+     */
+    public function renderSearchResultsWidgetWithFacets(Request $request, WidgetPageInterface $widgetPage, $widgetId)
+    {
+
+        $searchResultsWidget = null;
+        $facetWidgets = [];
         $rows = $widgetPage->getRows();
 
-        // Search for the requested widget.
+        // Search for the requested widget and facets that apply to it.
         foreach ($rows as $row) {
-            if ($row->hasWidget($widgetId)) {
-                $widget = $row->getWidget($widgetId);
+            $widgets = $row->getWidgets();
+            foreach ($widgets as $id => $widget) {
+                if ($id === $widgetId) {
+                    $searchResultsWidget = $widget;
+                }
+
+                // Apply the facet
+                if ($widget instanceof Facets && $widget->getTargetedSearchResultsWidgetId() === $widgetId) {
+                    $facetWidgets[$id] = $widget;
+                }
             }
         }
 
-        if (empty($widget)) {
+        // If the widget is not a search result. This method should return 404.
+        if (empty($searchResultsWidget) || !$searchResultsWidget instanceof SearchResults) {
+            throw new NotFoundHttpException();
+        }
+
+        $renderedWidgets = [
+            'search_results' => $this->renderer->renderWidget($searchResultsWidget),
+            'facets' => [],
+        ];
+
+        $searchResult = $searchResultsWidget->getSearchResult();
+        foreach ($facetWidgets as $facetWidgetId => $facetWidget) {
+            $facetWidget->setSearchResult($searchResult);
+            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget);
+        }
+
+        $data = [
+            'data' => $renderedWidgets,
+        ];
+        $response = new JsonResponse($data);
+
+        // If this is a jsonp request, set the requested callback.
+        if ($request->query->has('callback')) {
+            $response->setCallback($request->query->get('callback'));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Render the detailpage of an event, based on the settings for a given widget.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @param $widgetId
+     */
+    public function renderDetailPage(Request $request, WidgetPageInterface $widgetPage, $widgetId)
+    {
+
+        $widget = $this->getWidget($widgetPage, $widgetId);
+        if (!$widget instanceof SearchResults) {
             throw new NotFoundHttpException();
         }
 
         $data = [
-            'data' => $this->renderer->renderWidget($widget),
+            'data' => $this->renderer->renderDetailPage($widget),
         ];
         $response = new JsonResponse($data);
         //$response = new Response($this->renderer->renderWidget($widget));
@@ -208,21 +264,34 @@ print_r($test2);
     }
 
     /**
-     * Example of a search request.
+     * Get the given widget from the widget page.
+     * @return WidgetTypeInterface
+     * @throws NotFoundHttpException
      */
-    public function searchExample()
+    private function getWidget(WidgetPageInterface $widgetPage, $widgetId)
     {
-        $query = new SearchQuery(true);
-        $query->addParameter(new Facet('regions'));
-        $query->addParameter(new Facet('types'));
-        //$query->addParameter(new Labels('bouwen'));
-        //$query->addParameter(new Labels('Kiditech'));
-        $query->addParameter(new Query('regions:gem-leuven OR regions:gem-gent'));
+        $widget = null;
+        $rows = $widgetPage->getRows();
 
-        $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+        // Search for the requested widget.
+        foreach ($rows as $row) {
+            if ($row->hasWidget($widgetId)) {
+                return $row->getWidget($widgetId);
+            }
+        }
 
-        $result = $this->searchClient->searchEvents($query);
-        print_r($result);
-        die();
+        throw new NotFoundHttpException();
+    }
+
+    /**
+     * Provide autocompletion results for regions.
+     * @param $searchString
+     */
+    public function getRegionAutocompleteResult($searchString)
+    {
+        $matches = $this->regionService->getAutocompletResults($searchString);
+
+        // Only return 5 matches.
+        return new JsonResponse(array_slice($matches, 0, 5));
     }
 }

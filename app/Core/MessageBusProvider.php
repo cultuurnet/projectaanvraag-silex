@@ -157,17 +157,34 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
             return new RabbitMQMessageConsumer($envelopeConsumer, $pimple['dispatcher']);
         };
 
-        // Logger service for projects
-        $pimple['monolog.projects'] = function (Container $pimple) {
+        // Logger service for rabbitmq
+        $pimple['monolog.rabbitmq'] = function (Container $pimple) {
             $factory = $pimple['monolog.logger.class'];
+
             /** @var Logger $logger */
-            $logger = new $factory('projects');
+            $logger = new $factory('rabbitmq');
+
+            $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/rabbitmq/log.log', 0, Logger::DEBUG));
 
             if ($pimple['debug']) {
                 $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
-                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/projects/projects.log', 0, Logger::DEBUG));
-            } else {
-                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/projects/projects.log', 0, Logger::DEBUG));
+            }
+
+            return $logger;
+        };
+
+        // Logger service for projects
+        $pimple['monolog.projects'] = function (Container $pimple) {
+            $factory = $pimple['monolog.logger.class'];
+
+
+            /** @var Logger $logger */
+            $logger = new $factory('projects');
+
+            $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/projects/projects.log', 0, Logger::DEBUG));
+
+            if ($pimple['debug']) {
+                $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
             }
 
             return $logger;
@@ -210,8 +227,8 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
 
         foreach ($servicesToCreate as $serviceId => $serviceProperties) {
             $pimple[$serviceId] = function (Container $pimple) use ($serviceProperties) {
+                $arguments = [];
                 if (isset($serviceProperties['arguments'])) {
-                    $arguments = [];
                     foreach ($serviceProperties['arguments'] as $argument) {
                         $arguments[] = $pimple[$argument];
                     }
@@ -228,6 +245,6 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
      */
     public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
     {
-        $dispatcher->addSubscriber(new RabbitMQEventSubscriber($app['event_bus'], $app['envelope_serializer'], $app['monolog.projects'], $app['config']['rabbitmq']));
+        $dispatcher->addSubscriber(new RabbitMQEventSubscriber($app['event_bus'], $app['envelope_serializer'], $app['monolog.rabbitmq'], $app['monolog.projects'], $app['config']['rabbitmq']));
     }
 }

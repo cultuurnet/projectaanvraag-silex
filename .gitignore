@@ -1,5 +1,5 @@
 .idea
-vendor
+/vendor
 config.yml
 /user_roles.yml
 /integration_types.yml
@@ -9,5 +9,11 @@ config.yml
 /cache
 /web/xhprof
 .DS_STORE
-web/widgets-static/node_modules
-web/widgets-static/.tmp
+
+widgets-static/node_modules
+widgets-static/.tmp
+widgets-static/node_modules
+widgets-static/.tmp
+widgets-static/bower_components
+widgets-static/test/bower_components
+widgets-static/dist

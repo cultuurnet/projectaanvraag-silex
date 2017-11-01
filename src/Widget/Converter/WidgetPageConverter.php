@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Converter;
 
 use CultuurNet\ProjectAanvraag\ConverterInterface;
+use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use Doctrine\ODM\MongoDB\DocumentRepository;
@@ -47,11 +48,6 @@ class WidgetPageConverter implements ConverterInterface
                 'id' => $id,
             ]
         );
-
-        if (empty($page)) {
-            $json = file_get_contents(__DIR__ . '/../../../test/Widget/data/page.json');
-            $page = $this->widgetPageEntityDeserializer->deserialize($json);
-        }
 
         if (empty($page)) {
             throw new NotFoundHttpException('The widget page was not found');

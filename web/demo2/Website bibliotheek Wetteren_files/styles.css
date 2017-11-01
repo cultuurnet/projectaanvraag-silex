@@ -1,0 +1,297 @@
+/* CSS Document */
+
+@font-face {
+	font-family: 'Ubuntu-Bold';
+	src: url('/css/fonts/ubuntu_bold/Ubuntu-Bold.eot'); /* IE9 Compat Modes */
+	src: url('/css/fonts/ubuntu_bold/Ubuntu-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('/css/fonts/ubuntu_bold/Ubuntu-Bold.woff2') format('woff2'), /* Super Modern Browsers */
+	  url('/css/fonts/ubuntu_bold/Ubuntu-Bold.woff') format('woff'), /* Pretty Modern Browsers */
+	  url('/css/fonts/ubuntu_bold/Ubuntu-Bold.ttf') format('truetype'), /* Safari, Android, iOS */
+	  url('/css/fonts/ubuntu_bold/Ubuntu-Bold.svg#svgUbuntu-Bold') format('svg'); /* Legacy iOS */
+}
+@font-face {
+	font-family: 'Ubuntu-Italic';
+	src: url('/css/fonts/ubuntu_italic/Ubuntu-Italic.eot'); /* IE9 Compat Modes */
+	src: url('/css/fonts/ubuntu_italic/Ubuntu-Italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('/css/fonts/ubuntu_italic/Ubuntu-Italic.woff2') format('woff2'), /* Super Modern Browsers */
+	  url('/css/fonts/ubuntu_italic/Ubuntu-Italic.woff') format('woff'), /* Pretty Modern Browsers */
+	  url('/css/fonts/ubuntu_italic/Ubuntu-Italic.ttf') format('truetype'), /* Safari, Android, iOS */
+	  url('/css/fonts/ubuntu_italic/Ubuntu-Italic.svg#svgUbuntu-Bold') format('svg'); /* Legacy iOS */
+}
+@font-face {
+	font-family: 'Ubuntu-Medium';
+	src: url('/css/fonts/ubuntu_medium/Ubuntu-Medium.eot'); /* IE9 Compat Modes */
+	src: url('/css/fonts/ubuntu_medium/Ubuntu-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('/css/fonts/ubuntu_medium/Ubuntu-Medium.woff2') format('woff2'), /* Super Modern Browsers */
+	  url('/css/fonts/ubuntu_medium/Ubuntu-Medium.woff') format('woff'), /* Pretty Modern Browsers */
+	  url('/css/fonts/ubuntu_medium/Ubuntu-Medium.ttf') format('truetype'), /* Safari, Android, iOS */
+	  url('/css/fonts/ubuntu_medium/Ubuntu-Medium.svg#svgUbuntu-Bold') format('svg'); /* Legacy iOS */
+}
+@font-face {
+	font-family: 'Ubuntu-Regular';
+	src: url('/css/fonts/ubuntu_regular/Ubuntu-Regular.eot'); /* IE9 Compat Modes */
+	src: url('/css/fonts/ubuntu_regular/Ubuntu-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	  url('/css/fonts/ubuntu_regular/Ubuntu-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+	  url('/css/fonts/ubuntu_regular/Ubuntu-Regular.woff') format('woff'), /* Pretty Modern Browsers */
+	  url('/css/fonts/ubuntu_regular/Ubuntu-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+	  url('/css/fonts/ubuntu_regular/Ubuntu-Regular.svg#svgUbuntu-Bold') format('svg'); /* Legacy iOS */
+}
+
+body { 
+	font-family: 'Ubuntu Regular',sans-serif;
+	font-size: 15px;
+	line-height: 18px;
+	color: #333;
+	background-color: #fff;
+}
+#hBib { 
+	font-family: 'Ubuntu-Bold';
+	font-size:30px;
+	font-weight:bold;
+	margin:0; padding:0; 
+	color:#d54902;
+}
+#hBibPre { 
+	font-family: 'Ubuntu-Bold';
+	font-size:24px; 
+	margin:0; 
+	padding:0; 
+	margin-top:12px; 
+	color:#999; 
+	font-weight:bold; 
+}
+a { 
+	text-decoration:none; 
+	color: #d54902; 
+}
+a:link { 
+	text-decoration:none; 
+	color: #d54902;	
+}
+a:hover { 
+	text-decoration:underline;
+	color: #d54902; 
+}
+.subnavlink  { 
+	text-decoration:none; 
+	color: #FFF; 
+	padding:0 3px; 
+	font-size:0.85em;
+}
+.subnavtussen  { 
+	text-decoration:none; 
+	color: #FFF; 
+	padding:0 3px; 
+	font-size:0.85em;
+}
+.subnavlink:hover { 
+	 text-decoration:underline; 
+	color: #FFF; 
+}
+.biborange {
+	color: #d54902; 
+}
+.search-query {
+	min-width:99%;	
+}
+.footer-text {
+	margin: 0; 
+	padding: 10px 0; 
+	color:#FFF; font-size: 0.80em;
+}
+.footer-text a {
+	color:#FFF; 
+}
+
+.roundleft {
+  	border:1px solid #CCC;
+	width:97%;
+	margin:0 auto 20px 0;
+}
+.roundcenter {
+	border:1px solid #CCC;
+	width:95%; 
+	margin:0 0 20px auto;
+}
+.roundright {
+  	border:1px solid #CCC;
+	width:95%; 
+	margin:0 0 20px auto;
+}
+.roundfull {
+	border:1px solid #CCC;
+	width:100%; 
+	margin:0 auto 20px auto;
+}
+@media (max-width: 767px) {
+	.roundleft, .roundcenter, .roundright {
+		width:98%;
+		margin:0 auto 20px auto;		
+	}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.roundleft, .roundcenter, .roundright {
+		width:99%;
+		margin:0 auto 30px auto;		
+	}
+	.roundcenter, .roundright {
+		width:96%;
+		margin:0 auto 30px auto;		
+	}
+}
+.comptitel {
+	background-color:#999999;
+	display:block; 
+	padding:7px 5px 7px 10px; 
+	margin-top:0; 
+	color:#FFF;
+  	font-size: 20px;
+}
+.compdiv {
+	padding:5px;
+}
+.comptitel h3 {
+	color:#FFF; 
+	padding:5px 0 10px 5px; 
+	margin:0;
+}
+.nieuwinbib { 
+	padding:10px 10px 10px 35px;
+	line-height:2.5;
+}
+.book { 
+	background: url('/imgs/boek.png') no-repeat left;
+}
+.strip { 
+	background: url('/imgs/strip.png') no-repeat left;
+}
+.cd { 
+	background: url('/imgs/cd.png') no-repeat left;
+}
+.dvd { 
+	background: url('/imgs/dvd.png') no-repeat left;
+}
+.games { 
+	background: url('/imgs/game.png') no-repeat left;
+}
+.boardgames { 
+  background: url('/imgs/boardgame.png') no-repeat left;
+}
+.daisy { 
+	background: url('/imgs/daisy.png') no-repeat left;
+}
+.bluray { 
+	background: url('/imgs/blu-ray.png') no-repeat left;
+}
+.lp { 
+	background: url('/imgs/lp.png') no-repeat left;
+}
+.compdiv .uitmini {margin:0; padding: 0  } /* border: 3px solid #000; */
+.compdiv .uitmini li { margin:5px; list-style-type:none;min-height:35px; width: 100% ; border-bottom:1px dotted #999;}
+.compdiv .uitmini span.date {display:block;width:50px;height:48px;float:left;margin:0 0.25em 0 0; border:1px dotted #999}
+.compdiv .uitmini span.date .weekday, .uitmini span.date .day, .uitmini span.date .month {display:block;text-align:center;}
+.compdiv .uitmini span.date .weekday {font-size:0.85em;font-variant:small-caps;color:#fff;background-color:#d54902;}
+.compdiv .uitmini span.date .day {height:18px;font-size:1em;font-weight:bold;margin-top:0.02em;}
+.compdiv .uitmini span.date .month {color:#929292;font-size:0.85em;font-variant:small-caps;line-height:8px; padding-right:5px; }
+.compdiv .uitmini span.location {display:block;margin:0 0.45em 0 40px; padding:0}
+.compdiv .uitmini span.location {padding-top:0; margin-top:0}
+
+.pointer {
+	cursor: pointer;
+}
+.selectzoekbalk {
+    cursor: pointer;
+    font-size: 1.4em;
+    font-weight: bold;
+    height: 32px;
+    display: inline-block;
+    padding: 0 6px; /* 4px , 0 want anders in ie slechte lay-out */
+    margin-bottom: 0; 
+    color: #555;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    vertical-align: middle; 
+    border: 1px solid #ccc;
+    background-color: #fff;
+    line-height: 28px;
+}
+.ablQuery {
+    font-size: 1.25em;
+    font-weight: 500;
+    height: 32px;
+    display: inline-block;
+    padding: 0 6px; /* 4px , 0 want anders in ie slechte lay-out */
+    margin-bottom: 0; 
+    color: #555;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    vertical-align: middle; 
+    border: 1px solid #ccc;
+    background-color: #fff;
+    line-height: 28px;
+}
+.ablSearch {
+    cursor: pointer;    
+    font-size: 1.4em;
+    font-weight: bold;
+    height: 32px;
+    /* font-family: 'RosarioRegular', sans-serif; */
+    font-family: 'Ubuntu Regular',sans-serif;
+    display: inline-block;
+    margin-bottom: 0; 
+    color: #555;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    vertical-align: middle; 
+    border: 1px solid #ccc;
+    background-color: #fff;
+    line-height: 28px;
+    background: url('/imgs/search_oranje.png') no-repeat right; 
+    padding-right: 30px; 
+    background-color: #fff;
+}    
+#ablQuery, #selzoek {
+    width: 99%;
+}
+h4 {
+	font-size: 16px; 
+	color: #d54902; 
+}
+/* styleswitcher  */
+#text-small {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #fff;
+    font-family: 'Ubuntu-Bold';
+}
+#text-normal {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #fff;
+    /*font-weight: bold;*/
+    font-family: 'Ubuntu-Bold';
+}
+#text-large {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #fff;
+    font-family: 'Ubuntu-Bold';
+}
+/* einde styleswitcher  */
+
+.glyphicon {
+	font-size: 1.5em;
+}
+
+.badge-ovi {
+	line-height:0.95em; 
+	width:65px; 
+	height:28px; 
+	white-space:normal; 
+	margin-right: 10px;
+	opacity:0.75; 
+	filter:alpha(opacity=75);
+}

@@ -6,8 +6,9 @@ use CultuurNet\ProjectAanvraag\Core\CacheProvider;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
-use CultuurNet\ProjectAanvraag\Core\RabbitMQEventListenerProvider;
 use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
+use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceProvider;
+use CultuurNet\ProjectAanvraag\Goutte\GoutteServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
@@ -17,6 +18,7 @@ use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
+use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
@@ -28,7 +30,6 @@ use Doctrine\ODM\MongoDB\Types\Type;
 use MongoDB\Client;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
@@ -45,6 +46,13 @@ class ApplicationBase extends SilexApplication
         parent::__construct();
 
         $this['cache_directory'] = __DIR__ . '/../cache';
+
+        // Make sure the cache directory exists.
+        if (!file_exists($this['cache_directory'])) {
+            mkdir($this['cache_directory']);
+        } elseif (!is_writable($this['cache_directory'])) {
+            die('The cache directory is not writable');
+        }
 
         // Load the config.
         if (file_exists($this['cache_directory'] . '/config.php')) {
@@ -229,7 +237,10 @@ class ApplicationBase extends SilexApplication
 
         $this->register(
             new WidgetServiceProvider(),
-            []
+            [
+                'region_json_location' => $this['config']['search_api']['region-list'],
+                'google_tag_manager' => $this['config']['google_tag_manager'],
+            ]
         );
 
         $this->register(new LegacyServiceProvider());
@@ -251,6 +262,21 @@ class ApplicationBase extends SilexApplication
             [
                 'insightly.host' => $this['config']['insightly']['host'],
                 'insightly.api_key' => $this['config']['insightly']['api_key'],
+            ]
+        );
+
+        // ShareProxy
+        $this->register(
+            new ShareProxyServiceProvider(),
+            []
+        );
+
+        // CSS stats
+        $this->register(
+            new CssStatsServiceProvider(),
+            [
+                'css_stats.timeout' => $this['config']['css_stats']['timeout'],
+                'css_stats.connect_timeout' => $this['config']['css_stats']['connect_timeout'],
             ]
         );
     }

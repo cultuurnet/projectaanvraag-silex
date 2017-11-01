@@ -1,8 +1,8 @@
 <div class="cnw_form-check">
-    {% for option in options %}
+    <span class="cnw_form-check--label">{{  label }}</span>
+    {% for option_key, option in options %}
         <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                   value="{{ option.label }}" checked>
+            <input class="form-check-input" type="checkbox" name="{{ name }}" value="{{ option_key }}"{% if option_key in default_options %} checked{% endif %}>
             {{ option.label }}
         </label>
     {% endfor %}
