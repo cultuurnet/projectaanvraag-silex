@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Console\Command;
 
 use Knp\Command\Command;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
-use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
 use PhpAmqpLib\Wire\AMQPTable;
 use Symfony\Component\Console\Input\InputInterface;
@@ -96,6 +95,8 @@ class ConsumeCommand extends Command
             try {
                 $output->writeln(' [x] Received ' . $msg->body);
                 $consumer->execute($msg);
+
+                //$channel->basic_publish($msg, '', 'projectaanvraag_delay');
 
                 /**
                  * Always acknowledge the message, even on failure. This prevents the automatic requeuing of the item.
