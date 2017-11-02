@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Console\Command;
 
 use Knp\Command\Command;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
+use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Connection\AMQPSocketConnection;
 use PhpAmqpLib\Wire\AMQPTable;
 use Symfony\Component\Console\Input\InputInterface;
@@ -75,13 +76,21 @@ class ConsumeCommand extends Command
         // Declare the exchange
         $channel->exchange_declare('asynchronous_commands', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
 
-        // Declare the queue
+        // Declare the main queue
         $channel->queue_declare('projectaanvraag', false, true, false, false, false, new AMQPTable(['routing_keys' => ['asynchronous_commands']]));
 
         // Bind the queue to the async_commands exchange
         $channel->queue_bind('projectaanvraag', 'asynchronous_commands', 'asynchronous_commands');
 
         $output->writeln(' [*] Waiting for messages. To exit press CTRL+C');
+
+        // Declare delay queue.
+        $channel->queue_declare('projectaanvraag_delay',false,true,false,false,false
+            ,array('x-message-ttl'=>array('I',5000)
+            , 'x-dead-letter-exchange'=>array('S','asynchronous_commands')
+            , 'x-dead-letter-routing-key'=>array('S','asynchronous_commands')
+            )
+        );
 
         $callback = function ($msg) use ($consumer, $output, $channel) {
             try {
