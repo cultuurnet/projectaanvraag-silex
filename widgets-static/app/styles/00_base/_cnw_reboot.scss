@@ -23,9 +23,9 @@ html .cnw_w  {
   box-sizing: border-box;
 }
 
-html.cnw_w *,
-html.cnw_w::before,
-html.cnw_w::after {
+html .cnw_w *,
+html .cnw_w::before,
+html .cnw_w::after {
   box-sizing: inherit;
 }
 
