@@ -1,4 +1,4 @@
-(function (CultuurnetWidgets, $) {
+(function (CultuurnetWidgets) {
 
     /**
      * Load google tag manager.
@@ -24,15 +24,15 @@
         attach: function (context) {
 
             // If context contains a widget. Track the correct event related with it.
-            $(context).find('[data-view-tracking-category]').each(function () {
-                var $widget = $(this);
+            jQuery(context).find('[data-view-tracking-category]').each(function () {
+                var $widget = jQuery(this);
                 console.log($widget);
                 CultuurnetWidgets.trackEvent('widgetLoaded', 'view', $widget.data('view-tracking-category'), $widget.data('view-tracking-page-suffix'), $widget.data('view-tracking-extra-data'));
             });
 
             // Add click tracking on the needed links.
-            $(context).find('[data-click-tracking-category]').bind('click', function (e) {
-                var $clickedElement = $(this);
+            jQuery(context).find('[data-click-tracking-category]').bind('click', function (e) {
+                var $clickedElement = jQuery(this);
                 var category = $clickedElement.data('click-tracking-category');
                 var action = $clickedElement.data('click-tracking-action');
 
@@ -51,7 +51,7 @@
 
             // The uiv link is part of the event description in API.
             // Attach custom tracking on it.
-            $(context).find('.uiv-source').find('a').bind('click', function() {
+            jQuery(context).find('.uiv-source').find('a').bind('click', function() {
                 CultuurnetWidgets.trackEvent('trackEvent', 'source', 'detail');
             })
 
@@ -98,4 +98,4 @@
         cnWidgetsDataLayer.push(gtm_data);
     }
 
-})(CultuurnetWidgets, jQuery);
+})(CultuurnetWidgets);

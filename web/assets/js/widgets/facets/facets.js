@@ -1,7 +1,7 @@
 
 window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
-(function (CultuurnetWidgets, $) {
+(function (CultuurnetWidgets) {
 
     'use strict';
 
@@ -15,12 +15,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             CultuurnetWidgets.attachFacetsToggle(context);
 
             // Click event binding for facet filters.
-            $(context).find('a[data-facet-type]').each(function() {
-                $(this).bind('click', function(e) {
+            jQuery(context).find('a[data-facet-type]').each(function() {
+                jQuery(this).bind('click', function(e) {
 
                     e.preventDefault();
 
-                    var $this = $(this);
+                    var $this = jQuery(this);
 
                     // Retrieve all data values.
                     var widget_id = $this.parents('[data-widget-id]').data('widget-id');
@@ -55,10 +55,10 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * @param context
      */
     CultuurnetWidgets.attachFacetsToggle = function(context) {
-        var $facetWrapper = $(context).find('.cnw_facets_content');
+        var $facetWrapper = jQuery(context).find('.cnw_facets_content');
         if ($facetWrapper.length) {
 
-            var $facetsToggle = $(context).find('.cnw_facets_toggle');
+            var $facetsToggle = jQuery(context).find('.cnw_facets_toggle');
 
             $facetsToggle.bind('click', function(e) {
                 e.preventDefault();
@@ -73,7 +73,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             });
             
             // Facets are default hidden for mobile.
-            if ($(window).width() < 768) {
+            if (jQuery(window).width() < 768) {
                 $facetsToggle.trigger('click');
             }
 
@@ -151,4 +151,4 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete);
     };
 
-})(CultuurnetWidgets, jQuery);
+})(CultuurnetWidgets);

@@ -1,7 +1,7 @@
 
 window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
-(function (CultuurnetWidgets, $) {
+(function (CultuurnetWidgets) {
 
     'use strict';
 
@@ -12,7 +12,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         attach: function(context) {
             // Bind submit handlers on the search forms.
-            $(context).find('.cnw_form').each(CultuurnetWidgets.initSearchForm);
+            jQuery(context).find('.cnw_form').each(CultuurnetWidgets.initSearchForm);
         }
     };
 
@@ -22,7 +22,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.initSearchForm = function ($searchForm) {
 
-        var $searchForm = $(this);
+        var $searchForm = jQuery(this);
         CultuurnetWidgets.setDefaultFormValues($searchForm);
         $searchForm.bind('submit', CultuurnetWidgets.submitSearchForm);
 
@@ -62,7 +62,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             });
 
             $searchForm.find('.cnw_form-control-date').bind('change', function() {
-                var $dateSelect = $(this);
+                var $dateSelect = jQuery(this);
                 if ($dateSelect.val() === 'custom_date') {
                     $customDateWrapper.show();
                 }
@@ -96,9 +96,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         // Search all input fields.
         var paramsToSubmit = {};
         var paramsToDelete = {};
-        $(this).find(':input').each(function() {
+        jQuery(this).find(':input').each(function() {
 
-            var $field = $(this);
+            var $field = jQuery(this);
 
             if (!$field.attr('name')) {
                 return true;
@@ -159,7 +159,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Search all input fields.
             $searchForm.find(':input').each(function() {
 
-                var $field = $(this);
+                var $field = jQuery(this);
                 var fieldName = $field.attr('name');
                 // If the field exists in query string, set the correct default value.
                 if (currentParams[fieldName] !== undefined) {
@@ -188,4 +188,4 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
     }
 
-})(CultuurnetWidgets, jQuery);
+})(CultuurnetWidgets);

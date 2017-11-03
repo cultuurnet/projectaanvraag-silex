@@ -1,7 +1,7 @@
 
 window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
-(function (CultuurnetWidgets, $) {
+(function (CultuurnetWidgets) {
 
     'use strict';
 
@@ -29,9 +29,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * Bind the pager click listeners.
      */
     CultuurnetWidgets.bindPager = function(context) {
-        $(context).find('a[data-target-page]').each(function() {
+        jQuery(context).find('a[data-target-page]').each(function() {
 
-            var $this = $(this);
+            var $this = jQuery(this);
             var targetWidget = $this.data('target-widget');
             if (targetWidget != undefined) {
 
@@ -55,9 +55,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * Bind the extra search result filters
      */
     CultuurnetWidgets.bindSearchResultFilters = function (context) {
-        $(context).find('.cnw_searchresult__options').find(':input').bind('change', function() {
+        jQuery(context).find('.cnw_searchresult__options').find(':input').bind('change', function() {
 
-            var $this = $(this);
+            var $this = jQuery(this);
             if ($this.is(':checked')) {
                 var paramsToSubmit = {};
                 paramsToSubmit[$this.attr('name')] = true;
@@ -76,12 +76,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * Bind the removal links for active filters
      */
     CultuurnetWidgets.bindRemoveActiveFilters = function (context) {
-        var $activeFilters = $(context).find('.cnw_searchresult__searchwords').find('[data-active-keywords-name]');
+        var $activeFilters = jQuery(context).find('.cnw_searchresult__searchwords').find('[data-active-keywords-name]');
         $activeFilters.bind('click', function(e) {
 
             e.preventDefault();
 
-            var $this = $(this);
+            var $this = jQuery(this);
 
             var paramToDelete = $this.data('active-keywords-name');
             // User requests to delete all widgets.
@@ -91,8 +91,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 // Create a new list of params. Filters marked as default should stay in url
                 // but with an empty value
                 $activeFilters.each(function() {
-                    if ($(this).data('active-keywords-default-option') === 1) {
-                        params[$(this).data('active-keywords-name')] = '';
+                    if (jQuery(this).data('active-keywords-default-option') === 1) {
+                        params[jQuery(this).data('active-keywords-name')] = '';
                     }
                 });
 
@@ -116,4 +116,4 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         });
     }
 
-})(CultuurnetWidgets, jQuery);
+})(CultuurnetWidgets);

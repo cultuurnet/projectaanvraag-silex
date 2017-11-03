@@ -2,7 +2,7 @@
  * Drupal 7 native autocomplete implementation.
  */
 
-(function ($) {
+(function () {
 
     /**
      * Attaches the autocomplete behavior to all required fields.
@@ -10,8 +10,8 @@
     CultuurnetWidgets.behaviors.autocomplete = {
         attach: function (context, settings) {
             var acdb = [];
-            $('input.cnw_form-autocomplete', context).each(function() {
-                var $input = $(this)
+            jQuery('input.cnw_form-autocomplete', context).each(function() {
+                var $input = jQuery(this)
                     .attr('autocomplete', 'OFF')
                     .attr('aria-autocomplete', 'list');
 
@@ -22,7 +22,7 @@
 
                 $input.parent()
                     .attr('role', 'application')
-                    .append($('<span class="element-invisible" aria-live="assertive"></span>')
+                    .append(jQuery('<span class="element-invisible" aria-live="assertive"></span>')
                         .attr('id', $input.attr('id') + '-autocomplete-aria-live')
                     );
                 new CultuurnetWidgets.jsAC($input, acdb[uri]);
@@ -37,7 +37,7 @@
      * and closes the suggestions popup when doing so.
      */
     CultuurnetWidgets.autocompleteSubmit = function () {
-        return $('#autocomplete').each(function () {
+        return jQuery('#autocomplete').each(function () {
                 this.owner.hidePopup();
             }).length == 0;
     };
@@ -48,7 +48,7 @@
     CultuurnetWidgets.jsAC = function ($input, db) {
         var ac = this;
         this.input = $input[0];
-        this.ariaLive = $('#' + this.input.id + '-autocomplete-aria-live');
+        this.ariaLive = jQuery('#' + this.input.id + '-autocomplete-aria-live');
         this.db = db;
 
         $input
@@ -120,8 +120,8 @@
      * Puts the currently highlighted suggestion into the autocomplete field.
      */
     CultuurnetWidgets.jsAC.prototype.select = function (node) {
-        console.log($(node));
-        this.input.value = $(node)[0].innerText;
+        console.log(jQuery(node));
+        this.input.value = jQuery(node)[0].innerText;
     };
 
     /**
@@ -132,7 +132,7 @@
             this.highlight(this.selected.nextSibling);
         }
         else if (this.popup) {
-            var lis = $('li', this.popup);
+            var lis = jQuery('li', this.popup);
             if (lis.length > 0) {
                 this.highlight(lis.get(0));
             }
@@ -153,20 +153,20 @@
      */
     CultuurnetWidgets.jsAC.prototype.highlight = function (node) {
         if (this.selected) {
-            $(this.selected).removeClass('autocomplete-option-selected');
+            jQuery(this.selected).removeClass('autocomplete-option-selected');
         }
-        $(node).addClass('autocomplete-option-selected');
+        jQuery(node).addClass('autocomplete-option-selected');
         this.selected = node;
-        $(this.ariaLive).html($(this.selected).html());
+        jQuery(this.ariaLive).html(jQuery(this.selected).html());
     };
 
     /**
      * Unhighlights a suggestion.
      */
     CultuurnetWidgets.jsAC.prototype.unhighlight = function (node) {
-        $(node).removeClass('autocomplete-option-selected');
+        jQuery(node).removeClass('autocomplete-option-selected');
         this.selected = false;
-        $(this.ariaLive).empty();
+        jQuery(this.ariaLive).empty();
     };
 
     /**
@@ -176,32 +176,32 @@
 
         // Select item if the right key or mousebutton was pressed.
         if (this.selected && ((keycode && keycode != 46 && keycode != 8 && keycode != 27) || !keycode)) {
-            this.input.value = $(this.selected).data('autocompleteValue');
+            this.input.value = jQuery(this.selected).data('autocompleteValue');
         }
         // Hide popup.
         var popup = this.popup;
         if (popup) {
             this.popup = null;
-            $(popup).fadeOut('fast', function () { $(popup).remove(); });
+            jQuery(popup).fadeOut('fast', function () { jQuery(popup).remove(); });
         }
         this.selected = false;
-        $(this.ariaLive).empty();
+        jQuery(this.ariaLive).empty();
     };
 
     /**
      * Positions the suggestions popup and starts a search.
      */
     CultuurnetWidgets.jsAC.prototype.populatePopup = function () {
-        var $input = $(this.input);
+        var $input = jQuery(this.input);
         var position = $input.position();
         // Show popup.
         if (this.popup) {
-            $(this.popup).remove();
+            jQuery(this.popup).remove();
         }
         this.selected = false;
-        this.popup = $('<div id="autocomplete"></div>')[0];
+        this.popup = jQuery('<div id="autocomplete"></div>')[0];
         this.popup.owner = this;
-        $(this.popup).css({
+        jQuery(this.popup).css({
 
             width: $input.outerWidth() + 'px',
             display: 'none'
@@ -223,11 +223,11 @@
         }
 
         // Prepare matches.
-        var ul = $('<ul></ul>');
+        var ul = jQuery('<ul></ul>');
         var ac = this;
         for (key in matches) {
-            $('<li></li>')
-                .html($('<div></div>').html(matches[key]))
+            jQuery('<li></li>')
+                .html(jQuery('<div></div>').html(matches[key]))
                 .mousedown(function () { ac.select(this); })
                 .mouseover(function () { ac.highlight(this); })
                 .mouseout(function () { ac.unhighlight(this); })
@@ -238,14 +238,14 @@
         // Show popup with matches, if any.
         if (this.popup) {
             if (ul.children().length) {
-                $(this.popup).empty().append(ul).show();
-                $(this.ariaLive).html('Autocomplete popup');
-                $(this.input).addClass('cnw_form-autocomplete--hasresults');
+                jQuery(this.popup).empty().append(ul).show();
+                jQuery(this.ariaLive).html('Autocomplete popup');
+                jQuery(this.input).addClass('cnw_form-autocomplete--hasresults');
             }
             else {
-                $(this.popup).css({ visibility: 'hidden' });
+                jQuery(this.popup).css({ visibility: 'hidden' });
                 this.hidePopup();
-                $(this.input).removeClass('cnw_form-autocomplete--hasresults');
+                jQuery(this.input).removeClass('cnw_form-autocomplete--hasresults');
             }
         }
     };
@@ -253,13 +253,13 @@
     CultuurnetWidgets.jsAC.prototype.setStatus = function (status) {
         switch (status) {
             case 'begin':
-                $(this.input).addClass('throbbing');
-                $(this.ariaLive).html('Bezig met zoeken');
+                jQuery(this.input).addClass('throbbing');
+                jQuery(this.ariaLive).html('Bezig met zoeken');
                 break;
             case 'cancel':
             case 'error':
             case 'found':
-                $(this.input).removeClass('throbbing');
+                jQuery(this.input).removeClass('throbbing');
                 break;
         }
     };
@@ -301,7 +301,7 @@
 
             // Ajax GET request for autocompletion. We use CultuurnetWidgets.encodePath instead of
             // encodeURIComponent to allow autocomplete search terms to contain slashes.
-            $.ajax({
+            jQuery.ajax({
                 type: 'GET',
                 url: db.uri + '/' + encodeURIComponent(searchString).replace(/%2F/g, '/'),
                 dataType: 'json',
@@ -328,4 +328,4 @@
         this.searchString = '';
     };
 
-})(jQuery);
+})();
