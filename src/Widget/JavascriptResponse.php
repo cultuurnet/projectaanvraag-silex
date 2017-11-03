@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 use MatthiasMullie\Minify\CSS;
 use MatthiasMullie\Minify\JS;
 use MatthiasMullie\Minify\Minify;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,12 +15,29 @@ class JavascriptResponse extends Response
 {
 
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var WidgetPageInterface
+     */
+    protected $widgetPage;
+
+    /**
      * JavascriptResponse constructor.
+     *
+     * @param Request $request
      * @param RendererInterface $renderer
      * @param int $content
+     * @param WidgetPageInterface $widgetPage
      */
-    public function __construct(RendererInterface $renderer, $content)
+    public function __construct(Request $request, RendererInterface $renderer, $content, WidgetPageInterface $widgetPage)
     {
+
+        $this->request = $request;
+        $this->widgetPage = $widgetPage;
+
         if ($content) {
             $content = $this->renderContent($content);
         } else {
@@ -85,6 +103,11 @@ class JavascriptResponse extends Response
             $cssMinify->add($css['path']);
         }
 
-        return 'CultuurnetWidgets.addStyle("' . addslashes($cssMinify->minify()) .'");';
+        $cssPath = 'widgets/layout/' . $this->widgetPage->getId() . '.css';
+        $cssMinify->minify(WWW_ROOT . '/' . $cssPath);
+
+        $cssUrl = $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . $cssPath;
+
+        return 'CultuurnetWidgets.addExternalStyle("' . $cssUrl .'");';
     }
 }

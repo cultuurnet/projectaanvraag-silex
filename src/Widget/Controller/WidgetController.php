@@ -109,7 +109,7 @@ class WidgetController
      */
     public function renderPage(Request $request, WidgetPageInterface $widgetPage)
     {
-        $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage));
+        $javascriptResponse = new JavascriptResponse($request, $this->renderer, $this->renderer->renderPage($widgetPage), $widgetPage);
 
         // Only write the javascript files, when we are not in debug mode.
         if (!$this->debugMode) {
@@ -133,7 +133,6 @@ class WidgetController
      */
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
-
         $data = [
             'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId)),
         ];

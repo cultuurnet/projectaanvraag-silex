@@ -136,7 +136,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var head = document.getElementsByTagName('head')[0];
         var styleElement = document.createElement("style");
         styleElement.setAttribute("type", "text/css");
-        styleElement.setAttribute("src", link);
+        styleElement.setAttribute("src", css_file);
         head.appendChild(styleElement);
     };
 
