@@ -318,6 +318,11 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
                     }
                 }
             } else {
+
+                if (is_array($allowedSettings[$id])) {
+                    print_r($allowedSettings[$id]);
+                }
+
                 // Normal value: Cast to the requested format.
                 settype($settings[$id], $allowedSettings[$id]);
             }

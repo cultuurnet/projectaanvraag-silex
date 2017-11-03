@@ -19,6 +19,7 @@ use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
+use CultuurNet\ProjectAanvraag\WidgetMigration\WidgetMigrationProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
@@ -243,7 +244,7 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
-        $this->register(new LegacyServiceProvider());
+        $this->register(new WidgetMigrationProvider());
 
         $this->register(new MessageBusProvider());
 

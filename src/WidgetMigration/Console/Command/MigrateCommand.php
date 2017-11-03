@@ -1,14 +1,12 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\Console\Command;
+namespace CultuurNet\ProjectAanvraag\WidgetMigration\Console\Command;
 
-use CultuurNet\ProjectAanvraag\ApplicationBase;
+use CultuurNet\ProjectAanvraag\WidgetMigration\Event\QueueWidgetMigration;
 use Knp\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
-
-use CultuurNet\ProjectAanvraag\Core\Event\QueueWidgetMigration;
 
 /**
  * Migrates tbe old JSON widgets to the new JSON widgets.
@@ -17,7 +15,7 @@ class MigrateCommand extends Command
 {
     public function configure()
     {
-        $this->setName('projectaanvraag:migrate');
+        $this->setName('projectaanvraag:migrate-widgets');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

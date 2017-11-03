@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\Core\Event;
+namespace CultuurNet\ProjectAanvraag\WidgetMigration\Event;
 
 use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
 use JMS\Serializer\Annotation\Type;

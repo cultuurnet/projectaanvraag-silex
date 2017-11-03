@@ -15,7 +15,7 @@ subscribers:
             - queue_consumers_listener
         CultuurNet\ProjectAanvraag\Core\Event\SyncConsumer:
             - sync_consumer_listener
-        CultuurNet\ProjectAanvraag\Core\Event\QueueWidgetMigration:
+        CultuurNet\ProjectAanvraag\WidgetMigration\Event\QueueWidgetMigration:
             - queue_widget_migration_listener
 
 listeners:
@@ -58,7 +58,7 @@ listeners:
             - orm.em
             - insightly.project_config
     queue_widget_migration_listener:
-        class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueWidgetMigrationEventListener
+        class: \CultuurNet\ProjectAanvraag\WidgetMigration\EventListener\QueueWidgetMigrationEventListener
         arguments:
             - legacy_widgets_db
             - orm.em
@@ -178,6 +178,7 @@ handlers:
               class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\MigrateWidgetPageCommandHandler
               arguments:
                   - event_bus
+                  - widgets_migration_logger
                   - mongodbodm.dm
                   - legacy_widgets_db
                   - orm.em

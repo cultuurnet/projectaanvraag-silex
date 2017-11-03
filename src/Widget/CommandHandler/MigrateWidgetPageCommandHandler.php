@@ -13,6 +13,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Monolog\Logger;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 /**
@@ -25,6 +26,11 @@ class MigrateWidgetPageCommandHandler
      * @var MessageBusSupportingMiddleware
      */
     protected $eventBus;
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
 
     /**
      * @var DocumentManager
@@ -55,15 +61,18 @@ class MigrateWidgetPageCommandHandler
      * MigrateWidgetPageCommandHandler constructor.
      *
      * @param MessageBusSupportingMiddleware $eventBus
+     * @param Logger $logger
      * @param DocumentManager $documentManager
-     * @param Connection $legacy_db
+     * @param Connection $legacyDatabase
      * @param EntityManagerInterface $entityManager
      * @param EntityRepository $repository
      * @param WidgetPluginManager $widgetLayoutManager
+     * @internal param Connection $legacy_db
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, DocumentManager $documentManager, Connection $legacyDatabase, EntityManagerInterface $entityManager, EntityRepository $repository, WidgetPluginManager $widgetLayoutManager)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, Logger $logger, DocumentManager $documentManager, Connection $legacyDatabase, EntityManagerInterface $entityManager, EntityRepository $repository, WidgetPluginManager $widgetLayoutManager)
     {
         $this->eventBus = $eventBus;
+        $this->logger = $logger;
         $this->documentManager = $documentManager;
         $this->legacyDatabase = $legacyDatabase;
         $this->entityManager = $entityManager;
@@ -127,12 +136,16 @@ class MigrateWidgetPageCommandHandler
 
             // Persist project to MySQL database.
             $this->entityManager->persist($project);
+
+            $this->logger->info('Project did not exist yet: created new project for ' . $result['project']);
         }
 
         // Build widget page entity and persist to MongoDB database.
         $widgetPage = $this->serializeWidgetPage($result, $project);
         $this->documentManager->persist($widgetPage);
         $this->documentManager->flush();
+
+        $this->logger->info('Migrated widget page ' . $result['page_id'] . ' - ' . $result['title']);
 
         $this->entityManager->flush();
 
@@ -160,10 +173,7 @@ class MigrateWidgetPageCommandHandler
         if (isset($data['title'])) {
             $widgetPageEntity->setTitle($data['title']);
         }
-        if (isset($data['live_uid'])) {
-            $widgetPageEntity->setCreatedBy($data['live_uid']);
-            $widgetPageEntity->setLastUpdatedBy($data['live_uid']);
-        }
+
         if ($data['created']) {
             $widgetPageEntity->setCreated($data['created']);
         }

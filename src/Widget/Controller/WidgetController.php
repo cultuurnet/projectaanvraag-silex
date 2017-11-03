@@ -191,6 +191,7 @@ class WidgetController
         foreach ($rows as $row) {
             $widgets = $row->getWidgets();
             foreach ($widgets as $id => $widget) {
+                $id = (string) $id;
                 if ($id === $widgetId) {
                     $searchResultsWidget = $widget;
                 }

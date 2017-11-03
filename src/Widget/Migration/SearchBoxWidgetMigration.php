@@ -28,6 +28,7 @@ class SearchBoxWidgetMigration extends WidgetMigration
             // what placeholder
             $settings['fields']['type']['keyword_search']['placeholder'] = $legacySettings['control_what']['fields']['q']['placeholder'] ?? '';
         }
+
         // where
         if (isset($legacySettings['control_where']['fields'])) {
             // where enabled
