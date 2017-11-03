@@ -127,6 +127,7 @@ class ShareProxyController
                 'description' => $offer->getDescription()['nl'],
                 'image' => $offer->getImage(),
                 'url' => $originUrl,
+                'request_url' => $this->request->getUri(),
             ]
         );
     }
