@@ -59,7 +59,7 @@ class QueueConsumersEventListener
         }
 
         if (!empty($consumers->objects)) {
-            // As long as we get the maximum number of objects, add event to queue with next starting index
+            // As long as we get the maximum number of objects, add event to queue with next starting index.
             if (count($consumers->objects) == $event->getMax()) {
                 $event->setStart($event->getStart() + $event->getMax());
                 $this->eventBus->handle($event);

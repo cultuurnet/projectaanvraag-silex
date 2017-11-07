@@ -51,6 +51,10 @@ class DeleteWidgetPageCommandHandler extends WidgetPageCommandHandler
 
         $this->documentManager->flush();
 
+        // Remove the cached version.
+        if (file_exists(WWW_ROOT . '/widgets/layout/' . $originalWidgetPage->getId() . '.js')) {
+            return unlink(WWW_ROOT . '/widgets/layout/' . $originalWidgetPage->getId() . '.js');
+        }
         // Dispatch the event.
         //$this->eventBus->handle(new WidgetPageDeleted($originalWidgetPage));
     }

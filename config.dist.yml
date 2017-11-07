@@ -11,6 +11,13 @@ cors:
 
 # Database settings
 database:
+  default:
+    driver: pdo_mysql
+    host:
+    user:
+    password:
+    dbname:
+  legacy_widgets:
     driver: pdo_mysql
     host:
     user:
@@ -78,6 +85,9 @@ cache:
   redis:
     host:
     port: 6379
+
+# Legacy widget host settings
+legacy_host: http://tools.uitdatabank.be
 
 # CSS stats settings
 css_stats:

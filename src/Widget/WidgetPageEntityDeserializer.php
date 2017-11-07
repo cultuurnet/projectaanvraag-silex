@@ -42,10 +42,6 @@ class WidgetPageEntityDeserializer
 
         $widgetPageEntity = new WidgetPageEntity();
 
-        if (isset($jsonObject['id'])) {
-            $widgetPageEntity->setId($jsonObject['id']);
-        }
-
         if (isset($jsonObject['version'])) {
             $widgetPageEntity->setVersion($jsonObject['version']);
         }

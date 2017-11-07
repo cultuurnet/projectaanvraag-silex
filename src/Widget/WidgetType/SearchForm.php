@@ -220,6 +220,8 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
             $this->renderer->attachCss(WWW_ROOT . '/assets/vendor/pickaday/pickaday.css');
         }
 
+        $this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
+
         return $this->render();
     }
 

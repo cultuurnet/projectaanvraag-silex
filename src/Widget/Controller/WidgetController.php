@@ -83,6 +83,11 @@ class WidgetController
     protected $debugMode;
 
     /**
+     * @var string
+     */
+    protected $legacyHost;
+
+    /**
      * @var RegionService
      */
     protected $regionService;
@@ -94,33 +99,53 @@ class WidgetController
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode, RegionService $regionService)
+    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode, string $legacyHost, RegionService $regionService)
     {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->debugMode = $debugMode;
+        $this->legacyHost = $legacyHost;
         $this->regionService = $regionService;
     }
 
     /**
-     * Hardcoded example of a render page.
+     * Render the widget page.
+     *
+     * @param Request $request
+     * @param WidgetPageInterface $widgetPage
+     * @return string
      */
     public function renderPage(Request $request, WidgetPageInterface $widgetPage)
     {
-        $javascriptResponse = new JavascriptResponse($request, $this->renderer, $this->renderer->renderPage($widgetPage), $widgetPage);
+        // Determine directory path to store js files.
+        $directory = dirname(WWW_ROOT . $request->getPathInfo());
+        $pageId = $widgetPage->getId();
+
+        // Check if js file exists.
+        if (file_exists($directory . '/' . $pageId . '.js')) {
+            return file_get_contents($directory . '/' . $pageId . '.js');
+        }
+
+        // Check if page is from old version.
+        if ($widgetPage->getVersion() != 3) {
+            // Retrieve file from old host URL.
+            $jsContent = file_get_contents($this->legacyHost . '/' . 'widgets/layout/' . $pageId . '.js');
+        } else {
+            $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage), $widgetPage);
+            $jsContent = $javascriptResponse->getContent();
+        }
 
         // Only write the javascript files, when we are not in debug mode.
-        if (!$this->debugMode) {
-            $directory = dirname(WWW_ROOT . $request->getPathInfo());
+        if (!$this->debugMode && $jsContent) {
             if (!file_exists($directory)) {
                 mkdir($directory, 0777, true);
             }
-            file_put_contents(WWW_ROOT . $request->getPathInfo(), $javascriptResponse->getContent());
+            file_put_contents(WWW_ROOT . $request->getPathInfo(), $jsContent);
         }
 
-        return $javascriptResponse->getContent();
+        return $jsContent;
     }
 
     /**
@@ -165,6 +190,7 @@ class WidgetController
         foreach ($rows as $row) {
             $widgets = $row->getWidgets();
             foreach ($widgets as $id => $widget) {
+                $id = (string) $id;
                 if ($id === $widgetId) {
                     $searchResultsWidget = $widget;
                 }
@@ -224,6 +250,7 @@ class WidgetController
             'data' => $this->renderer->renderDetailPage($widget),
         ];
         $response = new JsonResponse($data);
+        //$response = new Response($this->renderer->renderWidget($widget));
 
         // If this is a jsonp request, set the requested callback.
         if ($request->query->has('callback')) {

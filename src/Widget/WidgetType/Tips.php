@@ -55,7 +55,8 @@ use Pimple\Container;
  *                  "enabled":false
  *              },
  *               "organizer":{
- *                  "enabled":false
+ *                  "enabled":false,
+ *                  "label":"Organisatie"
  *              },
  *              "image":{
  *                  "enabled":true,
@@ -108,7 +109,8 @@ use Pimple\Container;
  *                  "label":"string"
  *              },
  *              "organizer":{
- *                  "enabled":"boolean"
+ *                  "enabled":"boolean",
+ *                  "label":"string"
  *              },
  *              "age":{
  *                  "enabled":"boolean",

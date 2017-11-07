@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Console\Command\CacheClearCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\SyncConsumersCommand;
+use CultuurNet\ProjectAanvraag\WidgetMigration\Console\Command\MigrateCommand;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
@@ -69,10 +70,14 @@ class ConsoleApplication extends ApplicationBase
     {
         $consoleApp = $this['console'];
 
+        $consoleApp->add(new CacheClearCommand());
         $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer'));
 
         // Sync culturefeed consumers with local DB
         $consoleApp->add(new SyncConsumersCommand());
+
+        // Widget commands
+        $consoleApp->add(new MigrateCommand());
 
         // Doctrine helperset
         $em = $this['orm.em'];
@@ -106,7 +111,6 @@ class ConsoleApplication extends ApplicationBase
                 new ConvertMappingCommand(),
                 new RunDqlCommand(),
                 new ValidateSchemaCommand(),
-                new CacheClearCommand(),
             ]
         );
     }

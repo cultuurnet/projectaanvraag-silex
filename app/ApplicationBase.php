@@ -15,9 +15,11 @@ use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
+use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
+use CultuurNet\ProjectAanvraag\WidgetMigration\WidgetMigrationProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DerAlex\Silex\YamlConfigServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
@@ -30,6 +32,7 @@ use MongoDB\Client;
 use Silex\Application as SilexApplication;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
@@ -156,7 +159,7 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new DoctrineServiceProvider(),
             [
-                'db.options' => $this['config']['database'],
+                'dbs.options' => $this['config']['database'],
             ]
         );
 
@@ -220,6 +223,17 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
+        // Twig
+        $this->register(
+            new TwigServiceProvider(),
+            [
+                'twig.path' => __DIR__ . '/../views',
+                'twig.options'    => [
+                    'cache' => $this['cache_directory'] . '/twig',
+                ],
+            ]
+        );
+
         Type::addType('page_rows', PageRows::class);
 
         $this->register(
@@ -229,6 +243,8 @@ class ApplicationBase extends SilexApplication
                 'google_tag_manager' => $this['config']['google_tag_manager'],
             ]
         );
+
+        $this->register(new WidgetMigrationProvider());
 
         $this->register(new MessageBusProvider());
 
