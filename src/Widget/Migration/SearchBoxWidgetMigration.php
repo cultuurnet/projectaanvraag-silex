@@ -32,9 +32,9 @@ class SearchBoxWidgetMigration extends WidgetMigration
         // where
         if (isset($legacySettings['control_where']['fields'])) {
             // where enabled
-            $settings['fields']['location']['keyword_search']['enabled'] = $legacySettings['control_where']['fields']['location']['enabled'];
+            $settings['fields']['location']['keyword_search']['enabled'] = $legacySettings['control_where']['fields']['city']['enabled'];
             // where label
-            $settings['fields']['location']['keyword_search']['label'] = $legacySettings['control_where']['fields']['location']['label'];
+            $settings['fields']['location']['keyword_search']['label'] = $legacySettings['control_where']['fields']['city']['label'];
             // where placeholder
             $settings['fields']['location']['keyword_search']['placeholder'] = $legacySettings['control_where']['fields']['location']['placeholder'] ?? '';
         }

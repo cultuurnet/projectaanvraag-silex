@@ -23,7 +23,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
     /**
      * @var array
      */
-    protected $regions;
+    protected $regions = [];
 
     /**
      * Mapping of all widgets in this layout.
@@ -125,6 +125,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
 
             foreach ($region['widgets'] as $widget) {
                 $this->lastWidgetIndex++;
+
                 $this->widgetMapping[$widget['id']] = $regionId;
                 $this->regions[$regionId]['widgets'][$widget['id']] = $this->widgetManager->createInstance($widget['type'], $widget, $this->cleanup);
                 $this->regions[$regionId]['widgets'][$widget['id']]->setIndex($this->lastWidgetIndex);

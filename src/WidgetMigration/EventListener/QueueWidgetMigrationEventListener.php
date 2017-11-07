@@ -70,10 +70,10 @@ class QueueWidgetMigrationEventListener
         $results = $pageQueryBuilder
             ->select('pa.pid AS page_id', 'pa.layout', 'pa.name AS title', 'pr.name AS project', 'pr.description', 'pr.userpoolkey AS live_uid', 'pr.application_key AS live_consumer_key', 'pr.status', 'pa.created', 'pa.changed')
             ->from('cul_page', 'pa')
-            ->where('pa.pid = 2387')
+            //->where('pa.pid = 589')
             ->leftJoin('pa', 'cul_project', 'pr', 'pa.project = pr.pid')
             ->setFirstResult($event->getStart())
-            ->setMaxResults(5)
+            ->setMaxResults(100)
             ->execute()->fetchAll();
 
         // Send a migrate command for each legacy widget page result.
@@ -83,8 +83,8 @@ class QueueWidgetMigrationEventListener
 
         // As long as we get the maximum number of objects, add event to queue with next starting index.
         if (count($results) == $event->getMax()) {
-            //$event->setStart($event->getStart() + $event->getMax());
-            //$this->eventBus->handle($event);
+            $event->setStart($event->getStart() + $event->getMax());
+            $this->eventBus->handle($event);
         }
     }
 }

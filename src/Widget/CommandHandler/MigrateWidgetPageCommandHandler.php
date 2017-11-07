@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPageMigrated;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\Migration\FacetsWidgetWidgetMigration;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\Migration\CssMigration;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -89,6 +90,16 @@ class MigrateWidgetPageCommandHandler
     {
         $result = $data->getResult();
 
+        $existingPage = $this->documentManager->getRepository(WidgetPageEntity::class)->findOneBy(
+            [
+                'id' => $result['page_id'],
+            ]
+        );
+        if ($existingPage) {
+            $this->logger->info('Skipping ' . $result['page_id'] . ' as it already exists in db');
+            return;
+        }
+
         // Retrieve blocks for the widget page.
         $blockQueryBuilder = $this->legacyDatabase->createQueryBuilder();
         $blocks = $blockQueryBuilder
@@ -136,18 +147,18 @@ class MigrateWidgetPageCommandHandler
 
             // Persist project to MySQL database.
             $this->entityManager->persist($project);
+            $this->entityManager->flush();
 
             $this->logger->info('Project did not exist yet: created new project for ' . $result['project']);
         }
 
         // Build widget page entity and persist to MongoDB database.
         $widgetPage = $this->serializeWidgetPage($result, $project);
+
         $this->documentManager->persist($widgetPage);
         $this->documentManager->flush();
 
         $this->logger->info('Migrated widget page ' . $result['page_id'] . ' - ' . $result['title']);
-
-        $this->entityManager->flush();
 
         // Dispatch the event.
         // $this->eventBus->handle(new WidgetPageMigrated($widgetPage));
@@ -208,13 +219,37 @@ class MigrateWidgetPageCommandHandler
 
         // Convert block data to widgets and add to correct regions array.
         foreach ($blocks as $i => $block) {
-            $widget = $this->convertBlockDataToWidget($block);
+            $widgets = $this->convertBlockDataToWidgets($block);
 
-            $widget['name'] = (count($blocks) == $i+1 ? $this->getWidgetName($widget['type'], true) : $this->getWidgetName($widget['type']));
+            // Multiple widgets? Split it up in 2 regions.
+            if (count($widgets) > 1) {
+                $widget = $widgets['content'];
 
-            if ($block['region'] == 'header') {
-                $regionsHeader['content']['widgets'][] = $widget;
+                // Create new region for the extra widget.
+                if (isset($widgets['left'])) {
+                    $layout = 'Cultuurnet_Widgets_Layout_ContentWithSidebarLayout';
+                    $sidebarWidget = $widgets['left'];
+                    $region = 'sidebar_left';
+                } else {
+                    $layout = 'Cultuurnet_Widgets_Layout_ContentWithRightSidebarLayout';
+                    $sidebarWidget = $widgets['right'];
+                    $region = 'sidebar_right';
+                }
+
+                $sidebarWidget['name'] = (count($blocks) == $i+1 ? $this->getWidgetName($sidebarWidget['type'], true) : $this->getWidgetName($sidebarWidget['type']));
+
+                $regionsMain[$region]['widgets'][] = $sidebarWidget;
             } else {
+                $widget = reset($widgets);
+            }
+
+            if ($widget) {
+                $widget['name'] = (count($blocks) == $i+1 ? $this->getWidgetName($widget['type'], true) : $this->getWidgetName($widget['type']));
+            }
+
+            if ($widget && $block['region'] == 'header') {
+                $regionsHeader['content']['widgets'][] = $widget;
+            } elseif ($widget) {
                 // We need to convert the region name to the corresponding v3 name.
                 $regionsMain[$this->convertRegion($block['region'])]['widgets'][] = $widget;
             }
@@ -235,7 +270,9 @@ class MigrateWidgetPageCommandHandler
             'type' => $this->convertType($layout),
             'regions' => $regionsMain,
         ];
+
         $rows[] = $this->widgetLayoutManager->createInstance($this->convertType($layout), $rowMain, true);
+
         return $rows;
     }
 
@@ -245,7 +282,7 @@ class MigrateWidgetPageCommandHandler
      * @param $block
      * @return array
      */
-    protected function convertBlockDataToWidget($block)
+    protected function convertBlockDataToWidgets($block)
     {
         // Build migration class name.
         $explType = explode('_', $block['type']);
@@ -269,17 +306,30 @@ class MigrateWidgetPageCommandHandler
             );
             $settings = ($block['settings'] != null && $block['settings'] != '' ? unserialize($block['settings']) : []);
 
+            // Special case for search results widget. Facets should be split in a new widget.
+            if ($block['type'] === 'Cultuurnet_Widgets_Widget_SearchResultWidget') {
+                if (isset($settings['control_results'], $settings['control_results']['refinements']) && count($settings['control_results']['refinements']['elements']) > 0) {
+                    $facetMigration = new FacetsWidgetWidgetMigration($settings);
+                    $widgets[$settings['control_results']['refinements']['position']] = [
+                        'id' => $block['id'] . '-facet',
+                        'type' => $facetMigration->getType(),
+                        'settings' => $facetMigration->getSettings(),
+                    ];
+
+                    $widgets[$settings['control_results']['refinements']['position']]['settings']['search_results'] = $block['id'];
+                }
+            }
+
             $widgetMigration = new $className($settings);
-            $widgetType = $widgetMigration->getType();
-            $widget = [
+            $widgets['content'] = [
                 'id' => $block['id'],
-                'type' => $widgetType,
+                'type' => $widgetMigration->getType(),
                 'settings' => $widgetMigration->getSettings(),
             ];
         } else {
             return [];
         }
-        return $widget;
+        return $widgets;
     }
 
     /**

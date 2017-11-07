@@ -19,7 +19,7 @@ class TwoColSidebarRight extends LayoutBase
     public function render()
     {
         return $this->twig->render(
-            'layouts/two-col-sidebar-left/two-col-sidebar-right.html.twig',
+            'layouts/two-col-sidebar-right/two-col-sidebar-right.html.twig',
             [
                 'content' => $this->renderRegion('content'),
                 'right' => $this->renderRegion('sidebar_right'),
