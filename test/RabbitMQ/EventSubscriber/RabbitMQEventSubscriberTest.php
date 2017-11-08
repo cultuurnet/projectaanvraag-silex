@@ -129,10 +129,6 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
             ->method('getAttempts')
             ->willReturn(3);
 
-        $this->projectEvent->expects($this->once())
-            ->method('setDelay')
-            ->with(5000);
-
         $this->envelope->expects($this->once())
             ->method('message')
             ->willReturn($this->projectEvent);
