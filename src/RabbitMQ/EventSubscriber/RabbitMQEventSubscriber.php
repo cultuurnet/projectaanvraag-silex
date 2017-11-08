@@ -64,6 +64,7 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
      */
     public function onConsumptionFailed(MessageConsumptionFailed $event)
     {
+
         /**
          * Unwrap the envelope and get the message
          * @var Envelope $envelope
@@ -84,8 +85,7 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
 
             // Allow the message to fail 5 times, then log it
             if ($message->getAttempts() < 5) {
-                // Retry the command with delay
-                $message->setDelay(!empty($this->config['failed_message_delay']) ? $this->config['failed_message_delay'] : 3600000);
+                // Retry the command on the delay queue.
                 $this->eventBus->handle($message);
             } else {
                 // Only log failed attempts for project events

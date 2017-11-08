@@ -73,30 +73,20 @@ class ConsumeCommand extends Command
         $channel = $connection->channel();
 
         // Declare the exchange
-        $channel->exchange_declare('asynchronous_commands', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
+        $channel->exchange_declare('main_exchange', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
 
         // Declare the main queue
         $channel->queue_declare('projectaanvraag', false, true, false, false, false, new AMQPTable(['routing_keys' => ['asynchronous_commands']]));
 
         // Bind the queue to the async_commands exchange
-        $channel->queue_bind('projectaanvraag', 'asynchronous_commands', 'asynchronous_commands');
+        $channel->queue_bind('projectaanvraag', 'main_exchange', 'asynchronous_commands');
 
         $output->writeln(' [*] Waiting for messages. To exit press CTRL+C');
-
-        // Declare delay queue.
-        $channel->queue_declare('projectaanvraag_delay',false,true,false,false,false
-            ,array('x-message-ttl'=>array('I',5000)
-            , 'x-dead-letter-exchange'=>array('S','asynchronous_commands')
-            , 'x-dead-letter-routing-key'=>array('S','asynchronous_commands')
-            )
-        );
 
         $callback = function ($msg) use ($consumer, $output, $channel) {
             try {
                 $output->writeln(' [x] Received ' . $msg->body);
                 $consumer->execute($msg);
-
-                //$channel->basic_publish($msg, '', 'projectaanvraag_delay');
 
                 /**
                  * Always acknowledge the message, even on failure. This prevents the automatic requeuing of the item.
