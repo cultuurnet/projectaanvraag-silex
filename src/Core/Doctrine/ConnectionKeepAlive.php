@@ -37,7 +37,8 @@ class ConnectionKeepAlive
         throw new \RuntimeException('Unable to attach keep alive to the system');
     }
 
-    public function hasConnection(string $name) {
+    public function hasConnection(string $name)
+    {
         return isset($this->connections[$name]);
     }
 
@@ -51,8 +52,7 @@ class ConnectionKeepAlive
         foreach ($this->connections as $conn) {
             try {
                 $conn->executeQuery('SELECT 1')->closeCursor();
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 if ($conn === null || stripos($e->getMessage(), 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away') === false) {
                     throw $e;
                 }

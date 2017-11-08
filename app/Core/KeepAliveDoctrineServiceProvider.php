@@ -9,7 +9,6 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\Common\EventManager;
 use Silex\Provider\DoctrineServiceProvider;
 
-
 /**
  * Custom implementation of the Doctrine DBAL Provider.
  */
@@ -25,29 +24,31 @@ class KeepAliveDoctrineServiceProvider extends DoctrineServiceProvider
             'password' => null,
         );
 
-        $app['dbs.options.initializer'] = $app->protect(function () use ($app) {
-            static $initialized = false;
+        $app['dbs.options.initializer'] = $app->protect(
+            function () use ($app) {
+                static $initialized = false;
 
-            if ($initialized) {
-                return;
-            }
-
-            $initialized = true;
-
-            if (!isset($app['dbs.options'])) {
-                $app['dbs.options'] = array('default' => isset($app['db.options']) ? $app['db.options'] : array());
-            }
-
-            $tmp = $app['dbs.options'];
-            foreach ($tmp as $name => &$options) {
-                $options = array_replace($app['db.default_options'], $options);
-
-                if (!isset($app['dbs.default'])) {
-                    $app['dbs.default'] = $name;
+                if ($initialized) {
+                    return;
                 }
+
+                $initialized = true;
+
+                if (!isset($app['dbs.options'])) {
+                    $app['dbs.options'] = array('default' => isset($app['db.options']) ? $app['db.options'] : array());
+                }
+
+                $tmp = $app['dbs.options'];
+                foreach ($tmp as $name => &$options) {
+                    $options = array_replace($app['db.default_options'], $options);
+
+                    if (!isset($app['dbs.default'])) {
+                        $app['dbs.default'] = $name;
+                    }
+                }
+                $app['dbs.options'] = $tmp;
             }
-            $app['dbs.options'] = $tmp;
-        });
+        );
 
         $app['dbs'] = function ($app) {
             $app['dbs.options.initializer']();
