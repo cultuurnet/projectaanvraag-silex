@@ -139,7 +139,13 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
             // Declare delay queue.
             $channel = $producer->getChannel();
 
-            $channel->queue_declare('projectaanvraag_delay',false,true,false,false,false,
+            $channel->queue_declare(
+                'projectaanvraag_delay',
+                false,
+                true,
+                false,
+                false,
+                false,
                 new AMQPTable(
                     [
                         'routing_keys' => ['projectaanvraag_delay'],
