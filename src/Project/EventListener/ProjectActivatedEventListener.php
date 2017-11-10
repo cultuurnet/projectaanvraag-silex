@@ -21,8 +21,8 @@ class ProjectActivatedEventListener extends ProjectCrudEventListener
         $this->loadInsightlyProject($projectActivated);
         $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['live_key'], $projectActivated->getProject()->getLiveConsumerKey());
 
-        if(!empty($this->insightlyConfig['custom_fields']['last_activation_date'])) {
-          $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['last_activation_date'], date('Y-m-d H:i'));
+        if (!empty($this->insightlyConfig['custom_fields']['last_activation_date'])) {
+            $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['last_activation_date'], date('Y-m-d H:i'));
         }
 
         if ($projectActivated->getUsedCoupon() && !empty($this->insightlyConfig['custom_fields']['used_coupon'])) {
