@@ -18,17 +18,11 @@
 
   /* border: 1px solid #ece6e6; */
   border-radius: 10px;
-  background-color: #f9fcff;
   color: gray;
   padding: 5px 0;
   clear: both;
   width:100%;
-
   margin-bottom: 10px;
-
-
-  background: linear-gradient(-45deg, #ffffff, #f9fcff, #ffffff);
-  background-size: 800%;
   -webkit-animation: Gradient 15s ease infinite;
   -moz-animation: Gradient 15s ease infinite;
   animation: Gradient 15s ease infinite;
@@ -49,18 +43,13 @@
 
 }
 
-
-
 .widget-loader--text {
   display: inline-block;
   font-size: 0.8rem;
-text-transform: uppercase;
   color: #bbc7d4;
-
   font-family: Helvetica;
   font-weight: 100;
 }
-
 
 .widget-loader--bouncers > div.bouncer {
   width: 18px;
