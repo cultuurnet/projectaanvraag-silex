@@ -5,8 +5,6 @@ namespace CultuurNet\ProjectAanvraag\Core;
 use CultuurNet\ProjectAanvraag\Core\Doctrine\ConnectionKeepAlive;
 use Pimple\Container;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Configuration;
-use Doctrine\Common\EventManager;
 use Silex\Provider\DoctrineServiceProvider;
 
 /**
@@ -16,39 +14,7 @@ class KeepAliveDoctrineServiceProvider extends DoctrineServiceProvider
 {
     public function register(Container $app)
     {
-        $app['db.default_options'] = array(
-            'driver' => 'pdo_mysql',
-            'dbname' => null,
-            'host' => 'localhost',
-            'user' => 'root',
-            'password' => null,
-        );
-
-        $app['dbs.options.initializer'] = $app->protect(
-            function () use ($app) {
-                static $initialized = false;
-
-                if ($initialized) {
-                    return;
-                }
-
-                $initialized = true;
-
-                if (!isset($app['dbs.options'])) {
-                    $app['dbs.options'] = array('default' => isset($app['db.options']) ? $app['db.options'] : array());
-                }
-
-                $tmp = $app['dbs.options'];
-                foreach ($tmp as $name => &$options) {
-                    $options = array_replace($app['db.default_options'], $options);
-
-                    if (!isset($app['dbs.default'])) {
-                        $app['dbs.default'] = $name;
-                    }
-                }
-                $app['dbs.options'] = $tmp;
-            }
-        );
+        parent::register($app);
 
         $app['dbs'] = function ($app) {
             $app['dbs.options.initializer']();
@@ -80,55 +46,10 @@ class KeepAliveDoctrineServiceProvider extends DoctrineServiceProvider
             return $dbs;
         };
 
-        $app['db.keep_alive'] = function ($app) {
+        $app['db.keep_alive'] = function () {
             $keepAlive = new ConnectionKeepAlive();
             $keepAlive->attach();
             return $keepAlive;
-        };
-
-        $app['dbs.config'] = function ($app) {
-            $app['dbs.options.initializer']();
-
-            $configs = new Container();
-            $addLogger = isset($app['logger']) && null !== $app['logger'] && class_exists('Symfony\Bridge\Doctrine\Logger\DbalLogger');
-            foreach ($app['dbs.options'] as $name => $options) {
-                $configs[$name] = new Configuration();
-                if ($addLogger) {
-                    $configs[$name]->setSQLLogger(new DbalLogger($app['logger'], isset($app['stopwatch']) ? $app['stopwatch'] : null));
-                }
-            }
-
-            return $configs;
-        };
-
-        $app['dbs.event_manager'] = function ($app) {
-            $app['dbs.options.initializer']();
-
-            $managers = new Container();
-            foreach ($app['dbs.options'] as $name => $options) {
-                $managers[$name] = new EventManager();
-            }
-
-            return $managers;
-        };
-
-        // shortcuts for the "first" DB
-        $app['db'] = function ($app) {
-            $dbs = $app['dbs'];
-
-            return $dbs[$app['dbs.default']];
-        };
-
-        $app['db.config'] = function ($app) {
-            $dbs = $app['dbs.config'];
-
-            return $dbs[$app['dbs.default']];
-        };
-
-        $app['db.event_manager'] = function ($app) {
-            $dbs = $app['dbs.event_manager'];
-
-            return $dbs[$app['dbs.default']];
         };
     }
 }
