@@ -8,6 +8,7 @@ config.yml
 /log
 /cache
 /web/xhprof
+/web/widgets/layout
 .DS_STORE
 
 widgets-static/node_modules

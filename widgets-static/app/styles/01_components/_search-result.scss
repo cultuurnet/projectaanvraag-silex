@@ -123,10 +123,6 @@ p.cnw_card-description {
   width: 100%;
 }
 
-.cnw_page-link {
-  font-size: 0.8em;
-}
-
 .cnw_btn__card-readmore {
   border: 1px solid gray;
 }
@@ -160,3 +156,26 @@ p span.cnw_badge {
   background-color: #a5a5a5;
 }
 
+/**
+ * Search result widget.
+ */
+.cnw_searchresult {
+
+  .cnw_pagination {
+
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    .cnw_page-link {
+      font-size: 0.8em;
+    }
+
+  }
+
+  .cnw_searchresult_footer {
+    text-align: center;
+  }
+
+}

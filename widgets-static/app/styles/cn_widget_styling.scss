@@ -1,7 +1,12 @@
+@charset "UTF-8";
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800');
-@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
 
 $font-family-sans-serif: "Open Sans";
+
+// Import font awesome
+$fa-css-prefix:       cnw-fa;
+@import "06_vendors/font-awesome/scss/font-awesome";
 
 // override with cnw_ styles
 @import "00_base/variables";
