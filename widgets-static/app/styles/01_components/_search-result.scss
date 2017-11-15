@@ -127,7 +127,8 @@ p.cnw_card-description {
   border: 1px solid gray;
 }
 
-.cnw_search-result-tags-item {
+.cnw_search-result-tags-item,
+.cnw_searchresult-detail-tags-item {
     display: inline-block;
     margin-right: 2rem;
       &:before {

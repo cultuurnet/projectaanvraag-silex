@@ -1,5 +1,11 @@
-<div>
+<div class="cnw_uitpas-promotions">
+
+    <p class="cnw_uitpas-promotions-block-title">Voordelen bij {{ organizer }}</p>
+
+    <ul>
     {% for promotion in promotions %}
-        {{ promotion.title }} - {{ promotion.points }} {% if promotion.points == 1 %}punt{% else %}punten{% endif%}<br />
+        <li>{{ promotion.title }}</li>
     {% endfor %}
+    </ul>
+
 </div>

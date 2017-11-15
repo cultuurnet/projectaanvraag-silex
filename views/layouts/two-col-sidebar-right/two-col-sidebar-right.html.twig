@@ -1,13 +1,8 @@
 <div class="cnw_w">
     <div class="cnw_container-fluid">
-        <div class="two-col-sidebar-right">
-            <div class="content">
-                {{ content | raw }}
-            </div>
-
-            <div class="sidebar-right">
-                {{ right | raw }}
-            </div>
-        </div>
+        <section class="cnw_row">
+            <aside class="cnw_col-8 cnw_center">{{ content | raw }}</aside>
+            <div class="cnw_col-4 cnw_side-col cnw_right">{{ right | raw }}</div>
+        </section>
     </div>
 </div>

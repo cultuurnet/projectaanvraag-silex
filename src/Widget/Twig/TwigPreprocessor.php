@@ -276,13 +276,16 @@ class TwigPreprocessor
         }
 
         $variables['uitpas_promotions'] = '';
-        if ($variables['uitpas'] && $event->getOrganizer()) {
+        if ($variables['uitpas'] && $settings['uitpas_benefits'] && $event->getOrganizer()) {
             $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
             $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
 
             try {
                 $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
-                $variables['uitpas_promotions'] = $this->twig->render('widgets/search-results-widget/uitpas-promotions.html.twig', ['promotions' => $this->preprocessUitpasPromotions($uitpasPromotions)]);
+                $variables['uitpas_promotions'] = $this->twig->render('widgets/search-results-widget/uitpas-promotions.html.twig', [
+                    'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
+                    'organizer' => $event->getOrganizer()->getName(),
+                ]);
             } catch (\Exception $e) {
                // Silent fail.
             }
@@ -537,7 +540,7 @@ class TwigPreprocessor
         } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_PERIODIC) {
             return $this->formatPeriod($event->getStartDate(), $event->getEndDate(), $locale);
         } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
-            $output = '<ul>';
+            $output = '<ul class="cnw-event-date-info">';
             $subEvents = $event->getSubEvents();
             $now = new \DateTime();
             foreach ($subEvents as $subEvent) {
@@ -626,8 +629,10 @@ class TwigPreprocessor
 
         $startTime = $timeFormatter->format($dateFrom);
         $endTime = $timeFormatter->format($dateTo);
+        $hasStartTime = $startTime !== '00:00';
+        $hasEndTime = $endTime !== '00:00';
 
-        if (!empty($startTime)) {
+        if ($hasStartTime) {
             $output = '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . 'T' . $startTime . '">';
         } else {
             $output = '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . '">';
@@ -637,9 +642,9 @@ class TwigPreprocessor
         $output .= ' ';
         $output .= '<span class="cf-date">' . $dateFormatter->format($dateFrom) . '</span>';
 
-        if (!empty($startTime)) {
+        if ($hasStartTime) {
             $output .= ' ';
-            if (!empty($endTime)) {
+            if ($hasEndTime) {
                 $output .= '<span class="cf-from cf-meta">van</span>';
                 $output .= ' ';
             } else {
@@ -648,7 +653,7 @@ class TwigPreprocessor
             }
             $output .= '<span class="cf-time">' . $startTime . '</span>';
             $output .= '</time>';
-            if (!empty($endTime)) {
+            if ($hasEndTime) {
                 $output .= ' ';
                 $output .= '<span class="cf-to cf-meta">tot</span>';
                 $output .= ' ';

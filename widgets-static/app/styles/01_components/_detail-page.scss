@@ -1,0 +1,48 @@
+.cnw_searchresult-detail {
+
+  &-block-title {
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: 0.75px;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    padding-bottom: 0.9em;
+    margin-bottom: 1em;
+    margin-top: 0.25em;
+  }
+
+  .cf-meta {
+    padding-right: 3px;
+  }
+
+  .cf-weekday,
+  .cf-to,
+  .cf-from {
+    text-transform: uppercase;
+  }
+
+  ul.cnw_searchresult-detail-booking-info,
+  ul.cnw-event-date-info {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cnw_uitpas-promotions {
+
+    &-block-title {
+      font-size: 1.2em;
+      font-weight: 700;
+      border-bottom: 1px solid #000;
+      padding-bottom: 0.5em;
+    }
+
+    ul {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+  }
+
+}
