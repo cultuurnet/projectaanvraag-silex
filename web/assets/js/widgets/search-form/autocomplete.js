@@ -120,7 +120,6 @@
      * Puts the currently highlighted suggestion into the autocomplete field.
      */
     CultuurnetWidgets.jsAC.prototype.select = function (node) {
-        console.log(jQuery(node));
         this.input.value = jQuery(node)[0].innerText;
     };
 

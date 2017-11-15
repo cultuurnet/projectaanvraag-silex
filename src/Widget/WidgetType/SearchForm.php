@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "button_label": "Zoeken"
  *          },
  *          "header": {
- *              "body": "<p>UiT in ...</p>",
+ *              "body": "<h2><img border='0' height='35px' class='logo-uiv' src='{{ base_url }}/assets/images/uit-logo.svg' alt='Uit in' /> in ...</h2>",
  *          },
  *          "fields": {
  *              "type": {
@@ -76,7 +76,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *          },
  *          "footer": {
- *              "body": "<a href='http://www.uitinvlaanderen.be' target='_blank'><img border='0' class='cultuurnet-logo-uiv' src='http://tools.uitdatabank.be/sites/all/modules/cul_widgets_server/images/uiv-btn.jpg' alt='Meer tips op UiTinVlaanderen.be' /></a>"
+ *              "body": ""
  *          }
  *      },
  *      allowedSettings = {
@@ -170,6 +170,14 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->request = $requestStack->getCurrentRequest();
         $this->regionService = $regionService;
+
+        if (!empty($this->settings['header']['body'])) {
+            $this->settings['header']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl(), $this->settings['header']['body']);
+        }
+
+        if (!empty($this->settings['footer']['body'])) {
+            $this->settings['footer']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl(), $this->settings['footer']['body']);
+        }
     }
 
     /**

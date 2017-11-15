@@ -94,6 +94,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "price_information":true,
  *              "contact_information":true,
  *              "reservation_information":true,
+ *              "language_switcher":false,
  *              "share_buttons":true,
  *              "back_button":{
  *                  "enabled":true,

@@ -109,7 +109,7 @@ class WidgetApiController
     /**
      * Return the list of available widget types + default settings.
      */
-    public function getWidgetTypes()
+    public function getWidgetTypes(Request $request)
     {
         $types = [];
         $definitions = $this->widgetTypeDiscovery->getDefinitions();
@@ -117,6 +117,15 @@ class WidgetApiController
             /** @var WidgetType $annotation */
             $annotation = $definition['annotation'];
             $types[$annotation->getId()] = $annotation->getDefaultSettings();
+
+            // Replace base urls in default settings of header / footer.
+            if (isset($types[$annotation->getId()]['header']) && !empty($types[$annotation->getId()]['header']['body'])) {
+                $types[$annotation->getId()]['header']['body'] = str_replace('{{ base_url }}', $request->getScheme() . '://' . $request->getHost() . $request->getBaseUrl(), $types[$annotation->getId()]['header']['body']);
+            }
+
+            if (isset($types[$annotation->getId()]['footer']) && !empty($types[$annotation->getId()]['footer']['body'])) {
+                $types[$annotation->getId()]['footer']['body'] = str_replace('{{ base_url }}', $request->getScheme() . '://' . $request->getHost() . $request->getBaseUrl(), $types[$annotation->getId()]['footer']['body']);
+            }
         }
 
         // Return the types + cache the response for 24 hours.

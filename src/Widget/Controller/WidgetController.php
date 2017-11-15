@@ -133,7 +133,7 @@ class WidgetController
             // Retrieve file from old host URL.
             $jsContent = file_get_contents($this->legacyHost . '/' . 'widgets/layout/' . $pageId . '.js');
         } else {
-            $javascriptResponse = new JavascriptResponse($this->renderer, $this->renderer->renderPage($widgetPage), $widgetPage);
+            $javascriptResponse = new JavascriptResponse($request, $this->renderer, $this->renderer->renderPage($widgetPage), $widgetPage);
             $jsContent = $javascriptResponse->getContent();
         }
 

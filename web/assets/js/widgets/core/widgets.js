@@ -14,12 +14,10 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // If jquery exists on the site, attach behaviors.
         if (window.jQuery) {
-            console.log('bootstrap');
             CultuurnetWidgets.bootstrap();
         }
         // If jQuery does not exists, load it and attach behaviors.
         else {
-            console.log('bootstrap');
             var script = document.createElement('script');
             document.head.appendChild(script);
             script.type = 'text/javascript';
@@ -134,9 +132,10 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.addExternalStyle = function (css_file) {
 
         var head = document.getElementsByTagName('head')[0];
-        var styleElement = document.createElement("style");
+        var styleElement = document.createElement("link");
+        styleElement.setAttribute("rel", "stylesheet");
         styleElement.setAttribute("type", "text/css");
-        styleElement.setAttribute("src", css_file);
+        styleElement.setAttribute("href", css_file);
         head.appendChild(styleElement);
     };
 

@@ -210,7 +210,7 @@
             setDefaultDate: false,
 
             // first day of week (0: Sunday, 1: Monday etc)
-            firstDay: 0,
+            firstDay: 1,
 
             // the default flag for moment's strict date parsing
             formatStrict: false,
@@ -267,11 +267,11 @@
 
             // internationalization
             i18n: {
-                previousMonth : 'Previous Month',
-                nextMonth     : 'Next Month',
-                months        : ['January','February','March','April','May','June','July','August','September','October','November','December'],
-                weekdays      : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-                weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+                previousMonth : 'Vorige maand',
+                nextMonth     : 'Volgende maand',
+                months        : ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'],
+                weekdays      : ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'],
+                weekdaysShort : ['Zon','Ma','Di','Woe','Don','Vrij','Zat']
             },
 
             // Theme Classname

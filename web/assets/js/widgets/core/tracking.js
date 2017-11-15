@@ -26,7 +26,6 @@
             // If context contains a widget. Track the correct event related with it.
             jQuery(context).find('[data-view-tracking-category]').each(function () {
                 var $widget = jQuery(this);
-                console.log($widget);
                 CultuurnetWidgets.trackEvent('widgetLoaded', 'view', $widget.data('view-tracking-category'), $widget.data('view-tracking-page-suffix'), $widget.data('view-tracking-extra-data'));
             });
 

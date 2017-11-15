@@ -124,12 +124,12 @@ class CssStatsService implements CssStatsServiceInterface
             if (substr($value, 0, 1) === '#') {
                 if (strlen($value) === 4) {
                     $hex = $value;
-                    $value = $hex . substr($hex, 1, 3);
+                    $value = strtoupper($hex . substr($hex, 1, 3));
                 }
             }
 
             if (!empty($value)) {
-                $cssColors[] = strtoupper($value);
+                $cssColors[] = $value;
             }
         }
 

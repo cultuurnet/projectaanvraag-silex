@@ -1,7 +1,3 @@
-.searchresult__options,
-.searchresult__selectedSearchFilters {
-
-}
 
 .cnw_taaliconen {
 
@@ -28,8 +24,6 @@
 
 }
 
-
-
 /*
 *   STICKERS
 */
@@ -52,7 +46,7 @@
   padding-left: 22px;
   border-radius: 2px;
   background-image: none;
-  background-color: #F3F3F3;
+  background-color: #00A0FF;
   background-position: right center;
   position: relative;
 }
@@ -106,13 +100,26 @@
   }
 }
 
+.cnw_searchresult__options {
+
+  .cnw_form-check {
+    display: inline-block;
+    margin-right: 35px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .cnw_form-check-label {
+    padding-left: 0;
+  }
+}
 
 .cnw_searchresult--block {
   margin-bottom: 3rem;
 }
 
 p.cnw_card-description {
-  padding: 15px;
+  margin: 15px;
   width: 100%;
 }
 
@@ -123,7 +130,6 @@ p.cnw_card-description {
 .cnw_btn__card-readmore {
   border: 1px solid gray;
 }
-
 
 .cnw_search-result-tags-item {
     display: inline-block;
@@ -137,19 +143,16 @@ p.cnw_card-description {
 
 }
 
-
 .cnw_clips  div:not(.cnw_reset_row) .cnw_searchresult--block [class*="cnw_col-"] {
   max-width:100%;
   flex-basis: unset;
 }
 
-
-.cnw_clips    .cnw_searchresult--block dl div[class*='cnw_col-'] {
+.cnw_clips .cnw_searchresult--block dl div[class*='cnw_col-'] {
     flex-basis: unset;
     max-width: 100%;
 
-  }
-
+}
 
 p span.cnw_badge {
   font-family: $font-family-sans-serif !important;

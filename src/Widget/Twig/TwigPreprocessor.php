@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
+use CultuurNet\ProjectAanvraag\Utility\TextSummaryTrait;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResults;
@@ -19,6 +20,8 @@ use Symfony\Component\Translation\TranslatorInterface;
 class TwigPreprocessor
 {
 
+    use TextSummaryTrait;
+
     /**
      * @var TranslatorInterface
      */
@@ -34,6 +37,9 @@ class TwigPreprocessor
      */
     protected $request;
 
+    /**
+     * @var \CultureFeed
+     */
     protected $cultureFeed;
 
     /**
@@ -128,7 +134,11 @@ class TwigPreprocessor
         }
 
         if (!empty($settings['description']['characters'])) {
-            $variables['description'] = substr($variables['description'], 0, $settings['description']['characters']);
+            $originalDescription = $variables['description'];
+            $variables['description'] = $this->createSummary($originalDescription, $settings['description']['characters']);
+            if (strlen($variables['description']) < strlen($originalDescription)) {
+                $variables['description'] .= substr($variables['description'], -1) === '.' ? '..' : '..';
+            }
         }
 
         $languageIconKeywords = [

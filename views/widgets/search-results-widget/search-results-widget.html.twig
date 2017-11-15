@@ -10,40 +10,6 @@
     <!--  Results  START -->
     <div class="cnw_searchresult__results">
 
-        <!-- Extra options  START -->
-        {%  if settings_general.exclude.long_term or settings_general.exclude.permanent %}
-            <form>
-                <div class="cnw_searchresult__options cnw_container-fluid">
-                    <div class="cnw_row">
-                        {%  if settings_general.exclude.long_term %}
-                            <div class="cnw_col">
-                                <div class="cnw_form-check ">
-                                    <label class="cnw_form-check-label">
-                                        <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-long-term]' }}"{% if extra_filters['hide-long-term'] is defined %} checked {% endif %}>
-                                        Verberg langlopende reeksen
-                                    </label>
-                                </div>
-                            </div>
-                        {% endif %}
-
-                        {%  if settings_general.exclude.permanent %}
-                            <div class="cnw_col">
-                                <div class="cnw_form-check ">
-                                    <label class="cnw_form-check-label">
-                                        <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-permanent]' }}"{% if extra_filters['hide-permanent'] is defined %} checked {% endif %}>
-                                        Verberg permanente bezienswaardigheden
-                                    </label>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </form>
-            <!-- ZoekOpties  END -->
-        {% endif %}
-
-        <!--  facetedSearch  END -->
-
         {%  if settings_general.current_search and active_filters|length > 0 %}
             <!--  searchWords  START -->
             <div class="cnw_searchresult__searchwords">
@@ -56,6 +22,34 @@
             </div>
             <!--  searchWords END -->
         {% endif %}
+
+        <!-- Extra options  START -->
+        {%  if settings_general.exclude.long_term or settings_general.exclude.permanent %}
+            <form>
+                <div class="cnw_searchresult__options">
+                        {%  if settings_general.exclude.long_term %}
+                            <div class="cnw_form-check cnw_form-check-long-events">
+                                <label class="cnw_form-check-label">
+                                    <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-long-term]' }}"{% if extra_filters['hide-long-term'] is defined %} checked {% endif %}>
+                                    Verberg langlopende reeksen
+                                </label>
+                            </div>
+                        {% endif %}
+
+                        {%  if settings_general.exclude.permanent %}
+                            <div class="cnw_form-check cnw_form-check-permanent-events">
+                                <label class="cnw_form-check-label">
+                                    <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-permanent]' }}"{% if extra_filters['hide-permanent'] is defined %} checked {% endif %}>
+                                    Verberg permanente bezienswaardigheden
+                                </label>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+            <!-- ZoekOpties  END -->
+        {% endif %}
+
 
         <!--  counter  START -->
         <div class="cnw_searchresult__counter">
