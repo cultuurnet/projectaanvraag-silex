@@ -107,7 +107,12 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
-        $this->register(new MessageBusProvider());
+        $this->register(
+            new MessageBusProvider(),
+            [
+                'failed_message_delay' => $this['config']['rabbitmq']['failed_message_delay'],
+            ]
+        );
 
         // Integration types
         $this->register(new IntegrationTypeStorageServiceProvider(__DIR__ . '/../integration_types.yml'));
