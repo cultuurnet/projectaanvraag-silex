@@ -476,7 +476,8 @@ class SearchResults extends WidgetTypeBase
             return '';
         }
 
-        $name = $events[0]->getName()['nl'] ?? '';
+        $langcode = $this->request->query->has('langcode') ? $this->request->query->get('langcode') : 'nl';
+        $name = $events[0]->getName()[$langcode] ?? '';
         $tagManagerData = [
             'pageTitleSuffix' => 'Event | ' . $name,
         ];
@@ -485,7 +486,7 @@ class SearchResults extends WidgetTypeBase
         return $this->twig->render(
             'widgets/search-results-widget/detail-page.html.twig',
             [
-                'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], 'nl', $this->settings['detail_page']),
+                'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], $langcode, $this->settings['detail_page']),
                 'settings' => $this->settings['detail_page'],
                 'tag_manager_data' => json_encode($tagManagerData),
             ]

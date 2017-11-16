@@ -278,14 +278,18 @@ class TwigPreprocessor
         $variables['uitpas_promotions'] = '';
         if ($variables['uitpas'] && $settings['uitpas_benefits'] && $event->getOrganizer()) {
             $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
+            $promotionsQuery->max = 4;
             $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
 
             try {
                 $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
-                $variables['uitpas_promotions'] = $this->twig->render('widgets/search-results-widget/uitpas-promotions.html.twig', [
-                    'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
-                    'organizer' => $event->getOrganizer()->getName(),
-                ]);
+                $variables['uitpas_promotions'] = $this->twig->render(
+                    'widgets/search-results-widget/uitpas-promotions.html.twig',
+                    [
+                        'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
+                        'organizer' => $event->getOrganizer()->getName(),
+                    ]
+                );
             } catch (\Exception $e) {
                // Silent fail.
             }

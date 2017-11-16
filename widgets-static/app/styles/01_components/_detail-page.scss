@@ -1,5 +1,30 @@
 .cnw_searchresult-detail {
 
+  .cnw_detail-summary {
+
+    &.has-cnw-icon {
+      padding-right: 60px;
+    }
+
+    &.has-both-cnw-icons {
+      padding-right: 120px;
+    }
+
+  }
+  .cnw_sticker--vlieg {
+    float: right;
+  }
+
+  .cnw_sticker--uitpas {
+    margin-top: 10px;
+    float: right;
+
+    &.cnw_sticker--has-vlieg {
+      margin-right: 10px;
+    }
+
+  }
+
   &-block-title {
     font-weight: 600;
     line-height: 1.1;
@@ -12,8 +37,41 @@
     margin-top: 0.25em;
   }
 
-  .cnw_sticker--vlieg {
-    float: right;
+  &-info {
+
+    dt {
+      @include make-col-ready();
+      @include make-col(3);
+      @include media-breakpoint-down(xs) {
+        @include make-col(2);
+      }
+
+      .cnw-fa {
+        display: none;
+      }
+
+    }
+
+    dd {
+      @include make-col-ready();
+      @include make-col(9);
+      @include media-breakpoint-down(xs) {
+        @include make-col(10);
+      }
+
+    }
+
+  }
+
+  @include media-breakpoint-down(sm) {
+    &-info {
+      dt .cnw-fa {
+        display: block;
+      }
+      .cnw_searchresult-detail-label {
+        display: none;
+      }
+    }
   }
 
   .cf-meta {
@@ -43,10 +101,15 @@
     }
 
     ul {
-      margin-bottom: 0;
-      padding-bottom: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
+  }
+
+  .cnw-share {
+    margin-right: 15px;
   }
 
 }

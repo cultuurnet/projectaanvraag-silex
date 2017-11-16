@@ -250,7 +250,6 @@ class WidgetController
             'data' => $this->renderer->renderDetailPage($widget),
         ];
         $response = new JsonResponse($data);
-        //$response = new Response($this->renderer->renderWidget($widget));
 
         // If this is a jsonp request, set the requested callback.
         if ($request->query->has('callback')) {

@@ -191,7 +191,7 @@ EOD;
      *   a file, or just a fragment containing at least the first five bytes.
      *
      * @return string|bool
-     *   The name of the encoding, or FALSE if no byte order mark was present.
+     *   The name of the encoding, or false if no byte order mark was present.
      */
     public static function encodingFromBOM($data)
     {
@@ -213,7 +213,7 @@ EOD;
                 return $encoding;
             }
         }
-        return FALSE;
+        return false;
     }
 
     /**
@@ -227,7 +227,7 @@ EOD;
      *   The encoding that the data is in.
      *
      * @return string|bool
-     *   Converted data or FALSE.
+     *   Converted data or false.
      */
     public static function convertToUtf8($data, $encoding)
     {
@@ -239,7 +239,7 @@ EOD;
             return @recode_string($encoding . '..utf-8', $data);
         }
         // Cannot convert.
-        return FALSE;
+        return false;
     }
 
     /**
@@ -407,10 +407,10 @@ EOD;
      * @return string
      *   The shortened string.
      */
-    public static function substr($text, $start, $length = NULL)
+    public static function substr($text, $start, $length = null)
     {
         if (static::getStatus() == static::STATUS_MULTIBYTE) {
-            return $length === NULL ? mb_substr($text, $start) : mb_substr($text, $start, $length);
+            return $length === null ? mb_substr($text, $start) : mb_substr($text, $start, $length);
         } else {
             $strlen = strlen($text);
             // Find the starting byte offset.
@@ -444,7 +444,7 @@ EOD;
             $istart = $bytes;
 
             // Find the ending byte offset.
-            if ($length === NULL) {
+            if ($length === null) {
                 $iend = $strlen;
             } elseif ($length > 0) {
                 // Count all the characters except continuation bytes from the starting
@@ -452,19 +452,19 @@ EOD;
                 // the string, then backtrace one byte.
                 $iend = $istart - 1;
                 $chars = -1;
-                $last_real = FALSE;
+                $lastReal = false;
                 while ($iend < $strlen - 1 && $chars < $length) {
                     $iend++;
                     $c = ord($text[$iend]);
-                    $last_real = FALSE;
+                    $lastReal = false;
                     if ($c < 0x80 || $c >= 0xC0) {
                         $chars++;
-                        $last_real = TRUE;
+                        $lastReal = true;
                     }
                 }
                 // Backtrace one byte if the last character we found was a real
                 // character and we don't need it.
-                if ($last_real && $chars >= $length) {
+                if ($lastReal && $chars >= $length) {
                     $iend--;
                 }
             } elseif ($length < 0) {
@@ -498,74 +498,74 @@ EOD;
      *
      * @param string $string
      *   The string to truncate.
-     * @param int $max_length
+     * @param int $maxLength
      *   An upper limit on the returned string length, including trailing ellipsis
-     *   if $add_ellipsis is TRUE.
+     *   if $addEllipsis is true.
      * @param bool $wordsafe
-     *   If TRUE, attempt to truncate on a word boundary. Word boundaries are
+     *   If true, attempt to truncate on a word boundary. Word boundaries are
      *   spaces, punctuation, and Unicode characters used as word boundaries in
      *   non-Latin languages; see Unicode::PREG_CLASS_WORD_BOUNDARY for more
      *   information. If a word boundary cannot be found that would make the length
      *   of the returned string fall within length guidelines (see parameters
-     *   $max_length and $min_wordsafe_length), word boundaries are ignored.
-     * @param bool $add_ellipsis
-     *   If TRUE, add '...' to the end of the truncated string (defaults to
-     *   FALSE). The string length will still fall within $max_length.
-     * @param int $min_wordsafe_length
-     *   If $wordsafe is TRUE, the minimum acceptable length for truncation (before
-     *   adding an ellipsis, if $add_ellipsis is TRUE). Has no effect if $wordsafe
-     *   is FALSE. This can be used to prevent having a very short resulting string
+     *   $maxLength and $minWordsafeLength), word boundaries are ignored.
+     * @param bool $addEllipsis
+     *   If true, add '...' to the end of the truncated string (defaults to
+     *   false). The string length will still fall within $maxLength.
+     * @param int $minWordsafeLength
+     *   If $wordsafe is true, the minimum acceptable length for truncation (before
+     *   adding an ellipsis, if $addEllipsis is true). Has no effect if $wordsafe
+     *   is false. This can be used to prevent having a very short resulting string
      *   that will not be understandable. For instance, if you are truncating the
      *   string "See myverylongurlexample.com for more information" to a word-safe
      *   return length of 20, the only available word boundary within 20 characters
      *   is after the word "See", which wouldn't leave a very informative string. If
-     *   you had set $min_wordsafe_length to 10, though, the function would realise
+     *   you had set $minWordsafeLength to 10, though, the function would realise
      *   that "See" alone is too short, and would then just truncate ignoring word
      *   boundaries, giving you "See myverylongurl..." (assuming you had set
-     *   $add_ellipses to TRUE).
+     *   $add_ellipses to true).
      *
      * @return string
      *   The truncated string.
      */
-    public static function truncate($string, $max_length, $wordsafe = FALSE, $add_ellipsis = FALSE, $min_wordsafe_length = 1)
+    public static function truncate($string, $maxLength, $wordsafe = false, $addEllipsis = false, $minWordsafeLength = 1)
     {
         $ellipsis = '';
-        $max_length = max($max_length, 0);
-        $min_wordsafe_length = max($min_wordsafe_length, 0);
+        $maxLength = max($maxLength, 0);
+        $minWordsafeLength = max($minWordsafeLength, 0);
 
-        if (static::strlen($string) <= $max_length) {
+        if (static::strlen($string) <= $maxLength) {
             // No truncation needed, so don't add ellipsis, just return.
             return $string;
         }
 
-        if ($add_ellipsis) {
-            // Truncate ellipsis in case $max_length is small.
-            $ellipsis = static::substr('…', 0, $max_length);
-            $max_length -= static::strlen($ellipsis);
-            $max_length = max($max_length, 0);
+        if ($addEllipsis) {
+            // Truncate ellipsis in case $maxLength is small.
+            $ellipsis = static::substr('…', 0, $maxLength);
+            $maxLength -= static::strlen($ellipsis);
+            $maxLength = max($maxLength, 0);
         }
 
-        if ($max_length <= $min_wordsafe_length) {
+        if ($maxLength <= $minWordsafeLength) {
             // Do not attempt word-safe if lengths are bad.
-            $wordsafe = FALSE;
+            $wordsafe = false;
         }
 
         if ($wordsafe) {
             $matches = [];
-            // Find the last word boundary, if there is one within $min_wordsafe_length
-            // to $max_length characters. preg_match() is always greedy, so it will
+            // Find the last word boundary, if there is one within $minWordsafeLength
+            // to $maxLength characters. preg_match() is always greedy, so it will
             // find the longest string possible.
-            $found = preg_match('/^(.{' . $min_wordsafe_length . ',' . $max_length . '})[' . Unicode::PREG_CLASS_WORD_BOUNDARY . ']/u', $string, $matches);
+            $found = preg_match('/^(.{' . $minWordsafeLength . ',' . $maxLength . '})[' . Unicode::PREG_CLASS_WORD_BOUNDARY . ']/u', $string, $matches);
             if ($found) {
                 $string = $matches[1];
             } else {
-                $string = static::substr($string, 0, $max_length);
+                $string = static::substr($string, 0, $maxLength);
             }
         } else {
-            $string = static::substr($string, 0, $max_length);
+            $string = static::substr($string, 0, $maxLength);
         }
 
-        if ($add_ellipsis) {
+        if ($addEllipsis) {
             // If we're adding an ellipsis, remove any trailing periods.
             $string = rtrim($string, '.');
 
@@ -616,11 +616,11 @@ EOD;
     public static function mimeHeaderEncode($string)
     {
         if (preg_match('/[^\x20-\x7E]/', $string)) {
-            $chunk_size = 47; // floor((75 - strlen("=?UTF-8?B??=")) * 0.75);
+            $chunkSize = 47; // floor((75 - strlen("=?UTF-8?B??=")) * 0.75);
             $len = strlen($string);
             $output = '';
             while ($len > 0) {
-                $chunk = static::truncateBytes($string, $chunk_size);
+                $chunk = static::truncateBytes($string, $chunkSize);
                 $output .= ' =?UTF-8?B?' . base64_encode($chunk) . "?=\n";
                 $c = strlen($chunk);
                 $string = substr($string, $c);
@@ -684,19 +684,19 @@ EOD;
      * is outside of a tag, and thus deemed safe by a filter, can be interpreted
      * by the browser as if it were inside the tag.
      *
-     * The function does not return FALSE for strings containing character codes
+     * The function does not return false for strings containing character codes
      * above U+10FFFF, even though these are prohibited by RFC 3629.
      *
      * @param string $text
      *   The text to check.
      *
      * @return bool
-     *   TRUE if the text is valid UTF-8, FALSE if not.
+     *   true if the text is valid UTF-8, false if not.
      */
     public static function validateUtf8($text)
     {
         if (strlen($text) == 0) {
-            return TRUE;
+            return true;
         }
         // With the PCRE_UTF8 modifier 'u', preg_match() fails silently on strings
         // containing invalid UTF-8 byte sequences. It does not reject character
@@ -717,8 +717,8 @@ EOD;
      *
      * @return int|false
      *   The position where $needle occurs in $haystack, always relative to the
-     *   beginning (independent of $offset), or FALSE if not found. Note that
-     *   a return value of 0 is not the same as FALSE.
+     *   beginning (independent of $offset), or false if not found. Note that
+     *   a return value of 0 is not the same as false.
      */
     public static function strpos($haystack, $needle, $offset = 0)
     {
