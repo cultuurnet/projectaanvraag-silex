@@ -46,3 +46,6 @@ insightly:
   host: https://api.insight.ly/v2.2
   api_key:
   project_config:
+
+# The default consumer group to use
+default_consumer_group: 3

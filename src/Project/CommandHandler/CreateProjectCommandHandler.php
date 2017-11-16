@@ -43,20 +43,27 @@ class CreateProjectCommandHandler
     protected $user;
 
     /**
+     * @var integer
+     */
+    protected $defaultConsumerGroup;
+
+    /**
      * CreateProjectCommandHandler constructor.
      * @param MessageBusSupportingMiddleware $eventBus
      * @param EntityManagerInterface $entityManager
      * @param \ICultureFeed $cultureFeedTest
      * @param \ICultureFeed $cultureFeed
      * @param UitIdUserInterface $user
+     * @param int $defaultConsumerGroup
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, \ICultureFeed $cultureFeed, UitIdUserInterface $user)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, \ICultureFeed $cultureFeed, UitIdUserInterface $user, $defaultConsumerGroup)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->cultureFeedTest = $cultureFeedTest;
         $this->cultureFeed = $cultureFeed;
         $this->user = $user;
+        $this->defaultConsumerGroup = $defaultConsumerGroup;
     }
 
     /**
@@ -88,7 +95,7 @@ class CreateProjectCommandHandler
             $createConsumer = new \CultureFeed_Consumer();
             $createConsumer->name = $createProject->getName();
             $createConsumer->description = $createProject->getDescription();
-            $createConsumer->group = [5, $createProject->getIntegrationType()];
+            $createConsumer->group = [$this->defaultConsumerGroup, $createProject->getIntegrationType()];
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
             $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
@@ -169,7 +176,7 @@ class CreateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
         $createConsumer->description = $createProject->getDescription();
-        $createConsumer->group = [5, $createProject->getIntegrationType()];
+        $createConsumer->group = [$this->defaultConsumerGroup, $createProject->getIntegrationType()];
 
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
 

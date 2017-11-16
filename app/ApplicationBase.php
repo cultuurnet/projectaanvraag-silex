@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
+use CultuurNet\ProjectAanvraag\Core\KeepAliveDoctrineServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
 use CultuurNet\ProjectAanvraag\Core\RabbitMQEventListenerProvider;
 use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
@@ -17,7 +18,6 @@ use DerAlex\Silex\YamlConfigServiceProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Silex\Application as SilexApplication;
-use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\MonologServiceProvider;
 
 /**
@@ -81,9 +81,9 @@ class ApplicationBase extends SilexApplication
 
         $this->register(new CoreProvider());
 
-        // Doctrine DBAL and ORM
+        // Doctrine DBAL (custom implementation) and ORM.
         $this->register(
-            new DoctrineServiceProvider(),
+            new KeepAliveDoctrineServiceProvider(),
             [
                 'db.options' => $this['config']['database'],
             ]

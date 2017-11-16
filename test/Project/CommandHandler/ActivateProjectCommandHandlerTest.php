@@ -80,7 +80,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $this->user = $this->getMock(User::class);
         $this->user->id = 123;
 
-        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user);
+        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, 3);
     }
 
     /**
@@ -92,8 +92,8 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $consumer = new \CultureFeed_Consumer();
         $consumer->name = $this->project->getName();
         $consumer->description = $this->project->getDescription();
-        $consumer->group = [5, $this->project->getGroupId()];
-        
+        $consumer->group = [3, $this->project->getGroupId()];
+
         $consumerWithId = clone $consumer;
         $consumerWithId->consumerKey = 'test';
 
