@@ -270,7 +270,8 @@ EOD;
             return substr($string, 0, $len);
         }
         // Scan backwards to beginning of the byte sequence.
-        while (--$len >= 0 && ord($string[$len]) >= 0x80 && ord($string[$len]) < 0xC0) ;
+        while (--$len >= 0 && ord($string[$len]) >= 0x80 && ord($string[$len]) < 0xC0) {
+        }
 
         return substr($string, 0, $len);
     }
@@ -385,9 +386,13 @@ EOD;
     public static function ucwords($text)
     {
         $regex = '/(^|[' . static::PREG_CLASS_WORD_BOUNDARY . '])([^' . static::PREG_CLASS_WORD_BOUNDARY . '])/u';
-        return preg_replace_callback($regex, function (array $matches) {
-            return $matches[1] . Unicode::strtoupper($matches[2]);
-        }, $text);
+        return preg_replace_callback(
+            $regex,
+            function (array $matches) {
+                return $matches[1] . Unicode::strtoupper($matches[2]);
+            },
+            $text
+        );
     }
 
     /**
@@ -732,5 +737,4 @@ EOD;
             return strpos($haystack, $needle, $offset);
         }
     }
-
 }
