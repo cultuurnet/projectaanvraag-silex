@@ -76,6 +76,9 @@ class ActivateProjectCommandHandler
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $cultureFeedConsumer = $this->cultureFeedLive->createServiceConsumer($createConsumer);
 
+        // Add the user as service consumer admin.
+        $this->cultureFeedLive->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $this->user->id);
+
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);
         $project->setLiveConsumerKey($cultureFeedConsumer->consumerKey);

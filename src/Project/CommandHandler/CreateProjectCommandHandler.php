@@ -133,7 +133,7 @@ class CreateProjectCommandHandler
         /**
          * 5. Dispatch the ProjectCreated event
          */
-        $projectCreated = new ProjectCreated($project, $localUser);
+        $projectCreated = new ProjectCreated($project, $localUser, $createProject->getCouponToUse());
         $this->eventBus->handle($projectCreated);
     }
 
