@@ -171,11 +171,11 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         $this->request = $requestStack->getCurrentRequest();
         $this->regionService = $regionService;
 
-        if (!empty($this->settings['header']['body'])) {
+        if (!empty($this->settings['header']['body']) && $this->request) {
             $this->settings['header']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl(), $this->settings['header']['body']);
         }
 
-        if (!empty($this->settings['footer']['body'])) {
+        if (!empty($this->settings['footer']['body']) && $this->request) {
             $this->settings['footer']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl(), $this->settings['footer']['body']);
         }
     }
@@ -247,7 +247,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
             if ($this->settings['fields'][$type]['group_filters']['enabled']) {
                 foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $groupFilter) {
                     $defaults[$typeKey]['group_filters'][$key] = [-1];
-                    if (isset($groupFilter['default_option'])) {
+                    if ($groupFilter['type'] !== 'select_multiple' && isset($groupFilter['default_option'])) {
                         foreach ($groupFilter['options'] as $optionKey => $option) {
                             if ($option['label'] === $groupFilter['default_option']) {
                                 $defaults[$typeKey]['group_filters'][$key] = [$optionKey];

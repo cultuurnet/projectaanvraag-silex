@@ -276,7 +276,7 @@ class TwigPreprocessor
         }
 
         $variables['uitpas_promotions'] = '';
-        if ($variables['uitpas'] && $settings['uitpas_benefits'] && $event->getOrganizer()) {
+        if ($variables['uitpas'] && !empty($settings['uitpas_benefits']) && $event->getOrganizer()) {
             $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
             $promotionsQuery->max = 4;
             $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();

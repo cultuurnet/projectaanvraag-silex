@@ -68,7 +68,7 @@
                 {% endif %}
 
                 {% if settings_items.organizer.enabled and event.organizer %}
-                    <dt class="cnw_col-3">Organisatie</dt>
+                    <dt class="cnw_col-3">{{ settings_items.organizer.label }}</dt>
                     <dd class="cnw_col-9">{{ event.organizer }}</dd>
                 {% endif %}
 

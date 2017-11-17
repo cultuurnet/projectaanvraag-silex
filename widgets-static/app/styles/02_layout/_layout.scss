@@ -1,8 +1,3 @@
-
-.cnw_container-fluid {
-  // @include make-container()
-}
-
 .cnw_container {
    @include make-container()
 }
@@ -115,21 +110,6 @@
 .cnw_form_header,
 .cnw_form_footer {
   padding:1.5rem 0;
-}
-
-
-
-@media (max-width: 1018px) {
-
- .cnw_center .cnw_searchresult--block {
-    //border:1px solid blue;
-    div[class*='cnw_col-'],
-    .cnw_col {
-      flex-basis: unset;
-      max-width: 100%;
-
-    }
-  }
 }
 
 .cnw_flex-last {
