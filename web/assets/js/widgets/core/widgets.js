@@ -45,14 +45,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // If a cdbid is given in url, and a detail page is in settings. Load detail.
         var params = CultuurnetWidgets.getCurrentParams();
-        var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings.detailPage && CultuurnetWidgetsSettings.detailPageRowId;
+        var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings.detailPage && CultuurnetWidgetsSettings.detailPageRowId != undefined;
 
         $wrapper.html('');
         for (var i in CultuurnetWidgetsSettings.widgetPageRows) {
             if (loadDetail && i == CultuurnetWidgetsSettings.detailPageRowId) {
+                console.log('append detail');
                 $wrapper.append(CultuurnetWidgetsSettings.detailPage);
             }
             else {
+                console.log('append rows');
                 $wrapper.append(CultuurnetWidgetsSettings.widgetPageRows[i]);
             }
         }
