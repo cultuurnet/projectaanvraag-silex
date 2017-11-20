@@ -177,6 +177,7 @@ class MigrateWidgetPageCommandHandler
 
         $widgetPageEntity->setVersion(2);
         $widgetPageEntity->setProjectId($project->getId());
+        $widgetPageEntity->publish();
 
         if (isset($data['page_id'])) {
             $widgetPageEntity->setId($data['page_id']);
