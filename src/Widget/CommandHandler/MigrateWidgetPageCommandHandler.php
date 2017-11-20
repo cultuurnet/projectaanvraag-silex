@@ -251,7 +251,7 @@ class MigrateWidgetPageCommandHandler
                 $regionsHeader['content']['widgets'][] = $widget;
             } elseif ($widget) {
                 // We need to convert the region name to the corresponding v3 name.
-                $regionsMain[$this->convertRegion($block['region'])]['widgets'][] = $widget;
+                $regionsMain[$this->convertRegion($block['region'], $layout)]['widgets'][] = $widget;
             }
         }
 
@@ -368,11 +368,11 @@ class MigrateWidgetPageCommandHandler
      * @param $region
      * @return string
      */
-    protected function convertRegion($region)
+    protected function convertRegion($region, $layout)
     {
         switch ($region) {
             case 'sidebar':
-                return 'sidebar_left';
+                return ($this->convertType($layout) === '2col-sidebar-left') ? 'sidebar_left' : 'sidebar_right';
                 break;
             case 'main':
                 return 'content';
