@@ -95,6 +95,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "contact_information":true,
  *              "reservation_information":true,
  *              "language_switcher":false,
+ *              "uitpas_benefits":false,
  *              "share_buttons":true,
  *              "back_button":{
  *                  "enabled":true,

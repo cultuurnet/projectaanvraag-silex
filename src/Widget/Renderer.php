@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\OneCol;
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarLeft;
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarRight;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
+use CultuurNet\ProjectAanvraag\Widget\WidgetType\Html;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 use Doctrine\ORM\EntityRepository;
 
@@ -86,6 +87,7 @@ class Renderer implements RendererInterface
         $searchResultWidgetRow = null;
         $searchResultWidgetRowIndex = null;
         $facetsInRows = [];
+        $htmlInRows = [];
         $rowOutput = [];
         foreach ($rows as $i => $row) {
             $widgetIds = $row->getWidgetIds();
@@ -101,6 +103,10 @@ class Renderer implements RendererInterface
                     $facetsInRows[$i][] = $widget;
                 }
 
+                if ($widget instanceof Html) {
+                    $htmlInRows[$i][] = $widget;
+                }
+
                 $widgetMapping[$widgetId] = $widgetPage->getId();
             }
 
@@ -113,7 +119,7 @@ class Renderer implements RendererInterface
 
         // If there is a search results wiget, include the detail page version also.
         if ($searchResultWidget) {
-            $detailPageRow = $this->getDetailPageRow($searchResultWidgetRow, $searchResultWidgetRowIndex, $facetsInRows);
+            $detailPageRow = $this->getDetailPageRow($searchResultWidgetRow, $searchResultWidgetRowIndex, $facetsInRows, $htmlInRows);
             $this->addSettings(['detailPage' => $detailPageRow->render()]);
             $this->addSettings(['detailPageRowId' => $searchResultWidgetRowIndex]);
             $this->addSettings(['detailPageWidgetId' => $searchResultWidget->getId()]);
@@ -215,12 +221,19 @@ class Renderer implements RendererInterface
      * Get a cleaned up row for a detail page.
      * All facets should get removed, and empty regions after removal should be merged to a new row layout.
      */
-    protected function getDetailPageRow(LayoutInterface $sourceRow, $sourceRowIndex, $facetsInRows)
+    protected function getDetailPageRow(LayoutInterface $sourceRow, $sourceRowIndex, $facetsInRows, $htmlInRows)
     {
         $detailPageRow = $sourceRow;
 
         // If the row also has facets, we need to remove them, and merge regions if needed.
         if (isset($facetsInRows[$sourceRowIndex])) {
+            // If the row has html widgets, only remove them if the region also has a facet widget.
+            if (isset($htmlInRows[$sourceRowIndex])) {
+                foreach ($htmlInRows[$sourceRowIndex] as $widgetToRemove) {
+                    $sourceRow->removeWidget($widgetToRemove);
+                }
+            }
+
             // Remove all the facets.
             foreach ($facetsInRows[$sourceRowIndex] as $widgetToRemove) {
                 $sourceRow->removeWidget($widgetToRemove);
