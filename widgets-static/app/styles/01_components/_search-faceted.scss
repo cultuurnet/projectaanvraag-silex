@@ -1,5 +1,9 @@
 .cnw_facets {
 
+  .cnw_facetedsearch {
+    margin-bottom: 1.5em;
+  }
+
   div.cnw_facets_content {
     margin-bottom: 2rem;
     ul {
@@ -13,6 +17,9 @@
   }
 
   a.cnw_facets_toggle {
+    margin-bottom: 0.5em;
+    display: block;
+
     &:after {
       display: inline-block;
       font: normal normal normal 14px/1 CnWFontAwesome;
@@ -32,4 +39,3 @@
   }
 
 }
-
