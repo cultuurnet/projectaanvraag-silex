@@ -84,11 +84,11 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
             $this->logger->error('Message: ' . $eventMessage->body . ' --- Exception: ' . $exception->getMessage() . ' --- Trace: ' . $exception->getTraceAsString());
 
             // Allow the message to fail 5 times, then log it
-            if ($message->getAttempts() < 5) {
-              // Only log failed attempts for project events
-              if ($message instanceof ProjectEvent) {
-                $this->projectLogger->error('Message: ' . $eventMessage->body);
-              }
+            if ($message->getAttempts() == 5) {
+                // Only log failed attempts for project events
+                if ($message instanceof ProjectEvent) {
+                    $this->projectLogger->error('Message: ' . $eventMessage->body);
+                }
             }
 
             // Retry the command with delay
@@ -96,7 +96,6 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
 
             // Retry the command on the delay queue.
             $this->eventBus->handle($message);
-
         }
     }
 

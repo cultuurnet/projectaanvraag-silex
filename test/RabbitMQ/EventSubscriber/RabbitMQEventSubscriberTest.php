@@ -97,7 +97,6 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-
         $this->envelope = $this->getMockBuilder(Envelope::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -128,6 +127,10 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
         $this->projectEvent->expects($this->once())
             ->method('getAttempts')
             ->willReturn(3);
+
+        $this->projectEvent->expects($this->once())
+            ->method('setDelay')
+            ->with(5000);
 
         $this->envelope->expects($this->once())
             ->method('message')
