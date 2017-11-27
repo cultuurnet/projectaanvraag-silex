@@ -140,7 +140,7 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
             $channel = $producer->getChannel();
 
             $channel->queue_declare(
-                'projectaanvraag_delay',
+                'projectaanvraag_failed',
                 false,
                 true,
                 false,
@@ -148,15 +148,12 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                 false,
                 new AMQPTable(
                     [
-                        'routing_keys' => ['projectaanvraag_delay'],
-                        'x-message-ttl' => $pimple['failed_message_delay'],
-                        'x-dead-letter-exchange' => 'main_exchange',
-                        'x-dead-letter-routing-key' => 'asynchronous_commands',
+                        'routing_keys' => ['projectaanvraag_failed'],
                     ]
                 )
             );
 
-            $channel->queue_bind('projectaanvraag_delay', 'main_exchange', 'projectaanvraag_delay');
+            $channel->queue_bind('projectaanvraag_failed', 'main_exchange', 'projectaanvraag_failed');
 
             // Resolvers.
             $routingKeyResolver = new AsyncCommandRoutingKeyResolver();

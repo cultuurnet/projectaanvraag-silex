@@ -16,7 +16,7 @@ class AsyncCommandRoutingKeyResolver implements RoutingKeyResolver
     {
 
         if ($message instanceof AbstractRetryableMessage) {
-            return $message->getAttempts() > 0 ? 'projectaanvraag_delay' : 'asynchronous_commands';
+            return $message->getAttempts() > 5 ? 'projectaanvraag_failed' : 'asynchronous_commands';
         }
 
         return 'asynchronous_commands';
