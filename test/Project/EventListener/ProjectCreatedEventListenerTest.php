@@ -173,7 +173,7 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         // Project should be created with all info.
         $insightlyProject = new Project();
         $insightlyProject->setName('name');
-        $insightlyProject->setStatus(Project::STATUS_IN_PROGRESS);
+        $insightlyProject->setStatus(Project::STATUS_COMPLETED);
         $insightlyProject->setCategoryId('category');
         $insightlyProject->setDetails('description');
 
