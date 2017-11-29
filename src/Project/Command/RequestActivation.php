@@ -18,11 +18,6 @@ class RequestActivation extends ProjectCommand
     private $name;
 
     /**
-     * @var string
-     */
-    private $email;
-
-    /**
      * @var Address
      */
     private $address;
@@ -33,18 +28,21 @@ class RequestActivation extends ProjectCommand
     private $vatNumber;
 
     /**
+     * @var string
+     */
+    private $payment;
+
+    /**
      * RequestActivation constructor.
      * @param ProjectInterface $project
-     * @param $email
      * @param $name
      * @param $address
      * @param $vatNumber
      * @param $payment
      */
-    public function __construct(ProjectInterface $project, $email, $name, $address, $vatNumber = '', $payment = '')
+    public function __construct(ProjectInterface $project, $name, $address, $vatNumber = '', $payment = '')
     {
         parent::__construct($project);
-        $this->email = $email;
         $this->name = $name;
         $this->address = $address;
         $this->vatNumber = $vatNumber;
@@ -66,24 +64,6 @@ class RequestActivation extends ProjectCommand
     public function setName($name)
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     * @return RequestActivation
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
         return $this;
     }
 
