@@ -79,9 +79,9 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
 
         $this->insightlyProject->setName($project->getName());
         if (!empty($projectCreated->getUsedCoupon())) {
-          $this->insightlyProject->setStatus(Project::STATUS_COMPLETED);
+            $this->insightlyProject->setStatus(Project::STATUS_COMPLETED);
         } else {
-          $this->insightlyProject->setStatus(Project::STATUS_IN_PROGRESS);
+            $this->insightlyProject->setStatus(Project::STATUS_IN_PROGRESS);
         }
         $this->insightlyProject->setCategoryId($this->insightlyConfig['categories'][$project->getGroupId()]);
         $this->insightlyProject->setDetails($project->getDescription());
