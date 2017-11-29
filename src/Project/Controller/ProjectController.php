@@ -168,7 +168,7 @@ class ProjectController
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
             $this->validateRequiredFields(
-                ['email', 'name', 'street', 'postal', 'city'],
+                ['name', 'street', 'postal', 'city'],
                 $postedData
             );
 
