@@ -328,7 +328,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             'postal' => 'postal',
             'city' => 'city',
             'vat' => 'VAT',
-            'payment' => 'payment',
+            'email' => 'payment',
         ];
         $request = Request::create('/', 'POST', [], [], [], [], json_encode($postData));
 
