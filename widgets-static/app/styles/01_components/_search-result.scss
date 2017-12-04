@@ -159,7 +159,8 @@ p.cnw_card-description {
 
 .cnw_clips  div:not(.cnw_reset_row) .cnw_searchresult--block div[class*="cnw_col-"] {
   max-width:100%;
-  flex-basis: unset;
+  flex-basis: auto;
+ // ﻿-ms-flex-preferred-size: auto;
 }
 
 p span.cnw_badge {
