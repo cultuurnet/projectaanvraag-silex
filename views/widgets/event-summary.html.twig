@@ -63,27 +63,45 @@
                 {% endif %}
 
                 {% if settings_items.where.enabled %}
-                    <dt class="cnw_col-3">{{ settings_items.where.label }}</dt>
+                    <dt class="cnw_col-3">
+
+                        <em class="cnw_searchresult-detail-label"> {{ settings_items.where.label }}</em>
+                        <i class="cnw-fa cnw-fa-map-marker"></i>
+
+                    </dt>
                     <dd class="cnw_col-9">{{ event.where }}</dd>
                 {% endif %}
 
                 {% if settings_items.organizer.enabled and event.organizer %}
-                    <dt class="cnw_col-3">{{ settings_items.organizer.label }}</dt>
+                    <dt class="cnw_col-3">
+                        {{ settings_items.organizer.label }}
+                    </dt>
                     <dd class="cnw_col-9">{{ event.organizer }}</dd>
                 {% endif %}
 
                 {% if settings_items.when.enabled and event.when_summary %}
-                    <dt class="cnw_col-3">{{ settings_items.when.label }}</dt>
+                    <dt class="cnw_col-3">
+
+                        <em class="cnw_searchresult-detail-label">{{ settings_items.when.label }}</em>
+                        <i class="cnw-fa cnw-fa-calendar"></i>
+                    </dt>
                     <dd class="cnw_col-9">{{ event.when_summary }}</dd>
                 {% endif %}
 
                 {% if settings_items.age.enabled and event.age_range %}
-                    <dt class="cnw_col-3">{{ settings_items.age.label }}</dt>
+                    <dt class="cnw_col-3">
+
+                        <em class="cnw_searchresult-detail-label">{{ settings_items.age.label }}</em>
+                        <i class="cnw-fa cnw-fa-male"></i>
+                    </dt>
                     <dd class="cnw_col-9">{{ event.age_range }}</dd>
                 {% endif %}
 
                 {% if settings_items.language_icons.enabled and event.language_icons %}
-                    <dt class="cnw_col-3">Taaliconen</dt>
+                    <dt class="cnw_col-3">
+                        <em class="cnw_searchresult-detail-label">Taaliconen</em>
+                        <i class="cnw-fa cnw-fa-language"></i>
+                    </dt>
                     <dd class="cnw_col-9">{{ event.language_icons | raw }}
                     </dd>
                 {% endif %}

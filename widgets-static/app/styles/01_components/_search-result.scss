@@ -157,14 +157,9 @@ p.cnw_card-description {
 
 }
 
-.cnw_clips  div:not(.cnw_reset_row) .cnw_searchresult--block [class*="cnw_col-"] {
+.cnw_clips  div:not(.cnw_reset_row) .cnw_searchresult--block div[class*="cnw_col-"] {
   max-width:100%;
   flex-basis: unset;
-}
-
-.cnw_clips .cnw_searchresult--block dl div[class*='cnw_col-'] {
-    flex-basis: unset;
-    max-width: 100%;
 }
 
 p span.cnw_badge {
@@ -194,5 +189,32 @@ p span.cnw_badge {
   .cnw_searchresult_footer {
     text-align: center;
   }
+
+}
+
+@include media-breakpoint-down(sm) {
+   .cnw_searchresult--block .cnw_searchresult-detail-label {
+      display: none;
+    }
+  .cnw_searchresult--block i.cnw-fa {
+    display: inline-block;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .cnw_searchresult--block i.cnw-fa {
+    display: none;
+  }
+
+  .cnw_searchresult--block .cnw_searchresult-detail-label {
+    display: inline-block;
+  }
+}
+
+
+@include media-breakpoint-down(md) {
+
+  .cnw_searchresult--block dt.cnw_col-3 {@include make-col(3);}
+  .cnw_searchresult--block dd.cnw_col-9 {@include make-col(9);}
 
 }
