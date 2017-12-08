@@ -5,12 +5,14 @@ namespace CultuurNet\ProjectAanvraag\SearchAPI;
 use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\Serializer\Serializer;
-use Doctrine\Common\Cache\FilesystemCache;
-use Doctrine\Common\Cache\RedisCache;
 use Guzzle\Cache\DoctrineCacheAdapter;
-use Guzzle\Log\MessageFormatter;
-use Guzzle\Log\PsrLogAdapter;
-use Guzzle\Plugin\Cache\CachePlugin;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use Kevinrob\GuzzleCache\Storage\DoctrineCacheStorage;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
@@ -24,49 +26,50 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['search_api_cache'] = function (Container $pimple) {
-            return new CachePlugin(
-                [
-                    'storage' => new FixedTtlCacheStorage(
-                        new DoctrineCacheAdapter(
-                            $pimple['cache_doctrine_' . $pimple['search_api.cache.backend']]
-                        )
-                    ),
-                ]
-            );
-        };
 
         $pimple['search_api'] = function (Container $pimple) {
 
             $client = new \Guzzle\Http\Client($pimple['search_api.base_url']);
 
-            // Add search API key as default header.
-            if (isset($pimple['config']['search_api']['api_key'])) {
-                $searchApiKey = $pimple['config']['search_api']['api_key'];
-                $headers = [
-                    'X-Api-Key' => $searchApiKey,
-                ];
-                $client->setDefaultHeaders($headers);
-            }
+            $handlerStack = HandlerStack::create();
 
             if ($pimple['search_api.cache.enabled']) {
-                $client->addSubscriber($pimple['search_api_cache']);
+
+                $handlerStack->push(
+                    new CacheMiddleware(
+                        new PrivateCacheStrategy(
+                            new DoctrineCacheStorage(
+                                $pimple['cache_doctrine_' . $pimple['search_api.cache.backend']]
+                            )
+                        )
+                    ),
+                    'cache'
+                );
             }
 
             if ($pimple['debug']) {
+
                 $logger = new Logger('search_api');
                 $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
                 $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/search-api/search-api.log', 0, Logger::DEBUG));
 
-                $logAdapter = new PsrLogAdapter($logger);
-                $logPlugin = new \Guzzle\Plugin\Log\LogPlugin(
-                    $logAdapter,
-                    MessageFormatter::SHORT_FORMAT
+                $handlerStack->push(
+                    Middleware::log(
+                        $logger,
+                        new MessageFormatter(MessageFormatter::SHORT)
+                    )
                 );
-                $client->addSubscriber($logPlugin);
             }
 
-            return new SearchClient($client, new Serializer());
+            $guzzleClient = new Client([
+                'base_uri' => $pimple['search_api.base_url'],
+                'headers' => [
+                    'X-Api-Key' => $pimple['config']['search_api']['api_key'],
+                ],
+                'handler' => $handlerStack,
+            ]);
+
+            return new SearchClient($guzzleClient, new Serializer());
         };
     }
 }
