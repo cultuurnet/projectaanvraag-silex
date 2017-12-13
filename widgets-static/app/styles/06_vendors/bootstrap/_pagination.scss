@@ -4,9 +4,14 @@
   padding-left: 0; // 1
   list-style: none; // 2
   @include border-radius();
+
+  li {
+    list-style-type: none;
+  }
 }
 
 .cnw_page-item {
+
   &:first-child {
     .cnw_page-link {
       margin-left: 0;
