@@ -31,11 +31,10 @@
 .cnw_stickers {
   display: block;
   float: right;
-
+  padding-right: 10px;
   @include media-breakpoint-down(xs) {
     float: none;
     display: flex;
-
     .cnw_sticker {
       margin-right: 10px;
     }
