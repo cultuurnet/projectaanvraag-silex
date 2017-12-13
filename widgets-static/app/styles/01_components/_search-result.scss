@@ -219,3 +219,7 @@ p span.cnw_badge {
   .cnw_searchresult--block dd.cnw_col-9 {@include make-col(9);}
 
 }
+
+app-2-col-sidebar-right-layout .cnw_searchresult__options label.cnw_form-check-label {
+  padding-left: 1.25rem !important;
+}
