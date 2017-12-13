@@ -37,7 +37,7 @@
 
                 if (category && action) {
 
-                    var label = $clickedElement.data('data-click-tracking-label');
+                    var label = $clickedElement.data('click-tracking-label');
 
                     var extra_gtm_data = {};
                     if (label) {
