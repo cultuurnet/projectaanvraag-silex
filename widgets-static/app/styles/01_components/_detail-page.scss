@@ -68,8 +68,8 @@
       dt .cnw-fa {
         display: block;
       }
-      .cnw_searchresult-detail-label {
-        display: none;
+      em.cnw_searchresult-detail-label {
+        display: none !important;
       }
     }
   }
