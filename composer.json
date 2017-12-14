@@ -4,7 +4,6 @@
     "license": "GPL-3.0",
     "require": {
         "silex/silex": "~2.0",
-        "deralex/yaml-config-service-provider": "^1.0",
         "cweagans/composer-patches": "^1.5",
         "cultuurnet/silex-uitid-provider": "2.x-dev",
         "simple-bus/rabbitmq-bundle-bridge": "^3.0",
@@ -21,6 +20,7 @@
         "matthiasmullie/minify": "^1.3",
         "ml/json-ld": "^1.0",
         "predis/predis": "^1.1",
+        "cultuurnet/auth": "dev-feature/symfony-3 as 1.2.x-dev",
         "cultuurnet/search-v3": "dev-master",
         "symfony/css-selector": "^3.3",
         "guzzlehttp/guzzle": "^6.3",
@@ -28,9 +28,6 @@
     },
     "extra": {
         "patches": {
-            "deralex/yaml-config-service-provider": {
-                "Add support for silex 2": "patches/yaml-config-service-provider-2.patch"
-            }
         }
     },
     "autoload": {
@@ -44,12 +41,12 @@
         }
     },
     "require-dev": {
-        "phing/phing": "^2.15",
         "phpunit/phpunit": "^4.8",
         "squizlabs/php_codesniffer": "^2.7",
         "satooshi/php-coveralls": "^1.0",
         "escapestudios/symfony2-coding-standard": "^2.9",
-        "akamon/mockery-callable-mock": "^1.0"
+        "akamon/mockery-callable-mock": "^1.0",
+        "phing/phing": "^2.16"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
