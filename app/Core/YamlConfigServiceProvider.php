@@ -6,16 +6,20 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Yaml\Yaml;
 
-
+/**
+ * This is a copy of the original yaml config service provider, for support in silex 2 + php 7.1.
+ */
 class YamlConfigServiceProvider implements ServiceProviderInterface
 {
     protected $file;
 
-    public function __construct($file) {
+    public function __construct($file)
+    {
         $this->file = $file;
     }
 
-    public function register(Container $pimple) {
+    public function register(Container $pimple)
+    {
         $config = Yaml::parse(file_get_contents($this->file));
 
         if (is_array($config)) {
@@ -27,7 +31,6 @@ class YamlConfigServiceProvider implements ServiceProviderInterface
                 $pimple['config'] = $config;
             }
         }
-
     }
 
     /**
@@ -36,21 +39,22 @@ class YamlConfigServiceProvider implements ServiceProviderInterface
      * @param array $config
      *   The result of Yaml::parse().
      */
-    public function importSearch(&$config, $app) {
+    public function importSearch(&$config, $app)
+    {
         foreach ($config as $key => $value) {
             if ($key == 'imports') {
                 foreach ($value as $resource) {
-                    $base_dir = str_replace(basename($this->file), '', $this->file);
-                    $new_config = new YamlConfigServiceProvider($base_dir . $resource['resource']);
-                    $new_config->register($app);
+                    $baseDir = str_replace(basename($this->file), '', $this->file);
+                    $newConfig = new YamlConfigServiceProvider($baseDir . $resource['resource']);
+                    $newConfig->register($app);
                 }
                 unset($config['imports']);
             }
         }
     }
 
-    public function getConfigFile() {
+    public function getConfigFile()
+    {
         return $this->file;
     }
 }
-

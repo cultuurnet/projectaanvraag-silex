@@ -34,7 +34,6 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
             $handlerStack = HandlerStack::create();
 
             if ($pimple['search_api.cache.enabled']) {
-
                 $handlerStack->push(
                     new CacheMiddleware(
                         new PrivateCacheStrategy(
@@ -48,7 +47,6 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
             }
 
             if ($pimple['debug']) {
-
                 $logger = new Logger('search_api');
                 $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
                 $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/search-api/search-api.log', 0, Logger::DEBUG));
@@ -61,13 +59,15 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
                 );
             }
 
-            $guzzleClient = new Client([
-                'base_uri' => $pimple['search_api.base_url'],
-                'headers' => [
-                    'X-Api-Key' => $pimple['config']['search_api']['api_key'],
-                ],
-                'handler' => $handlerStack,
-            ]);
+            $guzzleClient = new Client(
+                [
+                    'base_uri' => $pimple['search_api.base_url'],
+                    'headers' => [
+                        'X-Api-Key' => $pimple['config']['search_api']['api_key'],
+                    ],
+                    'handler' => $handlerStack,
+                ]
+            );
 
             return new SearchClient($guzzleClient, new Serializer());
         };
