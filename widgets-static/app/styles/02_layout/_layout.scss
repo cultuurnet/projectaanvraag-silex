@@ -142,15 +142,3 @@
   }
 }
 
-
-@include media-breakpoint-down(md) {
-  .cnw_searchresult--block .cnw_col-3  {
-    @include make-col(3);
-  }
-  .cnw_searchresult--block .cnw_col-9  {
-    @include make-col(9);
-  }
-
-
-
-}
