@@ -113,7 +113,7 @@
                     </dd>
                 {% endif %}
 
-                {% if event.labels %}
+                {% if settings_items.labels.enabled and event.labels %}
                     <div class="cnw_card-labels cnw_col">
 
                         {%  for label in event.labels %}
