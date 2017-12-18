@@ -10,8 +10,11 @@ $app = new WebApplication();
 //$app['http_cache']->run();
 $app->run();
 
-//$data = tideways_disable();
-/*file_put_contents(
+/*$data = tideways_disable();
+file_put_contents(
     sys_get_temp_dir() . "/" . uniqid() . ".projectaanvraag.xhprof",
     serialize($data)
 );*/
+
+// Detach running DBAL KeepAlive instances.
+$app['db.keep_alive']->detach();

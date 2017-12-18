@@ -121,7 +121,8 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
             $producer = new Producer($pimple['rabbit.connection']);
             $producer->setExchangeOptions(
                 [
-                    'name' => 'asynchronous_commands',
+                    'declare' => true,
+                    'name' => 'main_exchange',
                     'type' => 'x-delayed-message',
                     'durable' => true,
                     'arguments' => new AMQPTable(
@@ -134,6 +135,7 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
 
             $producer->setQueueOptions(
                 [
+                    'declare' => true,
                     'name' => 'projectaanvraag',
                     'durable' => true,
                     'routing_keys' => [
@@ -141,6 +143,27 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                     ],
                 ]
             );
+
+            // Declare delay queue.
+            $channel = $producer->getChannel();
+
+            $channel->queue_declare(
+                'projectaanvraag_failed',
+                false,
+                true,
+                false,
+                false,
+                false,
+                new AMQPTable(
+                    [
+                        'routing_keys' => ['projectaanvraag_failed'],
+                    ]
+                )
+            );
+
+            $channel->queue_bind('projectaanvraag_failed', 'main_exchange', 'projectaanvraag_failed');
+
+            // Resolvers.
             $routingKeyResolver = new AsyncCommandRoutingKeyResolver();
             $additionalPropertiesResolver = new DelegatingAdditionalPropertiesResolver([]);
 

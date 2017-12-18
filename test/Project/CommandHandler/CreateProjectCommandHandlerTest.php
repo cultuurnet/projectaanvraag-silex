@@ -78,7 +78,7 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $this->user->nick = 'test';
 
         $this->commandHandler = $this->getMockBuilder(CreateProjectCommandHandler::class)
-            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user])
+            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, 3])
             ->setMethods(['generatePassword'])
             ->getMock();
     }
@@ -121,7 +121,7 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $cultureFeedConsumer = new \CultureFeed_Consumer();
         $cultureFeedConsumer->name = 'Project name';
         $cultureFeedConsumer->description = 'Project description';
-        $cultureFeedConsumer->group = [5, 123];
+        $cultureFeedConsumer->group = [3, 123];
 
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $culturefeedTestconsumer = new \CultureFeed_Consumer();

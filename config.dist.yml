@@ -24,6 +24,15 @@ database:
     password:
     dbname:
 
+# Mongodb settings
+mongodb:
+  default:
+    host:
+    port:
+    user:
+    password:
+    dbname:
+
 # UiTID related settings.
 uitid:
   test:
@@ -96,3 +105,6 @@ css_stats:
 
 # Google tag manager code
 google_tag_manager:
+
+# The default consumer group to use
+default_consumer_group: 3

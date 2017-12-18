@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag;
 use CultuurNet\ProjectAanvraag\Core\CacheProvider;
 use CultuurNet\ProjectAanvraag\Core\CoreProvider;
 use CultuurNet\ProjectAanvraag\Core\CultureFeedServiceProvider;
+use CultuurNet\ProjectAanvraag\Core\KeepAliveDoctrineServiceProvider;
 use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
 use CultuurNet\ProjectAanvraag\Core\YamlConfigServiceProvider;
 use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
@@ -30,7 +31,6 @@ use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\Types\Type;
 use MongoDB\Client;
 use Silex\Application as SilexApplication;
-use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
@@ -155,9 +155,9 @@ class ApplicationBase extends SilexApplication
 
         $this->register(new CoreProvider());
 
-        // Doctrine DBAL and ORM
+        // Doctrine DBAL (custom implementation) and ORM.
         $this->register(
-            new DoctrineServiceProvider(),
+            new KeepAliveDoctrineServiceProvider(),
             [
                 'dbs.options' => $this['config']['database'],
             ]
@@ -183,13 +183,14 @@ class ApplicationBase extends SilexApplication
         );
 
         // Mongodb.
+        $mongdbConfig = $this['config']['mongodb'];
         $client = new Client(
-            'mongodb://localhost:27017',
+            'mongodb://' . $mongdbConfig['default']['host'] . ':' . $mongdbConfig['default']['port'],
             [
                 [
-                    'username' => 'vagrant',
-                    'password' => 'vagrant',
-                    'db' => 'widgetbeheer',
+                    'username' => $mongdbConfig['default']['user'],
+                    'password' => $mongdbConfig['default']['password'],
+                    'db' => $mongdbConfig['default']['dbname'],
                 ],
             ]
         );
@@ -247,6 +248,13 @@ class ApplicationBase extends SilexApplication
         $this->register(new WidgetMigrationProvider());
 
         $this->register(new MessageBusProvider());
+
+        $this->register(
+            new MessageBusProvider(),
+            [
+                'failed_message_delay' => $this['config']['rabbitmq']['failed_message_delay'],
+            ]
+        );
 
         // Integration types
         $this->register(new IntegrationTypeStorageServiceProvider(__DIR__ . '/../integration_types.yml'));

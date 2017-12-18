@@ -37,18 +37,25 @@ class ActivateProjectCommandHandler
     protected $user;
 
     /**
+     * @var integer
+     */
+    protected $defaultConsumerGroup;
+
+    /**
      * CreateProjectCommandHandler constructor.
      * @param MessageBusSupportingMiddleware $eventBus
      * @param EntityManagerInterface $entityManager
      * @param \CultureFeed $cultureFeedLive
      * @param User $user
+     * @param int $defaultConsumerGroup
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $defaultConsumerGroup)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->cultureFeedLive = $cultureFeedLive;
         $this->user = $user;
+        $this->defaultConsumerGroup = $defaultConsumerGroup;
     }
 
     /**
@@ -63,11 +70,14 @@ class ActivateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $project->getName();
         $createConsumer->description = $project->getDescription();
-        $createConsumer->group = [5, $project->getGroupId()];
+        $createConsumer->group = [$this->defaultConsumerGroup, $project->getGroupId()];
 
         // Save consumer in live api.
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $cultureFeedConsumer = $this->cultureFeedLive->createServiceConsumer($createConsumer);
+
+        // Add the user as service consumer admin.
+        $this->cultureFeedLive->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $this->user->id);
 
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);

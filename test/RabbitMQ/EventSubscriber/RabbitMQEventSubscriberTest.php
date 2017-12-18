@@ -97,7 +97,6 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-
         $this->envelope = $this->getMockBuilder(Envelope::class)
             ->disableOriginalConstructor()
             ->getMock();
