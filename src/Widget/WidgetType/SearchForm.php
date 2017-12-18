@@ -249,7 +249,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     $defaults[$typeKey]['group_filters'][$key] = [-1];
                     if ($groupFilter['type'] !== 'select_multiple' && isset($groupFilter['default_option'])) {
                         foreach ($groupFilter['options'] as $optionKey => $option) {
-                            if ($option['label'] === $groupFilter['default_option']) {
+                            if (!empty($option['label']) && $option['label'] === $groupFilter['default_option']) {
                                 $defaults[$typeKey]['group_filters'][$key] = [$optionKey];
                             }
                         }
