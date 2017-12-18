@@ -109,11 +109,11 @@ class TwigPreprocessor
     {
         $variables = [
             'id' => $event->getCdbid(),
-            'name' => $event->getName()[$langcode] ?? null,
-            'description' => $event->getDescription()[$langcode] ?? null,
+            'name' => $event->getNameForLanguage($langcode),
+            'description' => $event->getDescriptionForLanguage($langcode),
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
-            'where' => $event->getLocation() ? $event->getLocation()->getName()[$langcode] ?? null : null,
-            'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName() : null,
+            'where' => $event->getLocation() ? $event->getLocation()->getNameForLanguage($langcode) : null,
+            'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getNameForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
@@ -287,7 +287,7 @@ class TwigPreprocessor
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
                         'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
-                        'organizer' => $event->getOrganizer()->getName(),
+                        'organizer' => $event->getOrganizer()->getNameForLanguage($langcode),
                     ]
                 );
             } catch (\Exception $e) {
@@ -349,7 +349,7 @@ class TwigPreprocessor
             $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                'name' => $result->getNames()['nl'] ?? '',
+                'name' => $result->getNameForLanguage('nl'),
                 'active' => isset($activeValue[$result->getValue()]),
                 'children' => [],
             ];
@@ -413,7 +413,7 @@ class TwigPreprocessor
     {
 
         $variables = [];
-        $variables['name'] = $place->getName()[$langcode] ?? null;
+        $variables['name'] = $place->getNameForLanguage($langcode);
         $variables['address'] = [];
         if ($address = $place->getAddress()) {
             $variables['address']['street'] = $address->getStreetAddress();

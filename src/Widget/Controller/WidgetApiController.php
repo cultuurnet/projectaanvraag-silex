@@ -4,6 +4,8 @@ namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
 use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceInterface;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
+use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage;
@@ -76,9 +78,9 @@ class WidgetApiController
 
     /**
      * WidgetApiController constructor.
-     *
      * @param MessageBusSupportingMiddleware $commandBus
      * @param DocumentRepository $widgetPageRepository
+     * @param ProjectConverter $projectConverter
      * @param WidgetTypeDiscovery $widgetTypeDiscovery
      * @param WidgetPageEntityDeserializer $widgetPageDeserializer
      * @param WidgetPageConverter $widgetPageConverter

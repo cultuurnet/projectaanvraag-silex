@@ -44,6 +44,7 @@ class ApplicationBase extends SilexApplication
 
     public function __construct()
     {
+
         parent::__construct();
 
         $this['cache_directory'] = __DIR__ . '/../cache';
@@ -132,7 +133,10 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new SearchAPIServiceProvider(),
             [
-                'search_api.base_url' => $this['config']['search_api']['base_url'],
+                'search_api.base_url' => $this['config']['search_api']['live']['base_url'],
+                'search_api.api_key' => $this['config']['search_api']['live']['api_key'],
+                'search_api_test.base_url' => $this['config']['search_api']['test']['base_url'],
+                'search_api_test.api_key' => $this['config']['search_api']['test']['api_key'],
                 'search_api.cache.enabled' => $this['config']['search_api']['cache']['enabled'],
                 'search_api.cache.backend' => $this['config']['search_api']['cache']['backend'],
                 'search_api.cache.ttl' => $this['config']['search_api']['cache']['ttl'],

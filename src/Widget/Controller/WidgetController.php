@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
 use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
+use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
 use CultuurNet\ProjectAanvraag\Widget\JavascriptResponse;
@@ -68,9 +69,19 @@ class WidgetController
     protected $widgetRepository;
 
     /**
+     * @var ProjectConverter
+     */
+    protected $projectConverter;
+
+    /**
      * @var SearchClient
      */
     protected $searchClient;
+
+    /**
+     * @var SearchClientTest
+     */
+    protected $searchClientTest;
 
     /**
      * @var WidgetPageEntityDeserializer
@@ -99,11 +110,23 @@ class WidgetController
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
      */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, bool $debugMode, string $legacyHost, RegionService $regionService)
-    {
+    public function __construct(
+        RendererInterface $renderer,
+        DocumentRepository $widgetRepository,
+        ProjectConverter $projectConverter,
+        Connection $db,
+        SearchClient $searchClient,
+        SearchClient $searchClientTest,
+        WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
+        bool $debugMode,
+        string $legacyHost,
+        RegionService $regionService
+    ) {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
+        $this->projectConverter = $projectConverter;
         $this->searchClient = $searchClient;
+        $this->searchClientTest = $searchClientTest;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->debugMode = $debugMode;
         $this->legacyHost = $legacyHost;
@@ -158,6 +181,9 @@ class WidgetController
      */
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
+
+        $this->setSearchClientForWidgetPage($widgetPage);
+
         $data = [
             'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId)),
         ];
@@ -207,6 +233,8 @@ class WidgetController
             throw new NotFoundHttpException();
         }
 
+        $this->setSearchClientForWidgetPage($widgetPage);
+
         $renderedWidgets = [
             'search_results' => $this->renderer->renderWidget($searchResultsWidget),
             'facets' => [],
@@ -246,6 +274,8 @@ class WidgetController
             throw new NotFoundHttpException();
         }
 
+        $this->setSearchClientForWidgetPage($widgetPage);
+
         $data = [
             'data' => $this->renderer->renderDetailPage($widget),
         ];
@@ -277,6 +307,32 @@ class WidgetController
         }
 
         throw new NotFoundHttpException();
+    }
+
+    /**
+     * Set the search client that matches current widget page (default client but with new API key headers).
+     */
+    private function setSearchClientForWidgetPage(WidgetPageInterface $widgetPage)
+    {
+
+        $project = $this->projectConverter->convert($widgetPage->getProjectId());
+        if (!$project) {
+            throw new NotFoundHttpException();
+        }
+
+        // If a project is not live yet. We should use the test api + test key.
+        $apiKey = $project->getLiveConsumerKey();
+        if (!$project->getLiveConsumerKey()) {
+            $apiKey = $project->getTestConsumerKey();
+            $this->searchClient = $this->searchClientTest;
+        }
+
+        $config = $this->searchClient->getClient()->getConfig();
+        $headers = $config['headers'] ?? [];
+        $headers['X-Api-Key'] = $apiKey;
+        $config['headers'] = $headers;
+
+        $this->searchClient->setClient(new \GuzzleHttp\Client($config));
     }
 
     /**
