@@ -322,17 +322,20 @@ class WidgetController
 
         // If a project is not live yet. We should use the test api + test key.
         $apiKey = $project->getLiveConsumerKey();
+        $config = [];
         if (!$project->getLiveConsumerKey()) {
             $apiKey = $project->getTestConsumerKey();
-            $this->searchClient = $this->searchClientTest;
+            $config = $this->searchClientTest->getClient()->getConfig();
+        }
+        else {
+            $config = $this->searchClient->getClient()->getConfig();
         }
 
-        $config = $this->searchClient->getClient()->getConfig();
         $headers = $config['headers'] ?? [];
         $headers['X-Api-Key'] = $apiKey;
         $config['headers'] = $headers;
 
-        $this->searchClient->setClient(new \GuzzleHttp\Client($config));
+        //$this->searchClient->setClient(new \GuzzleHttp\Client($config));
     }
 
     /**

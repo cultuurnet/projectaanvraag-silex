@@ -29,8 +29,6 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
 
         $pimple['search_api'] = function (Container $pimple) {
 
-            $client = new \Guzzle\Http\Client($pimple['search_api.base_url']);
-
             $handlerStack = HandlerStack::create();
 
             if ($pimple['search_api.cache.enabled']) {
@@ -74,7 +72,7 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
 
         $pimple['search_api_test'] = function (Container $pimple) {
 
-            $searchClient = $pimple['search_api'];
+            $searchClient = clone $pimple['search_api'];
 
             $config = $searchClient->getClient()->getConfig();
             $config['base_uri'] = $pimple['search_api_test.base_url'];
@@ -87,6 +85,4 @@ class SearchAPIServiceProvider implements ServiceProviderInterface
             return $searchClient;
         };
     }
-
-
 }
