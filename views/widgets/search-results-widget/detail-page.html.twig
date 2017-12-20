@@ -232,7 +232,7 @@
 
                 {% if settings.back_button.enabled %}
                     <div class="cnw_searchresult-detail-back-button">
-                        <a href="javascript:history.go(-1);">&laquo; {{ settings.back_button.label }}</a>
+                        <a href="{{ event.back_link }}">&laquo; {{ settings.back_button.label }}</a>
                     </div>
 
                 {% endif %}

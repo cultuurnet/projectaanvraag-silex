@@ -201,6 +201,9 @@ class TwigPreprocessor
         $variables['summary'] = '';
         if (!empty($settings['description']['characters'])) {
             $variables['summary'] = $this->createHtmlSummary($variables['description'], $settings['description']['characters']);
+            if (strlen($variables['summary']) === strlen($variables['description'])) {
+                $variables['summary'] = '';
+            }
         }
 
         $variables['where'] = $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null;
@@ -301,6 +304,13 @@ class TwigPreprocessor
             } catch (\Exception $e) {
                // Silent fail.
             }
+        }
+
+        if (!empty($settings['back_button']['url'])) {
+            $variables['back_link'] = $settings['back_button']['url'];
+        }
+        else {
+            $variables['back_link'] = 'javascript:history.go(-1);';
         }
 
         return $variables;
