@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
@@ -24,6 +25,8 @@ use Pimple\Container;
  */
 class Html extends WidgetTypeBase
 {
+
+    use TextProcessingTrait;
 
     /**
      * {@inheritdoc}

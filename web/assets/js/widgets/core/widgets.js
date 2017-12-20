@@ -50,11 +50,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         $wrapper.html('');
         for (var i in CultuurnetWidgetsSettings.widgetPageRows) {
             if (loadDetail && i == CultuurnetWidgetsSettings.detailPageRowId) {
-                console.log('append detail');
                 $wrapper.append(CultuurnetWidgetsSettings.detailPage);
             }
             else {
-                console.log('append rows');
                 $wrapper.append(CultuurnetWidgetsSettings.widgetPageRows[i]);
             }
         }

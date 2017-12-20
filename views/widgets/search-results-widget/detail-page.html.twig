@@ -56,9 +56,21 @@
                 {% endif %}
 
                 <div class="cnw_detail-summary{{ summary_class }}">
-                    <p>
-                        {{ event.description }}
-                    </p>
+
+                    {% if event.summary %}
+
+                      <div class="cnw_detail-short-summary">
+                          {{ event.summary | raw }}
+                      </div>
+
+                      <a href="#" class="cnw_detail-summary-toggle">Lees meer</a>
+
+                    {% endif %}
+
+                      <div class="cnw_detail-full-description">
+                          {{ event.description | raw }}
+                      </div>
+
                 </div>
 
                 <p class="cnw_searchresult-detail-block-title">Info</p>

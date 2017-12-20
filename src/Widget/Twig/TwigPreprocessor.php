@@ -2,12 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
-use CultuurNet\ProjectAanvraag\Utility\TextSummaryTrait;
+use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
-use CultuurNet\SearchV3\ValueObjects\FacetResults;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
+use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
 use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,7 +20,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 class TwigPreprocessor
 {
 
-    use TextSummaryTrait;
+    use TextProcessingTrait;
 
     /**
      * @var TranslatorInterface
@@ -110,7 +110,7 @@ class TwigPreprocessor
         $variables = [
             'id' => $event->getCdbid(),
             'name' => $event->getName()->getValueForLanguage($langcode),
-            'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : null,
+            'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : '',
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'where' => $event->getLocation() ? $event->getLocation()->getName()->getValueForLanguage($langcode) : null,
             'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
@@ -133,13 +133,15 @@ class TwigPreprocessor
             $variables['image'] = $url->__toString();
         }
 
+        $variables['summary'] = strip_tags($variables['description']);
         if (!empty($settings['description']['characters'])) {
-            $originalDescription = $variables['description'];
-            $variables['description'] = $this->createSummary($originalDescription, $settings['description']['characters']);
-            if (strlen($variables['description']) < strlen($originalDescription)) {
-                $variables['description'] .= substr($variables['description'], -1) === '.' ? '..' : '..';
+            $originalSummary = $variables['summary'];
+            $variables['summary'] = $this->createSummary($variables['summary'], $settings['description']['characters']);
+            if (strlen($variables['description']) < strlen($originalSummary)) {
+                $variables['summary'] .= substr($variables['summary'], -1) === '.' ? '..' : '..';
             }
         }
+        $variables['description'] = $this->filterXss($variables['description']);
 
         $languageIconKeywords = [
             'één taalicoon' => 1,
@@ -195,6 +197,11 @@ class TwigPreprocessor
     public function preprocessEventDetail(Event $event, string $langcode, array $settings)
     {
         $variables = $this->preprocessEvent($event, $langcode, $settings);
+
+        $variables['summary'] = '';
+        if (!empty($settings['description']['characters'])) {
+            $variables['summary'] = $this->createHtmlSummary($variables['description'], $settings['description']['characters']);
+        }
 
         $variables['where'] = $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null;
         $variables['when_details'] = $this->formatEventDatesDetail($event, $langcode);

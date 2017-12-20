@@ -21,6 +21,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Bind keyword removal.
             CultuurnetWidgets.bindRemoveActiveFilters(context);
 
+            // Bind summary toggle.
+            CultuurnetWidgets.bindSummaryToggle(context);
+
         }
 
     };
@@ -49,7 +52,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
         });
-    }
+    };
 
     /**
      * Bind the extra search result filters
@@ -69,7 +72,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
         });
-    }
+    };
 
 
     /**
@@ -114,6 +117,27 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
         });
-    }
+    };
+
+    /**
+     * Bind the summary toggle link and hide the full description by default.
+     * @param context
+     */
+    CultuurnetWidgets.bindSummaryToggle = function(context) {
+
+        var $context = $(context);
+        var $summaryToggle = $(context).find('a.cnw_detail-summary-toggle');
+        if ($summaryToggle.length > 0) {
+            var $fullDescription = $context.find('.cnw_detail-full-description');
+            $fullDescription.hide();
+            $summaryToggle.bind('click', function(e) {
+                $(this).hide();
+                $context.find('.cnw_detail-short-summary').hide();
+                $fullDescription.show();
+                e.preventDefault();
+            })
+        }
+
+    };
 
 })(CultuurnetWidgets);
