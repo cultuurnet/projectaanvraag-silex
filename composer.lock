@@ -262,12 +262,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/culturefeed-php.git",
-                "reference": "9e810996e94494090fe9029971ca69f77cc54d60"
+                "reference": "cfda2526317da1966d5deaded2f6de166f2084ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/culturefeed-php/zipball/9e810996e94494090fe9029971ca69f77cc54d60",
-                "reference": "9e810996e94494090fe9029971ca69f77cc54d60",
+                "url": "https://api.github.com/repos/cultuurnet/culturefeed-php/zipball/cfda2526317da1966d5deaded2f6de166f2084ef",
+                "reference": "cfda2526317da1966d5deaded2f6de166f2084ef",
                 "shasum": ""
             },
             "require": {
@@ -322,7 +322,7 @@
                 }
             ],
             "description": "Culturefeed PHP library",
-            "time": "2017-02-23 10:03:27"
+            "time": "2017-12-20 17:35:06"
         },
         {
             "name": "cultuurnet/search-v3",

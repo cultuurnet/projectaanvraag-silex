@@ -134,7 +134,6 @@ class ProjectService implements ProjectServiceInterface
                 $consumer = $this->culturefeedTest->getServiceConsumer($project->getTestConsumerKey());
                 $project->enrichWithConsumerInfo($consumer);
                 $project->setTestConsumerSecret($consumer->consumerSecret);
-                $project->setTestSearchApi3Key($consumer->searchApi3Key);
             } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
                 if (!($e instanceof \CultureFeed_HttpException)) {
@@ -150,7 +149,6 @@ class ProjectService implements ProjectServiceInterface
                 $consumer = $this->culturefeedLive->getServiceConsumer($project->getLiveConsumerKey());
                 $project->enrichWithConsumerInfo($consumer);
                 $project->setLiveConsumerSecret($consumer->consumerSecret);
-                $project->setLiveSearchApi3Key($consumer->searchApi3Key);
             } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
                 if (!($e instanceof \CultureFeed_HttpException)) {

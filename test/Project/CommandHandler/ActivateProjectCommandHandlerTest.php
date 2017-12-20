@@ -96,6 +96,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
 
         $consumerWithId = clone $consumer;
         $consumerWithId->consumerKey = 'test';
+        $consumerWithId->searchApi3Key = 'testkey';
 
         // Test saving to culturefeed live.
         $this->project->expects($this->once())
@@ -104,8 +105,10 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $this->project->expects($this->once())
             ->method('setLiveConsumerKey')
             ->with($consumerWithId->consumerKey);
+        $this->project->expects($this->once())
+            ->method('setLiveSearchApi3Key')
+            ->with('testkey');
 
-        // @todo re-enable after createServiceConsumer is enabled again.
         $this->cultureFeed
             ->expects($this->once())
             ->method('createServiceConsumer')

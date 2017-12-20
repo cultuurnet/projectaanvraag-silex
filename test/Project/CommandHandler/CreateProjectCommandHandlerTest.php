@@ -129,10 +129,12 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $culturefeedTestconsumer->description = 'Project description';
         $culturefeedTestconsumer->consumerKey = 'test key';
         $culturefeedTestconsumer->consumerSecret = 'test secret';
+        $culturefeedTestconsumer->searchApi3Key = 'search test key';
 
         $culturefeedLiveConsumer = clone $culturefeedTestconsumer;
         $culturefeedLiveConsumer->consumerSecret = 'live secret';
         $culturefeedLiveConsumer->consumerKey = 'live key';
+        $culturefeedLiveConsumer->searchApi3Key = 'search live key';
 
         // It should create a test consumer.
         $this->cultureFeedTest
@@ -164,6 +166,8 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
         $project->setLiveConsumerKey($culturefeedLiveConsumer->consumerKey);
         $project->setTestConsumerKey($culturefeedTestconsumer->consumerKey);
+        $project->setLiveSearchApi3Key($culturefeedLiveConsumer->searchApi3Key);
+        $project->setTestSearchApi3Key($culturefeedTestconsumer->searchApi3Key);
 
         $this->entityManager->expects($this->at(0))
             ->method('persist')
