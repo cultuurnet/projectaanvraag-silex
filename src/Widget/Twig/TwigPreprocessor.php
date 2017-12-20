@@ -308,8 +308,7 @@ class TwigPreprocessor
 
         if (!empty($settings['back_button']['url'])) {
             $variables['back_link'] = $settings['back_button']['url'];
-        }
-        else {
+        } else {
             $variables['back_link'] = 'javascript:history.go(-1);';
         }
 
