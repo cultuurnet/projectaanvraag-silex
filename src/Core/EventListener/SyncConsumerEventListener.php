@@ -74,8 +74,10 @@ class SyncConsumerEventListener
             if ($project) {
                 if ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
                     $project->setTestConsumerKey($consumerData['consumerKey']);
+                    $project->setTestSearchApi3Key($consumerData['searchApi3Key']);
                 } elseif ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
                     $project->setLiveConsumerKey($consumerData['consumerKey']);
+                    $project->setLiveSearchApi3Key($consumerData['searchApi3Key']);
                 }
 
                 // Attempt to set the group id

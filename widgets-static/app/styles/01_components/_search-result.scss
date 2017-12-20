@@ -43,7 +43,11 @@
 
 }
 
-
+@include media-breakpoint-down(xs) {
+  .cnw_searchresult--block .cnw_stickers  {
+    margin-bottom: 0.5rem;
+  }
+}
 
 .cnw_stickers--mini {
   margin-bottom: 0px;

@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
 use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
@@ -323,11 +324,12 @@ class WidgetController
         // If a project is not live yet. We should use the test api + test key.
         $apiKey = $project->getLiveConsumerKey();
         $config = [];
-        if (!$project->getLiveConsumerKey()) {
-            $apiKey = $project->getTestConsumerKey();
+        if (!$project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
+            $apiKey = $project->getTestSearchApi3Key();
             $config = $this->searchClientTest->getClient()->getConfig();
         } else {
             $config = $this->searchClient->getClient()->getConfig();
+            $apiKey = $project->getLiveConsumerKey();
         }
 
         $headers = $config['headers'] ?? [];

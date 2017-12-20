@@ -122,6 +122,24 @@ class Project implements ProjectInterface
     protected $liveConsumerSecret;
 
     /**
+     * The search api 3 key for this project.
+     *
+     * @ORM\Column(name="live_search_api3_key", type="string", length=255, nullable=true)
+     * @var string
+     * @Type("string")
+     */
+    protected $liveSearchApi3Key;
+
+    /**
+     * The search api 3 key for this project.
+     *
+     * @ORM\Column(name="test_search_api3_key", type="string", length=255, nullable=true)
+     * @var string
+     * @Type("string")
+     */
+    protected $testSearchApi3Key;
+
+    /**
      * @var string
      * @Type("string")
      */
@@ -223,9 +241,55 @@ class Project implements ProjectInterface
      * @param string $liveConsumerKey
      * @return Project
      */
-    public function setLiveConsumerKey($liveConsumerKey)
+    public function setLiveConsumerKey(string $liveConsumerKey)
     {
         $this->liveConsumerKey = $liveConsumerKey;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLiveSearchApi3Key()
+    {
+        return $this->liveSearchApi3Key;
+    }
+
+    /**
+     * @param string $liveSearchApi3Key
+     * @return Project
+     */
+    public function setLiveSearchApi3Key(string $liveSearchApi3Key)
+    {
+        $this->liveSearchApi3Key = $liveSearchApi3Key;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTestSearchApi3Key()
+    {
+        return $this->testSearchApi3Key;
+    }
+
+    /**
+     * @param string $testSearchApi3Key
+     * @return Project
+     */
+    public function setTestSearchApi3Key(string $testSearchApi3Key): Project
+    {
+        $this->testSearchApi3Key = $testSearchApi3Key;
+        return $this;
+    }
+
+    /**
+     * @param string $searchApi3Key
+     * @return Project
+     */
+    public function setSearchApi3Key(string $searchApi3Key): Project
+    {
+        $this->searchApi3Key = $searchApi3Key;
         return $this;
     }
 

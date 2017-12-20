@@ -88,6 +88,7 @@ class CreateProjectCommandHandler
 
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $project->setTestConsumerKey($testConsumer->consumerKey);
+        $project->setTestSearchApi3Key($testConsumer->searchApi3Key);
 
         // Create a live service consumer when a coupon is provided.
         if (!empty($createProject->getCouponToUse())) {
@@ -99,6 +100,7 @@ class CreateProjectCommandHandler
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
             $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
+            $project->setLiveSearchApi3Key($cultureFeedLiveConsumer->searchApi3Key);
         }
 
         // Save the project to the local database.
