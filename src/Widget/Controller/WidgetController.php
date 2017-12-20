@@ -326,8 +326,7 @@ class WidgetController
         if (!$project->getLiveConsumerKey()) {
             $apiKey = $project->getTestConsumerKey();
             $config = $this->searchClientTest->getClient()->getConfig();
-        }
-        else {
+        } else {
             $config = $this->searchClient->getClient()->getConfig();
         }
 
