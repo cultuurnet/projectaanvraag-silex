@@ -109,11 +109,11 @@ class TwigPreprocessor
     {
         $variables = [
             'id' => $event->getCdbid(),
-            'name' => $event->getNameForLanguage($langcode),
-            'description' => $event->getDescriptionForLanguage($langcode),
+            'name' => $event->getName()->getValueForLanguage($langcode),
+            'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
-            'where' => $event->getLocation() ? $event->getLocation()->getNameForLanguage($langcode) : null,
-            'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getNameForLanguage($langcode) : null,
+            'where' => $event->getLocation() ? $event->getLocation()->getName()->getValueForLanguage($langcode) : null,
+            'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
@@ -257,8 +257,9 @@ class TwigPreprocessor
             $url = Url::factory($_SERVER['HTTP_REFERER']);
 
             $query = $url->getQuery();
+            $langcodes = array_keys($event->getName()->getValues());
             // Language switch links are based on the languages available for the title.
-            foreach (array_keys($event->getName()) as $langcode) {
+            foreach ($langcodes as $langcode) {
                 $query['langcode'] = $langcode;
                 $variables['language_switcher'][$langcode] = '<a href="' . $url->__toString() . '">' . strtoupper($langcode) . '</a>';
             }
@@ -287,7 +288,7 @@ class TwigPreprocessor
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
                         'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
-                        'organizer' => $event->getOrganizer()->getNameForLanguage($langcode),
+                        'organizer' => $event->getOrganizer()->getName()->getValueForLanguage($langcode),
                     ]
                 );
             } catch (\Exception $e) {
@@ -349,7 +350,7 @@ class TwigPreprocessor
             $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                'name' => $result->getNameForLanguage('nl'),
+                'name' => $result->getName()->getValueForLanguage('nl'),
                 'active' => isset($activeValue[$result->getValue()]),
                 'children' => [],
             ];
@@ -413,7 +414,7 @@ class TwigPreprocessor
     {
 
         $variables = [];
-        $variables['name'] = $place->getNameForLanguage($langcode);
+        $variables['name'] = $place->getName()->getValueForLanguage($langcode);
         $variables['address'] = [];
         if ($address = $place->getAddress()) {
             $variables['address']['street'] = $address->getStreetAddress();

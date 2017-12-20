@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\CalendarType;
+use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\Facet;
@@ -478,7 +479,7 @@ class SearchResults extends WidgetTypeBase
         }
 
         $langcode = $this->request->query->has('langcode') ? $this->request->query->get('langcode') : 'nl';
-        $name = $events[0]->getName()[$langcode] ?? '';
+        $name = $events[0]->getName()->getValueForLanguage($langcode);
         $tagManagerData = [
             'pageTitleSuffix' => 'Event | ' . $name,
         ];
