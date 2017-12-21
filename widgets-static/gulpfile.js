@@ -25,7 +25,7 @@ gulp.task('serve', () => {
         browserSync.init({
             notify: true,
             port: 12000,
-            proxy: 'http://widgetbeheer-api.dev/demo/'
+            proxy: 'http://projectaanvraag-api.dev/demo/'
             /*
             server: {
                 baseDir: [distCssDir, 'app'],
@@ -182,25 +182,6 @@ gulp.task('serve:dist', ['default'], () => {
       baseDir: ['dist']
     }
   });
-});
-
-gulp.task('serve:test', ['scripts'], () => {
-  browserSync.init({
-    notify: false,
-    port: 12000,
-    ui: false,
-    server: {
-      baseDir: 'test',
-      routes: {
-        '/scripts': 'app/tmp/scripts',
-        '/bower_components': 'bower_components'
-      }
-    }
-  });
-
-  gulp.watch('app/scripts/**/*.js', ['scripts']);
-  gulp.watch(['test/spec/**/*.js', 'test/index.html']).on('change', reload);
-  gulp.watch('test/spec/**/*.js', ['lint:test']);
 });
 
 // inject bower components
