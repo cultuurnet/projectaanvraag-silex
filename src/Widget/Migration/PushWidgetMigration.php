@@ -55,6 +55,11 @@ class PushWidgetMigration extends WidgetMigration
             }
         }
 
+        // parameters
+        if (isset($legacySettings['content']['parameters']['raw'])) {
+            $settings['search_params']['query'] = $legacySettings['content']['parameters']['raw'];
+        }
+
         parent::__construct($this->extendWithGenericSettings($legacySettings, $settings), $type);
     }
 }
