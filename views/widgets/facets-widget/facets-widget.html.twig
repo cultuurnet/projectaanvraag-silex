@@ -1,15 +1,13 @@
 <div class="cnw_w cnw_facets" data-widget-id="{{ id }}">
-    <div class="cnw_container">
 
-        <a class="cnw_facets_toggle cnw_facets_toggle--open" href="#">Verberg verfijningen</a>
+    <a class="cnw_facets_toggle cnw_facets_toggle--open" href="#">Verberg verfijningen</a>
 
-        <div class="cnw_facets_content">
-            {% for facet in facets %}
-                {% if facet.count > 0 %}
-                    {% include 'widgets/facets-widget/facet.html.twig' with { 'facet': facet } %}
-                {% endif %}
-            {% endfor %}
-        </div>
-
+    <div class="cnw_facets_content">
+        {% for facet in facets %}
+            {% if facet.count > 0 %}
+                {% include 'widgets/facets-widget/facet.html.twig' with { 'facet': facet } %}
+            {% endif %}
+        {% endfor %}
     </div>
+
 </div>

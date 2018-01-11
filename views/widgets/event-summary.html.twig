@@ -4,12 +4,14 @@
 
     {% if settings_items.image.enabled %}
     <div class="cnw_col-3 {% if settings_items.image.position == 'right' %} cnw_flex-last {% endif %}">
+        {% if event.image %}
         {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
         <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="image">
             <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
         </a>
         {% else %}
             <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
+        {% endif %}
         {% endif %}
 
     </div>
@@ -69,14 +71,16 @@
                     </p>
                 {% endif %}
 
-                {% if settings_items.where.enabled %}
+                {% if settings_items.where.enabled and event.where %}
                     <dt class="cnw_col-3">
 
                         <em class="cnw_searchresult-detail-label"> {{ settings_items.where.label }}</em>
                         <i class="cnw-fa cnw-fa-map-marker"></i>
 
                     </dt>
-                    <dd class="cnw_col-9">{{ event.where }}</dd>
+                    <dd class="cnw_col-9">
+                        {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
+                    </dd>
                 {% endif %}
 
                 {% if settings_items.organizer.enabled and event.organizer %}

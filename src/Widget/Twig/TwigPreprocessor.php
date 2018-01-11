@@ -111,8 +111,8 @@ class TwigPreprocessor
             'id' => $event->getCdbid(),
             'name' => $event->getName()->getValueForLanguage($langcode),
             'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : '',
+            'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
-            'where' => $event->getLocation() ? $event->getLocation()->getName()->getValueForLanguage($langcode) : null,
             'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'themes' => $event->getTermsByDomain('theme'),
@@ -206,7 +206,6 @@ class TwigPreprocessor
             }
         }
 
-        $variables['where'] = $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null;
         $variables['when_details'] = $this->formatEventDatesDetail($event, $langcode);
 
         // Directions are done via direct link too google.
@@ -704,7 +703,7 @@ class TwigPreprocessor
         // Explode range on dash.
         $explRange = explode('-', $range);
 
-        if ($explRange[0] === $explRange[1]) {
+        if (empty($explRange[1]) || $explRange[0] === $explRange[1]) {
             return $explRange[0] . ' jaar';
         }
         

@@ -68,22 +68,13 @@
   @include media-breakpoint-down(sm) {
     &-info {
       dt .cnw-fa {
+        margin-top: 4px;
         display: block;
       }
       em.cnw_searchresult-detail-label {
         display: none !important;
       }
     }
-  }
-
-  .cf-meta {
-    padding-right: 3px;
-  }
-
-  .cf-weekday,
-  .cf-to,
-  .cf-from {
-    text-transform: uppercase;
   }
 
   ul.cnw_searchresult-detail-booking-info,
