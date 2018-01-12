@@ -336,7 +336,7 @@ class WidgetController
         $headers['X-Api-Key'] = $apiKey;
         $config['headers'] = $headers;
 
-        //$this->searchClient->setClient(new \GuzzleHttp\Client($config));
+        $this->searchClient->setClient(new \GuzzleHttp\Client($config));
     }
 
     /**
