@@ -172,6 +172,7 @@ class Project implements ProjectInterface
     /**
      * The total widgets connected with this project.
      * @var int
+     * @Type("integer")
      */
     protected $totalWidgets;
 
