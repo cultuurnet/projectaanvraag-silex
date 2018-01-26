@@ -283,6 +283,12 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     protected function mergeDefaults($settings, $defaultSettings)
     {
         foreach ($defaultSettings as $id => $defaultSetting) {
+            // Do not merge the defaults for group filters, if this widget already had group filters.
+            // Merging would prevent the user from deleting a default option.
+            if ($id == 'group_filters' && isset($settings['group_filters'])) {
+                continue;
+            }
+
             if (!isset($settings[$id])) {
                 $settings[$id] = $defaultSetting;
             } elseif (is_array($settings[$id]) && is_array($defaultSetting)) {
