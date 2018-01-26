@@ -213,6 +213,18 @@ class WidgetController
         $facetWidgets = [];
         $rows = $widgetPage->getRows();
 
+        if ($request->query->has('submitted_page') && $request->query->get('submitted_page') !== $widgetPage->getId()) {
+            $submittedPage = $this->widgetRepository->findOneBy(
+                [
+                    'id' => $request->get('submitted_page'),
+                ]
+            );
+
+            if ($submittedPage) {
+                $request->attributes->set('submittedPage', $submittedPage);
+            }
+        }
+
         // Search for the requested widget and facets that apply to it.
         foreach ($rows as $row) {
             $widgets = $row->getWidgets();
@@ -275,7 +287,7 @@ class WidgetController
             throw new NotFoundHttpException();
         }
 
-        $this->setSearchClientForWidgetPage($widgetPage);
+        //$this->setSearchClientForWidgetPage($widgetPage);
 
         $data = [
             'data' => $this->renderer->renderDetailPage($widget),

@@ -30,20 +30,34 @@ class SearchResultsQueryAlterListener
     public function handle(SearchResultsQueryAlter $searchResultsQueryAlter)
     {
 
+        $widgetPages = [];
+
         // No page in this request, nothing to alter.
-        if (!$this->request->attributes->has('widgetPage')) {
+        if ($this->request->attributes->has('widgetPage')) {
+            $widgetPages[] = $this->request->attributes->get('widgetPage');
+        }
+
+        // In case the form was submitted on another page.
+        if ($this->request->attributes->has('submittedPage')) {
+            $widgetPages[] = $this->request->attributes->get('submittedPage');
+        }
+
+        // No widget pages to alter.
+        if (empty($widgetPages)) {
             return;
         }
 
-        $widgetPage = $this->request->attributes->get('widgetPage');
-
-        $rows = $widgetPage->getRows();
-        /** @var LayoutInterface $row */
-        foreach ($rows as $row) {
-            $widgets = $row->getWidgets();
-            foreach ($widgets as $widget) {
-                if ($widget instanceof AlterSearchResultsQueryInterface) {
-                    $widget->alterSearchResultsQuery($searchResultsQueryAlter);
+        if (!empty($widgetPages)) {
+            foreach ($widgetPages as $widgetPage) {
+                $rows = $widgetPage->getRows();
+                /** @var LayoutInterface $row */
+                foreach ($rows as $row) {
+                    $widgets = $row->getWidgets();
+                    foreach ($widgets as $widget) {
+                        if ($widget instanceof AlterSearchResultsQueryInterface) {
+                            $widget->alterSearchResultsQuery($searchResultsQueryAlter);
+                        }
+                    }
                 }
             }
         }

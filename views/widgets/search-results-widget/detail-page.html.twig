@@ -125,7 +125,7 @@
                             <em class="cnw_searchresult-detail-label">Prijs</em>
                             <i class="cnw-fa cnw-fa-eur"></i>
                         </dt>
-                        <dd>{{ event.price | raw}}</dd>
+                        <dd class="cnw_searchresult-detail-price-info">{{ event.price | raw}}</dd>
                     {% endif %}
 
                     {% if settings.reservation_information and event.booking_info %}

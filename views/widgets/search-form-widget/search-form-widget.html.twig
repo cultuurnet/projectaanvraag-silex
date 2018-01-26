@@ -6,7 +6,7 @@
         </div>
     {% endif %}
 
-    <form class="cnw_form cnw_form--extended" data-widget-id="{{ id }}">
+    <form class="cnw_form cnw_form--extended" data-widget-id="{{ id }}"{% if settings_general.destination %} data-widget-destination="{{ settings_general.destination }}"{% endif %}>
         <div class="cnw_row">
 
             {% if settings_fields.type.keyword_search.enabled or settings_fields.type.group_filters.enabled %}
@@ -54,7 +54,7 @@
                             <label>
                                 {{  settings_fields.time.date_search.label }}
                             </label>
-                            <select class="cnw_form-control cnw_form-control-date" name="search-form[{{ id }}][when]">
+                            <select class="cnw_form-control cnw_form-control-date" name="search-form[{{ id }}][when]" data-default-value="{{ defaults.when }}">
                                 {% if settings_fields.time.date_search.placeholder %}
                                     <option value="">{{ settings_fields.time.date_search.placeholder }}</option>
                                 {% endif %}
@@ -103,7 +103,7 @@
 
                     {% if settings_fields.time.group_filters.enabled %}
                         {% for key, filter in  settings_fields.time.group_filters.filters %}
-                            {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label': filter.label, 'placeholder': filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][2][' ~ key ~ ']', 'options': filter.options, 'default_options': defaults[2].group_filters[key]} %}
+                            {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label': filter.label, 'placeholder': filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][2][' ~ key ~ ']', 'options': filter.options, 'default_option': defaults[2].group_filters[key]} %}
                         {% endfor %}
                     {% endif %}
                 </div>
@@ -113,7 +113,7 @@
             {% if  settings_fields.extra.group_filters.enabled %}
                 <div class="cnw_col">
                     {% for key, filter in  settings_fields.extra.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_options': defaults[3].group_filters[key]} %}
+                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[3].group_filters[key]} %}
                     {% endfor %}
                 </div>
                 {% endif %}

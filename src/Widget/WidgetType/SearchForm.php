@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *      id = "search-form",
  *      defaultSettings = {
  *          "general": {
+ *              "destination": "",
  *              "new_window": false,
  *              "button_label": "Zoeken"
  *          },
@@ -81,6 +82,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *      },
  *      allowedSettings = {
  *          "general": {
+ *              "destination": "string",
  *              "new_window": "boolean",
  *              "button_label": "string"
  *          },
@@ -204,7 +206,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',
             [
-                'id' => $this->index, // Use the index as identifier for smaller querystrings.
+                'id' => $this->id,
                 'settings_general' => $this->settings['general'],
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
@@ -234,7 +236,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     }
 
     /**
-     * Get the default values based on current request.
+     * Get the default configured values.
      */
     protected function getDefaults()
     {
@@ -246,11 +248,11 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         foreach ($this->groupFilterTypes as $typeKey => $type) {
             if ($this->settings['fields'][$type]['group_filters']['enabled']) {
                 foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $groupFilter) {
-                    $defaults[$typeKey]['group_filters'][$key] = [-1];
+                    $defaults[$typeKey]['group_filters'][$key] = -1;
                     if ($groupFilter['type'] !== 'select_multiple' && isset($groupFilter['default_option'])) {
                         foreach ($groupFilter['options'] as $optionKey => $option) {
                             if (!empty($option['label']) && $option['label'] === $groupFilter['default_option']) {
-                                $defaults[$typeKey]['group_filters'][$key] = [$optionKey];
+                                $defaults[$typeKey]['group_filters'][$key] = $optionKey;
                             }
                         }
                     }
@@ -271,8 +273,8 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         $activeFilters = $this->getDefaults();
         if ($this->request->query->has('search-form')) {
             $searchFormFilters = $this->request->query->get('search-form');
-            if (isset($searchFormFilters[$this->index])) {
-                foreach ($searchFormFilters[$this->index] as $key => $activeFilter) {
+            if (isset($searchFormFilters[$this->id])) {
+                foreach ($searchFormFilters[$this->id] as $key => $activeFilter) {
                     // Loop through every custom group filter that is found in query string.
                     if ($key === 'custom' && is_array($activeFilter)) {
                         foreach ($activeFilter as $groupFilterKey => $groupFilterGroups) {
@@ -302,15 +304,22 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 if (isset($this->groupFilterTypes[$key])) {
                     $type = $this->groupFilterTypes[$key];
                     foreach ($activeFilters[$key]['group_filters'] as $groupFilterKey => $selectedOptions) {
+                        // When no search was done yet, this option is a single value.
+                        if (!is_array($selectedOptions)) {
+                            $selectedOptions = [$selectedOptions];
+                        }
+
                         if (isset($this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey])) {
                             $groupFilter = $this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey];
                             foreach ($selectedOptions as $selectedOption) {
                                 if (isset($groupFilter['options'][$selectedOption]) && !empty($groupFilter['options'][$selectedOption]['query'])) {
                                     $advancedQuery[] = $groupFilter['options'][$selectedOption]['query'];
                                     $searchResultsActiveFilters[] = [
+                                        'value' => $groupFilter['options'][$selectedOption]['query'],
                                         'label' => $groupFilter['options'][$selectedOption]['label'],
-                                        'name' => 'search-form[' . $this->index . '][custom][' . $key . '][' . $groupFilterKey . ']',
+                                        'name' => 'search-form[' . $this->id . '][custom][' . $key . '][' . $groupFilterKey . ']',
                                         'is_default' => $groupFilter['default_option'] === $groupFilter['options'][$selectedOption]['label'],
+                                        
                                     ];
                                 }
                             }
@@ -348,7 +357,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
 
                     $searchResultsActiveFilters[] = [
                         'label' => implode(' ', $labelParts),
-                        'name' => 'search-form[' . $this->index . '][when]',
+                        'name' => 'search-form[' . $this->id . '][when]',
                         'is_default' => false,
                     ];
                 } else {
@@ -359,7 +368,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
 
                         $searchResultsActiveFilters[] = [
                             'label' => $dateRange['label'],
-                            'name' => 'search-form[' . $this->index . '][when]',
+                            'name' => 'search-form[' . $this->id . '][when]',
                             'is_default' => false,
                         ];
                     }
@@ -368,7 +377,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 $advancedQuery[] = $activeValue;
                 $searchResultsActiveFilters[] = [
                     'label' => $activeValue,
-                    'name' => 'search-form[' . $this->index . '][what]',
+                    'name' => 'search-form[' . $this->id . '][what]',
                     'is_default' => false,
                 ];
             } elseif ($key === 'where') {
@@ -376,7 +385,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 if ($region) {
                     $searchResultsActiveFilters[] = [
                         'label' => $region->name,
-                        'name' => 'search-form[' . $this->index . '][where]',
+                        'name' => 'search-form[' . $this->id . '][where]',
                         'is_default' => false,
                     ];
                     $advancedQuery[] = 'regions:' . $region->key;

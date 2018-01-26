@@ -95,8 +95,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // Search all input fields.
         var paramsToSubmit = {};
-        var paramsToDelete = {};
-        jQuery(this).find(':input').each(function() {
+        var $form = jQuery(this);
+
+        $form.find(':input').each(function() {
 
             var $field = jQuery(this);
 
@@ -130,21 +131,28 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                         paramsToSubmit[$field.attr('name')] = value;
                     }
                 }
-                // Non checked checkbox. Make sure empty field is submitted, if no value was given yet.
-                else {
-                    if (paramsToSubmit[$field.attr('name')] === undefined) {
-                        paramsToSubmit[$field.attr('name')] = '';
-                    }
-                }
             }
             // Other input => Just submit the value.
             else {
-                paramsToSubmit[$field.attr('name')] = value;
+
+                var defaultValue = $field.data('default-value');
+                if (value === "" && defaultValue != 'placeholder' && defaultValue != -1) {
+                    paramsToSubmit[$field.attr('name')] = value;
+                }
+
             }
 
         });
 
-        CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
+        var destination = $form.data('widget-destination');
+        if (destination) {
+            paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings.widgetPageId;
+            var query = CultuurnetWidgets.buildQueryUrl(paramsToSubmit);
+            window.location.href = destination + '?' + query;
+        }
+        else {
+            CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
+        }
     };
 
     /**

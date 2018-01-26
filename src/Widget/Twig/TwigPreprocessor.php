@@ -222,14 +222,6 @@ class TwigPreprocessor
             $variables['directions_link'] = 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($directionData);
         }
 
-        // Price information.
-        $variables['price'] = '';
-        if ($event->getPriceInfo()) {
-            $priceInfo = $event->getPriceInfo()[0];
-            $variables['price'] = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
-            $variables['price'] = str_replace('.', ',', $variables['price']);
-        }
-
         // Booking information.
         $variables['booking_info'] = [];
         if ($event->getBookingInfo()) {
@@ -286,6 +278,7 @@ class TwigPreprocessor
         }
 
         $variables['uitpas_promotions'] = '';
+        // Load Uitpas promotions via culturefeed.
         if ($variables['uitpas'] && !empty($settings['uitpas_benefits']) && $event->getOrganizer()) {
             $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
             $promotionsQuery->max = 4;
@@ -303,6 +296,11 @@ class TwigPreprocessor
             } catch (\Exception $e) {
                // Silent fail.
             }
+        }
+
+        // Load 'kansentarief' via culturefeed.
+        if (!empty($settings['price_information'])) {
+            $this->preprocessPriceInfo($event, $variables);
         }
 
         if (!empty($settings['back_button']['url'])) {
@@ -330,6 +328,57 @@ class TwigPreprocessor
         }
 
         return $promotions;
+    }
+
+    /**
+     * Preprocess the price information.
+     *
+     * @param Event $event
+     * @param $variables
+     */
+    public function preprocessPriceInfo(Event $event, &$variables)
+    {
+        $variables['price'] = '';
+
+        $prices = [];
+        if ($event->getPriceInfo()) {
+            $priceInfo = $event->getPriceInfo()[0];
+            $prices[] = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
+        }
+
+        try {
+            $query = new \CultureFeed_Uitpas_Event_Query_SearchEventsOptions();
+            $query->cdbid = $event->getId();
+            $uitpasEvents = $this->cultureFeed->uitpas()->searchEvents($query);
+            if ($uitpasEvents->total > 0) {
+                $uitpasEvent = $uitpasEvents->objects[0];
+                foreach ($uitpasEvent->cardSystems as $cardSystem) {
+                    foreach ($cardSystem->distributionKeys as $key) {
+                        foreach ($key->conditions as $condition) {
+                            if ($condition->definition == $condition::DEFINITION_KANSARM && $key->tariff > 0) {
+                                $cardSystemName = $cardSystem->name == 'HELA' ? 'UiTPAS' : $cardSystem->name;
+                                if ($condition->value == $condition::VALUE_MY_CARDSYSTEM) {
+                                    $prices[] = 'Kansentarief voor ' . $cardSystemName . ': &euro; ' . $key->tariff;
+                                }
+                                if ($condition->value == $condition::VALUE_AT_LEAST_ONE_CARDSYSTEM) {
+                                    $prices[] = 'Kansentarief voor UiTPAS gebruikers uit een andere stad of gemeente: &euro; ' . $key->tariff;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            // Silent fail.
+        }
+
+        foreach ($prices as $key => $price) {
+            $prices[$key] = str_replace('.', ',', $price);
+        }
+
+        if (count($prices)) {
+            $variables['price'] = '<p>' . implode('</p><p>', array_unique($prices)) . '</p>';
+        }
     }
 
     /**

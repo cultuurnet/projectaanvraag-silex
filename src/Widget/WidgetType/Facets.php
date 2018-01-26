@@ -161,39 +161,38 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             $this->searchResult = $this->searchClient->searchEvents($query);
         }
 
+        // Retrieve current url parameters (for checking active options).
+        $urlQueryParams = $this->getFacetParameters();
+
         // Preprocess facets before sending to template.
         $facets = [];
         $facetsRaw = $this->searchResult->getFacets();
-        if ($facetsRaw) {
-            // Retrieve current url parameters (for checking active options).
-            $urlQueryParams = $this->getFacetParameters();
 
-            if ($this->settings['filters']['when']) {
-                $activeValue = $urlQueryParams['when'] ?? [];
-                $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
+        if ($this->settings['filters']['when']) {
+            $activeValue = $urlQueryParams['when'] ?? [];
+            $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
+        }
+
+        if ($facetsRaw && $this->settings['filters']['where']) {
+            $activeValue = $urlQueryParams['where'] ?? [];
+            $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
+        }
+
+        if ($facetsRaw && $this->settings['filters']['what']) {
+            $activeValue = $urlQueryParams['what'] ?? [];
+
+            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+            $facets[] = $facet;
+            if ($facet['hasActive'] || isset($urlQueryParams['theme'])) {
+                $activeValue = $urlQueryParams['theme'] ?? [];
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue);
             }
+        }
 
-            if ($this->settings['filters']['where']) {
-                $activeValue = $urlQueryParams['where'] ?? [];
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
-            }
-
-            if ($this->settings['filters']['what']) {
-                $activeValue = $urlQueryParams['what'] ?? [];
-
-                $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
-                $facets[] = $facet;
-                if ($facet['hasActive'] || isset($urlQueryParams['theme'])) {
-                    $activeValue = $urlQueryParams['theme'] ?? [];
-                    $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue);
-                }
-            }
-
-            if ($this->settings['group_filters']['enabled']) {
-                foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
-                    $activeValue = $urlQueryParams['custom'][$i] ?? [];
-                    $facets[] = $this->twigPreprocessor->preprocessCustomFacet($filter, $i, $activeValue);
-                }
+        if ($this->settings['group_filters']['enabled']) {
+            foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
+                $activeValue = $urlQueryParams['custom'][$i] ?? [];
+                $facets[] = $this->twigPreprocessor->preprocessCustomFacet($filter, $i, $activeValue);
             }
         }
 

@@ -101,8 +101,23 @@
 
   }
 
+  .cnw_searchresult-detail-price-info {
+    p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
   .cnw-share {
     margin-right: 15px;
   }
 
+}
+
+.cf-period {
+  .cf-meta {
+    &:after {
+      content: ' ';
+    }
+  }
 }
