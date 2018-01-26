@@ -248,7 +248,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Perform a redirect with new parameters.
      */
-    CultuurnetWidgets.redirectWithNewParams = function(paramsToAdd) {
+    CultuurnetWidgets.redirectWithNewParams = function(paramsToAdd, openInNewWindow) {
 
         // Check for existing query parameters.
         var queryString = window.location.search;
@@ -269,7 +269,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             newParams = paramsToAdd;
         }
 
-        window.location.href = window.location.pathname + '?' + CultuurnetWidgets.buildQueryUrl(newParams);
+        if (openInNewWindow) {
+            window.open(window.location.pathname + '?' + CultuurnetWidgets.buildQueryUrl(newParams));
+        }
+        else {
+            window.location.href = window.location.pathname + '?' + CultuurnetWidgets.buildQueryUrl(newParams);
+        }
     };
 
     /**

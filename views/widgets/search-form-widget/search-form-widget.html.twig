@@ -6,7 +6,7 @@
         </div>
     {% endif %}
 
-    <form class="cnw_form cnw_form--extended" data-widget-id="{{ id }}"{% if settings_general.destination %} data-widget-destination="{{ settings_general.destination }}"{% endif %}>
+    <form class="cnw_form cnw_form--extended" data-widget-id="{{ id }}" data-widget-new-window="{{ settings_general.new_window }}"{% if settings_general.destination %} data-widget-destination="{{ settings_general.destination }}"{% endif %}>
         <div class="cnw_row">
 
             {% if settings_fields.type.keyword_search.enabled or settings_fields.type.group_filters.enabled %}
