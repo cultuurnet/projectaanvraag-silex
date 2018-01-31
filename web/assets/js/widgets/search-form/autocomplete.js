@@ -303,7 +303,8 @@
             jQuery.ajax({
                 type: 'GET',
                 url: db.uri + '/' + encodeURIComponent(searchString).replace(/%2F/g, '/'),
-                dataType: 'json',
+                dataType: 'jsonp',
+                crossDomain: true,
                 success: function (matches) {
                     if (typeof matches.status == 'undefined' || matches.status != 0) {
                         db.cache[searchString] = matches;

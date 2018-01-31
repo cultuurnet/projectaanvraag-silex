@@ -287,7 +287,7 @@ class WidgetController
             throw new NotFoundHttpException();
         }
 
-        //$this->setSearchClientForWidgetPage($widgetPage);
+        $this->setSearchClientForWidgetPage($widgetPage);
 
         $data = [
             'data' => $this->renderer->renderDetailPage($widget),
@@ -353,13 +353,22 @@ class WidgetController
 
     /**
      * Provide autocompletion results for regions.
+     * @param Request $request
      * @param $searchString
+     * @return JsonResponse
      */
-    public function getRegionAutocompleteResult($searchString)
+    public function getRegionAutocompleteResult(Request $request, $searchString)
     {
         $matches = $this->regionService->getAutocompletResults($searchString);
 
         // Only return 5 matches.
-        return new JsonResponse(array_slice($matches, 0, 5));
+        $response = new JsonResponse(array_slice($matches, 0, 5));
+
+        // If this is a jsonp request, set the requested callback.
+        if ($request->query->has('callback')) {
+            $response->setCallback($request->query->get('callback'));
+        }
+
+        return $response;
     }
 }
