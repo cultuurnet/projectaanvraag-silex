@@ -348,7 +348,7 @@ class TwigPreprocessor
 
         try {
             $query = new \CultureFeed_Uitpas_Event_Query_SearchEventsOptions();
-            $query->cdbid = $event->getId();
+            $query->cdbid = $event->getCdbid();
             $uitpasEvents = $this->cultureFeed->uitpas()->searchEvents($query);
             if ($uitpasEvents->total > 0) {
                 $uitpasEvent = $uitpasEvents->objects[0];
