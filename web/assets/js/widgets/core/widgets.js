@@ -248,32 +248,37 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Perform a redirect with new parameters.
      */
-    CultuurnetWidgets.redirectWithNewParams = function(paramsToAdd, openInNewWindow) {
+    CultuurnetWidgets.redirectWithNewParams = function(paramsToAdd, openInNewWindow, location) {
 
         // Check for existing query parameters.
         var queryString = window.location.search;
         var newParams = [];
         if (queryString) {
             // Convert existing query string to an object.
-            var newParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+            newParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+        }
 
-            // Add every param to the params.
-            for (var param in paramsToAdd) {
-                if (typeof newParams[param] !== 'undefined') {
-                    delete newParams[param];
-                }
+        // Add every param to the params.
+        for (var param in paramsToAdd) {
+            if (typeof newParams[param] !== 'undefined') {
+                delete newParams[param];
+            }
+
+            // Only add params that are not marked as 'to delete'.
+            if (paramsToAdd[param] !== 'delete-param') {
                 newParams[param] = paramsToAdd[param];
             }
         }
-        else {
-            newParams = paramsToAdd;
+
+        if (!location) {
+            location = window.location.pathname;
         }
 
         if (openInNewWindow) {
-            window.open(window.location.pathname + '?' + CultuurnetWidgets.buildQueryUrl(newParams));
+            window.open(location + '?' + CultuurnetWidgets.buildQueryUrl(newParams));
         }
         else {
-            window.location.href = window.location.pathname + '?' + CultuurnetWidgets.buildQueryUrl(newParams);
+            window.location.href = location + '?' + CultuurnetWidgets.buildQueryUrl(newParams);
         }
     };
 

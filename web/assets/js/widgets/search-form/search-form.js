@@ -108,7 +108,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
             var value = $field.val();
-            var checkboxes = {};
+            paramsToSubmit[$field.attr('name')] = 'delete-param';
+
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
                 if (value) {
@@ -123,7 +124,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
             // Checkboxes
             else if ($field.is(':checkbox')) {
-
                 // Checked checkboxes => add a separator per value.
                 if ($field.is(':checked')) {
                     if (paramsToSubmit[$field.attr('name')]) {
@@ -134,12 +134,19 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                     }
                 }
             }
-            // Other input => Just submit the value.
+            // Other input => Submit the value if it is different than the default value.
             else {
 
                 var defaultValue = $field.data('default-value');
-                if (value === "" && defaultValue != 'placeholder' && defaultValue != -1) {
-                    paramsToSubmit[$field.attr('name')] = value;
+                if (value === "") {
+                    if (defaultValue != 'placeholder' && defaultValue != -1) {
+                        paramsToSubmit[$field.attr('name')] = value;
+                    }
+                }
+                else {
+                    if (defaultValue !== value) {
+                        paramsToSubmit[$field.attr('name')] = value;
+                    }
                 }
 
             }
@@ -149,18 +156,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var destination = $form.data('widget-destination');
         if (destination) {
             paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings.widgetPageId;
-            var query = CultuurnetWidgets.buildQueryUrl(paramsToSubmit);
+        }
 
-            if (openInNewWindow) {
-                window.open(destination + '?' + query);
-            }
-            else {
-                window.location.href = destination + '?' + query;
-            }
-        }
-        else {
-            CultuurnetWidgets.redirectWithNewParams(paramsToSubmit, openInNewWindow);
-        }
+        CultuurnetWidgets.redirectWithNewParams(paramsToSubmit, openInNewWindow, destination);
     };
 
     /**
