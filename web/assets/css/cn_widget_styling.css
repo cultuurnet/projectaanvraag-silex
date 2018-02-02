@@ -4468,7 +4468,7 @@ a.cnw_badge:focus, a.cnw_badge:hover {
 }
 
 .cnw_sticker--vlieg .cnw_txt {
-  background-color: #746dad;
+  background-color: #41DD6C;
   color: white;
   border-radius: 150%;
   display: inline-block;
@@ -4476,6 +4476,7 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   bottom: -30px;
   right: -20px;
   font-size: 0.7rem;
+  font-weight: bold;
   width: 22px;
   height: 22px;
   text-align: center;
@@ -5516,8 +5517,8 @@ html .cnw_w label {
 .widget-loader--text {
   display: inline-block;
   font-size: 0.8rem;
-  color: #bbc7d4;
-  font-family: Helvetica;
+  color: #000;
+  font-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
   font-weight: 100;
 }
 
@@ -5597,14 +5598,14 @@ html .cnw_w label {
 .widget-loader--block {
   width: 40px;
   height: 40px;
-  background-color: red;
+  background-color: transparent;
   background: url(/assets/images/uit-logo.png);
   background-size: 100%;
   background-position: 50%;
   background-repeat: no-repeat;
   margin: 10px auto;
-  -webkit-animation: square-loader 1.2s infinite ease-in-out;
-  animation: square-loader 1.2s infinite ease-in-out;
+  -webkit-animation: square-loader 1.5s infinite ease-in-out;
+  animation: square-loader 1.5s infinite ease-in-out;
   box-shadow: 1px 0px 20px 5px #dadfe6;
 }
 

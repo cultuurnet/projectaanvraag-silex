@@ -1,7 +1,7 @@
 .widget-loader--block {
   width: 40px;
   height: 40px;
-  background-color: red;
+  background-color: transparent;
 
   background: url(/assets/images/uit-logo.png);
   background-size: 100%;
@@ -9,10 +9,9 @@
   background-repeat: no-repeat;
 
   margin: 10px auto;
-  -webkit-animation: square-loader 1.2s infinite ease-in-out;
-  animation: square-loader 1.2s infinite ease-in-out;
+  -webkit-animation: square-loader 1.5s infinite ease-in-out;
+  animation: square-loader 1.5s infinite ease-in-out;
   box-shadow: 1px 0px 20px 5px rgb(218, 223, 230);
-
 
 }
 

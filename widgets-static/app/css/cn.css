@@ -2410,6 +2410,7 @@ a.cnw_badge:focus, a.cnw_badge:hover {
 
 .cnw_card-title {
   margin-bottom: 0.75rem;
+  overflow-wrap: break-word;
 }
 
 .cnw_card-subtitle {
