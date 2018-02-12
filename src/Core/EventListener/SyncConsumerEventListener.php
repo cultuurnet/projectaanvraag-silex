@@ -67,6 +67,9 @@ class SyncConsumerEventListener
                 $project->setName(!empty($consumerData['name']) ? $consumerData['name'] : '');
                 $project->setDescription(!empty($consumerData['description']) ? $consumerData['description'] : ''); // No database column for description.
                 $project->setStatus(!empty($consumerData['status']) &&  $consumerData['status'] === 'ACTIVE' ? ProjectInterface::PROJECT_STATUS_ACTIVE : ProjectInterface::PROJECT_STATUS_BLOCKED);
+                if ($consumerData['firstAdmin']) {
+                  $project->setUserId($consumerData['firstAdmin']);
+                }
                 $this->entityManager->persist($project);
             }
 
@@ -74,10 +77,10 @@ class SyncConsumerEventListener
             if ($project) {
                 if ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
                     $project->setTestConsumerKey($consumerData['consumerKey']);
-                    $project->setTestSearchApi3Key($consumerData['searchApi3Key']);
+                    $project->setTestSearchApi3Key(!empty($consumerData['searchApi3Key']) ? $consumerData['searchApi3Key'] : '');
                 } elseif ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
                     $project->setLiveConsumerKey($consumerData['consumerKey']);
-                    $project->setLiveSearchApi3Key($consumerData['searchApi3Key']);
+                    $project->setLiveSearchApi3Key(!empty($consumerData['searchApi3Key']) ? $consumerData['searchApi3Key'] : '');
                 }
 
                 // Attempt to set the group id
@@ -86,6 +89,10 @@ class SyncConsumerEventListener
                     $groupIds = array_intersect($groupIds, !empty($consumerData['group']) ? $consumerData['group'] : []);
 
                     $project->setGroupId(!empty($groupIds) ? reset($groupIds) : null);
+                }
+
+                if ($consumerData['firstAdmin']) {
+                  $project->setUserId($consumerData['firstAdmin']);
                 }
             }
 
