@@ -336,12 +336,12 @@ class WidgetController
         // If a project is not live yet. We should use the test api + test key.
         $apiKey = $project->getLiveConsumerKey();
         $config = [];
-        if (!$project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
+        if ($project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
             $apiKey = $project->getTestSearchApi3Key();
             $config = $this->searchClientTest->getClient()->getConfig();
         } else {
             $config = $this->searchClient->getClient()->getConfig();
-            $apiKey = $project->getLiveConsumerKey();
+            $apiKey = $project->getLiveSearchApi3Key();
         }
 
         $headers = $config['headers'] ?? [];
