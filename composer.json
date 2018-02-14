@@ -13,7 +13,7 @@
         "jdesrosiers/silex-cors-provider": "~1.0",
         "cultuurnet/culturefeed-http-guzzle": "dev-master",
         "symfony/browser-kit": "^3.1",
-        "cultuurnet/culturefeed-php": "dev-develop as 1.6.x-dev",
+        "cultuurnet/culturefeed-php": "dev-develop#871f2fba959a4afc4a84f01bc4fc9a54f0611429 as 1.6.x-dev",
         "dflydev/doctrine-orm-service-provider": "^2.0",
         "symfony/twig-bridge": "^3.3",
         "df/silex-doctrine-mongodb-odm-provider": "^1.0",
@@ -49,5 +49,10 @@
         "phing/phing": "^2.16"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "ext-mongo": "1.6.16"
+        }
+    }
 }
