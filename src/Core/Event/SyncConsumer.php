@@ -30,10 +30,10 @@ class SyncConsumer extends AbstractRetryableMessage implements ConsumerTypeInter
 
         // Consumer data to array, because the CultureFeed_Consumer class does not support JMS serializing
         $this->consumerData = $consumer->toPostData();
-        
+
         // if consumer has one or more admins, add only the first
-        if(count($consumer->admins)>0) {
-          $this->consumerData['firstAdmin'] = $consumer->admins[0];
+        if (count($consumer->admins) > 0) {
+            $this->consumerData['firstAdmin'] = $consumer->admins[0];
         }
     }
 

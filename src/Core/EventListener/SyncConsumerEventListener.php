@@ -68,7 +68,7 @@ class SyncConsumerEventListener
                 $project->setDescription(!empty($consumerData['description']) ? $consumerData['description'] : ''); // No database column for description.
                 $project->setStatus(!empty($consumerData['status']) &&  $consumerData['status'] === 'ACTIVE' ? ProjectInterface::PROJECT_STATUS_ACTIVE : ProjectInterface::PROJECT_STATUS_BLOCKED);
                 if ($consumerData['firstAdmin']) {
-                  $project->setUserId($consumerData['firstAdmin']);
+                    $project->setUserId($consumerData['firstAdmin']);
                 }
                 $this->entityManager->persist($project);
             }
@@ -92,7 +92,7 @@ class SyncConsumerEventListener
                 }
 
                 if ($consumerData['firstAdmin']) {
-                  $project->setUserId($consumerData['firstAdmin']);
+                    $project->setUserId($consumerData['firstAdmin']);
                 }
             }
 
