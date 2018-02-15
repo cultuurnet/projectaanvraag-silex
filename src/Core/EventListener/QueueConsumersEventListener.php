@@ -50,7 +50,7 @@ class QueueConsumersEventListener
         $consumers = null;
         $type = $event->getType();
 
-        $filter = ['groupId' => 5,3];
+        $filter = ['showChannelAdmins' => 'true', 'groupId' => '5'];
 
         if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
             $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax(), $filter);
