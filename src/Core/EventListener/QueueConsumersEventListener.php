@@ -50,25 +50,28 @@ class QueueConsumersEventListener
         $consumers = null;
         $type = $event->getType();
 
-        $filter = ['showChannelAdmins' => 'true', 'groupId' => '5'];
+        $groupIds = ['5', '3'];
+        foreach($groupIds as $groupId) {
+          $filter = ['showChannelAdmins' => 'true', 'groupId' => '5', 'showChannelGroups' => 'true'];
 
-        if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
-            $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax(), $filter);
-        } elseif ($type == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
-            $consumers = $this->cultureFeed->getServiceConsumers($event->getStart(), $event->getMax(), $filter);
-        }
+          if ($type == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
+              $consumers = $this->cultureFeedtest->getServiceConsumers($event->getStart(), $event->getMax(), $filter);
+          } elseif ($type == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
+              $consumers = $this->cultureFeed->getServiceConsumers($event->getStart(), $event->getMax(), $filter);
+          }
 
-        if (!empty($consumers->objects)) {
-            // As long as we get the maximum number of objects, add event to queue with next starting index.
-            if (count($consumers->objects) == $event->getMax()) {
-                $event->setStart($event->getStart() + $event->getMax());
-                $this->eventBus->handle($event);
-            }
+          if (!empty($consumers->objects)) {
+              // As long as we get the maximum number of objects, add event to queue with next starting index.
+              if (count($consumers->objects) == $event->getMax()) {
+                  $event->setStart($event->getStart() + $event->getMax());
+                  $this->eventBus->handle($event);
+              }
 
-            // Create sync commands
-            foreach ($consumers->objects as $object) {
-                $this->eventBus->handle(new SyncConsumer($type, $object));
-            }
+              // Create sync commands
+              foreach ($consumers->objects as $object) {
+                  $this->eventBus->handle(new SyncConsumer($type, $object));
+              }
+          }
         }
     }
 }

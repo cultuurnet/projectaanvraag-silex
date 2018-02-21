@@ -35,6 +35,10 @@ class SyncConsumer extends AbstractRetryableMessage implements ConsumerTypeInter
         if (count($consumer->admins) > 0) {
             $this->consumerData['firstAdmin'] = $consumer->admins[0];
         }
+
+        // implode groups with ,
+        $this->consumerData['groups'] = implode(",", $consumer->group);
+
     }
 
     /**

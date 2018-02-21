@@ -50,6 +50,10 @@ class SyncConsumerEventListener
     {
         $consumerData = $event->getConsumerData();
 
+        if($consumerData['groups']) {
+          $consumerData['group'] = explode(",", $consumerData['groups']);
+        }
+
         if (!empty($consumerData['consumerKey'])) {
             /** @var ProjectInterface $project */
             // Find by key
@@ -67,9 +71,6 @@ class SyncConsumerEventListener
                 $project->setName(!empty($consumerData['name']) ? $consumerData['name'] : '');
                 $project->setDescription(!empty($consumerData['description']) ? $consumerData['description'] : ''); // No database column for description.
                 $project->setStatus(!empty($consumerData['status']) &&  $consumerData['status'] === 'ACTIVE' ? ProjectInterface::PROJECT_STATUS_ACTIVE : ProjectInterface::PROJECT_STATUS_BLOCKED);
-                if ($consumerData['firstAdmin']) {
-                    $project->setUserId($consumerData['firstAdmin']);
-                }
                 $this->entityManager->persist($project);
             }
 
@@ -89,6 +90,11 @@ class SyncConsumerEventListener
                     $groupIds = array_intersect($groupIds, !empty($consumerData['group']) ? $consumerData['group'] : []);
 
                     $project->setGroupId(!empty($groupIds) ? reset($groupIds) : null);
+                }
+
+                // 5 is the former Wigets-group
+                if (in_array("5", $consumerData['group'])) {
+                  $project->setGroupId('22678');
                 }
 
                 if ($consumerData['firstAdmin']) {
