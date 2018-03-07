@@ -94,7 +94,7 @@ class SyncConsumerEventListener
 
                 // 5 is the former Wigets-group
                 if (in_array("5", $consumerData['group'])) {
-                  $project->setGroupId('22678');
+                  $project->setGroupId('24743');
                 }
 
                 if ($consumerData['firstAdmin']) {
