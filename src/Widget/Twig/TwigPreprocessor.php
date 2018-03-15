@@ -216,7 +216,9 @@ class TwigPreprocessor
                 $directionData = $geoInfo->getLatitude() . ',' . $geoInfo->getLongitude();
             } else {
                 $address = $event->getLocation()->getAddress();
-                $directionData = $address->getStreetAddress() . ' ' . $address->getPostalCode() . ' ' . $address->getAddressLocality();
+                if ($translatedAddress = $address->getAddressForLanguage($langcode)) {
+                    $directionData = $translatedAddress->getStreetAddress() . ' ' . $translatedAddress->getPostalCode() . ' ' . $translatedAddress->getAddressLocality();
+                }
             }
 
             $variables['directions_link'] = 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($directionData);
@@ -481,9 +483,11 @@ class TwigPreprocessor
         $variables['name'] = $place->getName()->getValueForLanguage($langcode);
         $variables['address'] = [];
         if ($address = $place->getAddress()) {
-            $variables['address']['street'] = $address->getStreetAddress();
-            $variables['address']['postalcode'] = $address->getPostalCode();
-            $variables['address']['city'] = $address->getAddressLocality();
+            if ($translatedAddress = $address->getAddressForLanguage($langcode)) {
+                $variables['address']['street'] = $translatedAddress->getStreetAddress() ?? '';
+                $variables['address']['postalcode'] = $translatedAddress->getPostalCode() ?? '';
+                $variables['address']['city'] = $translatedAddress->getAddressLocality() ?? '';
+            }
         }
 
         return $variables;
