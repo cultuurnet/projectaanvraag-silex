@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4fdf60a37196e2ad8ca80cb3933e032",
+    "content-hash": "7febb0f0d2d8fb1f20bef616fe189635",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -322,7 +322,7 @@
                 }
             ],
             "description": "Culturefeed PHP library",
-            "time": "2018-02-12T14:04:30+00:00"
+            "time": "2018-02-21T07:43:24+00:00"
         },
         {
             "name": "cultuurnet/search-v3",
@@ -330,12 +330,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "42e90067ffb8f48d781c4056ba7b3046d3bdc3a8"
+                "reference": "64a7ed86254991a325e07c28a8be82f937c2275b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/42e90067ffb8f48d781c4056ba7b3046d3bdc3a8",
-                "reference": "42e90067ffb8f48d781c4056ba7b3046d3bdc3a8",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/64a7ed86254991a325e07c28a8be82f937c2275b",
+                "reference": "64a7ed86254991a325e07c28a8be82f937c2275b",
                 "shasum": ""
             },
             "require": {
@@ -373,7 +373,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2018-01-10T09:24:54+00:00"
+            "time": "2018-03-15T15:08:41+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
