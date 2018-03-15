@@ -38,7 +38,6 @@ class SyncConsumer extends AbstractRetryableMessage implements ConsumerTypeInter
 
         // implode groups with ,
         $this->consumerData['groups'] = implode(",", $consumer->group);
-
     }
 
     /**

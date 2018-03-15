@@ -50,8 +50,8 @@ class SyncConsumerEventListener
     {
         $consumerData = $event->getConsumerData();
 
-        if($consumerData['groups']) {
-          $consumerData['group'] = explode(",", $consumerData['groups']);
+        if ($consumerData['groups']) {
+            $consumerData['group'] = explode(",", $consumerData['groups']);
         }
 
         if (!empty($consumerData['consumerKey'])) {

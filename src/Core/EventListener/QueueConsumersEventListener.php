@@ -70,6 +70,5 @@ class QueueConsumersEventListener
                 $this->eventBus->handle(new SyncConsumer($type, $object));
             }
         }
-
     }
 }
