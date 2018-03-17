@@ -15,8 +15,9 @@ class HomeController extends Controller
      */
     protected $app;
 
-    public function __construct($app) {
-      $this->app = $app;
+    public function __construct($app)
+    {
+        $this->app = $app;
     }
 
     /**
@@ -24,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $redirect = $this->app['config']['app_host'];
-      return $this->redirect($redirect);
+        $redirect = $this->app['config']['app_host'];
+        return $this->redirect($redirect);
     }
 }
