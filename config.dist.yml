@@ -112,3 +112,6 @@ google_tag_manager:
 
 # The default consumer group to use
 default_consumer_group: 3
+
+# App-URL
+app_host: "http://projectaanvraag.uitdatabank.be"

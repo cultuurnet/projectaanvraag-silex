@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag;
 
+use CultuurNet\ProjectAanvraag\Core\HomeControllerProvider;
 use CultuurNet\ProjectAanvraag\Core\Exception\ValidationException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponControllerProvider;
 use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
@@ -103,6 +104,7 @@ class WebApplication extends ApplicationBase
             'unsecured' => [
                 'pattern' => MultiPathRequestMatcher::fromPaths(
                     [
+                        new Path('^/', 'GET'),
                         new Path('^/culturefeed/oauth', 'GET'),
                         new Path('^/integration-types', 'GET'),
                         new Path('^/widgets/layout', 'GET'),
@@ -165,6 +167,11 @@ class WebApplication extends ApplicationBase
         $this->mount(
             'widgets',
             new WidgetControllerProvider()
+        );
+
+        $this->mount(
+            null,
+            new HomeControllerProvider()
         );
 
         $this->mount(
