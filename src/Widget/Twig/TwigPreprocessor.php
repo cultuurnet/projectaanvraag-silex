@@ -608,7 +608,7 @@ class TwigPreprocessor
                 break;
         }
 
-        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
+        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE || ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE && $event->getSubEvents() == null)) {
             return $this->formatSingleDate($event->getStartDate(), $event->getEndDate(), $locale);
         } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_PERIODIC) {
             return $this->formatPeriod($event->getStartDate(), $event->getEndDate(), $locale);
