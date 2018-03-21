@@ -13,7 +13,7 @@ class HomeControllerProvider implements ControllerProviderInterface
     {
 
         $app['home_controller'] = function (Application $app) {
-            return new HomeController($app);
+            return new HomeController($app['config']['app_host']);
         };
 
         /* @var ControllerCollection $controllers */

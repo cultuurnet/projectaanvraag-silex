@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class HomeController extends Controller
 {
     /**
-     * @var Application
+     * @var string
      */
-    protected $app;
+    protected $homepageDestination;
 
-    public function __construct($app)
+    public function __construct(string $homepageDestination)
     {
-        $this->app = $app;
+        $this->homepageDestination = $homepageDestination;
     }
 
     /**
@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $redirect = $this->app['config']['app_host'];
-        return $this->redirect($redirect);
+        return $this->redirect($this->homepageDestination);
     }
 }
