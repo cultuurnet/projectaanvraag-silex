@@ -104,7 +104,6 @@ class WebApplication extends ApplicationBase
             'unsecured' => [
                 'pattern' => MultiPathRequestMatcher::fromPaths(
                     [
-                        new Path('^/', 'GET'),
                         new Path('^/culturefeed/oauth', 'GET'),
                         new Path('^/integration-types', 'GET'),
                         new Path('^/widgets/layout', 'GET'),
