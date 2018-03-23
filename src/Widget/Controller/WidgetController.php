@@ -134,14 +134,20 @@ class WidgetController
         $this->regionService = $regionService;
     }
 
+    public function renderPageForceCurrent(Request $request, WidgetPageInterface $widgetPage)
+    {
+        return $this->renderPage($request, $widgetPage, true);
+    }
+
     /**
      * Render the widget page.
      *
      * @param Request $request
      * @param WidgetPageInterface $widgetPage
+     * @param boolean forceCurrent
      * @return string
      */
-    public function renderPage(Request $request, WidgetPageInterface $widgetPage)
+    public function renderPage(Request $request, WidgetPageInterface $widgetPage, $forceCurrent = false)
     {
         // Determine directory path to store js files.
         $directory = dirname(WWW_ROOT . $request->getPathInfo());
@@ -153,7 +159,7 @@ class WidgetController
         }
 
         // Check if page is from old version.
-        if ($widgetPage->getVersion() != 3) {
+        if ($widgetPage->getVersion() != 3 && !$forceCurrent) {
             // Retrieve file from old host URL.
             $jsContent = file_get_contents($this->legacyHost . '/' . 'widgets/layout/' . $pageId . '.js');
         } else {
