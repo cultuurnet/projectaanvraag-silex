@@ -133,6 +133,8 @@ class TwigPreprocessor
             $variables['image'] = $url->__toString();
         }
 
+        $variables['copyright'] = $event->getCopyright();
+
         $variables['summary'] = strip_tags($variables['description']);
         if (!empty($settings['description']['characters'])) {
             $originalSummary = $variables['summary'];

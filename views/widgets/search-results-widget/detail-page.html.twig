@@ -1,8 +1,9 @@
 <div class="cnw_row cnw_d-flex cnw_searchresult-detail" data-view-tracking-category="detail" data-view-tracking-extra-data="{{ tag_manager_data }}">
 
-    {% if settings.image.enabled %}
+    {% if settings.image.enabled and event.image is defined %}
         <div class="cnw_col-4 {% if settings.image.position == 'right' %} cnw_flex-md-last{% endif %}">
             <img src="{{ event.image }}" class="cnw_img_responsive {{ settings.image.position }}">
+            <p class="cnw_copyright">{{event.copyright}}</p>
         </div>
     {% endif %}
 
