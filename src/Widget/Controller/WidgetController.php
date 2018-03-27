@@ -149,6 +149,10 @@ class WidgetController
      */
     public function renderPage(Request $request, WidgetPageInterface $widgetPage, $forceCurrent = false)
     {
+        if (strpos($request->headers->get('referer'), 'forceCurrent=true') !== false) {
+            $forceCurrent = true;
+        }
+
         // Determine directory path to store js files.
         $directory = dirname(WWW_ROOT . $request->getPathInfo());
         $pageId = $widgetPage->getId();
