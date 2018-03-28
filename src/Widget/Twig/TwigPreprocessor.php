@@ -133,6 +133,7 @@ class TwigPreprocessor
             $variables['image'] = $url->__toString();
         }
 
+        $variables['copyright'] = null;
         if ($event->getMainMediaObject()) {
             $variables['copyright'] = $event->getMainMediaObject()->getCopyrightHolder();
         }

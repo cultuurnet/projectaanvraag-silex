@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\OneCol;
 use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarLeft;
@@ -10,6 +11,8 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetLayout\TwoColSidebarRight;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\Html;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
+use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\SearchClientInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -24,6 +27,12 @@ class Renderer implements RendererInterface
     protected $widgetPluginManager;
 
     /**
+     * Current active project.
+     * @var ProjectInterface
+     */
+    protected $project;
+
+    /**
      * @var string
      */
     protected $googleTagManagerId;
@@ -32,6 +41,16 @@ class Renderer implements RendererInterface
      * @var EntityRepository
      */
     protected $projectRepository;
+
+    /**
+     * @var SearchClientInterface
+     */
+    protected $searchClient;
+
+    /**
+     * @var SearchClientInterface
+     */
+    protected $searchClientTest;
 
     /**
      * @var array
@@ -54,11 +73,13 @@ class Renderer implements RendererInterface
      * @param $googleTagManagerId
      * @param ProjectServiceInterface $projectService
      */
-    public function __construct(WidgetPluginManager $widgetPluginManager, $googleTagManagerId, EntityRepository $projectRepository)
+    public function __construct(WidgetPluginManager $widgetPluginManager, $googleTagManagerId, EntityRepository $projectRepository, SearchClientInterface $searchClient, SearchClientInterface $searchClientTest)
     {
         $this->widgetPluginManager = $widgetPluginManager;
         $this->googleTagManagerId = $googleTagManagerId;
         $this->projectRepository = $projectRepository;
+        $this->searchClient = $searchClient;
+        $this->searchClientTest = $searchClientTest;
     }
 
     /**
@@ -72,8 +93,38 @@ class Renderer implements RendererInterface
     /**
      * @inheritDoc
      */
+    public function setProject(ProjectInterface $project)
+    {
+        $this->project = $project;
+
+        // If a project is not live yet. We should use the test api + test key.
+        if ($project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
+            $apiKey = $project->getTestSearchApi3Key();
+            $config = $this->searchClientTest->getClient()->getConfig();
+        } else {
+            $config = $this->searchClient->getClient()->getConfig();
+            $apiKey = $project->getLiveSearchApi3Key();
+        }
+
+        $headers = $config['headers'] ?? [];
+        $headers['X-Api-Key'] = $apiKey;
+        $config['headers'] = $headers;
+
+        $this->searchClient->setClient(new \GuzzleHttp\Client($config));
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function renderPage(WidgetPageInterface $widgetPage)
     {
+
+        $criteria = [
+            'id' => $widgetPage->getProjectId(),
+        ];
+
+        /** @var Project $project */
+        $this->setProject($this->projectRepository->findOneBy($criteria));
 
         $this->attachCss(WWW_ROOT . '/assets/css/cn_widget_styling.css');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/widgets.js');
@@ -127,20 +178,13 @@ class Renderer implements RendererInterface
 
         $this->addSettings(['widgetMapping' => $widgetMapping]);
 
-        // Add extra info for google tag manager.
-        $criteria = [
-            'id' => $widgetPage->getProjectId(),
-        ];
-
-        /** @var Project $project */
-        $project = $this->projectRepository->findOneBy($criteria);
         // Add settings for google tag manager.
         $this->addSettings(
             [
             'googleTagManagerId' => $this->googleTagManagerId,
             'widgetPageTitle' => $widgetPage->getTitle(),
-            'consumerKey' => $project->getLiveConsumerKey(),
-            'consumerName' => $project->getName(),
+            'consumerKey' => $this->project->getLiveConsumerKey(),
+            'consumerName' => $this->project->getName(),
             ]
         );
 

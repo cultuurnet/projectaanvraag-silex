@@ -5,7 +5,6 @@ namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceInterface;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
-use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage;
@@ -15,11 +14,9 @@ use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
-use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Satooshi\Bundle\CoverallsV1Bundle\Entity\Exception\RequirementsNotSatisfiedException;
@@ -203,6 +200,7 @@ class WidgetApiController
         ];
 
         if ($request->query->has('render')) {
+            $this->renderer->setProject($project);
             if ($widget = $widgetPage->getWidget($request->query->get('render'))) {
                 $data['preview'] = $this->renderer->renderWidget($widget);
             } else {

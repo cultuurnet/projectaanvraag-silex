@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 
 /**
@@ -28,10 +29,19 @@ interface RendererInterface
     public function renderPage(WidgetPageInterface $widgetPage);
 
     /**
+     * Set the active project.
+     *
+     * @param ProjectInterface $project
+     */
+    public function setProject(ProjectInterface $project);
+
+    /**
      * Renders a given widget.
      *
      * @param WidgetTypeInterface $widgetType
      *     The widget to render.
+     * @param ProjectInterface $project
+     *     The project to use to render this widget.
      *
      * @return string
      */

@@ -2,56 +2,23 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
-use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
-use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
 use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
-use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
 use CultuurNet\ProjectAanvraag\Widget\JavascriptResponse;
-use CultuurNet\ProjectAanvraag\Widget\LayoutDiscovery;
 use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
 use CultuurNet\ProjectAanvraag\Widget\RegionService;
-use CultuurNet\ProjectAanvraag\Widget\Renderer;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetPluginManager;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use CultuurNet\SearchV3\PagedCollection;
-use CultuurNet\SearchV3\Parameter\Facet;
-use CultuurNet\SearchV3\Parameter\Labels;
-use CultuurNet\SearchV3\Parameter\Query;
-use CultuurNet\SearchV3\SearchClient;
-use CultuurNet\SearchV3\SearchQuery;
-use CultuurNet\SearchV3\SearchQueryInterface;
-use CultuurNet\SearchV3\Serializer\Serializer;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Cache\FilesystemCache;
-use Doctrine\Common\Cache\RedisCache;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\MongoDB\Connection;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use Guzzle\Cache\DoctrineCacheAdapter;
-use Guzzle\Plugin\Cache\CachePlugin;
-use Guzzle\Plugin\Cache\DefaultCacheStorage;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
-use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
-use JMS\Serializer\SerializerBuilder;
-use ML\JsonLD\JsonLD;
-use MongoDB\Client;
-use MongoDB\Collection;
-use MongoDB\Model\BSONDocument;
-use SimpleBus\JMSSerializerBridge\JMSSerializerObjectSerializer;
-use SimpleBus\JMSSerializerBridge\SerializerMetadata;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a controller to render widget pages and widgets.
@@ -73,16 +40,6 @@ class WidgetController
      * @var ProjectConverter
      */
     protected $projectConverter;
-
-    /**
-     * @var SearchClient
-     */
-    protected $searchClient;
-
-    /**
-     * @var SearchClientTest
-     */
-    protected $searchClientTest;
 
     /**
      * @var WidgetPageEntityDeserializer
@@ -116,8 +73,6 @@ class WidgetController
         DocumentRepository $widgetRepository,
         ProjectConverter $projectConverter,
         Connection $db,
-        SearchClient $searchClient,
-        SearchClient $searchClientTest,
         WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
         bool $debugMode,
         string $legacyHost,
@@ -126,8 +81,6 @@ class WidgetController
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->projectConverter = $projectConverter;
-        $this->searchClient = $searchClient;
-        $this->searchClientTest = $searchClientTest;
         $this->widgetPageEntityDeserializer = $widgetPageEntityDeserializer;
         $this->debugMode = $debugMode;
         $this->legacyHost = $legacyHost;
@@ -193,7 +146,11 @@ class WidgetController
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId)
     {
 
-        $this->setSearchClientForWidgetPage($widgetPage);
+        $project = $this->projectConverter->convert($widgetPage->getProjectId());
+        if (!$project) {
+            throw new NotFoundHttpException();
+        }
+        $this->renderer->setProject($project);
 
         $data = [
             'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId)),
@@ -256,7 +213,11 @@ class WidgetController
             throw new NotFoundHttpException();
         }
 
-        $this->setSearchClientForWidgetPage($widgetPage);
+        $project = $this->projectConverter->convert($widgetPage->getProjectId());
+        if (!$project) {
+            throw new NotFoundHttpException();
+        }
+        $this->renderer->setProject($project);
 
         $renderedWidgets = [
             'search_results' => $this->renderer->renderWidget($searchResultsWidget),
@@ -297,7 +258,11 @@ class WidgetController
             throw new NotFoundHttpException();
         }
 
-        $this->setSearchClientForWidgetPage($widgetPage);
+        $project = $this->projectConverter->convert($widgetPage->getProjectId());
+        if (!$project) {
+            throw new NotFoundHttpException();
+        }
+        $this->renderer->setProject($project);
 
         $data = [
             'data' => $this->renderer->renderDetailPage($widget),
@@ -330,35 +295,6 @@ class WidgetController
         }
 
         throw new NotFoundHttpException();
-    }
-
-    /**
-     * Set the search client that matches current widget page (default client but with new API key headers).
-     */
-    private function setSearchClientForWidgetPage(WidgetPageInterface $widgetPage)
-    {
-
-        $project = $this->projectConverter->convert($widgetPage->getProjectId());
-        if (!$project) {
-            throw new NotFoundHttpException();
-        }
-
-        // If a project is not live yet. We should use the test api + test key.
-        $apiKey = $project->getLiveConsumerKey();
-        $config = [];
-        if ($project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
-            $apiKey = $project->getTestSearchApi3Key();
-            $config = $this->searchClientTest->getClient()->getConfig();
-        } else {
-            $config = $this->searchClient->getClient()->getConfig();
-            $apiKey = $project->getLiveSearchApi3Key();
-        }
-
-        $headers = $config['headers'] ?? [];
-        $headers['X-Api-Key'] = $apiKey;
-        $config['headers'] = $headers;
-
-        $this->searchClient->setClient(new \GuzzleHttp\Client($config));
     }
 
     /**
