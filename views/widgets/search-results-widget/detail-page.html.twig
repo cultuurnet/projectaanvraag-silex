@@ -209,7 +209,7 @@
                     </dd>
                     {% endif %}
 
-                    {% if event.labels %}
+                    {% if settings.labels.enabled and event.labels %}
                     <dt>
                         <em class="cnw_searchresult-detail-label">Labels</em>
                         <i class="cnw-fa cnw-fa-tag"></i>
