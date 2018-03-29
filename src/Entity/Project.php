@@ -567,7 +567,7 @@ class Project implements ProjectInterface
      */
     public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer)
     {
-        $this->name = $consumer->name;
+        $this->name = str_replace('[TEST] ', '', $consumer->name);
         $this->description = $consumer->description;
         $this->logo = $consumer->logo;
         $this->domain = $consumer->domain;
