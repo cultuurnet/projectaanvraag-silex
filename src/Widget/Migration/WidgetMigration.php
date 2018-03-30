@@ -89,6 +89,16 @@ abstract class WidgetMigration
      */
     protected function convertFieldsSettings($legacyFields, $settings)
     {
+        // A not-present-field means that this setting is disabled
+        $settings['items']['where']['enabled'] = false;
+        $settings['items']['when']['enabled'] = false;
+        $settings['items']['age']['enabled'] = false;
+        $settings['items']['language_icons']['enabled'] = false;
+        $settings['items']['read_more']['enabled'] = false;
+        $settings['items']['description']['enabled'] = false;
+        $settings['items']['labels']['enabled'] = false;
+        $settings['items']['organizer']['enabled'] = false;
+
         foreach ($legacyFields as $key => $value) {
             $label = '';
             // Change variables when values are subarrays.
