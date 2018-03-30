@@ -72,40 +72,54 @@
                 {% endif %}
 
                 {% if settings_items.where.enabled and event.where %}
-                    <dt class="cnw_col-3">
-
-                        <em class="cnw_searchresult-detail-label"> {{ settings_items.where.label }}</em>
-                        <i class="cnw-fa cnw-fa-map-marker"></i>
-
-                    </dt>
-                    <dd class="cnw_col-9">
-                        {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
-                    </dd>
+                    {% if settings_items.where.label is not empty %}
+                        <dt class="cnw_col-3">
+                            <em class="cnw_searchresult-detail-label">{{ settings_items.where.label }}</em>
+                            <i class="cnw-fa cnw-fa-map-marker"></i>
+                        </dt>
+                        <dd class="cnw_col-9">
+                            {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
+                        </dd>
+                     {% else %}
+                        <dd class="cnw_col-12">
+                            {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
+                        </dd>
+                     {% endif %}
                 {% endif %}
 
                 {% if settings_items.organizer.enabled and event.organizer %}
-                    <dt class="cnw_col-3">
-                        {{ settings_items.organizer.label }}
-                    </dt>
-                    <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                    {% if settings_items.organizer.label is not empty %}
+                        <dt class="cnw_col-3">
+                            <em class="cnw_searchresult-detail-label">{{ settings_items.organizer.label }}</em>
+                        </dt>
+                        <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                    {% else %}
+                        <dt class="cnw_col-12">{{ event.organizer }}</dt>
+                    {% endif %}
                 {% endif %}
 
                 {% if settings_items.when.enabled and event.when_summary %}
-                    <dt class="cnw_col-3">
-
-                        <em class="cnw_searchresult-detail-label">{{ settings_items.when.label }}</em>
-                        <i class="cnw-fa cnw-fa-calendar"></i>
-                    </dt>
-                    <dd class="cnw_col-9">{{ event.when_summary }}</dd>
+                    {% if settings_items.when.label is not empty %}
+                        <dt class="cnw_col-3">
+                            <em class="cnw_searchresult-detail-label">{{ settings_items.when.label }}</em>
+                            <i class="cnw-fa cnw-fa-calendar"></i>
+                        </dt>
+                        <dd class="cnw_col-9">{{ event.when_summary }}</dd>
+                    {% else %}
+                        <dt class="cnw_col-12">{{ event.when_summary }}</dt>
+                    {% endif %}
                 {% endif %}
 
                 {% if settings_items.age.enabled and event.age_range %}
-                    <dt class="cnw_col-3">
-
-                        <em class="cnw_searchresult-detail-label">{{ settings_items.age.label }}</em>
-                        <i class="cnw-fa cnw-fa-male"></i>
-                    </dt>
-                    <dd class="cnw_col-9">{{ event.age_range }}</dd>
+                    {% if settings_items.age.label is not empty %}
+                        <dt class="cnw_col-3">
+                            <em class="cnw_searchresult-detail-label">{{ settings_items.age.label }}</em>
+                            <i class="cnw-fa cnw-fa-male"></i>
+                        </dt>
+                        <dd class="cnw_col-9">{{ event.age_range }}</dd>
+                    {% else %}
+                        <dd class="cnw_col-12">{{ event.age_range }}</dd>
+                    {% endif %}
                 {% endif %}
 
                 {% if settings_items.language_icons.enabled and event.language_icons %}
