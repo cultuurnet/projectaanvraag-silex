@@ -103,6 +103,9 @@ class JavascriptResponse extends Response
             $cssMinify->add($css['path']);
         }
 
+        /* Include custom user-css */
+        $cssMinify->add($this->widgetPage->getCss());
+
         $cssPath = 'widgets/layout/' . $this->widgetPage->getId() . '.css';
         $cssMinify->minify(WWW_ROOT . '/' . $cssPath);
 
