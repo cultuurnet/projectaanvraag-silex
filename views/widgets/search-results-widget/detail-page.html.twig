@@ -141,8 +141,8 @@
                             {% if (event.booking_info.phone is defined) %}
                                 <li>Bel naar <strong>{{ event.booking_info.phone }}</strong></li>
                             {% endif %}
-                            {% if (event.booking_info.mail is defined) %}
-                                <li>{{ event.booking_info.phone }}</li>
+                            {% if (event.booking_info.email is defined) %}
+                                <li>{{ event.booking_info.email }}</li>
                             {% endif %}
                             {% if (event.booking_info.url is defined) %}
                                 <li><a href="{{ event.booking_info.url.url }}" target="_blank" data-click-tracking-category="detail" data-click-tracking-action="ticket" data-click-tracking-label="{{ event.name }}">{{ event.booking_info.url.label }}</a> </li>
