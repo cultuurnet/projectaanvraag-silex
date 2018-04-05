@@ -77,7 +77,6 @@
 .cnw_col-12 {
   @include make-col-ready();
   @include make-col(12);
-
 }
 
 .cnw_col {
@@ -142,3 +141,14 @@
   }
 }
 
+.xs {
+  .cnw_col {
+    @include make-col(12);
+  }
+
+  @for $i from 1 through 11 {
+    .cnw_col-#{$i} {
+      @include make-col(12);
+    }
+  }
+}

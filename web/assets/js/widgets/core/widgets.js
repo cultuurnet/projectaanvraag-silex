@@ -43,6 +43,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             return;
         }
 
+        var width = parseInt($wrapper.css('width'));
+        if(width <= 576) {
+          $wrapper.addClass('xs');
+        }
+
         // If a cdbid is given in url, and a detail page is in settings. Load detail.
         var params = CultuurnetWidgets.getCurrentParams();
         var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings.detailPage && CultuurnetWidgetsSettings.detailPageRowId != undefined;
