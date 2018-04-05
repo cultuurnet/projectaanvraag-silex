@@ -118,13 +118,14 @@ class ShareProxyController
      */
     public function socialShareProxy($offer)
     {
+        $langcode = 'nl';
         // Get origin url.
         $originUrl = ($this->request->query->get('origin') ? $this->request->query->get('origin') : '');
         return $this->twig->render(
             'share-proxy/share-proxy.html.twig',
             [
-                'name' => $offer->getName()['nl'],
-                'description' => $offer->getDescription()['nl'],
+                'name' => $offer->getName()->getValueForLanguage($langcode),
+                'description' => $offer->getDescription()->getValueForLanguage($langcode),
                 'image' => $offer->getImage(),
                 'url' => $originUrl,
                 'request_url' => $this->request->getUri(),
