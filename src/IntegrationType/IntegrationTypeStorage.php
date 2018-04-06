@@ -67,6 +67,7 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
                 $integrationType->setPrice(!empty($type['price']) ? $type['price'] : null);
                 $integrationType->setUrl(!empty($type['url']) ? $type['url'] : null);
                 $integrationType->setActionButton(!empty($type['action_button']) ? $type['action_button'] : '');
+                $integrationType->setSapiVersion(!empty($type['sapi_version']) ? $type['sapi_version'] : '2');
 
                 $this->integrationTypes[$integrationType->getId()] = $integrationType;
             }

@@ -235,6 +235,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     /**
      * Enrich the project with CultureFeed_Consumer data.
      * @param \CultureFeed_Consumer $consumer
+     * @param string $version
      */
-    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer);
+    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer, string $version);
 }

@@ -124,6 +124,9 @@ class ProjectService implements ProjectServiceInterface
         /** @var Project $project */
         $project = $this->projectRepository->findOneBy($criteria);
 
+        // Load the integration type.
+        $integrationType = $this->integrationTypeStorage->load($project->getGroupId());
+
         if (empty($project)) {
             return;
         }
@@ -132,7 +135,7 @@ class ProjectService implements ProjectServiceInterface
         if ($project->getTestConsumerKey()) {
             try {
                 $consumer = $this->culturefeedTest->getServiceConsumer($project->getTestConsumerKey());
-                $project->enrichWithConsumerInfo($consumer);
+                $project->enrichWithConsumerInfo($consumer, $integrationType->getSapiVersion());
                 $project->setTestConsumerSecret($consumer->consumerSecret);
             } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
@@ -147,7 +150,7 @@ class ProjectService implements ProjectServiceInterface
             try {
                 /** @var \CultureFeed_Consumer $consumer */
                 $consumer = $this->culturefeedLive->getServiceConsumer($project->getLiveConsumerKey());
-                $project->enrichWithConsumerInfo($consumer);
+                $project->enrichWithConsumerInfo($consumer, $integrationType->getSapiVersion());
                 $project->setLiveConsumerSecret($consumer->consumerSecret);
             } catch (\Exception $e) {
                 // Culturefeed http errors fail silently. No enrichment will be done.
@@ -157,8 +160,6 @@ class ProjectService implements ProjectServiceInterface
             }
         }
 
-        // Load the integration type.
-        $integrationType = $this->integrationTypeStorage->load($project->getGroupId());
         if ($integrationType) {
             $project->setGroup($integrationType);
 
@@ -166,6 +167,8 @@ class ProjectService implements ProjectServiceInterface
             if ($integrationType->getActionButton() == IntegrationType::ACTION_BUTTON_WIDGETS) {
                 $project->setTotalWidgets($this->getTotalWidgetsForProject($project));
             }
+
+            $project->setSapiVersion($integrationType->getSapiVersion());
         }
 
         return $project;
@@ -182,14 +185,22 @@ class ProjectService implements ProjectServiceInterface
         if ($project->getLiveConsumerKey()) {
             $liveConsumer = new \CultureFeed_Consumer();
             $liveConsumer->consumerKey = $project->getLiveConsumerKey();
-            $liveConsumer->searchPrefixFilterQuery = $project->getContentFilter();
+            if($project->getSapiVersion()=="3") {
+              $liveConsumer->searchPrefixSapi3 = $project->getContentFilter();
+            } else {
+              $liveConsumer->searchPrefixFilterQuery = $project->getContentFilter();
+            }
             $this->culturefeedLive->updateServiceConsumer($liveConsumer);
         }
 
         if ($project->getTestConsumerKey()) {
             $testConsumer = new \CultureFeed_Consumer();
             $testConsumer->consumerKey = $project->getTestConsumerKey();
-            $testConsumer->searchPrefixFilterQuery = $project->getContentFilter();
+            if($project->getSapiVersion()=="3") {
+              $testConsumer->searchPrefixSapi3 = $project->getContentFilter();
+            } else {
+              $testConsumer->searchPrefixFilterQuery = $project->getContentFilter();
+            }
             $this->culturefeedTest->updateServiceConsumer($testConsumer);
         }
     }

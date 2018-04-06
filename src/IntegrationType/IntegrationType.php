@@ -54,6 +54,11 @@ class IntegrationType implements \JsonSerializable
     protected $actionButton;
 
     /**
+     * @var string
+     */
+    protected $sapiVersion;
+
+    /**
      * @return string
      */
     public function getId()
@@ -194,6 +199,24 @@ class IntegrationType implements \JsonSerializable
     public function setActionButton($actionButton)
     {
         $this->actionButton = $actionButton;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSapiVersion()
+    {
+        return $this->sapiVersion;
+    }
+
+    /**
+     * @param string $actionButton
+     * @return IntegrationType
+     */
+    public function setSapiVersion($version)
+    {
+        $this->sapiVersion = $version;
         return $this;
     }
 

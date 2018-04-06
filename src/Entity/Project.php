@@ -170,11 +170,23 @@ class Project implements ProjectInterface
     protected $contentFilter;
 
     /**
+     * @var string
+     * @Type("string")
+     */
+    protected $contentFilterSapi3;
+
+    /**
      * The total widgets connected with this project.
      * @var int
      * @Type("integer")
      */
     protected $totalWidgets;
+
+    /**
+     * @var string
+     * @Type("string")
+     */
+    protected $sapiVersion;
 
     /**
      * @return int
@@ -530,6 +542,23 @@ class Project implements ProjectInterface
     /**
      * @return string
      */
+    public function getContentFilterSapi3()
+    {
+        return $this->contentFilterSapi3;
+    }
+
+    /**
+     * @param string $contentFilter
+     * @return Project
+     */
+    public function setContentFilterSapi3($contentFilter)
+    {
+        $this->contentFilterSapi3 = $contentFilter;
+    }
+
+    /**
+     * @return string
+     */
     public function getCoupon()
     {
         return $this->coupon;
@@ -542,6 +571,24 @@ class Project implements ProjectInterface
     public function setCoupon($coupon)
     {
         $this->coupon = $coupon;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSapiVersion()
+    {
+        return $this->sapiVersion;
+    }
+
+    /**
+     * @param string $coupon
+     * @return Project
+     */
+    public function setSapiVersion($version)
+    {
+        $this->sapiVersion = $version;
         return $this;
     }
 
@@ -565,13 +612,18 @@ class Project implements ProjectInterface
     /**
      * Enrich the project with CultureFeed_Consumer data.
      */
-    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer)
+    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer, string $version)
     {
         $this->name = str_replace('[TEST] ', '', $consumer->name);
         $this->description = $consumer->description;
         $this->logo = $consumer->logo;
         $this->domain = $consumer->domain;
-        $this->contentFilter = $consumer->searchPrefixFilterQuery;
+        if ($version == "3") {
+            $this->contentFilter = $consumer->searchPrefixSapi3;
+        } else {
+            $this->contentFilter = $consumer->searchPrefixFilterQuery;
+        }
+
     }
 
     /**
