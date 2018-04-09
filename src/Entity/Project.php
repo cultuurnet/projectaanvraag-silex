@@ -170,12 +170,6 @@ class Project implements ProjectInterface
     protected $contentFilter;
 
     /**
-     * @var string
-     * @Type("string")
-     */
-    protected $contentFilterSapi3;
-
-    /**
      * The total widgets connected with this project.
      * @var int
      * @Type("integer")
@@ -612,7 +606,7 @@ class Project implements ProjectInterface
     /**
      * Enrich the project with CultureFeed_Consumer data.
      */
-    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer, string $version)
+    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer, string $version = "2")
     {
         $this->name = str_replace('[TEST] ', '', $consumer->name);
         $this->description = $consumer->description;
@@ -623,7 +617,6 @@ class Project implements ProjectInterface
         } else {
             $this->contentFilter = $consumer->searchPrefixFilterQuery;
         }
-
     }
 
     /**

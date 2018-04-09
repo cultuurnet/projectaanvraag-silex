@@ -223,6 +223,17 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     public function getContentFilter();
 
     /**
+     * @return string
+     */
+    public function getSapiVersion();
+
+    /**
+     * @param string $version
+     * @return ProjectInterface
+     */
+    public function setSapiVersion($version);
+
+    /**
      * @param int $totalWidgets
      */
     public function setTotalWidgets($totalWidgets);

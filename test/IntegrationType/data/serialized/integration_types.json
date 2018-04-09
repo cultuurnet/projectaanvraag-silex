@@ -9,6 +9,7 @@
       "HTML, CSS, JS",
       "Geschikt voor basisoplossingen"
     ],
+    "sapiVersion": "3",
     "groupId":"group_id"
   },
   "culturefeed":{
@@ -21,6 +22,7 @@
       "Specifiek voor Drupal-sites",
       "Je kan rekenen op de open-source gemeenschap"
     ],
+    "sapiVersion": "2",
     "groupId":"group_id"
   },
   "api":{
@@ -34,6 +36,7 @@
       "Individuele oplossingen op maat zijn mogelijk"
     ],
     "groupId":"group_id",
+    "sapiVersion": "2",
     "actionButton": "test"
   }
 }

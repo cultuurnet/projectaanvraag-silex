@@ -9,5 +9,6 @@
     "Individuele oplossingen op maat zijn mogelijk"
   ],
   "groupId":"group_id",
+  "sapiVersion": "2",
   "actionButton": "test"
 }

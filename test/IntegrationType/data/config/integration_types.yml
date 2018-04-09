@@ -8,6 +8,7 @@ integration_types:
       extra_info:
         - 'HTML, CSS, JS'
         - 'Geschikt voor basisoplossingen'
+      sapi_version: 3
       group_id: 'group_id'
   culturefeed:
       name: 'Culturefeed'
@@ -17,6 +18,7 @@ integration_types:
       extra_info:
         - 'Specifiek voor Drupal-sites'
         - 'Je kan rekenen op de open-source gemeenschap'
+      sapi_version: 2
       group_id: 'group_id'
   api:
       name: 'API'
@@ -26,5 +28,6 @@ integration_types:
       extra_info:
         - 'Platformonafhankelijk'
         - 'Individuele oplossingen op maat zijn mogelijk'
+      sapi_version: 2
       group_id: 'group_id'
       action_button: 'test'

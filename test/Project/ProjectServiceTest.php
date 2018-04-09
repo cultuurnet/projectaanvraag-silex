@@ -224,11 +224,11 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
         $project->expects($this->at(0))
             ->method('enrichWithConsumerInfo')
-            ->with($testConsumer);
+            ->with($testConsumer, '2');
 
         $project->expects($this->at(1))
             ->method('enrichWithConsumerInfo')
-            ->with($liveConsumer);
+            ->with($liveConsumer, '2');
 
 
         $this->assertEquals($project, $this->projectService->loadProject(1), 'It loads the project with extra info');
