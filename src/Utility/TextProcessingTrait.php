@@ -241,7 +241,7 @@ trait TextProcessingTrait
             'tbody',
             'td',
             'tr',
-            'style'
+            'style',
         ]
     ) {
         // Remove NULL characters (ignored by some browsers).
