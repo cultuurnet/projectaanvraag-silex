@@ -13,7 +13,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.prepareBootstrap = function() {
 
         // If jquery exists on the site, attach behaviors.
-        if (window.jQuery) {
+        if (window.jQuery && parseFloat(jQuery.fn.jquery.substring(0, 3))>1.5) {
             CultuurnetWidgets.bootstrap();
         }
         // If jQuery does not exists, load it and attach behaviors.
@@ -53,7 +53,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings.detailPage && CultuurnetWidgetsSettings.detailPageRowId != undefined;
 
         $wrapper.html('');
-        for (var i in CultuurnetWidgetsSettings.widgetPageRows) {
+        for (var i = 0; i < CultuurnetWidgetsSettings.widgetPageRows.length; i++);
             if (loadDetail && i == CultuurnetWidgetsSettings.detailPageRowId) {
                 $wrapper.append(CultuurnetWidgetsSettings.detailPage);
             }
