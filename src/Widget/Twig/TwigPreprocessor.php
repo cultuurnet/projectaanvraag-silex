@@ -43,17 +43,23 @@ class TwigPreprocessor
     protected $cultureFeed;
 
     /**
+     * @var string
+     */
+    protected $socialHost;
+
+    /**
      * TwigPreprocessor constructor.
      * @param TranslatorInterface $translator
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
      */
-    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed)
+    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed, string $socialHost)
     {
         $this->translator = $translator;
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
         $this->cultureFeed = $cultureFeed;
+        $this->socialHost = $socialHost;
     }
 
     /**
@@ -273,7 +279,7 @@ class TwigPreprocessor
             }
 
             // Share links
-            $shareUrl = Url::factory($this->request->getSchemeAndHttpHost() . '/event/' . $event->getCdbid());
+            $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
             $shareQuery = $shareUrl->getQuery();
             $shareQuery['origin'] = $_SERVER['HTTP_REFERER'];
 
@@ -764,7 +770,7 @@ class TwigPreprocessor
         if (empty($explRange[1]) || $explRange[0] === $explRange[1]) {
             return $explRange[0] . ' jaar';
         }
-        
+
         // Build range string according to language.
         return "Vanaf $explRange[0] jaar tot $explRange[1] jaar.";
     }

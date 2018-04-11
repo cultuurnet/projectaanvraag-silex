@@ -115,3 +115,4 @@ default_consumer_group: 3
 
 # App-URL
 app_host: "http://projectaanvraag.uitdatabank.be"
+social_host: "http://social.uit.be"
