@@ -53,7 +53,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings.detailPage && CultuurnetWidgetsSettings.detailPageRowId != undefined;
 
         $wrapper.html('');
-        for (var i = 0; i < CultuurnetWidgetsSettings.widgetPageRows.length; i++);
+        for (var i = 0; i < CultuurnetWidgetsSettings.widgetPageRows.length; i++) {
             if (loadDetail && i == CultuurnetWidgetsSettings.detailPageRowId) {
                 $wrapper.append(CultuurnetWidgetsSettings.detailPage);
             }
