@@ -44,7 +44,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         }
 
         var width = parseInt($wrapper.css('width'));
-        if(width <= 576) {
+        if(width < 570) {
           $wrapper.addClass('xs');
         }
 
