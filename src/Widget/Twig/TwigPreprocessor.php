@@ -79,7 +79,7 @@ class TwigPreprocessor
             $preprocessedEvent = $this->preprocessEvent($event, $langcode, $settings['items']);
 
             $linkType = 'query';
-            $detailUrl = $this->request->get('base_url');
+            $detailUrl = $this->request->server->get('HTTP_REFERER');
             if (isset($settings['general']['detail_link'])) {
                 $detailUrl = $settings['general']['detail_link']['url'] ?? $detailUrl;
                 $linkType = $settings['general']['detail_link']['cdbid'] ?? $linkType;
