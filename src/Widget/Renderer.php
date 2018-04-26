@@ -99,11 +99,11 @@ class Renderer implements RendererInterface
 
         // If a project is not live yet. We should use the test api + test key.
         if ($project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
-            $apiKey = $project->getTestSearchApi3Key();
+            $apiKey = $project->getTestApiKeySapi3();
             $config = $this->searchClientTest->getClient()->getConfig();
         } else {
             $config = $this->searchClient->getClient()->getConfig();
-            $apiKey = $project->getLiveSearchApi3Key();
+            $apiKey = $project->getLiveApiKeySapi3();
         }
 
         $headers = $config['headers'] ?? [];

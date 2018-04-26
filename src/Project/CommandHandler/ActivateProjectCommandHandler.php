@@ -82,7 +82,7 @@ class ActivateProjectCommandHandler
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);
         $project->setLiveConsumerKey($cultureFeedConsumer->consumerKey);
-        $project->setLiveSearchApi3Key($cultureFeedConsumer->searchApi3Key);
+        $project->setLiveApiKeySapi3($cultureFeedConsumer->apiKeySapi3);
         $project->setCoupon($activateProject->getCouponToUse());
 
         $this->entityManager->persist($project);

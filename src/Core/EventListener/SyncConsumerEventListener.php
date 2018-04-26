@@ -78,10 +78,10 @@ class SyncConsumerEventListener
             if ($project) {
                 if ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_TEST) {
                     $project->setTestConsumerKey($consumerData['consumerKey']);
-                    $project->setTestSearchApi3Key(!empty($consumerData['searchApi3Key']) ? $consumerData['searchApi3Key'] : '');
+                    $project->setTestApiKeySapi3(!empty($consumerData['apiKeySapi3']) ? $consumerData['apiKeySapi3'] : '');
                 } elseif ($event->getType() == ConsumerTypeInterface::CONSUMER_TYPE_LIVE) {
                     $project->setLiveConsumerKey($consumerData['consumerKey']);
-                    $project->setLiveSearchApi3Key(!empty($consumerData['searchApi3Key']) ? $consumerData['searchApi3Key'] : '');
+                    $project->setLiveApiKeySapi3(!empty($consumerData['apiKeySapi3']) ? $consumerData['apiKeySapi3'] : '');
                 }
 
                 // Attempt to set the group id

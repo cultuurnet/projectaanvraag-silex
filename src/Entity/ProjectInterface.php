@@ -47,26 +47,26 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     /**
      * Get the live search api 3 key.
      */
-    public function getLiveSearchApi3Key();
+    public function getLiveApiKeySapi3();
 
     /**
      * Set the live search api 3 key.
      *
-     * @param string $liveSearchApi3Key
+     * @param string $liveApiKeySapi3
      */
-    public function setLiveSearchApi3Key(string $liveSearchApi3Key);
+    public function setLiveApiKeySapi3(string $liveApiKeySapi3);
 
     /**
      * Get the test search api 3 key.
      */
-    public function getTestSearchApi3Key();
+    public function getTestApiKeySapi3();
 
     /**
      * Set the test search api 3 key.
      *
-     * @param string $liveSearchApi3Key
+     * @param string $liveApiKeySapi3
      */
-    public function setTestSearchApi3Key(string $testSearchApi3Key);
+    public function setTestApiKeySapi3(string $testApiKeySapi3);
 
     /**
      * @return int
