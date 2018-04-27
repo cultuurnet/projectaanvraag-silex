@@ -171,6 +171,34 @@ interface WidgetPageInterface
     public function getCss();
 
     /**
+     * Get the wanted viewportmode of a page
+     *
+     * @return boolean
+     */
+    public function getMobile();
+
+    /**
+     * Set the wanted viewportmode of a page
+     *
+     * @param boolean $mobile
+     */
+    public function setMobile($mobile);
+
+    /**
+     * Does the page does not want jQuery?
+     *
+     * @return boolean
+     */
+    public function GetJquery();
+
+    /**
+     * Set the desire of the page to exclude jQuery
+     *
+     * @param boolean $preventJQuery
+     */
+    public function setJquery($preventJQuery);
+
+    /**
      * Get the widget with the given id.
      *
      * @param $widgetId
