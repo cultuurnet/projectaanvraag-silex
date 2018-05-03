@@ -273,9 +273,9 @@ class TwigPreprocessor
             $query = $url->getQuery();
             $langcodes = array_keys($event->getName()->getValues());
             // Language switch links are based on the languages available for the title.
-            foreach ($langcodes as $langcode_item) {
-                $query['langcode'] = $langcode_item;
-                $variables['language_switcher'][$langcode_item] = '<a href="' . $url->__toString() . '">' . strtoupper($langcode_item) . '</a>';
+            foreach ($langcodes as $langcodeItem) {
+                $query['langcode'] = $langcodeItem;
+                $variables['language_switcher'][$langcodeItem] = '<a href="' . $url->__toString() . '">' . strtoupper($langcodeItem) . '</a>';
             }
 
             // Share links
