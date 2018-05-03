@@ -189,7 +189,7 @@ interface WidgetPageInterface
      *
      * @return boolean
      */
-    public function GetJquery();
+    public function getJquery();
 
     /**
      * Set the desire of the page to exclude jQuery
