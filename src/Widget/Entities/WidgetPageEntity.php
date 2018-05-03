@@ -325,7 +325,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function GetJquery()
+    public function getJquery()
     {
         return $this->jquery;
     }
