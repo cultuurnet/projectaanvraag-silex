@@ -67,7 +67,7 @@
                                 {{ event.type.0 }}
                             </span>
                         {% endif %}
-                        {{ event.summary }}
+                        {{ event.summary | replace({'&nbsp;': ' '}) }}
                     </p>
                 {% endif %}
 
