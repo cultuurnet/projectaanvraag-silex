@@ -13,7 +13,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.prepareBootstrap = function() {
 
         // If jquery exists on the site, attach behaviors.
-        if (window.jQuery && parseFloat(jQuery.fn.jquery.substring(0, 3))>1.5) {
+        if (((window.jQuery && parseFloat(jQuery.fn.jquery.substring(0, 3))>1.5)||window.CultuurnetWidgetsSettings.jquery)) {
             CultuurnetWidgets.bootstrap();
         }
         // If jQuery does not exists, load it and attach behaviors.
@@ -43,8 +43,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             return;
         }
 
-        var width = parseInt($wrapper.css('width'));
-        if(width < 570) {
+        if(CultuurnetWidgetsSettings.mobile) {
           $wrapper.addClass('xs');
         }
 

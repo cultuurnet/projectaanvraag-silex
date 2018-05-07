@@ -104,6 +104,20 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $css;
 
     /**
+     * @var boolean
+     *
+     * @ODM\Field(type="boolean", name="mobile")
+     */
+    protected $mobile;
+
+    /**
+     * @var boolean
+     *
+     * @ODM\Field(type="boolean", name="jquery")
+     */
+    protected $jquery;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -295,6 +309,38 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getJquery()
+    {
+        return $this->jquery;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setJquery($jquery)
+    {
+        $this->jquery = $jquery;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getWidget($widgetId)
     {
         /** @var LayoutInterface $row */
@@ -331,6 +377,8 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'created' => (string) $this->created,
             'last_updated' => (string) $this->lastUpdated,
             'css' => (string) $this->css,
+            'mobile' => (boolean) $this->mobile,
+            'jquery' => (boolean) $this->jquery,
         ];
     }
 }

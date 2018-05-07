@@ -37,7 +37,6 @@ class WidgetPageEntityDeserializer
      */
     public function deserialize($json)
     {
-
         $jsonObject = json_decode($json, true);
 
         $widgetPageEntity = new WidgetPageEntity();
@@ -72,6 +71,14 @@ class WidgetPageEntityDeserializer
 
         if (isset($jsonObject['last_updated'])) {
             $widgetPageEntity->setLastUpdated($jsonObject['last_updated']);
+        }
+
+        if (isset($jsonObject['mobile'])) {
+            $widgetPageEntity->setMobile($jsonObject['mobile']);
+        }
+
+        if (isset($jsonObject['jquery'])) {
+            $widgetPageEntity->setJquery($jsonObject['jquery']);
         }
 
         $rows = [];
