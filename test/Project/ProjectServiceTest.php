@@ -193,9 +193,9 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
         $project->setName('name');
         $project->setLiveConsumerKey('live');
-        $project->setLiveSearchApi3Key('live api key');
+        $project->setLiveApiKeySapi3('live api key');
         $project->setTestConsumerKey('test');
-        $project->setTestSearchApi3Key('test api key');
+        $project->setTestApiKeySapi3('test api key');
         $project->setGroupId('test');
 
         $liveConsumer = $this->getMock(\CultureFeed_Consumer::class);

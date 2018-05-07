@@ -96,7 +96,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
 
         $consumerWithId = clone $consumer;
         $consumerWithId->consumerKey = 'test';
-        $consumerWithId->searchApi3Key = 'testkey';
+        $consumerWithId->apiKeySapi3 = 'testkey';
 
         // Test saving to culturefeed live.
         $this->project->expects($this->once())
@@ -106,7 +106,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('setLiveConsumerKey')
             ->with($consumerWithId->consumerKey);
         $this->project->expects($this->once())
-            ->method('setLiveSearchApi3Key')
+            ->method('setLiveApiKeySapi3')
             ->with('testkey');
 
         $this->cultureFeed
