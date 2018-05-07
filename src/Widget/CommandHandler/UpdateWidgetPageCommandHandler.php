@@ -46,6 +46,8 @@ class UpdateWidgetPageCommandHandler extends WidgetPageCommandHandler
             $widgetPageToSave->setTitle($newWidgetPage->getTitle());
             $widgetPageToSave->setCss($newWidgetPage->getCss());
         }
+        $widgetPageToSave->setJquery($newWidgetPage->getJquery());
+        $widgetPageToSave->setMobile($newWidgetPage->getMobile());
 
         $widgetPageToSave->setLastUpdatedBy($this->user->id);
         $widgetPageToSave->setLastUpdated($_SERVER['REQUEST_TIME']);

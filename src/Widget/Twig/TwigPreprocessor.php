@@ -43,17 +43,23 @@ class TwigPreprocessor
     protected $cultureFeed;
 
     /**
+     * @var string
+     */
+    protected $socialHost;
+
+    /**
      * TwigPreprocessor constructor.
      * @param TranslatorInterface $translator
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
      */
-    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed)
+    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed, string $socialHost)
     {
         $this->translator = $translator;
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
         $this->cultureFeed = $cultureFeed;
+        $this->socialHost = $socialHost;
     }
 
     /**
@@ -73,7 +79,7 @@ class TwigPreprocessor
             $preprocessedEvent = $this->preprocessEvent($event, $langcode, $settings['items']);
 
             $linkType = 'query';
-            $detailUrl = $this->request->get('base_url');
+            $detailUrl = $this->request->server->get('HTTP_REFERER');
             if (isset($settings['general']['detail_link'])) {
                 $detailUrl = $settings['general']['detail_link']['url'] ?? $detailUrl;
                 $linkType = $settings['general']['detail_link']['cdbid'] ?? $linkType;
@@ -267,13 +273,13 @@ class TwigPreprocessor
             $query = $url->getQuery();
             $langcodes = array_keys($event->getName()->getValues());
             // Language switch links are based on the languages available for the title.
-            foreach ($langcodes as $langcode) {
-                $query['langcode'] = $langcode;
-                $variables['language_switcher'][$langcode] = '<a href="' . $url->__toString() . '">' . strtoupper($langcode) . '</a>';
+            foreach ($langcodes as $langcodeItem) {
+                $query['langcode'] = $langcodeItem;
+                $variables['language_switcher'][$langcodeItem] = '<a href="' . $url->__toString() . '">' . strtoupper($langcodeItem) . '</a>';
             }
 
             // Share links
-            $shareUrl = Url::factory($this->request->getSchemeAndHttpHost() . '/event/' . $event->getCdbid());
+            $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
             $shareQuery = $shareUrl->getQuery();
             $shareQuery['origin'] = $_SERVER['HTTP_REFERER'];
 
@@ -290,6 +296,7 @@ class TwigPreprocessor
             $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
             $promotionsQuery->max = 4;
             $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
+            $promotionsQuery->unexpired = true;
 
             try {
                 $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
@@ -764,7 +771,7 @@ class TwigPreprocessor
         if (empty($explRange[1]) || $explRange[0] === $explRange[1]) {
             return $explRange[0] . ' jaar';
         }
-        
+
         // Build range string according to language.
         return "Vanaf $explRange[0] jaar tot $explRange[1] jaar.";
     }

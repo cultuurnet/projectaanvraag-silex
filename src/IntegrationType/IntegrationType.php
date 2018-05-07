@@ -39,6 +39,11 @@ class IntegrationType implements \JsonSerializable
     protected $url;
 
     /**
+     * @var string
+     */
+    protected $getStartedUrl;
+
+    /**
      * @var array
      */
     protected $extraInfo;
@@ -145,6 +150,24 @@ class IntegrationType implements \JsonSerializable
     public function setUrl($url)
     {
         $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGetStartedUrl()
+    {
+        return $this->getStartedUrl;
+    }
+
+    /**
+     * @param string $url
+     * @return IntegrationType
+     */
+    public function setGetStartedUrl($url)
+    {
+        $this->getStartedUrl = $url;
         return $this;
     }
 

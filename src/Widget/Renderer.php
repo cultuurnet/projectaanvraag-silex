@@ -185,6 +185,8 @@ class Renderer implements RendererInterface
             'widgetPageTitle' => $widgetPage->getTitle(),
             'consumerKey' => $this->project->getLiveConsumerKey(),
             'consumerName' => $this->project->getName(),
+            'mobile' => $widgetPage->getMobile(),
+            'jquery' => $widgetPage->getJquery(),
             ]
         );
 
