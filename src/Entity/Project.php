@@ -128,7 +128,7 @@ class Project implements ProjectInterface
      * @var string
      * @Type("string")
      */
-    protected $liveSearchApi3Key;
+    protected $liveApiKeySapi3;
 
     /**
      * The search api 3 key for this project.
@@ -137,7 +137,7 @@ class Project implements ProjectInterface
      * @var string
      * @Type("string")
      */
-    protected $testSearchApi3Key;
+    protected $testApiKeySapi3;
 
     /**
      * @var string
@@ -175,6 +175,12 @@ class Project implements ProjectInterface
      * @Type("integer")
      */
     protected $totalWidgets;
+
+    /**
+     * @var string
+     * @Type("string")
+     */
+    protected $sapiVersion;
 
     /**
      * @return int
@@ -251,46 +257,46 @@ class Project implements ProjectInterface
     /**
      * @return string
      */
-    public function getLiveSearchApi3Key()
+    public function getLiveApiKeySapi3()
     {
-        return $this->liveSearchApi3Key;
+        return $this->liveApiKeySapi3;
     }
 
     /**
-     * @param string $liveSearchApi3Key
+     * @param string $liveApiKeySapi3
      * @return Project
      */
-    public function setLiveSearchApi3Key(string $liveSearchApi3Key)
+    public function setLiveApiKeySapi3(string $liveApiKeySapi3)
     {
-        $this->liveSearchApi3Key = $liveSearchApi3Key;
+        $this->liveApiKeySapi3 = $liveApiKeySapi3;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getTestSearchApi3Key()
+    public function getTestApiKeySapi3()
     {
-        return $this->testSearchApi3Key;
+        return $this->testApiKeySapi3;
     }
 
     /**
-     * @param string $testSearchApi3Key
+     * @param string $testApiKeySapi3
      * @return Project
      */
-    public function setTestSearchApi3Key(string $testSearchApi3Key): Project
+    public function setTestApiKeySapi3(string $testApiKeySapi3): Project
     {
-        $this->testSearchApi3Key = $testSearchApi3Key;
+        $this->testApiKeySapi3 = $testApiKeySapi3;
         return $this;
     }
 
     /**
-     * @param string $searchApi3Key
+     * @param string $apiKeySapi3
      * @return Project
      */
-    public function setSearchApi3Key(string $searchApi3Key): Project
+    public function setApiKeySapi3(string $apiKeySapi3): Project
     {
-        $this->searchApi3Key = $searchApi3Key;
+        $this->apiKeySapi3 = $apiKeySapi3;
         return $this;
     }
 
@@ -530,6 +536,23 @@ class Project implements ProjectInterface
     /**
      * @return string
      */
+    public function getContentFilterSapi3()
+    {
+        return $this->contentFilterSapi3;
+    }
+
+    /**
+     * @param string $contentFilter
+     * @return Project
+     */
+    public function setContentFilterSapi3($contentFilter)
+    {
+        $this->contentFilterSapi3 = $contentFilter;
+    }
+
+    /**
+     * @return string
+     */
     public function getCoupon()
     {
         return $this->coupon;
@@ -542,6 +565,24 @@ class Project implements ProjectInterface
     public function setCoupon($coupon)
     {
         $this->coupon = $coupon;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSapiVersion()
+    {
+        return $this->sapiVersion;
+    }
+
+    /**
+     * @param string $coupon
+     * @return Project
+     */
+    public function setSapiVersion($version)
+    {
+        $this->sapiVersion = $version;
         return $this;
     }
 
@@ -565,13 +606,17 @@ class Project implements ProjectInterface
     /**
      * Enrich the project with CultureFeed_Consumer data.
      */
-    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer)
+    public function enrichWithConsumerInfo(\CultureFeed_Consumer $consumer, string $version = "2")
     {
         $this->name = str_replace('[TEST] ', '', $consumer->name);
         $this->description = $consumer->description;
         $this->logo = $consumer->logo;
         $this->domain = $consumer->domain;
-        $this->contentFilter = $consumer->searchPrefixFilterQuery;
+        if ($version == "3") {
+            $this->contentFilter = $consumer->searchPrefixSapi3;
+        } else {
+            $this->contentFilter = $consumer->searchPrefixFilterQuery;
+        }
     }
 
     /**
