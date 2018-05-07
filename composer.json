@@ -13,7 +13,7 @@
         "jdesrosiers/silex-cors-provider": "~1.0",
         "cultuurnet/culturefeed-http-guzzle": "dev-master",
         "symfony/browser-kit": "^3.1",
-        "cultuurnet/culturefeed-php": "dev-develop#e2a3ee5a1988e44c63093d8cf2d6939930f41a05 as 1.6.x-dev",
+        "cultuurnet/culturefeed-php": "dev-master as dev-develop",
         "dflydev/doctrine-orm-service-provider": "^2.0",
         "symfony/twig-bridge": "^3.3",
         "df/silex-doctrine-mongodb-odm-provider": "^1.0",
