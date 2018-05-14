@@ -4343,6 +4343,10 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   margin-bottom: 1.5rem;
 }
 
+.cnw_searchresult-detail .cnw_img_responsive {
+  margin-bottom: .5rem;
+}
+
 .cnw_facets .cnw_facetedsearch {
   margin-bottom: 2.5em;
   margin-top: 1.5em;

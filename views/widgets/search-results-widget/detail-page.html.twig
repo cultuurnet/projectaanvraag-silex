@@ -4,7 +4,7 @@
         <div class="cnw_col-4 {% if settings.image.position == 'right' %} cnw_flex-md-last{% endif %}">
             <img src="{{ event.image }}" class="cnw_img_responsive {{ settings.image.position }}">
             {% if event.copyright %}
-            <p class="cnw_copyright">{{event.copyright}}</p>
+            <p class="cnw_copyright">{{ '&copy;' }} {{event.copyright}}</p>
             {% endif %}
         </div>
     {% endif %}
