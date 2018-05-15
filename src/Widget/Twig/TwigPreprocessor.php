@@ -249,7 +249,7 @@ class TwigPreprocessor
             if ($bookingInfo->getUrl()) {
                 $variables['booking_info']['url'] = [
                     'url' => $bookingInfo->getUrl(),
-                    'label' => $bookingInfo->getUrlLabel() ?? $bookingInfo->getUrl(),
+                    'label' => !empty($bookingInfo->getUrlLabel()->getValueForLanguage($langcode)) ? $bookingInfo->getUrlLabel()->getValueForLanguage($langcode) : $bookingInfo->getUrl(),
                 ];
             }
         }
