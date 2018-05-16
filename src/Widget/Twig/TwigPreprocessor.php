@@ -119,7 +119,7 @@ class TwigPreprocessor
             'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : '',
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
-            'organizer' => $event->getOrganizer() ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
+            'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
