@@ -380,7 +380,7 @@ class SearchResults extends WidgetTypeBase
 
             if (!empty($searchResultOptions['hide-permanent'])) {
                 $extraFilters['hide-permanent'] = true;
-                $query->addParameter(new CalendarType(CalendarType::TYPE_PERMANENT));
+                $query->addParameter(new Query('!(calendarType:' . CalendarType::TYPE_PERMANENT . ')'));
             }
         }
 
