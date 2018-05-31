@@ -123,6 +123,22 @@
                     {% endif %}
                 {% endif %}
 
+                {% if settings_items.audience.enabled and event.audience == "members" %}
+                    {% if settings_items.audience.label is not empty %}
+                        <dt class="cnw_col-3">
+                            <em class="cnw_searchresult-detail-label">{{ settings_items.audience.label }}</em>
+                            <i class="cnw-fa cnw-fa-male"></i>
+                        </dt>
+                        <dd class="cnw_col-9">
+                          Specifiek voor leden
+                        </dd>
+                    {% else %}
+                        <dd class="cnw_col-12">
+                          Specifiek voor leden
+                        </dd>
+                    {% endif %}
+                {% endif %}
+
                 {% if settings_items.language_icons.enabled and event.language_icons %}
                     <dt class="cnw_col-3">
                         <em class="cnw_searchresult-detail-label">Taaliconen</em>

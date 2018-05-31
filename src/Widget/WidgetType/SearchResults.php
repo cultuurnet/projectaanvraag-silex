@@ -70,6 +70,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "label":"Leeftijd"
  *              },
+ *              "audience":{
+ *                  "enabled":false,
+ *                  "label":"Toegang"
+ *              },
  *              "language_icons":{
  *                  "enabled":false
  *              },
@@ -129,6 +133,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "age":{
  *                  "enabled":true,
  *                  "label":"Leeftijd"
+ *              },
+ *              "audience":{
+ *                  "enabled":false,
+ *                  "label":"Toegang"
  *              },
  *              "language_icons":{
  *                  "enabled":false
@@ -192,6 +200,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
+ *              "audience":{
+ *                  "enabled":false,
+ *                  "label":"string"
+ *              },
  *              "language_icons":{
  *                  "enabled":"boolean"
  *              },
@@ -215,7 +227,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              }
  *          },
  *          "search_params" : {
- *              "query":"string"
+ *              "query":"string",
+ *              "private": "boolean"
  *          },
  *          "detail_page":{
  *              "map":"boolean",
@@ -249,6 +262,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"string"
  *              },
  *              "age":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
+ *              },
+ *              "audience":{
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
@@ -384,6 +401,12 @@ class SearchResults extends WidgetTypeBase
             }
         }
 
+        // private
+        if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['private'])) {
+          $private = $this->settings['search_params']['private'];
+        }
+        $private = true;
+
         // Build advanced query string
         $advancedQuery = [];
 
@@ -410,7 +433,7 @@ class SearchResults extends WidgetTypeBase
         $this->eventBus->handle($searchResultsQueryAlter);
 
         // Retrieve results from Search API.
-        $this->searchResult = $this->searchClient->searchEvents($query);
+        $this->searchResult = $this->searchClient->searchEvents($query, $private);
 
         // Retrieve pager object.
         $pager = $this->retrievePagerData($this->searchResult->getItemsPerPage(), $this->searchResult->getTotalItems(), (int) $currentPageIndex);

@@ -121,6 +121,7 @@ class TwigPreprocessor
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
+            'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
