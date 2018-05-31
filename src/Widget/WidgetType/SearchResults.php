@@ -403,9 +403,8 @@ class SearchResults extends WidgetTypeBase
 
         // private
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['private'])) {
-          $private = $this->settings['search_params']['private'];
+            $private = $this->settings['search_params']['private'];
         }
-        $private = true;
 
         // Build advanced query string
         $advancedQuery = [];
