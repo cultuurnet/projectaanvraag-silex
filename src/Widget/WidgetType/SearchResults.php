@@ -401,6 +401,7 @@ class SearchResults extends WidgetTypeBase
             }
         }
 
+        $private = false;
         // private
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['private'])) {
             $private = $this->settings['search_params']['private'];
@@ -412,7 +413,11 @@ class SearchResults extends WidgetTypeBase
         // Read settings for search parameters from settings.
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
-            $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
+            $advancedQuery[] = str_replace(',', ' AND ', '(' . rtrim($this->settings['search_params']['query'] . ')', ','));
+        }
+        
+        if($private) {
+          $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
         }
 
         // Add advanced query string to API request.
@@ -494,7 +499,8 @@ class SearchResults extends WidgetTypeBase
 
         $query = new SearchQuery(true);
         $query->addParameter(new Id($this->request->query->get('cdbid')));
-        $this->searchResult = $this->searchClient->searchEvents($query);
+        // always perform full search, including offers for members
+        $this->searchResult = $this->searchClient->searchEvents($query, true);
 
         $events = $this->searchResult->getMember()->getItems();
         if (count($events) === 0) {

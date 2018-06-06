@@ -114,6 +114,14 @@
                     </dt>
                     <dd>{{ event.age_range }}</dd>
                     {% endif %}
+                    
+                    {% if settings.audience.enabled and event.audience == "members" %}
+                    <dt>
+                        <em class="cnw_searchresult-detail-label">{{ settings.audience.label }}</em>
+                        <i class="cnw-fa cnw-fa-male"></i>
+                    </dt>
+                    <dd>Specifiek voor leden</dd>
+                    {% endif %}
 
                     {% if settings.language_icons.enabled and event.language_icons %}
                         <dt>
