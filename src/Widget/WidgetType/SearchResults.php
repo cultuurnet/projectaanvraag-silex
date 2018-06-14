@@ -418,8 +418,8 @@ class SearchResults extends WidgetTypeBase
         }
         
         if ($private) {
-          $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
-          $query->addParameter(new AudienceType('*'));
+            $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
+            $query->addParameter(new AudienceType('*'));
         }
 
         // Add advanced query string to API request.

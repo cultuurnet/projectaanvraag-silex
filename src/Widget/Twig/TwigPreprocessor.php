@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
+use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\Offer;
