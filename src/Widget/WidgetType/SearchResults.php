@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\CalendarType;
 use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
@@ -201,7 +202,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"string"
  *              },
  *              "audience":{
- *                  "enabled":false,
+ *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
  *              "language_icons":{
@@ -416,8 +417,9 @@ class SearchResults extends WidgetTypeBase
             $advancedQuery[] = str_replace(',', ' AND ', '(' . rtrim($this->settings['search_params']['query'] . ')', ','));
         }
         
-        if($private) {
+        if ($private) {
           $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
+          $query->addParameter(new AudienceType('*'));
         }
 
         // Add advanced query string to API request.

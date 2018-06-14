@@ -158,7 +158,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             // Limit items per page.
             $query->setLimit(1);
             $this->buildQuery($query);
-            $this->searchResult = $this->searchClient->searchEvents($query, false);
+            $this->searchResult = $this->searchClient->searchEvents($query);
         }
 
         // Retrieve current url parameters (for checking active options).
