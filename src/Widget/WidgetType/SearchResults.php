@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\CalendarType;
 use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
@@ -70,6 +71,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "label":"Leeftijd"
  *              },
+ *              "audience":{
+ *                  "enabled":false,
+ *                  "label":"Toegang"
+ *              },
  *              "language_icons":{
  *                  "enabled":false
  *              },
@@ -129,6 +134,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "age":{
  *                  "enabled":true,
  *                  "label":"Leeftijd"
+ *              },
+ *              "audience":{
+ *                  "enabled":false,
+ *                  "label":"Toegang"
  *              },
  *              "language_icons":{
  *                  "enabled":false
@@ -192,6 +201,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
+ *              "audience":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
+ *              },
  *              "language_icons":{
  *                  "enabled":"boolean"
  *              },
@@ -215,7 +228,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              }
  *          },
  *          "search_params" : {
- *              "query":"string"
+ *              "query":"string",
+ *              "private": "boolean"
  *          },
  *          "detail_page":{
  *              "map":"boolean",
@@ -249,6 +263,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"string"
  *              },
  *              "age":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
+ *              },
+ *              "audience":{
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
@@ -384,13 +402,24 @@ class SearchResults extends WidgetTypeBase
             }
         }
 
+        $private = false;
+        // private
+        if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['private'])) {
+            $private = $this->settings['search_params']['private'];
+        }
+
         // Build advanced query string
         $advancedQuery = [];
 
         // Read settings for search parameters from settings.
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
-            $advancedQuery[] = str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','));
+            $advancedQuery[] = str_replace(',', ' AND ', '(' . rtrim($this->settings['search_params']['query'] . ')', ','));
+        }
+        
+        if ($private) {
+            $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
+            $query->addParameter(new AudienceType('*'));
         }
 
         // Add advanced query string to API request.
@@ -410,7 +439,7 @@ class SearchResults extends WidgetTypeBase
         $this->eventBus->handle($searchResultsQueryAlter);
 
         // Retrieve results from Search API.
-        $this->searchResult = $this->searchClient->searchEvents($query);
+        $this->searchResult = $this->searchClient->searchEvents($query, $private);
 
         // Retrieve pager object.
         $pager = $this->retrievePagerData($this->searchResult->getItemsPerPage(), $this->searchResult->getTotalItems(), (int) $currentPageIndex);
@@ -472,7 +501,8 @@ class SearchResults extends WidgetTypeBase
 
         $query = new SearchQuery(true);
         $query->addParameter(new Id($this->request->query->get('cdbid')));
-        $this->searchResult = $this->searchClient->searchEvents($query);
+        // always perform full search, including offers for members
+        $this->searchResult = $this->searchClient->searchEvents($query, true);
 
         $events = $this->searchResult->getMember()->getItems();
         if (count($events) === 0) {

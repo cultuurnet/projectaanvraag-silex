@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
+use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\Offer;
@@ -121,6 +122,7 @@ class TwigPreprocessor
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
+            'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'themes' => $event->getTermsByDomain('theme'),
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
