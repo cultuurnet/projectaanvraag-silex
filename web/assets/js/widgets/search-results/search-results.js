@@ -125,13 +125,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.bindSummaryToggle = function(context) {
 
-        var $context = $(context);
-        var $summaryToggle = $(context).find('a.cnw_detail-summary-toggle');
+        var $context = jQuery(context);
+        var $summaryToggle = jQuery(context).find('a.cnw_detail-summary-toggle');
         if ($summaryToggle.length > 0) {
             var $fullDescription = $context.find('.cnw_detail-full-description');
             $fullDescription.hide();
             $summaryToggle.bind('click', function(e) {
-                $(this).hide();
+                jQuery(this).hide();
                 $context.find('.cnw_detail-short-summary').hide();
                 $fullDescription.show();
                 e.preventDefault();
