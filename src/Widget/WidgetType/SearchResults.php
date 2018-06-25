@@ -91,6 +91,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled":false,
  *                  }
  *              },
+ *              "facilities": {
+ *                  "enabled":false,
+ *                  "label": "Minstens 1 voorziening"
+ *              },
  *              "read_more":{
  *                  "enabled":true,
  *                  "label":"Lees verder"
