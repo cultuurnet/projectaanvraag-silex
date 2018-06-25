@@ -226,6 +226,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "labels":"string"
  *                  }
  *              },
+ *              "facilities":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
+ *              },
  *              "read_more":{
  *                  "enabled":"boolean",
  *                  "label":"string"
