@@ -141,6 +141,14 @@
 
                     </div>
                 {% endif %}
+
+                {% if event.facilities %}
+                    <div class="cnw_card-facilities cnw_col">
+                        {% for facility in event.facilities %}
+                            <span class="cnw_search-result-facilities-item">{{ facility.label }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </dl>
 
             {% if settings_items.read_more.enabled %}
