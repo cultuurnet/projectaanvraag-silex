@@ -123,7 +123,7 @@
                     {% endif %}
                 {% endif %}
 
-                {% if settings_items.audience.enabled and event.audience == "members" %}
+                {% if settings_items.audience.enabled and event.audience is not empty and event.audience == "members" %}
                     {% if settings_items.audience.label is not empty %}
                         <dt class="cnw_col-3">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.audience.label }}</em>
@@ -159,11 +159,16 @@
                 {% endif %}
 
                 {% if event.facilities %}
-                    <div class="cnw_card-facilities cnw_col">
-                        {% for facility in event.facilities %}
-                            <span class="cnw_search-result-facilities-item">{{ facility.label }}</span>
+                    <dt class="cnw_col-3">
+                        <em class="cnw_searchresult-detail-label">Minstens 1 voorziening</em>
+                    </dt>
+                    <dd class="cnw_col-9">
+                        {% for group, facility_group in event.facilities %}
+                            {% if facility_group|length > 0 %}
+                                {{ group }}{% if not loop.last %},{% endif %}
+                            {% endif %}
                         {% endfor %}
-                    </div>
+                    </dd>
                 {% endif %}
             </dl>
 
