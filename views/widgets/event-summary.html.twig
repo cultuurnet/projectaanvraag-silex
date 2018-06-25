@@ -160,7 +160,7 @@
 
                 {% if settings_items.facilities.enabled and event.facilities %}
                     <dt class="cnw_col-3">
-                        <em class="cnw_searchresult-detail-label">Minstens 1 voorziening</em>
+                        <em class="cnw_searchresult-detail-label">{{ settings_items.facilities.label }}</em>
                     </dt>
                     <dd class="cnw_col-9">
                         {% for group, facility_group in event.facilities %}
