@@ -432,17 +432,17 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
     private function getDefinedFacilities()
     {
-      $groups = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
-      $ungroupedFacilities = [];
+        $groups = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
+        $ungroupedFacilities = [];
 
-      if (is_array($groups) && !empty($groups['facilities'])) {
-          foreach ($groups['facilities'] as $key => $group) {
-              foreach ($group['items'] as $groupItem) {
-                  $ungroupedFacilities[] = $groupItem;
-              }
-          }
-      }
+        if (is_array($groups) && !empty($groups['facilities'])) {
+            foreach ($groups['facilities'] as $key => $group) {
+                foreach ($group['items'] as $groupItem) {
+                    $ungroupedFacilities[] = $groupItem;
+                }
+            }
+        }
 
-      return $ungroupedFacilities;
+        return $ungroupedFacilities;
     }
 }

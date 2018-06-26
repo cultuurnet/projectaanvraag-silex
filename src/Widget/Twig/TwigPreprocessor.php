@@ -128,7 +128,7 @@ class TwigPreprocessor
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
-            'facilities' => $this->groupFacilities($event)
+            'facilities' => $this->groupFacilities($event),
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -501,7 +501,7 @@ class TwigPreprocessor
                 'value' => $facility['id'],
                 'name' => $facility['label'],
                 'active' => (isset($actives[$facility['id']]) ? true : false),
-                'children' => []
+                'children' => [],
             ];
         }
 
@@ -872,9 +872,9 @@ class TwigPreprocessor
             foreach ($facilities as $id => $facility) {
                 foreach ($groups['facilities'] as $key => $group) {
                     foreach ($group['items'] as $groupItem) {
-                      if ($facility->getId() == $groupItem['id']) {
-                          $groupedFacilities[$group['name']][] = $groupItem;
-                      }
+                        if ($facility->getId() == $groupItem['id']) {
+                            $groupedFacilities[$group['name']][] = $groupItem;
+                        }
                     }
                 }
             }
