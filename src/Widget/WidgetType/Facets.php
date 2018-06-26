@@ -18,6 +18,7 @@ use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Provides the facets widget type.
@@ -29,6 +30,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *              "what":true,
  *              "where":true,
  *              "when":false,
+ *              "facilities":false,
  *          },
  *          "group_filters" :{
  *              "enabled":false,
@@ -60,7 +62,8 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *          "filters":{
  *              "what":"boolean",
  *              "where":"boolean",
- *              "when":"boolean"
+ *              "when":"boolean",
+ *              "facilities":"boolean",
  *          },
  *          "group_filters":"CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *      }
@@ -187,6 +190,13 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 $activeValue = $urlQueryParams['theme'] ?? [];
                 $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue);
             }
+        }
+
+        if ($this->settings['filters']['facilities']) {
+            $facilities = $this->getDefinedFacilities();
+            $activeValue = $urlQueryParams['facility'] ?? [];
+
+            $facets[] = $this->twigPreprocessor->preprocessFacilitiesFacet($facilities, $activeValue);
         }
 
         if ($this->settings['group_filters']['enabled']) {
@@ -318,6 +328,16 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                         }
                         break;
 
+                    case 'facility':
+                        $advancedQuery[] = 'terms.id:' . key($value);
+
+                        $searchResultsActiveFilters[] = [
+                          'label' => current($value),
+                          'name' => 'facets[' . $this->index . '][facility][' . key($value) . ']',
+                          'is_default' => false,
+                        ];
+                        break;
+
                     case 'custom':
                         // Check for custom (extra) query params and retrieve options from settings.
                         $extraFilters = $this->settings['group_filters']['filters'];
@@ -374,6 +394,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
             $activeOptions['where'] = $facetParameters['where'];
         }
+        if ($this->settings['filters']['facilities'] && isset($facetParameters['facility'])) {
+            $activeOptions['facility'] = $facetParameters['facility'];
+        }
 
         // For group filter, check per filter what options are active.
         if ($this->settings['group_filters']['enabled']) {
@@ -405,5 +428,21 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         }
 
         return [];
+    }
+
+    private function getDefinedFacilities()
+    {
+      $groups = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
+      $ungroupedFacilities = [];
+
+      if (is_array($groups) && !empty($groups['facilities'])) {
+          foreach ($groups['facilities'] as $key => $group) {
+              foreach ($group['items'] as $groupItem) {
+                  $ungroupedFacilities[] = $groupItem;
+              }
+          }
+      }
+
+      return $ungroupedFacilities;
     }
 }
