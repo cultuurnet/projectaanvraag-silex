@@ -115,7 +115,7 @@
                     <dd>{{ event.age_range }}</dd>
                     {% endif %}
                     
-                    {% if settings.audience.enabled and event.audience == "members" %}
+                    {% if settings.audience is defined and settings.audience.enabled and event.audience is defined and event.audience == "members" %}
                     <dt>
                         <em class="cnw_searchresult-detail-label">{{ settings.audience.label }}</em>
                         <i class="cnw-fa cnw-fa-male"></i>
