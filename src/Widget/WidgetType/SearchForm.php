@@ -396,6 +396,20 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     }
                 }
             }
+
+            if (array_key_exists('facility_filters', $this->settings['fields'][$type]) &&
+            $this->settings['fields'][$type]['facility_filters'] && $this->settings['fields'][$type]['facility_filters']['enabled']) {
+                foreach ($this->settings['fields'][$type]['facility_filters']['filters'] as $key => $facilityFilter) {
+                    $defaults[$typeKey]['facility_filters'][$key] = -1;
+                    if ($facilityFilter['type'] !== 'select_multiple' && isset($facilityFilter['default_option'])) {
+                        foreach ($facilityFilter['options'] as $optionKey => $option) {
+                            if (!empty($option['label']) && $option['label'] === $facilityFilter['default_option']) {
+                                $defaults[$typeKey]['facility_filters'][$key] = $optionKey;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return $defaults;
