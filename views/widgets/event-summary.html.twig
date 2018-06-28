@@ -123,7 +123,7 @@
                     {% endif %}
                 {% endif %}
 
-                {% if settings_items.audience.enabled and event.audience == "members" %}
+                {% if settings_items.audience is defined and settings_items.audience.enabled and event.audience is defined and event.audience == "members" %}
                     {% if settings_items.audience.label is not empty %}
                         <dt class="cnw_col-3">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.audience.label }}</em>
