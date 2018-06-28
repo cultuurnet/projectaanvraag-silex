@@ -74,144 +74,144 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "group_filters": {
  *                      "enabled": false
  *                  },
- *                  "facility_filters": {
- *                      "enabled": false,
- *                      "filters" : {
- *                          {
- *                              "label" : "Algemene voorzieningen",
- *                              "placeholder" : "Andere voorzieningen",
- *                              "type" : "select_multiple",
- *                              "default_option" : "",
- *                              "options" : {
- *                                  {
- *                                      "label" : "1 begeleider gratis",
- *                                      "query" : "terms.id:3.35.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Alternatieve ingang",
- *                                      "query" : "terms.id:3.28.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Assistentie",
- *                                      "query" : "terms.id:3.23.2.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Begeleiderspas",
- *                                      "query" : "terms.id:3.39.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Gegarandeerd zicht",
- *                                      "query" : "terms.id:3.29.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Inter-assistentie",
- *                                      "query" : "terms.id:3.38.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Inter-toegankelijkheidsgarantie",
- *                                      "query" : "terms.id:3.40.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Voorbehouden camping",
- *                                      "query" : "terms.id:3.32.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Contactpunt voor personen met handicap",
- *                                      "query" : "terms.id:3.25.0.0.0"
- *                                  }
+ *              },
+ *              "facility_filters": {
+ *                  "enabled": false,
+ *                  "filters" : {
+ *                      {
+ *                          "label" : "Algemene voorzieningen",
+ *                          "placeholder" : "Andere voorzieningen",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "1 begeleider gratis",
+ *                                  "query" : "terms.id:3.35.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Alternatieve ingang",
+ *                                  "query" : "terms.id:3.28.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Assistentie",
+ *                                  "query" : "terms.id:3.23.2.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Begeleiderspas",
+ *                                  "query" : "terms.id:3.39.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Gegarandeerd zicht",
+ *                                  "query" : "terms.id:3.29.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Inter-assistentie",
+ *                                  "query" : "terms.id:3.38.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Inter-toegankelijkheidsgarantie",
+ *                                  "query" : "terms.id:3.40.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Voorbehouden camping",
+ *                                  "query" : "terms.id:3.32.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Contactpunt voor personen met handicap",
+ *                                  "query" : "terms.id:3.25.0.0.0"
  *                              }
- *                          },
- *                          {
- *                              "label" : "Motorische handicap",
- *                              "placeholder" : "Motorische handicap",
- *                              "type" : "select_multiple",
- *                              "default_option" : "",
- *                              "options" : {
- *                                  {
- *                                      "label" : "Stroomvoorziening rolstoelen",
- *                                      "query" : "terms.id:3.37.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Rolstoelpodium",
- *                                      "query" : "terms.id:3.30.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Parkeerplaats",
- *                                      "query" : "terms.id:3.26.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Rolstoeltoegankelijk",
- *                                      "query" : "terms.id:3.27.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Toegankelijk sanitair",
- *                                      "query" : "terms.id:3.31.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Rolstoel ter beschikking",
- *                                      "query" : "terms.id:3.23.3.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Verzorgingsruimte",
- *                                      "query" : "terms.id:3.36.0.0.0"
- *                                  }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Motorische handicap",
+ *                          "placeholder" : "Motorische handicap",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Stroomvoorziening rolstoelen",
+ *                                  "query" : "terms.id:3.37.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Rolstoelpodium",
+ *                                  "query" : "terms.id:3.30.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Parkeerplaats",
+ *                                  "query" : "terms.id:3.26.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Rolstoeltoegankelijk",
+ *                                  "query" : "terms.id:3.27.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Toegankelijk sanitair",
+ *                                  "query" : "terms.id:3.31.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Rolstoel ter beschikking",
+ *                                  "query" : "terms.id:3.23.3.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Verzorgingsruimte",
+ *                                  "query" : "terms.id:3.36.0.0.0"
  *                              }
- *                          },
- *                          {
- *                              "label" : "Blinden en slechtzienden",
- *                              "placeholder" : "Blinden en slechtzienden",
- *                              "type" : "select_multiple",
- *                              "default_option" : "",
- *                              "options" : {
- *                                  {
- *                                      "label" : "Audiodescriptie",
- *                                      "query" : "terms.id:3.13.2.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Voorzieningen voor assistentiehonden",
- *                                      "query" : "terms.id:3.13.1.0.0"
- *                                  }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Blinden en slechtzienden",
+ *                          "placeholder" : "Blinden en slechtzienden",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Audiodescriptie",
+ *                                  "query" : "terms.id:3.13.2.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Voorzieningen voor assistentiehonden",
+ *                                  "query" : "terms.id:3.13.1.0.0"
  *                              }
- *                          },
- *                          {
- *                              "label" : "Doven en slechthorenden",
- *                              "placeholder" : "Doven en slechthorenden",
- *                              "type" : "select_multiple",
- *                              "default_option" : "",
- *                              "options" : {
- *                                  {
- *                                      "label" : "Boven- of ondertiteling",
- *                                      "query" : "terms.id:3.17.3.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Ringleiding",
- *                                      "query" : "terms.id:3.17.1.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Tolken Vlaamse Gebarentaal",
- *                                      "query" : "terms.id:3.33.0.0.0"
- *                                  },
- *                                  {
- *                                      "label" : "Voelstoelen",
- *                                      "query" : "terms.id:3.17.2.0.0"
- *                                  }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Doven en slechthorenden",
+ *                          "placeholder" : "Doven en slechthorenden",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Boven- of ondertiteling",
+ *                                  "query" : "terms.id:3.17.3.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Ringleiding",
+ *                                  "query" : "terms.id:3.17.1.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Tolken Vlaamse Gebarentaal",
+ *                                  "query" : "terms.id:3.33.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Voelstoelen",
+ *                                  "query" : "terms.id:3.17.2.0.0"
  *                              }
- *                          },
- *                          {
- *                              "label" : "Verstandelijke beperking",
- *                              "placeholder" : "Verstandelijke beperking",
- *                              "type" : "select_multiple",
- *                              "default_option" : "",
- *                              "options" : {
- *                                  {
- *                                      "label" : "Vereenvoudigde informatie",
- *                                      "query" : "terms.id:3.34.0.0.0"
- *                                  }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Verstandelijke beperking",
+ *                          "placeholder" : "Verstandelijke beperking",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Vereenvoudigde informatie",
+ *                                  "query" : "terms.id:3.34.0.0.0"
  *                              }
  *                          }
  *                      }
  *                  }
- *              },
+ *              }
  *          },
  *          "footer": {
  *              "body": ""
@@ -262,9 +262,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
  *              "extra": {
- *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter",
- *                  "facility_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
+ *              "facility_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *          },
  *          "footer": {
  *              "body": "string"
@@ -380,7 +380,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     {
         $defaults = [];
         if ($this->settings['fields']['time']['date_search']['enabled']) {
-            $defaults['when'] = $this->settings['fields']['time']['date_search']['default_option'];
+          $defaults['when'] = $this->settings['fields']['time']['date_search']['default_option'];
         }
 
         foreach ($this->groupFilterTypes as $typeKey => $type) {
@@ -397,14 +397,14 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 }
             }
 
-            if (array_key_exists('facility_filters', $this->settings['fields'][$type]) &&
-            $this->settings['fields'][$type]['facility_filters'] && $this->settings['fields'][$type]['facility_filters']['enabled']) {
-                foreach ($this->settings['fields'][$type]['facility_filters']['filters'] as $key => $facilityFilter) {
-                    $defaults[$typeKey]['facility_filters'][$key] = -1;
-                    if ($facilityFilter['type'] !== 'select_multiple' && isset($facilityFilter['default_option'])) {
-                        foreach ($facilityFilter['options'] as $optionKey => $option) {
-                            if (!empty($option['label']) && $option['label'] === $facilityFilter['default_option']) {
-                                $defaults[$typeKey]['facility_filters'][$key] = $optionKey;
+            if ($this->settings['fields']['facility_filters']['enabled']) {
+                foreach ($this->settings['fields']['facility_filters']['filters'] as $groupKey => $facilityGroupFilter) {
+                    foreach ($facilityGroupFilter['options'] as $key => $facilityFilter) {
+                        $defaults['facility_filters'][$groupKey][$key] = -1;
+
+                        if ($facilityGroupFilter['type'] !== 'select_multiple' && isset($facilityGroupFilter['default_option'])) {
+                            if (!empty($option['label']) && $option['label'] === $facilityGroupFilter['default_option']) {
+                              $defaults[$typeKey][$key] = $key;
                             }
                         }
                     }
@@ -471,7 +471,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                         'label' => $groupFilter['options'][$selectedOption]['label'],
                                         'name' => 'search-form[' . $this->id . '][custom][' . $key . '][' . $groupFilterKey . ']',
                                         'is_default' => $groupFilter['default_option'] === $groupFilter['options'][$selectedOption]['label'],
-                                        
+
                                     ];
                                 }
                             }
