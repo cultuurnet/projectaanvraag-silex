@@ -229,6 +229,21 @@
                     </dd>
                     {% endif %}
 
+                    {% if settings.facilities.enabled and event.facilities %}
+                        <dt class="cnw_col-3">
+                            <em class="cnw_searchresult-detail-label">{{ settings.facilities.label }}</em>
+                        </dt>
+                        <dd class="cnw_col-9">
+                            {% for group, facility_group in event.facilities %}
+                                {% if facility_group|length > 0 %}
+                                    <p><strong>{{ group }}</strong><br>
+                                    {% for facility in facility_group %}
+                                        {{ facility.label }}{% if not loop.last %}, {% else %}</p>{% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </dd>
+                    {% endif %}
 
                     {% if settings.share_buttons and event.share_links %}
                         <dt><em>Deel deze pagina</em></dt>
