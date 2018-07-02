@@ -24,6 +24,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var $searchForm = jQuery(this);
         var $submitButton = $searchForm.find(".cnw_btn-search");
+        $searchForm.bind('submit', CultuurnetWidgets.submitSearchForm);
         CultuurnetWidgets.setDefaultFormValues($searchForm);
         $submitButton.bind('click', function() {
           $searchForm.submit();
@@ -88,6 +89,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * @param param
      */
     CultuurnetWidgets.submitSearchForm = function(e) {
+ 
+      e.preventDefault();
 
 
         // Don't submit if there was an autocomplete open.
@@ -110,7 +113,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
             var value = $field.val();
-            paramsToSubmit[$field.attr('name')] = 'delete-param';
 
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
@@ -122,14 +124,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             else if ($field.is(':radio')) {
                 if ($field.is(':checked')) {
                     paramsToSubmit[$field.attr('name')] = value;
+                } else {
+                  paramsToSubmit[$field.attr('name')] = 'delete-param';
                 }
             }
             // Checkboxes
             else if ($field.is(':checkbox')) {
                 // Checked checkboxes => add a separator per value.
                 if ($field.is(':checked')) {
-                    if (paramsToSubmit[$field.attr('name')]) {
-                        paramsToSubmit[$field.attr('name')] = paramsToSubmit[$field.attr('name')] + '|' + value;
+                    if (typeof paramsToSubmit[$field.attr('name')] != 'undefined') {
+                        paramsToSubmit[$field.attr('name')] = (paramsToSubmit[$field.attr('name')] + '|' + value);
                     }
                     else {
                         paramsToSubmit[$field.attr('name')] = value;
