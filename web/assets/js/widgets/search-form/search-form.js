@@ -23,8 +23,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.initSearchForm = function ($searchForm) {
 
         var $searchForm = jQuery(this);
+        var $submitButton = $searchForm.find(".cnw_btn-search");
         CultuurnetWidgets.setDefaultFormValues($searchForm);
-        $searchForm.bind('submit', CultuurnetWidgets.submitSearchForm);
+        $submitButton.bind('click', function() {
+          $searchForm.submit();
+        });
 
         var $customDateWrapper = $searchForm.find('.cnw_form-custom-date');
         if ($customDateWrapper.length) {
@@ -86,7 +89,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.submitSearchForm = function(e) {
 
-        e.preventDefault();
 
         // Don't submit if there was an autocomplete open.
         if (!CultuurnetWidgets.autocompleteSubmit()) {
