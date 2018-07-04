@@ -293,6 +293,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         'location',
         'time',
         'extra',
+        'facility_filters',
     ];
 
     /**
@@ -384,7 +385,8 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         }
 
         foreach ($this->groupFilterTypes as $typeKey => $type) {
-            if ($this->settings['fields'][$type]['group_filters']['enabled']) {
+            if (isset($this->settings['fields'][$type]['group_filters']) &&
+                $this->settings['fields'][$type]['group_filters']['enabled']) {
                 foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $groupFilter) {
                     $defaults[$typeKey]['group_filters'][$key] = -1;
                     if ($groupFilter['type'] !== 'select_multiple' && isset($groupFilter['default_option'])) {
@@ -399,8 +401,8 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
 
             if ($this->settings['fields']['facility_filters']['enabled']) {
                 foreach ($this->settings['fields']['facility_filters']['filters'] as $groupKey => $facilityGroupFilter) {
+                    $defaults['facility_filters'][$groupKey] = -1;
                     foreach ($facilityGroupFilter['options'] as $key => $facilityFilter) {
-                        $defaults['facility_filters'][$groupKey][$key] = -1;
 
                         if ($facilityGroupFilter['type'] !== 'select_multiple' && isset($facilityGroupFilter['default_option'])) {
                             if (!empty($option['label']) && $option['label'] === $facilityGroupFilter['default_option']) {
@@ -440,6 +442,14 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                 }
                             }
                         }
+                    } elseif ($key === 'facility_filters' && is_array($activeFilter)) {
+                        foreach ($activeFilter as $facilityFilterGroupKey => $facilityFilterGroups) {
+                            if (is_array($facilityFilterGroups)) {
+                                foreach ($facilityFilterGroups as $facilityKey => $facilityFilterSubmittedValue) {
+                                    $activeFilters[$key][$facilityFilterGroupKey][$facilityKey] = $activeFilter;
+                                }
+                            }
+                        }
                     } elseif (!empty($activeFilter)) {
                         $activeFilters[$key] = $activeFilter;
                     }
@@ -474,6 +484,28 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
 
                                     ];
                                 }
+                            }
+                        }
+                    }
+                }
+            } elseif ($key === 'facility_filters') {
+                foreach ($activeFilters[$key] as $facilityGroupKey => $selectedOptions) {
+                    // When no search was done yet, this option is a single value.
+                    if (!is_array($selectedOptions)) {
+                        $selectedOptions = [$selectedOptions];
+                    }
+
+                    if (isset($this->settings['fields']['facility_filters']['filters'][$facilityGroupKey])) {
+                        $facilityFilter = $this->settings['fields']['facility_filters']['filters'][$facilityGroupKey];
+                        foreach ($selectedOptions as $selectedOption) {
+                            if (isset($facilityFilter['options'][$selectedOption]) && !empty($facilityFilter['options'][$selectedOption]['query'])) {
+                                $advancedQuery[] = $facilityFilter['options'][$selectedOption]['query'];
+                                $searchResultsActiveFilters[] = [
+                                    'value' => $facilityFilter['options'][$selectedOption]['query'],
+                                    'label' => $facilityFilter['options'][$selectedOption]['label'],
+                                    'name' => 'search-form[' . $this->id . '][custom][' . $key . '][' . $facilityGroupKey . ']',
+                                    'is_default' => $facilityFilter['default_option'] === $facilityFilter['options'][$selectedOption]['label'],
+                                ];
                             }
                         }
                     }
@@ -544,7 +576,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 }
             }
         }
-
 
         if (!empty($advancedQuery)) {
             $searchResultsQueryAlter->setActiveFilters($searchResultsActiveFilters);
