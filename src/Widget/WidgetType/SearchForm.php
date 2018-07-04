@@ -442,12 +442,12 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                 }
                             }
                         }
-                    } elseif ($key === 'facility_filters' && is_array($activeFilter)) {
+                    } elseif ($key === 'facility' && is_array($activeFilter)) {
                         foreach ($activeFilter as $facilityFilterGroupKey => $facilityFilterGroups) {
-                            if (is_array($facilityFilterGroups)) {
-                                foreach ($facilityFilterGroups as $facilityKey => $facilityFilterSubmittedValue) {
-                                    $activeFilters[$key][$facilityFilterGroupKey][$facilityKey] = $activeFilter;
-                                }
+                            if (!is_numeric($facilityFilterGroups)) {
+                                $activeFilters['facility_filters'][$facilityFilterGroupKey] = explode('|', $facilityFilterGroups);
+                            } else {
+                                $activeFilters['facility_filters'][$facilityFilterGroupKey] = [$facilityFilterGroups];
                             }
                         }
                     } elseif (!empty($activeFilter)) {
@@ -456,7 +456,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 }
             }
         }
-
         // Add every active filter to the query.
         $advancedQuery = [];
         $searchResultsActiveFilters = $searchResultsQueryAlter->getActiveFilters();
@@ -494,7 +493,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     if (!is_array($selectedOptions)) {
                         $selectedOptions = [$selectedOptions];
                     }
-
                     if (isset($this->settings['fields']['facility_filters']['filters'][$facilityGroupKey])) {
                         $facilityFilter = $this->settings['fields']['facility_filters']['filters'][$facilityGroupKey];
                         foreach ($selectedOptions as $selectedOption) {
