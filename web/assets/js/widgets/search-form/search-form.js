@@ -113,7 +113,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
                 if (value) {
-                    paramsToSubmit[$field.attr('name')] = value;
+                    paramsToSubmit[$field.attr('name')] = encodeURIComponent(value);
                 }
             }
             // Radios => Only submit the checked radios.
@@ -193,7 +193,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                     }
                     else {
-                        $field.val(currentParams[fieldName]);
+                        $field.val(decodeURIComponent(currentParams[fieldName]));
                     }
                 }
 
