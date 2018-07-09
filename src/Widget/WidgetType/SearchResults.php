@@ -466,7 +466,7 @@ class SearchResults extends WidgetTypeBase
         // Merge active filters with same name
         foreach ($allActiveFilterNames as $activeFilterName) {
             foreach ($allActiveFilters as $activeFilter) {
-                if($activeFilterName == $activeFilter['name']) {
+                if ($activeFilterName == $activeFilter['name']) {
                     $labels[$activeFilterName][] = $activeFilter['label'];
                 }
             }
