@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
@@ -50,6 +51,10 @@ use Pimple\Container;
  *              "age":{
  *                  "enabled":true,
  *                  "label":"Leeftijd"
+ *              },
+ *              "audience":{
+ *                  "enabled":false,
+ *                  "label":"Toegang"
  *              },
  *              "language_icons":{
  *                  "enabled":false
@@ -113,6 +118,10 @@ use Pimple\Container;
  *                  "label":"string"
  *              },
  *              "age":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
+ *              },
+ *              "audience":{
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
