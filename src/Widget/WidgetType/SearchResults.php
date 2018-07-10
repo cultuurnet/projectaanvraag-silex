@@ -432,7 +432,7 @@ class SearchResults extends WidgetTypeBase
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $advancedQuery[] = str_replace(',', ' AND ', '(' . rtrim($this->settings['search_params']['query'] . ')', ','));
         }
-        
+
         if ($private) {
             $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
             $query->addParameter(new AudienceType('*'));
@@ -465,7 +465,7 @@ class SearchResults extends WidgetTypeBase
         $searchedDate = '';
         $allActiveFilters = $searchResultsQueryAlter->getActiveFilters();
         $allActiveFilterNames = [];
-        
+
         foreach ($allActiveFilters as $activeFilter) {
             if (strstr($activeFilter['name'], '[when]')) {
                 $searchedDate = $activeFilter['label'];
@@ -477,21 +477,21 @@ class SearchResults extends WidgetTypeBase
 
         $mergedActiveFilters = [];
         $labels = [];
-
         $allActiveFilterNames = array_unique($allActiveFilterNames);
+
         // Merge active filters with same name
-        foreach ($allActiveFilterNames as $activeFilterName) { 
-          foreach ($allActiveFilters as $activeFilter) {
-              if($activeFilterName == $activeFilter['name']) {
-                $labels[$activeFilterName][] = $activeFilter['label'];
-              }
-          }
+        foreach ($allActiveFilterNames as $activeFilterName) {
+            foreach ($allActiveFilters as $activeFilter) {
+                if ($activeFilterName == $activeFilter['name']) {
+                    $labels[$activeFilterName][] = $activeFilter['label'];
+                }
+            }
         }
 
-        foreach ($allActiveFilterNames as $activeFilterName) { 
-          $mergedActiveFilters[] = ['value'=>'','label' => join($labels[$activeFilterName], " en "),'is_default'=>false, 'name' => $activeFilterName];
+        foreach ($allActiveFilterNames as $activeFilterName) {
+            $mergedActiveFilters[] = ['value'=>'','label' => join($labels[$activeFilterName], " en "),'is_default'=>false, 'name' => $activeFilterName];
         }
-        
+
         $allActiveFilters = $mergedActiveFilters;
 
         $tagManagerData = [
