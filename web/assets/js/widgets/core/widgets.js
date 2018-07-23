@@ -10,11 +10,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Bootstrap the widgets.
      */
-    CultuurnetWidgets.prepareBootstrap = function() {
+    CultuurnetWidgets.prepareBootstrap = function(widgetPageId) {
 
         // If jquery exists on the site, attach behaviors.
-        if (((window.jQuery && parseFloat(jQuery.fn.jquery.substring(0, 3))>1.5)||window.CultuurnetWidgetsSettings.jquery)) {
-            CultuurnetWidgets.bootstrap();
+        if (((window.jQuery && parseFloat(jQuery.fn.jquery.substring(0, 3))>1.5) || window.CultuurnetWidgetsSettings[widgetPageId].jquery)) {
+            window.addEventListener("load", function(){
+                CultuurnetWidgets.bootstrap(widgetPageId);
+            }, false);
         }
         // If jQuery does not exists, load it and attach behaviors.
         else {
@@ -22,55 +24,57 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             document.head.appendChild(script);
             script.type = 'text/javascript';
             script.src = "//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js";
-            script.onload = CultuurnetWidgets.bootstrap;
+            window.addEventListener("load", function(){
+                CultuurnetWidgets.bootstrap(widgetPageId);
+            }, false);
         }
-
-        CultuurnetWidgets.initTagManager();
+        CultuurnetWidgets.initTagManager(widgetPageId);
     };
 
     /**
      * Bootstrap the widgets page.
      */
-    CultuurnetWidgets.bootstrap = function() {
+    CultuurnetWidgets.bootstrap = function(widgetPageId) {
 
         // No page id => nothing to do.
-        if (!CultuurnetWidgetsSettings.widgetPageId) {
+        if (!widgetPageId) {
             return;
         }
 
-        var $wrapper = jQuery('#cultuurnet-widgets-' + CultuurnetWidgetsSettings.widgetPageId);
+        var $wrapper = jQuery('#cultuurnet-widgets-' + widgetPageId);
         if ($wrapper.length === 0) {
             return;
         }
 
-        if(CultuurnetWidgetsSettings.mobile) {
+        if(CultuurnetWidgetsSettings[widgetPageId].mobile) {
           $wrapper.addClass('xs');
         }
 
         // If a cdbid is given in url, and a detail page is in settings. Load detail.
         var params = CultuurnetWidgets.getCurrentParams();
-        var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings.detailPage && CultuurnetWidgetsSettings.detailPageRowId != undefined;
+        var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings[widgetPageId].detailPage && CultuurnetWidgetsSettings[widgetPageId].detailPageRowId != undefined;
 
         $wrapper.html('');
-        for (var i = 0; i < CultuurnetWidgetsSettings.widgetPageRows.length; i++) {
-            if (loadDetail && i == CultuurnetWidgetsSettings.detailPageRowId) {
-                $wrapper.append(CultuurnetWidgetsSettings.detailPage);
+        for (var i = 0; i < CultuurnetWidgetsSettings[widgetPageId].widgetPageRows.length; i++) {
+            if (loadDetail && i == CultuurnetWidgetsSettings[widgetPageId].detailPageRowId) {
+                $wrapper.append(CultuurnetWidgetsSettings[widgetPageId].detailPage);
             }
             else {
-                $wrapper.append(CultuurnetWidgetsSettings.widgetPageRows[i]);
+                $wrapper.append(CultuurnetWidgetsSettings[widgetPageId].widgetPageRows[i]);
             }
         }
 
-        CultuurnetWidgets.attachBehaviors($wrapper);
+        CultuurnetWidgets.attachBehaviors($wrapper, widgetPageId);
     };
 
     /**
      * Attaches all registered behaviors to a page element.
      *
      * @param {HTMLDocument|HTMLElement} [context=document]
+     * @param {String} widgetPageId
      *   An element to attach behaviors to.*
      */
-    CultuurnetWidgets.attachBehaviors = function (context) {
+    CultuurnetWidgets.attachBehaviors = function (context, widgetPageId) {
 
         context = context || document;
         var behaviors = CultuurnetWidgets.behaviors;
@@ -79,7 +83,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             if (behaviors.hasOwnProperty(i) && typeof behaviors[i].attach === 'function') {
                 // Don't stop the execution of behaviors in case of an error.
                 try {
-                    behaviors[i].attach(context);
+                    behaviors[i].attach(context, widgetPageId);
                 }
                 catch (e) {
                     CultuurnetWidgets.log(e);
@@ -185,8 +189,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var deferred = jQuery.Deferred();
 
         // Only render the widget if it's a known id.
-        if (CultuurnetWidgetsSettings.widgetMapping && CultuurnetWidgetsSettings.widgetMapping.hasOwnProperty(widgetId)) {
-            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings.apiUrl + '/render/' + CultuurnetWidgetsSettings.widgetMapping[widgetId] + '/' + widgetId);
+        if (CultuurnetWidgetsSettings[widgetPageId].widgetMapping && CultuurnetWidgetsSettings[widgetPageId].widgetMapping.hasOwnProperty(widgetId)) {
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId);
         }
         else {
             deferred.reject('The given widget id was not found');
@@ -198,13 +202,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Render a given search results widget + all related facets.
      */
-    CultuurnetWidgets.renderSearchResults = function(widgetId) {
+    CultuurnetWidgets.renderSearchResults = function(widgetId, widgetPageId) {
 
         var deferred = jQuery.Deferred();
 
         // Only render the widget if it's a known id.
-        if (CultuurnetWidgetsSettings.widgetMapping && CultuurnetWidgetsSettings.widgetMapping.hasOwnProperty(widgetId)) {
-            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings.apiUrl + '/render/' + CultuurnetWidgetsSettings.widgetMapping[widgetId] + '/' + widgetId + '/search-results-with-facets');
+        if (CultuurnetWidgetsSettings[widgetPageId].widgetMapping && CultuurnetWidgetsSettings[widgetPageId].widgetMapping.hasOwnProperty(widgetId)) {
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '/search-results-with-facets');
         }
         else {
             deferred.reject('The given widget id was not found');
@@ -216,13 +220,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Render a given detail page for a search results widget.
      */
-    CultuurnetWidgets.renderDetailPage = function(widgetId) {
+    CultuurnetWidgets.renderDetailPage = function(widgetId, widgetPageId) {
 
         var deferred = jQuery.Deferred();
 
         // Only render the widget if it's a known id.
-        if (CultuurnetWidgetsSettings.widgetMapping && CultuurnetWidgetsSettings.widgetMapping.hasOwnProperty(widgetId)) {
-            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings.apiUrl + '/render/' + CultuurnetWidgetsSettings.widgetMapping[widgetId] + '/' + widgetId + '/detail');
+        if (CultuurnetWidgetsSettings[widgetPageId].widgetMapping && CultuurnetWidgetsSettings[widgetPageId].widgetMapping.hasOwnProperty(widgetId)) {
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '/detail');
         }
         else {
             deferred.reject('The given widget id was not found');
@@ -292,14 +296,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.redirectAndDeleteParams = function(paramsToDelete) {
 
+
         // Check for existing query parameters.
         var queryString = window.location.search;
         if (queryString) {
 
             // Convert existing query string to an object.
             var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
-
+            console.log(currentParams);
             for (var index in paramsToDelete) {
+              console.log(paramsToDelete[index]);
                 // Delete corresponding parameter from URL.
                 if (typeof currentParams[paramsToDelete[index]] !== 'undefined') {
                     delete currentParams[paramsToDelete[index]];
@@ -326,6 +332,20 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             newParams.push(key + '=' + currentParams[key]);
         }
         return newParams.join('&');
+    }
+
+    CultuurnetWidgets.addLoadEvent = function(func) {
+      var oldonload = window.onload;
+      if (typeof window.onload != 'function') {
+        window.onload = func;
+      } else {
+        window.onload = function() {
+          if (oldonload) {
+            oldonload();
+          }
+          func();
+        }
+      }
     }
 
 })(CultuurnetWidgets);

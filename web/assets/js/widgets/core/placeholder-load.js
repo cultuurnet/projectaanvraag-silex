@@ -10,7 +10,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.behaviors.placeholders = {
 
-        attach: function(context) {
+        attach: function(context, widgetPageId) {
 
             jQuery(context).find('[data-widget-placeholder-id]').each(function() {
 
@@ -21,7 +21,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                     if ($placeholder.data('widget-type') !== 'search-results') {
                         CultuurnetWidgets.renderWidget(jQuery(this).data('widget-placeholder-id')).then(function(response) {
                             $placeholder.html(response.data);
-                            CultuurnetWidgets.attachBehaviors($placeholder);
+                            CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
                         });
                     }
                     // For performance reasons, search results have a separate call to render the search result + all related facets via 1 call.
@@ -29,24 +29,24 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                         var widgetId = jQuery(this).data('widget-placeholder-id');
 
-                        if (currentParams['cdbid'] && CultuurnetWidgetsSettings.detailPageWidgetId == widgetId) {
+                        if (currentParams['cdbid'] && CultuurnetWidgetsSettings[widgetPageId].detailPageWidgetId == widgetId) {
 
                             // Remove any remaining facet that could be in a complete other region.
                             jQuery(context).find('[data-widget-facet-target="' + widgetId + '"]').html('');
 
-                            CultuurnetWidgets.renderDetailPage(widgetId).then(function(response) {
+                            CultuurnetWidgets.renderDetailPage(widgetId, widgetPageId).then(function(response) {
                                 $placeholder.html(response.data);
-                                CultuurnetWidgets.attachBehaviors($placeholder);
+                                CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
                             });
                         }
                         else {
-                            CultuurnetWidgets.renderSearchResults(widgetId).then(function(response) {
+                            CultuurnetWidgets.renderSearchResults(widgetId, widgetPageId).then(function(response) {
                                 $placeholder.html(response.data.search_results);
-                                CultuurnetWidgets.attachBehaviors($placeholder);
+                                CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
                                 for (var facet_id in response.data.facets) {
                                     var $facet_placeholder = jQuery(context).find('[data-widget-placeholder-id="' + facet_id + '"]');
                                     $facet_placeholder.html(response.data.facets[facet_id]);
-                                    CultuurnetWidgets.attachBehaviors($facet_placeholder);
+                                    CultuurnetWidgets.attachBehaviors($facet_placeholder, widgetPageId);
                                 }
 
                             });

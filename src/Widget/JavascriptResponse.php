@@ -46,7 +46,7 @@ class JavascriptResponse extends Response
 
         $content .= $this->renderJs($renderer);
 
-        $content .= "CultuurnetWidgets.prepareBootstrap();";
+        $content .= "CultuurnetWidgets.prepareBootstrap('" . $this->widgetPage->getId() ."');";
 
         parent::__construct($content);
     }
