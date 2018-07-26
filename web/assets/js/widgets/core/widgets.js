@@ -10,13 +10,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Bootstrap the widgets.
      */
-    CultuurnetWidgets.prepareBootstrap = function(widgetPageId) {
-
+    CultuurnetWidgets.prepareBootstrap = function() {
+      var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      if(root.className.indexOf("widgets_bootstrapped") === -1 ) {
+        var firstPageId = Object.keys(window.CultuurnetWidgetsSettings)[0];
         // If jquery exists on the site, attach behaviors.
-        if (((window.jQuery && parseFloat(jQuery.fn.jquery.substring(0, 3))>1.5) || window.CultuurnetWidgetsSettings[widgetPageId].jquery)) {
-            window.addEventListener("load", function(){
-                CultuurnetWidgets.bootstrap(widgetPageId);
-            }, false);
+        if (((window.jQuery && parseFloat(jQuery.fn.jquery.substring(0, 3))>1.5) || window.CultuurnetWidgetsSettings[firstPageId].jquery)) {
+            CultuurnetWidgets.bootstrap();
         }
         // If jQuery does not exists, load it and attach behaviors.
         else {
@@ -24,47 +24,52 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             document.head.appendChild(script);
             script.type = 'text/javascript';
             script.src = "//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js";
-            window.addEventListener("load", function(){
-                CultuurnetWidgets.bootstrap(widgetPageId);
-            }, false);
+            script.onload = CultuurnetWidgets.bootstrap;
+            root.className += ' widgets_bootstrapped';
         }
-        CultuurnetWidgets.initTagManager(widgetPageId);
+        CultuurnetWidgets.initTagManager(firstPageId);
+      }
     };
 
     /**
      * Bootstrap the widgets page.
      */
-    CultuurnetWidgets.bootstrap = function(widgetPageId) {
+    CultuurnetWidgets.bootstrap = function() {
 
-        // No page id => nothing to do.
-        if (!widgetPageId) {
-            return;
-        }
+        var $wrappers = jQuery('.cultuurnet-widgets');
 
-        var $wrapper = jQuery('#cultuurnet-widgets-' + widgetPageId);
-        if ($wrapper.length === 0) {
-            return;
-        }
+        jQuery( document ).ready(function() {
 
-        if(CultuurnetWidgetsSettings[widgetPageId].mobile) {
-          $wrapper.addClass('xs');
-        }
+          if ($wrappers.length === 0) {
+              return;
+          }
 
-        // If a cdbid is given in url, and a detail page is in settings. Load detail.
-        var params = CultuurnetWidgets.getCurrentParams();
-        var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings[widgetPageId].detailPage && CultuurnetWidgetsSettings[widgetPageId].detailPageRowId != undefined;
+          jQuery( ".cultuurnet-widgets" ).each(function( index ) {
 
-        $wrapper.html('');
-        for (var i = 0; i < CultuurnetWidgetsSettings[widgetPageId].widgetPageRows.length; i++) {
-            if (loadDetail && i == CultuurnetWidgetsSettings[widgetPageId].detailPageRowId) {
-                $wrapper.append(CultuurnetWidgetsSettings[widgetPageId].detailPage);
+            var widgetPageId = jQuery(this).data("widget-page-id");
+
+            if(CultuurnetWidgetsSettings[widgetPageId].mobile) {
+              jQuery(this).addClass('xs');
             }
-            else {
-                $wrapper.append(CultuurnetWidgetsSettings[widgetPageId].widgetPageRows[i]);
-            }
-        }
 
-        CultuurnetWidgets.attachBehaviors($wrapper, widgetPageId);
+            // If a cdbid is given in url, and a detail page is in settings. Load detail.
+            var params = CultuurnetWidgets.getCurrentParams();
+            var loadDetail = params['cdbid'] && CultuurnetWidgetsSettings[widgetPageId].detailPage && CultuurnetWidgetsSettings[widgetPageId].detailPageRowId != undefined;
+
+            //jQuery(this).html('');
+            for (var i = 0; i < CultuurnetWidgetsSettings[widgetPageId].widgetPageRows.length; i++) {
+                if (loadDetail && i == CultuurnetWidgetsSettings[widgetPageId].detailPageRowId) {
+                    jQuery(this).append(CultuurnetWidgetsSettings[widgetPageId].detailPage);
+                }
+                else {
+                    jQuery(this).append(CultuurnetWidgetsSettings[widgetPageId].widgetPageRows[i]);
+                }
+            }
+
+            CultuurnetWidgets.attachBehaviors(jQuery(this), widgetPageId);
+          });
+        });
+
     };
 
     /**
