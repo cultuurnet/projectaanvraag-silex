@@ -19,7 +19,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 if ($placeholder.data('widget-autoload')) {
 
                     if ($placeholder.data('widget-type') !== 'search-results') {
-                        CultuurnetWidgets.renderWidget(jQuery(this).data('widget-placeholder-id')).then(function(response) {
+                        CultuurnetWidgets.renderWidget(jQuery(this).data('widget-placeholder-id'), widgetPageId).then(function(response) {
                             $placeholder.html(response.data);
                             CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
                         });

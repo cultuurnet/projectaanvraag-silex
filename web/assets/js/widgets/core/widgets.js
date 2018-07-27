@@ -193,7 +193,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Render a given widget.
      */
-    CultuurnetWidgets.renderWidget = function(widgetId) {
+    CultuurnetWidgets.renderWidget = function(widgetId, widgetPageId) {
 
         var deferred = jQuery.Deferred();
 
