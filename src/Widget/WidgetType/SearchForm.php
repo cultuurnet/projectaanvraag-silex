@@ -500,7 +500,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                 $searchResultsActiveFilters[] = [
                                     'value' => $facilityFilter['options'][$selectedOption]['query'],
                                     'label' => $facilityFilter['options'][$selectedOption]['label'],
-                                    'name' => 'search-form[' . $this->id . '][custom][' . $key . '][' . $facilityGroupKey . ']',
+                                    'name' => 'search-form[' . $this->id . '][facility][' . $facilityGroupKey . ']',
                                     'is_default' => $facilityFilter['default_option'] === $facilityFilter['options'][$selectedOption]['label'],
                                 ];
                             }
