@@ -44,7 +44,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "keyword_search": {
  *                      "enabled" : true,
  *                      "label": "Waar",
- *                      "placeholder": "Bv. Gent, 2000",
+ *                      "placeholder": "Bv. Gent, Provincie Limburg",
  *                  },
  *                  "group_filters": {
  *                      "enabled": false

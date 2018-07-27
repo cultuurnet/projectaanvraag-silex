@@ -3,15 +3,15 @@
     /**
      * Load google tag manager.
      */
-    CultuurnetWidgets.initTagManager = function() {
+    CultuurnetWidgets.initTagManager = function(widgetPageId) {
 
         // Only load the tag manager if we have an id.
-        if (CultuurnetWidgetsSettings.googleTagManagerId && typeof cnWidgetsDataLayer == 'undefined') {
+        if (CultuurnetWidgetsSettings[widgetPageId].googleTagManagerId && typeof cnWidgetsDataLayer == 'undefined') {
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','cnWidgetsDataLayer', CultuurnetWidgetsSettings.googleTagManagerId);
+            })(window,document,'script','cnWidgetsDataLayer', CultuurnetWidgetsSettings[widgetPageId].googleTagManagerId);
         }
 
     };
@@ -21,12 +21,12 @@
      */
     CultuurnetWidgets.behaviors.tracking = {
 
-        attach: function (context) {
+        attach: function (context, widgetPageId) {
 
             // If context contains a widget. Track the correct event related with it.
             jQuery(context).find('[data-view-tracking-category]').each(function () {
                 var $widget = jQuery(this);
-                CultuurnetWidgets.trackEvent('widgetLoaded', 'view', $widget.data('view-tracking-category'), $widget.data('view-tracking-page-suffix'), $widget.data('view-tracking-extra-data'));
+                CultuurnetWidgets.trackEvent('widgetLoaded', 'view', $widget.data('view-tracking-category'), $widget.data('view-tracking-page-suffix'), $widget.data('view-tracking-extra-data'), widgetPageId);
             });
 
             // Add click tracking on the needed links.
@@ -44,14 +44,14 @@
                         extra_gtm_data['event-label'] = label;
                     }
 
-                    CultuurnetWidgets.trackEvent('trackEvent', action, category, '', extra_gtm_data);
+                    CultuurnetWidgets.trackEvent('trackEvent', action, category, '', extra_gtm_data, widgetPageId);
                 }
             });
 
             // The uiv link is part of the event description in API.
             // Attach custom tracking on it.
             jQuery(context).find('.uiv-source').find('a').bind('click', function() {
-                CultuurnetWidgets.trackEvent('trackEvent', 'source', 'detail');
+                CultuurnetWidgets.trackEvent('trackEvent', 'source', 'detail', '', '', widgetPageID);
             })
 
         }
@@ -64,23 +64,23 @@
      * @param category
      * @param title
      */
-    CultuurnetWidgets.trackEvent = function (event, action, category, page_suffix, extra_gtm_data) {
+    CultuurnetWidgets.trackEvent = function (event, action, category, page_suffix, extra_gtm_data, widgetPageId) {
 
         if (!cnWidgetsDataLayer) {
             return;
         }
 
-        var page = CultuurnetWidgetsSettings.consumerName;
+        var page = CultuurnetWidgetsSettings[widgetPageId].consumerName;
         if (page_suffix) {
-            page = CultuurnetWidgetsSettings.consumerName + page_suffix;
+            page = CultuurnetWidgetsSettings[widgetPageId].consumerName + page_suffix;
         }
 
         var gtm_data = {
             'event': event,
             'event-action': action.toLowerCase(),
             'event-category': category.toLowerCase(),
-            'consumer_key': CultuurnetWidgetsSettings.consumerKey,
-            'consumer_name': CultuurnetWidgetsSettings.consumerName,
+            'consumer_key': CultuurnetWidgetsSettings[widgetPageId].consumerKey,
+            'consumer_name': CultuurnetWidgetsSettings[widgetPageId].consumerName,
             'page': page,
         };
 
@@ -88,7 +88,7 @@
 
             // If pageTitle is given. Prefix it with the widget page title.
             if (extra_gtm_data.pageTitleSuffix) {
-                extra_gtm_data.pageTitle = CultuurnetWidgetsSettings.widgetPageTitle + '|' + extra_gtm_data.pageTitleSuffix;
+                extra_gtm_data.pageTitle = CultuurnetWidgetsSettings[widgetPageId].widgetPageTitle + '|' + extra_gtm_data.pageTitleSuffix;
             }
 
             gtm_data = Object.assign(gtm_data, extra_gtm_data);
