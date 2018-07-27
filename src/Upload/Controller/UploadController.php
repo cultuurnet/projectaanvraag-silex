@@ -23,7 +23,6 @@ class UploadController
       // Available since CKEditor 4.5.6.
       //$token = $_POST['ckCsrfToken'] ;
 
-      $path = __DIR__.'/../web/upload/';
       $upload = $_FILES['upload'];
 
       $filename = $upload['name'];
@@ -33,7 +32,7 @@ class UploadController
 
 
       // Check the $_FILES array and save the file. Assign the correct path to a variable ($url).
-      $url = 'http://projectaanvraag-api.uitdatabank.be/' . $filename;
+      $url = 'https://projectaanvraag-api-test.uitdatabank.be/' . $filename;
       // Usually you will only assign something here if the file could not be uploaded.
       $message = 'The uploaded file has been renamed';
 
