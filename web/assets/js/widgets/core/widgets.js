@@ -11,7 +11,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * Bootstrap the widgets.
      */
     CultuurnetWidgets.prepareBootstrap = function() {
-      var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      var root = document.getElementsByTagName('html')[0];
       if(root.className.indexOf("widgets_bootstrapped") === -1 ) {
         var firstPageId = Object.keys(window.CultuurnetWidgetsSettings)[0];
         // If jquery exists on the site, attach behaviors.
@@ -47,6 +47,10 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
           jQuery( ".cultuurnet-widgets" ).each(function( index ) {
 
             var widgetPageId = jQuery(this).data("widget-page-id");
+
+            if(!widgetPageId) {
+              return;
+            }
 
             if(CultuurnetWidgetsSettings[widgetPageId].mobile) {
               jQuery(this).addClass('xs');
