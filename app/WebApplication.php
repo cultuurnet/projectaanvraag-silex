@@ -172,7 +172,7 @@ class WebApplication extends ApplicationBase
         );
 
         $this->mount(
-            'upload',
+            null,
             new UploadControllerProvider()
         );
 
