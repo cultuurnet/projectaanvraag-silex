@@ -2,11 +2,11 @@
 
 namespace CultuurNet\ProjectAanvraag\Upload;
 
-use CultuurNet\ProjectAanvraag\Upload\Controller\UploadController;
+use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\Request;
+use CultuurNet\ProjectAanvraag\Upload\UploadController;
 
 class UploadControllerProvider implements ControllerProviderInterface
 {
@@ -19,7 +19,7 @@ class UploadControllerProvider implements ControllerProviderInterface
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
 
-        $controllers->post('/', 'upload_controller:upload');
+        $controllers->post('upload', 'upload_controller:upload');
 
         return $controllers;
     }
