@@ -112,7 +112,7 @@ class WebApplication extends ApplicationBase
                         new Path('^/widgets/api/render', 'GET'),
                         new Path('^/widgets/autocomplete/regions', 'GET'),
                         new Path('^/event/', 'GET'),
-                        new Path('^/upload/', 'POST'),
+                        new Path('^/upload', 'POST'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
