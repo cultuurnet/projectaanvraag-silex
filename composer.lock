@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b2b097e4f953abb29608ba3f9eb41cd",
+    "content-hash": "a2239ccfafd08dcfacd45cf111f22d31",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -170,6 +170,62 @@
             ],
             "description": "Authentication service for CultuurNet web services",
             "time": "2017-12-19T09:28:52+00:00"
+        },
+        {
+            "name": "cultuurnet/calendar-summary-v3",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cultuurnet/calendar-summary-v3.git",
+                "reference": "137d08a50cebf0144452e65118e833258c8d90df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cultuurnet/calendar-summary-v3/zipball/137d08a50cebf0144452e65118e833258c8d90df",
+                "reference": "137d08a50cebf0144452e65118e833258c8d90df",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "cultuurnet/search-v3": "dev-master",
+                "escapestudios/symfony2-coding-standard": "~2.0",
+                "mikey179/vfsstream": "~1.6.2",
+                "phing/phing": "~2.10",
+                "phpunit/phpunit": "~5.7",
+                "satooshi/php-coveralls": "~0.7",
+                "squizlabs/php_codesniffer": "2.6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CultuurNet\\CalendarSummaryV3\\": [
+                        "src"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nils Destoop",
+                    "email": "nils.destoop@wunderkraut.com"
+                },
+                {
+                    "name": "Stijn Swaanen",
+                    "email": "stijn.swaanen@publiq.be"
+                },
+                {
+                    "name": "Thomas Jacobs",
+                    "email": "thomas.jacobs@wunderkraut.com"
+                }
+            ],
+            "description": "Library to convert cultuurnet dates to a readable summary",
+            "time": "2018-01-11T20:15:14+00:00"
         },
         {
             "name": "cultuurnet/cdb",
@@ -7180,7 +7236,8 @@
         "cultuurnet/culturefeed-http-guzzle": 20,
         "cultuurnet/culturefeed-php": 20,
         "cultuurnet/auth": 20,
-        "cultuurnet/search-v3": 20
+        "cultuurnet/search-v3": 20,
+        "cultuurnet/calendar-summary-v3": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
