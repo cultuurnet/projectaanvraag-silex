@@ -25,8 +25,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             script.type = 'text/javascript';
             script.src = "//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js";
             script.onload = CultuurnetWidgets.bootstrap;
-            root.className += ' widgets_bootstrapped';
         }
+        root.className += ' widgets_bootstrapped';
         CultuurnetWidgets.initTagManager(firstPageId);
       }
     };
