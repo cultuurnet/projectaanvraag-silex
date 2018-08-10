@@ -117,7 +117,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
                 if (value) {
-                    paramsToSubmit[$field.attr('name')] = value;
+                    paramsToSubmit[$field.attr('name')] = encodeURIComponent(value);
                 }
             }
             // Radios => Only submit the checked radios.
@@ -161,7 +161,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var destination = $form.data('widget-destination');
         if (destination) {
-            paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings.widgetPageId;
+            var pageId = $form.closest(".cultuurnet-widgets").first().data("widgetPageId");
+            paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings[pageId].widgetPageId;
         }
 
         CultuurnetWidgets.redirectWithNewParams(paramsToSubmit, openInNewWindow, destination);
@@ -199,7 +200,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                     }
                     else {
-                        $field.val(currentParams[fieldName]);
+                        $field.val(decodeURIComponent(currentParams[fieldName]));
                     }
                 }
 
