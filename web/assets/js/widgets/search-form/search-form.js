@@ -23,8 +23,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.initSearchForm = function ($searchForm) {
 
         var $searchForm = jQuery(this);
-        CultuurnetWidgets.setDefaultFormValues($searchForm);
+        var $submitButton = $searchForm.find(".cnw_btn-search");
         $searchForm.bind('submit', CultuurnetWidgets.submitSearchForm);
+        CultuurnetWidgets.setDefaultFormValues($searchForm);
+        $submitButton.bind('click', function() {
+          $searchForm.submit();
+        });
 
         var $customDateWrapper = $searchForm.find('.cnw_form-custom-date');
         if ($customDateWrapper.length) {
@@ -85,8 +89,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * @param param
      */
     CultuurnetWidgets.submitSearchForm = function(e) {
+ 
+      e.preventDefault();
 
-        e.preventDefault();
 
         // Don't submit if there was an autocomplete open.
         if (!CultuurnetWidgets.autocompleteSubmit()) {
@@ -108,7 +113,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
 
             var value = $field.val();
-            paramsToSubmit[$field.attr('name')] = 'delete-param';
 
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
@@ -120,14 +124,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             else if ($field.is(':radio')) {
                 if ($field.is(':checked')) {
                     paramsToSubmit[$field.attr('name')] = value;
+                } else {
+                  paramsToSubmit[$field.attr('name')] = 'delete-param';
                 }
             }
             // Checkboxes
             else if ($field.is(':checkbox')) {
                 // Checked checkboxes => add a separator per value.
                 if ($field.is(':checked')) {
-                    if (paramsToSubmit[$field.attr('name')]) {
-                        paramsToSubmit[$field.attr('name')] = paramsToSubmit[$field.attr('name')] + '|' + value;
+                    if (typeof paramsToSubmit[$field.attr('name')] != 'undefined') {
+                        paramsToSubmit[$field.attr('name')] = (paramsToSubmit[$field.attr('name')] + '|' + value);
                     }
                     else {
                         paramsToSubmit[$field.attr('name')] = value;
@@ -155,7 +161,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var destination = $form.data('widget-destination');
         if (destination) {
-            paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings.widgetPageId;
+            var pageId = $form.closest(".cultuurnet-widgets").first().data("widgetPageId");
+            paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings[pageId].widgetPageId;
         }
 
         CultuurnetWidgets.redirectWithNewParams(paramsToSubmit, openInNewWindow, destination);

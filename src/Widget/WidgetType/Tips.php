@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
+use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
@@ -50,6 +51,10 @@ use Pimple\Container;
  *              "age":{
  *                  "enabled":true,
  *                  "label":"Leeftijd"
+ *              },
+ *              "audience":{
+ *                  "enabled":false,
+ *                  "label":"Toegang"
  *              },
  *              "language_icons":{
  *                  "enabled":false
@@ -116,6 +121,10 @@ use Pimple\Container;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              },
+ *              "audience":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
+ *              },
  *              "language_icons":{
  *                  "enabled":"boolean"
  *              },
@@ -139,7 +148,8 @@ use Pimple\Container;
  *              }
  *          },
  *          "search_params" : {
- *              "query": "string"
+ *              "query": "string",
+ *              "private": "boolean"
  *          }
  *      }
  * )
@@ -196,13 +206,21 @@ class Tips extends WidgetTypeBase
             $query->setLimit($this->settings['general']['items']);
         }
 
-        if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
-            // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
-            $query->addParameter(
-                new Query(
-                    str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
-                )
-            );
+        if (!empty($this->settings['search_params'])) {
+            if (!empty($this->settings['search_params']['query'])) {
+                // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+                $query->addParameter(
+                    new Query(
+                        str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
+                    )
+                );
+            }
+
+            if (!empty($this->settings['search_params']['private']) &&
+                $this->settings['search_params']['private']) {
+                $query->addParameter(new Query('(audienceType:members OR audienceType:everyone)'));
+                $query->addParameter(new AudienceType('*'));
+            }
         }
 
         // Sort by event end date.
