@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "2f054df64248efa8be382f73d0186c97",
@@ -169,7 +169,7 @@
                 "Apache-2.0"
             ],
             "description": "Authentication service for CultuurNet web services",
-            "time": "2018-04-23T12:11:11+00:00"
+            "time": "2018-04-23 12:11:11"
         },
         {
             "name": "cultuurnet/calendar-summary-v3",
@@ -177,12 +177,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/calendar-summary-v3.git",
-                "reference": "b25f8fcdc8a0cb83505e21fcc21fa4ee52406b55"
+                "reference": "bb4f65cc23176aac1e4ab2d6ec58461a6c097d27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/calendar-summary-v3/zipball/b25f8fcdc8a0cb83505e21fcc21fa4ee52406b55",
-                "reference": "b25f8fcdc8a0cb83505e21fcc21fa4ee52406b55",
+                "url": "https://api.github.com/repos/cultuurnet/calendar-summary-v3/zipball/bb4f65cc23176aac1e4ab2d6ec58461a6c097d27",
+                "reference": "bb4f65cc23176aac1e4ab2d6ec58461a6c097d27",
                 "shasum": ""
             },
             "require": {
@@ -226,7 +226,7 @@
                 }
             ],
             "description": "Library to convert cultuurnet dates to a readable summary",
-            "time": "2018-08-10T12:19:14+00:00"
+            "time": "2018-08-16 14:17:50"
         },
         {
             "name": "cultuurnet/cdb",
@@ -311,7 +311,7 @@
                 }
             ],
             "description": "Library with a Guzzle 3 replacement for the default, custom-made HTTP library of Culturefeed",
-            "time": "2016-02-23T08:43:30+00:00"
+            "time": "2016-02-23 08:43:30"
         },
         {
             "name": "cultuurnet/culturefeed-php",
@@ -379,7 +379,7 @@
                 }
             ],
             "description": "Culturefeed PHP library",
-            "time": "2018-05-11T12:30:57+00:00"
+            "time": "2018-05-11 12:30:57"
         },
         {
             "name": "cultuurnet/search-v3",
@@ -432,7 +432,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2018-07-23T08:17:29+00:00"
+            "time": "2018-07-23 08:17:29"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -475,7 +475,7 @@
                 "GPL-3.0"
             ],
             "description": "Silex UiTID authentication provider.",
-            "time": "2016-10-28T15:50:42+00:00"
+            "time": "2016-10-28 15:50:42"
         },
         {
             "name": "cweagans/composer-patches",
