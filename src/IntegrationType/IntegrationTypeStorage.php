@@ -58,6 +58,7 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
         $types = Yaml::parse(file_get_contents($this->configFilePath));
         if (is_array($types) && !empty($types['integration_types'])) {
             foreach ($types['integration_types'] as $id => $type) {
+                //var_dump($type['self_service']);
                 $integrationType = new IntegrationType();
                 $integrationType->setId($id);
                 $integrationType->setName(!empty($type['name']) ? $type['name'] : null);
@@ -69,7 +70,7 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
                 $integrationType->setGetStartedUrl(!empty($type['get_started_url']) ? $type['get_started_url'] : null);
                 $integrationType->setActionButton(!empty($type['action_button']) ? $type['action_button'] : '');
                 $integrationType->setSapiVersion(!empty($type['sapi_version']) ? $type['sapi_version'] : '2');
-
+                $integrationType->setSelfService(isset($type['self_service']) ? $type['self_service'] : true);
                 $this->integrationTypes[$integrationType->getId()] = $integrationType;
             }
         }

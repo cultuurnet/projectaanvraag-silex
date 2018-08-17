@@ -64,6 +64,11 @@ class IntegrationType implements \JsonSerializable
     protected $sapiVersion;
 
     /**
+     * @var boolean
+     */
+    protected $selfService;
+
+    /**
      * @return string
      */
     public function getId()
@@ -240,6 +245,24 @@ class IntegrationType implements \JsonSerializable
     public function setSapiVersion($version)
     {
         $this->sapiVersion = $version;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getSelfService()
+    {
+        return $this->selfService;
+    }
+
+    /**
+     * @param boolean $selfService
+     * @return IntegrationType
+     */
+    public function setSelfService($selfService)
+    {
+        $this->selfService = $selfService;
         return $this;
     }
 
