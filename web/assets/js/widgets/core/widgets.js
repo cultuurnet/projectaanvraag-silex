@@ -269,7 +269,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // Check for existing query parameters.
         var queryString = window.location.search;
-        var newParams = [];
+        var newParams = {};
         if (queryString) {
             // Convert existing query string to an object.
             newParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
@@ -334,9 +334,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.buildQueryUrl = function(currentParams) {
         var newParams = [];
-        for (var key in currentParams) {
-            newParams.push(key + '=' + currentParams[key]);
-        }
+
+        jQuery.each(currentParams, function( key, value ) {
+          newParams.push(key + '=' + value);
+        });
+
         return newParams.join('&');
     }
 
