@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\AudienceType;
+use CultuurNet\SearchV3\Parameter\AddressCountry;
 use CultuurNet\SearchV3\Parameter\CalendarType;
 use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
@@ -422,6 +423,10 @@ class SearchResults extends WidgetTypeBase
             $query->addParameter(new AudienceType('*'));
         }
 
+        /* Temporarily hack for POC Groningen */
+        if (strpos($this->name, 'groningen') !== false) {
+          $query->addParameter(new AddressCountry('nl'));
+        }
         // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
             $query->addParameter(
