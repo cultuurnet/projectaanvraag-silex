@@ -530,12 +530,14 @@ class SearchResults extends WidgetTypeBase
         $query->addParameter(new Id($this->request->query->get('cdbid')));
         // always perform full search, including offers for members
         $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
+        $advancedQuery[] = '(address.\*.addressCountry:*)';
         $query->addParameter(
             new Query(
                 implode(' AND ', $advancedQuery)
             )
         );
         $query->addParameter(new AudienceType('*'));
+        $query->addParameter(new AddressCountry('*'));
         $this->searchResult = $this->searchClient->searchEvents($query);
 
         $events = $this->searchResult->getMember()->getItems();
