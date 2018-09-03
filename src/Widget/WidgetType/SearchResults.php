@@ -425,7 +425,7 @@ class SearchResults extends WidgetTypeBase
 
         /* Temporarily hack for POC Groningen */
         if (strpos($this->name, 'groningen') !== false) {
-          $query->addParameter(new AddressCountry('nl'));
+            $query->addParameter(new AddressCountry('nl'));
         }
         // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
