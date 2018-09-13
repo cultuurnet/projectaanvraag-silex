@@ -156,6 +156,8 @@ class TwigPreprocessor
                 $variables['summary'] .= substr($variables['summary'], -1) === '.' ? '..' : '..';
             }
         }
+
+        $variables['description'] = str_replace("\n", "<br/>", $variables['description']);
         $variables['description'] = $this->filterXss($variables['description']);
 
         $languageIconKeywords = [

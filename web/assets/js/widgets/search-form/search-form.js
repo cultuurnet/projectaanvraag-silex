@@ -161,7 +161,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var destination = $form.data('widget-destination');
         if (destination) {
-            paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings.widgetPageId;
+            var pageId = $form.closest(".cultuurnet-widgets").first().data("widgetPageId");
+            paramsToSubmit['submitted_page'] = CultuurnetWidgetsSettings[pageId].widgetPageId;
         }
 
         CultuurnetWidgets.redirectWithNewParams(paramsToSubmit, openInNewWindow, destination);
