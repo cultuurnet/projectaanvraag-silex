@@ -128,7 +128,7 @@ class TwigPreprocessor
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
-            'facilities' => $this->groupFacilities($event),
+            'facilities' => $this->getFacilitiesWithPresentInformation($event),
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -857,29 +857,28 @@ class TwigPreprocessor
     }
 
     /**
-     * Return grouped array of facilities
+     * Return array of facilities enriched with present information
      *
      * @param \CultuurNet\SearchV3\ValueObjects\Event $event
      * @return array
      */
-    protected function groupFacilities(Event $event)
+    protected function getFacilitiesWithPresentInformation(Event $event)
     {
+        $present_facility_ids = [];
         $facilities = $event->getTermsByDomain('facility');
-        $groups = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
-        $groupedFacilities = [];
 
-        if (is_array($facilities) && is_array($groups) && !empty($groups['facilities'])) {
-            foreach ($facilities as $id => $facility) {
-                foreach ($groups['facilities'] as $key => $group) {
-                    foreach ($group['items'] as $groupItem) {
-                        if ($facility->getId() == $groupItem['id']) {
-                            $groupedFacilities[$group['name']][] = $groupItem;
-                        }
-                    }
-                }
-            }
+        foreach ($facilities as $facility) {
+          $present_facility_ids[] = $facility->getId();
         }
 
-        return $groupedFacilities;
+        $all_facilities = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
+        $enriched_facilities = [];
+
+        foreach ($all_facilities as $facility) {
+          $facility['present'] = in_array($facility['id'], $present_facility_ids);
+          $enriched_facilities[] = $facility;
+        }
+
+        return $enriched_facilities;
     }
 }

@@ -192,7 +192,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             }
         }
 
-        if ($this->settings['filters']['facilities']) {
+        if (isset($this->settings['filters']['facilities'])) {
             $facilities = $this->getDefinedFacilities();
             $activeValue = $urlQueryParams['facility'] ?? [];
 
@@ -394,7 +394,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
             $activeOptions['where'] = $facetParameters['where'];
         }
-        if ($this->settings['filters']['facilities'] && isset($facetParameters['facility'])) {
+        if (isset($this->settings['filters']['facilities']) && isset($facetParameters['facility'])) {
             $activeOptions['facility'] = $facetParameters['facility'];
         }
 

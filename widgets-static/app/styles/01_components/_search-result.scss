@@ -239,3 +239,21 @@ app-2-col-sidebar-right-layout .cnw_searchresult__options label.cnw_form-check-l
     max-width: 162px;
   }
 }
+
+// facilities
+
+.cnw_searchresult-facilities {
+  -webkit-columns: 100px 2;
+  -moz-columns: 100px 2;
+  columns: 100px 2;
+
+  ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cnw-fa {
+    display: inline-block !important;
+  }
+}
