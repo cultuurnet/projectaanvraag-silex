@@ -270,11 +270,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         // Check for existing query parameters.
         var queryString = window.location.search;
         var newParams = {};
-<<<<<<< HEAD
-        if (queryString && typeof paramsToAdd.length !== 'undefined') {
-=======
         if (queryString) {
->>>>>>> master
             // Convert existing query string to an object.
             newParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
         }

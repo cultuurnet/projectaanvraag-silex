@@ -867,6 +867,7 @@ class TwigPreprocessor
     protected function getFacilitiesWithPresentInformation(Event $event)
     {
         $present_facility_ids = [];
+        $has_facilities = false;
         $facilities = $event->getTermsByDomain('facility');
 
         foreach ($facilities as $facility) {
@@ -877,10 +878,22 @@ class TwigPreprocessor
         $enriched_facilities = [];
 
         foreach ($all_facilities as $facility) {
-          $facility['present'] = in_array($facility['id'], $present_facility_ids);
+          if(in_array($facility['id'], $present_facility_ids)) {
+            $facility['present'] = true;
+            $has_facilities = true;
+          }
+          else {
+            $facility['present'] = false;
+          }
+
           $enriched_facilities[] = $facility;
         }
 
-        return $enriched_facilities;
+        if($has_facilities) {
+          return $enriched_facilities;
+        }
+        else {
+          return [];
+        }
     }
 }

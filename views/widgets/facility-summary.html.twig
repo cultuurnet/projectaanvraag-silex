@@ -1,13 +1,17 @@
 <div class="cnw_searchresult-facilities">
-  <ul>
-    {% for facility in event.facilities %}
-    <li>
-      {% if facility.present %}
-          <i class="cnw-fa cnw-fa-check-square"></i>
-      {% else %}
-        <i class="cnw-fa cnw-fa-times"></i>
-      {% endif %}
-      {{ facility.label }}</li>
-    {% endfor %}
-  </ul>
+  {% if event.facilities|length > 0 %}
+    <ul>
+      {% for facility in event.facilities %}
+      <li>
+        {% if facility.present %}
+            <i class="cnw-fa cnw-fa-check-square"></i>
+        {% else %}
+          <i class="cnw-fa cnw-fa-times"></i>
+        {% endif %}
+        {{ facility.label }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    Geen voorzieningen gekend
+  {% endif %}
 </div>
