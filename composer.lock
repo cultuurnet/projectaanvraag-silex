@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "780eeed674af5b166a363183f334c42a",
+    "content-hash": "07e94dff4a9d0facc86f920e0e74be88",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -173,16 +173,16 @@
         },
         {
             "name": "cultuurnet/calendar-summary-v3",
-            "version": "dev-feature/WID-158",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/calendar-summary-v3.git",
-                "reference": "4e1dc4cf9546594b3046f76ba1f0162b61b11f16"
+                "reference": "4a92041635c154e5ed1928e884a5b3762db9527f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/calendar-summary-v3/zipball/4e1dc4cf9546594b3046f76ba1f0162b61b11f16",
-                "reference": "4e1dc4cf9546594b3046f76ba1f0162b61b11f16",
+                "url": "https://api.github.com/repos/cultuurnet/calendar-summary-v3/zipball/4a92041635c154e5ed1928e884a5b3762db9527f",
+                "reference": "4a92041635c154e5ed1928e884a5b3762db9527f",
                 "shasum": ""
             },
             "require": {
@@ -197,6 +197,7 @@
                 "mikey179/vfsstream": "~1.6.2",
                 "phing/phing": "~2.10",
                 "phpunit/phpunit": "~5.7",
+                "psr/container": "~1.0.0",
                 "satooshi/php-coveralls": "~0.7",
                 "squizlabs/php_codesniffer": "2.6.1"
             },
@@ -227,7 +228,7 @@
                 }
             ],
             "description": "Library to convert cultuurnet dates to a readable summary",
-            "time": "2018-09-13T15:04:54+00:00"
+            "time": "2018-09-18T11:40:55+00:00"
         },
         {
             "name": "cultuurnet/cdb",
@@ -388,12 +389,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "c531134be648e49c7a38d2fbe86fd37b6e07c59b"
+                "reference": "e76637e38010980fa2a4505d1970960f105cc4bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/c531134be648e49c7a38d2fbe86fd37b6e07c59b",
-                "reference": "c531134be648e49c7a38d2fbe86fd37b6e07c59b",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/e76637e38010980fa2a4505d1970960f105cc4bf",
+                "reference": "e76637e38010980fa2a4505d1970960f105cc4bf",
                 "shasum": ""
             },
             "require": {
@@ -433,7 +434,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2018-07-23T08:17:29+00:00"
+            "time": "2018-09-17T14:50:10+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",

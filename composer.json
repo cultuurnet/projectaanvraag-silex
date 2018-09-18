@@ -34,7 +34,7 @@
         "doctrine/mongodb": "1.4.*",
         "doctrine/mongodb-odm": "1.1.*",
         "mongodb/mongodb": "1.1.*",
-        "cultuurnet/calendar-summary-v3": "dev-feature/WID-158"
+        "cultuurnet/calendar-summary-v3": "dev-master"
     },
     "extra": {
         "patches": {
