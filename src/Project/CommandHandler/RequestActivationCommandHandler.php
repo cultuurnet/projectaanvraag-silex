@@ -123,6 +123,7 @@ class RequestActivationCommandHandler
             $insightlyProject->setLinks($links);
 
             $this->insightlyClient->updateProject($insightlyProject, ['brief' => true]);
+            $this->insightlyClient->updateProject($insightlyProject, ['brief' => false]);
         }
 
         // Update the project state in local db.
