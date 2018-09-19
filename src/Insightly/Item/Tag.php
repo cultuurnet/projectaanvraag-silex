@@ -19,4 +19,16 @@ class Tag extends Entity
     {
         return ['name' => $this->id];
     }
+
+    /**
+     * {@einheritdoc}
+     */
+    public function toInsightly()
+    {
+        $data = [
+            'TAG_NAME' => $this->getId(),
+        ];
+
+        return array_filter($data);
+    }
 }
