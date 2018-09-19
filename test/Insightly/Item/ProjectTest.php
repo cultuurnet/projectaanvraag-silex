@@ -109,9 +109,9 @@ class ProjectTest extends AbstractInsightlyClientTest
             ],
             'TAGS' => [
                 [
-                    'TAG_NAME' => 'my_tag'
+                    'TAG_NAME' => 'my_tag',
                 ],
-            ]
+            ],
         ];
 
         $this->assertEquals($project->toInsightly(), array_filter($insightlyProject), 'It correctly returns an Insightly compatible array');
