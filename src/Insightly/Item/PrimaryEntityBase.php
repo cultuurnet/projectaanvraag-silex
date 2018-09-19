@@ -369,7 +369,7 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
 
         $tags = [];
         if (!empty($this->tags)) {
-            /** @var Link $link */
+            /** @var Tag $tag */
             foreach ($this->tags as $tag) {
                 $tags[] = $tag->toInsightly();
             }
