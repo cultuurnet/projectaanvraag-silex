@@ -46,7 +46,7 @@ use Symfony\Component\Yaml\Yaml;
  *                          },
  *                          {
  *                              "label": "Voor kinderen",
- *                              "query": "typicalAgeRange:12 OR labels:""ook voor kinderen"""
+ *                              "query": "(typicalAgeRange:[0 TO 12] OR labels:"ook voor kinderen") AND NOT typicalAgeRange:[13 TO *]"
  *                          },
  *                          {
  *                              "label": "Gratis activiteiten",
