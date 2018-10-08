@@ -709,34 +709,32 @@ class TwigPreprocessor
      */
     protected function getFacilitiesWithPresentInformation(Event $event)
     {
-        $present_facility_ids = [];
-        $has_facilities = false;
+        $presentFacilityIds = [];
+        $hasFacilities = false;
         $facilities = $event->getTermsByDomain('facility');
 
         foreach ($facilities as $facility) {
-          $present_facility_ids[] = $facility->getId();
+            $presentFacilityIds[] = $facility->getId();
         }
 
-        $all_facilities = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
-        $enriched_facilities = [];
+        $allFacilities = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
+        $enrichedFacilities = [];
 
-        foreach ($all_facilities as $facility) {
-          if(in_array($facility['id'], $present_facility_ids)) {
-            $facility['present'] = true;
-            $has_facilities = true;
-          }
-          else {
-            $facility['present'] = false;
-          }
+        foreach ($allFacilities as $facility) {
+            if (in_array($facility['id'], $presentFacilityIds)) {
+                $facility['present'] = true;
+                $hasFacilities = true;
+            } else {
+                $facility['present'] = false;
+            }
 
-          $enriched_facilities[] = $facility;
+            $enrichedFacilities[] = $facility;
         }
 
-        if($has_facilities) {
-          return $enriched_facilities;
-        }
-        else {
-          return [];
+        if($hasFacilities) {
+            return $enrichedFacilities;
+        } else {
+            return [];
         }
     }
 }
