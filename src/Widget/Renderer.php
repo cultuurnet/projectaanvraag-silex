@@ -192,7 +192,7 @@ class Renderer implements RendererInterface
 
         $this->attachJavascript('CultuurnetWidgets.loadSettings(' . json_encode($this->settings) . ')', 'inline');
 
-        return '<div id="cultuurnet-widgets-' . $widgetPage->getId() . '"></div>';
+        return '<div class="cultuurnet-widgets" data-widget-page-id="' . $widgetPage->getId() . '"></div>';
     }
 
     /**
