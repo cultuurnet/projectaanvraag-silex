@@ -16,6 +16,7 @@ use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * A preproccesor service for widget twig templates.
@@ -129,6 +130,7 @@ class TwigPreprocessor
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
+            'facilities' => $this->groupFacilities($event),
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -660,7 +662,7 @@ class TwigPreprocessor
      * @param \CultuurNet\SearchV3\ValueObjects\Event $event
      * @return bool
      */
-    protected function isUitpasEvent(\CultuurNet\SearchV3\ValueObjects\Event $event)
+    protected function isUitpasEvent(Event $event)
     {
 
         $labels = $event->getLabels();
@@ -676,5 +678,32 @@ class TwigPreprocessor
         }
 
         return false;
+    }
+
+    /**
+     * Return grouped array of facilities
+     *
+     * @param \CultuurNet\SearchV3\ValueObjects\Event $event
+     * @return array
+     */
+    protected function groupFacilities(Event $event)
+    {
+        $facilities = $event->getTermsByDomain('facility');
+        $groups = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
+        $groupedFacilities = [];
+
+        if (is_array($facilities) && is_array($groups) && !empty($groups['facilities'])) {
+            foreach ($facilities as $id => $facility) {
+                foreach ($groups['facilities'] as $key => $group) {
+                    foreach ($group['items'] as $groupItem) {
+                        if ($facility->getId() == $groupItem['id']) {
+                            $groupedFacilities[$group['name']][] = $groupItem;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $groupedFacilities;
     }
 }

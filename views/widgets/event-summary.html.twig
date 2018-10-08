@@ -157,6 +157,19 @@
 
                     </div>
                 {% endif %}
+
+                {% if settings_items.facilities.enabled and event.facilities %}
+                    <dt class="cnw_col-3">
+                        <em class="cnw_searchresult-detail-label">{{ settings_items.facilities.label }}</em>
+                    </dt>
+                    <dd class="cnw_col-9">
+                        {% for group, facility_group in event.facilities %}
+                            {% if facility_group|length > 0 %}
+                                {{ group }}{% if not loop.last %},{% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </dd>
+                {% endif %}
             </dl>
 
             {% if settings_items.read_more.enabled %}
