@@ -731,7 +731,7 @@ class TwigPreprocessor
             $enrichedFacilities[] = $facility;
         }
 
-        if($hasFacilities) {
+        if ($hasFacilities) {
             return $enrichedFacilities;
         } else {
             return [];
