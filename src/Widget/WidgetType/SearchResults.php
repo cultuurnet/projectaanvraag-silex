@@ -101,6 +101,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"Lees verder"
  *              },
  *          },
+ *          "search_params" : {
+ *              "country": "BE",
+ *          },
  *          "detail_page":{
  *              "map":false,
  *              "price_information":true,
@@ -242,7 +245,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          },
  *          "search_params" : {
  *              "query":"string",
- *              "private": "boolean"
+ *              "private": "boolean",
+ *              "country": "string",
  *          },
  *          "detail_page":{
  *              "map":"boolean",
@@ -439,10 +443,12 @@ class SearchResults extends WidgetTypeBase
             $query->addParameter(new AudienceType('*'));
         }
 
-        /* Temporarily hack for POC Groningen */
-        if (strpos($this->name, 'groningen') !== false) {
-            $query->addParameter(new AddressCountry('nl'));
+        $addressCountry = !empty($this->settings['search_params']['country']) ? $this->settings['search_params']['country']: 'BE';
+
+        if ($addressCountry !== '') {
+            $query->addParameter(new AddressCountry($addressCountry));
         }
+
         // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
             $query->addParameter(

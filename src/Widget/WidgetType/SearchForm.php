@@ -381,7 +381,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     {
         $defaults = [];
         if ($this->settings['fields']['time']['date_search']['enabled']) {
-          $defaults['when'] = $this->settings['fields']['time']['date_search']['default_option'];
+            $defaults['when'] = $this->settings['fields']['time']['date_search']['default_option'];
         }
 
         foreach ($this->groupFilterTypes as $typeKey => $type) {
@@ -403,10 +403,9 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 foreach ($this->settings['fields']['facility_filters']['filters'] as $groupKey => $facilityGroupFilter) {
                     $defaults['facility_filters'][$groupKey] = -1;
                     foreach ($facilityGroupFilter['options'] as $key => $facilityFilter) {
-
                         if ($facilityGroupFilter['type'] !== 'select_multiple' && isset($facilityGroupFilter['default_option'])) {
                             if (!empty($option['label']) && $option['label'] === $facilityGroupFilter['default_option']) {
-                              $defaults[$typeKey][$key] = $key;
+                                $defaults[$typeKey][$key] = $key;
                             }
                         }
                     }
@@ -501,7 +500,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                 $searchResultsActiveFilters[] = [
                                     'value' => $facilityFilter['options'][$selectedOption]['query'],
                                     'label' => $facilityFilter['options'][$selectedOption]['label'],
-                                    'name' => 'search-form[' . $this->id . '][custom][' . $key . '][' . $facilityGroupKey . ']',
+                                    'name' => 'search-form[' . $this->id . '][facility][' . $facilityGroupKey . ']',
                                     'is_default' => $facilityFilter['default_option'] === $facilityFilter['options'][$selectedOption]['label'],
                                 ];
                             }
