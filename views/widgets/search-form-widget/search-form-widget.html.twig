@@ -109,14 +109,21 @@
                 </div>
             {% endif %}
 
-
-            {% if  settings_fields.extra.group_filters.enabled %}
+            {% if settings_fields.extra.group_filters.enabled or settings_fields.facility_filters.enabled %}
                 <div class="cnw_col">
-                    {% for key, filter in  settings_fields.extra.group_filters.filters %}
-                        {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[3].group_filters[key]} %}
-                    {% endfor %}
+                    {% if  settings_fields.extra.group_filters.enabled %}
+                        {% for key, filter in  settings_fields.extra.group_filters.filters %}
+                            {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[3].group_filters[key]} %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if  settings_fields.facility_filters.enabled %}
+                        {% for key, filter in  settings_fields.facility_filters.filters %}
+                            {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][facility][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults.facility_filters[key]} %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
-                {% endif %}
+            {% endif %}
 
 
         </div>

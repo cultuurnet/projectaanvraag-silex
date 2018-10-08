@@ -274,6 +274,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Convert existing query string to an object.
             newParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
         }
+
         // Add every param to the params.
         for (var param in paramsToAdd) {
             if (typeof newParams[param] !== 'undefined') {
@@ -303,7 +304,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * @param paramsToDelete
      */
     CultuurnetWidgets.redirectAndDeleteParams = function(paramsToDelete) {
-
 
         // Check for existing query parameters.
         var queryString = window.location.search;
