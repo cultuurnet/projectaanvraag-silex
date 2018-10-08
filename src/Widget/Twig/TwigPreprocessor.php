@@ -491,6 +491,27 @@ class TwigPreprocessor
         return $facet;
     }
 
+    public function preprocessFacilitiesFacet($facilities, $actives)
+    {
+        $facet = [
+            'type' => 'facility',
+            'label' => 'Toegankelijkheid',
+            'count' => count($facilities),
+            'options' => [],
+        ];
+
+        foreach ($facilities as $i => $facility) {
+            $facet['options'][] = [
+                'value' => $facility['id'],
+                'name' => $facility['label'],
+                'active' => (isset($actives[$facility['id']]) ? true : false),
+                'children' => [],
+            ];
+        }
+
+        return $facet;
+    }
+
     /**
      * Preprocess a place.
      * @param Place $place
