@@ -73,8 +73,145 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "extra": {
  *                  "group_filters": {
  *                      "enabled": false
- *                  }
+ *                  },
  *              },
+ *              "facility_filters": {
+ *                  "enabled": false,
+ *                  "filters" : {
+ *                      {
+ *                          "label" : "Algemene voorzieningen",
+ *                          "placeholder" : "Andere voorzieningen",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "1 begeleider gratis",
+ *                                  "query" : "terms.id:3.35.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Alternatieve ingang",
+ *                                  "query" : "terms.id:3.28.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Assistentie",
+ *                                  "query" : "terms.id:3.23.2.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Begeleiderspas",
+ *                                  "query" : "terms.id:3.39.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Gegarandeerd zicht",
+ *                                  "query" : "terms.id:3.29.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Inter-assistentie",
+ *                                  "query" : "terms.id:3.38.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Inter-toegankelijkheidsgarantie",
+ *                                  "query" : "terms.id:3.40.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Voorbehouden camping",
+ *                                  "query" : "terms.id:3.32.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Contactpunt voor personen met handicap",
+ *                                  "query" : "terms.id:3.25.0.0.0"
+ *                              }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Motorische handicap",
+ *                          "placeholder" : "Motorische handicap",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Stroomvoorziening rolstoelen",
+ *                                  "query" : "terms.id:3.37.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Rolstoelpodium",
+ *                                  "query" : "terms.id:3.30.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Parkeerplaats",
+ *                                  "query" : "terms.id:3.26.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Rolstoeltoegankelijk",
+ *                                  "query" : "terms.id:3.27.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Toegankelijk sanitair",
+ *                                  "query" : "terms.id:3.31.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Rolstoel ter beschikking",
+ *                                  "query" : "terms.id:3.23.3.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Verzorgingsruimte",
+ *                                  "query" : "terms.id:3.36.0.0.0"
+ *                              }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Blinden en slechtzienden",
+ *                          "placeholder" : "Blinden en slechtzienden",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Audiodescriptie",
+ *                                  "query" : "terms.id:3.13.2.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Voorzieningen voor assistentiehonden",
+ *                                  "query" : "terms.id:3.13.1.0.0"
+ *                              }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Doven en slechthorenden",
+ *                          "placeholder" : "Doven en slechthorenden",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Boven- of ondertiteling",
+ *                                  "query" : "terms.id:3.17.3.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Ringleiding",
+ *                                  "query" : "terms.id:3.17.1.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Tolken Vlaamse Gebarentaal",
+ *                                  "query" : "terms.id:3.33.0.0.0"
+ *                              },
+ *                              {
+ *                                  "label" : "Voelstoelen",
+ *                                  "query" : "terms.id:3.17.2.0.0"
+ *                              }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Verstandelijke beperking",
+ *                          "placeholder" : "Verstandelijke beperking",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                  "label" : "Vereenvoudigde informatie",
+ *                                  "query" : "terms.id:3.34.0.0.0"
+ *                              }
+ *                          }
+ *                      }
+ *                  }
+ *              }
  *          },
  *          "footer": {
  *              "body": ""
@@ -127,6 +264,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "extra": {
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
+ *              "facility_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *          },
  *          "footer": {
  *              "body": "string"
@@ -155,6 +293,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         'location',
         'time',
         'extra',
+        'facility_filters',
     ];
 
     /**
@@ -246,13 +385,27 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         }
 
         foreach ($this->groupFilterTypes as $typeKey => $type) {
-            if ($this->settings['fields'][$type]['group_filters']['enabled']) {
+            if (isset($this->settings['fields'][$type]['group_filters']) &&
+                $this->settings['fields'][$type]['group_filters']['enabled']) {
                 foreach ($this->settings['fields'][$type]['group_filters']['filters'] as $key => $groupFilter) {
                     $defaults[$typeKey]['group_filters'][$key] = -1;
                     if ($groupFilter['type'] !== 'select_multiple' && isset($groupFilter['default_option'])) {
                         foreach ($groupFilter['options'] as $optionKey => $option) {
                             if (!empty($option['label']) && $option['label'] === $groupFilter['default_option']) {
                                 $defaults[$typeKey]['group_filters'][$key] = $optionKey;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ($this->settings['fields']['facility_filters']['enabled']) {
+                foreach ($this->settings['fields']['facility_filters']['filters'] as $groupKey => $facilityGroupFilter) {
+                    $defaults['facility_filters'][$groupKey] = -1;
+                    foreach ($facilityGroupFilter['options'] as $key => $facilityFilter) {
+                        if ($facilityGroupFilter['type'] !== 'select_multiple' && isset($facilityGroupFilter['default_option'])) {
+                            if (!empty($option['label']) && $option['label'] === $facilityGroupFilter['default_option']) {
+                                $defaults[$typeKey][$key] = $key;
                             }
                         }
                     }
@@ -288,13 +441,20 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                 }
                             }
                         }
+                    } elseif ($key === 'facility' && is_array($activeFilter)) {
+                        foreach ($activeFilter as $facilityFilterGroupKey => $facilityFilterGroups) {
+                            if (!is_numeric($facilityFilterGroups)) {
+                                $activeFilters['facility_filters'][$facilityFilterGroupKey] = explode('|', $facilityFilterGroups);
+                            } else {
+                                $activeFilters['facility_filters'][$facilityFilterGroupKey] = [$facilityFilterGroups];
+                            }
+                        }
                     } elseif (!empty($activeFilter)) {
                         $activeFilters[$key] = $activeFilter;
                     }
                 }
             }
         }
-
         // Add every active filter to the query.
         $advancedQuery = [];
         $searchResultsActiveFilters = $searchResultsQueryAlter->getActiveFilters();
@@ -319,9 +479,30 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                                         'label' => $groupFilter['options'][$selectedOption]['label'],
                                         'name' => 'search-form[' . $this->id . '][custom][' . $key . '][' . $groupFilterKey . ']',
                                         'is_default' => $groupFilter['default_option'] === $groupFilter['options'][$selectedOption]['label'],
-                                        
+
                                     ];
                                 }
+                            }
+                        }
+                    }
+                }
+            } elseif ($key === 'facility_filters') {
+                foreach ($activeFilters[$key] as $facilityGroupKey => $selectedOptions) {
+                    // When no search was done yet, this option is a single value.
+                    if (!is_array($selectedOptions)) {
+                        $selectedOptions = [$selectedOptions];
+                    }
+                    if (isset($this->settings['fields']['facility_filters']['filters'][$facilityGroupKey])) {
+                        $facilityFilter = $this->settings['fields']['facility_filters']['filters'][$facilityGroupKey];
+                        foreach ($selectedOptions as $selectedOption) {
+                            if (isset($facilityFilter['options'][$selectedOption]) && !empty($facilityFilter['options'][$selectedOption]['query'])) {
+                                $advancedQuery[] = $facilityFilter['options'][$selectedOption]['query'];
+                                $searchResultsActiveFilters[] = [
+                                    'value' => $facilityFilter['options'][$selectedOption]['query'],
+                                    'label' => $facilityFilter['options'][$selectedOption]['label'],
+                                    'name' => 'search-form[' . $this->id . '][facility][' . $facilityGroupKey . ']',
+                                    'is_default' => $facilityFilter['default_option'] === $facilityFilter['options'][$selectedOption]['label'],
+                                ];
                             }
                         }
                     }
@@ -392,7 +573,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 }
             }
         }
-
 
         if (!empty($advancedQuery)) {
             $searchResultsQueryAlter->setActiveFilters($searchResultsActiveFilters);
