@@ -47,12 +47,9 @@ abstract class ProjectCrudEventListener
         $this->insightlyProject = $this->insightlyClient->getProject($projectEvent->getProject()->getInsightlyProjectId());
     }
 
-    /**
-     * Save the insightly project.
-     */
     protected function saveInsightlyProject()
     {
-        $this->insightlyProject = $this->insightlyClient->updateProject($this->insightlyProject);
+        $this->insightlyProject = $this->insightlyClient->updateProject($this->insightlyProject, ['brief' => true]);
     }
 
     /**
