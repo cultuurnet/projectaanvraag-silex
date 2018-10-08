@@ -399,7 +399,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 }
             }
 
-            if ($this->settings['fields']['facility_filters']['enabled']) {
+            if (isset($this->settings['fields']['facility_filters']) && $this->settings['fields']['facility_filters']['enabled']) {
                 foreach ($this->settings['fields']['facility_filters']['filters'] as $groupKey => $facilityGroupFilter) {
                     $defaults['facility_filters'][$groupKey] = -1;
                     foreach ($facilityGroupFilter['options'] as $key => $facilityFilter) {

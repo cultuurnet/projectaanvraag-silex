@@ -94,7 +94,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "facilities": {
  *                  "enabled":false,
- *                  "label": "Minstens 1 voorziening"
+ *                  "label": "Toegankelijkheid"
  *              },
  *              "read_more":{
  *                  "enabled":true,
@@ -165,7 +165,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "facilities": {
  *                  "enabled":false,
- *                  "label": "Minstens 1 voorziening"
+ *                  "label": "Toegankelijkheid"
  *              }
  *          }
  *      },

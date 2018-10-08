@@ -130,7 +130,7 @@ class TwigPreprocessor
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
-            'facilities' => $this->groupFacilities($event),
+            'facilities' => $this->getFacilitiesWithPresentInformation($event),
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -702,29 +702,39 @@ class TwigPreprocessor
     }
 
     /**
-     * Return grouped array of facilities
+     * Return array of facilities enriched with present information
      *
      * @param \CultuurNet\SearchV3\ValueObjects\Event $event
      * @return array
      */
-    protected function groupFacilities(Event $event)
+    protected function getFacilitiesWithPresentInformation(Event $event)
     {
+        $presentFacilityIds = [];
+        $hasFacilities = false;
         $facilities = $event->getTermsByDomain('facility');
-        $groups = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
-        $groupedFacilities = [];
 
-        if (is_array($facilities) && is_array($groups) && !empty($groups['facilities'])) {
-            foreach ($facilities as $id => $facility) {
-                foreach ($groups['facilities'] as $key => $group) {
-                    foreach ($group['items'] as $groupItem) {
-                        if ($facility->getId() == $groupItem['id']) {
-                            $groupedFacilities[$group['name']][] = $groupItem;
-                        }
-                    }
-                }
-            }
+        foreach ($facilities as $facility) {
+            $presentFacilityIds[] = $facility->getId();
         }
 
-        return $groupedFacilities;
+        $allFacilities = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
+        $enrichedFacilities = [];
+
+        foreach ($allFacilities as $facility) {
+            if (in_array($facility['id'], $presentFacilityIds)) {
+                $facility['present'] = true;
+                $hasFacilities = true;
+            } else {
+                $facility['present'] = false;
+            }
+
+            $enrichedFacilities[] = $facility;
+        }
+
+        if ($hasFacilities) {
+            return $enrichedFacilities;
+        } else {
+            return [];
+        }
     }
 }

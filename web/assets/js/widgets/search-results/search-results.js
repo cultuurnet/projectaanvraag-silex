@@ -24,6 +24,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Bind summary toggle.
             CultuurnetWidgets.bindSummaryToggle(context);
 
+            // Bind facility toggle.
+            CultuurnetWidgets.bindFacilityToggle(context);
+
         }
 
     };
@@ -134,6 +137,26 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 jQuery(this).hide();
                 $context.find('.cnw_detail-short-summary').hide();
                 $fullDescription.show();
+                e.preventDefault();
+            })
+        }
+
+    };
+
+    /**
+     * Bind the summary toggle link and hide the full description by default.
+     * @param context
+     */
+    CultuurnetWidgets.bindFacilityToggle = function(context) {
+
+        var $context = jQuery(context);
+        var $summaryToggle = jQuery(context).find('a.cnw_facility-toggle');
+        if ($summaryToggle.length > 0) {
+            var $fullFacilities = $context.find('.cnw_full-facilities');
+            $fullFacilities.hide();
+            $summaryToggle.bind('click', function(e) {
+                jQuery(this).hide();
+                $fullFacilities.show();
                 e.preventDefault();
             })
         }
