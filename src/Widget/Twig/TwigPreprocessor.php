@@ -696,9 +696,9 @@ class TwigPreprocessor
             foreach ($facilities as $id => $facility) {
                 foreach ($groups['facilities'] as $key => $group) {
                     foreach ($group['items'] as $groupItem) {
-                      if ($facility->getId() == $groupItem['id']) {
-                          $groupedFacilities[$group['name']][] = $groupItem;
-                      }
+                        if ($facility->getId() == $groupItem['id']) {
+                            $groupedFacilities[$group['name']][] = $groupItem;
+                        }
                     }
                 }
             }
