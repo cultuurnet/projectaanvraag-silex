@@ -111,6 +111,8 @@ class JavascriptResponse extends Response
 
         $cssUrl = $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/' . $cssPath;
 
-        return 'CultuurnetWidgets.addExternalStyle("' . $cssUrl .'");';
+        $cssFont = "https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800";
+
+        return 'CultuurnetWidgets.addExternalStyle("' . $cssUrl .'");CultuurnetWidgets.addExternalStyle("'.$cssFont.'")';
     }
 }
