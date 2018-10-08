@@ -222,6 +222,7 @@ trait TextProcessingTrait
         $string,
         $allowedTags = [
             'a',
+            'br',
             'div',
             'hr',
             'p',

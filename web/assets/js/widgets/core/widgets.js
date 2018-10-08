@@ -25,8 +25,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             script.type = 'text/javascript';
             script.src = "//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js";
             script.onload = CultuurnetWidgets.bootstrap;
-            root.className += ' widgets_bootstrapped';
         }
+        root.className += ' widgets_bootstrapped';
         CultuurnetWidgets.initTagManager(firstPageId);
       }
     };
@@ -311,7 +311,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
             // Convert existing query string to an object.
             var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
-
             for (var index in paramsToDelete) {
                 // Delete corresponding parameter from URL.
                 if (typeof currentParams[paramsToDelete[index]] !== 'undefined') {
@@ -335,9 +334,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.buildQueryUrl = function(currentParams) {
         var newParams = [];
-        for (var key in currentParams) {
-            newParams.push(key + '=' + currentParams[key]);
-        }
+
+        jQuery.each(currentParams, function( key, value ) {
+          newParams.push(key + '=' + value);
+        });
+
         return newParams.join('&');
     }
 

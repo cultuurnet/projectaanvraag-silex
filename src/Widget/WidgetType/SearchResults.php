@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\AudienceType;
+use CultuurNet\SearchV3\Parameter\AddressCountry;
 use CultuurNet\SearchV3\Parameter\CalendarType;
 use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
@@ -91,10 +92,17 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled":false,
  *                  }
  *              },
+ *              "facilities": {
+ *                  "enabled":false,
+ *                  "label": "Minstens 1 voorziening"
+ *              },
  *              "read_more":{
  *                  "enabled":true,
  *                  "label":"Lees verder"
  *              },
+ *          },
+ *          "search_params" : {
+ *              "country": "BE",
  *          },
  *          "detail_page":{
  *              "map":false,
@@ -154,6 +162,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "limit_labels":{
  *                      "enabled":false,
  *                  }
+ *              },
+ *              "facilities": {
+ *                  "enabled":false,
+ *                  "label": "Minstens 1 voorziening"
  *              }
  *          }
  *      },
@@ -222,6 +234,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "labels":"string"
  *                  }
  *              },
+ *              "facilities":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
+ *              },
  *              "read_more":{
  *                  "enabled":"boolean",
  *                  "label":"string"
@@ -229,7 +245,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          },
  *          "search_params" : {
  *              "query":"string",
- *              "private": "boolean"
+ *              "private": "boolean",
+ *              "country": "string",
  *          },
  *          "detail_page":{
  *              "map":"boolean",
@@ -286,6 +303,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "height":"integer",
  *                  "default_image":"boolean",
  *                  "position":"string"
+ *              },
+ *              "facilities":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
  *              }
  *          }
  *     }
@@ -422,6 +443,12 @@ class SearchResults extends WidgetTypeBase
             $query->addParameter(new AudienceType('*'));
         }
 
+        $addressCountry = !empty($this->settings['search_params']['country']) ? $this->settings['search_params']['country']: 'BE';
+
+        if ($addressCountry !== '') {
+            $query->addParameter(new AddressCountry($addressCountry));
+        }
+
         // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
             $query->addParameter(
@@ -525,12 +552,14 @@ class SearchResults extends WidgetTypeBase
         $query->addParameter(new Id($this->request->query->get('cdbid')));
         // always perform full search, including offers for members
         $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
+        $advancedQuery[] = '(address.\*.addressCountry:*)';
         $query->addParameter(
             new Query(
                 implode(' AND ', $advancedQuery)
             )
         );
         $query->addParameter(new AudienceType('*'));
+        $query->addParameter(new AddressCountry('*'));
         $this->searchResult = $this->searchClient->searchEvents($query);
 
         $events = $this->searchResult->getMember()->getItems();
