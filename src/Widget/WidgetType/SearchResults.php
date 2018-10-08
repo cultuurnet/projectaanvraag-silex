@@ -162,6 +162,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "limit_labels":{
  *                      "enabled":false,
  *                  }
+ *              },
+ *              "facilities": {
+ *                  "enabled":false,
+ *                  "label": "Minstens 1 voorziening"
  *              }
  *          }
  *      },
@@ -299,6 +303,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "height":"integer",
  *                  "default_image":"boolean",
  *                  "position":"string"
+ *              },
+ *              "facilities":{
+ *                  "enabled":"boolean",
+ *                  "label":"string"
  *              }
  *          }
  *     }
