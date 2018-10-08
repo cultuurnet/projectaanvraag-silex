@@ -115,7 +115,7 @@
                     <dd>{{ event.age_range }}</dd>
                     {% endif %}
                     
-                    {% if settings.audience.enabled and event.audience == "members" %}
+                    {% if settings.audience is defined and settings.audience.enabled and event.audience is defined and event.audience == "members" %}
                     <dt>
                         <em class="cnw_searchresult-detail-label">{{ settings.audience.label }}</em>
                         <i class="cnw-fa cnw-fa-male"></i>
@@ -141,7 +141,7 @@
 
                     {% if settings.reservation_information and event.booking_info %}
                         <dt>
-                            <em class="cnw_searchresult-detail-label">Reservaties</em>
+                            <em class="cnw_searchresult-detail-label">Reserveringen</em>
                             <i class="cnw-fa cnw-fa-ticket"></i>
                         </dt>
                         <dd>
@@ -231,7 +231,10 @@
 
 
                     {% if settings.share_buttons and event.share_links %}
-                        <dt><em>Deel deze pagina</em></dt>
+                        <dt>
+                          <em class="cnw_searchresult-detail-label">Deel deze pagina</em>
+                          <i class="cnw-fa cnw-fa-share-alt"></i>
+                        </dt>
                         <dd>
                             <a href="{{ event.share_links.facebook }}" data-click-tracking-category="detail" data-click-tracking-action="share facebook" class="cnw-share cnw-share-facebook" target="_blank"><i class="cnw-fa cnw-fa-facebook"></i> <span>Facebook</span></a>
                             <a href="{{ event.share_links.twitter }}" data-click-tracking-category="detail" data-click-tracking-action="share twitter" class="cnw-share cnw-share-twitter" target="_blank"><i class="cnw-fa cnw-fa-twitter"></i> <span>Twitter</span></a>

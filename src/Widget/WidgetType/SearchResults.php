@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\AudienceType;
+use CultuurNet\SearchV3\Parameter\AddressCountry;
 use CultuurNet\SearchV3\Parameter\CalendarType;
 use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
@@ -99,6 +100,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "label":"Lees verder"
  *              },
+ *          },
+ *          "search_params" : {
+ *              "country": "BE",
  *          },
  *          "detail_page":{
  *              "map":false,
@@ -237,7 +241,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          },
  *          "search_params" : {
  *              "query":"string",
- *              "private": "boolean"
+ *              "private": "boolean",
+ *              "country": "string",
  *          },
  *          "detail_page":{
  *              "map":"boolean",
@@ -424,10 +429,16 @@ class SearchResults extends WidgetTypeBase
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
             $advancedQuery[] = str_replace(',', ' AND ', '(' . rtrim($this->settings['search_params']['query'] . ')', ','));
         }
-        
+
         if ($private) {
             $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
             $query->addParameter(new AudienceType('*'));
+        }
+
+        $addressCountry = !empty($this->settings['search_params']['country']) ? $this->settings['search_params']['country']: 'BE';
+
+        if ($addressCountry !== '') {
+            $query->addParameter(new AddressCountry($addressCountry));
         }
 
         // Add advanced query string to API request.
@@ -456,13 +467,35 @@ class SearchResults extends WidgetTypeBase
         $searchedLocation = '';
         $searchedDate = '';
         $allActiveFilters = $searchResultsQueryAlter->getActiveFilters();
+        $allActiveFilterNames = [];
+
         foreach ($allActiveFilters as $activeFilter) {
             if (strstr($activeFilter['name'], '[when]')) {
                 $searchedDate = $activeFilter['label'];
             } elseif (strstr($activeFilter['name'], '[where]')) {
                 $searchedLocation = $activeFilter['label'];
             }
+            $allActiveFilterNames[] = $activeFilter['name'];
         }
+
+        $mergedActiveFilters = [];
+        $labels = [];
+        $allActiveFilterNames = array_unique($allActiveFilterNames);
+
+        // Merge active filters with same name
+        foreach ($allActiveFilterNames as $activeFilterName) {
+            foreach ($allActiveFilters as $activeFilter) {
+                if ($activeFilterName == $activeFilter['name']) {
+                    $labels[$activeFilterName][] = $activeFilter['label'];
+                }
+            }
+        }
+
+        foreach ($allActiveFilterNames as $activeFilterName) {
+            $mergedActiveFilters[] = ['value'=>'','label' => join($labels[$activeFilterName], " en "),'is_default'=>false, 'name' => $activeFilterName];
+        }
+
+        $allActiveFilters = $mergedActiveFilters;
 
         $tagManagerData = [
             'pageTitleSuffix' => $searchedLocation . '|' . $searchedDate . '|' . $currentPageIndex,
@@ -511,12 +544,14 @@ class SearchResults extends WidgetTypeBase
         $query->addParameter(new Id($this->request->query->get('cdbid')));
         // always perform full search, including offers for members
         $advancedQuery[] = '(audienceType:members OR audienceType:everyone)';
+        $advancedQuery[] = '(address.\*.addressCountry:*)';
         $query->addParameter(
             new Query(
                 implode(' AND ', $advancedQuery)
             )
         );
         $query->addParameter(new AudienceType('*'));
+        $query->addParameter(new AddressCountry('*'));
         $this->searchResult = $this->searchClient->searchEvents($query);
 
         $events = $this->searchResult->getMember()->getItems();
