@@ -47,7 +47,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                     var targetPage = $this.data('target-page');
 
-                    var paramsToSubmit = {};
+                    var paramsToSubmit = CultuurnetWidgets.getCurrentParams();
                     paramsToSubmit['search-result[' + targetWidget + '][page]'] = targetPage;
                     CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
 
