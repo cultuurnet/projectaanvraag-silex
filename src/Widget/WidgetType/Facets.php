@@ -192,11 +192,11 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             }
         }
 
-        if (isset($this->settings['filters']['facilities'])) {
-            $facilities = $this->getDefinedFacilities();
-            $activeValue = $urlQueryParams['facility'] ?? [];
+        if ($facetsRaw && $this->settings['filters']['facilities']) {
+            $activeValue = $urlQueryParams['facilities'] ?? [];
 
-            $facets[] = $this->twigPreprocessor->preprocessFacilitiesFacet($facilities, $activeValue);
+            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['facilities'], 'facilities', 'Voorzieningen', $activeValue);
+            $facets[] = $facet;
         }
 
         if ($this->settings['group_filters']['enabled']) {
@@ -268,6 +268,11 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         if ($this->settings['filters']['where']) {
             if (!in_array('regions', $existingFacets)) {
                 $searchQuery->addParameter(new Facet('regions'));
+            }
+        }
+        if ($this->settings['filters']['facilities']) {
+            if (!in_array('facilities', $existingFacets)) {
+                $searchQuery->addParameter(new Facet('facilities'));
             }
         }
 
@@ -430,10 +435,4 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         return [];
     }
 
-    private function getDefinedFacilities()
-    {
-        $facilities = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
-
-        return $facilities;
-    }
 }
