@@ -150,15 +150,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.bindFacilityToggle = function(context) {
 
         var $context = jQuery(context);
-        var $summaryToggle = jQuery(context).find('a.cnw_facility-toggle');
-        if ($summaryToggle.length > 0) {
-            var $fullFacilities = $context.find('.cnw_full-facilities');
-            $fullFacilities.hide();
-            $summaryToggle.bind('click', function(e) {
-                jQuery(this).hide();
-                $fullFacilities.show();
+        var $facilityToggle = jQuery(context).find('a.cnw_facility-toggle');
+        if ($facilityToggle.length > 0) {
+            $facilityToggle.bind('click', function(e) {
+                var $fullFacilities = jQuery(this).parent().find('.cnw_full-facilities');
+                $fullFacilities.toggle();
                 e.preventDefault();
-            })
+            });
         }
 
     };
