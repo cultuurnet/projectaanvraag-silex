@@ -109,7 +109,7 @@
                 </div>
             {% endif %}
 
-            {% if settings_fields.extra.group_filters.enabled or (settings_fields.facility_filter is defined and settings_fields.facility_filters.enabled) %}
+            {% if settings_fields.extra.group_filters.enabled or (settings_fields.facility_filters is defined and settings_fields.facility_filters.enabled) %}
                 <div class="cnw_col">
                     {% if  settings_fields.extra.group_filters.enabled %}
                         {% for key, filter in  settings_fields.extra.group_filters.filters %}
