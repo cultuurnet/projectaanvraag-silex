@@ -154,7 +154,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         if ($facilityToggle.length > 0) {
             $facilityToggle.bind('click', function(e) {
                 var $fullFacilities = jQuery(this).parent().find('.cnw_full-facilities');
-                $fullFacilities.toggle();
+                $fullFacilities.toggleClass("show");
                 e.preventDefault();
             });
         }
