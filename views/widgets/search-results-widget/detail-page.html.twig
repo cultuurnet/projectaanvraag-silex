@@ -232,6 +232,7 @@
                     {% if settings.facilities.enabled %}
                         <dt class="cnw_col-3">
                             <em class="cnw_searchresult-detail-label">{{ settings.facilities.label }}</em>
+                            <i class="cnw-fa cnw-fa-wheelchair-alt"></i>
                         </dt>
                         <dd class="cnw_col-9">
                             {% include 'widgets/facility-summary.html.twig' with { 'event': event } %}
