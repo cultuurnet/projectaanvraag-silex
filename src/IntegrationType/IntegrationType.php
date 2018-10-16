@@ -69,6 +69,11 @@ class IntegrationType implements \JsonSerializable
     protected $selfService;
 
     /**
+     * @var string
+     */
+    protected $type;
+
+    /**
      * @return string
      */
     public function getId()
@@ -263,6 +268,24 @@ class IntegrationType implements \JsonSerializable
     public function setSelfService($selfService)
     {
         $this->selfService = $selfService;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     * @return IntegrationType
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
         return $this;
     }
 
