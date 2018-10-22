@@ -239,3 +239,51 @@ app-2-col-sidebar-right-layout .cnw_searchresult__options label.cnw_form-check-l
     max-width: 162px;
   }
 }
+
+// facilities
+
+.cnw_searchresult-facilities .cnw-fa {
+  display: inline-block !important;
+}
+
+@include media-breakpoint-up(sm) {
+  .cnw_searchresult-facilities-list {
+    -webkit-columns: 100px 2;
+    -moz-columns: 100px 2;
+    columns: 100px 2;
+  }
+}
+
+.cnw_searchresult-facilities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  border: 1px solid #ccc;
+  padding: 1rem;
+
+  li {
+    list-style: none;
+    padding-left: 7px;
+    text-indent: -7px;
+  }
+
+  .cnw-fa-check-square {
+    color: green;
+  }
+
+  .cnw-fa-times {
+    color: #CCC;
+  }
+}
+
+.cnw_full-facilities {
+  height: 0;
+  position: absolute;
+  overflow: hidden;
+}
+
+.cnw_full-facilities.show {
+  position: relative;
+  height: inherit;
+}

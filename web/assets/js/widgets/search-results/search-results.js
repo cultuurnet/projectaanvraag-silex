@@ -24,6 +24,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Bind summary toggle.
             CultuurnetWidgets.bindSummaryToggle(context);
 
+            // Bind facility toggle.
+            CultuurnetWidgets.bindFacilityToggle(context);
+
         }
 
     };
@@ -44,7 +47,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                     var targetPage = $this.data('target-page');
 
-                    var paramsToSubmit = {};
+                    var paramsToSubmit = CultuurnetWidgets.getCurrentParams();
                     paramsToSubmit['search-result[' + targetWidget + '][page]'] = targetPage;
                     CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
 
@@ -136,6 +139,24 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 $fullDescription.show();
                 e.preventDefault();
             })
+        }
+
+    };
+
+    /**
+     * Bind the summary toggle link and hide the full description by default.
+     * @param context
+     */
+    CultuurnetWidgets.bindFacilityToggle = function(context) {
+
+        var $context = jQuery(context);
+        var $facilityToggle = jQuery(context).find('a.cnw_facility-toggle');
+        if ($facilityToggle.length > 0) {
+            $facilityToggle.bind('click', function(e) {
+                var $fullFacilities = jQuery(this).parent().find('.cnw_full-facilities');
+                $fullFacilities.toggleClass("show");
+                e.preventDefault();
+            });
         }
 
     };

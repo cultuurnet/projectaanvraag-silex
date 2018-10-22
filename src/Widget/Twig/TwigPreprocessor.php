@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
+use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
+use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
@@ -14,6 +16,7 @@ use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * A preproccesor service for widget twig templates.
@@ -127,6 +130,7 @@ class TwigPreprocessor
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
+            'facilities' => $this->getFacilitiesWithPresentInformation($event),
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -154,6 +158,8 @@ class TwigPreprocessor
                 $variables['summary'] .= substr($variables['summary'], -1) === '.' ? '..' : '..';
             }
         }
+
+        $variables['description'] = str_replace("\n", "<br/>", $variables['description']);
         $variables['description'] = $this->filterXss($variables['description']);
 
         $languageIconKeywords = [
@@ -561,44 +567,13 @@ class TwigPreprocessor
                 $locale = 'nl_NL';
                 break;
         }
+        $calendarFormatter = new CalendarPlainTextFormatter($locale, false);
 
-        $summary = '';
-        // Multiple and periodic events should show from and to date.
-        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE || $event->getCalendarType() === Offer::CALENDAR_TYPE_PERIODIC) {
-            $dateFormatter = new IntlDateFormatter(
-                $locale,
-                IntlDateFormatter::FULL,
-                IntlDateFormatter::FULL,
-                date_default_timezone_get(),
-                IntlDateFormatter::GREGORIAN,
-                'd MMMM Y'
-            );
-
-            $dateParts = [];
-
-            if ($event->getStartDate()) {
-                $dateParts[] = 'van ' . $dateFormatter->format($event->getStartDate());
-            }
-
-            if ($event->getEndDate()) {
-                $dateParts[] = 'tot ' . $dateFormatter->format($event->getEndDate());
-            }
-
-            $summary = implode($dateParts, ' ');
-        } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
-            $dateFormatter = new IntlDateFormatter(
-                $locale,
-                IntlDateFormatter::FULL,
-                IntlDateFormatter::FULL,
-                date_default_timezone_get(),
-                IntlDateFormatter::GREGORIAN,
-                'd MMMM Y'
-            );
-
-            $summary = $dateFormatter->format($event->getStartDate());
+        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
+            return $calendarFormatter->format($event, 'sm');
+        } else {
+            return $calendarFormatter->format($event, 'md');
         }
-
-        return $summary;
     }
 
     /**
@@ -622,136 +597,8 @@ class TwigPreprocessor
                 break;
         }
 
-        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE || ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE && $event->getSubEvents() == null)) {
-            return $this->formatSingleDate($event->getStartDate(), $event->getEndDate(), $locale);
-        } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_PERIODIC) {
-            return $this->formatPeriod($event->getStartDate(), $event->getEndDate(), $locale);
-        } elseif ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
-            $output = '<ul class="cnw-event-date-info">';
-            $subEvents = $event->getSubEvents();
-            $now = new \DateTime();
-            foreach ($subEvents as $subEvent) {
-                if ($subEvent->getEndDate() > $now) {
-                    $output .= '<li>' . $this->formatSingleDate($subEvent->getStartDate(), $subEvent->getEndDate(), $locale) . '</li>';
-                }
-            }
-            $output .= '</ul>';
-
-            return $output;
-        }
-    }
-
-    /**
-     * Format the given start and end date as period.
-     *
-     * @param \DateTime $dateFrom
-     * @param \DateTime $dateTo
-     * @param $locale
-     * @return string
-     */
-    protected function formatPeriod(\DateTime $dateFrom, \DateTime $dateTo, $locale)
-    {
-
-        $dateFormatter = new IntlDateFormatter(
-            $locale,
-            IntlDateFormatter::FULL,
-            IntlDateFormatter::FULL,
-            date_default_timezone_get(),
-            IntlDateFormatter::GREGORIAN,
-            'd MMMM yyyy'
-        );
-
-        $intlDateFrom = $dateFormatter->format($dateFrom);
-        $intlDateTo = $dateFormatter->format($dateTo);
-
-        $output = '<p class="cf-period">';
-        $output .= '<span class="cf-from cf-meta">van</span>';
-        $output .= '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . '">';
-        $output .= '<span class="cf-date">' . $intlDateFrom . '</span> </time>';
-        $output .= '<span class="cf-to cf-meta">tot</span>';
-        $output .= '<time itemprop="endDate" datetime="' . $dateTo->format('Y-m-d') . '">';
-        $output .= '<span class="cf-date">' . $intlDateTo . '</span> </time>';
-        $output .= '</p>';
-
-        return $output;
-    }
-
-    /**
-     * Format a single date.
-     *
-     * @param \DateTime $dateFrom
-     * @param \DateTime $dateTo
-     * @param $locale
-     */
-    protected function formatSingleDate(\DateTime $dateFrom, \DateTime $dateTo, $locale)
-    {
-
-        $weekDayFormatter = new IntlDateFormatter(
-            $locale,
-            IntlDateFormatter::FULL,
-            IntlDateFormatter::FULL,
-            date_default_timezone_get(),
-            IntlDateFormatter::GREGORIAN,
-            'EEEE'
-        );
-
-        $dateFormatter = new IntlDateFormatter(
-            $locale,
-            IntlDateFormatter::FULL,
-            IntlDateFormatter::FULL,
-            date_default_timezone_get(),
-            IntlDateFormatter::GREGORIAN,
-            'd MMMM yyyy'
-        );
-
-        $timeFormatter = new IntlDateFormatter(
-            $locale,
-            IntlDateFormatter::FULL,
-            IntlDateFormatter::FULL,
-            new \DateTimeZone('Europe/Brussels'),
-            IntlDateFormatter::GREGORIAN,
-            'HH:mm'
-        );
-
-
-        $startTime = $timeFormatter->format($dateFrom);
-        $endTime = $timeFormatter->format($dateTo);
-        $hasStartTime = $startTime !== '00:00';
-        $hasEndTime = $endTime !== '00:00';
-
-        if ($hasStartTime) {
-            $output = '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . 'T' . $startTime . '">';
-        } else {
-            $output = '<time itemprop="startDate" datetime="' . $dateFrom->format('Y-m-d') . '">';
-        }
-
-        $output .= '<span class="cf-weekday cf-meta">' . $weekDayFormatter->format($dateFrom) . '</span>';
-        $output .= ' ';
-        $output .= '<span class="cf-date">' . $dateFormatter->format($dateFrom) . '</span>';
-
-        if ($hasStartTime) {
-            $output .= ' ';
-            if ($hasEndTime) {
-                $output .= '<span class="cf-from cf-meta">van</span>';
-                $output .= ' ';
-            } else {
-                $output .= '<span class="cf-from cf-meta">om</span>';
-                $output .= ' ';
-            }
-            $output .= '<span class="cf-time">' . $startTime . '</span>';
-            $output .= '</time>';
-            if ($hasEndTime) {
-                $output .= ' ';
-                $output .= '<span class="cf-to cf-meta">tot</span>';
-                $output .= ' ';
-                $output .= '<time itemprop="endDate" datetime="' . $dateTo->format('Y-m-d') . 'T' . $endTime . '">';
-                $output .= '<span class="cf-time">' . $endTime . '</span>';
-                $output .= '</time>';
-            }
-        } else {
-            $output .= ' </time>';
-        }
-        return $output;
+        $calendarFormatter = new CalendarHTMLFormatter($locale, true);
+        return $calendarFormatter->format($event, 'lg');
     }
 
     /**
@@ -815,7 +662,7 @@ class TwigPreprocessor
      * @param \CultuurNet\SearchV3\ValueObjects\Event $event
      * @return bool
      */
-    protected function isUitpasEvent(\CultuurNet\SearchV3\ValueObjects\Event $event)
+    protected function isUitpasEvent(Event $event)
     {
 
         $labels = $event->getLabels();
@@ -831,5 +678,42 @@ class TwigPreprocessor
         }
 
         return false;
+    }
+
+    /**
+     * Return array of facilities enriched with present information
+     *
+     * @param \CultuurNet\SearchV3\ValueObjects\Event $event
+     * @return array
+     */
+    protected function getFacilitiesWithPresentInformation(Event $event)
+    {
+        $presentFacilityIds = [];
+        $hasFacilities = false;
+        $facilities = $event->getTermsByDomain('facility');
+
+        foreach ($facilities as $facility) {
+            $presentFacilityIds[] = $facility->getId();
+        }
+
+        $allFacilities = Yaml::parse(file_get_contents(__DIR__ . '/../../../facilities.yml'));
+        $enrichedFacilities = [];
+
+        foreach ($allFacilities as $facility) {
+            if (in_array($facility['id'], $presentFacilityIds)) {
+                $facility['present'] = true;
+                $hasFacilities = true;
+            } else {
+                $facility['present'] = false;
+            }
+
+            $enrichedFacilities[] = $facility;
+        }
+
+        if ($hasFacilities) {
+            return $enrichedFacilities;
+        } else {
+            return [];
+        }
     }
 }

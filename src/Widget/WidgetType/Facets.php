@@ -18,6 +18,7 @@ use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Provides the facets widget type.
@@ -29,6 +30,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *              "what":true,
  *              "where":true,
  *              "when":false,
+ *              "facilities":false,
  *          },
  *          "group_filters" :{
  *              "enabled":false,
@@ -44,7 +46,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *                          },
  *                          {
  *                              "label": "Voor kinderen",
- *                              "query": "typicalAgeRange:12 OR labels:""ook voor kinderen"""
+ *                              "query": "(typicalAgeRange:[0 TO 12] OR labels:""ook voor kinderen"") AND NOT typicalAgeRange:[13 TO *]"
  *                          },
  *                          {
  *                              "label": "Gratis activiteiten",
@@ -60,7 +62,8 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *          "filters":{
  *              "what":"boolean",
  *              "where":"boolean",
- *              "when":"boolean"
+ *              "when":"boolean",
+ *              "facilities":"boolean",
  *          },
  *          "group_filters":"CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *      }
@@ -189,6 +192,13 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             }
         }
 
+        if ($facetsRaw && $this->settings['filters']['facilities']) {
+            $activeValue = $urlQueryParams['facilities'] ?? [];
+
+            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['facilities'], 'facilities', 'Voorzieningen', $activeValue);
+            $facets[] = $facet;
+        }
+
         if ($this->settings['group_filters']['enabled']) {
             foreach ($this->settings['group_filters']['filters'] as $i => $filter) {
                 $activeValue = $urlQueryParams['custom'][$i] ?? [];
@@ -260,6 +270,11 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                 $searchQuery->addParameter(new Facet('regions'));
             }
         }
+        if ($this->settings['filters']['facilities']) {
+            if (!in_array('facilities', $existingFacets)) {
+                $searchQuery->addParameter(new Facet('facilities'));
+            }
+        }
 
         // Build advanced query string.
         $advancedQuery = [];
@@ -318,6 +333,16 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
                         }
                         break;
 
+                    case 'facility':
+                        $advancedQuery[] = 'terms.id:' . key($value);
+
+                        $searchResultsActiveFilters[] = [
+                          'label' => current($value),
+                          'name' => 'facets[' . $this->index . '][facility][' . key($value) . ']',
+                          'is_default' => false,
+                        ];
+                        break;
+
                     case 'custom':
                         // Check for custom (extra) query params and retrieve options from settings.
                         $extraFilters = $this->settings['group_filters']['filters'];
@@ -374,6 +399,9 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
             $activeOptions['where'] = $facetParameters['where'];
         }
+        if (isset($this->settings['filters']['facilities']) && isset($facetParameters['facility'])) {
+            $activeOptions['facility'] = $facetParameters['facility'];
+        }
 
         // For group filter, check per filter what options are active.
         if ($this->settings['group_filters']['enabled']) {
@@ -406,4 +434,5 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         return [];
     }
+
 }
