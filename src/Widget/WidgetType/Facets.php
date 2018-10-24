@@ -434,5 +434,4 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         return [];
     }
-
 }
