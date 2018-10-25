@@ -67,11 +67,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             if ($this.is(':checked')) {
                 var paramsToSubmit = {};
                 paramsToSubmit[$this.attr('name')] = true;
-                CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
+                CultuurnetWidgets.redirectWithNewParams(paramsToSubmit, false, false, true);
             }
             else {
                 var paramsToDelete = [$this.attr('name')];
-                CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete);
+                CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete, true);
             }
 
         });
@@ -111,11 +111,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 if ($this.data('active-keywords-default-option') === 1) {
                     var params = [];
                     params[$this.data('active-keywords-name')] = '';
-                    CultuurnetWidgets.redirectWithNewParams(params);
+                    CultuurnetWidgets.redirectWithNewParams(params, false, false, true);
                 }
                 else {
                     var paramsToDelete = [paramToDelete];
-                    CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete);
+                    CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete, true);
                 }
             }
 
