@@ -15,6 +15,9 @@ use Pimple\Container;
  * @WidgetType(
  *      id = "html",
  *      defaultSettings = {
+ *         "content":{
+ *              "body":""
+ *          }
  *      },
  *      allowedSettings = {
  *         "content":{
