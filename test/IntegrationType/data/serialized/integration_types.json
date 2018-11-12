@@ -11,7 +11,8 @@
     ],
     "sapiVersion": 3,
     "groupId":"group_id",
-    "type": "output"
+    "type": "output",
+    "selfService": true
   },
   "culturefeed":{
     "id":"culturefeed",
@@ -25,7 +26,8 @@
     ],
     "sapiVersion": 2,
     "groupId":"group_id",
-    "type": "output"
+    "type": "output",
+    "selfService": true
   },
   "api":{
     "id":"api",
@@ -40,6 +42,7 @@
     "groupId":"group_id",
     "sapiVersion": 2,
     "actionButton": "test",
-    "type": "output"
+    "type": "output",
+    "selfService": true
   }
 }
