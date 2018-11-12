@@ -10,6 +10,8 @@ integration_types:
         - 'Geschikt voor basisoplossingen'
       sapi_version: 3
       group_id: 'group_id'
+      type: 'output'
+      selfService: true
   culturefeed:
       name: 'Culturefeed'
       description: 'Modules waarmee je een UiTagenda integreert in een Drupal-site'
@@ -20,6 +22,8 @@ integration_types:
         - 'Je kan rekenen op de open-source gemeenschap'
       sapi_version: 2
       group_id: 'group_id'
+      type: 'output'
+      selfService: true
   api:
       name: 'API'
       description: 'Met deze API krijg je toegang tot de zoekengine van de UiTdatabank'
@@ -31,3 +35,5 @@ integration_types:
       sapi_version: 2
       group_id: 'group_id'
       action_button: 'test'
+      type: 'output'
+      selfService: true

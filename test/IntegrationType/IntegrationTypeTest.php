@@ -23,8 +23,10 @@ class IntegrationTypeTest extends \PHPUnit_Framework_TestCase
         $type->setExtraInfo(['Platformonafhankelijk', 'Individuele oplossingen op maat zijn mogelijk']);
         $type->setDescription('Met deze API krijg je toegang tot de zoekengine van de UiTdatabank');
         $type->setName('API');
-        $type->setSapiVersion('2');
+        $type->setSapiVersion(2);
+        $type->setSelfService(true);
         $type->setActionButton($actionButton);
+        $type->setType('output');
 
         $this->assertEquals('api', $type->getId(), 'It correctly returns the integration type id.');
         $this->assertEquals('http://www.culturefeed.be/api', $type->getUrl(), 'It correctly returns the integration type url.');
@@ -33,8 +35,10 @@ class IntegrationTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['Platformonafhankelijk', 'Individuele oplossingen op maat zijn mogelijk'], $type->getExtraInfo(), 'It correctly returns the integration type extra info.');
         $this->assertEquals('Met deze API krijg je toegang tot de zoekengine van de UiTdatabank', $type->getDescription(), 'It correctly returns the integration type description.');
         $this->assertEquals('API', $type->getName(), 'It correctly returns the integration type name.');
-        $this->assertEquals('2', $type->getSapiVersion(), 'It correctly returns the action button.');
+        $this->assertEquals(2, $type->getSapiVersion(), 'It correctly returns the action button.');
         $this->assertEquals($actionButton, $type->getActionButton(), 'It correctly returns the action button.');
+        $this->assertEquals(true, $type->getSelfService(), 'It correctly returns the service.');
+        $this->assertEquals('output', $type->getType(), 'It correctly returns the type.');
 
         $this->assertJsonEquals(json_encode($type), 'IntegrationType/data/serialized/integration_type.json');
     }
