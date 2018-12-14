@@ -247,7 +247,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Get the current query params.
      */
-    CultuurnetWidgets.getCurrentParams = function() {
+    CultuurnetWidgets.getCurrentParams = function(skipPageParam) {
 
         if (CultuurnetWidgets.currentParams === undefined) {
 
@@ -259,13 +259,21 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
         }
 
+        if (skipPageParam) {
+            for (var param in CultuurnetWidgets.currentParams) {
+                if (param.includes('search-result[' + param.match(/[0-9]/g) + '][page]')) {
+                    delete CultuurnetWidgets.currentParams[param];
+                }
+            }
+        }
+
         return CultuurnetWidgets.currentParams;
     };
 
     /**
      * Perform a redirect with new parameters.
      */
-    CultuurnetWidgets.redirectWithNewParams = function(paramsToAdd, openInNewWindow, location) {
+    CultuurnetWidgets.redirectWithNewParams = function(paramsToAdd, openInNewWindow, location, skipPageParam) {
 
         // Check for existing query parameters.
         var queryString = window.location.search;
@@ -273,6 +281,14 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         if (queryString) {
             // Convert existing query string to an object.
             newParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+        }
+
+        if (skipPageParam) {
+            for (var newParam in newParams) {
+                if (newParam.includes('search-result[' + newParam.match(/[0-9]/g) + '][page]')) {
+                    delete newParams[newParam];
+                }
+            }
         }
 
         // Add every param to the params.
@@ -303,7 +319,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * Perform a redirect without the given parameters.
      * @param paramsToDelete
      */
-    CultuurnetWidgets.redirectAndDeleteParams = function(paramsToDelete) {
+    CultuurnetWidgets.redirectAndDeleteParams = function(paramsToDelete, skipPageParam) {
 
         // Check for existing query parameters.
         var queryString = window.location.search;
@@ -311,6 +327,15 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
             // Convert existing query string to an object.
             var currentParams = JSON.parse('{"' + decodeURI(queryString.substr(1).replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + '"}');
+
+            if (skipPageParam) {
+                for (var param in currentParams) {
+                    if (param.includes('search-result[' + param.match(/[0-9]/g) + '][page]')) {
+                        delete currentParams[param];
+                    }
+                }
+            }
+
             for (var index in paramsToDelete) {
                 // Delete corresponding parameter from URL.
                 if (typeof currentParams[paramsToDelete[index]] !== 'undefined') {
@@ -340,7 +365,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         });
 
         return newParams.join('&');
-    }
+    };
 
     CultuurnetWidgets.addLoadEvent = function(func) {
       var oldonload = window.onload;

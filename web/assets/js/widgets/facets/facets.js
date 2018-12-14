@@ -89,11 +89,10 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.facetFilter = function(widget_id, param, value, label) {
 
-
         var paramsToSubmit = {};
         paramsToSubmit['facets[' + widget_id + '][' + param + '][' + value + ']'] = label;
 
-        var params = CultuurnetWidgets.getCurrentParams();
+        var params = CultuurnetWidgets.getCurrentParams(true);
         for (var key in params) {
             if (!key.includes('facets[' + widget_id + '][' + param + ']')) {
                 paramsToSubmit[key] = params[key]
@@ -115,7 +114,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var param = 'facets[' + widget_id + '][custom][' + facet_id + '][' + option_id + ']';
         var paramsToSubmit = {};
         paramsToSubmit[param] = 'true';
-        CultuurnetWidgets.redirectWithNewParams(paramsToSubmit);
+        CultuurnetWidgets.redirectWithNewParams(paramsToSubmit, false, false, true);
     };
 
     /**
@@ -129,7 +128,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var paramsToDelete = [
             'facets[' + widget_id + '][custom][' + key + '][' + option_id + ']'
         ];
-        CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete);
+        CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete, true);
     };
 
     /**
@@ -140,7 +139,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      */
     CultuurnetWidgets.removeFacetFilter = function(widget_id, facet_type) {
 
-        var params = CultuurnetWidgets.getCurrentParams();
+        var params = CultuurnetWidgets.getCurrentParams(true);
         var paramsToDelete = [];
         for (var key in params) {
             if (key.includes('facets[' + widget_id + '][' + facet_type + ']')) {
@@ -148,7 +147,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
         }
 
-        CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete);
+        CultuurnetWidgets.redirectAndDeleteParams(paramsToDelete, true);
     };
 
 })(CultuurnetWidgets);
