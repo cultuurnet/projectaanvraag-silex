@@ -90,6 +90,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":false,
  *                  "limit_labels":{
  *                      "enabled":false,
+ *                      "labels": "",
  *                  }
  *              },
  *              "facilities": {
@@ -161,6 +162,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":false,
  *                  "limit_labels":{
  *                      "enabled":false,
+ *                      "labels": "",
  *                  }
  *              },
  *              "facilities": {
