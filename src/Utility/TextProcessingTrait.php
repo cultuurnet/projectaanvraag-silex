@@ -121,7 +121,7 @@ trait TextProcessingTrait
             'span',
             'strong',
             'sub',
-            'sup'
+            'sup',
         ];
         while (!$finished) {
             if (preg_match('/^<(\w+)[^>]*>/', $html, $matches)) { // Does the remaining string start in an opening tag?
