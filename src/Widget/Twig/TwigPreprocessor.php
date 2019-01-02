@@ -618,7 +618,11 @@ class TwigPreprocessor
         $explRange = explode('-', $range);
 
         if (empty($explRange[1]) || $explRange[0] === $explRange[1]) {
-            return $explRange[0] . ' jaar';
+            return "Vanaf $explRange[0] jaar.";
+        }
+
+        if (empty($explRange[0])) {
+            return "Vanaf 0 jaar tot $explRange[1] jaar.";
         }
 
         // Build range string according to language.
