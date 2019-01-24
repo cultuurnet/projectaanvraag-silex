@@ -20,7 +20,7 @@ interface WidgetTypeInterface extends \JsonSerializable
      *
      * @return string
      */
-    public function render();
+    public function render($cdbid = '');
 
     /**
      * Render the widget placeholder, when a page is loaded.

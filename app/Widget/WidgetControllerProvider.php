@@ -33,6 +33,8 @@ class WidgetControllerProvider implements ControllerProviderInterface
             ->convert('widgetPage', 'widget_page_converter:convert');
         $controllers->get('/api/render/{widgetPage}/{widgetId}/detail', 'widget_controller:renderDetailPage')
             ->convert('widgetPage', 'widget_page_converter:convert');
+        $controllers->get('/api/render/{widgetPage}/{widgetId}/tips-embed/{cdbid}', 'widget_controller:renderTipsEmbed')
+            ->convert('widgetPage', 'widget_page_converter:convert');
 
         // Autocompletes
         $controllers->get('/autocomplete/regions/{searchString}', 'widget_controller:getRegionAutocompleteResult');

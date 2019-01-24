@@ -152,7 +152,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function render()
+    public function render($cdbid='')
     {
         // If a render is requested without search results context, perform a full search.
         if (empty($this->searchResult)) {

@@ -198,9 +198,9 @@ class Renderer implements RendererInterface
     /**
      * @inheritDoc
      */
-    public function renderWidget(WidgetTypeInterface $widgetType)
+    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '')
     {
-        return $widgetType->render();
+        return $widgetType->render($cdbid);
     }
 
     public function renderDetailPage(SearchResults $searchResultsWidget)
