@@ -201,32 +201,32 @@ class Tips extends WidgetTypeBase
     {
         $query = new SearchQuery(true);
 
-        if($cdbid == '') {
-          // Read settings for search parameters and limit.
-          if ($this->settings['general']['items']) {
-              // Set limit.
-              $query->setLimit($this->settings['general']['items']);
-          }
+        if ($cdbid == '') {
+            // Read settings for search parameters and limit.
+            if ($this->settings['general']['items']) {
+                // Set limit.
+                $query->setLimit($this->settings['general']['items']);
+            }
 
-          if (!empty($this->settings['search_params'])) {
-              if (!empty($this->settings['search_params']['query'])) {
-                  // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
-                  $query->addParameter(
-                      new Query(
-                          str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
-                      )
-                  );
-              }
+            if (!empty($this->settings['search_params'])) {
+                if (!empty($this->settings['search_params']['query'])) {
+                    // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+                    $query->addParameter(
+                        new Query(
+                            str_replace(',', ' AND ', rtrim($this->settings['search_params']['query'], ','))
+                        )
+                    );
+                }
 
-              if (!empty($this->settings['search_params']['private']) &&
-                  $this->settings['search_params']['private']) {
-                  $query->addParameter(new Query('(audienceType:members OR audienceType:everyone)'));
-                  $query->addParameter(new AudienceType('*'));
-              }
-          }
+                if (!empty($this->settings['search_params']['private']) &&
+                    $this->settings['search_params']['private']) {
+                    $query->addParameter(new Query('(audienceType:members OR audienceType:everyone)'));
+                    $query->addParameter(new AudienceType('*'));
+                }
+            }
 
-          // Sort by event end date.
-          $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
+            // Sort by event end date.
+            $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
         }
         else {
           $query->addParameter(new Id($cdbid));
