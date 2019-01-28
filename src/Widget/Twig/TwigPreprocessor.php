@@ -622,7 +622,7 @@ class TwigPreprocessor
         }
 
         // Build range string according to language.
-        return "Vanaf $explRange[0] jaar tot $explRange[1] jaar.";
+        return "Vanaf $explRange[0] jaar tot en met $explRange[1] jaar.";
     }
 
     /**
