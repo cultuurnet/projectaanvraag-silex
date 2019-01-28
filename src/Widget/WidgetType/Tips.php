@@ -227,9 +227,8 @@ class Tips extends WidgetTypeBase
 
             // Sort by event end date.
             $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
-        }
-        else {
-          $query->addParameter(new Id($cdbid));
+        } else {
+            $query->addParameter(new Id($cdbid));
         }
 
         // Retrieve results from Search API.
