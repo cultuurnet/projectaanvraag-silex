@@ -43,7 +43,7 @@ interface RendererInterface
      * @param ProjectInterface $project
      *     The project to use to render this widget.
      * @param String $cdbid
-     *     The cbid to use to render this widget.
+     *     The cdbid to use to render this widget.
      *
      * @return string
      */

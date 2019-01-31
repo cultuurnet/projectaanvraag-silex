@@ -17,7 +17,7 @@ interface WidgetTypeInterface extends \JsonSerializable
 
     /**
      * Render the widget.
-     *
+     * @param $cdbid
      * @return string
      */
     public function render($cdbid = '');

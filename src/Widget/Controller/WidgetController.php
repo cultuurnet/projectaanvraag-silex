@@ -141,6 +141,7 @@ class WidgetController
      * @param Request $request
      * @param WidgetPageInterface $widgetPage
      * @param $widgetId
+     * @param $cdbid
      * @return JsonResponse
      */
     public function renderTipsEmbed(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid)
@@ -171,6 +172,7 @@ class WidgetController
      * @param Request $request
      * @param WidgetPageInterface $widgetPage
      * @param $widgetId
+     * @param $cdbid
      * @return JsonResponse
      */
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
