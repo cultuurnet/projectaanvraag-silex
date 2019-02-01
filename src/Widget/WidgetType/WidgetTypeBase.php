@@ -115,7 +115,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     /**
      * {@inheritdoc}
      */
-    public function render()
+    public function render($cdbid = '')
     {
         return '';
     }

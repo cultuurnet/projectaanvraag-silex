@@ -34,7 +34,7 @@ class Html extends WidgetTypeBase
     /**
      * {@inheritdoc}
      */
-    public function render()
+    public function render($cdbid = '')
     {
         return $this->renderPlaceholder();
     }

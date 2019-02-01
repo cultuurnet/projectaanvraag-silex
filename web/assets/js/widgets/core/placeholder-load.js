@@ -19,10 +19,19 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 if ($placeholder.data('widget-autoload')) {
 
                     if ($placeholder.data('widget-type') !== 'search-results') {
-                        CultuurnetWidgets.renderWidget(jQuery(this).data('widget-placeholder-id'), widgetPageId).then(function(response) {
-                            $placeholder.html(response.data);
-                            CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
-                        });
+                        if($placeholder.data('widget-type') == 'tips' && $placeholder.parents('#embed').data('cdbid') !== undefined) {
+                          var widgetId = jQuery(this).data('widget-placeholder-id');
+                          var cdbid = $placeholder.parents('#embed').data('cdbid');
+                          CultuurnetWidgets.renderTipsEmbed(widgetId, widgetPageId, cdbid).then(function(response) {
+                              $placeholder.html(response.data);
+                              CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
+                          });
+                        } else {
+                          CultuurnetWidgets.renderWidget(jQuery(this).data('widget-placeholder-id'), widgetPageId).then(function(response) {
+                              $placeholder.html(response.data);
+                              CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
+                          });
+                        }
                     }
                     // For performance reasons, search results have a separate call to render the search result + all related facets via 1 call.
                     else {

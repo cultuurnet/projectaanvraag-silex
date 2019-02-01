@@ -340,7 +340,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function render()
+    public function render($cdbid = '')
     {
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',

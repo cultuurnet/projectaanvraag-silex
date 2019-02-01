@@ -42,10 +42,12 @@ interface RendererInterface
      *     The widget to render.
      * @param ProjectInterface $project
      *     The project to use to render this widget.
+     * @param String $cdbid
+     *     The cdbid to use to render this widget.
      *
      * @return string
      */
-    public function renderWidget(WidgetTypeInterface $widgetType);
+    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '');
 
     /**
      * Renders a detail page for the given widget.

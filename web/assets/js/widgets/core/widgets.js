@@ -211,6 +211,23 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     /**
      * Render a given search results widget + all related facets.
      */
+    CultuurnetWidgets.renderTipsEmbed = function(widgetId, widgetPageId, cdbid) {
+        var deferred = jQuery.Deferred();
+
+        // Only render the widget if it's a known id.
+        if (CultuurnetWidgetsSettings[widgetPageId].widgetMapping && CultuurnetWidgetsSettings[widgetPageId].widgetMapping.hasOwnProperty(widgetId)) {
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '/tips-embed/' + cdbid);
+        }
+        else {
+            deferred.reject('The given widget id was not found');
+        }
+
+        return deferred;
+    };
+
+    /**
+     * Render a given search results widget + all related facets.
+     */
     CultuurnetWidgets.renderSearchResults = function(widgetId, widgetPageId) {
 
         var deferred = jQuery.Deferred();
