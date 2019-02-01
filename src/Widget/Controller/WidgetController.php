@@ -144,37 +144,6 @@ class WidgetController
      * @param $cdbid
      * @return JsonResponse
      */
-    public function renderTipsEmbed(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid)
-    {
-
-        $project = $this->projectConverter->convert($widgetPage->getProjectId());
-        if (!$project) {
-            throw new NotFoundHttpException();
-        }
-        $this->renderer->setProject($project);
-
-        $data = [
-            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid),
-        ];
-        $response = new JsonResponse($data);
-
-        // If this is a jsonp request, set the requested callback.
-        if ($request->query->has('callback')) {
-            $response->setCallback($request->query->get('callback'));
-        }
-
-        return $response;
-    }
-
-    /**
-     * Render the given widget and return it as a json response.
-     *
-     * @param Request $request
-     * @param WidgetPageInterface $widgetPage
-     * @param $widgetId
-     * @param $cdbid
-     * @return JsonResponse
-     */
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
     {
         $project = $this->projectConverter->convert($widgetPage->getProjectId());
