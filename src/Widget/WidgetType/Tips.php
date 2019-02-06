@@ -49,7 +49,7 @@ use Pimple\Container;
  *                  "label":"Waar"
  *              },
  *              "age":{
- *                  "enabled":true,
+ *                  "enabled":false,
  *                  "label":"Leeftijd"
  *              },
  *              "audience":{
