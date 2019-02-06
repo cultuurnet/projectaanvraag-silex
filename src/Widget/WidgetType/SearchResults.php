@@ -69,7 +69,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"Organisatie"
  *              },
  *              "age":{
- *                  "enabled":true,
+ *                  "enabled":false,
  *                  "label":"Leeftijd"
  *              },
  *              "audience":{
