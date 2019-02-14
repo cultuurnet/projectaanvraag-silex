@@ -177,12 +177,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/calendar-summary-v3.git",
-                "reference": "493aa88f7467407c4d5226ff8290a2f46ed2cafd"
+                "reference": "9ebf3f727c058b0b20bbaf75eb21e528906a9271"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/calendar-summary-v3/zipball/493aa88f7467407c4d5226ff8290a2f46ed2cafd",
-                "reference": "493aa88f7467407c4d5226ff8290a2f46ed2cafd",
+                "url": "https://api.github.com/repos/cultuurnet/calendar-summary-v3/zipball/9ebf3f727c058b0b20bbaf75eb21e528906a9271",
+                "reference": "9ebf3f727c058b0b20bbaf75eb21e528906a9271",
                 "shasum": ""
             },
             "require": {
@@ -228,7 +228,7 @@
                 }
             ],
             "description": "Library to convert cultuurnet dates to a readable summary",
-            "time": "2019-01-28T09:52:56+00:00"
+            "time": "2019-02-07T08:32:01+00:00"
         },
         {
             "name": "cultuurnet/cdb",
@@ -392,12 +392,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "e2a53db0649daddb92673bec633b7481db95aa5e"
+                "reference": "8445655a4a6e7a9be8332e3b4e53e20268d3c80c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/e2a53db0649daddb92673bec633b7481db95aa5e",
-                "reference": "e2a53db0649daddb92673bec633b7481db95aa5e",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/8445655a4a6e7a9be8332e3b4e53e20268d3c80c",
+                "reference": "8445655a4a6e7a9be8332e3b4e53e20268d3c80c",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +437,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2019-01-16T13:39:56+00:00"
+            "time": "2019-02-14T08:47:20+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -528,16 +528,16 @@
         },
         {
             "name": "delfimov/translate",
-            "version": "v2.5.0",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/delfimov/Translate.git",
-                "reference": "5c60282a9198eb4ab188953261d76c708709e4c9"
+                "reference": "8a9a470a591074129170f11e24379b465c3e2974"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/delfimov/Translate/zipball/5c60282a9198eb4ab188953261d76c708709e4c9",
-                "reference": "5c60282a9198eb4ab188953261d76c708709e4c9",
+                "url": "https://api.github.com/repos/delfimov/Translate/zipball/8a9a470a591074129170f11e24379b465c3e2974",
+                "reference": "8a9a470a591074129170f11e24379b465c3e2974",
                 "shasum": ""
             },
             "require": {
@@ -579,7 +579,7 @@
                 "plural",
                 "translate"
             ],
-            "time": "2018-10-12T11:50:24+00:00"
+            "time": "2019-02-13T12:48:20+00:00"
         },
         {
             "name": "df/silex-doctrine-mongodb-odm-provider",
