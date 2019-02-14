@@ -19,7 +19,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 if ($placeholder.data('widget-autoload')) {
 
                     if ($placeholder.data('widget-type') !== 'search-results') {
-                        if($placeholder.data('widget-type') == 'tips' && $placeholder.parents('#embed').data('cdbid') !== undefined) {
+                        if($placeholder.data('widget-type') == 'tips' && $placeholder.parents('#embed').length && $placeholder.parents('#embed').data('cdbid') !== undefined) {
                           var widgetId = jQuery(this).data('widget-placeholder-id');
                           var cdbid = $placeholder.parents('#embed').data('cdbid');
                           CultuurnetWidgets.renderTipsEmbed(widgetId, widgetPageId, cdbid).then(function(response) {
