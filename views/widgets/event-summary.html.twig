@@ -57,10 +57,9 @@
                 {% endif %}
             </span>
 
-            <dl class="cnw_row">
+            <div class="list">
                 {% if settings_items.description.enabled %}
                     <p class="cnw_card-description">
-
                         {% if settings_items.type.enabled and event.type.0 is defined %}
                             <span class="cnw_badge cnw_badge-default" >
                                     <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
@@ -72,105 +71,120 @@
                 {% endif %}
 
                 {% if settings_items.where.enabled and event.where %}
+                    <div class="list-item">
                     {% if settings_items.where.label is not empty %}
-                        <dt class="cnw_col-3">
+                        <div class="list-item-aside">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.where.label }}</em>
                             <i class="cnw-fa cnw-fa-map-marker"></i>
-                        </dt>
-                        <dd class="cnw_col-9">
+                        </div>
+                        <div class="list-item-content">
                             {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
-                        </dd>
+                        </div>
                      {% else %}
-                        <dd class="cnw_col-12">
+                        <div class="list-item-content">
                             {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
-                        </dd>
+                        </div>
                      {% endif %}
+                     </div>
                 {% endif %}
 
                 {% if settings_items.organizer.enabled and event.organizer %}
+                    <div class="list-item">
                     {% if settings_items.organizer.label is not empty %}
-                        <dt class="cnw_col-3">
+                        <div class="list-item-aside">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.organizer.label }}</em>
                             <i class="cnw-fa cnw-fa-building-o"></i>
-                        </dt>
-                        <dd class="cnw_col-9">{{ event.organizer }}</dd>
+                        </div>
+                        <div class="list-item-content">{{ event.organizer }}</div>
                     {% else %}
-                        <dt class="cnw_col-12">{{ event.organizer }}</dt>
+                        <div class="list-item-content">{{ event.organizer }}</div>
                     {% endif %}
+                    <div>
                 {% endif %}
 
                 {% if settings_items.when.enabled and event.when_summary %}
+                    <div class="list-item">
                     {% if settings_items.when.label is not empty %}
-                        <dt class="cnw_col-3">
+                        <div class="list-item-aside">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.when.label }}</em>
                             <i class="cnw-fa cnw-fa-calendar"></i>
-                        </dt>
-                        <dd class="cnw_col-9">{{ event.when_summary }}</dd>
+                        </div>
+                        <div class="list-item-content">{{ event.when_summary }}</div>
                     {% else %}
-                        <dt class="cnw_col-12">{{ event.when_summary }}</dt>
+                        <div class="list-item-content">{{ event.when_summary }}</div>
                     {% endif %}
-                {% endif %}
-
-                {% if settings_items.age.enabled and event.age_range %}
-                    {% if settings_items.age.label is not empty %}
-                        <dt class="cnw_col-3">
-                            <em class="cnw_searchresult-detail-label">{{ settings_items.age.label }}</em>
-                            <i class="cnw-fa cnw-fa-male"></i>
-                        </dt>
-                        <dd class="cnw_col-9">{{ event.age_range }}</dd>
-                    {% else %}
-                        <dd class="cnw_col-12">{{ event.age_range }}</dd>
-                    {% endif %}
-                {% endif %}
-
-                {% if settings_items.audience is defined and settings_items.audience.enabled and event.audience is defined and event.audience == "members" %}
-                    {% if settings_items.audience.label is not empty %}
-                        <dt class="cnw_col-3">
-                            <em class="cnw_searchresult-detail-label">{{ settings_items.audience.label }}</em>
-                            <i class="cnw-fa cnw-fa-male"></i>
-                        </dt>
-                        <dd class="cnw_col-9">
-                          Specifiek voor leden
-                        </dd>
-                    {% else %}
-                        <dd class="cnw_col-12">
-                          Specifiek voor leden
-                        </dd>
-                    {% endif %}
-                {% endif %}
-
-                {% if settings_items.language_icons.enabled and event.language_icons %}
-                    <dt class="cnw_col-3">
-                        <em class="cnw_searchresult-detail-label">Taaliconen</em>
-                        <i class="cnw-fa cnw-fa-language"></i>
-                    </dt>
-                    <dd class="cnw_col-9">{{ event.language_icons | raw }}
-                    </dd>
-                {% endif %}
-
-                {% if settings_items.labels.enabled and event.labels %}
-                    <div class="cnw_card-labels cnw_col">
-
-                        {%  for label in event.labels %}
-                            <span class="cnw_search-result-tags-item">{{ label }}</span>
-                        {% endfor %}
-
                     </div>
                 {% endif %}
 
+                {% if settings_items.age.enabled and event.age_range %}
+                    <div class="list-item">
+                    {% if settings_items.age.label is not empty %}
+                        <div class="list-item-aside">
+                            <em class="cnw_searchresult-detail-label">{{ settings_items.age.label }}</em>
+                            <i class="cnw-fa cnw-fa-male"></i>
+                        <div>
+                        <div class="list-item-content">{{ event.age_range }}</div>
+                    {% else %}
+                        <div class="list-item-content">{{ event.age_range }}</div>
+                    {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if settings_items.audience is defined and settings_items.audience.enabled and event.audience is defined and event.audience == "members" %}
+                    <div class="list-item">
+                    {% if settings_items.audience.label is not empty %}
+                        <div class="list-item-aside">
+                            <em class="cnw_searchresult-detail-label">{{ settings_items.audience.label }}</em>
+                            <i class="cnw-fa cnw-fa-male"></i>
+                        </div>
+                        <div class="list-item-content">
+                          Specifiek voor leden
+                        </div>
+                    {% else %}
+                        <div class="list-item-content">
+                          Specifiek voor leden
+                        </div>
+                    {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if settings_items.language_icons.enabled and event.language_icons %}
+                  <div class="list-item">
+                    <div class="list-item-aside">
+                        <em class="cnw_searchresult-detail-label">Taaliconen</em>
+                        <i class="cnw-fa cnw-fa-language"></i>
+                    </div>
+                    <div class="list-item-content">{{ event.language_icons | raw }}</div>
+                  </div>
+                {% endif %}
+
+                {% if settings_items.labels.enabled and event.labels %}
+                  <div class="list-item">
+                    <div class="cnw_card-labels list-item-content">
+                        {%  for label in event.labels %}
+                            <span class="cnw_search-result-tags-item">{{ label }}</span>
+                        {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+
                 {% if settings_items.facilities is defined and settings_items.facilities.enabled %}
-                    <dt class="cnw_col-3">
+                  <div class="list-item">
+                    <div class="list-item-aside">
                         <em class="cnw_searchresult-detail-label">{{ settings_items.facilities.label }}</em>
                         <i class="cnw-fa cnw-fa-wheelchair-alt"></i>
-                    </dt>
-                    <dd class="cnw_col-9">
+                    </div>
+                    <div class="list-item-content">{
                         {% include 'widgets/facility-summary.html.twig' with { 'event': event } %}
-                    </dd>
+                    </div>
+                  </div>
                 {% endif %}
-            </dl>
+            </div>
 
             {% if settings_items.read_more.enabled %}
+
                 <a href="{{ event.detail_link }}" class="cnw_btn cnw_btn__card-readmore" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="readmore">{{ settings_items.read_more.label }}</a>
+              
             {% endif %}
 
         </div>

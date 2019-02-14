@@ -89,7 +89,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    
+
     li {
       list-style: none;
     }
@@ -136,4 +136,23 @@
       content: ' ';
     }
   }
+}
+.list {
+  display: table;
+  margin-bottom: 1rem;
+}
+
+.list-item {
+  display: table-row;
+  box-sizing: content-box;
+}
+.list-item-aside {
+  display: table-cell;
+  box-sizing: content-box;
+}
+.list-item-content {
+  display: table-cell;
+  padding-left: 15px;
+  width: 100%;
+  box-sizing: content-box;
 }
