@@ -36,17 +36,17 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             var dateToString = function(date, format) {
                     // you should do formatting based on the passed format,
                     // but we will just return 'D/M/YYYY' for simplicity
-                    const day = date.getDate();
-                    const month = date.getMonth() + 1;
-                    const year = date.getFullYear();
+                    var day = date.getDate();
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
                     return day + '/' + month + '/' + year;
             };
 
             var stringToDate = function(date, format) {
-                const parts = dateString.split('/');
-                const day = parseInt(parts[0], 10);
-                const month = parseInt(parts[1] - 1, 10);
-                const year = parseInt(parts[1], 10);
+                var parts = date.split('/');
+                var day = parseInt(parts[0], 10);
+                var month = parseInt(parts[1] - 1, 10);
+                var year = parseInt(parts[2], 10);
                 return new Date(year, month, day);
             };
 
@@ -200,10 +200,19 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                     }
                     else {
-                        $field.val(decodeURIComponent(currentParams[fieldName]));
+                        if (fieldName.includes('[date-start]') || fieldName.includes('[date-end]')) {
+                            var formattedDate = decodeURIComponent(currentParams[fieldName]);
+                            var parts = formattedDate.split('/');
+                            var day = parseInt(parts[0], 10);
+                            var month = parseInt(parts[1] - 1, 10);
+                            var year = parseInt(parts[2], 10);
+                            $field.val(new Date(year, month, day));
+                        }
+                        else {
+                            $field.val(decodeURIComponent(currentParams[fieldName]));
+                        }
                     }
                 }
-
             });
         }
 
