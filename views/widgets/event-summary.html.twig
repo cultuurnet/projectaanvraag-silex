@@ -57,18 +57,19 @@
                 {% endif %}
             </span>
 
+            {% if settings_items.description.enabled %}
+                <p class="cnw_card-description">
+                    {% if settings_items.type.enabled and event.type.0 is defined %}
+                        <span class="cnw_badge cnw_badge-default" >
+                                <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
+                            {{ event.type.0 }}
+                        </span>
+                    {% endif %}
+                    {{ event.summary | replace({'&nbsp;': ' '}) }}
+                </p>
+            {% endif %}
+
             <div class="list">
-                {% if settings_items.description.enabled %}
-                    <p class="cnw_card-description">
-                        {% if settings_items.type.enabled and event.type.0 is defined %}
-                            <span class="cnw_badge cnw_badge-default" >
-                                    <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
-                                {{ event.type.0 }}
-                            </span>
-                        {% endif %}
-                        {{ event.summary | replace({'&nbsp;': ' '}) }}
-                    </p>
-                {% endif %}
 
                 {% if settings_items.where.enabled and event.where %}
                     <div class="list-item">
@@ -174,7 +175,7 @@
                         <em class="cnw_searchresult-detail-label">{{ settings_items.facilities.label }}</em>
                         <i class="cnw-fa cnw-fa-wheelchair-alt"></i>
                     </div>
-                    <div class="list-item-content">{
+                    <div class="list-item-content">
                         {% include 'widgets/facility-summary.html.twig' with { 'event': event } %}
                     </div>
                   </div>
@@ -184,7 +185,7 @@
             {% if settings_items.read_more.enabled %}
 
                 <a href="{{ event.detail_link }}" class="cnw_btn cnw_btn__card-readmore" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="readmore">{{ settings_items.read_more.label }}</a>
-              
+
             {% endif %}
 
         </div>

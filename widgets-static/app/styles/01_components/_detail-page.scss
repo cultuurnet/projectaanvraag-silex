@@ -137,6 +137,7 @@
     }
   }
 }
+
 .list {
   display: table;
   margin-bottom: 1rem;
@@ -145,14 +146,17 @@
 .list-item {
   display: table-row;
   box-sizing: content-box;
+  font-size: 15px;
 }
 .list-item-aside {
   display: table-cell;
   box-sizing: content-box;
+  font-weight: 700;
 }
 .list-item-content {
   display: table-cell;
   padding-left: 15px;
+  padding-bottom: 7.5px;
   width: 100%;
   box-sizing: content-box;
 }
