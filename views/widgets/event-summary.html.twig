@@ -159,15 +159,7 @@
                   </div>
                 {% endif %}
 
-                {% if settings_items.labels.enabled and event.labels %}
-                  <div class="list-item">
-                    <div class="cnw_card-labels list-item-content">
-                        {%  for label in event.labels %}
-                            <span class="cnw_search-result-tags-item">{{ label }}</span>
-                        {% endfor %}
-                    </div>
-                  </div>
-                {% endif %}
+
 
                 {% if settings_items.facilities is defined and settings_items.facilities.enabled %}
                   <div class="list-item">
@@ -181,6 +173,14 @@
                   </div>
                 {% endif %}
             </div>
+
+            {% if settings_items.labels.enabled and event.labels %}
+                <div class="cnw_card-labels">
+                    {%  for label in event.labels %}
+                        <span class="cnw_search-result-tags-item">{{ label }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             {% if settings_items.read_more.enabled %}
 

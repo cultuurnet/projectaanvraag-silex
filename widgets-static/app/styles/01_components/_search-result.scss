@@ -135,7 +135,8 @@
 }
 
 p.cnw_card-description {
-  margin: 15px;
+  font-size: 15px;
+  margin-bottom: 15px;
   width: 100%;
 
   @include media-breakpoint-down(xs) {
