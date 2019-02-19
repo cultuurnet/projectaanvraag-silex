@@ -14,7 +14,6 @@ use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\WidgetAPIControllerProvider;
 use CultuurNet\ProjectAanvraag\Widget\WidgetControllerProvider;
 use CultuurNet\ProjectAanvraag\Upload\UploadControllerProvider;
-use CultuurNet\ProjectAanvraag\Embed\EmbedControllerProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyControllerProvider;
 use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
