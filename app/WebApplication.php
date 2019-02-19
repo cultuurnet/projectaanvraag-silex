@@ -113,7 +113,6 @@ class WebApplication extends ApplicationBase
                         new Path('^/widgets/autocomplete/regions', 'GET'),
                         new Path('^/event/', 'GET'),
                         new Path('^/upload', 'POST'),
-                        new Path('^/embed', 'POST'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
@@ -175,11 +174,6 @@ class WebApplication extends ApplicationBase
         $this->mount(
             null,
             new UploadControllerProvider()
-        );
-
-        $this->mount(
-            null,
-            new EmbedControllerProvider()
         );
 
         $this->mount(
