@@ -72,7 +72,7 @@
 
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     &-info {
       dt .cnw-fa {
         margin-top: 4px;

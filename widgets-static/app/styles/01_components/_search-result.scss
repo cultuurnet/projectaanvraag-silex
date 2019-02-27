@@ -208,7 +208,15 @@ p span.cnw_badge {
 
 }
 
-@include media-breakpoint-down(sm) {
+.cnw_searchresult--block i.cnw-fa {
+  display: none;
+}
+
+.cnw_searchresult--block .cnw_searchresult-detail-label {
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
    .cnw_searchresult--block .cnw_searchresult-detail-label {
       display: none;
     }
@@ -217,15 +225,8 @@ p span.cnw_badge {
   }
 }
 
-@include media-breakpoint-up(sm) {
-  .cnw_searchresult--block i.cnw-fa {
-    display: none;
-  }
 
-  .cnw_searchresult--block .cnw_searchresult-detail-label {
-    display: inline-block;
-  }
-}
+
 
 
 @include media-breakpoint-down(md) {
