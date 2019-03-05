@@ -257,11 +257,11 @@ app-2-col-sidebar-right-layout .cnw_searchresult__options label.cnw_form-check-l
   display: inline-block !important;
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .cnw_searchresult-facilities-list {
-    -webkit-columns: 100px 2;
-    -moz-columns: 100px 2;
-    columns: 100px 2;
+    -webkit-columns: 220px 2;
+    -moz-columns: 220px 2;
+    columns: 220px 2;
   }
 }
 
