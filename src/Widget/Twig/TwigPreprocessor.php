@@ -597,7 +597,7 @@ class TwigPreprocessor
                 break;
         }
 
-        $calendarFormatter = new CalendarHTMLFormatter($locale, true);
+        $calendarFormatter = new CalendarHTMLFormatter($locale, false);
         return $calendarFormatter->format($event, 'lg');
     }
 
