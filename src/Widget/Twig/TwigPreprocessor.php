@@ -136,6 +136,7 @@ class TwigPreprocessor
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
         $image = $event->getImage() ?? $defaultImage;
         if (!empty($image)) {
+            $image = str_replace("http://", "https://", $image);
             $url = Url::factory($image);
             $query = $url->getQuery();
             $query['crop'] = 'auto';
