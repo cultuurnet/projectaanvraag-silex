@@ -135,7 +135,8 @@
 }
 
 p.cnw_card-description {
-  margin: 15px;
+  font-size: 15px;
+  margin-bottom: 15px;
   width: 100%;
 
   @include media-breakpoint-down(xs) {
@@ -146,6 +147,10 @@ p.cnw_card-description {
 
 .cnw_btn__card-readmore {
   border: 1px solid gray;
+}
+
+.cnw_card-labels {
+  margin-bottom: 15px;
 }
 
 .cnw_search-result-tags-item,
@@ -174,6 +179,13 @@ p span.cnw_badge {
   font-size: 85%;
 }
 
+.cnw_w .cnw_searchresult__counter-text {
+  font-size: 15px !important;
+  font-weight: normal !important;
+  float: none !important;
+  clear:both !important;
+}
+
 /**
  * Search result widget.
  */
@@ -198,7 +210,15 @@ p span.cnw_badge {
 
 }
 
-@include media-breakpoint-down(sm) {
+.cnw_searchresult--block i.cnw-fa {
+  display: none;
+}
+
+.cnw_searchresult--block .cnw_searchresult-detail-label {
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
    .cnw_searchresult--block .cnw_searchresult-detail-label {
       display: none;
     }
@@ -207,15 +227,8 @@ p span.cnw_badge {
   }
 }
 
-@include media-breakpoint-up(sm) {
-  .cnw_searchresult--block i.cnw-fa {
-    display: none;
-  }
 
-  .cnw_searchresult--block .cnw_searchresult-detail-label {
-    display: inline-block;
-  }
-}
+
 
 
 @include media-breakpoint-down(md) {
@@ -246,11 +259,11 @@ app-2-col-sidebar-right-layout .cnw_searchresult__options label.cnw_form-check-l
   display: inline-block !important;
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .cnw_searchresult-facilities-list {
-    -webkit-columns: 100px 2;
-    -moz-columns: 100px 2;
-    columns: 100px 2;
+    -webkit-columns: 220px 2;
+    -moz-columns: 220px 2;
+    columns: 220px 2;
   }
 }
 

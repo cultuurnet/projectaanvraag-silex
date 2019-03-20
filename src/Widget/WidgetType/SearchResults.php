@@ -12,6 +12,8 @@ use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\Facet;
+use CultuurNet\SearchV3\Parameter\AvailableTo;
+use CultuurNet\SearchV3\Parameter\AvailableFrom;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
@@ -90,6 +92,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":false,
  *                  "limit_labels":{
  *                      "enabled":false,
+ *                      "labels": "",
  *                  }
  *              },
  *              "facilities": {
@@ -161,6 +164,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":false,
  *                  "limit_labels":{
  *                      "enabled":false,
+ *                      "labels": "",
  *                  }
  *              },
  *              "facilities": {
@@ -560,6 +564,8 @@ class SearchResults extends WidgetTypeBase
         );
         $query->addParameter(new AudienceType('*'));
         $query->addParameter(new AddressCountry('*'));
+        $query->addParameter(new AvailableTo('*'));
+        $query->addParameter(new AvailableFrom('*'));
         $this->searchResult = $this->searchClient->searchEvents($query);
 
         $events = $this->searchResult->getMember()->getItems();
