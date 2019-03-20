@@ -7,10 +7,10 @@
         {% if event.image is defined %}
         {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
         <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="image">
-            <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
+            <img src="{{ event.image }}" alt="{{ event.image_description }}" class="cnw_img_responsive {{ settings_items.image.position }}">
         </a>
         {% else %}
-            <img src="{{ event.image }}" class="cnw_img_responsive {{ settings_items.image.position }}">
+            <img src="{{ event.image }}" alt="{{ event.image_description }}" class="cnw_img_responsive {{ settings_items.image.position }}">
         {% endif %}
         {% endif %}
 
