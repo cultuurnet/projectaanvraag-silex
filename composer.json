@@ -21,7 +21,7 @@
         "ml/json-ld": "^1.0",
         "predis/predis": "^1.1",
         "cultuurnet/auth": "dev-master as 1.2.x-dev",
-        "cultuurnet/search-v3": "dev-master",
+        "cultuurnet/search-v3": "dev-feature/WID-190 as dev-master",
         "symfony/css-selector": "3.2.*",
         "symfony/inflector": "3.2.*",
         "symfony/monolog-bridge": "3.2.*",

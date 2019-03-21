@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "07e94dff4a9d0facc86f920e0e74be88",
+    "content-hash": "2ba03612c5cdbeec20371dec3d39c5f3",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -266,7 +266,7 @@
                 "Apache-2.0"
             ],
             "description": "PHP library for hydrating/manipulating CultuurNet's Cdb XML documents",
-            "time": "2016-02-16T08:33:45+00:00"
+            "time": "2018-12-14T08:36:04+00:00"
         },
         {
             "name": "cultuurnet/culturefeed-http-guzzle",
@@ -388,16 +388,16 @@
         },
         {
             "name": "cultuurnet/search-v3",
-            "version": "dev-master",
+            "version": "dev-feature/WID-190",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "d3359eab84b52f2f6f8f00e38cd53096abd3d288"
+                "reference": "6212a219e2bbcf87bbc9008e9f4133d67182e707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/d3359eab84b52f2f6f8f00e38cd53096abd3d288",
-                "reference": "d3359eab84b52f2f6f8f00e38cd53096abd3d288",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/6212a219e2bbcf87bbc9008e9f4133d67182e707",
+                "reference": "6212a219e2bbcf87bbc9008e9f4133d67182e707",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +437,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2019-02-14T08:47:20+00:00"
+            "time": "2019-03-21T08:41:09+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -7607,6 +7607,12 @@
             "alias_normalized": "1.2.9999999.9999999-dev",
             "version": "9999999-dev",
             "package": "cultuurnet/auth"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-feature/WID-190",
+            "package": "cultuurnet/search-v3"
         }
     ],
     "minimum-stability": "dev",
