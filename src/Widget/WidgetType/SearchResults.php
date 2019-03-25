@@ -435,10 +435,14 @@ class SearchResults extends WidgetTypeBase
 
         // Build advanced query string
         $advancedQuery = [];
+        $boostQuery = false;
 
         // Read settings for search parameters from settings.
         if (!empty($this->settings['search_params']) && !empty($this->settings['search_params']['query'])) {
             // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
+            if (strpos($this->settings['search_params']['query'], '^') !== false) {
+                $boostQuery = true;
+            }
             $advancedQuery[] = str_replace(',', ' AND ', '(' . rtrim($this->settings['search_params']['query'] . ')', ','));
         }
 
@@ -462,6 +466,8 @@ class SearchResults extends WidgetTypeBase
             );
         }
 
+        // Sort by score when query contains boosting elements.
+        $query->addSort('score', SearchQueryInterface::SORT_DIRECTION_DESC);
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
 
