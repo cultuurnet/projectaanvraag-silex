@@ -146,8 +146,10 @@ class TwigPreprocessor
             $variables['image'] = $url->__toString();
         }
 
+        $variables['image_description'] = 'Default UiT image';
         $variables['copyright'] = null;
         if ($event->getMainMediaObject()) {
+            $variables['image_description'] = $event->getMainMediaObject()->getDescription();
             $variables['copyright'] = $event->getMainMediaObject()->getCopyrightHolder();
         }
 
