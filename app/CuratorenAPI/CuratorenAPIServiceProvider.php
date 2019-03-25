@@ -61,7 +61,7 @@ class CuratorenAPIServiceProvider implements ServiceProviderInterface
                     'base_uri' => $pimple['curatoren_api.base_url'],
                     'headers' => [
                         'Content-type' => 'application/json; charset=utf-8',
-                        'Accept' => 'application/ld+json'
+                        'Accept' => 'application/ld+json',
                     ],
                     'handler' => $handlerStack,
                 ]

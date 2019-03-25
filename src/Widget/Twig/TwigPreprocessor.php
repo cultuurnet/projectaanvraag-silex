@@ -345,11 +345,8 @@ class TwigPreprocessor
      */
     public function preprocessArticles(String $articles, string $langcode, array $settings)
     {
-
-
-      $variables['articles'] = $articles;
-
-      return $variables;
+        $variables['articles'] = $articles;
+        return $variables;
     }
 
     /**
@@ -738,6 +735,4 @@ class TwigPreprocessor
             return [];
         }
     }
-
-
 }

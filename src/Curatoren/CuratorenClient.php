@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Curatoren;
 
-
 use GuzzleHttp\ClientInterface;
 use Guzzle\Http\Client;
 
@@ -47,13 +46,12 @@ class CuratorenClient implements CuratorenClientInterface
      */
     public function searchArticles(String $cdbid)
     {
-      $options = [
-        'query' => ['about' => $cdbid]
-      ];
+        $options = [
+          'query' => ['about' => $cdbid],
+        ];
 
-      $result = $this->client->request('GET', 'news_articles', $options);
+        $result = $this->client->request('GET', 'news_articles', $options);
 
-      return json_decode($result->getBody(true), true);
+        return json_decode($result->getBody(true), true);
     }
-
 }

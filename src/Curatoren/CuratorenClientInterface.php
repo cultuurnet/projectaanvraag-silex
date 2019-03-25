@@ -31,5 +31,4 @@ interface CuratorenClientInterface
      * @return Array
      */
     public function searchArticles(String $cdbid);
-
 }
