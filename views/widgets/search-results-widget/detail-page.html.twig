@@ -256,13 +256,14 @@
 
                 </dl>
 
-                {% include 'widgets/search-results-widget/articles.html.twig' with { 'linkedArticles': articles } %}
+                {% if settings.articles.enabled %}
+                  {% include 'widgets/search-results-widget/articles.html.twig' with { 'linkedArticles': articles } %}
+                {% endif %}
 
                 {% if settings.back_button.enabled %}
                     <div class="cnw_searchresult-detail-back-button">
                         <a href="{{ event.back_link }}">&laquo; {{ settings.back_button.label }}</a>
                     </div>
-
                 {% endif %}
 
 

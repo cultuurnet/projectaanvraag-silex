@@ -168,9 +168,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "labels": "",
  *                  }
  *              },
- *              "facilities": {
+ *              "facilities":{
  *                  "enabled":false,
  *                  "label": "Toegankelijkheid"
+ *              },
+ *              "articles":{
+ *                  "enabled": false,
+ *                  "publishers": ""
  *              }
  *          }
  *      },
@@ -312,6 +316,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "facilities":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "articles":{
+ *                   "enabled":"boolean",
+ *                   "publishers":"string"
  *              }
  *          }
  *     }
