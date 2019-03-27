@@ -467,7 +467,9 @@ class SearchResults extends WidgetTypeBase
         }
 
         // Sort by score when query contains boosting elements.
-        $query->addSort('score', SearchQueryInterface::SORT_DIRECTION_DESC);
+        if ($boostQuery) {
+            $query->addSort('score', SearchQueryInterface::SORT_DIRECTION_DESC);
+        }
         // Sort by event end date.
         $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
 
