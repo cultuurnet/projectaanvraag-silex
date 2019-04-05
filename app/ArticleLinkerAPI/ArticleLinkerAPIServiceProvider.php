@@ -1,9 +1,9 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\CuratorenAPI;
+namespace CultuurNet\ProjectAanvraag\ArticleLinkerAPI;
 
 use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
-use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
+use CultuurNet\ProjectAanvraag\ArticleLinker\ArticleLinkerClient;
 use Guzzle\Cache\DoctrineCacheAdapter;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
@@ -18,7 +18,7 @@ use Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class CuratorenAPIServiceProvider implements ServiceProviderInterface
+class ArticleLinkerAPIServiceProvider implements ServiceProviderInterface
 {
     /**
      * @inheritdoc
@@ -26,16 +26,16 @@ class CuratorenAPIServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
 
-        $pimple['curatoren_api'] = function (Container $pimple) {
+        $pimple['articlelinker_api'] = function (Container $pimple) {
 
             $handlerStack = HandlerStack::create();
 
-            if ($pimple['curatoren_api.cache.enabled']) {
+            if ($pimple['articlelinker_api.cache.enabled']) {
                 $handlerStack->push(
                     new CacheMiddleware(
                         new PrivateCacheStrategy(
                             new DoctrineCacheStorage(
-                                $pimple['cache_doctrine_' . $pimple['curatoren_api.cache.backend']]
+                                $pimple['cache_doctrine_' . $pimple['articlelinker_api.cache.backend']]
                             )
                         )
                     ),
@@ -44,9 +44,9 @@ class CuratorenAPIServiceProvider implements ServiceProviderInterface
             }
 
             if ($pimple['debug']) {
-                $logger = new Logger('curatoren_api');
+                $logger = new Logger('articlelinker_api');
                 $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
-                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/curatoren-api/curatoren-api.log', 0, Logger::DEBUG));
+                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/article-linker-api/article-linker-api.log', 0, Logger::DEBUG));
 
                 $handlerStack->push(
                     Middleware::log(
@@ -58,7 +58,7 @@ class CuratorenAPIServiceProvider implements ServiceProviderInterface
 
             $guzzleClient = new Client(
                 [
-                    'base_uri' => $pimple['curatoren_api.base_url'],
+                    'base_uri' => $pimple['articlelinker_api.base_url'],
                     'headers' => [
                         'Content-type' => 'application/json; charset=utf-8',
                         'Accept' => 'application/ld+json',
@@ -67,21 +67,25 @@ class CuratorenAPIServiceProvider implements ServiceProviderInterface
                 ]
             );
 
-            return new CuratorenClient($guzzleClient);
+            return new ArticleLinkerClient($guzzleClient);
         };
 
-        $pimple['curatoren_api_test'] = function (Container $pimple) {
+        $pimple['articlelinker_api_test'] = function (Container $pimple) {
 
-            $curatorenClient = clone $pimple['curatoren_api'];
+            $articleLinkerClient = clone $pimple['articlelinker_api'];
 
-            $config = $curatorenClient->getClient()->getConfig();
-            $config['base_uri'] = $pimple['curatoren_api_test.base_url'];
+            $config = $articleLinkerClient->getClient()->getConfig();
+            $config['base_uri'] = $pimple['articlelinker_api_test.base_url'];
             $headers = $config['headers'] ?? [];
             $config['headers'] = $headers;
 
-            $curatorenClient->setClient(new \GuzzleHttp\Client($config));
+            $articleLinkerClient->setClient(new \GuzzleHttp\Client($config));
 
-            return $curatorenClient;
+            return $articleLinkerClient;
+        };
+
+        $pimple['cache_repository'] = function (Container $pimple) {
+            return $pimple['orm.em']->getRepository('ProjectAanvraag:Cache');
         };
     }
 }

@@ -13,7 +13,7 @@ class WidgetControllerProvider implements ControllerProviderInterface
     {
 
         $app['widget_controller'] = function (Application $app) {
-            return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['project_converter'], $app['mongodb'], $app['widget_page_deserializer'], $app['debug'], $app['config']['legacy_host'], $app['widget_region_service']);
+            return new WidgetController($app['widget_renderer'], $app['widget_repository'], $app['project_converter'], $app['mongodb'], $app['widget_page_deserializer'], $app['debug'], $app['config']['legacy_host'], $app['widget_region_service'], $app['command_bus']);
         };
 
         /* @var ControllerCollection $controllers */

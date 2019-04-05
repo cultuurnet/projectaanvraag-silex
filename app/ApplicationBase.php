@@ -16,6 +16,7 @@ use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProv
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\CuratorenAPI\CuratorenAPIServiceProvider;
+use CultuurNet\ProjectAanvraag\ArticleLinkerAPI\ArticleLinkerAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
@@ -156,6 +157,20 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
+        // ArticleLinker API
+        $this->register(
+            new ArticleLinkerAPIServiceProvider(),
+            [
+                'articlelinker_api.base_url' => $this['config']['articlelinker_api']['live']['base_url'],
+                'articlelinker_api.base_url' => $this['config']['articlelinker_api']['test']['base_url'],
+                'articlelinker_api.cache.enabled' => $this['config']['articlelinker_api']['cache']['enabled'],
+                'articlelinker_api.cache.backend' => $this['config']['articlelinker_api']['cache']['backend'],
+                'articlelinker_api.cache.ttl' => $this['config']['articlelinker_api']['cache']['ttl'],
+            ]
+        );
+
+// articlelinker-api.cache.backend"
+
         // User and user roles
         $this->register(new UserRoleServiceProvider(__DIR__ . '/../user_roles.yml'));
         $this->register(new UserServiceProvider());
@@ -277,7 +292,7 @@ class ApplicationBase extends SilexApplication
         $this->register(new IntegrationTypeStorageServiceProvider(__DIR__ . '/../integration_types.yml'));
 
         // Publishers
-        $this->register(new PublisherStorageServiceProvider(__DIR__ . '/../publishers.yml'));
+  //      $this->register(new PublisherStorageServiceProvider(__DIR__ . '/../publishers.yml'));
 
         // Project
         $this->register(new ProjectProvider());

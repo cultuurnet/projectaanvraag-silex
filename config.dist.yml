@@ -90,6 +90,17 @@ curatoren_api:
     backend: redis
     ttl: 3600
 
+# Article Linker
+articlelinker_api:
+  test:
+    base_url: https://uit-articlelinker.herokuapp.com
+  live:
+    base_url: https://uit-articlelinker.herokuapp.com
+  cache:
+    enabled: true
+    backend: redis
+    ttl: 3600
+
 # Annotation settings
 annotations:
   cache:

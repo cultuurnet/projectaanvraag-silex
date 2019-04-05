@@ -19,12 +19,19 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use CultuurNet\ProjectAanvraag\ArticleLinker;
+use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
+use CultuurNet\ProjectAanvraag\ArticleLinker\Command\CreateArticleLink;
 
 /**
  * Provides a controller to render widget pages and widgets.
  */
 class WidgetController
 {
+    /**
+     * @var MessageBusSupportingMiddleware
+     */
+    protected $commandBus;
 
     /**
      * @var RendererInterface
@@ -62,11 +69,17 @@ class WidgetController
     protected $regionService;
 
     /**
+     * @var Article
+     */
+    protected $articleLinkerClient;
+
+    /**
      * WidgetController constructor.
      *
      * @param RendererInterface $renderer
      * @param DocumentRepository $widgetRepository
      * @param Connection $db
+     * @param MessageBusSupportingMiddleware $commandBus
      */
     public function __construct(
         RendererInterface $renderer,
@@ -76,7 +89,8 @@ class WidgetController
         WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
         bool $debugMode,
         string $legacyHost,
-        RegionService $regionService
+        RegionService $regionService,
+        MessageBusSupportingMiddleware $commandBus
     ) {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
@@ -85,6 +99,7 @@ class WidgetController
         $this->debugMode = $debugMode;
         $this->legacyHost = $legacyHost;
         $this->regionService = $regionService;
+        $this->commandBus = $commandBus;
     }
 
     public function renderPageForceCurrent(Request $request, WidgetPageInterface $widgetPage)
@@ -146,6 +161,11 @@ class WidgetController
      */
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
     {
+        if ($cdbid && $request->headers->get('referer')) {
+            $url = $request->headers->get('referer');
+            $this->commandBus->handle(new CreateArticleLink($url, $cdbid));
+        }
+
         $project = $this->projectConverter->convert($widgetPage->getProjectId());
         if (!$project) {
             throw new NotFoundHttpException();
