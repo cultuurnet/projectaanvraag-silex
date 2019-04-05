@@ -147,8 +147,10 @@ class TwigPreprocessor
             $variables['image'] = $url->__toString();
         }
 
+        $variables['image_description'] = 'Default UiT image';
         $variables['copyright'] = null;
         if ($event->getMainMediaObject()) {
+            $variables['image_description'] = $event->getMainMediaObject()->getDescription();
             $variables['copyright'] = $event->getMainMediaObject()->getCopyrightHolder();
         }
 
@@ -379,8 +381,16 @@ class TwigPreprocessor
 
         $prices = [];
         if ($event->getPriceInfo()) {
-            $priceInfo = $event->getPriceInfo()[0];
-            $prices[] = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
+            $priceInfos = $event->getPriceInfo();
+            foreach ($priceInfos as $priceInfo) {
+                $priceName = $priceInfo->getName()->getValueForLanguage('nl');
+                $priceAmount = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
+                if ($priceInfo->getCategory() !== 'base') {
+                    $prices[] = $priceName . ': ' . $priceAmount;
+                } else {
+                    $prices[] = $priceAmount;
+                }
+            }
         }
 
         try {

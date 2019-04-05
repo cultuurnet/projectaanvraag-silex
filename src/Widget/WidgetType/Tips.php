@@ -207,6 +207,7 @@ class Tips extends WidgetTypeBase
     public function render($cdbid = '')
     {
         $query = new SearchQuery(true);
+        $boostQuery = false;
 
         if ($cdbid == '') {
             // Read settings for search parameters and limit.
@@ -217,6 +218,9 @@ class Tips extends WidgetTypeBase
 
             if (!empty($this->settings['search_params'])) {
                 if (!empty($this->settings['search_params']['query'])) {
+                    if (strpos($this->settings['search_params']['query'], '^') !== false) {
+                        $boostQuery = true;
+                    }
                     // Convert comma-separated values to an advanced query string (Remove possible trailing comma).
                     $query->addParameter(
                         new Query(
@@ -232,6 +236,10 @@ class Tips extends WidgetTypeBase
                 }
             }
 
+            // Sort by score when query contains boosting elements.
+            if ($boostQuery) {
+                $query->addSort('score', SearchQueryInterface::SORT_DIRECTION_DESC);
+            }
             // Sort by event end date.
             $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
         } else {
