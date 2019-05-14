@@ -25,6 +25,7 @@ class IntegrationTypeTest extends \PHPUnit_Framework_TestCase
         $type->setName('API');
         $type->setSapiVersion(2);
         $type->setSelfService(true);
+        $type->setEnableActivation(true);
         $type->setActionButton($actionButton);
         $type->setType('output');
 
@@ -38,6 +39,7 @@ class IntegrationTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $type->getSapiVersion(), 'It correctly returns the action button.');
         $this->assertEquals($actionButton, $type->getActionButton(), 'It correctly returns the action button.');
         $this->assertEquals(true, $type->getSelfService(), 'It correctly returns the service.');
+        $this->assertEquals(true, $type->getEnableActivation(), 'It correctly returns the service.');
         $this->assertEquals('output', $type->getType(), 'It correctly returns the type.');
 
         $this->assertJsonEquals(json_encode($type), 'IntegrationType/data/serialized/integration_type.json');
