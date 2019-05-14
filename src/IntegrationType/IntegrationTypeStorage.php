@@ -71,6 +71,7 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
                 $integrationType->setActionButton(!empty($type['action_button']) ? $type['action_button'] : '');
                 $integrationType->setSapiVersion(!empty($type['sapi_version']) ? $type['sapi_version'] : '2');
                 $integrationType->setSelfService(isset($type['self_service']) ? $type['self_service'] : true);
+                $integrationType->setEnableActivation(isset($type['enable_activation']) ? $type['enable_activation'] : true);
                 $integrationType->setType(!empty($type['type']) ? $type['type'] : 'output');
                 $this->integrationTypes[$integrationType->getId()] = $integrationType;
             }
