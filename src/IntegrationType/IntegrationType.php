@@ -74,6 +74,12 @@ class IntegrationType implements \JsonSerializable
     protected $type;
 
     /**
+     * @var boolean
+     */
+    protected $enableActivation;
+
+
+    /**
      * @return string
      */
     public function getId()
@@ -268,6 +274,24 @@ class IntegrationType implements \JsonSerializable
     public function setSelfService($selfService)
     {
         $this->selfService = $selfService;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getEnableActivation()
+    {
+        return $this->enableActivation;
+    }
+
+    /**
+     * @param boolean $enableActivation
+     * @return IntegrationType
+     */
+    public function setEnableActivation($enableActivation)
+    {
+        $this->enableActivation = $enableActivation;
         return $this;
     }
 

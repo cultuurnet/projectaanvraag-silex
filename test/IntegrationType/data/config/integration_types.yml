@@ -12,6 +12,7 @@ integration_types:
       group_id: 'group_id'
       type: 'output'
       selfService: true
+      enableActivation: true
   culturefeed:
       name: 'Culturefeed'
       description: 'Modules waarmee je een UiTagenda integreert in een Drupal-site'
@@ -24,6 +25,7 @@ integration_types:
       group_id: 'group_id'
       type: 'output'
       selfService: true
+      enableActivation: false
   api:
       name: 'API'
       description: 'Met deze API krijg je toegang tot de zoekengine van de UiTdatabank'
@@ -37,3 +39,4 @@ integration_types:
       action_button: 'test'
       type: 'output'
       selfService: true
+      enableActivation: false

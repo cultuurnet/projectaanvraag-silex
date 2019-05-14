@@ -12,5 +12,6 @@
   "sapiVersion": 2,
   "actionButton": "test",
   "type": "output",
-  "selfService": true
+  "selfService": true,
+  "enableActivation": true
 }
