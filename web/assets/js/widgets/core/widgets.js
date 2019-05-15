@@ -308,6 +308,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             }
         }
 
+        // WID-205: always delete cdbid
+        if (newParams['cdbid']) {
+          delete newParams['cdbid'];
+        }
+
         // Add every param to the params.
         for (var param in paramsToAdd) {
             if (typeof newParams[param] !== 'undefined') {
