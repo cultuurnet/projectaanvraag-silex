@@ -981,14 +981,6 @@
   content: "";
 }
 
-.cnw-fa-google-plus-square:before {
-  content: "";
-}
-
-.cnw-fa-google-plus:before {
-  content: "";
-}
-
 .cnw-fa-money:before {
   content: "";
 }
@@ -2833,11 +2825,6 @@
 
 .cnw-fa-themeisle:before {
   content: "";
-}
-
-.cnw-fa-google-plus-circle:before,
-.cnw-fa-google-plus-official:before {
-  content: "";
 }
 
 .cnw-fa-fa:before,
