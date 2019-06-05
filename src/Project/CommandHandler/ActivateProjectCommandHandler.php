@@ -76,7 +76,6 @@ class ActivateProjectCommandHandler
         } else {
             $createConsumer->searchPrefixFilterQuery = $project->getContentFilter();
         }
-        //$createConsumer->contentFilter = $project->searchPrefixFilterQuery;
 
         // Save consumer in live api.
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
