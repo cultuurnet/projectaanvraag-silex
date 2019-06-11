@@ -71,6 +71,11 @@ class ActivateProjectCommandHandler
         $createConsumer->name = $project->getName();
         $createConsumer->description = $project->getDescription();
         $createConsumer->group = [$this->defaultConsumerGroup, $project->getGroupId()];
+        if ($project->getSapiVersion() == '3') {
+            $createConsumer->searchPrefixSapi3 = $project->getContentFilter();
+        } else {
+            $createConsumer->searchPrefixFilterQuery = $project->getContentFilter();
+        }
 
         // Save consumer in live api.
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
