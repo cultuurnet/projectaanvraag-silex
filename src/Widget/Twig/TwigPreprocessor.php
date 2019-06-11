@@ -297,7 +297,6 @@ class TwigPreprocessor
             $variables['share_links'] = [
                 'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
                 'twitter' => 'https://twitter.com/intent/tweet?text='  . urlencode($shareUrl->__toString()),
-                'google_plus' => 'https://plus.google.com/share?url=' . urlencode($shareUrl->__toString()),
             ];
         }
 
