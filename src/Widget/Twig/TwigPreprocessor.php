@@ -206,6 +206,8 @@ class TwigPreprocessor
             $variables['type'] = $typeLabels;
         }
 
+        $this->preprocessPriceInfo($event, $variables);
+
         return $variables;
     }
 
