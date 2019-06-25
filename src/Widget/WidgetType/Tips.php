@@ -82,7 +82,7 @@ use Pimple\Container;
  *                  "label":"Lees verder"
  *              },
  *              "price_information":{
- *                  "enabled":false,
+ *                  "enabled":false
  *              },
  *          }
  *      },
@@ -151,7 +151,7 @@ use Pimple\Container;
  *                  "label":"string"
  *              }
  *              "price_information":{
- *                  "enabled":"boolean",
+ *                  "enabled":"boolean"
  *              },
  *          },
  *          "search_params" : {
