@@ -81,6 +81,9 @@ use Pimple\Container;
  *                  "enabled":true,
  *                  "label":"Lees verder"
  *              },
+ *              "price_information":{
+ *                  "enabled":false,
+ *              },
  *          }
  *      },
  *      allowedSettings = {
@@ -147,6 +150,9 @@ use Pimple\Container;
  *                  "enabled":"boolean",
  *                  "label":"string"
  *              }
+ *              "price_information":{
+ *                  "enabled":"boolean",
+ *              },
  *          },
  *          "search_params" : {
  *              "query": "string",
