@@ -2,23 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\ArticleLinkerAPI;
 
-use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
+use CultuurNet\ProjectAanvraag\APIServiceProviderBase;
 use CultuurNet\ProjectAanvraag\ArticleLinker\ArticleLinkerClient;
-use Guzzle\Cache\DoctrineCacheAdapter;
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\MessageFormatter;
-use GuzzleHttp\Middleware;
-use Kevinrob\GuzzleCache\CacheMiddleware;
-use Kevinrob\GuzzleCache\Storage\DoctrineCacheStorage;
-use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
-use Monolog\Handler\BrowserConsoleHandler;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Logger;
 use Pimple\Container;
-use Pimple\ServiceProviderInterface;
 
-class ArticleLinkerAPIServiceProvider implements ServiceProviderInterface
+class ArticleLinkerAPIServiceProvider extends APIServiceProviderBase
 {
     /**
      * @inheritdoc
@@ -28,34 +17,6 @@ class ArticleLinkerAPIServiceProvider implements ServiceProviderInterface
 
         $pimple['articlelinker_api'] = function (Container $pimple) {
 
-            $handlerStack = HandlerStack::create();
-
-            if ($pimple['articlelinker_api.cache.enabled']) {
-                $handlerStack->push(
-                    new CacheMiddleware(
-                        new PrivateCacheStrategy(
-                            new DoctrineCacheStorage(
-                                $pimple['cache_doctrine_' . $pimple['articlelinker_api.cache.backend']]
-                            )
-                        )
-                    ),
-                    'cache'
-                );
-            }
-
-            if ($pimple['debug']) {
-                $logger = new Logger('articlelinker_api');
-                $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
-                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/article-linker-api/article-linker-api.log', 0, Logger::DEBUG));
-
-                $handlerStack->push(
-                    Middleware::log(
-                        $logger,
-                        new MessageFormatter(MessageFormatter::SHORT)
-                    )
-                );
-            }
-
             $guzzleClient = new Client(
                 [
                     'base_uri' => $pimple['articlelinker_api.base_url'],
@@ -63,7 +24,7 @@ class ArticleLinkerAPIServiceProvider implements ServiceProviderInterface
                         'Content-type' => 'application/json; charset=utf-8',
                         'Accept' => 'application/ld+json',
                     ],
-                    'handler' => $handlerStack,
+                    'handler' => $this->getHandlerStack('articlelinker_api', $pimple),
                 ]
             );
 

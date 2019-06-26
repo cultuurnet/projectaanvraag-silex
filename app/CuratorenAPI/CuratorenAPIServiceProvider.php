@@ -2,23 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\CuratorenAPI;
 
-use CultuurNet\ProjectAanvraag\Guzzle\Cache\FixedTtlCacheStorage;
+use CultuurNet\ProjectAanvraag\APIServiceProviderBase;
 use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
-use Guzzle\Cache\DoctrineCacheAdapter;
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\MessageFormatter;
-use GuzzleHttp\Middleware;
-use Kevinrob\GuzzleCache\CacheMiddleware;
-use Kevinrob\GuzzleCache\Storage\DoctrineCacheStorage;
-use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
-use Monolog\Handler\BrowserConsoleHandler;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Logger;
 use Pimple\Container;
-use Pimple\ServiceProviderInterface;
 
-class CuratorenAPIServiceProvider implements ServiceProviderInterface
+class CuratorenAPIServiceProvider extends APIServiceProviderBase
 {
     /**
      * @inheritdoc
@@ -28,34 +17,6 @@ class CuratorenAPIServiceProvider implements ServiceProviderInterface
 
         $pimple['curatoren_api'] = function (Container $pimple) {
 
-            $handlerStack = HandlerStack::create();
-
-            if ($pimple['curatoren_api.cache.enabled']) {
-                $handlerStack->push(
-                    new CacheMiddleware(
-                        new PrivateCacheStrategy(
-                            new DoctrineCacheStorage(
-                                $pimple['cache_doctrine_' . $pimple['curatoren_api.cache.backend']]
-                            )
-                        )
-                    ),
-                    'cache'
-                );
-            }
-
-            if ($pimple['debug']) {
-                $logger = new Logger('curatoren_api');
-                $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
-                $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/curatoren-api/curatoren-api.log', 0, Logger::DEBUG));
-
-                $handlerStack->push(
-                    Middleware::log(
-                        $logger,
-                        new MessageFormatter(MessageFormatter::SHORT)
-                    )
-                );
-            }
-
             $guzzleClient = new Client(
                 [
                     'base_uri' => $pimple['curatoren_api.base_url'],
@@ -63,7 +24,7 @@ class CuratorenAPIServiceProvider implements ServiceProviderInterface
                         'Content-type' => 'application/json; charset=utf-8',
                         'Accept' => 'application/ld+json',
                     ],
-                    'handler' => $handlerStack,
+                    'handler' => $this->getHandlerStack('curatoren_api', $pimple),
                 ]
             );
 

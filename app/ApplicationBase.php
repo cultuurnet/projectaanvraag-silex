@@ -169,8 +169,6 @@ class ApplicationBase extends SilexApplication
             ]
         );
 
-// articlelinker-api.cache.backend"
-
         // User and user roles
         $this->register(new UserRoleServiceProvider(__DIR__ . '/../user_roles.yml'));
         $this->register(new UserServiceProvider());
@@ -290,9 +288,6 @@ class ApplicationBase extends SilexApplication
 
         // Integration types
         $this->register(new IntegrationTypeStorageServiceProvider(__DIR__ . '/../integration_types.yml'));
-
-        // Publishers
-  //      $this->register(new PublisherStorageServiceProvider(__DIR__ . '/../publishers.yml'));
 
         // Project
         $this->register(new ProjectProvider());
