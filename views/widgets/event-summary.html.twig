@@ -159,7 +159,7 @@
                   </div>
                 {% endif %}
 
-                {% if event.price %}
+                {% if settings_items.price_information.enabled and event.price %}
                   <div class="list-item">
                     <div class="list-item-aside">
                         <em class="cnw_searchresult-detail-label">Prijs</em>
