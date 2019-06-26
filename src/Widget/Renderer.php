@@ -168,7 +168,7 @@ class Renderer implements RendererInterface
         $this->addSettings(['widgetPageRows' => $rowOutput]);
         $this->addSettings(['widgetPageId' => $widgetPage->getId()]);
 
-        // If there is a search results wiget, include the detail page version also.
+        // If there is a search results widget, include the detail page version also.
         if ($searchResultWidget) {
             $detailPageRow = $this->getDetailPageRow($searchResultWidgetRow, $searchResultWidgetRowIndex, $facetsInRows, $htmlInRows);
             $this->addSettings(['detailPage' => $detailPageRow->render()]);
