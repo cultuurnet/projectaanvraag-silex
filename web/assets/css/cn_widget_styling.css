@@ -4920,6 +4920,10 @@ html .cnw_w label {
   vertical-align: top;
 }
 
+html .cnw_searchresult-price-info p{
+  margin-bottom: 0;
+}
+
 .cnw_container {
   position: relative;
   margin-left: auto;
