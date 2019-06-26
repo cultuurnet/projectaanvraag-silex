@@ -58,6 +58,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "characters":200
  *              },
+ *              "price_information":{
+ *                  "enabled":false
+ *              },
  *              "when":{
  *                  "enabled":true,
  *                  "label":"Wanneer"
@@ -200,6 +203,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "description":{
  *                  "enabled":"boolean",
  *                  "characters":"integer"
+ *              },
+ *              "price_information":{
+ *                  "enabled":"boolean",
  *              },
  *              "when":{
  *                  "enabled":"boolean",
