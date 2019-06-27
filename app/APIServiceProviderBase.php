@@ -52,7 +52,7 @@ abstract class APIServiceProviderBase implements ServiceProviderInterface
             $logger = new Logger($configPrefix);
             $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
             $logName = str_replace('_', '-', $configPrefix);
-            $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../log/' . $logName . '-api/' . $logName . '.log', 0, Logger::DEBUG));
+            $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../log/' . $logName . '/' . $logName . '.log', 0, Logger::DEBUG));
 
             $handlerStack->push(
                 Middleware::log(

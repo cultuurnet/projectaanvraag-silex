@@ -18,7 +18,7 @@ class ArticleLinkerClient implements ArticleLinkerClientInterface
     protected $client;
 
     /**
-     * SearchClient constructor.
+     * ArticleLinkerClient constructor.
      * @param ClientInterface $client
      */
     public function __construct(ClientInterface $client)
@@ -52,6 +52,6 @@ class ArticleLinkerClient implements ArticleLinkerClientInterface
           'cdbid' => $cdbid,
         ];
 
-        $result = $this->client->request('POST', 'linkArticle', ["json" => $data]);
+        $this->client->request('POST', 'linkArticle', ["json" => $data]);
     }
 }

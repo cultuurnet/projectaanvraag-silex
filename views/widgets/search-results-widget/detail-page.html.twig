@@ -256,8 +256,8 @@
 
                 </dl>
 
-                {% if settings.articles.enabled %}
-                  {% include 'widgets/search-results-widget/articles.html.twig' with { 'linkedArticles': articles } %}
+                {% if articles %}
+                  {% include 'widgets/search-results-widget/articles.html.twig' with { 'articles': articles } %}
                 {% endif %}
 
                 {% if settings.back_button.enabled %}

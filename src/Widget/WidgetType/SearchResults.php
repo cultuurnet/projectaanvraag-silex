@@ -594,8 +594,6 @@ class SearchResults extends WidgetTypeBase
         $query->addParameter(new AvailableFrom('*'));
         $this->searchResult = $this->searchClient->searchEvents($query);
 
-        $this->articles = $this->curatorenClient->searchArticles($this->request->query->get('cdbid'));
-
         $events = $this->searchResult->getMember()->getItems();
         if (count($events) === 0) {
             return '';
@@ -607,15 +605,21 @@ class SearchResults extends WidgetTypeBase
             'pageTitleSuffix' => 'Event | ' . $name,
         ];
 
+        $variables = [
+            'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], $langcode, $this->settings['detail_page']),
+            'settings' => $this->settings['detail_page'],
+            'tag_manager_data' => json_encode($tagManagerData),
+        ];
+
+        if (!empty($this->settings['detail_page']['articles']['enabled'])) {
+            $articles = $this->curatorenClient->searchArticles($this->request->query->get('cdbid'));
+            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles);
+        }
+
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/search-results-widget/detail-page.html.twig',
-            [
-                'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], $langcode, $this->settings['detail_page']),
-                'articles' => $this->articles,
-                'settings' => $this->settings['detail_page'],
-                'tag_manager_data' => json_encode($tagManagerData),
-            ]
+            $variables
         );
     }
 }

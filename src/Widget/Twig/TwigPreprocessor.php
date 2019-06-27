@@ -345,10 +345,16 @@ class TwigPreprocessor
      * @param string $langcode
      * @param array $settings
      */
-    public function preprocessArticles(String $articles, string $langcode, array $settings)
+    public function preprocessArticles($linkedArticles)
     {
-        $variables['articles'] = $articles;
-        return $variables;
+
+        $articles = [];
+        if (!empty($linkedArticles['hydra:member'])) {
+            foreach ($linkedArticles['hydra:member'] as $article) {
+                $articles[] = $article;
+            }
+        }
+        return $articles;
     }
 
     /**

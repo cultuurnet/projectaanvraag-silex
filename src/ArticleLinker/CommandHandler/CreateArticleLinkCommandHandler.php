@@ -8,15 +8,6 @@ use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class CreateArticleLinkCommandHandler
 {
-    /**
-     * @var string
-     */
-    private $url;
-
-    /**
-     * @var string
-     */
-    private $cdbid;
 
     /**
      * @var MessageBusSupportingMiddleware
@@ -24,14 +15,12 @@ class CreateArticleLinkCommandHandler
     protected $eventBus;
 
     /**
-     * CreateProjectCommandHandler constructor.
+     * CreateArticleLinkCommandHandler constructor.
      * @param MessageBusSupportingMiddleware $eventBus
      */
     public function __construct(MessageBusSupportingMiddleware $eventBus)
     {
         $this->eventBus = $eventBus;
-        /*$this->url = $url;
-        $this->cdbid = $cdbid;*/
     }
 
     /**
@@ -43,6 +32,5 @@ class CreateArticleLinkCommandHandler
     {
         $articleLinkCreated = new ArticleLinkCreated($createArticleLink->getUrl(), $createArticleLink->getCdbid());
         $this->eventBus->handle($articleLinkCreated);
-        // hier kom ik
     }
 }

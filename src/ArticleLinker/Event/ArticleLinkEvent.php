@@ -20,16 +20,16 @@ abstract class ArticleLinkEvent extends AbstractRetryableMessage
     private $url;
 
     /**
-     * ProjectDeleted constructor.
+     * ArticleLinkEvent constructor.
      * @param string $url
      * @param string $cdbid
      * @param int $delay
      */
-    public function __construct($url, $cdbid, $delay = 0)
+    public function __construct($url, $cdbid, $delay = 5)
     {
         $this->url = $url;
         $this->cdbid = $cdbid;
-        $this->delay = 5;
+        $this->delay = $delay;
     }
 
     /**
@@ -42,7 +42,7 @@ abstract class ArticleLinkEvent extends AbstractRetryableMessage
 
     /**
      * @param String $string
-     * @return ArticleLinkCreated
+     * @return ArticleLinkEvent
      */
     public function setUrl($url)
     {
@@ -59,7 +59,7 @@ abstract class ArticleLinkEvent extends AbstractRetryableMessage
     }
 
     /**
-     * @param string $usedCoupon
+     * @param string $cdbid
      * @return ArticleLinkEvent
      */
     public function setCbid($cdbid)

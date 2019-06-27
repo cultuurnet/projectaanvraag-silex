@@ -26,7 +26,7 @@ interface ArticleLinkerClientInterface
     public function getClient();
 
     /**
-     * Perform a search on articles.
+     * Link an article.
      *
      * @param String $cdbid
      * @return Array

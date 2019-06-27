@@ -52,7 +52,12 @@ class ArticleLinkCreatedEventListener
 
         if (empty($cacheEntity)) {
             // no cache
-            $this->articleLinkerClient->linkArticle($url, $cdbid);
+            try {
+                $this->articleLinkerClient->linkArticle($url, $cdbid);
+            } catch (\Exception $e) {
+                print $e->getMessage();
+            }
+
             $cache = new Cache();
             $cache->setUrl($url);
             $cache->setLastChecked();

@@ -1,6 +1,6 @@
 <p class="cnw_searchresult-detail-block-title">Lees meer</p>
 <ul>
-  {% for article in linkedArticles['hydra:member'] %}
+  {% for article in articles %}
        <li><a href="{{ article.url }}"><strong>{{ article.headline }}</strong></a><br/>
        {{article.text}} - {{article.publisher}}</li>
   {% endfor %}

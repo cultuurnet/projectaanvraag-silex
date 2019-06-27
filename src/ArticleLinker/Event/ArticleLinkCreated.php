@@ -25,7 +25,6 @@ class ArticleLinkCreated extends ArticleLinkEvent
      */
     public function __construct($url, $cdbid)
     {
-        // hier kom ik ook
         parent::__construct($url, $cdbid);
         $this->url = $url;
         $this->cdbid = $cdbid;

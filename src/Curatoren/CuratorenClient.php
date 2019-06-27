@@ -17,7 +17,7 @@ class CuratorenClient implements CuratorenClientInterface
     protected $client;
 
     /**
-     * SearchClient constructor.
+     * CuratorenClient constructor.
      * @param ClientInterface $client
      */
     public function __construct(ClientInterface $client)
