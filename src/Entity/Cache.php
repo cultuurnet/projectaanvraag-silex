@@ -38,7 +38,7 @@ class Cache
      */
     public function getUrl()
     {
-        return $this->lastChecked;
+        return $this->url;
     }
 
     /**
@@ -63,9 +63,9 @@ class Cache
      * @param DateTime $timestamp
      * @return Cache
      */
-    public function setLastChecked()
+    public function setLastChecked(\DateTime $lastChecked)
     {
-        $this->lastChecked = new \DateTime("now");
+        $this->lastChecked = $lastChecked;
         return $this;
     }
 }

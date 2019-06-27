@@ -291,16 +291,6 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @param string $apiKeySapi3
-     * @return Project
-     */
-    public function setApiKeySapi3(string $apiKeySapi3): Project
-    {
-        $this->apiKeySapi3 = $apiKeySapi3;
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getGroupId()
@@ -531,23 +521,6 @@ class Project implements ProjectInterface
     public function setContentFilter($contentFilter)
     {
         $this->contentFilter = $contentFilter;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContentFilterSapi3()
-    {
-        return $this->contentFilterSapi3;
-    }
-
-    /**
-     * @param string $contentFilter
-     * @return Project
-     */
-    public function setContentFilterSapi3($contentFilter)
-    {
-        $this->contentFilterSapi3 = $contentFilter;
     }
 
     /**

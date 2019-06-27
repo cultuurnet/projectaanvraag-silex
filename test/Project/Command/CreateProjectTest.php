@@ -10,7 +10,6 @@ class CreateProjectTest extends \PHPUnit_Framework_TestCase
     public function testCreateProjectCommand()
     {
         $createProject = new CreateProject('My project', 'Some description', 123);
-        $this->assertInstanceOf(CreateProject::class, $createProject);
 
         $this->assertEquals($createProject->getName(), 'My project', 'The name is correctly returned');
         $this->assertEquals($createProject->getIntegrationType(), 123, 'The integration type is correctly returned');

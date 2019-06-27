@@ -2,10 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\ArticleLinker\Event;
 
+use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
 use JMS\Serializer\Annotation\Type;
 
-class ArticleLinkCreated extends ArticleLinkEvent
+class ArticleLinkCreated extends AbstractRetryableMessage
 {
+
     /**
      * @var string
      * @Type("string")
@@ -19,15 +21,15 @@ class ArticleLinkCreated extends ArticleLinkEvent
     private $url;
 
     /**
-     * ProjectCreated constructor.
+     * ArticleLinkCreated constructor.
      * @param string $url
      * @param string $cdbid
      */
-    public function __construct($url, $cdbid)
+    public function __construct($url, $cdbid, $delay = 5)
     {
-        parent::__construct($url, $cdbid);
         $this->url = $url;
         $this->cdbid = $cdbid;
+        $this->delay = $delay;
     }
 
     /**

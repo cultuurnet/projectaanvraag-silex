@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\ArticleLinker\EventListener;
 
+use CultuurNet\ProjectAanvraag\ArticleLinker\Event\ArticleLinkCreated;
 use CultuurNet\ProjectAanvraag\ArticleLinker\Event\ArticleLinkEvent;
 use CultuurNet\ProjectAanvraag\ArticleLinkerAPI\ArticleLinkerAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\Entity\CacheInterface;
@@ -39,28 +40,25 @@ class ArticleLinkCreatedEventListener
 
     /**
      * Handle the command
-     * @param ProjectEvent $projectCreated
+     * @param ArticleLinkCreated $articleLinkCreated
      * @throws \Exception
      */
-    public function handle(ArticleLinkEvent $articleLinkCreated)
+    public function handle(ArticleLinkCreated $articleLinkCreated)
     {
         $url = $articleLinkCreated->getUrl();
         $cdbid = $articleLinkCreated->getCdbid();
 
         /** @var CacheInterface $cacheEntity */
         $cacheEntity = $this->cacheRepository->find($url);
+        $now = new \DateTime("now");
 
+        // No cache entry found.
         if (empty($cacheEntity)) {
-            // no cache
-            try {
-                $this->articleLinkerClient->linkArticle($url, $cdbid);
-            } catch (\Exception $e) {
-                print $e->getMessage();
-            }
+            $this->articleLinkerClient->linkArticle($url, $cdbid);
 
             $cache = new Cache();
             $cache->setUrl($url);
-            $cache->setLastChecked();
+            $cache->setLastChecked($now);
             $this->entityManager->persist($cache);
             $this->entityManager->flush();
         } else {
@@ -68,10 +66,10 @@ class ArticleLinkCreatedEventListener
             $oneHourAgo->modify('-1 hour');
             $lastChecked = $cacheEntity->getLastChecked();
 
-            // one hour cache
+            // Check if the entry is expired (1 hour).
             if ($lastChecked < $oneHourAgo) {
                 $this->articleLinkerClient->linkArticle($url, $cdbid);
-                $cacheEntity->setLastChecked();
+                $cacheEntity->setLastChecked($now);
                 $this->entityManager->merge($cacheEntity);
                 $this->entityManager->flush();
             }
