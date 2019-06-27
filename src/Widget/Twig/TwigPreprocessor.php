@@ -418,20 +418,20 @@ class TwigPreprocessor
         // Booking information.
         $variables['booking_info'] = [];
         if ($event->getBookingInfo()) {
-           $bookingInfo = $event->getBookingInfo();
-           $variables['booking_info'] = [];
-           if ($bookingInfo->getEmail()) {
-               $variables['booking_info']['email'] = $bookingInfo->getEmail();
-           }
-           if ($bookingInfo->getPhone()) {
-               $variables['booking_info']['phone'] = $bookingInfo->getPhone();
-           }
-           if ($bookingInfo->getUrl()) {
-               $variables['booking_info']['url'] = [
+            $bookingInfo = $event->getBookingInfo();
+            $variables['booking_info'] = [];
+            if ($bookingInfo->getEmail()) {
+                $variables['booking_info']['email'] = $bookingInfo->getEmail();
+            }
+            if ($bookingInfo->getPhone()) {
+                $variables['booking_info']['phone'] = $bookingInfo->getPhone();
+            }
+            if ($bookingInfo->getUrl()) {
+                $variables['booking_info']['url'] = [
                    'url' => $bookingInfo->getUrl(),
                    'label' => !empty($bookingInfo->getUrlLabel()->getValueForLanguage($langcode)) ? $bookingInfo->getUrlLabel()->getValueForLanguage($langcode) : $bookingInfo->getUrl(),
-               ];
-           }
+                ];
+            }
         }
     }
 
