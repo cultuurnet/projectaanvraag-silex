@@ -207,11 +207,11 @@ class TwigPreprocessor
         }
 
         if (!empty($settings['price_information'])) {
-          $this->preprocessPriceInfo($event, $variables);
+            $this->preprocessPriceInfo($event, $variables);
         }
 
-        if (!empty($settings['reservation_information'])){
-          $this->preprocessBookingInfo($event, $variables);
+        if (!empty($settings['reservation_information'])) {
+            $this->preprocessBookingInfo($event, $variables);
         }
 
         return $variables;
@@ -413,11 +413,11 @@ class TwigPreprocessor
      * @param Event $event
      * @param $variables
      */
-
-     public function preprocessBookingInfo(Event $event, &$variables){
-       // Booking information.
-       $variables['booking_info'] = [];
-       if ($event->getBookingInfo()) {
+    public function preprocessBookingInfo(Event $event, &$variables)
+    {
+        // Booking information.
+        $variables['booking_info'] = [];
+        if ($event->getBookingInfo()) {
            $bookingInfo = $event->getBookingInfo();
            $variables['booking_info'] = [];
            if ($bookingInfo->getEmail()) {
@@ -432,7 +432,7 @@ class TwigPreprocessor
                    'label' => !empty($bookingInfo->getUrlLabel()->getValueForLanguage($langcode)) ? $bookingInfo->getUrlLabel()->getValueForLanguage($langcode) : $bookingInfo->getUrl(),
                ];
            }
-      }
+        }
     }
 
     /**
