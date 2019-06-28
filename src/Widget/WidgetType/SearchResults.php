@@ -14,6 +14,7 @@ use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\Parameter\AvailableTo;
 use CultuurNet\SearchV3\Parameter\AvailableFrom;
+use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
@@ -170,9 +171,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "labels": "",
  *                  }
  *              },
- *              "facilities": {
+ *              "facilities":{
  *                  "enabled":false,
  *                  "label": "Toegankelijkheid"
+ *              },
+ *              "articles":{
+ *                  "enabled": false,
+ *                  "publishers": ""
  *              }
  *          }
  *      },
@@ -317,6 +322,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "facilities":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "articles":{
+ *                   "enabled":"boolean",
+ *                   "publishers":"string"
  *              }
  *          }
  *     }
@@ -334,6 +343,12 @@ class SearchResults extends WidgetTypeBase
      * @var SearchClient
      */
     protected $searchClient;
+
+    /**
+     * @var CuratorenClient
+     */
+    protected $curatorenClient;
+
 
     /**
      * @var null|\Symfony\Component\HttpFoundation\Request
@@ -360,11 +375,13 @@ class SearchResults extends WidgetTypeBase
      * @param TwigPreprocessor $twigPreprocessor
      * @param RendererInterface $renderer
      * @param SearchClient $searchClient
+     * @param CuratorenClient $curatorenClient
      */
-    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, RequestStack $requestStack, MessageBusSupportingMiddleware $eventBus)
+    public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, CuratorenClient $curatorenClient, RequestStack $requestStack, MessageBusSupportingMiddleware $eventBus)
     {
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->searchClient = $searchClient;
+        $this->curatorenClient = $curatorenClient;
         $this->request = $requestStack->getCurrentRequest();
         $this->eventBus = $eventBus;
     }
@@ -382,6 +399,7 @@ class SearchResults extends WidgetTypeBase
             $container['widget_twig_preprocessor'],
             $container['widget_renderer'],
             $container['search_api'],
+            $container['curatoren_api'],
             $container['request_stack'],
             $container['event_bus']
         );
@@ -593,14 +611,21 @@ class SearchResults extends WidgetTypeBase
             'pageTitleSuffix' => 'Event | ' . $name,
         ];
 
+        $variables = [
+            'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], $langcode, $this->settings['detail_page']),
+            'settings' => $this->settings['detail_page'],
+            'tag_manager_data' => json_encode($tagManagerData),
+        ];
+
+        if (!empty($this->settings['detail_page']['articles']['enabled'])) {
+            $articles = $this->curatorenClient->searchArticles($this->request->query->get('cdbid'));
+            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles);
+        }
+
         // Render twig with formatted results and item settings.
         return $this->twig->render(
             'widgets/search-results-widget/detail-page.html.twig',
-            [
-                'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], $langcode, $this->settings['detail_page']),
-                'settings' => $this->settings['detail_page'],
-                'tag_manager_data' => json_encode($tagManagerData),
-            ]
+            $variables
         );
     }
 }

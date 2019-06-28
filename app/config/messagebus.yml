@@ -17,8 +17,17 @@ subscribers:
             - sync_consumer_listener
         CultuurNet\ProjectAanvraag\WidgetMigration\Event\QueueWidgetMigration:
             - queue_widget_migration_listener
+        CultuurNet\ProjectAanvraag\ArticleLinker\Event\ArticleLinkCreated:
+            - articleLink_created_listener
 
 listeners:
+    articleLink_created_listener:
+        class: \CultuurNet\ProjectAanvraag\ArticleLinker\EventListener\ArticleLinkCreatedEventListener
+        arguments:
+            - articlelinker_api
+            - orm.em
+            - articlelinker_cache
+
     project_created_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectCreatedEventListener
         arguments:
@@ -72,6 +81,12 @@ listeners:
             - request_stack
 
 handlers:
+    create_articleLink_handler:
+        command: CultuurNet\ProjectAanvraag\ArticleLinker\Command\CreateArticleLink
+        class: \CultuurNet\ProjectAanvraag\ArticleLinker\CommandHandler\CreateArticleLinkCommandHandler
+        arguments:
+            - event_bus
+
     create_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\CreateProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\CreateProjectCommandHandler

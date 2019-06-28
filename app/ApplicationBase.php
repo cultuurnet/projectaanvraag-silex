@@ -15,6 +15,8 @@ use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
+use CultuurNet\ProjectAanvraag\CuratorenAPI\CuratorenAPIServiceProvider;
+use CultuurNet\ProjectAanvraag\ArticleLinkerAPI\ArticleLinkerAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
@@ -140,6 +142,30 @@ class ApplicationBase extends SilexApplication
                 'search_api.cache.enabled' => $this['config']['search_api']['cache']['enabled'],
                 'search_api.cache.backend' => $this['config']['search_api']['cache']['backend'],
                 'search_api.cache.ttl' => $this['config']['search_api']['cache']['ttl'],
+            ]
+        );
+
+        // Curatoren API
+        $this->register(
+            new CuratorenAPIServiceProvider(),
+            [
+                'curatoren_api.base_url' => $this['config']['curatoren_api']['live']['base_url'],
+                'curatoren_api.base_url' => $this['config']['curatoren_api']['test']['base_url'],
+                'curatoren_api.cache.enabled' => $this['config']['curatoren_api']['cache']['enabled'],
+                'curatoren_api.cache.backend' => $this['config']['curatoren_api']['cache']['backend'],
+                'curatoren_api.cache.ttl' => $this['config']['curatoren_api']['cache']['ttl'],
+            ]
+        );
+
+        // ArticleLinker API
+        $this->register(
+            new ArticleLinkerAPIServiceProvider(),
+            [
+                'articlelinker_api.base_url' => $this['config']['articlelinker_api']['live']['base_url'],
+                'articlelinker_api.base_url' => $this['config']['articlelinker_api']['test']['base_url'],
+                'articlelinker_api.cache.enabled' => $this['config']['articlelinker_api']['cache']['enabled'],
+                'articlelinker_api.cache.backend' => $this['config']['articlelinker_api']['cache']['backend'],
+                'articlelinker_api.cache.ttl' => $this['config']['articlelinker_api']['cache']['ttl'],
             ]
         );
 

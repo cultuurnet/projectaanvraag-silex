@@ -239,6 +239,8 @@
                         </dd>
                     {% endif %}
 
+
+
                     {% if settings.share_buttons and event.share_links %}
                         <dt>
                           <em class="cnw_searchresult-detail-label">Deel deze pagina</em>
@@ -250,13 +252,17 @@
                         </dd>
                     {% endif %}
 
+
                 </dl>
+
+                {% if articles %}
+                  {% include 'widgets/search-results-widget/articles.html.twig' with { 'articles': articles } %}
+                {% endif %}
 
                 {% if settings.back_button.enabled %}
                     <div class="cnw_searchresult-detail-back-button">
                         <a href="{{ event.back_link }}">&laquo; {{ settings.back_button.label }}</a>
                     </div>
-
                 {% endif %}
 
 

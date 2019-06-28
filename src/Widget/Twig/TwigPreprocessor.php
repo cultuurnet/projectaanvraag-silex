@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
+use Guzzle\Http\Client;
 
 /**
  * A preproccesor service for widget twig templates.
@@ -336,6 +337,25 @@ class TwigPreprocessor
         }
 
         return $variables;
+    }
+
+    /**
+     * Preprocess event articles
+     *
+     * @param Array $articles
+     * @param string $langcode
+     * @param array $settings
+     */
+    public function preprocessArticles($linkedArticles)
+    {
+
+        $articles = [];
+        if (!empty($linkedArticles['hydra:member'])) {
+            foreach ($linkedArticles['hydra:member'] as $article) {
+                $articles[] = $article;
+            }
+        }
+        return $articles;
     }
 
     /**

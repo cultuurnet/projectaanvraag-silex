@@ -22,7 +22,14 @@
       "COUNTRY": null
     }
   ],
-  "CONTACTINFOS": [],
+  "CONTACTINFOS": [
+    {
+      "CONTACT_INFO_ID": "contact-info-id",
+      "TYPE": "contact-info-type",
+      "LABEL": "contact-info-label",
+      "DETAIL": "contact-info-detail"
+    }
+  ],
   "DATES": [],
   "TAGS": [],
   "LINKS": [],

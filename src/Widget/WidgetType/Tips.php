@@ -11,6 +11,7 @@ use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use Pimple\Container;
 
@@ -164,12 +165,18 @@ use Pimple\Container;
 class Tips extends WidgetTypeBase
 {
     /**
+     * @var MessageBusSupportingMiddleware
+     */
+    protected $commandBus;
+
+    /**
      * @var SearchClient
      */
     protected $searchClient;
 
     /**
      * Tips constructor.
+     * @param MessageBusSupportingMiddleware $commandBus
      * @param array $pluginDefinition
      * @param array $configuration
      * @param bool $cleanup
