@@ -4,8 +4,10 @@ namespace CultuurNet\ProjectAanvraag\ArticleLinkerAPI;
 
 use CultuurNet\ProjectAanvraag\APIServiceProviderBase;
 use CultuurNet\ProjectAanvraag\ArticleLinker\ArticleLinkerClient;
+use Doctrine\Common\Cache\CacheProvider;
 use GuzzleHttp\Client;
 use Pimple\Container;
+use Symfony\Component\Cache\Simple\DoctrineCache;
 
 class ArticleLinkerAPIServiceProvider extends APIServiceProviderBase
 {
@@ -45,8 +47,16 @@ class ArticleLinkerAPIServiceProvider extends APIServiceProviderBase
             return $articleLinkerClient;
         };
 
-        $pimple['cache_repository'] = function (Container $pimple) {
-            return $pimple['orm.em']->getRepository('ProjectAanvraag:Cache');
+        $pimple['articlelinker_cache'] = function (Container $pimple) {
+            if ($pimple['articlelinker_api.cache.enabled']) {
+                /** @var CacheProvider $cache */
+                $cache = new DoctrineCache(
+                    $pimple['cache_doctrine_' . $pimple['articlelinker_api.cache.backend']],
+                    'article-linker',
+                    $pimple['articlelinker_api.cache.ttl']
+                );
+                return $cache;
+            }
         };
     }
 }

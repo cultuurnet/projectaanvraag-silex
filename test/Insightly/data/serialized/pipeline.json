@@ -1,7 +1,7 @@
 {
-  "id":207171,
-  "name":"Portfolio",
-  "forOpportunities":true,
-  "forProjects":null,
-  "ownerUserId":850603
+  "id": "my-id",
+  "name": "my-name",
+  "forOpportunities": true,
+  "forProjects": true,
+  "ownerUserId": 123
 }

@@ -58,6 +58,20 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
     }
 
     /**
+     * Test requesting a contact.
+     */
+    public function testGetContact()
+    {
+        $client = $this->getMockClient('getContact.json');
+        $contact = $client->getContact(1373034);
+
+        $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Contact', $contact, 'It correctly returns an Insightly contact');
+        $this->assertEquals('my-id', $contact->getId());
+        $this->assertEquals('my-first-name', $contact->getFirstName());
+        $this->assertEquals('my-last-name', $contact->getLastName());
+    }
+
+    /**
      * Test requesting of pipelines
      */
     public function testGetPipelines()
@@ -100,6 +114,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
         $organisation = $client->getOrganisation(1);
 
         $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Organisation', $organisation, 'It returns an organisation');
+        $this->assertEquals("contact-info-id", $organisation->getContactInfo()[0]->getId());
     }
 
     /**
