@@ -212,7 +212,7 @@ class TwigPreprocessor
         }
 
         if (!empty($settings['reservation_information'])) {
-            $this->preprocessBookingInfo($event, $variables);
+            $this->preprocessBookingInfo($event, $langcode, $variables);
         }
 
         return $variables;
@@ -256,7 +256,7 @@ class TwigPreprocessor
         }
 
         // Booking information.
-        $this->preprocessBookingInfo($event, $variables);
+        $this->preprocessBookingInfo($event, $langcode, $variables);
 
         // Contact info.
         $variables['contact_info'] = [];
@@ -433,7 +433,7 @@ class TwigPreprocessor
      * @param Event $event
      * @param $variables
      */
-    public function preprocessBookingInfo(Event $event, &$variables)
+    public function preprocessBookingInfo(Event $event, string $langcode, &$variables)
     {
         // Booking information.
         $variables['booking_info'] = [];
