@@ -169,6 +169,27 @@
                   </div>
                 {% endif %}
 
+                {% if settings.reservation_information.enabled and event.booking_info %}
+                  <div class="list-item">
+                    <div class="list-item-aside">
+                        <em class="cnw_searchresult-detail-label">Reserveringen</em>
+                        <i class="cnw-fa cnw-fa-ticket"></i>
+                    </div>
+                    <div class="list-item-content cnw_searchresult-detail-booking-info">
+                      {% if (event.booking_info.phone is defined) %}
+                          <p>Bel naar <strong>{{ event.booking_info.phone }}</strong></p>
+                      {% endif %}
+                      {% if (event.booking_info.email is defined) %}
+                          <p>{{ event.booking_info.email }}</p>
+                      {% endif %}
+                      {% if (event.booking_info.url is defined) %}
+                          <p><a href="{{ event.booking_info.url.url }}" target="_blank" data-click-tracking-category="detail" data-click-tracking-action="ticket" data-click-tracking-label="{{ event.name }}">{{ event.booking_info.url.label }}</a> </p>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+
+
                 {% if settings_items.facilities is defined and settings_items.facilities.enabled %}
                   <div class="list-item">
                     <div class="list-item-aside">

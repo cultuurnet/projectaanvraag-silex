@@ -366,6 +366,8 @@ class TwigPreprocessor
         return $promotions;
     }
 
+
+
     /**
      * Preprocess the price information.
      *

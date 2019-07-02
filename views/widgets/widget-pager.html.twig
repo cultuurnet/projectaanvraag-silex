@@ -16,7 +16,7 @@
             {% endif %}
 
             {% for i in pager.getLowestVisible..pager.getHighestVisible %}
-                <li class="cnw_page-item {% if i == pager.activePageIndex + 1 %}cnw_disabled{% endif %}">
+                <li class="cnw_page-item {% if i == pager.activePageIndex + 1 %}cnw_disabled active{% endif %}">
                     <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ i-1 }}">{{ i }}</a>
                 </li>
             {% endfor %}

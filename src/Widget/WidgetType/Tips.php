@@ -87,6 +87,9 @@ use Pimple\Container;
  *              },
  *              "price_information":{
  *                  "enabled":false
+ *              },
+ *              "reservation_information":{
+ *                  "enabled":false
  *              }
  *          }
  *      },
@@ -158,6 +161,9 @@ use Pimple\Container;
  *                  "label":"string"
  *              },
  *              "price_information":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "reservation_information":{
  *                  "enabled":"boolean"
  *              }
  *          },
