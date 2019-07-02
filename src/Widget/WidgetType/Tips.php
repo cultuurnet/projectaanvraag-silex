@@ -26,6 +26,9 @@ use Pimple\Container;
  *              "detail_link":{
  *                  "enabled":false,
  *                  "cdbid":"query_string"
+ *              },
+ *              "labels_as_icons":{
+ *                  "enabled":false
  *              }
  *          },
  *          "items":{
@@ -97,6 +100,9 @@ use Pimple\Container;
  *                  "enabled":"boolean",
  *                  "url":"string",
  *                  "cdbid":"string"
+ *              },
+ *              "labels_as_icons":{
+ *                  "enabled":"boolean"
  *              }
  *          },
  *          "items":{

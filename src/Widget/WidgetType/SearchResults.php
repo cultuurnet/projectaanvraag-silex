@@ -37,6 +37,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "exclude": {
  *                  "long_term":"true",
  *                  "permanent":"true"
+ *              },
+ *              "labels_as_icons":{
+ *                  "enabled":false
  *              }
  *          },
  *          "header":{
@@ -190,6 +193,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "exclude": {
  *                  "long_term":"boolean",
  *                  "permanent":"boolean"
+ *              },
+ *              "labels_as_icons":{
+ *                  "enabled":"boolean"
  *              }
  *          },
  *          "header":{

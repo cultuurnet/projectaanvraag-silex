@@ -214,8 +214,16 @@ p span.cnw_badge {
   display: none;
 }
 
+.cnw_searchresult--block.labels-as-icons i.cnw-fa {
+  display: inline-block;
+}
+
 .cnw_searchresult--block .cnw_searchresult-detail-label {
   display: inline-block;
+}
+
+.cnw_searchresult--block.labels-as-icons .cnw_searchresult-detail-label {
+  display: none;
 }
 
 @media (max-width: 768px) {
