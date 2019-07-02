@@ -255,7 +255,7 @@
 
                 </dl>
 
-                {% if articles %}
+                {% if settings.articles.enabled and articles %}
                   {% include 'widgets/search-results-widget/articles.html.twig' with { 'articles': articles } %}
                 {% endif %}
 
