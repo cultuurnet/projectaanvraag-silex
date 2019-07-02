@@ -59,9 +59,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "characters":200
  *              },
- *              "price_information":{
- *                  "enabled":false
- *              },
  *              "when":{
  *                  "enabled":true,
  *                  "label":"Wanneer"
@@ -107,6 +104,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "label":"Lees verder"
  *              },
+ *              "price_information":{
+ *                  "enabled":false
+ *              },
+ *              "reservation_information":{
+ *                  "enabled":false
+ *              }
  *          },
  *          "search_params" : {
  *              "country": "BE",
@@ -209,9 +212,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "characters":"integer"
  *              },
- *              "price_information":{
- *                  "enabled":"boolean",
- *              },
  *              "when":{
  *                  "enabled":"boolean",
  *                  "label":"string"
@@ -256,6 +256,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "read_more":{
  *                  "enabled":"boolean",
  *                  "label":"string"
+ *              },
+ *              "price_information":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "reservation_information":{
+ *                  "enabled":"boolean"
  *              }
  *          },
  *          "search_params" : {

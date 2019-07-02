@@ -207,7 +207,13 @@ class TwigPreprocessor
             $variables['type'] = $typeLabels;
         }
 
-        $this->preprocessPriceInfo($event, $variables);
+        if (!empty($settings['price_information'])) {
+            $this->preprocessPriceInfo($event, $variables);
+        }
+
+        if (!empty($settings['reservation_information'])) {
+            $this->preprocessBookingInfo($event, $variables);
+        }
 
         return $variables;
     }
@@ -250,23 +256,7 @@ class TwigPreprocessor
         }
 
         // Booking information.
-        $variables['booking_info'] = [];
-        if ($event->getBookingInfo()) {
-            $bookingInfo = $event->getBookingInfo();
-            $variables['booking_info'] = [];
-            if ($bookingInfo->getEmail()) {
-                $variables['booking_info']['email'] = $bookingInfo->getEmail();
-            }
-            if ($bookingInfo->getPhone()) {
-                $variables['booking_info']['phone'] = $bookingInfo->getPhone();
-            }
-            if ($bookingInfo->getUrl()) {
-                $variables['booking_info']['url'] = [
-                    'url' => $bookingInfo->getUrl(),
-                    'label' => !empty($bookingInfo->getUrlLabel()->getValueForLanguage($langcode)) ? $bookingInfo->getUrlLabel()->getValueForLanguage($langcode) : $bookingInfo->getUrl(),
-                ];
-            }
-        }
+        $this->preprocessBookingInfo($event, $variables);
 
         // Contact info.
         $variables['contact_info'] = [];
@@ -376,6 +366,8 @@ class TwigPreprocessor
         return $promotions;
     }
 
+
+
     /**
      * Preprocess the price information.
      *
@@ -432,6 +424,34 @@ class TwigPreprocessor
 
         if (count($prices)) {
             $variables['price'] = '<p>' . implode('</p><p>', array_unique($prices)) . '</p>';
+        }
+    }
+
+    /**
+     * Preprocess the booking information.
+     *
+     * @param Event $event
+     * @param $variables
+     */
+    public function preprocessBookingInfo(Event $event, &$variables)
+    {
+        // Booking information.
+        $variables['booking_info'] = [];
+        if ($event->getBookingInfo()) {
+            $bookingInfo = $event->getBookingInfo();
+            $variables['booking_info'] = [];
+            if ($bookingInfo->getEmail()) {
+                $variables['booking_info']['email'] = $bookingInfo->getEmail();
+            }
+            if ($bookingInfo->getPhone()) {
+                $variables['booking_info']['phone'] = $bookingInfo->getPhone();
+            }
+            if ($bookingInfo->getUrl()) {
+                $variables['booking_info']['url'] = [
+                   'url' => $bookingInfo->getUrl(),
+                   'label' => !empty($bookingInfo->getUrlLabel()->getValueForLanguage($langcode)) ? $bookingInfo->getUrlLabel()->getValueForLanguage($langcode) : $bookingInfo->getUrl(),
+                ];
+            }
         }
     }
 
