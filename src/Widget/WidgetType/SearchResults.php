@@ -440,8 +440,8 @@ class SearchResults extends WidgetTypeBase
         // Pagination settings.
         $currentPageIndex = 0;
         // Limit items per page.
-        $results_per_page = $this->settings['general']['items'] ?: self::ITEMS_PER_PAGE;
-        $query->setLimit($results_per_page);
+        $resultsPerPage = $this->settings['general']['items'] ?: self::ITEMS_PER_PAGE;
+        $query->setLimit($resultsPerPage);
 
         $extraFilters = [];
         // Change query / defaults based on query string.
@@ -452,7 +452,7 @@ class SearchResults extends WidgetTypeBase
                 // Set current page index.
                 $currentPageIndex = $searchResultOptions['page'];
                 // Move start according to the active page.
-                $query->setStart($currentPageIndex * $results_per_page);
+                $query->setStart($currentPageIndex * $resultsPerPage);
             }
 
             if (!empty($searchResultOptions['hide-long-term'])) {
