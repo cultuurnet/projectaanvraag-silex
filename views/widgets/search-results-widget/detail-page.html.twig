@@ -1,4 +1,4 @@
-<div class="cnw_row cnw_d-flex cnw_searchresult-detail" data-view-tracking-category="detail" data-view-tracking-extra-data="{{ tag_manager_data }}">
+<div class="cnw_row cnw_d-flex cnw_searchresult-detail {% if settings_general.labels_as_icons.enabled %} labels-as-icons {% endif %}" data-view-tracking-category="detail" data-view-tracking-extra-data="{{ tag_manager_data }}">
 
     {% if settings.image.enabled and event.image is defined %}
         <div class="cnw_col-4 {% if settings.image.position == 'right' %} cnw_flex-md-last{% endif %}">
