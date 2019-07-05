@@ -210,19 +210,23 @@ p span.cnw_badge {
 
 }
 
-.cnw_searchresult--block i.cnw-fa {
+.cnw_searchresult--block i.cnw-fa,
+.cnw_searchresult-detail i.cnw-fa {
   display: none;
 }
 
-.cnw_searchresult--block.labels-as-icons i.cnw-fa {
+.cnw_searchresult--block.labels-as-icons i.cnw-fa,
+.cnw_searchresult-detail.labels-as-icons i.cnw-fa{
   display: inline-block;
 }
 
-.cnw_searchresult--block .cnw_searchresult-detail-label {
+.cnw_searchresult--block .cnw_searchresult-detail-label,
+.cnw_searchresult-detail .cnw_searchresult-detail-label {
   display: inline-block;
 }
 
-.cnw_searchresult--block.labels-as-icons .cnw_searchresult-detail-label {
+.cnw_searchresult--block.labels-as-icons .cnw_searchresult-detail-label,
+.cnw_searchresult--detail .cnw_searchresult-detail-label {
   display: none;
 }
 
