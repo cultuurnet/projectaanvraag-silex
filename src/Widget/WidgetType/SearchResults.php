@@ -40,7 +40,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "labels_as_icons":{
  *                  "enabled":false
- *              }
+ *              },
+ *              "items": 10
  *          },
  *          "header":{
  *              "body":"",
@@ -196,7 +197,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "labels_as_icons":{
  *                  "enabled":"boolean"
- *              }
+ *              },
+ *              "items":"integer"
  *          },
  *          "header":{
  *              "body":"string"
@@ -438,7 +440,8 @@ class SearchResults extends WidgetTypeBase
         // Pagination settings.
         $currentPageIndex = 0;
         // Limit items per page.
-        $query->setLimit(self::ITEMS_PER_PAGE);
+        $resultsPerPage = $this->settings['general']['items'] ?: self::ITEMS_PER_PAGE;
+        $query->setLimit($resultsPerPage);
 
         $extraFilters = [];
         // Change query / defaults based on query string.
@@ -449,7 +452,7 @@ class SearchResults extends WidgetTypeBase
                 // Set current page index.
                 $currentPageIndex = $searchResultOptions['page'];
                 // Move start according to the active page.
-                $query->setStart($currentPageIndex * self::ITEMS_PER_PAGE);
+                $query->setStart($currentPageIndex * $resultsPerPage);
             }
 
             if (!empty($searchResultOptions['hide-long-term'])) {
