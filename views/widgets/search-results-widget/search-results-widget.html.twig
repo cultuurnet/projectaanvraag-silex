@@ -54,10 +54,13 @@
             <h1 class="cnw_searchresult__counter-text"><span class="cnw_searchresult__counter-total">{{ result_count }}</span> resultaten gevonden</h1>
         </div>
         <!--  counter END -->
-
-        {% for event in events %}
-            {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items, 'click_tracking_action' : 'list' } %}
-        {% endfor %}
+        {% if settings_general.view == 'grid' %}
+          {% include 'widgets/event-summary-grid.html.twig' %}
+        {% else %}
+          {% for event in events %}
+              {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items, 'click_tracking_action' : 'list' } %}
+          {% endfor %}
+        {% endif %}
 
         <!--  PAGINATION Start -->
         {% include 'widgets/widget-pager.html.twig' with {'pager': pager, 'id': id} %}
