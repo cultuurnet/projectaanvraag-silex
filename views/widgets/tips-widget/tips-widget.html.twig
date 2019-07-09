@@ -1,31 +1,3 @@
 <div class="cnw_w cnw_tips" data-view-tracking-category="push" data-view-tracking-page-suffix="/push">
-    <div class="cnw_container-fluid">
-                {% for event in events %}
-
-
-                    {% if loop.index % 3  == 1 %}
-                        <div class="cnw_row cnw_clips">
-                     {% endif %}
-
-                    {% if loop.length == 1 %}
-                    <div class="cnw_col-12 cnw_reset_row">
-                    {% endif %}
-
-                    {% if loop.length == 2 %}
-                        <div class="cnw_col-6 cnw_reset_row">
-                    {% endif %}
-
-                    {% if loop.length >= 3 %}
-                            <div class="cnw_col-4">
-                    {% endif %}
-                            {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items, 'click_tracking_action' : 'push' } %}
-                        </div>
-
-                     {% if loop.index % 3  == 0 %}
-                         </div>
-                      {% endif %}
-
-                {% endfor %}
-            </div>
-    </div>
+  {% include 'widgets/event-summary-grid.html.twig' %}
 </div>

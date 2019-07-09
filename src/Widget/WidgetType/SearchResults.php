@@ -41,6 +41,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "labels_as_icons":{
  *                  "enabled":false
  *              },
+ *              "view": "list",
  *              "items": 10
  *          },
  *          "header":{
@@ -198,6 +199,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "labels_as_icons":{
  *                  "enabled":"boolean"
  *              },
+ *              "view":"string",
  *              "items":"integer"
  *          },
  *          "header":{
