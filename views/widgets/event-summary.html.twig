@@ -110,9 +110,19 @@
                             <em class="cnw_searchresult-detail-label">{{ settings_items.when.label }}</em>
                             <i class="cnw-fa cnw-fa-calendar"></i>
                         </div>
-                        <div class="list-item-content">{{ event.when_summary }}</div>
+                        <div class="list-item-content">
+                        {{ event.when_summary }}
+                        {% if event.expired %}
+                          <p><i> Dit evenement is afgelopen </i></p>
+                        {% endif %}
+                        </div>
                     {% else %}
-                        <div class="list-item-content">{{ event.when_summary }}</div>
+                        <div class="list-item-content">
+                        {{ event.when_summary }}
+                        {% if event.expired %}
+                          <p><i> Dit evenement is afgelopen </i></p>
+                        {% endif %}
+                        </div>
                     {% endif %}
                     </div>
                 {% endif %}
