@@ -331,7 +331,7 @@ class WidgetController
         // Sort $matches according levenshtein distance
         $matches = $this->regionService->sortByLevenshtein($matches, $searchString);
 
-        // Return all matches
+        // Return 10 matches
         $response = new JsonResponse(array_slice($matches, 0, 10));
 
         // If this is a jsonp request, set the requested callback.
