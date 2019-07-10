@@ -68,16 +68,13 @@ class RegionService
      * @return
      */
     public function sortByLevenshtein($matches, $searchString)
-    {usort(
-      $matches, function ($a, $b) use ($searchString)
-      {
+    {
+        usort($matches, function ($a, $b) use ($searchString){
             $levA = levenshtein($searchString, $a);
             $levB = levenshtein($searchString, $b);
 
             return $levA === $levB ? 0 : ($levA > $levB ? 1 : -1);
-      }
-    );
-
+        });
         return $matches;
     }
 }
