@@ -69,8 +69,8 @@ class RegionService
      */
     public function sortByLevenshtein($matches, $searchString)
     {
-        usort($matches, function ($a, $b)
-          use ($searchString) {
+        usort($matches, function ($a, $b) use ($searchString)
+        {
               $levA = levenshtein($searchString, $a);
               $levB = levenshtein($searchString, $b);
 
