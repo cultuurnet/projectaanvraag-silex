@@ -14,6 +14,7 @@ class RegionService
 
     /**
      * RegionService constructor.
+     *
      * @param $jsonLocation
      */
     public function __construct($jsonLocation)
@@ -23,6 +24,7 @@ class RegionService
 
     /**
      * Provide autocompletion results for the given string.
+     *
      * @param $searchString
      */
     public function getAutocompletResults($searchString)
@@ -45,6 +47,7 @@ class RegionService
 
     /**
      * Get an item by name
+     *
      * @param $searchString
      */
     public function getItemByName($name)
@@ -63,17 +66,19 @@ class RegionService
 
     /**
      * Sort items according to Levenshtein distance
-     * @param $matches
-     * @param $searchString
-     * @return
+     *
+     * @param  $matches
+     * @param  $searchString
+     * @return $matches
      */
     public function sortByLevenshtein($matches, $searchString)
     {
-        usort($matches, function ($a, $b) use ($searchString) {
-            $levA = levenshtein($searchString, $a);
-            $levB = levenshtein($searchString, $b);
-            return $levA === $levB ? 0 : ($levA > $levB ? 1 : -1);
-        }
+        usort(
+            $matches, function ($a, $b) use ($searchString) {
+                    $levA = levenshtein($searchString, $a);
+                    $levB = levenshtein($searchString, $b);
+                    return $levA === $levB ? 0 : ($levA > $levB ? 1 : -1);
+            }
         );
         return $matches;
     }
