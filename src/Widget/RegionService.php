@@ -70,13 +70,13 @@ class RegionService
     public function sortByLevenshtein($matches, $searchString)
     {
         usort($matches, function ($a, $b)
-        use ($searchString)
-        {
+            use ($searchString)
+            {
             $levA = levenshtein($searchString, $a);
             $levB = levenshtein($searchString, $b);
 
             return $levA === $levB ? 0 : ($levA > $levB ? 1 : -1);
-        }
+            }
         );
 
         return $matches;
