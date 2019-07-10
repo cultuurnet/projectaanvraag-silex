@@ -35,7 +35,7 @@ class RegionService
         if (!empty($regions)) {
             foreach ($regions as $region) {
                 if (strpos(strtolower($region->name), $searchString) !== false) {
-                    $matches[$region->name] = $region->name;
+                    $matches[] = $region->name;
                 }
             }
         }
@@ -60,4 +60,23 @@ class RegionService
             }
         }
     }
+
+    /**
+     * Sort items according to Levenshtein distance
+     * @param $matches
+     * @param $searchString
+     * @return
+     */
+    public function sortByLevenshtein($matches, $searchString)
+    {
+      usort($matches, function ($a, $b) use ($searchString) {
+          $levA = levenshtein($searchString, $a);
+          $levB = levenshtein($searchString, $b);
+
+          return $levA === $levB ? 0 : ($levA > $levB ? 1 : -1);
+      });
+
+      return $matches;
+    }
+
 }
