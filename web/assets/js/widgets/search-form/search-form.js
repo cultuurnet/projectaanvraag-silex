@@ -89,7 +89,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * @param param
      */
     CultuurnetWidgets.submitSearchForm = function(e) {
- 
+
       e.preventDefault();
 
 

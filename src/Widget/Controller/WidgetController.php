@@ -328,9 +328,11 @@ class WidgetController
     public function getRegionAutocompleteResult(Request $request, $searchString)
     {
         $matches = $this->regionService->getAutocompletResults($searchString);
+        // Sort $matches according levenshtein distance
+        $matches = $this->regionService->sortByLevenshtein($matches, $searchString);
 
-        // Only return 5 matches.
-        $response = new JsonResponse(array_slice($matches, 0, 5));
+        // Return 10 matches
+        $response = new JsonResponse(array_slice($matches, 0, 10));
 
         // If this is a jsonp request, set the requested callback.
         if ($request->query->has('callback')) {

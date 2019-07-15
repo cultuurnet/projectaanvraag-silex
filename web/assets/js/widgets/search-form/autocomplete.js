@@ -28,7 +28,7 @@
                 new CultuurnetWidgets.jsAC($input, acdb[uri]);
             });
 
-        
+
         }
     };
 
@@ -230,7 +230,7 @@
                 .mousedown(function () { ac.select(this); })
                 .mouseover(function () { ac.highlight(this); })
                 .mouseout(function () { ac.unhighlight(this); })
-                .data('autocompleteValue', key)
+                .data('autocompleteValue', matches[key])
                 .appendTo(ul);
         }
 
