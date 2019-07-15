@@ -631,6 +631,7 @@ class SearchResults extends WidgetTypeBase
         $variables = [
             'event' => $this->twigPreprocessor->preprocessEventDetail($events[0], $langcode, $this->settings['detail_page']),
             'settings' => $this->settings['detail_page'],
+            'settings_general' => $this->settings['general'],
             'tag_manager_data' => json_encode($tagManagerData),
         ];
 
