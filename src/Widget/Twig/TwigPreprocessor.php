@@ -124,7 +124,7 @@ class TwigPreprocessor
             'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : '',
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
-            'expired' =>  ($event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s')) : false),
+            'expired' =>  ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s')) : false),
             'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
