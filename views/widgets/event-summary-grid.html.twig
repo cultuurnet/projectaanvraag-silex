@@ -15,7 +15,7 @@
                 {% endif %}
 
                 {% if loop.length >= 3 %}
-                        <div class="cnw_col-4 bram">
+                        <div class="cnw_col-4">
                 {% endif %}
                         {% include 'widgets/event-summary.html.twig' with { 'event': event, 'settings': settings_items, 'click_tracking_action' : 'push' } %}
                     </div>
