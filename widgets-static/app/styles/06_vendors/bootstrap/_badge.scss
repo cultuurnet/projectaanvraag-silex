@@ -72,6 +72,6 @@ a.cnw_badge {
   @include badge-variant($badge-warning-bg);
 }
 
-.cnw_adge-danger {
+.cnw_badge-danger {
   @include badge-variant($badge-danger-bg);
 }
