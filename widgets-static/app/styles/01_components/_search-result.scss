@@ -208,6 +208,14 @@ p span.cnw_badge {
     text-align: center;
   }
 
+  .cnw_searchresult__searchwords{
+    p span.cnw_badge{
+      font-size: 100%;
+      margin: 0 10px;
+      padding: 5px 10px;
+    }
+  }
+
 }
 
 .cnw_searchresult--block i.cnw-fa,
