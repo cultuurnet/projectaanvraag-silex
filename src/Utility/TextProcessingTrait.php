@@ -9,9 +9,10 @@ trait TextProcessingTrait
      * Create a summary for the given text.
      * @param $text
      * @param int $size
+     * @param bool $ellipsis
      * @return bool|string
      */
-    public function createSummary($text, $size = 300)
+    public function createSummary($text, $size = 300, $ellipsis = false)
     {
 
         // If the size is zero, the entire body is the summary.
@@ -73,6 +74,12 @@ trait TextProcessingTrait
                 $summary = ($minRpos === 0) ? $summary : substr($summary, 0, 0 - $minRpos);
                 break;
             }
+        }
+
+        // If ellipsis is set to true, add trailing points at the end of the string
+        if($ellipsis){
+            $ending = ' ...';
+            $summary = $summary . $ending;
         }
 
         return $summary;
