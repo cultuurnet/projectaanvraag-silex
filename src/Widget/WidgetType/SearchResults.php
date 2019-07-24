@@ -184,8 +184,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label": "Toegankelijkheid"
  *              },
  *              "articles":{
- *                  "enabled": false,
- *                  "publishers": ""
+ *                  "enabled": true,
+ *                  "limit_publishers": false,
+ *                  "label": "Lees ook",
+ *                  "publishers": {
+ *                     "bill": false,
+ *                     "bruzz": false,
+ *                     "gva": false   
+ *                   }
  *              }
  *          }
  *      },
@@ -340,8 +346,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"string"
  *              },
  *              "articles":{
- *                   "enabled":"boolean",
- *                   "publishers":"string"
+ *                  "enabled": "boolean",
+ *                  "limit_publishers": "boolean",
+ *                  "label": "string",
+ *                  "publishers": {
+ *                     "bill": "boolean",
+ *                     "bruzz": "boolean",
+ *                     "gva": "boolean"   
+ *                   }
  *              }
  *          }
  *     }
@@ -637,7 +649,8 @@ class SearchResults extends WidgetTypeBase
 
         if (!empty($this->settings['detail_page']['articles']['enabled'])) {
             $articles = $this->curatorenClient->searchArticles($this->request->query->get('cdbid'));
-            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles);
+            $article_settings = $this->settings['detail_page']['articles'];
+            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles, $article_settings);
         }
 
         // Render twig with formatted results and item settings.
