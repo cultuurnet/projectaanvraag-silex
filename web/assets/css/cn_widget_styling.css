@@ -4766,6 +4766,22 @@ html .cnw_w label {
   max-width: 25%;
 }
 
+/* styling for article links */
+
+ul.cnw_searchresult-detail-articles{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cnw_searchresult-detail-article-title{
+  text-decoration: none;
+  font-size: 1.2em;
+  color: #292b2c;
+}
+
+/* end styling for article links */
+
 @media (min-width: 576px) {
   .cnw_searchresult-detail-info dt {
     padding-right: 15px;
