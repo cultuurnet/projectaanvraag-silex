@@ -348,7 +348,7 @@ class TwigPreprocessor
                 $maxChars = 200;
                 $article['text'] =  $this->createSummary($article['text'], $maxChars, $ellipsis);
                 $publisher = strtolower($article['publisher']);
-                if(!$settings['limit_publishers'] || ($settings['limit_publishers'] && $settings['publishers'][$publisher]) ){
+                if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $settings['publishers'][$publisher])) {
                    // only add articles of allowed publishers to array
                     $articles[] = $article;
                 }

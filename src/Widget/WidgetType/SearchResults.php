@@ -190,7 +190,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "publishers": {
  *                     "bill": false,
  *                     "bruzz": false,
- *                     "gva": false   
+ *                     "gva": false
  *                   }
  *              }
  *          }
@@ -352,7 +352,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "publishers": {
  *                     "bill": "boolean",
  *                     "bruzz": "boolean",
- *                     "gva": "boolean"   
+ *                     "gva": "boolean"
  *                   }
  *              }
  *          }
@@ -649,8 +649,8 @@ class SearchResults extends WidgetTypeBase
 
         if (!empty($this->settings['detail_page']['articles']['enabled'])) {
             $articles = $this->curatorenClient->searchArticles($this->request->query->get('cdbid'));
-            $article_settings = $this->settings['detail_page']['articles'];
-            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles, $article_settings);
+            $articleSettings = $this->settings['detail_page']['articles'];
+            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles, $articleSettings);
         }
 
         // Render twig with formatted results and item settings.
