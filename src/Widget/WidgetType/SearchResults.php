@@ -187,11 +187,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled": true,
  *                  "limit_publishers": false,
  *                  "label": "Lees ook",
- *                  "publishers": {
- *                     "bill": false,
- *                     "bruzz": false,
- *                     "gva": false
- *                   }
+ *                  "publishers": ""
  *              }
  *          }
  *      },
@@ -349,11 +345,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled": "boolean",
  *                  "limit_publishers": "boolean",
  *                  "label": "string",
- *                  "publishers": {
- *                     "bill": "boolean",
- *                     "bruzz": "boolean",
- *                     "gva": "boolean"
- *                   }
+ *                  "publishers": "CultuurNet\ProjectAanvraag\Widget\Settings\Publishers"
  *              }
  *          }
  *     }
@@ -396,14 +388,14 @@ class SearchResults extends WidgetTypeBase
     /**
      * SearchResults constructor.
      *
-     * @param array $pluginDefinition
-     * @param array $configuration
-     * @param bool $cleanup
+     * @param array             $pluginDefinition
+     * @param array             $configuration
+     * @param bool              $cleanup
      * @param \Twig_Environment $twig
-     * @param TwigPreprocessor $twigPreprocessor
+     * @param TwigPreprocessor  $twigPreprocessor
      * @param RendererInterface $renderer
-     * @param SearchClient $searchClient
-     * @param CuratorenClient $curatorenClient
+     * @param SearchClient      $searchClient
+     * @param CuratorenClient   $curatorenClient
      */
     public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, CuratorenClient $curatorenClient, RequestStack $requestStack, MessageBusSupportingMiddleware $eventBus)
     {
