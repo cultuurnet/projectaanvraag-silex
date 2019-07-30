@@ -126,7 +126,7 @@
                     {% if settings.language_icons.enabled and event.language_icons %}
                         <dt>
                             <em class="cnw_searchresult-detail-label">Taaliconen</em>
-                            <i class="cnw-fa cnw-fa-language"></i>
+                            <i class="cnw-fa cnw-fa-globe"></i>
                         </dt>
                         <dd>{{ event.language_icons | raw }}</dd>
                     {% endif %}
@@ -208,7 +208,7 @@
                     {% if settings.language_switcher and event.language_switcher|length > 1 %}
                     <dt>
                         <em class="cnw_searchresult-detail-label">Talen</em>
-                        <i class="cnw-fa cnw-fa-language"></i>
+                        <i class="cnw-fa cnw-fa-globe"></i>
                     </dt>
                     <dd>
                         {% for link in event.language_switcher %}
