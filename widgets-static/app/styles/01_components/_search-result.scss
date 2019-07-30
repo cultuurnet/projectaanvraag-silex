@@ -211,8 +211,12 @@ p span.cnw_badge {
 }
 
 .cnw_searchresult--block i.cnw-fa,
-.cnw_searchresult-detail i.cnw-fa {
-  display: none;
+.cnw_searchresult-detail i.cnw-fa{
+    display: none;
+}
+
+.cnw-share i.cnw-fa{
+  display: inline-block;
 }
 
 .cnw_searchresult--block.labels-as-icons i.cnw-fa,
