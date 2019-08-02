@@ -325,12 +325,12 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setTestConsumerKey('testkey');
 
         $liveConsumerKey = $project->getLiveConsumerKey();
-        $liveConsumer = $this->culturefeedLive->getServiceConsumer($liveConsumerKey);
+        $liveConsumer = $this->projectService->getServiceConsumer($liveConsumerKey);
         $liveConsumer->consumerKey = 'livekey';
         $liveConsumer->searchPrefixFilterQuery = 'test';
 
         $testConsumerKey = $project->getTestConsumerKey();
-        $testConsumer = $this->culturefeedTest->getServiceConsumer($testConsumerKey);
+        $testConsumer = $this->projectService->getServiceConsumer($testConsumerKey);
         $testConsumer->consumerKey = 'testkey';
         $testConsumer->searchPrefixFilterQuery = 'test';
 
@@ -354,7 +354,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setTestConsumerKey('testkey');
 
         $testConsumerKey = $project->getTestConsumerKey();
-        $testConsumer = $this->culturefeedTest->getServiceConsumer($testConsumerKey);
+        $testConsumer = $this->projectService->getServiceConsumer($testConsumerKey);
         $testConsumer->consumerKey = 'testkey';
         $testConsumer->searchPrefixFilterQuery = 'test';
 
@@ -377,7 +377,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setLiveConsumerKey('livekey');
 
         $liveConsumerKey = $project->getLiveConsumerKey();
-        $liveConsumer = $this->culturefeedLive->getServiceConsumer($liveConsumerKey);
+        $liveConsumer = $this->projectService->getServiceConsumer($liveConsumerKey);
         $liveConsumer->consumerKey = 'livekey';
         $liveConsumer->searchPrefixFilterQuery = 'test';
 
