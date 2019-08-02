@@ -324,11 +324,21 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setLiveConsumerKey('livekey');
         $project->setTestConsumerKey('testkey');
 
+        $liveConsumer = new \CultureFeed_Consumer();
+        $liveConsumer->consumerKey = 'livekey';
+        $liveConsumer->searchPrefixFilterQuery = 'test';
+
+        $testConsumer = new \CultureFeed_Consumer();
+        $testConsumer->consumerKey = 'testkey';
+        $testConsumer->searchPrefixFilterQuery = 'test';
+
         $this->culturefeedLive->expects($this->once())
-            ->method('updateServiceConsumer');
+            ->method('updateServiceConsumer')
+            ->with($liveConsumer);
 
         $this->culturefeedTest->expects($this->once())
-            ->method('updateServiceConsumer');
+            ->method('updateServiceConsumer')
+            ->with($testConsumer);
 
         $this->projectService->updateContentFilter($project, 'test');
     }
@@ -341,11 +351,16 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project = new Project();
         $project->setTestConsumerKey('testkey');
 
+        $testConsumer = new \CultureFeed_Consumer();
+        $testConsumer->consumerKey = 'testkey';
+        $testConsumer->searchPrefixFilterQuery = 'test';
+
         $this->culturefeedLive->expects($this->never())
             ->method('updateServiceConsumer');
 
         $this->culturefeedTest->expects($this->once())
-            ->method('updateServiceConsumer');
+            ->method('updateServiceConsumer')
+            ->with($testConsumer);
 
         $this->projectService->updateContentFilter($project, 'test');
     }
@@ -358,8 +373,13 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project = new Project();
         $project->setLiveConsumerKey('livekey');
 
+        $liveConsumer = $this->getMock(\CultureFeed_Consumer::class);
+        $liveConsumer->consumerKey = 'livekey';
+        $liveConsumer->searchPrefixFilterQuery = 'test';
+
         $this->culturefeedLive->expects($this->once())
-            ->method('updateServiceConsumer');
+            ->method('updateServiceConsumer')
+            ->with($liveConsumer);
 
         $this->culturefeedTest->expects($this->never())
             ->method('updateServiceConsumer');
