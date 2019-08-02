@@ -325,10 +325,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setTestConsumerKey('testkey');
 
         $liveConsumerKey = $project->getLiveConsumerKey();
-        $liveConsumer->searchPrefixFilterQuery = 'test';
-
         $testConsumerKey = $project->setTestConsumerKey();
-        $testConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->any())
             ->method('getServiceConsumer')
