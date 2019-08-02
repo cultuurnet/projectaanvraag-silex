@@ -339,6 +339,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $this->culturefeedTest->expects($this->once())
             ->method('updateServiceConsumer')
             ->with($testConsumer);
+
+        $this->projectService->updateContentFilter($project, 'test');
     }
 
     /**
@@ -359,6 +361,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $this->culturefeedTest->expects($this->once())
             ->method('updateServiceConsumer')
             ->with($testConsumer);
+
+        $this->projectService->updateContentFilter($project, 'test');
     }
 
     /**
@@ -369,8 +373,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project = new Project();
         $project->setLiveConsumerKey('livekey');
 
-        $liveConsumer = new \CultureFeed_Consumer();
-        $liveConsumer->consumerKey = 'livekey';
+        $liveConsumerKey = $project->getLiveConsumerKey();
+        $liveConsumer = $this->culturefeedLive->getServiceConsumer($liveConsumerKey);
         $liveConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->once())
@@ -379,5 +383,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->culturefeedTest->expects($this->never())
             ->method('updateServiceConsumer');
+
+        $this->projectService->updateContentFilter($project, 'test');
     }
 }
