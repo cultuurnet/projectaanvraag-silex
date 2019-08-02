@@ -324,22 +324,20 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setLiveConsumerKey('livekey');
         $project->setTestConsumerKey('testkey');
 
-        $liveConsumerKey = $project->getLiveConsumerKey();
-        $liveConsumer = $this->projectService->getServiceConsumer($liveConsumerKey);
+        $liveConsumer = new \CultureFeed_Consumer();
         $liveConsumer->consumerKey = 'livekey';
         $liveConsumer->searchPrefixFilterQuery = 'test';
 
-        $testConsumerKey = $project->getTestConsumerKey();
-        $testConsumer = $this->projectService->getServiceConsumer($testConsumerKey);
+        $testConsumer = new \CultureFeed_Consumer();
         $testConsumer->consumerKey = 'testkey';
         $testConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->once())
-            ->method('updateServiceConsumer')
+            ->method('createServiceConsumer')
             ->with($liveConsumer);
 
         $this->culturefeedTest->expects($this->once())
-            ->method('updateServiceConsumer')
+            ->method('createServiceConsumer')
             ->with($testConsumer);
 
         $this->projectService->updateContentFilter($project, 'test');
@@ -353,16 +351,15 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project = new Project();
         $project->setTestConsumerKey('testkey');
 
-        $testConsumerKey = $project->getTestConsumerKey();
-        $testConsumer = $this->projectService->getServiceConsumer($testConsumerKey);
+        $testConsumer = new \CultureFeed_Consumer();
         $testConsumer->consumerKey = 'testkey';
         $testConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->never())
-            ->method('updateServiceConsumer');
+            ->method('createServiceConsumer');
 
         $this->culturefeedTest->expects($this->once())
-            ->method('updateServiceConsumer')
+            ->method('createServiceConsumer')
             ->with($testConsumer);
 
         $this->projectService->updateContentFilter($project, 'test');
@@ -376,17 +373,16 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project = new Project();
         $project->setLiveConsumerKey('livekey');
 
-        $liveConsumerKey = $project->getLiveConsumerKey();
-        $liveConsumer = $this->projectService->getServiceConsumer($liveConsumerKey);
+        $liveConsumer = new \CultureFeed_Consumer();
         $liveConsumer->consumerKey = 'livekey';
         $liveConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->once())
-            ->method('updateServiceConsumer')
+            ->method('createServiceConsumer')
             ->with($liveConsumer);
 
         $this->culturefeedTest->expects($this->never())
-            ->method('updateServiceConsumer');
+            ->method('createServiceConsumer');
 
         $this->projectService->updateContentFilter($project, 'test');
     }
