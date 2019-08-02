@@ -333,14 +333,12 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $testConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->once())
-            ->method('createServiceConsumer')
+            ->method('updateServiceConsumer')
             ->with($liveConsumer);
 
         $this->culturefeedTest->expects($this->once())
-            ->method('createServiceConsumer')
+            ->method('updateServiceConsumer')
             ->with($testConsumer);
-
-        $this->projectService->updateContentFilter($project, 'test');
     }
 
     /**
@@ -356,13 +354,11 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $testConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->never())
-            ->method('createServiceConsumer');
+            ->method('updateServiceConsumer');
 
         $this->culturefeedTest->expects($this->once())
-            ->method('createServiceConsumer')
+            ->method('updateServiceConsumer')
             ->with($testConsumer);
-
-        $this->projectService->updateContentFilter($project, 'test');
     }
 
     /**
@@ -378,12 +374,10 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $liveConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->once())
-            ->method('createServiceConsumer')
+            ->method('updateServiceConsumer')
             ->with($liveConsumer);
 
         $this->culturefeedTest->expects($this->never())
-            ->method('createServiceConsumer');
-
-        $this->projectService->updateContentFilter($project, 'test');
+            ->method('updateServiceConsumer');
     }
 }
