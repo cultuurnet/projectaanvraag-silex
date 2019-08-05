@@ -320,26 +320,25 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateContentFilter()
     {
-        $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
+        $project = new Project();
+        $project->setLiveConsumerKey('livekey');
+        $project->setTestConsumerKey('testkey');
 
-        $project->setName('name');
-        $project->setTestConsumerKey('test');
-        $project->setLiveConsumerKey('live');
-        $project->setGroupId('test');
+        $liveConsumer = new \CultureFeed_Consumer();
+        $liveConsumer->consumerKey = 'livekey';
+        $liveConsumer->searchPrefixFilterQuery = 'test';
 
-        $this->culturefeedLive->expects($this->any())
-            ->method('getServiceConsumer')
-            ->with('live');  
+        $testConsumer = new \CultureFeed_Consumer();
+        $testConsumer->consumerKey = 'testkey';
+        $testConsumer->searchPrefixFilterQuery = 'test';
 
         $this->culturefeedLive->expects($this->once())
-            ->method('updateServiceConsumer');
-
-        $this->culturefeedTest->expects($this->any())
-            ->method('getServiceConsumer')
-            ->with('test');  
+            ->method('updateServiceConsumer')
+            ->with($liveConsumer);
 
         $this->culturefeedTest->expects($this->once())
-            ->method('updateServiceConsumer');
+            ->method('updateServiceConsumer')
+            ->with($testConsumer);
 
         $this->projectService->updateContentFilter($project, 'test');
     }

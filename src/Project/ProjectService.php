@@ -184,7 +184,8 @@ class ProjectService implements ProjectServiceInterface
 
         if ($project->getLiveConsumerKey()) {
             $liveConsumerKey = $project->getLiveConsumerKey();
-            $liveConsumer = $this->culturefeedLive->getServiceConsumer($liveConsumerKey);
+            $liveConsumer = ($this->culturefeedLive->getServiceConsumer($liveConsumerKey)) ?: new \CultureFeed_Consumer();
+            $liveConsumer->consumerKey = $liveConsumerKey;
             if ($project->getSapiVersion() == '3') {
                 $liveConsumer->searchPrefixSapi3 = $project->getContentFilter();
             } else {
@@ -195,7 +196,8 @@ class ProjectService implements ProjectServiceInterface
 
         if ($project->getTestConsumerKey()) {
             $testConsumerKey = $project->getTestConsumerKey();
-            $testConsumer = $this->culturefeedTest->getServiceConsumer($testConsumerKey);
+            $testConsumer = ($this->culturefeedTest->getServiceConsumer($testConsumerKey)) ?: new \CultureFeed_Consumer();
+            $testConsumer->consumerKey = $testConsumerKey;
             if ($project->getSapiVersion() == '3') {
                 $testConsumer->searchPrefixSapi3 = $project->getContentFilter();
             } else {
