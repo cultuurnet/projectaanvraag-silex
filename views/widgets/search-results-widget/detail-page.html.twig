@@ -99,12 +99,18 @@
                     </dd>
                     {% endif %}
 
-                    {% if settings.when.enabled %}
+                    {% if settings.when.enabled and event.when_details %}
                     <dt>
                         <em class="cnw_searchresult-detail-label">{{ settings.when.label }}</em>
                         <i class="cnw-fa cnw-fa-calendar"></i>
                     </dt>
-                    <dd>{{ event.when_details | raw }}</dd>
+                    <dd class="cnw-event-date-container">
+                        {{ event.when_details | raw }}
+                        <a href="#" class="cnw-event-date-info-toggle cnw_hidden">
+                            <span>Toon alle data</span>
+                            <span>Toon minder data</span>
+                        </a>
+                    </dd>
                     {% endif %}
 
                     {% if settings.age.enabled and event.age_range %}
