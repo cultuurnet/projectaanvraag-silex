@@ -650,7 +650,8 @@ class TwigPreprocessor
                 break;
         }
 
-        $calendarFormatter = new CalendarHTMLFormatter($locale, false);
+        $hidePastDates = true;
+        $calendarFormatter = new CalendarHTMLFormatter($locale, $hidePastDates);
         return $calendarFormatter->format($event, 'lg');
     }
 
