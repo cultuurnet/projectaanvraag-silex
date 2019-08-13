@@ -12,9 +12,9 @@
         {%  if settings_general.current_search and active_filters|length > 0 %}
             <!--  searchWords  START -->
             <div class="cnw_searchresult__searchwords">
-                <p>Je zocht op
+                <p>Je zocht op: 
                     {% for active_filter in active_filters %}
-                        {{ active_filter.label }} <a href="#" data-active-keywords-name="{{ active_filter.name }}" data-active-keywords-default-option="{{ active_filter.is_default }}">x</a>
+                        <span class="cnw_badge cnw_badge-default"> {{ active_filter.label }} <a href="#" data-active-keywords-name="{{ active_filter.name }}" data-active-keywords-default-option="{{ active_filter.is_default }}">x</a> </span>
                     {% endfor %}
                     <a href="#" data-active-keywords-name="all">Alle filters verwijderen</a>
                 </p>
