@@ -25,7 +25,6 @@ listeners:
         class: \CultuurNet\ProjectAanvraag\ArticleLinker\EventListener\ArticleLinkCreatedEventListener
         arguments:
             - articlelinker_api
-            - orm.em
             - articlelinker_cache
 
     project_created_listener:
