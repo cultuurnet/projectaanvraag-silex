@@ -388,9 +388,9 @@ class SearchResults extends WidgetTypeBase
     /**
      * SearchResults constructor.
      *
-     * @param array             $pluginDefinition
-     * @param array             $configuration
-     * @param bool              $cleanup
+     * @param array $pluginDefinition
+     * @param array $configuration
+     * @param bool $cleanup
      * @param \Twig_Environment $twig
      * @param TwigPreprocessor  $twigPreprocessor
      * @param RendererInterface $renderer

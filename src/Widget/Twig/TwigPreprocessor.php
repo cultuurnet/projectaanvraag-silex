@@ -333,8 +333,8 @@ class TwigPreprocessor
     /**
      * Preprocess event articles
      *
-     * @param Array $articles
-     * @param Array $settings
+     * @param array $articles
+     * @param array $settings
      * @return array $settings
      */
     public function preprocessArticles($linkedArticles, $settings)

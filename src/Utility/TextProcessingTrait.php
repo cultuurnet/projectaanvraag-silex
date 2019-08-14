@@ -78,8 +78,7 @@ trait TextProcessingTrait
 
         // If ellipsis is set to true, add trailing points at the end of the string
         if ($ellipsis) {
-            $ending = ' ...';
-            $summary = $summary . $ending;
+            $summary = $summary . ' ...';
         }
 
         return $summary;
