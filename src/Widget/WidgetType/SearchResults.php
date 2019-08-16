@@ -184,7 +184,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label": "Toegankelijkheid"
  *              },
  *              "articles":{
- *                  "enabled": false,
+ *                  "enabled": true,
+ *                  "limit_publishers": false,
+ *                  "label": "Lees ook",
  *                  "publishers": ""
  *              }
  *          }
@@ -340,8 +342,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "label":"string"
  *              },
  *              "articles":{
- *                   "enabled":"boolean",
- *                   "publishers":"string"
+ *                  "enabled": "boolean",
+ *                  "limit_publishers": "boolean",
+ *                  "label": "string",
+ *                  "publishers": "CultuurNet\ProjectAanvraag\Widget\Settings\Publishers"
  *              }
  *          }
  *     }
@@ -388,10 +392,10 @@ class SearchResults extends WidgetTypeBase
      * @param array $configuration
      * @param bool $cleanup
      * @param \Twig_Environment $twig
-     * @param TwigPreprocessor $twigPreprocessor
+     * @param TwigPreprocessor  $twigPreprocessor
      * @param RendererInterface $renderer
-     * @param SearchClient $searchClient
-     * @param CuratorenClient $curatorenClient
+     * @param SearchClient      $searchClient
+     * @param CuratorenClient   $curatorenClient
      */
     public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, SearchClient $searchClient, CuratorenClient $curatorenClient, RequestStack $requestStack, MessageBusSupportingMiddleware $eventBus)
     {
@@ -637,7 +641,8 @@ class SearchResults extends WidgetTypeBase
 
         if (!empty($this->settings['detail_page']['articles']['enabled'])) {
             $articles = $this->curatorenClient->searchArticles($this->request->query->get('cdbid'));
-            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles);
+            $articleSettings = $this->settings['detail_page']['articles'];
+            $variables['articles'] = $this->twigPreprocessor->preprocessArticles($articles, $articleSettings);
         }
 
         // Render twig with formatted results and item settings.

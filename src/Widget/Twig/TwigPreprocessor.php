@@ -333,17 +333,26 @@ class TwigPreprocessor
     /**
      * Preprocess event articles
      *
-     * @param Array $articles
-     * @param string $langcode
+     * @param array $articles
      * @param array $settings
+     * @return array $settings
      */
-    public function preprocessArticles($linkedArticles)
+    public function preprocessArticles($linkedArticles, $settings)
     {
-
+            
         $articles = [];
         if (!empty($linkedArticles['hydra:member'])) {
             foreach ($linkedArticles['hydra:member'] as $article) {
-                $articles[] = $article;
+                // Reduce text to max allowed characters
+                $ellipsis = true;
+                $maxChars = 200;
+                $article['text'] =  $this->createSummary($article['text'], $maxChars, $ellipsis);
+                $publisher = strtolower($article['publisher']);
+                $showPublisher = in_array($publisher, $settings['publishers']);
+                if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $showPublisher)) {
+                   // only add articles of allowed publishers to array
+                    $articles[] = $article;
+                }
             }
         }
         return $articles;

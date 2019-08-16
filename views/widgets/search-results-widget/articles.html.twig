@@ -1,7 +1,20 @@
-<p class="cnw_searchresult-detail-block-title">Lees meer</p>
-<ul>
-  {% for article in articles %}
-       <li><a href="{{ article.url }}"><strong>{{ article.headline }}</strong></a><br/>
-       {{article.text}} - {{article.publisher}}</li>
-  {% endfor %}
-</ul>
+ <dl class="cnw_row cnw_searchresult-detail-info">
+  <dt>
+    <em class="cnw_searchresult-detail-label">{{ settings.articles.label }}</em>
+    <i class="cnw-fa cnw-fa-newspaper-o"></i>
+  </dt>
+  <dd>
+    <ul class="cnw_searchresult-detail-articles cnw_col-8">
+      {% for article in articles %}
+        <li>
+          <a href="{{ article.url }}" class="cnw_searchresult-detail-article-title" target="_blank">
+            <strong>{{ article.headline }} (bron: {{ article.publisher }})</strong>
+          </a>
+          <p class="cnw_searchresult-detail-article-text">
+           {{ article.text }}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  </dd>
+</dl>
