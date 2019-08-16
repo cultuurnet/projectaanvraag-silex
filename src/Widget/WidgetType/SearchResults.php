@@ -187,7 +187,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled": true,
  *                  "limit_publishers": false,
  *                  "label": "Lees ook",
- *                  "publishers": ""
+ *                  "publishers": {}
  *              }
  *          }
  *      },
