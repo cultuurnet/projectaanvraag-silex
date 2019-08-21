@@ -95,6 +95,33 @@
     }
   }
 
+  ul.cnw-event-date-info {
+    // only show first 5 upcomping dates
+    li:nth-child(n+6){
+      display: none;
+    }
+
+    &.open li{
+      display: block;
+    }
+  }
+
+  // styling for show all date toggler
+  a.cnw-event-date-info-toggle {
+    span:nth-child(n+2) {
+      display: none;
+    }
+
+    &.open{
+      span:first-child(){
+        display: none;
+      }
+      span:nth-child(n+2) {
+        display: initial;
+      }
+    }
+  }
+
   .cnw_uitpas-promotions {
 
     &-block-title {
@@ -165,3 +192,5 @@
 html .cnw_searchresult-price-info p{
   margin-bottom: 0;
 }
+
+

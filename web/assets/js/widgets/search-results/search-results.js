@@ -27,6 +27,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             // Bind facility toggle.
             CultuurnetWidgets.bindFacilityToggle(context);
 
+            // Bind Event Date toggle
+            CultuurnetWidgets.bindEventDatesToggle(context);
         }
 
     };
@@ -157,6 +159,28 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 $fullFacilities.toggleClass("show");
                 e.preventDefault();
             });
+        }
+
+    };
+
+    /**
+     * Bind the event dates toggle link and only show 5 dates by default.
+     * @param context
+     */
+    CultuurnetWidgets.bindEventDatesToggle = function(context) {
+
+        var maxDatesVisible = 5; // define how many upcoming dates to show by default
+        var $eventDatesContainer = jQuery(context).find('.cnw-event-date-container');
+        var $eventDates = jQuery(context).find('ul.cnw-event-date-info');
+        var $eventDateItems = $eventDates.find('li');
+        var $eventDateToggler = jQuery(context).find('.cnw-event-date-info-toggle');
+        if ($eventDatesContainer && $eventDates && $eventDateItems.length > maxDatesVisible) {
+         $eventDateToggler.removeClass('cnw_hidden'); 
+         $eventDateToggler.bind('click', function(e){
+            e.preventDefault();
+            $eventDates.toggleClass('open');
+            $(this).toggleClass('open');
+         }); 
         }
 
     };
