@@ -10,6 +10,7 @@ config.yml
 /web/xhprof
 /web/widgets/layout
 .DS_STORE
+/.vscode
 
 widgets-static/node_modules
 widgets-static/.tmp
