@@ -1,4 +1,3 @@
-.idea
 /vendor
 config.yml
 /user_roles.yml
@@ -9,7 +8,6 @@ config.yml
 /cache
 /web/xhprof
 /web/widgets/layout
-.DS_STORE
 
 widgets-static/node_modules
 widgets-static/.tmp
