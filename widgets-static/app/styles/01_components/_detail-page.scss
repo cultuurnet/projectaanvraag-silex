@@ -193,4 +193,28 @@ html .cnw_searchresult-price-info p{
   margin-bottom: 0;
 }
 
+/* styling for article links */
+
+ul.cnw_searchresult-detail-articles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cnw_searchresult-detail-article-title {
+  text-decoration: none;
+  color: #292b2c;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.cnw_searchresult-detail-article-publisher-logo {
+  width: 20px;
+  margin-right: 10px;
+}
+
+/* end styling for article links */
+
 
