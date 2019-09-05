@@ -346,7 +346,7 @@ class TwigPreprocessor
                 // Reduce text to max allowed characters
                 $ellipsis = true;
                 $maxChars = 200;
-                $referer = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+                $referer = parse_url($this->request->server->get('HTTP_REFERER'), PHP_URL_HOST);
                 $utmParams = '?utm_source=' . urlencode($referer) . '&utm_medium=referral&utm_campaign=editorial-tools';
                 $article['campaign_url'] = $article['url'] . $utmParams;
                 $article['text'] =  $this->createSummary($article['text'], $maxChars, $ellipsis);
