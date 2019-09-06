@@ -82,9 +82,9 @@ search_api:
 # Curatoren API settings
 curatoren_api:
   test:
-    base_url: https://uit-curatoren.herokuapp.com
+    base_url: https://curator-acc.uitdatabank.be/
   live:
-    base_url: https://uit-curatoren.herokuapp.com
+    base_url: https://curator-acc.uitdatabank.be/
   cache:
     enabled: true
     backend: redis
@@ -93,9 +93,9 @@ curatoren_api:
 # Article Linker
 articlelinker_api:
   test:
-    base_url: https://uit-articlelinker.herokuapp.com
+    base_url: https://curator-acc.uitdatabank.be/
   live:
-    base_url: https://uit-articlelinker.herokuapp.com
+    base_url: https://curator-acc.uitdatabank.be/
   cache:
     enabled: true
     backend: redis

@@ -4,7 +4,7 @@
   <ul class="cnw_searchresult-detail-articles cnw_col-12">
     {% for article in articles %}
       <li>
-        <a class="cnw_searchresult-detail-article-title" href="{{ article.url }}" target="_blank">
+        <a class="cnw_searchresult-detail-article-title" href="{{ article.campaign_url }}" target="_blank">
           {% if article.publisherLogo is not null %}
             <img class="cnw_searchresult-detail-article-publisher-logo" src="{{ article.publisherLogo }}">
           {% endif %}
