@@ -202,17 +202,19 @@ ul.cnw_searchresult-detail-articles {
 }
 
 .cnw_searchresult-detail-article-title {
+  display: inline-block;
   text-decoration: none;
   color: #292b2c;
-  display: flex;
-  align-items: center;
   font-size: 1.2em;
   margin-bottom: 10px;
 }
 
 .cnw_searchresult-detail-article-publisher-logo {
+  vertical-align: top !important;
   width: 20px;
+  height: 20px;
   margin-right: 10px;
+  margin-bottom: 0px;
 }
 
 /* end styling for article links */
