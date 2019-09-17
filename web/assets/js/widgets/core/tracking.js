@@ -52,7 +52,7 @@
             // Attach custom tracking on it.
             jQuery(context).find('.uiv-source').find('a').bind('click', function() {
                 CultuurnetWidgets.trackEvent('trackEvent', 'source', 'detail', '', '', widgetPageID);
-            })
+            });
 
         }
 
@@ -81,7 +81,7 @@
             'event-category': category.toLowerCase(),
             'consumer_key': CultuurnetWidgetsSettings[widgetPageId].consumerKey,
             'consumer_name': CultuurnetWidgetsSettings[widgetPageId].consumerName,
-            'page': page,
+            'page': page
         };
 
         if (extra_gtm_data) {
@@ -95,6 +95,6 @@
         }
 
         cnWidgetsDataLayer.push(gtm_data);
-    }
+    };
 
 })(CultuurnetWidgets);
