@@ -96,6 +96,7 @@ handlers:
             - culturefeed
             - uitid_user_session_data_complete
             - default_consumer_group
+            - uitpas_permission_group
 
     activate_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\ActivateProject
@@ -106,6 +107,7 @@ handlers:
             - culturefeed
             - uitid_user_session_data_complete
             - default_consumer_group
+            - uitpas_permission_group
 
     request_activation_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\RequestActivation

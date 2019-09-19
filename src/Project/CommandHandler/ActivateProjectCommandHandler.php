@@ -37,9 +37,14 @@ class ActivateProjectCommandHandler
     protected $user;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $defaultConsumerGroup;
+
+    /**
+     * @var int
+     */
+    protected $uitpasPermissionGroup;
 
     /**
      * CreateProjectCommandHandler constructor.
@@ -48,14 +53,16 @@ class ActivateProjectCommandHandler
      * @param \CultureFeed $cultureFeedLive
      * @param User $user
      * @param int $defaultConsumerGroup
+     * @param int $uitpasPermissionGroup
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $defaultConsumerGroup)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $defaultConsumerGroup, int $uitpasPermissionGroup)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->cultureFeedLive = $cultureFeedLive;
         $this->user = $user;
         $this->defaultConsumerGroup = $defaultConsumerGroup;
+        $this->uitpasPermissionGroup = $uitpasPermissionGroup;
     }
 
     /**
@@ -83,6 +90,9 @@ class ActivateProjectCommandHandler
 
         // Add the user as service consumer admin.
         $this->cultureFeedLive->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $this->user->id);
+
+        // Add uitpas permssion to consumer
+        $this->cultureFeedLive->addUitpasPermission($cultureFeedConsumer, $this->uitpasPermissionGroup);
 
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);

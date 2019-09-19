@@ -43,9 +43,14 @@ class CreateProjectCommandHandler
     protected $user;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $defaultConsumerGroup;
+
+    /**
+     * @var int
+     */
+    protected $uitpasPermissionGroup;
 
     /**
      * CreateProjectCommandHandler constructor.
@@ -55,8 +60,9 @@ class CreateProjectCommandHandler
      * @param \ICultureFeed $cultureFeed
      * @param UitIdUserInterface $user
      * @param int $defaultConsumerGroup
+     * @param int $uitpasPermissionGroup
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, \ICultureFeed $cultureFeed, UitIdUserInterface $user, $defaultConsumerGroup)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, \ICultureFeed $cultureFeed, UitIdUserInterface $user, $defaultConsumerGroup, int $uitpasPermissionGroup)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
@@ -64,6 +70,7 @@ class CreateProjectCommandHandler
         $this->cultureFeed = $cultureFeed;
         $this->user = $user;
         $this->defaultConsumerGroup = $defaultConsumerGroup;
+        $this->uitpasPermissionGroup = $uitpasPermissionGroup;
     }
 
     /**
@@ -98,6 +105,8 @@ class CreateProjectCommandHandler
             $createConsumer->description = $createProject->getDescription();
             $createConsumer->group = [$this->defaultConsumerGroup, $createProject->getIntegrationType()];
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
+            // Add uitpas permission to consumer
+            $this->cultureFeed->addUitpasPermission($cultureFeedLiveConsumer, $this->uitpasPermissionGroup);
             $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
             $project->setLiveApiKeySapi3($cultureFeedLiveConsumer->apiKeySapi3);
@@ -184,6 +193,9 @@ class CreateProjectCommandHandler
 
         // Add the user as service consumer admin.
         $this->cultureFeedTest->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $uid);
+
+        // Add uitpas permission to consumer
+        $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $this->uitpasPermissionGroup);
 
         return $cultureFeedConsumer;
     }
