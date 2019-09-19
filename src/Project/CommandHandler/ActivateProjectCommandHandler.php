@@ -37,12 +37,12 @@ class ActivateProjectCommandHandler
     protected $user;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $defaultConsumerGroup;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $uitpasPermissionGroup;
 
@@ -55,7 +55,7 @@ class ActivateProjectCommandHandler
      * @param int $defaultConsumerGroup
      * @param int $uitpasPermissionGroup
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $defaultConsumerGroup, $uitpasPermissionGroup)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $defaultConsumerGroup, int $uitpasPermissionGroup)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
