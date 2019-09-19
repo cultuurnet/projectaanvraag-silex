@@ -35,7 +35,7 @@ class ProjectProvider implements ServiceProviderInterface
         };
 
         $pimple['uitpas_permission_group'] = function (Container $pimple) {
-          return $pimple['config']['uitpas_permission_group'];
-      };
+            return $pimple['config']['uitpas_permission_group'];
+        };
     }
 }
