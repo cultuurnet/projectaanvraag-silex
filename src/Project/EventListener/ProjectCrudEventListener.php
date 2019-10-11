@@ -49,7 +49,7 @@ abstract class ProjectCrudEventListener
 
     protected function saveInsightlyProject()
     {
-        $this->insightlyProject = $this->insightlyClient->updateProject($this->insightlyProject, ['brief' => true]);
+        $this->insightlyProject = $this->insightlyClient->updateProject($this->insightlyProject);
     }
 
     /**
