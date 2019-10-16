@@ -28,7 +28,7 @@ class ArticleLinkCreatedEventListener
      * @param ArticleLinkerClientInterface $articleLinkerClient
      * @param AbstractCache $cacheBackend
      */
-    public function __construct(ArticleLinkerClientInterface $articleLinkerClientLive,ArticleLinkerClientInterface $articleLinkerClientTest, $cacheBackend = null)
+    public function __construct(ArticleLinkerClientInterface $articleLinkerClientLive, ArticleLinkerClientInterface $articleLinkerClientTest, $cacheBackend = null)
     {
         $this->articleLinkerClientLive = $articleLinkerClientLive;
         $this->articleLinkerClientTest = $articleLinkerClientTest;
@@ -47,10 +47,10 @@ class ArticleLinkCreatedEventListener
         $projectActive = $articleLinkCreated->getProjectActive();
 
         if ($projectActive) {
-          $articleLinkerClient =  $this->articleLinkerClientLive;
+            $articleLinkerClient = $this->articleLinkerClientLive;
         } else {
-          $articleLinkerClient =  $this->articleLinkerClientTest;
-        } 
+            $articleLinkerClient = $this->articleLinkerClientTest;
+        }
 
         $cacheId = md5($url . ':' . $cdbid);
         if ($this->cacheBackend) {

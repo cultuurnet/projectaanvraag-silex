@@ -82,5 +82,4 @@ class ArticleLinkCreated extends AbstractRetryableMessage
     {
         return $this->projectActive;
     }
-
 }
