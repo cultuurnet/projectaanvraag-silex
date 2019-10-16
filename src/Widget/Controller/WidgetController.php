@@ -3,6 +3,8 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
 use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
+use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
 use CultuurNet\ProjectAanvraag\Widget\JavascriptResponse;
 use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
@@ -161,12 +163,15 @@ class WidgetController
      */
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
     {
+        $project = $this->projectConverter->convert($widgetPage->getProjectId());
+        $projectActive = $project->getStatus() === ProjectInterface::PROJECT_STATUS_ACTIVE;
+
         if ($cdbid && $request->headers->get('referer')) {
             $url = $request->headers->get('referer');
-            $this->commandBus->handle(new CreateArticleLink($url, $cdbid));
+           
+            $this->commandBus->handle(new CreateArticleLink($url, $cdbid, $projectActive));
         }
 
-        $project = $this->projectConverter->convert($widgetPage->getProjectId());
         if (!$project) {
             throw new NotFoundHttpException();
         }
