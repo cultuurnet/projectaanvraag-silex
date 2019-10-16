@@ -93,9 +93,9 @@ curatoren_api:
 # Article Linker
 articlelinker_api:
   test:
-    base_url: https://curator-acc.uitdatabank.be/
+    base_url: https://articlelinker-acc.uitdatabank.be/
   live:
-    base_url: https://curator-acc.uitdatabank.be/
+    base_url: https://articlelinker.uitdatabank.be/
   cache:
     enabled: true
     backend: redis
