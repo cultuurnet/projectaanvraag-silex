@@ -13,6 +13,7 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetType\Html;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchClientInterface;
+use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -53,6 +54,16 @@ class Renderer implements RendererInterface
     protected $searchClientTest;
 
     /**
+     * @var CuratorenClient
+     */
+    protected $curatorenClient;
+
+    /**
+     * @var CuratorenClient
+     */
+    protected $curatorenClientTest;
+
+    /**
      * @var array
      */
     private $jsFiles = [];
@@ -73,13 +84,15 @@ class Renderer implements RendererInterface
      * @param $googleTagManagerId
      * @param ProjectServiceInterface $projectService
      */
-    public function __construct(WidgetPluginManager $widgetPluginManager, $googleTagManagerId, EntityRepository $projectRepository, SearchClientInterface $searchClient, SearchClientInterface $searchClientTest)
+    public function __construct(WidgetPluginManager $widgetPluginManager, $googleTagManagerId, EntityRepository $projectRepository, SearchClientInterface $searchClient, SearchClientInterface $searchClientTest, CuratorenClient $curatorenClient, CuratorenClient $curatorenClientTest)
     {
         $this->widgetPluginManager = $widgetPluginManager;
         $this->googleTagManagerId = $googleTagManagerId;
         $this->projectRepository = $projectRepository;
         $this->searchClient = $searchClient;
         $this->searchClientTest = $searchClientTest;
+        $this->curatorenClient = $curatorenClient;
+        $this->curatorenClientTest = $curatorenClientTest;
     }
 
     /**
@@ -101,9 +114,11 @@ class Renderer implements RendererInterface
         if ($project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
             $apiKey = $project->getTestApiKeySapi3();
             $config = $this->searchClientTest->getClient()->getConfig();
+            $curatorenConfig =  $this->curatorenClientTest->getClient()->getConfig();
         } else {
             $config = $this->searchClient->getClient()->getConfig();
             $apiKey = $project->getLiveApiKeySapi3();
+            $curatorenConfig =  $this->curatorenClient->getClient()->getConfig();
         }
 
         $headers = $config['headers'] ?? [];
@@ -111,6 +126,7 @@ class Renderer implements RendererInterface
         $config['headers'] = $headers;
 
         $this->searchClient->setClient(new \GuzzleHttp\Client($config));
+        $this->curatorenClient->setClient(new \GuzzleHttp\Client($curatorenConfig));
     }
 
     /**
