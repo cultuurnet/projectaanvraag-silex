@@ -21,14 +21,21 @@ class ArticleLinkCreated extends AbstractRetryableMessage
     private $url;
 
     /**
+     * @var string
+     * @Type("string")
+     */
+    private $projectActive;
+
+    /**
      * ArticleLinkCreated constructor.
      * @param string $url
      * @param string $cdbid
      */
-    public function __construct($url, $cdbid, $delay = 5)
+    public function __construct($url, $cdbid, $projectActive, $delay = 5)
     {
         $this->url = $url;
         $this->cdbid = $cdbid;
+        $this->projectActive = $projectActive;
         $this->delay = $delay;
     }
 
@@ -59,7 +66,7 @@ class ArticleLinkCreated extends AbstractRetryableMessage
     }
 
     /**
-     * @param string $usedCoupon
+     * @param string
      * @return ArticleLinkCreated
      */
     public function setCbid($cdbid)
@@ -67,4 +74,13 @@ class ArticleLinkCreated extends AbstractRetryableMessage
         $this->cdbid = $cdbid;
         return $this;
     }
+
+    /**
+     * @return Boolean
+     */
+    public function getProjectActive()
+    {
+        return $this->projectActive;
+    }
+
 }
