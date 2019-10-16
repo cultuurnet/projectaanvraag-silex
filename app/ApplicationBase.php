@@ -150,7 +150,7 @@ class ApplicationBase extends SilexApplication
             new CuratorenAPIServiceProvider(),
             [
                 'curatoren_api.base_url' => $this['config']['curatoren_api']['live']['base_url'],
-                'curatoren_api.base_url' => $this['config']['curatoren_api']['test']['base_url'],
+                'curatoren_api_test.base_url' => $this['config']['curatoren_api']['test']['base_url'],
                 'curatoren_api.cache.enabled' => $this['config']['curatoren_api']['cache']['enabled'],
                 'curatoren_api.cache.backend' => $this['config']['curatoren_api']['cache']['backend'],
                 'curatoren_api.cache.ttl' => $this['config']['curatoren_api']['cache']['ttl'],
@@ -162,7 +162,7 @@ class ApplicationBase extends SilexApplication
             new ArticleLinkerAPIServiceProvider(),
             [
                 'articlelinker_api.base_url' => $this['config']['articlelinker_api']['live']['base_url'],
-                'articlelinker_api.base_url' => $this['config']['articlelinker_api']['test']['base_url'],
+                'articlelinker_api_test.base_url' => $this['config']['articlelinker_api']['test']['base_url'],
                 'articlelinker_api.cache.enabled' => $this['config']['articlelinker_api']['cache']['enabled'],
                 'articlelinker_api.cache.backend' => $this['config']['articlelinker_api']['cache']['backend'],
                 'articlelinker_api.cache.ttl' => $this['config']['articlelinker_api']['cache']['ttl'],
