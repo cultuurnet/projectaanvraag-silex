@@ -8,8 +8,9 @@ class ArticleLinkCreatedTest extends \PHPUnit_Framework_TestCase
      * Test the getters and setters.
      */
     public function testGetAndSet()
-    {
-        $articleLinkCreated = new ArticleLinkCreated('the-url', 'the-cdbid');
+    {   
+        $projectActive = false;
+        $articleLinkCreated = new ArticleLinkCreated('the-url', 'the-cdbid', $projectActive);
         $this->assertEquals('the-url', $articleLinkCreated->getUrl());
         $this->assertEquals('the-cdbid', $articleLinkCreated->getCdbid());
 

@@ -19,6 +19,9 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         $articleLinkerClient = $this
             ->getMockBuilder(ArticleLinkerClientInterface::class)
             ->getMock();
+        $articleLinkerClientTest = $this
+            ->getMockBuilder(ArticleLinkerClientInterface::class)
+            ->getMock();
         $cacheBackend = $this
             ->getMockBuilder(DoctrineCache::class)
             ->disableOriginalConstructor()
@@ -26,6 +29,7 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
 
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,
+            $articleLinkerClientTest,
             $cacheBackend
         );
 
@@ -33,7 +37,7 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->method('has')
             ->willReturn(true);
 
-        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid');
+        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid', false);
         $eventListener->handle($articleLinkCreated);
     }
 
@@ -45,6 +49,9 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         $articleLinkerClient = $this
             ->getMockBuilder(ArticleLinkerClientInterface::class)
             ->getMock();
+        $articleLinkerClientTest = $this
+            ->getMockBuilder(ArticleLinkerClientInterface::class)
+            ->getMock();
         $cacheBackend = $this
             ->getMockBuilder(DoctrineCache::class)
             ->disableOriginalConstructor()
@@ -52,6 +59,7 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
 
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,
+            $articleLinkerClientTest,
             $cacheBackend
         );
 
@@ -63,7 +71,7 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->method('linkArticle')
             ->with('my-url', 'my-cdbid');
 
-        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid');
+        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid', true);
         $eventListener->handle($articleLinkCreated);
     }
 
@@ -75,16 +83,21 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         $articleLinkerClient = $this
             ->getMockBuilder(ArticleLinkerClientInterface::class)
             ->getMock();
+        
+        $articleLinkerClientTest = $this
+          ->getMockBuilder(ArticleLinkerClientInterface::class)
+          ->getMock();
 
         $eventListener = new ArticleLinkCreatedEventListener(
-            $articleLinkerClient
+            $articleLinkerClient,
+            $articleLinkerClientTest
         );
 
-        $articleLinkerClient->expects($this->once())
+        $articleLinkerClientTest->expects($this->once())
             ->method('linkArticle')
             ->with('my-url', 'my-cdbid');
 
-        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid');
+        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid', false);
         $eventListener->handle($articleLinkCreated);
     }
 }

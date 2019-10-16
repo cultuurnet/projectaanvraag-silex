@@ -28,6 +28,7 @@ interface ArticleLinkerClientInterface
     /**
      * Link an article.
      *
+     * @param String $url
      * @param String $cdbid
      * @return Array
      */

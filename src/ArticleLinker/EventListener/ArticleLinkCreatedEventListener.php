@@ -46,14 +46,16 @@ class ArticleLinkCreatedEventListener
         $cdbid = $articleLinkCreated->getCdbid();
         $projectActive = $articleLinkCreated->getProjectActive();
 
+        if ($projectActive) {
+          $articleLinkerClient =  $this->articleLinkerClientLive;
+        } else {
+          $articleLinkerClient =  $this->articleLinkerClientTest;
+        } 
+
         $cacheId = md5($url . ':' . $cdbid);
         if ($this->cacheBackend) {
             if (!$this->cacheBackend->has($cacheId)) {
-                if($projectActive){
-                  $this->articleLinkerClientLive->linkArticle($url, $cdbid);
-                }else{
-                  $this->articleLinkerClientTest->linkArticle($url, $cdbid);
-                }
+                $articleLinkerClient->linkArticle($url, $cdbid);
                 $this->cacheBackend->set(
                     $cacheId,
                     [
@@ -63,7 +65,7 @@ class ArticleLinkCreatedEventListener
                 );
             }
         } else {
-            $this->articleLinkerClient->linkArticle($url, $cdbid);
+            $articleLinkerClient->linkArticle($url, $cdbid);
         }
     }
 }
