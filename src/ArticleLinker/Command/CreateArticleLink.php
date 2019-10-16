@@ -15,6 +15,12 @@ class CreateArticleLink
     private $cdbid;
 
     /**
+     * @var string
+     */
+    private $projectActive;
+
+
+    /**
      * CreateArticleLink constructor.
      * @param $url
      * @param $cdbid
@@ -49,6 +55,14 @@ class CreateArticleLink
     public function getCdbid()
     {
         return $this->cdbid;
+    }
+
+    /**
+     * @return Boolean
+     */
+    public function getProjectActive()
+    {
+        return $this->projectActive;
     }
 
     /**

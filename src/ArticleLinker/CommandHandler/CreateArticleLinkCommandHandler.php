@@ -30,7 +30,7 @@ class CreateArticleLinkCommandHandler
      */
     public function handle(CreateArticleLink $createArticleLink)
     {
-        $articleLinkCreated = new ArticleLinkCreated($createArticleLink->getUrl(), $createArticleLink->getCdbid());
+        $articleLinkCreated = new ArticleLinkCreated($createArticleLink->getUrl(), $createArticleLink->getCdbid(), $createArticleLink->getProjectActive());
         $this->eventBus->handle($articleLinkCreated);
     }
 }
