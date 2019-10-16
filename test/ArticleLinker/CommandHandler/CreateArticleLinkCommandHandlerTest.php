@@ -39,7 +39,7 @@ class CreateArticleLinkCommandHandlerTest extends \PHPUnit_Framework_TestCase
      * Test the handling of a create article link.
      */
     public function testHandleCreateArticleLink()
-    {   
+    {
         $projectActive = false;
         $createArticleLink = new CreateArticleLink('my-url', 'my-cdbid', $projectActive);
         $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid', $projectActive);
