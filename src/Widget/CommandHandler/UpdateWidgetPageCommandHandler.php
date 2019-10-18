@@ -45,6 +45,7 @@ class UpdateWidgetPageCommandHandler extends WidgetPageCommandHandler
             $widgetPageToSave->setRows($newWidgetPage->getRows());
             $widgetPageToSave->setTitle($newWidgetPage->getTitle());
             $widgetPageToSave->setCss($newWidgetPage->getCss());
+            $widgetPageToSave->setSelectedTheme($newWidgetPage->getSelectedTheme());
         }
         $widgetPageToSave->setJquery($newWidgetPage->getJquery());
         $widgetPageToSave->setMobile($newWidgetPage->getMobile());

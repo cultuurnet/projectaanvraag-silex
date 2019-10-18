@@ -171,6 +171,20 @@ interface WidgetPageInterface
     public function getCss();
 
     /**
+     * Set the selected theme
+     *
+     * @param string $selectedTheme
+     */
+    public function setSelectedTheme($selectedTheme);
+
+    /**
+     * Get the selected theme.
+     *
+     * @return string
+     */
+    public function getSelectedTheme();
+
+    /**
      * Get the wanted viewportmode of a page
      *
      * @return boolean
