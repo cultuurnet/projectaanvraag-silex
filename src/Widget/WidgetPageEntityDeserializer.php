@@ -99,7 +99,7 @@ class WidgetPageEntityDeserializer
         }
 
         if (isset($jsonObject['selectedTheme'])) {
-          $widgetPageEntity->setSelectedTheme($jsonObject['selectedTheme']);
+            $widgetPageEntity->setSelectedTheme($jsonObject['selectedTheme']);
         }
 
         return $widgetPageEntity;
