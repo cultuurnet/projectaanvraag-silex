@@ -40,8 +40,9 @@ class CreateArticleLinkCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleCreateArticleLink()
     {
-        $createArticleLink = new CreateArticleLink('my-url', 'my-cdbid');
-        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid');
+        $projectActive = false;
+        $createArticleLink = new CreateArticleLink('my-url', 'my-cdbid', $projectActive);
+        $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid', $projectActive);
 
         $this->eventBus->expects($this->once())
             ->method('handle')

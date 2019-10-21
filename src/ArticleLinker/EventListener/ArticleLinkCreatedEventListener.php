@@ -11,7 +11,12 @@ class ArticleLinkCreatedEventListener
     /**
      * @var ArticleLinkerClientInterface
      */
-    protected $articleLinkerClient;
+    protected $articleLinkerClientLive;
+
+    /**
+     * @var ArticleLinkerClientInterface
+     */
+    protected $articleLinkerClientTest;
 
     /**
      * @var AbstractCache
@@ -23,9 +28,10 @@ class ArticleLinkCreatedEventListener
      * @param ArticleLinkerClientInterface $articleLinkerClient
      * @param AbstractCache $cacheBackend
      */
-    public function __construct(ArticleLinkerClientInterface $articleLinkerClient, $cacheBackend = null)
+    public function __construct(ArticleLinkerClientInterface $articleLinkerClientLive, ArticleLinkerClientInterface $articleLinkerClientTest, $cacheBackend = null)
     {
-        $this->articleLinkerClient = $articleLinkerClient;
+        $this->articleLinkerClientLive = $articleLinkerClientLive;
+        $this->articleLinkerClientTest = $articleLinkerClientTest;
         $this->cacheBackend = $cacheBackend;
     }
 
@@ -38,12 +44,18 @@ class ArticleLinkCreatedEventListener
     {
         $url = $articleLinkCreated->getUrl();
         $cdbid = $articleLinkCreated->getCdbid();
+        $projectActive = $articleLinkCreated->getProjectActive();
+
+        if ($projectActive) {
+            $articleLinkerClient = $this->articleLinkerClientLive;
+        } else {
+            $articleLinkerClient = $this->articleLinkerClientTest;
+        }
 
         $cacheId = md5($url . ':' . $cdbid);
         if ($this->cacheBackend) {
             if (!$this->cacheBackend->has($cacheId)) {
-                $this->articleLinkerClient->linkArticle($url, $cdbid);
-
+                $articleLinkerClient->linkArticle($url, $cdbid);
                 $this->cacheBackend->set(
                     $cacheId,
                     [
@@ -53,7 +65,7 @@ class ArticleLinkCreatedEventListener
                 );
             }
         } else {
-            $this->articleLinkerClient->linkArticle($url, $cdbid);
+            $articleLinkerClient->linkArticle($url, $cdbid);
         }
     }
 }
