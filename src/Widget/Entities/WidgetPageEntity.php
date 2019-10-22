@@ -313,18 +313,12 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
         $this->css = $css;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSelectedTheme()
+    public function getSelectedTheme() : ?string
     {
         return $this->selectedTheme;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setSelectedTheme($selectedTheme)
+    public function setSelectedTheme(?string $selectedTheme)
     {
         $this->selectedTheme = $selectedTheme;
     }
