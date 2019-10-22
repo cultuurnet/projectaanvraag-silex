@@ -104,6 +104,13 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $css;
 
     /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="selectedTheme")
+     */
+    protected $selectedTheme;
+
+    /**
      * @var boolean
      *
      * @ODM\Field(type="boolean", name="mobile")
@@ -306,6 +313,16 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
         $this->css = $css;
     }
 
+    public function getSelectedTheme() : ?string
+    {
+        return $this->selectedTheme;
+    }
+
+    public function setSelectedTheme(?string $selectedTheme)
+    {
+        $this->selectedTheme = $selectedTheme;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -377,6 +394,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'created' => (string) $this->created,
             'last_updated' => (string) $this->lastUpdated,
             'css' => (string) $this->css,
+            'selectedTheme' => (string) $this->selectedTheme,
             'mobile' => (boolean) $this->mobile,
             'jquery' => (boolean) $this->jquery,
         ];

@@ -98,6 +98,10 @@ class WidgetPageEntityDeserializer
             $widgetPageEntity->setCss($jsonObject['css']);
         }
 
+        if (isset($jsonObject['selectedTheme'])) {
+            $widgetPageEntity->setSelectedTheme($jsonObject['selectedTheme']);
+        }
+
         return $widgetPageEntity;
     }
 }
