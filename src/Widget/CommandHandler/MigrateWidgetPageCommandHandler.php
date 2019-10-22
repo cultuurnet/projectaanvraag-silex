@@ -200,7 +200,6 @@ class MigrateWidgetPageCommandHandler
             // Combine and set CSS.
             $cssMigration = new CssMigration($data['blocks']);
             $widgetPageEntity->setCss($cssMigration->getCss());
-            // set the selected theme
             $widgetPageEntity->setSelectedTheme($cssMigration->getSelectedTheme());
         }
 
