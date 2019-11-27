@@ -70,8 +70,7 @@ class TwigPreprocessor
         \CultureFeed $cultureFeed,
         string $socialHost,
         TranslateWithFallback $translateWithFallback
-    )
-    {
+    ) {
         $this->translator = $translator;
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
