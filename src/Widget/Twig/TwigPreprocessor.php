@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
 use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
+use CultuurNet\ProjectAanvraag\Widget\Translation\TranslateWithFallback;
 use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
@@ -51,6 +52,10 @@ class TwigPreprocessor
      * @var string
      */
     protected $socialHost;
+    /**
+     * @var TranslateWithFallback
+     */
+    private $translateWithFallback;
 
     /**
      * TwigPreprocessor constructor.
@@ -58,13 +63,21 @@ class TwigPreprocessor
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
      */
-    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed, string $socialHost)
+    public function __construct(
+        TranslatorInterface $translator,
+        \Twig_Environment $twig,
+        RequestStack $requestStack,
+        \CultureFeed $cultureFeed,
+        string $socialHost,
+        TranslateWithFallback $translateWithFallback
+    )
     {
         $this->translator = $translator;
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
         $this->cultureFeed = $cultureFeed;
         $this->socialHost = $socialHost;
+        $this->translateWithFallback = $translateWithFallback;
     }
 
     /**
@@ -120,8 +133,8 @@ class TwigPreprocessor
     {
         $variables = [
             'id' => $event->getCdbid(),
-            'name' => $event->getName()->getValueForLanguage($langcode),
-            'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : '',
+            'name' => $this->translate($event->getName(), $langcode),
+            'description' => $this->translate($event->getDescription(), $langcode),
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'expired' =>  ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
@@ -339,7 +352,7 @@ class TwigPreprocessor
      */
     public function preprocessArticles($linkedArticles, $settings)
     {
-            
+
         $articles = [];
         if (!empty($linkedArticles['hydra:member'])) {
             foreach ($linkedArticles['hydra:member'] as $article) {
@@ -785,5 +798,10 @@ class TwigPreprocessor
         } else {
             return [];
         }
+    }
+
+    protected function translate(TranslatedString $string, string $preferredLanguage): string
+    {
+        return $this->translateWithFallback->__invoke($string, $preferredLanguage);
     }
 }
