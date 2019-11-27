@@ -18,7 +18,6 @@ class TranslateWithFallbackTest extends TestCase
     public function setUp()
     {
         $this->translateLanguage = new TranslateWithFallback(
-            self::PREFERRED_LANGUAGE,
             self::FALLBACK_LANGUAGE
         );
     }
@@ -35,7 +34,7 @@ class TranslateWithFallbackTest extends TestCase
             ]
         );
 
-        $result = $this->translateLanguage->__invoke($translatedString);
+        $result = $this->translateLanguage->__invoke($translatedString, self::PREFERRED_LANGUAGE);
         $this->assertEquals('preferred-language-translation', $result);
     }
 
@@ -50,7 +49,7 @@ class TranslateWithFallbackTest extends TestCase
             ]
         );
 
-        $result = $this->translateLanguage->__invoke($translatedString);
+        $result = $this->translateLanguage->__invoke($translatedString, self::PREFERRED_LANGUAGE);
         $this->assertEquals('fallback-language-translation', $result);
     }
 
@@ -61,7 +60,7 @@ class TranslateWithFallbackTest extends TestCase
     {
         $translatedString = new TranslatedString([]);
 
-        $result = $this->translateLanguage->__invoke($translatedString);
+        $result = $this->translateLanguage->__invoke($translatedString, self::PREFERRED_LANGUAGE);
         $this->assertEquals('', $result);
     }
 }

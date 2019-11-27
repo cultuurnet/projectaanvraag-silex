@@ -9,19 +9,14 @@ class TranslateWithFallback
     /**
      * @var string
      */
-    private $preferredLanguage;
-    /**
-     * @var string
-     */
     private $fallBackLanguage;
 
-    public function __construct(string $preferredLanguage, string $fallBackLanguage)
+    public function __construct(string $fallBackLanguage)
     {
-        $this->preferredLanguage = $preferredLanguage;
         $this->fallBackLanguage = $fallBackLanguage;
     }
 
-    public function __invoke(TranslatedString $string): string
+    public function __invoke(TranslatedString $string, string $preferredLanguage): string
     {
         $values = $string->getValues();
 
@@ -29,19 +24,14 @@ class TranslateWithFallback
             return '';
         }
 
-        if (!$this->hasPreferred($values)) {
+        if (!$this->hasPreferred($values, $preferredLanguage)) {
             return $values[$this->fallBackLanguage];
         }
-
-        return $values[$this->preferredLanguage];
+        return $values[$preferredLanguage];
     }
 
-    /**
-     * @param array $values
-     * @return bool
-     */
-    protected function hasPreferred(array $values): bool
+    protected function hasPreferred(array $values, string $preferredLanguage): bool
     {
-        return isset($values[$this->preferredLanguage]);
+        return isset($values[$preferredLanguage]);
     }
 }
