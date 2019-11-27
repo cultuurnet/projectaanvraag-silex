@@ -203,6 +203,7 @@ class Renderer implements RendererInterface
             'consumerName' => $this->project->getName(),
             'mobile' => $widgetPage->getMobile(),
             'jquery' => $widgetPage->getJquery(),
+            'language' => $widgetPage->getLanguage(),
             ]
         );
 
