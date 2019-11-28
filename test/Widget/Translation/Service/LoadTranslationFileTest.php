@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace CultuurNet\ProjectAanvraag\Widget\Translation;
+namespace CultuurNet\ProjectAanvraag\Widget\Translation\Service;
 
 use CultuurNet\ProjectAanvraag\Widget\Translation\Exception\InvalidTranslationFileException;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Exception\TranslationFileDoesNotExistException;
-use CultuurNet\ProjectAanvraag\Widget\Translation\Service\LoadTranslationFile;
+
 use PHPUnit\Framework\TestCase;
 
 class LoadTranslationFileTest extends TestCase
 {
-    const TRANSLATION_DIR_PATH = __DIR__ . '/../data/translations';
+    const TRANSLATION_DIR_PATH = __DIR__ . '/../../data/translations';
     const FALL_BACK_LANGUAGE = 'nl';
 
     /**
