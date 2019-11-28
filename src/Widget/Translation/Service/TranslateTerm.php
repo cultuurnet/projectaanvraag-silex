@@ -41,7 +41,6 @@ class TranslateTerm
         }
 
         return $this->translateTerm($term->getId(), $translation);
-
     }
 
     private function loadTranslation(string $id, string $preferredLanguage): ?array

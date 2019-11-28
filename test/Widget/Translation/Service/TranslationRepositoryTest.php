@@ -20,7 +20,7 @@ class TranslationRepositoryTest extends TestCase
                 "1.7.11.0.0" => [
                     "label" => "translated-label",
                     "domain" => "translated-theme",
-                ]
+                ],
             ];
         $loadTranslationFile->__invoke('term', 'nl')->willReturn($translationFileData);
 
@@ -45,7 +45,7 @@ class TranslationRepositoryTest extends TestCase
                 "1.7.11.0.0" => [
                     "label" => "translated-label",
                     "domain" => "translated-theme",
-                ]
+                ],
             ];
         $loadTranslationFile->__invoke('term', 'nl')->willReturn($translationFileData);
 

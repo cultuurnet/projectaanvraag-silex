@@ -35,7 +35,6 @@ class TranslationRepository
             }
 
             return $translations[$id];
-
         } catch (TranslationFileDoesNotExistException|InvalidTranslationFileException $exception) {
             return null;
         }
