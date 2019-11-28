@@ -47,7 +47,7 @@ interface RendererInterface
      *
      * @return string
      */
-    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '');
+    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '', string $preferedLanguage = 'nl');
 
     /**
      * Renders a detail page for the given widget.

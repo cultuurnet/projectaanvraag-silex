@@ -177,8 +177,10 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferedLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $data = [
-            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid),
+            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid, $preferedLanguage),
         ];
         $response = new JsonResponse($data);
 
@@ -244,8 +246,10 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferedLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $renderedWidgets = [
-            'search_results' => $this->renderer->renderWidget($searchResultsWidget),
+            'search_results' => $this->renderer->renderWidget($searchResultsWidget, '', $preferedLanguage),
             'facets' => [],
         ];
 

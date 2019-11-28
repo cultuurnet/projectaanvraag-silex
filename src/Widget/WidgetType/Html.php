@@ -34,7 +34,7 @@ class Html extends WidgetTypeBase
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '')
+    public function render($cdbid = '', string $preferedLanguage = 'nl')
     {
         return $this->renderPlaceholder();
     }

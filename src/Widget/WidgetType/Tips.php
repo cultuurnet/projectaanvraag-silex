@@ -225,7 +225,7 @@ class Tips extends WidgetTypeBase
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '')
+    public function render($cdbid = '', string $preferedLanguage = 'nl')
     {
         $query = new SearchQuery(true);
         $boostQuery = false;
@@ -282,6 +282,7 @@ class Tips extends WidgetTypeBase
                 'events' => $this->twigPreprocessor->preprocessEventList($result->getMember()->getItems(), 'nl', $this->settings),
                 'settings_items' => $this->settings['items'],
                 'settings_general' => $this->settings['general'],
+                'preferedLanguage' => $preferedLanguage
             ]
         );
     }
