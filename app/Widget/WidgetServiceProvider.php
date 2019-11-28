@@ -4,12 +4,16 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\LoadTranslationFile;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateWithFallback;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslationRepository;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Routing\RequestContext;
+use function foo\func;
 
 /**
  * Provides widget related services.
@@ -82,7 +86,18 @@ class WidgetServiceProvider implements ServiceProviderInterface
                 $pimple['request_stack'],
                 $pimple['culturefeed'],
                 $pimple['config']['social_host'],
-                new TranslateWithFallback('nl')
+                new TranslateWithFallback('nl'),
+                new TranslateTerm(
+                    $pimple['term_translation_repository'],
+                    'nl'
+                )
+            );
+        };
+
+        $pimple['term_translation_repository'] = function (Container $pimple) {
+            return new TranslationRepository(
+                new LoadTranslationFile(__DIR__.'/../../translations'),
+                'term'
             );
         };
 

@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
 use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateWithFallback;
 use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
@@ -52,10 +53,16 @@ class TwigPreprocessor
      * @var string
      */
     protected $socialHost;
+
     /**
      * @var TranslateWithFallback
      */
     private $translateWithFallback;
+
+    /**
+     * @var TranslateTerm
+     */
+    private $translateTerm;
 
     /**
      * TwigPreprocessor constructor.
@@ -69,7 +76,8 @@ class TwigPreprocessor
         RequestStack $requestStack,
         \CultureFeed $cultureFeed,
         string $socialHost,
-        TranslateWithFallback $translateWithFallback
+        TranslateWithFallback $translateWithFallback,
+        TranslateTerm $translateTerm
     ) {
         $this->translator = $translator;
         $this->twig = $twig;
@@ -77,23 +85,24 @@ class TwigPreprocessor
         $this->cultureFeed = $cultureFeed;
         $this->socialHost = $socialHost;
         $this->translateWithFallback = $translateWithFallback;
+        $this->translateTerm = $translateTerm;
     }
 
     /**
      * @param array $events
      *   List of events to preprocess.
-     * @param string $langcode
+     * @param string $preferredLanguage
      *   Langcode of the result to show
      * @param array $detail_link_settings
      *   Settings for the links to a detail of every event.
      * @return array
      */
-    public function preprocessEventList(array $events, string $langcode, array $settings)
+    public function preprocessEventList(array $events, string $preferredLanguage, array $settings)
     {
 
         $preprocessedEvents = [];
         foreach ($events as $event) {
-            $preprocessedEvent = $this->preprocessEvent($event, $langcode, $settings['items']);
+            $preprocessedEvent = $this->preprocessEvent($event, $preferredLanguage, $settings['items']);
 
             $linkType = 'query';
             $detailUrl = $this->request->server->get('HTTP_REFERER');
