@@ -821,7 +821,7 @@ class TwigPreprocessor
     {
         $translatedThemes = [];
         foreach ($themes as $theme) {
-            $translatedThemes = $this->translateTerm->__invoke($theme, $langcode);
+            $translatedThemes[] = $this->translateTerm->__invoke($theme, $langcode);
         }
         return $translatedThemes;
     }
