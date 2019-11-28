@@ -215,9 +215,9 @@ class Renderer implements RendererInterface
     /**
      * @inheritDoc
      */
-    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '', string $preferedLanguage = 'nl')
+    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '', string $preferredLanguage = 'nl')
     {
-        return $widgetType->render($cdbid, $preferedLanguage);
+        return $widgetType->render($cdbid, $preferredLanguage);
     }
 
     public function renderDetailPage(SearchResults $searchResultsWidget)
