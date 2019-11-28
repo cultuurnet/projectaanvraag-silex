@@ -10,11 +10,11 @@ class LoadTranslationFile
     /**
      * @var string
      */
-    private $translationFolder;
+    private $translationsFolderPath;
 
-    public function __construct(string $translationFolderPath)
+    public function __construct(string $translationsFolderPath)
     {
-        $this->translationFolder = $translationFolderPath;
+        $this->translationsFolderPath = $translationsFolderPath;
     }
 
     /**
@@ -37,7 +37,7 @@ class LoadTranslationFile
         $translationFilePath = $this->buildTranslationFilePath($folderName, $preferredLanguage);
 
         if (!file_exists($translationFilePath)) {
-            throw TranslationFileDoesNotExistException::inFolder($this->translationFolder . '/' . $folderName);
+            throw TranslationFileDoesNotExistException::inFolder($this->translationsFolderPath . '/' . $folderName);
         }
 
         return $translationFilePath;
@@ -45,7 +45,7 @@ class LoadTranslationFile
 
     protected function buildTranslationFilePath(string $folderName, string $preferredLanguage): string
     {
-        return $this->translationFolder . '/' . $folderName . '/' . $preferredLanguage . '.json';
+        return $this->translationsFolderPath . '/' . $folderName . '/' . $preferredLanguage . '.json';
     }
 
     protected function readFile(string $translationFilePath): array
