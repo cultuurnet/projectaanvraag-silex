@@ -28,10 +28,12 @@ class TranslateTermTest extends TestCase
      */
     public function it_translates_to_preferred_language()
     {
-        $this->translationRepository->find(self::TERM_ID, self::FALL_BACK_LANGUAGE)->willReturn([
-            'label' => self::TRANSLATED_LABEL,
-            'domain' => self::TRANSLATED_DOMAIN,
-        ]);
+        $this->translationRepository->find(self::TERM_ID, self::FALL_BACK_LANGUAGE)->willReturn(
+            [
+                'label' => self::TRANSLATED_LABEL,
+                'domain' => self::TRANSLATED_DOMAIN,
+            ]
+        );
 
         $translateTerm = new TranslateTerm(
             $this->translationRepository->reveal(),
@@ -54,10 +56,12 @@ class TranslateTermTest extends TestCase
     {
         $this->translationRepository->find(self::TERM_ID, self::PREFERRED_LANGUAGE)->willReturn(null);
         $this->translationRepository->find(self::TERM_ID, self::PREFERRED_LANGUAGE)->shouldBeCalled();
-        $this->translationRepository->find(self::TERM_ID, self::FALL_BACK_LANGUAGE)->willReturn([
-            'label' => self::TRANSLATED_LABEL,
-            'domain' => self::TRANSLATED_DOMAIN,
-        ]);
+        $this->translationRepository->find(self::TERM_ID, self::FALL_BACK_LANGUAGE)->willReturn(
+            [
+                'label' => self::TRANSLATED_LABEL,
+                'domain' => self::TRANSLATED_DOMAIN,
+            ]
+        );
 
         $translateTerm = new TranslateTerm(
             $this->translationRepository->reveal(),
