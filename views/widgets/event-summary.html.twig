@@ -1,7 +1,7 @@
 <!--  results - CARD  START -->
+{% set showIcons = (settings_general.labels_as_icons.enabled or preferredLanguage != 'nl') %}
 
-<div class="cnw_searchresult--block {% if settings_general.labels_as_icons.enabled %} labels-as-icons {% endif %} cnw_row ">
-
+<div class="cnw_searchresult--block {% if showIcons %} labels-as-icons {% endif %} cnw_row ">
     {% if settings_items.image.enabled %}
     <div class="cnw_col-3 {% if settings_items.image.position == 'right' %} cnw_flex-last {% endif %}">
         {% if event.image is defined %}

@@ -638,6 +638,7 @@ class SearchResults extends WidgetTypeBase
             'settings' => $this->settings['detail_page'],
             'settings_general' => $this->settings['general'],
             'tag_manager_data' => json_encode($tagManagerData),
+            'preferredLanguage' => $preferredLanguage
         ];
 
         if (!empty($this->settings['detail_page']['articles']['enabled'])) {
