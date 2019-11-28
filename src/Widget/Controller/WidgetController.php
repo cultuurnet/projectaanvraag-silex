@@ -246,10 +246,10 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
-        $preferedLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
 
         $renderedWidgets = [
-            'search_results' => $this->renderer->renderWidget($searchResultsWidget, '', $preferedLanguage),
+            'search_results' => $this->renderer->renderWidget($searchResultsWidget, '', $preferredLanguage),
             'facets' => [],
         ];
 
