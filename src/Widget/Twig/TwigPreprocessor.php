@@ -809,8 +809,11 @@ class TwigPreprocessor
         }
     }
 
-    protected function translate(TranslatedString $string, string $preferredLanguage): string
+    protected function translate(?TranslatedString $string, string $preferredLanguage): string
     {
+        if ($string === null) {
+            return '';
+        }
         return $this->translateWithFallback->__invoke($string, $preferredLanguage);
     }
 
