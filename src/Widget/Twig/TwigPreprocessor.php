@@ -4,14 +4,17 @@ namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
 use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
 use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
+use CultuurNet\ProjectAanvraag\Address;
+use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
-use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateWithFallback;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
+use CultuurNet\SearchV3\ValueObjects\TranslatedAddress;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
 use IntlDateFormatter;
@@ -55,7 +58,7 @@ class TwigPreprocessor
     protected $socialHost;
 
     /**
-     * @var TranslateWithFallback
+     * @var FilterForKeyWithFallback
      */
     private $translateWithFallback;
 
@@ -76,7 +79,7 @@ class TwigPreprocessor
         RequestStack $requestStack,
         \CultureFeed $cultureFeed,
         string $socialHost,
-        TranslateWithFallback $translateWithFallback,
+        FilterForKeyWithFallback $translateWithFallback,
         TranslateTerm $translateTerm
     ) {
         $this->translator = $translator;
@@ -139,13 +142,13 @@ class TwigPreprocessor
      */
     public function preprocessEvent(Event $event, string $langcode, array $settings)
     {
-
+        $langcode = 'fr';
         $variables = [
             'id' => $event->getCdbid(),
-            'name' => $this->translate($event->getName(), $langcode),
-            'description' => $this->translate($event->getDescription(), $langcode),
+            'name' => $this->translateStringWithFallback($event->getName(), $langcode),
+            'description' => $this->translateStringWithFallback($event->getDescription(), $langcode),
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
-            'when_summary' => $this->formatEventDatesSummary($event, $langcode),
+            'when_summary' => $this->formatEventDatewigPreprocessorsSummary($event, $langcode),
             'expired' =>  ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
             'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
@@ -587,14 +590,15 @@ class TwigPreprocessor
     {
 
         $variables = [];
-        $variables['name'] = $place->getName()->getValueForLanguage($langcode);
+        $variables['name'] = $this->translateStringWithFallback($place->getName(), $langcode);
         $variables['address'] = [];
+
         if ($address = $place->getAddress()) {
-            if ($translatedAddress = $address->getAddressForLanguage($langcode)) {
+            /** @var TranslatedAddress $address */
+            $translatedAddress = $this->translateAddress($address, $langcode);
                 $variables['address']['street'] = $translatedAddress->getStreetAddress() ?? '';
                 $variables['address']['postalcode'] = $translatedAddress->getPostalCode() ?? '';
                 $variables['address']['city'] = $translatedAddress->getAddressLocality() ?? '';
-            }
         }
 
         return $variables;
@@ -809,12 +813,18 @@ class TwigPreprocessor
         }
     }
 
-    protected function translate(?TranslatedString $string, string $preferredLanguage): string
+    protected function translateStringWithFallback(?TranslatedString $translatedString, string $preferredLanguage): string
     {
-        if ($string === null) {
+        if ($translatedString === null) {
             return '';
         }
-        return $this->translateWithFallback->__invoke($string, $preferredLanguage);
+        return $this->translateWithFallback->__invoke($translatedString->getValues(), $preferredLanguage);
+    }
+
+    protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage)
+    {
+        $invoke = $this->translateWithFallback->__invoke($translatedAddress->getAddresses(), $prefferedLanguage);
+        return $invoke;
     }
 
     protected function translateTerms(string $langcode, array $themes): array
