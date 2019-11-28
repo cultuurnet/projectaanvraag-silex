@@ -8,11 +8,6 @@ class TranslateTerm
 {
 
     /**
-     * @var string
-     */
-    private $translationFolder;
-
-    /**
      * @var TranslationRepository
      */
     private $translationRepository;
@@ -24,10 +19,8 @@ class TranslateTerm
 
     public function __construct(
         TranslationRepository $translationRepository,
-        string $translationFolder,
         string $fallBackLanguage
     ) {
-        $this->translationFolder = $translationFolder;
         $this->translationRepository = $translationRepository;
         $this->fallBackLanguage = $fallBackLanguage;
     }

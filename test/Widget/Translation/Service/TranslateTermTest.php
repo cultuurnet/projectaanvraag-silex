@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 class TranslateTermTest extends TestCase
 {
     const FALL_BACK_LANGUAGE = 'nl';
-    const TERM_FOLDER = 'term-folder';
     const TERM_ID = '1.7.11.0.0';
     const TRANSLATED_LABEL = 'translated-label';
     const TRANSLATED_DOMAIN = 'translated-domain';
@@ -36,7 +35,6 @@ class TranslateTermTest extends TestCase
 
         $translateTerm = new TranslateTerm(
             $this->translationRepository->reveal(),
-            self::TERM_FOLDER,
             self::FALL_BACK_LANGUAGE
         );
 
@@ -63,7 +61,6 @@ class TranslateTermTest extends TestCase
 
         $translateTerm = new TranslateTerm(
             $this->translationRepository->reveal(),
-            self::TERM_FOLDER,
             self::FALL_BACK_LANGUAGE
         );
 
@@ -88,7 +85,6 @@ class TranslateTermTest extends TestCase
 
         $translateTerm = new TranslateTerm(
             $this->translationRepository->reveal(),
-            self::TERM_FOLDER,
             self::FALL_BACK_LANGUAGE
         );
 
