@@ -10,29 +10,23 @@ class LoadTranslationFile
     /**
      * @var string
      */
-    private $fallBackLanguage;
-
-    /**
-     * @var string
-     */
     private $translationFolder;
 
-    public function __construct(string $translationFolderPath, string $fallBackLanguage)
+    public function __construct(string $translationFolderPath)
     {
-        $this->fallBackLanguage = $fallBackLanguage;
         $this->translationFolder = $translationFolderPath;
     }
 
     /**
      * @param string $folderName
-     * @param string $preferredLanguage
+     * @param string $language
      * @return array
      * @throws InvalidTranslationFileException
      * @throws TranslationFileDoesNotExistException
      */
-    public function load(string $folderName, string $preferredLanguage): array
+    public function __invoke(string $folderName, string $language): array
     {
-        $translationPath = $this->generateTranslationPath($folderName, $preferredLanguage);
+        $translationPath = $this->generateTranslationPath($folderName, $language);
 
         return $this->readFile($translationPath);
     }
@@ -41,11 +35,7 @@ class LoadTranslationFile
     private function generateTranslationPath(string $folderName, string $preferredLanguage)
     {
         $translationFilePath = $this->buildTranslationFilePath($folderName, $preferredLanguage);
-        if (file_exists($translationFilePath)) {
-            return $translationFilePath;
-        }
 
-        $translationFilePath = $this->buildTranslationFilePath($folderName, $this->fallBackLanguage);
         if (!file_exists($translationFilePath)) {
             throw TranslationFileDoesNotExistException::inFolder($this->translationFolder . '/' . $folderName);
         }
