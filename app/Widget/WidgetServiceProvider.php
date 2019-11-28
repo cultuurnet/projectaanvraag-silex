@@ -6,7 +6,7 @@ use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\LoadTranslationFile;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
-use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateWithFallback;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslationRepository;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use Doctrine\Common\Cache\Cache;
@@ -86,7 +86,7 @@ class WidgetServiceProvider implements ServiceProviderInterface
                 $pimple['request_stack'],
                 $pimple['culturefeed'],
                 $pimple['config']['social_host'],
-                new TranslateWithFallback('nl'),
+                new FilterForKeyWithFallback('nl'),
                 new TranslateTerm(
                     $pimple['term_translation_repository'],
                     'nl'

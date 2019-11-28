@@ -2,9 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Translation\Service;
 
-use CultuurNet\SearchV3\ValueObjects\TranslatedString;
-
-class TranslateWithFallback
+class FilterForKeyWithFallback
 {
     /**
      * @var string
@@ -16,12 +14,10 @@ class TranslateWithFallback
         $this->fallBackLanguage = $fallBackLanguage;
     }
 
-    public function __invoke(TranslatedString $string, string $preferredLanguage): string
+    public function __invoke(array $values, string $preferredLanguage)
     {
-        $values = $string->getValues();
-
         if (empty($values)) {
-            return '';
+            return [];
         }
 
         if (!$this->hasPreferred($values, $preferredLanguage)) {
