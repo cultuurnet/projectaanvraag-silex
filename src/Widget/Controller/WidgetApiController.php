@@ -211,7 +211,7 @@ class WidgetApiController
         return new JsonResponse($data);
     }
 
-    /**s
+    /**
      * Publish the requested widget page.
      *
      * @param ProjectInterface $project
