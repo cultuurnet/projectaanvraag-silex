@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Translation;
 
 use CultuurNet\ProjectAanvraag\Widget\Translation\Exception\InvalidTranslationFileException;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Exception\TranslationFileDoesNotExistException;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\LoadTranslationFile;
 use PHPUnit\Framework\TestCase;
 
 class LoadTranslationFileTest extends TestCase

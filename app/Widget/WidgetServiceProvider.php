@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
-use CultuurNet\ProjectAanvraag\Widget\Translation\TranslateWithFallback;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateWithFallback;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use Doctrine\Common\Cache\Cache;
 use Pimple\Container;

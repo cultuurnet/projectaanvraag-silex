@@ -5,7 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
 use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
-use CultuurNet\ProjectAanvraag\Widget\Translation\TranslateWithFallback;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateWithFallback;
 use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;

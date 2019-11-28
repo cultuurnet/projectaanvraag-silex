@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace CultuurNet\ProjectAanvraag\Widget\Translation;
+namespace CultuurNet\ProjectAanvraag\Widget\Translation\Service;
 
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 

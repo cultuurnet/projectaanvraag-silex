@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Translation;
 
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateWithFallback;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use PHPUnit\Framework\TestCase;
 
