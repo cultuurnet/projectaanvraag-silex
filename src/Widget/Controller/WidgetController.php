@@ -295,8 +295,10 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $data = [
-            'data' => $this->renderer->renderDetailPage($widget),
+            'data' => $this->renderer->renderDetailPage($widget, $preferredLanguage),
         ];
         $response = new JsonResponse($data);
 

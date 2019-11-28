@@ -220,9 +220,9 @@ class Renderer implements RendererInterface
         return $widgetType->render($cdbid, $preferredLanguage);
     }
 
-    public function renderDetailPage(SearchResults $searchResultsWidget)
+    public function renderDetailPage(SearchResults $searchResultsWidget, string $preferredLanguage = 'nl')
     {
-        return $searchResultsWidget->renderDetail();
+        return $searchResultsWidget->renderDetail($preferredLanguage);
     }
 
     /**

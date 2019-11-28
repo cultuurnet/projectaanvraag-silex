@@ -599,7 +599,7 @@ class SearchResults extends WidgetTypeBase
     /**
      * Render the details for a requested item.
      */
-    public function renderDetail()
+    public function renderDetail($preferredLanguage)
     {
 
         if (!$this->request->query->has('cdbid')) {
@@ -627,7 +627,7 @@ class SearchResults extends WidgetTypeBase
             return '';
         }
 
-        $langcode = $this->request->query->has('langcode') ? $this->request->query->get('langcode') : 'nl';
+        $langcode = $this->request->query->has('langcode') ? $this->request->query->get('langcode') : $preferredLanguage;
         $name = $events[0]->getName()->getValueForLanguage($langcode);
         $tagManagerData = [
             'pageTitleSuffix' => 'Event | ' . $name,
