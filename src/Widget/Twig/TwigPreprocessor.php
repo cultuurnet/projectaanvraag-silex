@@ -139,6 +139,7 @@ class TwigPreprocessor
      */
     public function preprocessEvent(Event $event, string $langcode, array $settings)
     {
+
         $variables = [
             'id' => $event->getCdbid(),
             'name' => $this->translate($event->getName(), $langcode),
@@ -149,7 +150,7 @@ class TwigPreprocessor
             'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
-            'themes' => $event->getTermsByDomain('theme'),
+            'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
@@ -811,5 +812,14 @@ class TwigPreprocessor
     protected function translate(TranslatedString $string, string $preferredLanguage): string
     {
         return $this->translateWithFallback->__invoke($string, $preferredLanguage);
+    }
+
+    protected function translateTerms(string $langcode, array $themes): array
+    {
+        $translatedThemes = [];
+        foreach ($themes as $theme) {
+            $translatedThemes = $this->translateTerm->__invoke($theme, $langcode);
+        }
+        return $translatedThemes;
     }
 }
