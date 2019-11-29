@@ -61,7 +61,7 @@ class TwigPreprocessor
     /**
      * @var FilterForKeyWithFallback
      */
-    private $translateWithFallback;
+    private $filterForKeyWithFallback;
 
     /**
      * @var TranslateTerm
@@ -88,7 +88,7 @@ class TwigPreprocessor
         $this->request = $requestStack->getCurrentRequest();
         $this->cultureFeed = $cultureFeed;
         $this->socialHost = $socialHost;
-        $this->translateWithFallback = $translateWithFallback;
+        $this->filterForKeyWithFallback = $translateWithFallback;
         $this->translateTerm = $translateTerm;
     }
 
@@ -227,7 +227,7 @@ class TwigPreprocessor
         }
 
         if (!empty($settings['price_information'])) {
-            $this->preprocessPriceInfo($event, $variables);
+            $this->preprocessPriceInfo($event, $variables, $langcode);
         }
 
         if (!empty($settings['reservation_information'])) {
@@ -326,7 +326,7 @@ class TwigPreprocessor
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
                         'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
-                        'organizer' => $event->getOrganizer()->getName()->getValueForLanguage($langcode),
+                        'organizer' => $this->translateOrganizerName($event, $langcode),
                     ]
                 );
             } catch (\Exception $e) {
@@ -336,7 +336,7 @@ class TwigPreprocessor
 
         // Load 'kansentarief' via culturefeed.
         if (!empty($settings['price_information'])) {
-            $this->preprocessPriceInfo($event, $variables);
+            $this->preprocessPriceInfo($event, $variables, $langcode);
         }
 
         if (!empty($settings['back_button']['url'])) {
@@ -398,14 +398,14 @@ class TwigPreprocessor
     }
 
 
-
     /**
      * Preprocess the price information.
      *
      * @param Event $event
      * @param $variables
+     * @param string $preferredLanguage
      */
-    public function preprocessPriceInfo(Event $event, &$variables)
+    public function preprocessPriceInfo(Event $event, &$variables, string $preferredLanguage)
     {
         $variables['price'] = '';
 
@@ -413,10 +413,12 @@ class TwigPreprocessor
         if ($event->getPriceInfo()) {
             $priceInfos = $event->getPriceInfo();
             foreach ($priceInfos as $priceInfo) {
-                $priceName = $priceInfo->getName()->getValueForLanguage('nl');
+                /** @var TranslatedString $priceName */
+                $priceName = $priceInfo->getName();
+                $translatedPriceName = $this->translateStringWithFallback($priceName, $preferredLanguage);
                 $priceAmount = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
                 if ($priceInfo->getCategory() !== 'base') {
-                    $prices[] = $priceName . ': ' . $priceAmount;
+                    $prices[] = $translatedPriceName . ': ' . $priceAmount;
                 } else {
                     $prices[] = $priceAmount;
                 }
@@ -480,7 +482,7 @@ class TwigPreprocessor
             if ($bookingInfo->getUrl()) {
                 $variables['booking_info']['url'] = [
                    'url' => $bookingInfo->getUrl(),
-                   'label' => !empty($bookingInfo->getUrlLabel()->getValueForLanguage($langcode)) ? $bookingInfo->getUrlLabel()->getValueForLanguage($langcode) : $bookingInfo->getUrl(),
+                   'label' => ($this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) !== '') ? $this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) : $bookingInfo->getUrl(),
                 ];
             }
         }
@@ -519,7 +521,8 @@ class TwigPreprocessor
             $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                'name' => $result->getName()->getValueForLanguage('nl'),
+                //  @TODO: inject preferred language
+                'name' => $this->translateStringWithFallback($result->getName(), 'nl'),
                 'active' => isset($activeValue[$result->getValue()]),
                 'children' => [],
             ];
@@ -811,12 +814,12 @@ class TwigPreprocessor
         if ($translatedString === null) {
             return '';
         }
-        return $this->translateWithFallback->__invoke($translatedString->getValues(), $preferredLanguage);
+        return $this->filterForKeyWithFallback->__invoke($translatedString->getValues(), $preferredLanguage);
     }
 
     protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage)
     {
-        $invoke = $this->translateWithFallback->__invoke($translatedAddress->getAddresses(), $prefferedLanguage);
+        $invoke = $this->filterForKeyWithFallback->__invoke($translatedAddress->getAddresses(), $prefferedLanguage);
         return $invoke;
     }
 
@@ -845,7 +848,7 @@ class TwigPreprocessor
             return null;
         }
 
-        return $this->translateWithFallback->__invoke(
+        return $this->filterForKeyWithFallback->__invoke(
             $event->getOrganizer()->getName()->getValues(),
             $preferredLanguage
         );
