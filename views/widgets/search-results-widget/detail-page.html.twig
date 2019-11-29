@@ -68,7 +68,7 @@
                           {{ event.summary | raw }}
                       </div>
 
-                      <a href="#" class="cnw_detail-summary-toggle">Lees meer</a>
+                      <a href="#" class="cnw_detail-summary-toggle">{{ 'event_read_more'| trans({}, 'messages', preferredLanguage) }}</a>
 
                     {% endif %}
 
@@ -95,7 +95,7 @@
                         {{ event.where.address.postalcode }} {{ event.where.address.city }}
                         {% if settings.map %}
                             <br/>
-                            <a href="{{ event.directions_link }} " target="_blank">Hoe geraak ik hier?</a>
+                            <a href="{{ event.directions_link }} " target="_blank">{{ 'event_directions'| trans({}, 'messages', preferredLanguage) }}</a>
                         {% endif %}
                         {% endif %}
                     </dd>
