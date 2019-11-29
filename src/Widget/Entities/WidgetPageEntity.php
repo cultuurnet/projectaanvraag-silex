@@ -421,7 +421,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'selectedTheme' => (string) $this->selectedTheme,
             'mobile' => (boolean) $this->mobile,
             'jquery' => (boolean) $this->jquery,
-            'language' => (string) $this->language,
+            'language' => (string) ($this->language) ?: 'nl' ,
         ];
     }
 }
