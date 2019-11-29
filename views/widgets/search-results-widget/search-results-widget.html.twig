@@ -12,11 +12,11 @@
         {%  if settings_general.current_search and active_filters|length > 0 %}
             <!--  searchWords  START -->
             <div class="cnw_searchresult__searchwords">
-                <p>Je zocht op: 
+                <p>{{ 'search_results_searched_label'| trans({}, 'messages', preferredLanguage) }} 
                     {% for active_filter in active_filters %}
                         <span class="cnw_badge cnw_badge-default"> {{ active_filter.label }} <a href="#" data-active-keywords-name="{{ active_filter.name }}" data-active-keywords-default-option="{{ active_filter.is_default }}">x</a> </span>
                     {% endfor %}
-                    <a href="#" data-active-keywords-name="all">Alle filters verwijderen</a>
+                    <a href="#" data-active-keywords-name="all">{{ 'search_resutls_remove_all_filters'| trans({}, 'messages', preferredLanguage) }}</a>
                 </p>
             </div>
             <!--  searchWords END -->
@@ -30,7 +30,7 @@
                             <div class="cnw_form-check cnw_form-check-long-events">
                                 <label class="cnw_form-check-label">
                                     <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-long-term]' }}"{% if extra_filters['hide-long-term'] is defined %} checked {% endif %}>
-                                    Verberg langlopende reeksen
+                                    {{ 'search_results_exclude_long_term'| trans({}, 'messages', preferredLanguage) }}
                                 </label>
                             </div>
                         {% endif %}
@@ -39,7 +39,7 @@
                             <div class="cnw_form-check cnw_form-check-permanent-events">
                                 <label class="cnw_form-check-label">
                                     <input type="checkbox" class="cnw_form-check-input" name="{{ 'search-result[' ~ id ~ '][hide-permanent]' }}"{% if extra_filters['hide-permanent'] is defined %} checked {% endif %}>
-                                    Verberg permanente bezienswaardigheden
+                                    {{ 'search_results_exclude_permanent'| trans({}, 'messages', preferredLanguage) }}
                                 </label>
                             </div>
                         {% endif %}
@@ -51,7 +51,7 @@
 
         <!--  counter  START -->
         <div class="cnw_searchresult__counter">
-            <h1 class="cnw_searchresult__counter-text"><span class="cnw_searchresult__counter-total">{{ result_count }}</span> resultaten gevonden</h1>
+            <h1 class="cnw_searchresult__counter-text"><span class="cnw_searchresult__counter-total">{{ result_count }}</span> {{ 'search_results_previous'| trans({}, 'messages', preferredLanguage) }}</h1>
         </div>
         <!--  counter END -->
         {% if settings_general.view == 'grid' %}

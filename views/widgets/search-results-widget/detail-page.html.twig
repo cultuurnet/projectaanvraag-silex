@@ -78,7 +78,7 @@
 
                 </div>
 
-                <p class="cnw_searchresult-detail-block-title">Info</p>
+                <p class="cnw_searchresult-detail-block-title">{{ 'event_detail_info'| trans({}, 'messages', preferredLanguage) }}</p>
 
 
                 <dl class="cnw_row cnw_searchresult-detail-info">
@@ -109,8 +109,8 @@
                     <dd class="cnw-event-date-container">
                         {{ event.when_details | raw }}
                         <a href="#" class="cnw-event-date-info-toggle cnw_hidden">
-                            <span>Toon alle data</span>
-                            <span>Toon minder data</span>
+                            <span>{{ 'event_detail_show_all_dates'| trans({}, 'messages', preferredLanguage) }}</span>
+                            <span>{{ 'event_detail_show_less_dates'| trans({}, 'messages', preferredLanguage) }}</span>
                         </a>
                     </dd>
                     {% endif %}
@@ -128,12 +128,12 @@
                         <em class="cnw_searchresult-detail-label">{{ settings.audience.label }}</em>
                         <i class="cnw-fa cnw-fa-male"></i>
                     </dt>
-                    <dd>Specifiek voor leden</dd>
+                    <dd>{{ 'event_detail_member_specific'| trans({}, 'messages', preferredLanguage) }}</dd>
                     {% endif %}
 
                     {% if settings.language_icons.enabled and event.language_icons %}
                         <dt>
-                            <em class="cnw_searchresult-detail-label">Taaliconen</em>
+                            <em class="cnw_searchresult-detail-label">{{ 'event_detail_language_icons'| trans({}, 'messages', preferredLanguage) }}</em>
                             <i class="cnw-fa cnw-fa-language"></i>
                         </dt>
                         <dd>{{ event.language_icons | raw }}</dd>
@@ -141,7 +141,7 @@
 
                     {% if settings.price_information and event.price %}
                         <dt>
-                            <em class="cnw_searchresult-detail-label">Prijs</em>
+                            <em class="cnw_searchresult-detail-label">{{ 'event_detail_price'| trans({}, 'messages', preferredLanguage) }}</em>
                             <i class="cnw-fa cnw-fa-eur"></i>
                         </dt>
                         <dd class="cnw_searchresult-detail-price-info">{{ event.price | raw}}</dd>
@@ -149,13 +149,13 @@
 
                     {% if settings.reservation_information and event.booking_info %}
                         <dt>
-                            <em class="cnw_searchresult-detail-label">Reserveringen</em>
+                            <em class="cnw_searchresult-detail-label">{{ 'event_detail_reservations'| trans({}, 'messages', preferredLanguage) }}</em>
                             <i class="cnw-fa cnw-fa-ticket"></i>
                         </dt>
                         <dd>
                             <ul class="cnw_searchresult-detail-booking-info">
                             {% if (event.booking_info.phone is defined) %}
-                                <li>Bel naar <strong>{{ event.booking_info.phone }}</strong></li>
+                                <li>{{ 'event_detail_phone'| trans({}, 'messages', preferredLanguage) }} <strong>{{ event.booking_info.phone }}</strong></li>
                             {% endif %}
                             {% if (event.booking_info.email is defined) %}
                                 <li>{{ event.booking_info.email }}</li>
@@ -179,7 +179,7 @@
                     {% endif %}
                     {% if settings.contact_information and event.contact_info and (event.contact_info.emails or event.contact_info.phone_numbers) %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label"> Contact</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_contact'| trans({}, 'messages', preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-phone"></i>
                     </dt>
                     <dd>
@@ -203,7 +203,7 @@
 
                     {% if settings.contact_information and event.links %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label">Links</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_links'| trans({}, 'messages', preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-external-link"></i>
                     </dt>
                     <dd>
@@ -215,7 +215,7 @@
 
                     {% if settings.language_switcher and event.language_switcher|length > 1 %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label">Talen</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_languages'| trans({}, 'messages', preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-globe"></i>
                     </dt>
                     <dd>
@@ -227,7 +227,7 @@
 
                     {% if settings.labels.enabled and event.labels %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label">Labels</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_labels'| trans({}, 'messages', preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-tag"></i>
                     </dt>
                     <dd>
@@ -251,7 +251,7 @@
 
                     {% if settings.share_buttons and event.share_links %}
                         <dt>
-                          <em class="cnw_searchresult-detail-label">Deel deze pagina</em>
+                          <em class="cnw_searchresult-detail-label">{{ 'event_detail_share'| trans({}, 'messages', preferredLanguage) }}</em>
                           <i class="cnw-fa cnw-fa-share-alt"></i>
                         </dt>
                         <dd>
