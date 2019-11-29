@@ -103,7 +103,11 @@ class ApplicationBase extends SilexApplication
 
         // Translation
         $this['locale'] = $this['config']['locale'] ?? 'nl';
-        $this->register(new TranslationServiceProvider());
+        $this->register(new TranslationServiceProvider(),
+            array(
+                'locale_fallbacks' => array('nl'),
+            )
+        );
         $this->extend(
             'translator',
             function ($translator, $app) {
