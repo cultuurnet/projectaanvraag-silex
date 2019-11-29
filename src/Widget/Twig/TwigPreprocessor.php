@@ -150,8 +150,8 @@ class TwigPreprocessor
             'description' => $this->translateStringWithFallback($event->getDescription(), $langcode),
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
-            'expired' =>  ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
-            'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
+            'expired' => ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
+            'organizer' => $this->translateOrganizerName($event, $langcode),
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
@@ -837,5 +837,17 @@ class TwigPreprocessor
             $typeLabels[] = $item->getLabel();
         }
         return $typeLabels;
+    }
+
+    private function translateOrganizerName(Event $event, string $preferredLanguage): ?string
+    {
+        if ($event->getOrganizer() === null || $event->getOrganizer()->getName() === null) {
+            return null;
+        }
+
+        return $this->translateWithFallback->__invoke(
+            $event->getOrganizer()->getName()->getValues(),
+            $preferredLanguage
+        );
     }
 }
