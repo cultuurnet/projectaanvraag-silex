@@ -1,5 +1,6 @@
-event_full_date: %date% à %hour%
 event_age_range: De %min_age% ans à %max_age% ans.
+event_expired: Dit evenement is afgelopen
+event_full_date: %date% à %hour%
 event_read_more: Lees meer
 event_directions: hoe geraak ik hier
 event_detail_contact: Contact
