@@ -14,6 +14,7 @@ use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
+use CultuurNet\SearchV3\ValueObjects\Term;
 use CultuurNet\SearchV3\ValueObjects\TranslatedAddress;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
@@ -222,15 +223,7 @@ class TwigPreprocessor
 
         // Add types as first labels, if enabled.
         if (!empty($settings['type']['enabled'])) {
-            $types = $event->getTermsByDomain('eventtype');
-            $typeLabels = [];
-            if (!empty($types)) {
-                foreach ($types as $type) {
-                    $typeLabels[] = $type->getLabel();
-                }
-            }
-
-            $variables['type'] = $typeLabels;
+            $variables['type'] = $this->translateLabels($event->getTermsByDomain('eventtype'), $langcode);
         }
 
         if (!empty($settings['price_information'])) {
@@ -827,12 +820,22 @@ class TwigPreprocessor
         return $invoke;
     }
 
-    protected function translateTerms(string $langcode, array $themes): array
+    private function translateTerms(string $preferredLanguage, array $themes): array
     {
         $translatedThemes = [];
-        foreach ($themes as $theme) {
-            $translatedThemes[] = $this->translateTerm->__invoke($theme, $langcode);
+        foreach ($themes as $term) {
+            $translatedThemes[] = $this->translateTerm->__invoke($term, $preferredLanguage);
         }
         return $translatedThemes;
+    }
+
+    private function translateLabels(array $terms, string $preferredLanguage): array
+    {
+        $typeLabels = [];
+        /** @var Term $item */
+        foreach ($this->translateTerms($preferredLanguage, $terms) as $item) {
+            $typeLabels[] = $item->getLabel();
+        }
+        return $typeLabels;
     }
 }
