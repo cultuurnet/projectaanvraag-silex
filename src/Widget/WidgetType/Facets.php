@@ -212,6 +212,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             [
                 'id' => $this->index, // Use the index as identifier for smaller querystrings.
                 'facets' => $facets,
+                'preferredLanguage' => $preferredLanguage,
             ]
         );
     }

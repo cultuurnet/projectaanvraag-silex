@@ -2,3 +2,7 @@ event_full_date: %date% om %hour% uur
 event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
 event_read_more: Lees meer 
 event_directions: hoe geraak ik hier
+facets_toggle: Verberg verfijningen
+pager_previous: 'Vorige'
+pager_next: 'Volgende'
+pager_last: 'Laatste'

@@ -522,7 +522,7 @@ class TwigPreprocessor
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
                 //  @TODO: inject preferred language
-                'name' => $this->translateStringWithFallback($result->getName(), 'nl'),
+                'name' => $result->getName()->getValueForLanguage('nl'),
                 'active' => isset($activeValue[$result->getValue()]),
                 'children' => [],
             ];

@@ -251,12 +251,13 @@ class WidgetController
         $renderedWidgets = [
             'search_results' => $this->renderer->renderWidget($searchResultsWidget, '', $preferredLanguage),
             'facets' => [],
+            'preferredLanguage' => $preferredLanguage,
         ];
 
         $searchResult = $searchResultsWidget->getSearchResult();
         foreach ($facetWidgets as $facetWidgetId => $facetWidget) {
             $facetWidget->setSearchResult($searchResult);
-            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget);
+            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget, '', $preferredLanguage);
         }
 
         $data = [
