@@ -143,7 +143,6 @@ class TwigPreprocessor
      */
     public function preprocessEvent(Event $event, string $langcode, array $settings)
     {
-        $langcode = 'fr';
         $variables = [
             'id' => $event->getCdbid(),
             'name' => $this->translateStringWithFallback($event->getName(), $langcode),
@@ -835,10 +834,11 @@ class TwigPreprocessor
     private function translateLabels(array $terms, string $preferredLanguage): array
     {
         $typeLabels = [];
-        /** @var Term $item */
-        foreach ($this->translateTerms($preferredLanguage, $terms) as $item) {
-            $typeLabels[] = $item->getLabel();
+        /** @var Term $term */
+        foreach ($terms as $term) {
+            $typeLabels[] = $this->translateEventType($term->getId(), $preferredLanguage);
         }
+
         return $typeLabels;
     }
 
@@ -852,5 +852,10 @@ class TwigPreprocessor
             $event->getOrganizer()->getName()->getValues(),
             $preferredLanguage
         );
+    }
+
+    private function translateEventType(string $key, string $preferredLanguage)
+    {
+        return $this->translator->trans($key, [], 'eventtype', $preferredLanguage);
     }
 }

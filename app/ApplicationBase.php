@@ -37,6 +37,7 @@ use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -112,9 +113,12 @@ class ApplicationBase extends SilexApplication
         $this->extend(
             'translator',
             function ($translator, $app) {
+                /** @var TranslatorInterface $translator */
                 $translator->addLoader('yaml', new YamlFileLoader());
                 $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
                 $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/fr.yml', 'fr', 'eventtype');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/en.yml', 'en', 'eventtype');
                 return $translator;
             }
         );
