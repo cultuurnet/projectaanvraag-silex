@@ -4,11 +4,13 @@ namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
 use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
 use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
+use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
+use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
 use CultuurNet\SearchV3\ValueObjects\Term;
@@ -480,9 +482,10 @@ class TwigPreprocessor
      * @param $type
      * @param $label
      * @param $activeValue
+     * @param $preferredLanguage
      * @return array
      */
-    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue)
+    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue, string $preferredLanguage)
     {
         $facet = [
             'type' => $type,
@@ -490,7 +493,7 @@ class TwigPreprocessor
             'count' => count($facetResult->getResults()),
         ];
 
-        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue);
+        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue, $preferredLanguage);
 
         return $facet;
     }
@@ -498,16 +501,16 @@ class TwigPreprocessor
     /**
      * Get the list of facet options based on the given facet items.
      */
-    private function getFacetOptions($facetItems, $activeValue)
+    private function getFacetOptions($facetItems, $activeValue, string $preferredLanguage)
     {
         $hasActive = false;
         $options = [];
+        /** @var FacetResultItem $result */
         foreach ($facetItems as $result) {
             $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                //  @TODO: inject preferred language
-                'name' => $result->getName()->getValueForLanguage('nl'),
+                'name' => $result->getName()->getValueForLanguage($preferredLanguage),
                 'active' => isset($activeValue[$result->getValue()]),
                 'children' => [],
             ];
@@ -517,7 +520,7 @@ class TwigPreprocessor
             }
 
             if ($result->getChildren()) {
-                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue);
+                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue, $preferredLanguage);
                 if ($option['children']['hasActive']) {
                     $hasActive = true;
                 }
@@ -794,7 +797,7 @@ class TwigPreprocessor
         }
     }
 
-    protected function translateStringWithFallback(?TranslatedString $translatedString, string $preferredLanguage): string
+    protected function translateStringWithFallback(?TranslatedString $translatedString, string $preferredLanguage)
     {
         if ($translatedString === null) {
             return '';

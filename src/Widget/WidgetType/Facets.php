@@ -178,24 +178,24 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         if ($facetsRaw && $this->settings['filters']['where']) {
             $activeValue = $urlQueryParams['where'] ?? [];
-            $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
+            $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue, $preferredLanguage);
         }
 
         if ($facetsRaw && $this->settings['filters']['what']) {
             $activeValue = $urlQueryParams['what'] ?? [];
 
-            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue, $preferredLanguage);
             $facets[] = $facet;
             if ($facet['hasActive'] || isset($urlQueryParams['theme'])) {
                 $activeValue = $urlQueryParams['theme'] ?? [];
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue);
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue, $preferredLanguage);
             }
         }
 
         if ($facetsRaw && $this->settings['filters']['facilities']) {
             $activeValue = $urlQueryParams['facilities'] ?? [];
 
-            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['facilities'], 'facilities', 'Voorzieningen', $activeValue);
+            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['facilities'], 'facilities', 'Voorzieningen', $activeValue, $preferredLanguage);
             $facets[] = $facet;
         }
 
