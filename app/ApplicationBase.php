@@ -124,7 +124,6 @@ class ApplicationBase extends SilexApplication
                 return $translator;
             }
         );
-        Logger::log('DINAMO');
 
         // Monolog
         $this->register(new MonologServiceProvider());
