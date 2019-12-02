@@ -36,6 +36,7 @@ use Silex\Application as SilexApplication;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
+use Symfony\Component\Translation\Loader\JsonFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -114,14 +115,16 @@ class ApplicationBase extends SilexApplication
             'translator',
             function ($translator, $app) {
                 /** @var TranslatorInterface $translator */
+                $translator->addLoader('json', new JsonFileLoader());
                 $translator->addLoader('yaml', new YamlFileLoader());
                 $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
                 $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
-                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/fr.yml', 'fr', 'eventtype');
-                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/en.yml', 'en', 'eventtype');
+                $translator->addResource('json', __DIR__ . '/../locales/eventtype/fr.json', 'fr', 'eventtype');
+                $translator->addResource('json', __DIR__ . '/../locales/eventtype/en.json', 'en', 'eventtype');
                 return $translator;
             }
         );
+        Logger::log('DINAMO');
 
         // Monolog
         $this->register(new MonologServiceProvider());
