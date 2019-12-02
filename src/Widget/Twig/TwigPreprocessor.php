@@ -854,8 +854,14 @@ class TwigPreprocessor
         );
     }
 
-    private function translateEventType(string $key, string $preferredLanguage)
+    private function translateEventType(Term $term, string $preferredLanguage)
     {
-        return $this->translator->trans($key, [], 'eventtype', $preferredLanguage);
+        $trans = $this->translator->trans($term->getId(), [], 'eventtype', $preferredLanguage);
+
+        if ($trans === $term->getId()) {
+            return $term->getLabel();
+        }
+
+        return $trans;
     }
 }
