@@ -13,7 +13,6 @@ use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Routing\RequestContext;
-use function foo\func;
 
 /**
  * Provides widget related services.
@@ -81,23 +80,14 @@ class WidgetServiceProvider implements ServiceProviderInterface
 
         $pimple['widget_twig_preprocessor'] = function (Container $pimple) {
             return new TwigPreprocessor(
-                $pimple['translator'],
                 $pimple['twig'],
                 $pimple['request_stack'],
                 $pimple['culturefeed'],
                 $pimple['config']['social_host'],
                 new FilterForKeyWithFallback('nl'),
                 new TranslateTerm(
-                    $pimple['term_translation_repository'],
-                    'nl'
+                    $pimple['translator']
                 )
-            );
-        };
-
-        $pimple['term_translation_repository'] = function (Container $pimple) {
-            return new TranslationRepository(
-                new LoadTranslationFile(__DIR__.'/../../translations'),
-                'term'
             );
         };
 

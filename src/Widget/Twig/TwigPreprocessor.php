@@ -4,12 +4,9 @@ namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
 use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
 use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
-use CultuurNet\ProjectAanvraag\Address;
-use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
-use CultuurNet\SearchV3\ValueObjects\Audience;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\Offer;
@@ -18,12 +15,9 @@ use CultuurNet\SearchV3\ValueObjects\Term;
 use CultuurNet\SearchV3\ValueObjects\TranslatedAddress;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
-use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
-use Guzzle\Http\Client;
 
 /**
  * A preproccesor service for widget twig templates.
@@ -32,11 +26,6 @@ class TwigPreprocessor
 {
 
     use TextProcessingTrait;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
 
     /**
      * @var \Twig_Environment
@@ -70,12 +59,10 @@ class TwigPreprocessor
 
     /**
      * TwigPreprocessor constructor.
-     * @param TranslatorInterface $translator
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
      */
     public function __construct(
-        TranslatorInterface $translator,
         \Twig_Environment $twig,
         RequestStack $requestStack,
         \CultureFeed $cultureFeed,
@@ -83,7 +70,6 @@ class TwigPreprocessor
         FilterForKeyWithFallback $translateWithFallback,
         TranslateTerm $translateTerm
     ) {
-        $this->translator = $translator;
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
         $this->cultureFeed = $cultureFeed;
@@ -836,7 +822,7 @@ class TwigPreprocessor
         $typeLabels = [];
         /** @var Term $term */
         foreach ($terms as $term) {
-            $typeLabels[] = $this->translateEventType($term->getId(), $preferredLanguage);
+            $typeLabels[] = $this->translateTerm($preferredLanguage, $term);
         }
 
         return $typeLabels;
@@ -854,14 +840,8 @@ class TwigPreprocessor
         );
     }
 
-    private function translateEventType(Term $term, string $preferredLanguage)
+    private function translateTerm(string $preferredLanguage, Term $term): string
     {
-        $trans = $this->translator->trans($term->getId(), [], 'eventtype', $preferredLanguage);
-
-        if ($trans === $term->getId()) {
-            return $term->getLabel();
-        }
-
-        return $trans;
+        return $this->translateTerm->__invoke($term, $preferredLanguage);
     }
 }

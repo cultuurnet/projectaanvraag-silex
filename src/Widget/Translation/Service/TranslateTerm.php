@@ -3,56 +3,30 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Translation\Service;
 
 use CultuurNet\SearchV3\ValueObjects\Term;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class TranslateTerm
 {
-
     /**
-     * @var TranslationRepository
+     * @var TranslatorInterface
      */
-    private $translationRepository;
-
-    /**
-     * @var string
-     */
-    private $fallBackLanguage;
+    private $translator;
 
     public function __construct(
-        TranslationRepository $translationRepository,
-        string $fallBackLanguage
+        TranslatorInterface $translator
     ) {
-        $this->translationRepository = $translationRepository;
-        $this->fallBackLanguage = $fallBackLanguage;
+        $this->translator = $translator;
     }
 
     public function __invoke(Term $term, string $preferredLanguage)
     {
-        $translation = $this->loadTranslation($term->getId(), $preferredLanguage);
-
-        if ($translation === null) {
-            return $term;
-        }
-
-        return $this->translateTerm($term->getId(), $translation);
-    }
-
-    private function loadTranslation(string $id, string $preferredLanguage): ?array
-    {
-        $translation = $this->translationRepository->find($id, $preferredLanguage);
-
-        if ($translation === null) {
-            $translation = $this->translationRepository->find($id, $this->fallBackLanguage);
+        $translation = $this->translator->trans($term->getId(), [], $term->getDomain(), $preferredLanguage);
+        // fallback logic -> return the original label if no translation
+        // if found (translator returns input it was given)
+        if ($translation === $term->getId()) {
+            return $term->getLabel();
         }
 
         return $translation;
-    }
-
-    private function translateTerm(string $id, array $translation): Term
-    {
-        $translatedTerm = new Term();
-        $translatedTerm->setId($id);
-        $translatedTerm->setLabel($translation['label']);
-        $translatedTerm->setDomain($translation['domain']);
-        return $translatedTerm;
     }
 }
