@@ -4,10 +4,8 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
-use CultuurNet\ProjectAanvraag\Widget\Translation\Service\LoadTranslationFile;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
-use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslationRepository;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
