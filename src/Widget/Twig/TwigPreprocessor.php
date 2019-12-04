@@ -19,6 +19,7 @@ use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -58,6 +59,10 @@ class TwigPreprocessor
      * @var TranslateTerm
      */
     private $translateTerm;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     /**
      * TwigPreprocessor constructor.
@@ -70,7 +75,8 @@ class TwigPreprocessor
         \CultureFeed $cultureFeed,
         string $socialHost,
         FilterForKeyWithFallback $translateWithFallback,
-        TranslateTerm $translateTerm
+        TranslateTerm $translateTerm,
+        TranslatorInterface $translator
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -78,6 +84,7 @@ class TwigPreprocessor
         $this->socialHost = $socialHost;
         $this->filterForKeyWithFallback = $translateWithFallback;
         $this->translateTerm = $translateTerm;
+        $this->translator = $translator;
     }
 
     /**
@@ -485,7 +492,7 @@ class TwigPreprocessor
      * @param $preferredLanguage
      * @return array
      */
-    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue, string $preferredLanguage)
+    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue, string $preferredLanguage, bool $isRegionType = false)
     {
         $facet = [
             'type' => $type,
@@ -493,7 +500,7 @@ class TwigPreprocessor
             'count' => count($facetResult->getResults()),
         ];
 
-        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue, $preferredLanguage);
+        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue, $preferredLanguage, $isRegionType);
 
         return $facet;
     }
@@ -501,16 +508,23 @@ class TwigPreprocessor
     /**
      * Get the list of facet options based on the given facet items.
      */
-    private function getFacetOptions($facetItems, $activeValue, string $preferredLanguage)
+    private function getFacetOptions($facetItems, $activeValue, string $preferredLanguage, bool $isRegionType = false)
     {
         $hasActive = false;
         $options = [];
         /** @var FacetResultItem $result */
         foreach ($facetItems as $result) {
+            /** Ugly hack -> if it's region type than translate it */
+            if ($isRegionType) {
+                $name = $this->translateRegionFacetResultItemName($preferredLanguage, $result);
+            } else {
+                $name = $result->getName()->getValueForLanguage($preferredLanguage);
+            }
+
             $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                'name' => $result->getName()->getValueForLanguage($preferredLanguage),
+                'name' => $name,
                 'active' => isset($activeValue[$result->getValue()]),
                 'children' => [],
             ];
@@ -520,7 +534,7 @@ class TwigPreprocessor
             }
 
             if ($result->getChildren()) {
-                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue, $preferredLanguage);
+                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue, $preferredLanguage, $isRegionType);
                 if ($option['children']['hasActive']) {
                     $hasActive = true;
                 }
@@ -846,5 +860,21 @@ class TwigPreprocessor
     private function translateTerm(string $preferredLanguage, Term $term): string
     {
         return $this->translateTerm->__invoke($term, $preferredLanguage);
+    }
+
+    /**
+     * @param string $preferredLanguage
+     * @param FacetResultItem $result
+     * @return mixed|string
+     */
+    private function translateRegionFacetResultItemName(string $preferredLanguage, FacetResultItem $result)
+    {
+        $translation = $this->translator->trans($result->getValue(), [], 'region', $preferredLanguage);
+
+        if ($translation === $result->getValue()) {
+            return $result->getName()->getValueForLanguage($preferredLanguage);
+        }
+
+        return $translation;
     }
 }

@@ -85,7 +85,8 @@ class WidgetServiceProvider implements ServiceProviderInterface
                 new FilterForKeyWithFallback('nl'),
                 new TranslateTerm(
                     $pimple['translator']
-                )
+                ),
+                $pimple['translator']
             );
         };
 

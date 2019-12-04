@@ -121,6 +121,8 @@ class ApplicationBase extends SilexApplication
                 $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
                 $translator->addResource('json', __DIR__ . '/../locales/eventtype/fr.json', 'fr', 'eventtype');
                 $translator->addResource('json', __DIR__ . '/../locales/eventtype/en.json', 'en', 'eventtype');
+                $translator->addResource('json', __DIR__ . '/../locales/region/fr.json', 'fr', 'region');
+                $translator->addResource('json', __DIR__ . '/../locales/region/en.json', 'en', 'region');
                 return $translator;
             }
         );
