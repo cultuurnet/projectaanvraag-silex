@@ -21,6 +21,7 @@ use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
+use CultuurNet\ProjectAanvraag\Widget\Translation\TranslationTwigExtension;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
 use CultuurNet\ProjectAanvraag\WidgetMigration\WidgetMigrationProvider;
@@ -277,7 +278,13 @@ class ApplicationBase extends SilexApplication
                 ],
             ]
         );
-
+        $this->extend(
+            'twig',
+            function ($twig, $app) {
+                $twig->addExtension(new TranslationTwigExtension('nl', $app['translator']));
+                return $twig;
+            }
+        );
         Type::addType('page_rows', PageRows::class);
 
         $this->register(
