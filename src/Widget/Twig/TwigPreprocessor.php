@@ -608,7 +608,7 @@ class TwigPreprocessor
      * @param $active
      * @return array
      */
-    public function getDateFacet($active)
+    public function getDateFacet($active, $preferredLanguage = 'nl')
     {
         $facet = [
             'type' => 'when',
@@ -618,18 +618,18 @@ class TwigPreprocessor
         ];
 
         $options = [
-            'today' => 'Vandaag',
-            'tomorrow' => 'Morgen',
-            'thisweekend' => 'Dit weekend',
-            'next7days' => 'Volgende 7 dagen',
-            'next14days' => 'Volgende 14 dagen',
-            'next30days' => 'Volgende 30 dagen',
+            'today',
+            'tomorrow',
+            'thisweekend',
+            'next7days',
+            'next14days',
+            'next30days',
         ];
 
-        foreach ($options as $value => $label) {
+        foreach ($options as $value) {
             $facet['options'][] = [
                 'value' => $value,
-                'name' => $label,
+                'name' =>  $this->translator->trans($value, [], 'when', $preferredLanguage),
                 'active' => ($active == $value ? true : false),
                 'children' => [],
             ];
