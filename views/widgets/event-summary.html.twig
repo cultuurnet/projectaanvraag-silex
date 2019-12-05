@@ -113,14 +113,14 @@
                         <div class="list-item-content">
                         {{ event.when_summary }}
                         {% if event.expired %}
-                          <p><i>{{ 'event_expired'| trans({}, 'messages', preferredLanguage) }}</i></p>
+                          <p><i>{{ 'event_expired'| transTo(preferredLanguage) }}</i></p>
                         {% endif %}
                         </div>
                     {% else %}
                         <div class="list-item-content">
                         {{ event.when_summary }}
                         {% if event.expired %}
-                          <p><i>{{ 'event_expired'| trans({}, 'messages', preferredLanguage) }}</i></p>
+                          <p><i>{{ 'event_expired'| transTo(preferredLanguage) }}</i></p>
                         {% endif %}
                         </div>
                     {% endif %}
