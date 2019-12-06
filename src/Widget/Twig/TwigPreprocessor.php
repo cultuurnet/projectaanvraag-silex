@@ -153,6 +153,7 @@ class TwigPreprocessor
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
+            'typeId' => $event->getTermsByDomain('eventtype')[0]->getId(),
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
