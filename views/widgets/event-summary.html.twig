@@ -62,7 +62,7 @@
                     {% if settings_items.type.enabled and event.type.0 is defined %}
                         <span class="cnw_badge cnw_badge-default" >
                                 <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
-                            {{ event.type.0 }}
+                                {{ event.typeId | transTo(preferredLanguage, 'eventtype') }}
                         </span>
                     {% endif %}
                     {{ event.summary | replace({'&nbsp;': ' '}) }}
