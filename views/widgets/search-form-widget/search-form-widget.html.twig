@@ -59,25 +59,25 @@
                                     <option value="">{{ settings_fields.time.date_search.placeholder }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.today %}
-                                <option value="today"{% if defaults.when == 'today' %} selected{% endif %} }}>Vandaag</option>
+                                <option value="today"{% if defaults.when == 'today' %} selected{% endif %} }}>{{ 'today'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.tomorrow %}
-                                <option value="tomorrow"{% if defaults.when == 'tomorrow' %} selected{% endif %}>Morgen</option>
+                                <option value="tomorrow"{% if defaults.when == 'tomorrow' %} selected{% endif %}>{{ 'tomorrow'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.weekend %}
-                                <option value="thisweekend"{% if defaults.when == 'thisweekend' %} selected{% endif %}>Dit weekend</option>
+                                <option value="thisweekend"{% if defaults.when == 'thisweekend' %} selected{% endif %}>{{ 'thisweekend'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.days_7 %}
-                                <option value="next7days"{% if defaults.when == 'next7days' %} selected{% endif %}>Binnen 7 dagen</option>
+                                <option value="next7days"{% if defaults.when == 'next7days' %} selected{% endif %}>{{ 'next7days'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.days_14 %}
-                                <option value="next14days"{% if defaults.when == 'next14days' %} selected{% endif %}>Binnen 14 dagen</option>
+                                <option value="next14days"{% if defaults.when == 'next14days' %} selected{% endif %}>{{ 'next14days'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.days_30 %}
-                                <option value="next30days"{% if defaults.when == 'next30days' %} selected{% endif %}>Binnen 30 dagen</option>
+                                <option value="next30days"{% if defaults.when == 'next30days' %} selected{% endif %}>{{ 'next30days'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.custom_date %}
-                                <option value="custom_date"{% if defaults.when == 'custom_date' %} selected{% endif %}>Aangepaste datum</option>
+                                <option value="custom_date"{% if defaults.when == 'custom_date' %} selected{% endif %}>{{ 'customdate'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                             </select>
 
