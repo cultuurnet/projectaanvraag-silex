@@ -120,10 +120,10 @@ class ApplicationBase extends SilexApplication
                 $translator->addLoader('yaml', new YamlFileLoader());
                 $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
                 $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
-                $translator->addResource('json', __DIR__ . '/../locales/eventtype/fr.json', 'fr', 'eventtype');
-                $translator->addResource('json', __DIR__ . '/../locales/eventtype/en.json', 'en', 'eventtype');
-                $translator->addResource('json', __DIR__ . '/../locales/region/fr.json', 'fr', 'region');
-                $translator->addResource('json', __DIR__ . '/../locales/region/en.json', 'en', 'region');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/fr.yml', 'fr', 'eventtype');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/en.yml', 'en', 'eventtype');
+                $translator->addResource('yaml', __DIR__ . '/../locales/region/fr.yml', 'fr', 'region');
+                $translator->addResource('yaml', __DIR__ . '/../locales/region/en.yml', 'en', 'region');
                 $translator->addResource('yaml', __DIR__ . '/../locales/when/fr.yml', 'fr', 'when');
                 $translator->addResource('yaml', __DIR__ . '/../locales/when/nl.yml', 'nl', 'when');
                 $translator->addResource('yaml', __DIR__ . '/../locales/when/en.yml', 'en', 'when');
