@@ -35,8 +35,8 @@ class TranslationTwigExtension extends AbstractExtension
         ];
     }
 
-    public function transTo(string $input, string $preferredLanguage = 'nl')
+    public function transTo(string $input, string $preferredLanguage = 'nl', $type = 'messages')
     {
-        return $this->translator->trans($input, [], 'messages', $preferredLanguage);
+        return $this->translator->trans($input, [], $type, $preferredLanguage);
     }
 }
