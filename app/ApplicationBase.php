@@ -118,8 +118,9 @@ class ApplicationBase extends SilexApplication
                 /** @var TranslatorInterface $translator */
                 $translator->addLoader('json', new JsonFileLoader());
                 $translator->addLoader('yaml', new YamlFileLoader());
-                $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
+                $translator->addResource('yaml', __DIR__ . '/../locales/en.yml', 'en');
                 $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
+                $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
                 $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/fr.yml', 'fr', 'eventtype');
                 $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/en.yml', 'en', 'eventtype');
                 $translator->addResource('yaml', __DIR__ . '/../locales/region/fr.yml', 'fr', 'region');
