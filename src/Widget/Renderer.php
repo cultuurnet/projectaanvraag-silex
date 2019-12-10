@@ -177,7 +177,7 @@ class Renderer implements RendererInterface
                 $widgetMapping[$widgetId] = $widgetPage->getId();
             }
 
-            $rowOutput[$i] = $row->render();
+            $rowOutput[$i] = $row->render($widgetPage->getLanguage());
         }
 
 

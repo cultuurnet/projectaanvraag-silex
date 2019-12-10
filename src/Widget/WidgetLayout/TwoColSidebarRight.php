@@ -16,13 +16,13 @@ class TwoColSidebarRight extends LayoutBase
     /**
      * {@inheritdoc}
      */
-    public function render()
+    public function render(string $preferredLanguage = 'nl')
     {
         return $this->twig->render(
             'layouts/two-col-sidebar-right/two-col-sidebar-right.html.twig',
             [
-                'content' => $this->renderRegion('content'),
-                'right' => $this->renderRegion('sidebar_right'),
+                'content' => $this->renderRegion('content', $preferredLanguage),
+                'right' => $this->renderRegion('sidebar_right', $preferredLanguage),
             ]
         );
     }

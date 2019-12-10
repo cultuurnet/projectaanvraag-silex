@@ -12,7 +12,7 @@ interface LayoutInterface extends \JsonSerializable
      * Render the current layout.
      * @return string
      */
-    public function render();
+    public function render(string $preferredLanguage = 'nl');
 
     /**
      * Is the given region empty?
