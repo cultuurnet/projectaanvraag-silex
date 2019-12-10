@@ -145,7 +145,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         $content = '';
         if (isset($this->regions[$regionName], $this->regions[$regionName]['widgets'])) {
             foreach ($this->regions[$regionName]['widgets'] as $widget) {
-                $content .= $widget->renderPlaceholder();
+                $content .= $widget->renderPlaceholder('fr');
             }
         }
 
