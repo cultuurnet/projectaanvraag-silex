@@ -185,14 +185,12 @@ trait TextProcessingTrait
                 }
             }
         }
-        //var_dump($matches);
-        //var_dump($openTags);
+
         // Check for spaces in $finalSegment:
         if (strpos($finalSegment, ' ') === false && preg_match('/<(\w+)[^>]*>$/', $return)) { // If none and $return ends in an opening tag: (we ignore $finalSegment)
             // Remove opening tag from end of $return:
             $return = preg_replace('/<(\w+)[^>]*>$/', '', $return);
             // Remove opening tag from $openTags:
-            //$key = array_search($matches[3], $openTags);
             // fix for PWK-721
             isset($matches[3]) ? $key = array_search($matches[3], $openTags) : $key = false;
             // end fix
