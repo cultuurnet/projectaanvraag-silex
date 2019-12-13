@@ -1,27 +1,27 @@
-event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
-event_expired: Dit evenement is afgelopen
-event_full_date: %date% om %hour% uur
-event_read_more: Lees meer 
-event_directions: hoe geraak ik hier
-event_detail_contact: Contact
-event_detail_info: Info
-event_detail_member_specific: Specifiek voor leden
-event_detail_phone: Bel naar
-event_detail_price: Prijs
-event_detail_labels: Labels
-event_detail_languages: Talen
-event_detail_language_icons: Taaliconen
-event_detail_links: Links
-event_detail_reservations: Reserveringen
-event_detail_share: Deel deze pagina
-event_detail_show_all_dates: Toon alle data
-event_detail_show_less_dates: Toon minder data
-facets_toggle: Verberg verfijningen
-pager_previous: Vorige
-pager_next: Volgende
-pager_last: Laatste
-search_results_counter: resultaten gevonden
-search_results_exclude_long_term: Verberg langlopende reeksen
-search_results_exclude_permanent: Verberg permanente bezienswaardigheden
-search_resutls_remove_all_filters: Alle filters verwijderen
-search_results_searched_label: 'Je zocht op:'
+event_age_range: Vanaf %min_age% jaar tot %max_age% jaar. eng
+event_expired: Dit evenement is afgelopen eng
+event_full_date: %date% om %hour% uur eng
+event_read_more: Lees meer eng
+event_directions: hoe geraak ik hier eng
+event_detail_contact: Contact eng
+event_detail_info: Info eng
+event_detail_member_specific: Specifiek voor leden eng
+event_detail_phone: Bel naar eng
+event_detail_price: Prijs eng
+event_detail_labels: Labels eng
+event_detail_languages: Talen eng
+event_detail_language_icons: Taaliconen eng
+event_detail_links: Links eng
+event_detail_reservations: Reserveringen eng
+event_detail_share: Deel deze pagina eng
+event_detail_show_all_dates: Toon alle data eng
+event_detail_show_less_dates: Toon minder data eng
+facets_toggle: Verberg verfijningen eng
+pager_previous: Vorige eng
+pager_next: Volgende eng
+pager_last: Laatste eng
+search_results_counter: resultaten gevonden eng
+search_results_exclude_long_term: Verberg langlopende reeksen eng
+search_results_exclude_permanent: Verberg permanente bezienswaardigheden eng
+search_resutls_remove_all_filters: Alle filters verwijderen eng
+search_results_searched_label: 'Je zocht op eng:'
