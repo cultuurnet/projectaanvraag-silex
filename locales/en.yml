@@ -1,4 +1,6 @@
-event_age_range: Vanaf %min_age% jaar tot %max_age% jaar. eng
+event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
+event_age_range_no_min: Vanaf 0 jaar tot en met %max_age% jaar.
+event_age_range_min: Vanaf %min_age% jaar.
 event_expired: Dit evenement is afgelopen eng
 event_full_date: %date% om %hour% uur eng
 event_read_more: Lees meer eng

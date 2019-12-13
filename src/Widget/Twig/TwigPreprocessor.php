@@ -709,15 +709,15 @@ class TwigPreprocessor
         $explRange = explode('-', $range);
 
         if (empty($explRange[1]) || $explRange[0] === $explRange[1]) {
-            return "Vanaf $explRange[0] jaar.";
+            return $this->translator->trans('event_age_range_min', ['%min_age%'=>$explRange[0]], 'messages', $langcode);
         }
 
         if (empty($explRange[0])) {
-            return "Vanaf 0 jaar tot en met $explRange[1] jaar.";
+            return $this->translator->trans('event_age_range_no_min', ['%max_age%'=>$explRange[1]], 'messages', $langcode);
         }
 
         // Build range string according to language.
-        return "Vanaf $explRange[0] jaar tot en met $explRange[1] jaar.";
+        return $this->translator->trans('event_age_range', ['%min_age%'=>$explRange[0], '%max_age%'=>$explRange[1]], 'messages', $langcode);
     }
 
     /**

@@ -123,6 +123,7 @@ class ApplicationBase extends SilexApplication
                 $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
                 $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/fr.yml', 'fr', 'eventtype');
                 $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/en.yml', 'en', 'eventtype');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/nl.yml', 'nl', 'eventtype');
                 $translator->addResource('yaml', __DIR__ . '/../locales/facets/fr.yml', 'fr', 'facets');
                 $translator->addResource('yaml', __DIR__ . '/../locales/facets/en.yml', 'en', 'facets');
                 $translator->addResource('yaml', __DIR__ . '/../locales/facets/nl.yml', 'nl', 'facets');
