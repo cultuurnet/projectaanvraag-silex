@@ -4,20 +4,23 @@ namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
 use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
 use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
+use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
-use CultuurNet\SearchV3\ValueObjects\Audience;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
+use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
+use CultuurNet\SearchV3\ValueObjects\Term;
+use CultuurNet\SearchV3\ValueObjects\TranslatedAddress;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
-use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
-use Guzzle\Http\Client;
 
 /**
  * A preproccesor service for widget twig templates.
@@ -26,11 +29,6 @@ class TwigPreprocessor
 {
 
     use TextProcessingTrait;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
 
     /**
      * @var \Twig_Environment
@@ -53,35 +51,57 @@ class TwigPreprocessor
     protected $socialHost;
 
     /**
+     * @var FilterForKeyWithFallback
+     */
+    private $filterForKeyWithFallback;
+
+    /**
+     * @var TranslateTerm
+     */
+    private $translateTerm;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * TwigPreprocessor constructor.
-     * @param TranslatorInterface $translator
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
      */
-    public function __construct(TranslatorInterface $translator, \Twig_Environment $twig, RequestStack $requestStack, \CultureFeed $cultureFeed, string $socialHost)
-    {
-        $this->translator = $translator;
+    public function __construct(
+        \Twig_Environment $twig,
+        RequestStack $requestStack,
+        \CultureFeed $cultureFeed,
+        string $socialHost,
+        FilterForKeyWithFallback $translateWithFallback,
+        TranslateTerm $translateTerm,
+        TranslatorInterface $translator
+    ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
         $this->cultureFeed = $cultureFeed;
         $this->socialHost = $socialHost;
+        $this->filterForKeyWithFallback = $translateWithFallback;
+        $this->translateTerm = $translateTerm;
+        $this->translator = $translator;
     }
 
     /**
      * @param array $events
      *   List of events to preprocess.
-     * @param string $langcode
+     * @param string $preferredLanguage
      *   Langcode of the result to show
      * @param array $detail_link_settings
      *   Settings for the links to a detail of every event.
      * @return array
      */
-    public function preprocessEventList(array $events, string $langcode, array $settings)
+    public function preprocessEventList(array $events, string $preferredLanguage, array $settings)
     {
 
         $preprocessedEvents = [];
         foreach ($events as $event) {
-            $preprocessedEvent = $this->preprocessEvent($event, $langcode, $settings['items']);
+            $preprocessedEvent = $this->preprocessEvent($event, $preferredLanguage, $settings['items']);
 
             $linkType = 'query';
             $detailUrl = $this->request->server->get('HTTP_REFERER');
@@ -120,19 +140,20 @@ class TwigPreprocessor
     {
         $variables = [
             'id' => $event->getCdbid(),
-            'name' => $event->getName()->getValueForLanguage($langcode),
-            'description' => $event->getDescription() ? $event->getDescription()->getValueForLanguage($langcode) : '',
+            'name' => $this->translateStringWithFallback($event->getName(), $langcode),
+            'description' => $this->translateStringWithFallback($event->getDescription(), $langcode),
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
-            'expired' =>  ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
-            'organizer' => ($event->getOrganizer() && $event->getOrganizer()->getName()) ? $event->getOrganizer()->getName()->getValueForLanguage($langcode) : null,
+            'expired' => ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
+            'organizer' => $this->translateOrganizerName($event, $langcode),
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
-            'themes' => $event->getTermsByDomain('theme'),
+            'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
+            'typeId' => ($event->getTermsByDomain('eventtype')[0]->getId()) ?: null,
         ];
 
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
@@ -197,19 +218,11 @@ class TwigPreprocessor
 
         // Add types as first labels, if enabled.
         if (!empty($settings['type']['enabled'])) {
-            $types = $event->getTermsByDomain('eventtype');
-            $typeLabels = [];
-            if (!empty($types)) {
-                foreach ($types as $type) {
-                    $typeLabels[] = $type->getLabel();
-                }
-            }
-
-            $variables['type'] = $typeLabels;
+            $variables['type'] = $this->translateLabels($event->getTermsByDomain('eventtype'), $langcode);
         }
 
         if (!empty($settings['price_information'])) {
-            $this->preprocessPriceInfo($event, $variables);
+            $this->preprocessPriceInfo($event, $variables, $langcode);
         }
 
         if (!empty($settings['reservation_information'])) {
@@ -308,7 +321,7 @@ class TwigPreprocessor
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
                         'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
-                        'organizer' => $event->getOrganizer()->getName()->getValueForLanguage($langcode),
+                        'organizer' => $this->translateOrganizerName($event, $langcode),
                     ]
                 );
             } catch (\Exception $e) {
@@ -318,7 +331,7 @@ class TwigPreprocessor
 
         // Load 'kansentarief' via culturefeed.
         if (!empty($settings['price_information'])) {
-            $this->preprocessPriceInfo($event, $variables);
+            $this->preprocessPriceInfo($event, $variables, $langcode);
         }
 
         if (!empty($settings['back_button']['url'])) {
@@ -339,7 +352,7 @@ class TwigPreprocessor
      */
     public function preprocessArticles($linkedArticles, $settings)
     {
-            
+
         $articles = [];
         if (!empty($linkedArticles['hydra:member'])) {
             foreach ($linkedArticles['hydra:member'] as $article) {
@@ -380,14 +393,14 @@ class TwigPreprocessor
     }
 
 
-
     /**
      * Preprocess the price information.
      *
      * @param Event $event
      * @param $variables
+     * @param string $preferredLanguage
      */
-    public function preprocessPriceInfo(Event $event, &$variables)
+    public function preprocessPriceInfo(Event $event, &$variables, string $preferredLanguage)
     {
         $variables['price'] = '';
 
@@ -395,10 +408,12 @@ class TwigPreprocessor
         if ($event->getPriceInfo()) {
             $priceInfos = $event->getPriceInfo();
             foreach ($priceInfos as $priceInfo) {
-                $priceName = $priceInfo->getName()->getValueForLanguage('nl');
+                /** @var TranslatedString $priceName */
+                $priceName = $priceInfo->getName();
+                $translatedPriceName = $this->translateStringWithFallback($priceName, $preferredLanguage);
                 $priceAmount = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
                 if ($priceInfo->getCategory() !== 'base') {
-                    $prices[] = $priceName . ': ' . $priceAmount;
+                    $prices[] = $translatedPriceName . ': ' . $priceAmount;
                 } else {
                     $prices[] = $priceAmount;
                 }
@@ -462,7 +477,7 @@ class TwigPreprocessor
             if ($bookingInfo->getUrl()) {
                 $variables['booking_info']['url'] = [
                    'url' => $bookingInfo->getUrl(),
-                   'label' => !empty($bookingInfo->getUrlLabel()->getValueForLanguage($langcode)) ? $bookingInfo->getUrlLabel()->getValueForLanguage($langcode) : $bookingInfo->getUrl(),
+                   'label' => ($this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) !== '') ? $this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) : $bookingInfo->getUrl(),
                 ];
             }
         }
@@ -475,9 +490,10 @@ class TwigPreprocessor
      * @param $type
      * @param $label
      * @param $activeValue
+     * @param $preferredLanguage
      * @return array
      */
-    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue)
+    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue, string $preferredLanguage, bool $isRegionType = false)
     {
         $facet = [
             'type' => $type,
@@ -485,7 +501,7 @@ class TwigPreprocessor
             'count' => count($facetResult->getResults()),
         ];
 
-        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue);
+        $facet += $this->getFacetOptions($facetResult->getResults(), $activeValue, $preferredLanguage, $isRegionType);
 
         return $facet;
     }
@@ -493,15 +509,23 @@ class TwigPreprocessor
     /**
      * Get the list of facet options based on the given facet items.
      */
-    private function getFacetOptions($facetItems, $activeValue)
+    private function getFacetOptions($facetItems, $activeValue, string $preferredLanguage, bool $isRegionType = false)
     {
         $hasActive = false;
         $options = [];
+        /** @var FacetResultItem $result */
         foreach ($facetItems as $result) {
+            /** Ugly hack -> if it's region type than translate it */
+            if ($isRegionType) {
+                $name = $this->translateRegionFacetResultItemName($preferredLanguage, $result);
+            } else {
+                $name = $result->getName()->getValueForLanguage($preferredLanguage);
+            }
+
             $option = [
                 'value' => $result->getValue(),
                 'count' => $result->getCount(),
-                'name' => $result->getName()->getValueForLanguage('nl'),
+                'name' => $name,
                 'active' => isset($activeValue[$result->getValue()]),
                 'children' => [],
             ];
@@ -511,7 +535,7 @@ class TwigPreprocessor
             }
 
             if ($result->getChildren()) {
-                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue);
+                $option['children'] = $this->getFacetOptions($result->getChildren(), $activeValue, $preferredLanguage, $isRegionType);
                 if ($option['children']['hasActive']) {
                     $hasActive = true;
                 }
@@ -565,14 +589,15 @@ class TwigPreprocessor
     {
 
         $variables = [];
-        $variables['name'] = $place->getName()->getValueForLanguage($langcode);
+        $variables['name'] = $this->translateStringWithFallback($place->getName(), $langcode);
         $variables['address'] = [];
+
         if ($address = $place->getAddress()) {
-            if ($translatedAddress = $address->getAddressForLanguage($langcode)) {
+            /** @var TranslatedAddress $address */
+            $translatedAddress = $this->translateAddress($address, $langcode);
                 $variables['address']['street'] = $translatedAddress->getStreetAddress() ?? '';
                 $variables['address']['postalcode'] = $translatedAddress->getPostalCode() ?? '';
                 $variables['address']['city'] = $translatedAddress->getAddressLocality() ?? '';
-            }
         }
 
         return $variables;
@@ -584,7 +609,7 @@ class TwigPreprocessor
      * @param $active
      * @return array
      */
-    public function getDateFacet($active)
+    public function getDateFacet($active, $preferredLanguage = 'nl')
     {
         $facet = [
             'type' => 'when',
@@ -594,18 +619,18 @@ class TwigPreprocessor
         ];
 
         $options = [
-            'today' => 'Vandaag',
-            'tomorrow' => 'Morgen',
-            'thisweekend' => 'Dit weekend',
-            'next7days' => 'Volgende 7 dagen',
-            'next14days' => 'Volgende 14 dagen',
-            'next30days' => 'Volgende 30 dagen',
+            'today',
+            'tomorrow',
+            'thisweekend',
+            'next7days',
+            'next14days',
+            'next30days',
         ];
 
-        foreach ($options as $value => $label) {
+        foreach ($options as $value) {
             $facet['options'][] = [
                 'value' => $value,
-                'name' => $label,
+                'name' =>  $this->translator->trans($value, [], 'when', $preferredLanguage),
                 'active' => ($active == $value ? true : false),
                 'children' => [],
             ];
@@ -684,15 +709,15 @@ class TwigPreprocessor
         $explRange = explode('-', $range);
 
         if (empty($explRange[1]) || $explRange[0] === $explRange[1]) {
-            return "Vanaf $explRange[0] jaar.";
+            return $this->translator->trans('event_age_range_min', ['%min_age%'=>$explRange[0]], 'messages', $langcode);
         }
 
         if (empty($explRange[0])) {
-            return "Vanaf 0 jaar tot en met $explRange[1] jaar.";
+            return $this->translator->trans('event_age_range_no_min', ['%max_age%'=>$explRange[1]], 'messages', $langcode);
         }
 
         // Build range string according to language.
-        return "Vanaf $explRange[0] jaar tot en met $explRange[1] jaar.";
+        return $this->translator->trans('event_age_range', ['%min_age%'=>$explRange[0], '%max_age%'=>$explRange[1]], 'messages', $langcode);
     }
 
     /**
@@ -785,5 +810,72 @@ class TwigPreprocessor
         } else {
             return [];
         }
+    }
+
+    protected function translateStringWithFallback(?TranslatedString $translatedString, string $preferredLanguage)
+    {
+        if ($translatedString === null) {
+            return '';
+        }
+        return $this->filterForKeyWithFallback->__invoke($translatedString->getValues(), $preferredLanguage);
+    }
+
+    protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage)
+    {
+        $invoke = $this->filterForKeyWithFallback->__invoke($translatedAddress->getAddresses(), $prefferedLanguage);
+        return $invoke;
+    }
+
+    private function translateTerms(string $preferredLanguage, array $themes): array
+    {
+        $translatedThemes = [];
+        foreach ($themes as $term) {
+            $translatedThemes[] = $this->translateTerm->__invoke($term, $preferredLanguage);
+        }
+        return $translatedThemes;
+    }
+
+    private function translateLabels(array $terms, string $preferredLanguage): array
+    {
+        $typeLabels = [];
+        /** @var Term $term */
+        foreach ($terms as $term) {
+            $typeLabels[] = $this->translateTerm($preferredLanguage, $term);
+        }
+
+        return $typeLabels;
+    }
+
+    private function translateOrganizerName(Event $event, string $preferredLanguage): ?string
+    {
+        if ($event->getOrganizer() === null || $event->getOrganizer()->getName() === null) {
+            return null;
+        }
+
+        return $this->filterForKeyWithFallback->__invoke(
+            $event->getOrganizer()->getName()->getValues(),
+            $preferredLanguage
+        );
+    }
+
+    private function translateTerm(string $preferredLanguage, Term $term): string
+    {
+        return $this->translateTerm->__invoke($term, $preferredLanguage);
+    }
+
+    /**
+     * @param string $preferredLanguage
+     * @param FacetResultItem $result
+     * @return mixed|string
+     */
+    private function translateRegionFacetResultItemName(string $preferredLanguage, FacetResultItem $result)
+    {
+        $translation = $this->translator->trans($result->getValue(), [], 'region', $preferredLanguage);
+
+        if ($translation === $result->getValue()) {
+            return $result->getName()->getValueForLanguage($preferredLanguage);
+        }
+
+        return $translation;
     }
 }

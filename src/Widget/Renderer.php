@@ -177,7 +177,7 @@ class Renderer implements RendererInterface
                 $widgetMapping[$widgetId] = $widgetPage->getId();
             }
 
-            $rowOutput[$i] = $row->render();
+            $rowOutput[$i] = $row->render($widgetPage->getLanguage());
         }
 
 
@@ -203,6 +203,7 @@ class Renderer implements RendererInterface
             'consumerName' => $this->project->getName(),
             'mobile' => $widgetPage->getMobile(),
             'jquery' => $widgetPage->getJquery(),
+            'language' => $widgetPage->getLanguage(),
             ]
         );
 
@@ -214,14 +215,14 @@ class Renderer implements RendererInterface
     /**
      * @inheritDoc
      */
-    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '')
+    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '', string $preferredLanguage = 'nl')
     {
-        return $widgetType->render($cdbid);
+        return $widgetType->render($cdbid, $preferredLanguage);
     }
 
-    public function renderDetailPage(SearchResults $searchResultsWidget)
+    public function renderDetailPage(SearchResults $searchResultsWidget, string $preferredLanguage = 'nl')
     {
-        return $searchResultsWidget->renderDetail();
+        return $searchResultsWidget->renderDetail($preferredLanguage);
     }
 
     /**

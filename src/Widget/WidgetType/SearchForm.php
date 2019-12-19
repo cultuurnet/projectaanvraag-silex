@@ -340,7 +340,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '')
+    public function render($cdbid = '', string $preferredLanguage = 'nl')
     {
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',
@@ -352,6 +352,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 'settings_fields' => $this->settings['fields'],
                 'defaults' => $this->getDefaults(),
                 'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
+                'preferredLanguage' => $preferredLanguage,
             ]
         );
     }
@@ -359,7 +360,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function renderPlaceholder()
+    public function renderPlaceholder(string $preferredLanguage = 'nl')
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/search-form.js');
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/autocomplete.js');
@@ -371,7 +372,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
 
         $this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
 
-        return $this->render();
+        return $this->render('', $preferredLanguage);
     }
 
     /**

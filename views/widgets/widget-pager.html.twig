@@ -7,7 +7,7 @@
                     <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="0">Eerste</a>
                 </li>
                 <li class="cnw_page-item">
-                    <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="{{ pager.activePageIndex - 1 }}">Vorige</a>
+                    <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="{{ pager.activePageIndex - 1 }}">{{ 'pager_previous'| transTo(preferredLanguage) }}</a>
                 </li>
             {% endif %}
 
@@ -27,10 +27,10 @@
 
             {% if pager.activePageIndex != pager.pageCount-1 %}
                 <li class="cnw_page-item">
-                    <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ pager.activePageIndex + 1 }}">Volgende</a>
+                    <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ pager.activePageIndex + 1 }}">{{ 'pager_next'| transTo(preferredLanguage) }}</a>
                 </li>
                 <li class="cnw_page-item">
-                    <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ pager.pageCount - 1 }}">Laatste</a>
+                    <a class="cnw_page-link" href="#" data-target-widget="{{ id }}" data-target-page="{{ pager.pageCount - 1 }}">{{ 'pager_last'| transTo(preferredLanguage) }}</a>
                 </li>
             {% endif %}
         </ul>

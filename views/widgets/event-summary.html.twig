@@ -1,7 +1,7 @@
 <!--  results - CARD  START -->
+{% set showIcons = (settings_general.labels_as_icons.enabled or preferredLanguage != 'nl') %}
 
-<div class="cnw_searchresult--block {% if settings_general.labels_as_icons.enabled %} labels-as-icons {% endif %} cnw_row ">
-
+<div class="cnw_searchresult--block {% if showIcons %} labels-as-icons {% endif %} cnw_row ">
     {% if settings_items.image.enabled %}
     <div class="cnw_col-3 {% if settings_items.image.position == 'right' %} cnw_flex-last {% endif %}">
         {% if event.image is defined %}
@@ -62,7 +62,7 @@
                     {% if settings_items.type.enabled and event.type.0 is defined %}
                         <span class="cnw_badge cnw_badge-default" >
                                 <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
-                            {{ event.type.0 }}
+                                {{ event.typeId | transTo(preferredLanguage, 'eventtype') }}
                         </span>
                     {% endif %}
                     {{ event.summary | replace({'&nbsp;': ' '}) }}
@@ -113,14 +113,14 @@
                         <div class="list-item-content">
                         {{ event.when_summary }}
                         {% if event.expired %}
-                          <p><i> Dit evenement is afgelopen </i></p>
+                          <p><i>{{ 'event_expired'| transTo(preferredLanguage) }}</i></p>
                         {% endif %}
                         </div>
                     {% else %}
                         <div class="list-item-content">
                         {{ event.when_summary }}
                         {% if event.expired %}
-                          <p><i> Dit evenement is afgelopen </i></p>
+                          <p><i>{{ 'event_expired'| transTo(preferredLanguage) }}</i></p>
                         {% endif %}
                         </div>
                     {% endif %}

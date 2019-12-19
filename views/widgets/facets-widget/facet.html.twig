@@ -1,7 +1,7 @@
 
 <!--  Faceted search -->
 <section class="cnw_facetedsearch cnw_facetedsearch--{{ facet.type }}">
-    <h3 class="cnw_block-title">{{ facet.label }}</h3>
+    <h3 class="cnw_block-title">{{ facet.type | transTo(preferredLanguage, 'facets') }}</h3>
 
 {% import _self as facet_render %}
 

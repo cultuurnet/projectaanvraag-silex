@@ -21,6 +21,7 @@ use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\LegacyServiceProvider;
 use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
+use CultuurNet\ProjectAanvraag\Widget\Translation\TranslationTwigExtension;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
 use CultuurNet\ProjectAanvraag\WidgetMigration\WidgetMigrationProvider;
@@ -36,7 +37,9 @@ use Silex\Application as SilexApplication;
 use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
+use Symfony\Component\Translation\Loader\JsonFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Base Application class for the projectaanvraag application.
@@ -103,13 +106,32 @@ class ApplicationBase extends SilexApplication
 
         // Translation
         $this['locale'] = $this['config']['locale'] ?? 'nl';
-        $this->register(new TranslationServiceProvider());
+        $this->register(
+            new TranslationServiceProvider(),
+            array(
+                'locale_fallbacks' => array('nl'),
+            )
+        );
         $this->extend(
             'translator',
             function ($translator, $app) {
+                /** @var TranslatorInterface $translator */
+                $translator->addLoader('json', new JsonFileLoader());
                 $translator->addLoader('yaml', new YamlFileLoader());
-                $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
+                $translator->addResource('yaml', __DIR__ . '/../locales/en.yml', 'en');
                 $translator->addResource('yaml', __DIR__ . '/../locales/fr.yml', 'fr');
+                $translator->addResource('yaml', __DIR__ . '/../locales/nl.yml', 'nl');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/fr.yml', 'fr', 'eventtype');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/en.yml', 'en', 'eventtype');
+                $translator->addResource('yaml', __DIR__ . '/../locales/eventtype/nl.yml', 'nl', 'eventtype');
+                $translator->addResource('yaml', __DIR__ . '/../locales/facets/fr.yml', 'fr', 'facets');
+                $translator->addResource('yaml', __DIR__ . '/../locales/facets/en.yml', 'en', 'facets');
+                $translator->addResource('yaml', __DIR__ . '/../locales/facets/nl.yml', 'nl', 'facets');
+                $translator->addResource('yaml', __DIR__ . '/../locales/region/fr.yml', 'fr', 'region');
+                $translator->addResource('yaml', __DIR__ . '/../locales/region/en.yml', 'en', 'region');
+                $translator->addResource('yaml', __DIR__ . '/../locales/when/fr.yml', 'fr', 'when');
+                $translator->addResource('yaml', __DIR__ . '/../locales/when/nl.yml', 'nl', 'when');
+                $translator->addResource('yaml', __DIR__ . '/../locales/when/en.yml', 'en', 'when');
                 return $translator;
             }
         );
@@ -264,7 +286,13 @@ class ApplicationBase extends SilexApplication
                 ],
             ]
         );
-
+        $this->extend(
+            'twig',
+            function ($twig, $app) {
+                $twig->addExtension(new TranslationTwigExtension('nl', $app['translator']));
+                return $twig;
+            }
+        );
         Type::addType('page_rows', PageRows::class);
 
         $this->register(

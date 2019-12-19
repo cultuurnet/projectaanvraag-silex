@@ -177,8 +177,10 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $data = [
-            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid),
+            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid, $preferredLanguage),
         ];
         $response = new JsonResponse($data);
 
@@ -244,15 +246,18 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $renderedWidgets = [
-            'search_results' => $this->renderer->renderWidget($searchResultsWidget),
+            'search_results' => $this->renderer->renderWidget($searchResultsWidget, '', $preferredLanguage),
             'facets' => [],
+            'preferredLanguage' => $preferredLanguage,
         ];
 
         $searchResult = $searchResultsWidget->getSearchResult();
         foreach ($facetWidgets as $facetWidgetId => $facetWidget) {
             $facetWidget->setSearchResult($searchResult);
-            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget);
+            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget, '', $preferredLanguage);
         }
 
         $data = [
@@ -291,8 +296,10 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $data = [
-            'data' => $this->renderer->renderDetailPage($widget),
+            'data' => $this->renderer->renderDetailPage($widget, $preferredLanguage),
         ];
         $response = new JsonResponse($data);
 

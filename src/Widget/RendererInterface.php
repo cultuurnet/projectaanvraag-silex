@@ -47,7 +47,7 @@ interface RendererInterface
      *
      * @return string
      */
-    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '');
+    public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '', string $preferredLanguage = 'nl');
 
     /**
      * Renders a detail page for the given widget.
@@ -55,7 +55,7 @@ interface RendererInterface
      * @param SearchResults $searchResultsWidget
      * @return mixed
      */
-    public function renderDetailPage(SearchResults $searchResultsWidget);
+    public function renderDetailPage(SearchResults $searchResultsWidget, string $preferredLanguage = 'nl');
 
     /**
      * Attach a javascript file to the renderer.

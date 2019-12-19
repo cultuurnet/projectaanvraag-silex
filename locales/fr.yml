@@ -1,2 +1,29 @@
-event_full_date: %date% à %hour%
 event_age_range: De %min_age% ans à %max_age% ans.
+event_age_range_no_min: De 0 ans à %max_age% ans.
+event_age_range_min: De %min_age% ans.
+event_expired: Dit evenement is afgelopen fr
+event_full_date: %date% à %hour% fr
+event_read_more: Lees meer fr
+event_directions: hoe geraak ik hier fr
+event_detail_contact: Contact fr
+event_detail_info: Info fr
+event_detail_member_specific: Specifiek voor leden fr
+event_detail_phone: Bel naar fr
+event_detail_price: Prijs fr
+event_detail_labels: Labels fr
+event_detail_languages: Talen fr
+event_detail_language_icons: Taaliconen fr
+event_detail_links: Links fr
+event_detail_reservations: Reserveringen fr
+event_detail_share: Deel deze pagina fr
+event_detail_show_all_dates: Toon alle data fr
+event_detail_show_less_dates: Toon minder data fr
+facets_toggle: Verberg verfijningen fr
+pager_previous: Vorige fr
+pager_next: Volgende fr
+pager_last: Laatste fr
+search_results_counter: resultaten gevonden fr
+search_results_exclude_long_term: Verberg langlopende reeksen fr
+search_results_exclude_permanent: Verberg permanente bezienswaardigheden fr
+search_resutls_remove_all_filters: Alle filters verwijderen fr
+search_results_searched_label: 'Je zocht op fr: '

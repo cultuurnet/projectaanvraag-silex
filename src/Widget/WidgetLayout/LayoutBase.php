@@ -139,13 +139,13 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
      * @param $regionName
      *   Region to render.
      */
-    protected function renderRegion($regionName)
+    protected function renderRegion($regionName, string $preferredLanguage = 'nl')
     {
 
         $content = '';
         if (isset($this->regions[$regionName], $this->regions[$regionName]['widgets'])) {
             foreach ($this->regions[$regionName]['widgets'] as $widget) {
-                $content .= $widget->renderPlaceholder();
+                $content .= $widget->renderPlaceholder($preferredLanguage);
             }
         }
 
