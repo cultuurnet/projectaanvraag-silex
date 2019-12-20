@@ -2,7 +2,7 @@ event_age_range: De %min_age% ans à %max_age% ans.
 event_age_range_no_min: De 0 ans à %max_age% ans.
 event_age_range_min: De %min_age% ans.
 event_expired: Cet événement est terminé
-event_full_date: %date% à %hour% fr
+event_full_date: %date% à %hour%
 event_read_more: Lire plus
 event_directions: comment arriver ici
 event_detail_contact: Contactez-nous
@@ -20,7 +20,7 @@ event_detail_show_all_dates: Afficher toutes les dates
 event_detail_show_less_dates: Afficher moins de dates
 facets_toggle: Masquer les améliorations
 pager_previous: Précédente
-pager_next: Suivante fr
+pager_next: Suivante
 pager_last: Dernier
 search_results_counter: résultats trouvés
 search_results_exclude_long_term: Masquer les séries de longue durée
