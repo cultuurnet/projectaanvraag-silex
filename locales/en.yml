@@ -4,7 +4,7 @@ event_age_range_min: From %min_age% years.
 event_expired: This event has ended
 event_full_date: %date% at %hour%
 event_read_more: Read more
-event_directions: how do I get here
+event_directions: how do I get here?
 event_detail_contact: Contact
 event_detail_info: Info
 event_detail_member_specific: Exclusively for members
