@@ -21,6 +21,14 @@
     margin-bottom: 0.5em;
     display: block;
 
+    .show {
+      display: initial;
+    }
+
+    .hide {
+      display: none;
+    }
+
     &:after {
       display: inline-block;
       font: normal normal normal 14px/1 CnWFontAwesome;
@@ -33,11 +41,21 @@
       margin-left: 10px;
 
     }
+    &.cnw_facets_toggle--open {
+      .hide {
+        display: initial;
+      }
+      .show {
+        display: none;
+      }
+    }
     &.cnw_facets_toggle--open:after {
       content: "\f106";
       margin-left: 10px;
     }
   }
+
+
 
 }
 
