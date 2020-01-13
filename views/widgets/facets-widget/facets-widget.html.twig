@@ -1,6 +1,9 @@
 <div class="cnw_w cnw_facets" data-widget-id="{{ id }}">
 
-    <a class="cnw_facets_toggle cnw_facets_toggle--open" href="#">{{ 'facets_toggle' | transTo(preferredLanguage) }}</a>
+    <a class="cnw_facets_toggle cnw_facets_toggle--open" href="#">
+      <span class="show">{{ 'facets_show'| transTo(preferredLanguage) }}</span>
+      <span class="hide">{{ 'facets_hide'| transTo(preferredLanguage) }}</span>
+    </a>
 
     <div class="cnw_facets_content">
         {% for facet in facets %}

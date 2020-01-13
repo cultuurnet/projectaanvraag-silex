@@ -5,3 +5,5 @@ next7days: 7 prochains jours
 next14days: 14 prochains jours
 next30days: 30 prochains jours
 customdate: Date personnalisée
+from: De
+to: Au

@@ -4,7 +4,7 @@
 
             {% if pager.activePageIndex != 0 %}
                 <li class="cnw_page-item ">
-                    <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="0">Eerste</a>
+                    <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="0">{{ 'pager_first'| transTo(preferredLanguage) }}</a>
                 </li>
                 <li class="cnw_page-item">
                     <a class="cnw_page-link" href="#" tabindex="-1" data-target-widget="{{ id }}" data-target-page="{{ pager.activePageIndex - 1 }}">{{ 'pager_previous'| transTo(preferredLanguage) }}</a>
