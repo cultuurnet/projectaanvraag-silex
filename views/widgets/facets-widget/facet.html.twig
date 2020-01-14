@@ -15,8 +15,9 @@
 
     <ul class="cnw_facet-search">
     {% for option in options %}
+        {% if option.name %}
         <li class="cnw_facet-label {{ option.active ? 'active' : '' }}">
-            {% if option.active %}
+            {% if option.active  %}
                 <span>{{ option.name }} <a href="#" data-facet-type="{{ facet.type }}" data-facet-id="{{ facet.id is defined ? facet.id : '' }}" data-facet-option-id="{{ loop.index0 }}">x</a></span>
             {% else %}
                 <a href="#" data-facet-type="{{ facet.type }}" data-facet-value="{{ option.value }}" data-facet-id="{{ facet.id is defined ? facet.id : '' }}" data-facet-option-id="{{ loop.index0 }}">{{ option.name }}</a>
@@ -28,8 +29,8 @@
             {% if option.children and (option.active or option.children.hasActive) %}
                 {{ facet_render.facet_options(facet, option.children.options) }}
             {% endif %}
-
         </li>
+        {% endif %}
 
     {% endfor %}
 
