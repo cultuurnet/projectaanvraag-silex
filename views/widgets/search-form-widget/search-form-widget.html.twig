@@ -35,7 +35,7 @@
                             <label>
                                 {{  settings_fields.location.keyword_search.label }}
                             </label>
-                            <input type="text" class="cnw_form-control cnw_form-autocomplete" id="where-{{ id }}" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}" data-autocomplete-path="{{ when_autocomplete_path }}">
+                            <input type="text" class="cnw_form-control cnw_form-autocomplete" id="where-{{ id }}" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}" data-autocomplete-path="{{ when_autocomplete_path }}" data-autocomplete-language="{{ preferredLanguage }}">
                         </div>
                     {% endif %}
 

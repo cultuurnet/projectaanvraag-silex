@@ -1,6 +1,8 @@
 <?php
 
 namespace CultuurNet\ProjectAanvraag\Widget;
+use Symfony\Component\Translation\TranslatorInterface;
+
 
 /**
  * Provides a service to search on regions.
@@ -12,14 +14,11 @@ class RegionService
      */
     protected $jsonLocation;
 
-    /**
-     * RegionService constructor.
-     *
-     * @param $jsonLocation
-     */
-    public function __construct($jsonLocation)
+
+    public function __construct($jsonLocation, TranslatorInterface $translator)
     {
         $this->jsonLocation = $jsonLocation;
+        $this->translator = $translator;
     }
 
     /**
@@ -27,17 +26,21 @@ class RegionService
      *
      * @param $searchString
      */
-    public function getAutocompletResults($searchString)
-    {
+    public function getAutocompletResults($searchString, $language = 'nl')
+    {   
         $data = file_get_contents($this->jsonLocation);
-
         $searchString = strtolower($searchString);
         $matches = [];
         $regions = json_decode($data);
         if (!empty($regions)) {
             foreach ($regions as $region) {
-                if (strpos(strtolower($region->name), $searchString) !== false) {
-                    $matches[] = $region->name;
+                if($language === 'nl'){
+                  $translatedRegion = $region->name;
+                } else {
+                  $translatedRegion = ($this->translator->trans($region->key, [], 'region', $language)) ?: $region->name;
+                }
+                if (strpos(strtolower($translatedRegion), $searchString) !== false) {
+                    $matches[] = $translatedRegion;
                 }
             }
         }
@@ -72,7 +75,7 @@ class RegionService
      * @return $matches
      */
     public function sortByLevenshtein($matches, $searchString)
-    {
+    {   
         usort(
             $matches,
             function ($a, $b) use ($searchString) {

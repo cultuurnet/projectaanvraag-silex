@@ -335,11 +335,12 @@ class WidgetController
      * Provide autocompletion results for regions.
      * @param Request $request
      * @param $searchString
+     * @param $language
      * @return JsonResponse
      */
-    public function getRegionAutocompleteResult(Request $request, $searchString)
+    public function getRegionAutocompleteResult(Request $request, $searchString, $language = 'nl')
     {
-        $matches = $this->regionService->getAutocompletResults($searchString);
+        $matches = $this->regionService->getAutocompletResults($searchString, $language);
         // Sort $matches according levenshtein distance
         $matches = $this->regionService->sortByLevenshtein($matches, $searchString);
 
