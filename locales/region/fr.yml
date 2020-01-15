@@ -2071,22 +2071,22 @@ nis-63003A: Aubel (Aubel)
 nis-63004: Baelen + sous-municipalités
 nis-63004A: Baelen (Baelen)
 nis-63004B: Membach (Baelen)
-nis-63012: Bullange 'D' + sous-municipalités
-nis-63012-Z: Manderfeld (Bullange 'D')
-nis-63012A: Bullange 'D' (Bullange 'D')
-nis-63012B: Rocherath (Bullange 'D')
+nis-63012: Bullange + sous-municipalités
+nis-63012-Z: Manderfeld (Bullange)
+nis-63012A: Bullange (Bullange)
+nis-63012B: Rocherath (Bullange)
 nis-63087: Burg-Reuland + sous-municipalités
 nis-63087A: Thommen (Burg-Reuland)
 nis-63087B: Reuland (Burg-Reuland)
-nis-63013: Butgenbach 'D' + sous-municipalités
-nis-63013A: Butgenbach 'D' (Butgenbach 'D')
-nis-63013B: Elsenborn (Butgenbach 'D')
+nis-63013: Butgenbach + sous-municipalités
+nis-63013A: Butgenbach (Butgenbach)
+nis-63013B: Elsenborn (Butgenbach)
 nis-63020: Dison + sous-municipalités
 nis-63020A: Dison (Dison)
 nis-63020B: Andrimont (Dison)
-nis-63023: Néau 'D' + sous-municipalités
-nis-63023A: Néau 'D' (Néau 'D')
-nis-63023B: Kettenis (Néau 'D')
+nis-63023: Néau + sous-municipalités
+nis-63023A: Néau (Néau)
+nis-63023B: Kettenis (Néau)
 nis-63035: Herve + sous-municipalités
 nis-63035A: Herve (Herve)
 nis-63035B: Charneux (Herve)
@@ -2099,10 +2099,10 @@ nis-63035H: Julémont (Herve)
 nis-63038: Jalhay + sous-municipalités
 nis-63038A: Jalhay (Jalhay)
 nis-63038B: Sart (Jalhay)
-nis-63040: La Calamine 'D' + sous-municipalités
-nis-63040A: La Calamine 'D' (La Calamine 'D')
-nis-63040B: Neu-Moresnet (La Calamine 'D')
-nis-63040C: Hergenrath (La Calamine 'D')
+nis-63040: La Calamine + sous-municipalités
+nis-63040A: La Calamine (La Calamine)
+nis-63040B: Neu-Moresnet (La Calamine)
+nis-63040C: Hergenrath (La Calamine)
 nis-63045: Lierneux + sous-municipalités
 nis-63045B: Bra (Lierneux)
 nis-63045C: Arbrefontaine (Lierneux)
@@ -2135,12 +2135,12 @@ nis-63061: Raeren + sous-municipalités
 nis-63061A: Raeren (Raeren)
 nis-63061B: Eynatten (Raeren)
 nis-63061C: Hauset (Raeren)
-nis-63067: Saint-Vith 'D' + sous-municipalités
-nis-63067-Z: Saint-Vith 'D' (Saint-Vith 'D')
-nis-63067D: Lommersweiler (Saint-Vith 'D')
-nis-63067E: Crombach (Saint-Vith 'D')
-nis-63067F: Recht (Saint-Vith 'D')
-nis-63067C: Schönberg (Saint-Vith 'D')
+nis-63067: Saint-Vith + sous-municipalités
+nis-63067-Z: Saint-Vith (Saint-Vith)
+nis-63067D: Lommersweiler (Saint-Vith)
+nis-63067E: Crombach (Saint-Vith)
+nis-63067F: Recht (Saint-Vith)
+nis-63067C: Schönberg (Saint-Vith)
 nis-63072: Spa + sous-municipalités
 nis-63072A: Spa (Spa)
 nis-63073: Stavelot + sous-municipalités
@@ -2197,7 +2197,7 @@ nis-73083P: Piringen (Tongres)
 nis-73083l: Russon (Tongres)
 nis-73083R: Overrepen (Tongres)
 nis-73083M: Lowaige (Tongres)
-nis-73083S: '''s-Herenelderen (Tongres)'
+nis-73083S: 's-Herenelderen (Tongres)
 nis-73083N: Widooie (Tongres)
 nis-73028: Herstappe + sous-municipalités
 nis-73028A: Herstappe (Herstappe)
