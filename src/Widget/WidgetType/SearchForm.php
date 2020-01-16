@@ -564,6 +564,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 ];
             } elseif ($key === 'where') {
                 $region = $this->regionService->getItemByName($activeValue);
+                $regions = $this->regionService->getItemByTranslatedName($activeValue, 'fr');
                 if ($region) {
                     $searchResultsActiveFilters[] = [
                         'label' => $region->name,

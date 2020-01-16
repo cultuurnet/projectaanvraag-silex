@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -65,6 +66,22 @@ class RegionService
                 }
             }
         }
+    }
+
+    /**
+     * Get an item by a translated name
+     *
+     * @param $translatedName
+     * @param $translatedLanguage
+     */
+    public function getItemByTranslatedName($translatedName, $translatedLanguage)
+    {
+      $regions = Yaml::parse(file_get_contents(__DIR__ . '/../../locales/region/'. $translatedLanguage .'.yml'));
+      foreach($regions as $key => $region){
+        if($region === $translatedName){
+          return $key;
+        }
+      }
     }
 
     /**
