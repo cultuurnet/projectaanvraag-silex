@@ -79,7 +79,11 @@ class RegionService
       $regions = Yaml::parse(file_get_contents(__DIR__ . '/../../locales/region/'. $translatedLanguage .'.yml'));
       foreach($regions as $key => $region){
         if($region === $translatedName){
-          return $key;
+          $matchedRegion = (object) array(
+            'key' => $key,
+            'name' => $region
+          );
+          return $matchedRegion;
         }
       }
     }
