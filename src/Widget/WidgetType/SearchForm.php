@@ -420,7 +420,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter)
+    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter, string $preferredLanguage = 'nl')
     {
 
         // Check what filters should be placed active.
@@ -513,14 +513,14 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 if ($activeValue === 'custom_date') {
                     $cetTimezone = new \DateTimeZone('CET');
                     $query = '';
-                    $labelParts = ['activiteiten'];
+                    $labelParts = [$this->twigPreprocessor->translateLabel('activities', 'messages', $preferredLanguage)];
                     if (isset($activeFilters['date-start'])) {
                         $dateTime = \DateTime::createFromFormat('d/m/Y', $activeFilters['date-start'], $cetTimezone);
                         if ($dateTime) {
                             $dateTime->setTime(0, 0, 0);
                             $query .= $dateTime->format('c');
                         }
-                        $labelParts[] = 'van ' . $activeFilters['date-start'];
+                        $labelParts[] = $this->twigPreprocessor->translateLabel('from', 'when', $preferredLanguage) . ' ' . $activeFilters['date-start'];
                     } else {
                         $query .= '*';
                     }
@@ -529,7 +529,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                         if ($dateTime) {
                             $dateTime->setTime(23, 59, 59);
                             $query .= (' TO ' . $dateTime->format('c'));
-                            $labelParts[] = 'tot ' .  $activeFilters['date-end'];
+                            $labelParts[] = $this->twigPreprocessor->translateLabel('to', 'when', $preferredLanguage) . ' ' .  $activeFilters['date-end'];
                         }
                     } else {
                         $query .= ' TO *';
