@@ -40,7 +40,7 @@ class RegionService
                 } else {
                     $translatedRegion = $this->translator->trans($region->key, [], 'region', $language);
                     if ($translatedRegion === $region->key) {
-                      $translatedRegion = $region->name;
+                        $translatedRegion = $region->name;
                     }
                 }
                 if (strpos(strtolower($translatedRegion), $searchString) !== false) {
