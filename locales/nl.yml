@@ -19,7 +19,10 @@ event_detail_reservations: Reserveringen
 event_detail_share: Deel deze pagina
 event_detail_show_all_dates: Toon alle data
 event_detail_show_less_dates: Toon minder data
-facets_toggle: Verberg verfijningen
+event_price_free: gratis
+facets_show: Toon verfijningen
+facets_hide: Verberg verfijningen
+pager_first: Eerste
 pager_previous: Vorige
 pager_next: Volgende
 pager_last: Laatste

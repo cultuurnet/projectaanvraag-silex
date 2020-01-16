@@ -19,7 +19,10 @@ event_detail_reservations: Reservations
 event_detail_share: Share this page
 event_detail_show_all_dates: Show all dates
 event_detail_show_less_dates: Show less dates
-facets_toggle: Hide refinement
+event_price_free: free
+facets_show: Show refinements
+facets_hide: Hide refinements
+pager_first: First
 pager_previous: Previous
 pager_next: Next
 pager_last: Last

@@ -162,7 +162,7 @@
                 {% if settings_items.language_icons.enabled and event.language_icons %}
                   <div class="list-item">
                     <div class="list-item-aside">
-                        <em class="cnw_searchresult-detail-label">Taaliconen</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_language_icons'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-language"></i>
                     </div>
                     <div class="list-item-content">{{ event.language_icons | raw }}</div>
@@ -172,7 +172,7 @@
                 {% if settings_items.price_information.enabled and event.price %}
                   <div class="list-item">
                     <div class="list-item-aside">
-                        <em class="cnw_searchresult-detail-label">Prijs</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_price'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-eur"></i>
                     </div>
                     <div class="list-item-content cnw_searchresult-price-info">{{ event.price | raw}}</div>
@@ -187,7 +187,7 @@
                     </div>
                     <div class="list-item-content cnw_searchresult-detail-booking-info">
                       {% if (event.booking_info.phone is defined) %}
-                          <p>Bel naar <strong>{{ event.booking_info.phone }}</strong></p>
+                          <p>{{ 'event_detail_phone'| transTo(preferredLanguage) }} <strong>{{ event.booking_info.phone }}</strong></p>
                       {% endif %}
                       {% if (event.booking_info.email is defined) %}
                           <p>{{ event.booking_info.email }}</p>

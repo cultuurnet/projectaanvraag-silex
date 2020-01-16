@@ -19,10 +19,13 @@ event_detail_reservations: Réservations
 event_detail_share: Partagez cette page
 event_detail_show_all_dates: Afficher toutes les dates
 event_detail_show_less_dates: Afficher moins de dates
-facets_toggle: Masquer les améliorations
+event_price_free: gratuit
+facets_show: Montrer les raffinements
+facets_hide: Masquer les raffinements
+pager_first: Première
 pager_previous: Précédente
 pager_next: Suivante
-pager_last: Dernier
+pager_last: Dernière
 search_results_counter: résultats trouvés
 search_results_exclude_long_term: Masquer les séries de longue durée
 search_results_exclude_permanent: Masquer les vues permanentes

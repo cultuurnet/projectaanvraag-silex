@@ -411,7 +411,7 @@ class TwigPreprocessor
                 /** @var TranslatedString $priceName */
                 $priceName = $priceInfo->getName();
                 $translatedPriceName = $this->translateStringWithFallback($priceName, $preferredLanguage);
-                $priceAmount = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : 'gratis';
+                $priceAmount = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : $this->translator->trans('event_price_free', [], 'messages', $preferredLanguage);
                 if ($priceInfo->getCategory() !== 'base') {
                     $prices[] = $translatedPriceName . ': ' . $priceAmount;
                 } else {
