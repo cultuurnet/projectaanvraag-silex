@@ -564,9 +564,9 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 ];
             } elseif ($key === 'where') {
                 if ($preferredLanguage === 'nl') {
-                  $region = $this->regionService->getItemByName($activeValue);
+                    $region = $this->regionService->getItemByName($activeValue);
                 } else {
-                  $region = $this->regionService->getItemByTranslatedName($activeValue, $preferredLanguage);
+                    $region = $this->regionService->getItemByTranslatedName($activeValue, $preferredLanguage);
                 }
                 if ($region) {
                     $searchResultsActiveFilters[] = [
