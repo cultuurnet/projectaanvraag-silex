@@ -652,6 +652,10 @@ class TwigPreprocessor
                 $locale = 'fr_FR';
                 break;
 
+            case 'en':
+                $locale = 'en';
+                break;
+
             case 'nl':
             default:
                 $locale = 'nl_NL';
@@ -679,6 +683,10 @@ class TwigPreprocessor
         switch ($langcode) {
             case 'fr':
                 $locale = 'fr_FR';
+                break;
+
+            case 'en':
+                $locale = 'en';
                 break;
 
             case 'nl':
