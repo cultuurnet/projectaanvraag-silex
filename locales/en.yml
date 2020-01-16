@@ -1,3 +1,4 @@
+activities: activities
 event_age_range: From %min_age% years to %max_age% years.
 event_age_range_no_min: From 0 years to %max_age% years.
 event_age_range_min: From %min_age% years.
