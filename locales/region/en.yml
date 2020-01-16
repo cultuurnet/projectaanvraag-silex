@@ -1,8 +1,8 @@
 nis-01000: Brussels-Capital Region
-reg-brussel: Regio brussel
+reg-brussel: Brussels (region)
 nis-21001: Anderlecht + submunicipalities
 nis-21001-Z: Anderlecht (Anderlecht)
-nis-21004-Z: Brussel (Brussel)
+nis-21004-Z: Brussels (Brussels)
 nis-21009: Elsene + submunicipalities
 nis-21009A: Elsene (Elsene)
 nis-21005: Etterbeek + submunicipalities
@@ -37,18 +37,18 @@ nis-21007: Vorst + submunicipalities
 nis-21007A: Vorst (Vorst)
 nis-21017: Watermaal-Bosvoorde + submunicipalities
 nis-21017A: Watermaal-Bosvoorde (Watermaal-Bosvoorde)
-nis-10000: Antwerp
-reg-antwerpen: Regio Antwerpen
-nis-11002: Antwerpen + submunicipalities
-nis-11002-Z: Antwerpen (Antwerpen)
-nis-11002-Y: Berendrecht-Zandvliet-Lillo (Antwerpen)
-nis-11002P: Ekeren (Antwerpen)
-nis-11002Q: Merksem (Antwerpen)
-nis-11002R: Deurne (Antwerpen)
-nis-11002T: Berchem (Antwerpen)
-nis-11002S: Borgerhout (Antwerpen)
-nis-11002U: Wilrijk (Antwerpen)
-nis-11002V: Hoboken (Antwerpen)
+nis-10000: Province of Antwerp
+reg-antwerpen: Antwerp (region)
+nis-11002: Antwerp + submunicipalities
+nis-11002-Z: Antwerp (Antwerp)
+nis-11002-Y: Berendrecht-Zandvliet-Lillo (Antwerp)
+nis-11002P: Ekeren (Antwerp)
+nis-11002Q: Merksem (Antwerp)
+nis-11002R: Deurne (Antwerp)
+nis-11002T: Berchem (Antwerp)
+nis-11002S: Borgerhout (Antwerp)
+nis-11002U: Wilrijk (Antwerp)
+nis-11002V: Hoboken (Antwerp)
 nis-11007: Borsbeek + submunicipalities
 nis-11007A: Borsbeek (Borsbeek)
 nis-11052: Wommelgem + submunicipalities
@@ -69,7 +69,7 @@ nis-11029: Mortsel + submunicipalities
 nis-11029A: Mortsel (Mortsel)
 nis-11013: Edegem + submunicipalities
 nis-11013A: Edegem (Edegem)
-reg-mechelen: Regio Mechelen
+reg-mechelen: Mechelen (region)
 nis-12025: Mechelen + submunicipalities
 nis-12025B: Hombeek (Mechelen)
 nis-12025A: Mechelen (Mechelen)
@@ -77,7 +77,7 @@ nis-12025E: Walem (Mechelen)
 nis-12025C: Leest (Mechelen)
 nis-12025D: Heffen (Mechelen)
 nis-12025F: Muizen (Mechelen)
-reg-scheldeland-antwerpen: Regio Scheldeland Antwerpen
+reg-scheldeland-antwerpen: Scheldeland Antwerp (region)
 nis-11018: Hemiksem + submunicipalities
 nis-11018A: Hemiksem (Hemiksem)
 nis-11038: Schelle + submunicipalities
@@ -108,8 +108,8 @@ nis-12034C: Lippelo (Puurs-Sint-Amands)
 nis-12030A: Puurs (Puurs-Sint-Amands)
 nis-12034B: Oppuurs (Puurs-Sint-Amands)
 nis-12030B: Ruisbroek (Puurs-Sint-Amands)
-nis-20001: Flemish Brabant
-reg-groene-gordel: Regio Groene Gordel
+nis-20001: Province of Flemish Brabant
+reg-groene-gordel: Groene Gordel (region)
 nis-23088: Vilvoorde + submunicipalities
 nis-23088B: Peutie (Vilvoorde)
 nis-23088A: Vilvoorde (Vilvoorde)
@@ -284,7 +284,7 @@ nis-24033C: Wespelaar (Haacht)
 nis-24014: Boortmeerbeek + submunicipalities
 nis-24014A: Boortmeerbeek (Boortmeerbeek)
 nis-24014B: Hever (Boortmeerbeek)
-reg-hageland: Regio Hageland
+reg-hageland: Hageland (region)
 nis-24001: Aarschot + submunicipalities
 nis-24001A: Aarschot (Aarschot)
 nis-24001B: Langdorp (Aarschot)
@@ -387,14 +387,14 @@ nis-24016B: Kerkom (Boutersem)
 nis-24016D-II: Willebringen (Boutersem)
 nis-24016C: Roosbeek (Boutersem)
 nis-24016D-I: Neervelp (Boutersem)
-reg-leuven: Regio Leuven
+reg-leuven: Leuven (region)
 nis-24062: Leuven + submunicipalities
 nis-24062-Y: Wilsele (Leuven)
 nis-24062-Z: Heverlee (Leuven)
 nis-24062A: Leuven (Leuven)
 nis-24062C: Kessel-Lo (Leuven)
-nis-20002: Walloon Brabant
-reg-waals-brabant: Regio Waals-Brabant
+nis-20002: Province of Walloon Brabant
+reg-waals-brabant: Walloon Brabant (region)
 nis-25005: Bevekom + submunicipalities
 nis-25005A: Beauvechain (Bevekom)
 nis-25005B: l'\u00c9cluse (Bevekom)
@@ -405,7 +405,7 @@ nis-25117: Chastre + submunicipalities
 nis-25117A: Chastre-Villeroux-Blanmont (Chastre)
 nis-25117C: Saint-G\u00e9ry (Chastre)
 nis-25117B: Cortil-Noirmont (Chastre)
-nis-25117D: Gentinnes (Chastre)
+nis-25117D: Ghentinnes (Chastre)
 nis-25018: Chaumont-Gistoux + submunicipalities
 nis-25018A: Chaumont-Gistoux (Chaumont-Gistoux)
 nis-25018B: Corroy-le-Grand (Chaumont-Gistoux)
@@ -535,18 +535,18 @@ nis-25112: Waver + submunicipalities
 nis-25112A: Wavre (Waver)
 nis-25112B: Bierges (Waver)
 nis-25112C: Limal (Waver)
-nis-30000: West Flanders
-reg-brugge: Regio Brugge
-nis-31005: Brugge + submunicipalities
-nis-31005A: Brugge (Brugge)
-nis-31005B: Lissewege (Brugge)
-nis-31005C: Dudzele (Brugge)
-nis-31005D: Koolkerke (Brugge)
-nis-31005E: Sint-Kruis (Brugge)
-nis-31005F: Assebroek (Brugge)
-nis-31005G: Sint-Michiels (Brugge)
-nis-31005H: Sint-Andries (Brugge)
-reg-brugse-ommeland: Regio Brugse Ommeland
+nis-30000: Province of West Flanders
+reg-brugge: Bruges (region)
+nis-31005: Bruges + submunicipalities
+nis-31005A: Bruges (Bruges)
+nis-31005B: Lissewege (Bruges)
+nis-31005C: Dudzele (Bruges)
+nis-31005D: Koolkerke (Bruges)
+nis-31005E: Sint-Kruis (Bruges)
+nis-31005F: Assebroek (Bruges)
+nis-31005G: Sint-Michiels (Bruges)
+nis-31005H: Sint-Andries (Bruges)
+reg-brugse-ommeland: Brugse Ommeland (region)
 nis-31022: Oostkamp + submunicipalities
 nis-31022A: Oostkamp (Oostkamp)
 nis-31022B: Hertsberge (Oostkamp)
@@ -613,7 +613,7 @@ nis-37012A: Ruiselede (Ruiselede)
 nis-37020: Ardooie + submunicipalities
 nis-37020A: Ardooie (Ardooie)
 nis-37020B: Koolskamp (Ardooie)
-reg-leiestreek-west-vlaanderen: Regio Leiestreek West-Vlaanderen
+reg-leiestreek-west-vlaanderen: Leiestreek West Flanders (region)
 nis-36007: Ingelmunster + submunicipalities
 nis-36007A: Ingelmunster (Ingelmunster)
 nis-36015: Roeselare + submunicipalities
@@ -699,7 +699,7 @@ nis-34027: Menen + submunicipalities
 nis-34027A: Menen (Menen)
 nis-34027B: Lauwe (Menen)
 nis-34027C: Rekkem (Menen)
-reg-vlaamse-kust: Regio Vlaamse Kust
+reg-vlaamse-kust: Flemish Coast (region)
 nis-31043: Knokke-Heist + submunicipalities
 nis-31043A: Knokke (Knokke-Heist)
 nis-31043B: Heist (Knokke-Heist)
@@ -739,7 +739,7 @@ nis-38014: Koksijde + submunicipalities
 nis-38014A: Koksijde (Koksijde)
 nis-38014B: Oostduinkerke (Koksijde)
 nis-38014C: Wulpen (Koksijde)
-reg-westhoek: Regio Westhoek
+reg-westhoek: Westhoek (region)
 nis-36006: Hooglede + submunicipalities
 nis-36006A: Hooglede (Hooglede)
 nis-36006B: Gits (Hooglede)
@@ -849,24 +849,24 @@ nis-33037E: Zandvoorde (Zonnebeke)
 nis-33029: Wervik + submunicipalities
 nis-33029A: Wervik (Wervik)
 nis-33029B: Geluwe (Wervik)
-nis-40000: East Flanders
-reg-gent: Regio Gent
-nis-44021: Gent + submunicipalities
-nis-44021-Z: Gent (Gent)
-nis-44021D-II: Mendonk (Gent)
-nis-44021D-III: Desteldonk (Gent)
-nis-44021D-IV: Oostakker (Gent)
-nis-44021D-I: Sint-Kruis-Winkel (Gent)
-nis-44021E: Sint-Amandsberg (Gent)
-nis-44021F: Gentbrugge (Gent)
-nis-44021H: Zwijnaarde (Gent)
-nis-44021G: Ledeberg (Gent)
-nis-44021J-II: Afsnee (Gent)
-nis-44021J-I: Sint-Denijs-Westrem (Gent)
-nis-44021K: Drongen (Gent)
-nis-44021l: Mariakerke (Gent)
-nis-44021M: Wondelgem (Gent)
-reg-leiestreek-oost-vlaanderen: Regio Leiestreek Oost-Vlaanderen
+nis-40000: Province of East Flanders 
+reg-gent: Ghent (region)
+nis-44021: Ghent + submunicipalities
+nis-44021-Z: Ghent (Ghent)
+nis-44021D-II: Mendonk (Ghent)
+nis-44021D-III: Desteldonk (Ghent)
+nis-44021D-IV: Oostakker (Ghent)
+nis-44021D-I: Sint-Kruis-Winkel (Ghent)
+nis-44021E: Sint-Amandsberg (Ghent)
+nis-44021F: Ghentbrugge (Ghent)
+nis-44021H: Zwijnaarde (Ghent)
+nis-44021G: Ledeberg (Ghent)
+nis-44021J-II: Afsnee (Ghent)
+nis-44021J-I: Sint-Denijs-Westrem (Ghent)
+nis-44021K: Drongen (Ghent)
+nis-44021l: Mariakerke (Ghent)
+nis-44021M: Wondelgem (Ghent)
+reg-leiestreek-oost-vlaanderen: Leiestreek East Flanders (region)
 nis-44048: Nazareth + submunicipalities
 nis-44048A: Nazareth (Nazareth)
 nis-44048B: Eke (Nazareth)
@@ -898,7 +898,7 @@ nis-44049C: Hansbeke (Deinze)
 nis-44049D: Merendree (Deinze)
 nis-44049E: Landegem (Deinze)
 nis-44049F: Vosselare (Deinze)
-reg-meetjesland: Regio Meetjesland
+reg-meetjesland: Meetjesland (region)
 nis-43018: Zelzate + submunicipalities
 nis-43018A: Zelzate (Zelzate)
 nis-43005: Eeklo + submunicipalities
@@ -942,7 +942,7 @@ nis-44072A: Waarschoot (Lievegem)
 nis-44080A: Zomergem (Lievegem)
 nis-44080B: Ronsele (Lievegem)
 nis-44080C: Oostwinkel (Lievegem)
-reg-vlaamse-ardennen: Regio Vlaamse Ardennen
+reg-vlaamse-ardennen: Flemish Ardens (region)
 nis-41018: Geraardsbergen + submunicipalities
 nis-41018A: Geraardsbergen (Geraardsbergen)
 nis-41018B: Nederboelare (Geraardsbergen)
@@ -1069,7 +1069,7 @@ nis-45017D: Nokere (Kruisem)
 nis-45057C: Huise (Kruisem)
 nis-45057B: Ouwegem (Kruisem)
 nis-45057A: Zingem (Kruisem)
-reg-waasland: Regio Voeren
+reg-waasland: Voeren (region)
 nis-11056: Zwijndrecht + submunicipalities
 nis-11056B: Burcht (Zwijndrecht)
 nis-11056A: Zwijndrecht (Zwijndrecht)
@@ -1117,7 +1117,7 @@ nis-44034C: Zeveneken (Lochristi)
 nis-44034D: Beervelde (Lochristi)
 nis-44045: Moerbeke + submunicipalities
 nis-44045A: Moerbeke (Moerbeke)
-reg-scheldeland-oost-vlaanderen: Regio Scheldeland Oost-Vlaanderen
+reg-scheldeland-oost-vlaanderen: Scheldeland East Flanders (region)
 nis-41002: Aalst + submunicipalities
 nis-41002A: Aalst (Aalst)
 nis-41002B: Hofstade (Aalst)
@@ -1214,8 +1214,8 @@ nis-44043A-I: Merelbeke (Merelbeke)
 nis-44043C: Munte (Merelbeke)
 nis-44043D: Schelderode (Merelbeke)
 nis-44043E: Melsen (Merelbeke)
-nis-50000: Hainaut Province
-reg-henegouwen: Regio Henegouwen
+nis-50000: Province of Hainaut 
+reg-henegouwen: Henegouwen (region)
 nis-51004: Aat + submunicipalities
 nis-51004B: Lanquesaint (Aat)
 nis-51004A: Ath (Aat)
@@ -1736,8 +1736,8 @@ nis-55040F: Chauss\u00e9e-Notre-Dame-Louvignies (Zinnik)
 nis-55040B: Naast (Zinnik)
 nis-55040E: Neufvilles (Zinnik)
 nis-55040G: Horrues (Zinnik)
-nis-60000: Liège Province
-reg-luik: Regio Luik
+nis-60000: Province of Liège
+reg-luik: Liège (region)
 nis-64008: Berloz + submunicipalities
 nis-64008A: Berloz (Berloz)
 nis-64008B: Rosoux-Crenwick (Berloz)
@@ -2177,8 +2177,8 @@ nis-63080C: Faymonville (Weismes)
 nis-63084: Welkenraedt + submunicipalities
 nis-63084A: Welkenraedt (Welkenraedt)
 nis-63084B: Henri-Chapelle (Welkenraedt)
-nis-70000: Limburg
-reg-haspengouw: Regio Haspengouw
+nis-70000: Province of Limburg
+reg-haspengouw: Haspengouw (region)
 nis-73001: Alken + submunicipalities
 nis-73001A: Alken (Alken)
 nis-73083: Tongeren + submunicipalities
@@ -2327,7 +2327,7 @@ nis-24059J: Overwinden (Landen)
 nis-24059K: Attenhoven (Landen)
 nis-24059G: Ezemaal (Landen)
 nis-24059l: Neerlanden (Landen)
-reg-hasselt: Regio Hasselt
+reg-hasselt: Hasselt (region)
 nis-71022: Hasselt + submunicipalities
 nis-71022B: Wimmertingen (Hasselt)
 nis-71022A: Hasselt (Hasselt)
@@ -2337,7 +2337,7 @@ nis-71022C: Sint-Lambrechts-Herk (Hasselt)
 nis-71022F: Kermt (Hasselt)
 nis-71022G: Spalbeek (Hasselt)
 nis-71022H: Stevoort (Hasselt)
-reg-kempen: Regio Kempen
+reg-kempen: Kempen (region)
 nis-11050: Wijnegem + submunicipalities
 nis-11050A: Wijnegem (Wijnegem)
 nis-11054: Zandhoven + submunicipalities
@@ -2487,7 +2487,7 @@ nis-12029A: Putte (Putte)
 nis-12002: Berlaar + submunicipalities
 nis-12002A-II: Gestel (Berlaar)
 nis-12002A-I: Berlaar (Berlaar)
-reg-limburgse-kempen: Regio Limburgse Kempen
+reg-limburgse-kempen: Limburgse Kempen (region)
 nis-72039: Houthalen-Helchteren + submunicipalities
 nis-72039B: Helchteren (Houthalen-Helchteren)
 nis-72039A: Houthalen (Houthalen-Helchteren)
@@ -2556,7 +2556,7 @@ nis-72040A: Meeuwen (Oudsbergen)
 nis-72040C: Ellikom (Oudsbergen)
 nis-72040E: Neerglabbeek (Oudsbergen)
 nis-72040D: Gruitrode (Oudsbergen)
-reg-maasland: Regio Maasland
+reg-maasland: Maasland (region)
 nis-72018: Kinrooi + submunicipalities
 nis-72018A: Kinrooi (Kinrooi)
 nis-72018B: Molenbeersel (Kinrooi)
@@ -2587,7 +2587,7 @@ nis-73107E: Leut (Maasmechelen)
 nis-73107D: Eisden (Maasmechelen)
 nis-73107F: Meeswijk (Maasmechelen)
 nis-73107H: Uikhoven (Maasmechelen)
-reg-voerstreek: Regio Voerstreek
+reg-voerstreek: Voerstreek (region)
 nis-73109: Voeren + submunicipalities
 nis-73109A: "'s-Gravenvoeren (Voeren)"
 nis-73109B: Sint-Martens-Voeren (Voeren)
@@ -2595,8 +2595,8 @@ nis-73109C: Teuven (Voeren)
 nis-73109D: Remersdaal (Voeren)
 nis-73109E: Sint-Pieters-Voeren (Voeren)
 nis-73109F: Moelingen (Voeren)
-nis-80000: Luxembourg
-reg-luxemburg: Regio Luxemburg
+nis-80000: Province of Luxembourg
+reg-luxemburg: Luxemburg (region)
 nis-81001: Aarlen + submunicipalities
 nis-81001A: Arlon (Aarlen)
 nis-81001B: Autelbas (Aarlen)
@@ -2873,8 +2873,8 @@ nis-85045C: Latour (Virton)
 nis-85045D: Saint-Mard (Virton)
 nis-85045E: Ruette (Virton)
 nis-85045F: Bleid (Virton)
-nis-90000: Namur Province
-reg-namen: Regio Namen + submunicipalities
+nis-90000: Province of Namur 
+reg-namen: Namen (region) + submunicipalities
 nis-91005: Anh\u00e9e + submunicipalities
 nis-91005A-III: Haut-le-Wastia (Anh\u00e9e)
 nis-91005A-II: Warnant (Anh\u00e9e)
