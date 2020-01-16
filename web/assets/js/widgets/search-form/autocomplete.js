@@ -16,8 +16,9 @@
                     .attr('aria-autocomplete', 'list');
 
                 var uri = $input.data('autocomplete-path');
+                var language = $input.data('autocomplete-language');
                 if (!acdb[uri]) {
-                    acdb[uri] = new CultuurnetWidgets.ACDB(uri);
+                    acdb[uri] = new CultuurnetWidgets.ACDB(uri, language);
                 }
 
                 $input.parent()
@@ -209,7 +210,7 @@
 
         // Do search.
         this.db.owner = this;
-        this.db.search(this.input.value);
+        this.db.search(this.input.value, this.language);
     };
 
     /**
@@ -266,7 +267,8 @@
     /**
      * An AutoComplete DataBase object.
      */
-    CultuurnetWidgets.ACDB = function (uri) {
+    CultuurnetWidgets.ACDB = function (uri, language) {
+        this.language = language;
         this.uri = uri;
         this.delay = 300;
         this.cache = {};
@@ -302,7 +304,7 @@
             // encodeURIComponent to allow autocomplete search terms to contain slashes.
             jQuery.ajax({
                 type: 'GET',
-                url: db.uri + '/' + encodeURIComponent(searchString).replace(/%2F/g, '/'),
+                url: db.uri + '/' + encodeURIComponent(searchString).replace(/%2F/g, '/') + '/' + db.language,
                 dataType: 'jsonp',
                 crossDomain: true,
                 success: function (matches) {

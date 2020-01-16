@@ -549,7 +549,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                         $advancedQuery[] = 'dateRange:' . $dateRange['query'];
 
                         $searchResultsActiveFilters[] = [
-                            'label' => $dateRange['label'],
+                            'label' => $this->twigPreprocessor->translateLabel($activeValue, 'when', $preferredLanguage),
                             'name' => 'search-form[' . $this->id . '][when]',
                             'is_default' => false,
                         ];
@@ -563,7 +563,11 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     'is_default' => false,
                 ];
             } elseif ($key === 'where') {
-                $region = $this->regionService->getItemByName($activeValue);
+                if ($preferredLanguage === 'nl') {
+                    $region = $this->regionService->getItemByName($activeValue);
+                } else {
+                    $region = $this->regionService->getItemByTranslatedName($activeValue, $preferredLanguage);
+                }
                 if ($region) {
                     $searchResultsActiveFilters[] = [
                         'label' => $region->name,

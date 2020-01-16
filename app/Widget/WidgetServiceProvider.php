@@ -91,7 +91,7 @@ class WidgetServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['widget_region_service'] = function (Container $pimple) {
-            return new RegionService($pimple['region_json_location']);
+            return new RegionService($pimple['region_json_location'], $pimple['translator']);
         };
     }
 }
