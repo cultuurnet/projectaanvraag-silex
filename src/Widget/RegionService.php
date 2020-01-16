@@ -38,7 +38,10 @@ class RegionService
                 if ($language === 'nl') {
                     $translatedRegion = $region->name;
                 } else {
-                    $translatedRegion = ($this->translator->trans($region->key, [], 'region', $language)) ?: $region->name;
+                    $translatedRegion = $this->translator->trans($region->key, [], 'region', $language);
+                    if ($translatedRegion === $region->key) {
+                      $translatedRegion = $region->name;
+                    }
                 }
                 if (strpos(strtolower($translatedRegion), $searchString) !== false) {
                     $matches[] = $translatedRegion;
