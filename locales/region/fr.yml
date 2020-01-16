@@ -1,19 +1,10 @@
 nis-01000: Région de Bruxelles-Capitale
-<<<<<<< HEAD
-reg-brussel: Regio brussel
-nis-21001: Anderlecht + sous-municipalités
-nis-21001-Z: Anderlecht (Anderlecht)
-nis-21004-Z: Brussel (Brussel)
-nis-21009: Elsene + sous-municipalités
-nis-21009A: Elsene (Elsene)
-=======
 reg-brussel: Région de Bruxelles
 nis-21001: Anderlecht + sous-municipalités
 nis-21001-Z: Anderlecht (Anderlecht)
 nis-21004-Z: Bruxelles (Bruxelles)
 nis-21009: Ixelles + sous-municipalités
 nis-21009A: Ixelles (Ixelles)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-21005: Etterbeek + sous-municipalités
 nis-21005A: Etterbeek (Etterbeek)
 nis-21006: Evere + sous-municipalités
@@ -24,42 +15,6 @@ nis-21010: Jette + sous-municipalités
 nis-21010A: Jette (Jette)
 nis-21011: Koekelberg + sous-municipalités
 nis-21011A: Koekelberg (Koekelberg)
-<<<<<<< HEAD
-nis-21002: Oudergem + sous-municipalités
-nis-21002A: Oudergem (Oudergem)
-nis-21015: Schaarbeek + sous-municipalités
-nis-21015A: Schaarbeek (Schaarbeek)
-nis-21003: Sint-Agatha-Berchem + sous-municipalités
-nis-21003A: Sint-Agatha-Berchem (Sint-Agatha-Berchem)
-nis-21013: Sint-Gillis + sous-municipalités
-nis-21013A: Sint-Gillis (Sint-Gillis)
-nis-21012: Sint-Jans-Molenbeek + sous-municipalités
-nis-21012A: Sint-Jans-Molenbeek (Sint-Jans-Molenbeek)
-nis-21014: Sint-Joost-ten-Node + sous-municipalités
-nis-21014A: Sint-Joost-ten-Node (Sint-Joost-ten-Node)
-nis-21018: Sint-Lambrechts-Woluwe + sous-municipalités
-nis-21018A: Sint-Lambrechts-Woluwe (Sint-Lambrechts-Woluwe)
-nis-21019: Sint-Pieters-Woluwe + sous-municipalités
-nis-21019A: Sint-Pieters-Woluwe (Sint-Pieters-Woluwe)
-nis-21016: Ukkel + sous-municipalités
-nis-21016A: Ukkel (Ukkel)
-nis-21007: Vorst + sous-municipalités
-nis-21007A: Vorst (Vorst)
-nis-21017: Watermaal-Bosvoorde + sous-municipalités
-nis-21017A: Watermaal-Bosvoorde (Watermaal-Bosvoorde)
-nis-10000: Province d’Anvers
-reg-antwerpen: Regio Antwerpen
-nis-11002: Antwerpen + sous-municipalités
-nis-11002-Z: Antwerpen (Antwerpen)
-nis-11002-Y: Berendrecht-Zandvliet-Lillo (Antwerpen)
-nis-11002P: Ekeren (Antwerpen)
-nis-11002Q: Merksem (Antwerpen)
-nis-11002R: Deurne (Antwerpen)
-nis-11002T: Berchem (Antwerpen)
-nis-11002S: Borgerhout (Antwerpen)
-nis-11002U: Wilrijk (Antwerpen)
-nis-11002V: Hoboken (Antwerpen)
-=======
 nis-21002: Auderghem + sous-municipalités
 nis-21002A: Auderghem (Auderghem)
 nis-21015: Schaerbeek + sous-municipalités
@@ -94,7 +49,6 @@ nis-11002T: Berchem (Anvers)
 nis-11002S: Borgerhout (Anvers)
 nis-11002U: Wilrijk (Anvers)
 nis-11002V: Hoboken (Anvers)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-11007: Borsbeek + sous-municipalités
 nis-11007A: Borsbeek (Borsbeek)
 nis-11052: Wommelgem + sous-municipalités
@@ -102,13 +56,8 @@ nis-11052A: Wommelgem (Wommelgem)
 nis-11004: Boechout + sous-municipalités
 nis-11004B: Vremde (Boechout)
 nis-11004A: Boechout (Boechout)
-<<<<<<< HEAD
-nis-11021: Hove + sous-municipalités
-nis-11021A: Hove (Hove)
-=======
 nis-11021: Hoves + sous-municipalités
 nis-11021A: Hoves (Hoves)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-11025: Lint + sous-municipalités
 nis-11025A: Lint (Lint)
 nis-11024: Kontich + sous-municipalités
@@ -120,17 +69,6 @@ nis-11029: Mortsel + sous-municipalités
 nis-11029A: Mortsel (Mortsel)
 nis-11013: Edegem + sous-municipalités
 nis-11013A: Edegem (Edegem)
-<<<<<<< HEAD
-reg-mechelen: Regio Mechelen
-nis-12025: Mechelen + sous-municipalités
-nis-12025B: Hombeek (Mechelen)
-nis-12025A: Mechelen (Mechelen)
-nis-12025E: Walem (Mechelen)
-nis-12025C: Leest (Mechelen)
-nis-12025D: Heffen (Mechelen)
-nis-12025F: Muizen (Mechelen)
-reg-scheldeland-antwerpen: Regio Scheldeland Antwerpen
-=======
 reg-mechelen: Région de Malines
 nis-12025: Malines + sous-municipalités
 nis-12025B: Hombeek (Malines)
@@ -140,7 +78,6 @@ nis-12025C: Leest (Malines)
 nis-12025D: Heffen (Malines)
 nis-12025F: Muizen (Malines)
 reg-scheldeland-antwerpen: Région de Scheldeland (Anvers)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-11018: Hemiksem + sous-municipalités
 nis-11018A: Hemiksem (Hemiksem)
 nis-11038: Schelle + sous-municipalités
@@ -163,21 +100,6 @@ nis-12007A: Bornem (Bornem)
 nis-12007B: Hingene (Bornem)
 nis-12007D: Weert (Bornem)
 nis-12007C: Mariekerke (Bornem)
-<<<<<<< HEAD
-nis-12041: Puurs-Sint-Amands + sous-municipalités
-nis-12030C: Breendonk (Puurs-Sint-Amands)
-nis-12030D: Liezele (Puurs-Sint-Amands)
-nis-12034A: Sint-Amands (Puurs-Sint-Amands)
-nis-12034C: Lippelo (Puurs-Sint-Amands)
-nis-12030A: Puurs (Puurs-Sint-Amands)
-nis-12034B: Oppuurs (Puurs-Sint-Amands)
-nis-12030B: Ruisbroek (Puurs-Sint-Amands)
-nis-20001: Brabant flamand
-reg-groene-gordel: Regio Groene Gordel
-nis-23088: Vilvoorde + sous-municipalités
-nis-23088B: Peutie (Vilvoorde)
-nis-23088A: Vilvoorde (Vilvoorde)
-=======
 nis-12041: Puurs-Saint-Amand-sur-Escaut + sous-municipalités
 nis-12030C: Breendonk (Puurs-Saint-Amand-sur-Escaut)
 nis-12030D: Liezele (Puurs-Saint-Amand-sur-Escaut)
@@ -191,7 +113,6 @@ reg-groene-gordel: Ceinture verte de Bruxelles
 nis-23088: Vilvorde + sous-municipalités
 nis-23088B: Peutie (Vilvorde)
 nis-23088A: Vilvorde (Vilvorde)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23081: Steenokkerzeel + sous-municipalités
 nis-23081B: Melsbroek (Steenokkerzeel)
 nis-23081C: Perk (Steenokkerzeel)
@@ -207,17 +128,10 @@ nis-23025D: Humbeek (Grimbergen)
 nis-23050: Meise + sous-municipalités
 nis-23050A: Meise (Meise)
 nis-23050B: Wolvertem (Meise)
-<<<<<<< HEAD
-nis-23039: Kapelle-op-den-Bos + sous-municipalités
-nis-23039A: Kapelle-op-den-Bos (Kapelle-op-den-Bos)
-nis-23039B: Nieuwenrode (Kapelle-op-den-Bos)
-nis-23039C: Ramsdonk (Kapelle-op-den-Bos)
-=======
 nis-23039: Capelle-Au-Bois + sous-municipalités
 nis-23039A: Capelle-Au-Bois (Capelle-Au-Bois)
 nis-23039B: Nieuwenrode (Capelle-Au-Bois)
 nis-23039C: Ramsdonk (Capelle-Au-Bois)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23038: Kampenhout + sous-municipalités
 nis-23038B: Buken (Kampenhout)
 nis-23038A: Kampenhout (Kampenhout)
@@ -238,24 +152,6 @@ nis-23096B: Hofstade (Zemst)
 nis-23096C: Weerde (Zemst)
 nis-23096E: Eppegem (Zemst)
 nis-23096D: Elewijt (Zemst)
-<<<<<<< HEAD
-nis-23027: Halle + sous-municipalités
-nis-23027A: Halle (Halle)
-nis-23027B: Buizingen (Halle)
-nis-23027C: Lembeek (Halle)
-nis-23032: Herne + sous-municipalités
-nis-23032A: Herne (Herne)
-nis-23032B: Herfelingen (Herne)
-nis-23032C: Sint-Pieters-Kapelle (Herne)
-nis-23009: Bever + sous-municipalités
-nis-23009A: Bever (Bever)
-nis-23033: Hoeilaart + sous-municipalités
-nis-23033A: Hoeilaart (Hoeilaart)
-nis-23023: Galmaarden + sous-municipalités
-nis-23023A: Galmaarden (Galmaarden)
-nis-23023B: Vollezele (Galmaarden)
-nis-23023C: Tollembeek (Galmaarden)
-=======
 nis-23027: Hal + sous-municipalités
 nis-23027A: Hal (Hal)
 nis-23027B: Buizingen (Hal)
@@ -272,7 +168,6 @@ nis-23023: Gammerages + sous-municipalités
 nis-23023A: Gammerages (Gammerages)
 nis-23023B: Vollezele (Gammerages)
 nis-23023C: Tollembeek (Gammerages)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23077: Sint-Pieters-Leeuw + sous-municipalités
 nis-23077B: Oudenaken (Sint-Pieters-Leeuw)
 nis-23077C: Sint-Laureins-Berchem (Sint-Pieters-Leeuw)
@@ -283,34 +178,21 @@ nis-23098: Drogenbos + sous-municipalités
 nis-23098A: Drogenbos (Drogenbos)
 nis-23100: Linkebeek + sous-municipalités
 nis-23100A: Linkebeek (Linkebeek)
-<<<<<<< HEAD
-nis-23101: Sint-Genesius-Rode + sous-municipalités
-nis-23101A: Sint-Genesius-Rode (Sint-Genesius-Rode)
-=======
 nis-23101: Rhode-Saint-Genèse + sous-municipalités
 nis-23101A: Rhode-Saint-Genèse (Rhode-Saint-Genèse)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23003: Beersel + sous-municipalités
 nis-23003B: Alsemberg (Beersel)
 nis-23003E: Lot (Beersel)
 nis-23003A: Beersel (Beersel)
 nis-23003D: Huizingen (Beersel)
-<<<<<<< HEAD
-nis-23003C: Dworp (Beersel)
-=======
 nis-23003C: Tourneppe (Beersel)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23064: Pepingen + sous-municipalités
 nis-23064A: Pepingen (Pepingen)
 nis-23064B: Elingen (Pepingen)
 nis-23064C: Brages (Pepingen)
 nis-23064D: Bellingen (Pepingen)
 nis-23064E: Bogaarden (Pepingen)
-<<<<<<< HEAD
-nis-23064F: Heikruis (Pepingen)
-=======
 nis-23064F: Hautecroix (Pepingen)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23016: Dilbeek + sous-municipalités
 nis-23016A: Dilbeek (Dilbeek)
 nis-23016B: Capelle-Saint-Ulric (Dilbeek)
@@ -333,23 +215,14 @@ nis-23060: Opwijk + sous-municipalités
 nis-23060A: Opwijk (Opwijk)
 nis-23060B: Mazenzele (Opwijk)
 nis-23104: Lennik + sous-municipalités
-<<<<<<< HEAD
-nis-23104B: Sint-Martens-Lennik (Lennik)
-nis-23104A: Sint-Kwintens-Lennik (Lennik)
-=======
 nis-23104B: Lennick-Saint-Martin (Lennik)
 nis-23104A: Lennick-Saint-Quintin (Lennik)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23104C: Gaasbeek (Lennik)
 nis-23024: Gooik + sous-municipalités
 nis-23024B: Leerbeek (Gooik)
 nis-23024C: Oetingen (Gooik)
 nis-23024A: Gooik (Gooik)
-<<<<<<< HEAD
-nis-23024D: Kester (Gooik)
-=======
 nis-23024D: Castre (Gooik)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-23097: Roosdaal + sous-municipalités
 nis-23097A-II: Strijtem (Roosdaal)
 nis-23097A-III: Onze-Lieve-Vrouw-Lombeek (Roosdaal)
@@ -381,21 +254,12 @@ nis-24045A: Huldenberg (Huldenberg)
 nis-24045C: Neerijse (Huldenberg)
 nis-24045D: Sint-Agatha-Rode (Huldenberg)
 nis-24045E: Ottenburg (Huldenberg)
-<<<<<<< HEAD
-nis-24086: Oud-Heverlee + sous-municipalités
-nis-24086A: Oud-Heverlee (Oud-Heverlee)
-nis-24086B: Vaalbeek (Oud-Heverlee)
-nis-24086C: Blanden (Oud-Heverlee)
-nis-24086D: Haasrode (Oud-Heverlee)
-nis-24086E: Sint-Joris-Weert (Oud-Heverlee)
-=======
 nis-24086: Vieux-Héverlé + sous-municipalités
 nis-24086A: Vieux-Héverlé (Vieux-Héverlé)
 nis-24086B: Vaalbeek (Vieux-Héverlé)
 nis-24086C: Blanden (Vieux-Héverlé)
 nis-24086D: Haasrode (Vieux-Héverlé)
 nis-24086E: Sint-Joris-Weert (Vieux-Héverlé)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-24009: Bertem + sous-municipalités
 nis-24009A: Bertem (Bertem)
 nis-24009B: Korbeek-Dijle (Bertem)
@@ -408,15 +272,9 @@ nis-24055D: Everberg (Kortenberg)
 nis-24104: Tervuren + sous-municipalités
 nis-24104A: Tervuren (Tervuren)
 nis-24104B: Vossem (Tervuren)
-<<<<<<< HEAD
-nis-24104C: Duisburg (Tervuren)
-nis-23062: Overijse + sous-municipalités
-nis-23062A: Overijse (Overijse)
-=======
 nis-24104C: Duysbourg (Tervuren)
 nis-23062: Isque + sous-municipalités
 nis-23062A: Isque (Isque)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-24048: Keerbergen + sous-municipalités
 nis-24048A: Keerbergen (Keerbergen)
 nis-24033: Haacht + sous-municipalités
@@ -426,50 +284,24 @@ nis-24033C: Wespelaar (Haacht)
 nis-24014: Boortmeerbeek + sous-municipalités
 nis-24014A: Boortmeerbeek (Boortmeerbeek)
 nis-24014B: Hever (Boortmeerbeek)
-<<<<<<< HEAD
-reg-hageland: Regio Hageland
-=======
 reg-hageland: Le Hageland
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-24001: Aarschot + sous-municipalités
 nis-24001A: Aarschot (Aarschot)
 nis-24001B: Langdorp (Aarschot)
 nis-24001C: Rillaar (Aarschot)
 nis-24001D: Gelrode (Aarschot)
-<<<<<<< HEAD
-nis-24134: Scherpenheuvel-Zichem + sous-municipalités
-nis-24134-Z: Scherpenheuvel (Scherpenheuvel-Zichem)
-nis-24134B: Zichem (Scherpenheuvel-Zichem)
-nis-24134C: Messelbroek (Scherpenheuvel-Zichem)
-nis-24134D: Testelt (Scherpenheuvel-Zichem)
-nis-24134E: Averbode (Scherpenheuvel-Zichem)
-=======
 nis-24134: Montaigu-Zichem + sous-municipalités
 nis-24134-Z: Montaigu (Montaigu-Zichem)
 nis-24134B: Zichem (Montaigu-Zichem)
 nis-24134C: Messelbroek (Montaigu-Zichem)
 nis-24134D: Testelt (Montaigu-Zichem)
 nis-24134E: Averbode (Montaigu-Zichem)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-24020: Diest + sous-municipalités
 nis-24020A: Diest (Diest)
 nis-24020B: Webbekom (Diest)
 nis-24020C: Kaggevinne (Diest)
 nis-24020D: Molenstede (Diest)
 nis-24020E: Schaffen (Diest)
-<<<<<<< HEAD
-nis-24020F: Deurne (Diest)
-nis-24107: Tienen + sous-municipalités
-nis-24107A: Tienen (Tienen)
-nis-24107B: Oorbeek (Tienen)
-nis-24107C: Bost (Tienen)
-nis-24107D: Kumtich (Tienen)
-nis-24107E: Vissenaken (Tienen)
-nis-24107F: Sint-Margriete-Houtem (Tienen)
-nis-24107G: Oplinter (Tienen)
-nis-24107J: Goetsenhoven (Tienen)
-nis-24107H: Hakendover (Tienen)
-=======
 nis-24020F: Toruinnes-la-Grosse (Diest)
 nis-24107: Tirlemont + sous-municipalités
 nis-24107A: Tirlemont (Tirlemont)
@@ -481,7 +313,6 @@ nis-24107F: Hauthem-Sainte-Margueritte (Tirlemont)
 nis-24107G: Oplinter (Tirlemont)
 nis-24107J: Gossoncourt (Tirlemont)
 nis-24107H: Hakendover (Tirlemont)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-24041: Hoegaarden + sous-municipalités
 nis-24041A: Hoegaarden (Hoegaarden)
 nis-24041B: Mailard (Hoegaarden)
@@ -504,21 +335,12 @@ nis-24135A: Tielt (Tielt-Winge)
 nis-24135B: Meensel-Kiezegem (Tielt-Winge)
 nis-24135C: Sint-Joris-Winge (Tielt-Winge)
 nis-24135D: Houwaart (Tielt-Winge)
-<<<<<<< HEAD
-nis-24130: Zoutleeuw + sous-municipalités
-nis-24130A: Zoutleeuw (Zoutleeuw)
-nis-24130B: Helen-Bos (Zoutleeuw)
-nis-24130C: Halle-Booienhoven (Zoutleeuw)
-nis-24130D: Dormaal (Zoutleeuw)
-nis-24130E: Budingen (Zoutleeuw)
-=======
 nis-24130: Léau + sous-municipalités
 nis-24130A: Léau (Léau)
 nis-24130B: Helen-Bos (Léau)
 nis-24130C: Halle-Booienhoven (Léau)
 nis-24130D: Dormaal (Léau)
 nis-24130E: Budingen (Léau)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-24028: Geetbets + sous-municipalités
 nis-24028A: Geetbets (Geetbets)
 nis-24028C: Grazen (Geetbets)
@@ -565,22 +387,6 @@ nis-24016B: Kerkom (Boutersem)
 nis-24016D-II: Willebringen (Boutersem)
 nis-24016C: Rebecq-Rognon (Boutersem)
 nis-24016D-I: Neervelp (Boutersem)
-<<<<<<< HEAD
-reg-leuven: Regio Leuven
-nis-24062: Leuven + sous-municipalités
-nis-24062-Y: Wilsele (Leuven)
-nis-24062-Z: Heverlee (Leuven)
-nis-24062A: Leuven (Leuven)
-nis-24062C: Kessel-Lo (Leuven)
-nis-20002: Brabant Wallon
-reg-waals-brabant: Regio Waals-Brabant
-nis-25005: Bevekom + sous-municipalités
-nis-25005A: Beauvechain (Bevekom)
-nis-25005B: l'\u00c9cluse (Bevekom)
-nis-25005C: Tourinnes-la-Grosse (Bevekom)
-nis-25005E: Hamme-Mille (Bevekom)
-nis-25005D: Nodebais (Bevekom)
-=======
 reg-leuven: Région de Louvain
 nis-24062: Louvain + sous-municipalités
 nis-24062-Y: Wilsele (Louvain)
@@ -595,16 +401,11 @@ nis-25005B: l'Écluse (Beauvechain)
 nis-25005C: Tourinnes-la-Grosse (Beauvechain)
 nis-25005E: Hamme-Mille (Beauvechain)
 nis-25005D: Nodebais (Beauvechain)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25117: Chastre + sous-municipalités
 nis-25117A: Chastre-Villeroux-Blanmont (Chastre)
 nis-25117C: Saint-Géry (Chastre)
 nis-25117B: Cortil-Noirmont (Chastre)
-<<<<<<< HEAD
-nis-25117D: Gentinnes (Chastre)
-=======
 nis-25117D: Gandinnes (Chastre)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25018: Chaumont-Gistoux + sous-municipalités
 nis-25018A: Chaumont-Gistoux (Chaumont-Gistoux)
 nis-25018B: Corroy-le-Grand (Chaumont-Gistoux)
@@ -613,26 +414,6 @@ nis-25018D: Dion-le-Val (Chaumont-Gistoux)
 nis-25018E: Bonlez (Chaumont-Gistoux)
 nis-25018F: Longueville (Chaumont-Gistoux)
 nis-25023: Court-Saint-Etienne + sous-municipalités
-<<<<<<< HEAD
-nis-25023A: Court-Saint-\u00c9tienne (Court-Saint-Etienne)
-nis-25014: Eigenbrakel + sous-municipalités
-nis-25014B: Lillois-Witterzée (Eigenbrakel)
-nis-25014A: Braine-l'Alleud (Eigenbrakel)
-nis-25014C: Ophain-Bois-Seigneur-Isaac (Eigenbrakel)
-nis-25048: Geldenaken + sous-municipalités
-nis-25048A: Jodoigne (Geldenaken)
-nis-25048B: Jodoigne-Souveraine (Geldenaken)
-nis-25048C: Jauchelette (Geldenaken)
-nis-25048D: Dongelberg (Geldenaken)
-nis-25048E: Lathuy (Geldenaken)
-nis-25048F: Mélin (Geldenaken)
-nis-25048G: Saint-Remy-Geest (Geldenaken)
-nis-25048H: Zétrud-Lumay (Geldenaken)
-nis-25048J: Saint-Jean-Geest (Geldenaken)
-nis-25048K: Piétrain (Geldenaken)
-nis-25031: Genepien + sous-municipalités
-nis-25031A: Genappe (Genepien)
-=======
 nis-25023A: Court-Saint-Étienne (Court-Saint-Etienne)
 nis-25014: Braine-l'Alleud + sous-municipalités
 nis-25014B: Lillois-Witterzée (Braine-l'Alleud)
@@ -651,7 +432,6 @@ nis-25048J: Saint-Jean-Geest (Jodoigne)
 nis-25048K: Piétrain (Jodoigne)
 nis-25031: Genepien + sous-municipalités
 nis-25031A: Genepien (Genepien)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25031C: Loupoigne (Genepien)
 nis-25031D: Houtain-le-Val (Genepien)
 nis-25031B: Baisy-Thy (Genepien)
@@ -659,21 +439,12 @@ nis-25031F: Glabais (Genepien)
 nis-25031E: Vieux-Genepien (Genepien)
 nis-25031G: Ways (Genepien)
 nis-25031H: Bousval (Genepien)
-<<<<<<< HEAD
-nis-25037: Graven + sous-municipalités
-nis-25037B: Archennes (Graven)
-nis-25037A: Grez-Doiceau (Graven)
-nis-25037C: Biez (Graven)
-nis-25037D: Bossut-Gottechain (Graven)
-nis-25037E: Nethen (Graven)
-=======
 nis-25037: Grez-Doiceau + sous-municipalités
 nis-25037B: Archennes (Grez-Doiceau)
 nis-25037A: Grez-Doiceau (Grez-Doiceau)
 nis-25037C: Biez (Grez-Doiceau)
 nis-25037D: Bossut-Gottechain (Grez-Doiceau)
 nis-25037E: Nethen (Grez-Doiceau)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25118: Hélécine + sous-municipalités
 nis-25118A: Neerheylissem (Hélécine)
 nis-25118B: Opheylissem (Hélécine)
@@ -683,16 +454,6 @@ nis-25043A: Incourt (Incourt)
 nis-25043C: Opprebais (Incourt)
 nis-25043B: Glimes (Incourt)
 nis-25043D: Roux-Miroir (Incourt)
-<<<<<<< HEAD
-nis-25043E: Pi\u00e8trebais (Incourt)
-nis-25044: Itter + sous-municipalités
-nis-25044A: Ittre (Itter)
-nis-25044B: Haut-Ittre (Itter)
-nis-25044C: Virginal-Samme (Itter)
-nis-25015: Kasteelbrakel + sous-municipalités
-nis-25015A: Braine-le-Ch\u00e2teau (Kasteelbrakel)
-nis-25015B: Wauthier-Braine (Kasteelbrakel)
-=======
 nis-25043E: Piètrebais (Incourt)
 nis-25044: Ittre + sous-municipalités
 nis-25044A: Ittre (Ittre)
@@ -701,7 +462,6 @@ nis-25044C: Virginal-Samme (Ittre)
 nis-25015: Braine-le-Château + sous-municipalités
 nis-25015A: Braine-le-Château (Braine-le-Château)
 nis-25015B: Wauthier-Braine (Braine-le-Château)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25119: Lasne + sous-municipalités
 nis-25119A: Lasne-Chapelle-Saint-Lambert (Lasne)
 nis-25119C: Maransart (Lasne)
@@ -712,21 +472,12 @@ nis-25068: Mont-Saint-Guibert + sous-municipalités
 nis-25068A: Mont-Saint-Guibert (Mont-Saint-Guibert)
 nis-25068B: Corbais (Mont-Saint-Guibert)
 nis-25068C: Hévillers (Mont-Saint-Guibert)
-<<<<<<< HEAD
-nis-25072: Nijvel + sous-municipalités
-nis-25072A: Nivelles (Nijvel)
-nis-25072B: Baulers (Nijvel)
-nis-25072C: Thines (Nijvel)
-nis-25072D: Monstreux (Nijvel)
-nis-25072E: Bornival (Nijvel)
-=======
 nis-25072: Nivelles + sous-municipalités
 nis-25072A: Nivelles (Nivelles)
 nis-25072B: Baulers (Nivelles)
 nis-25072C: Thines (Nivelles)
 nis-25072D: Monstreux (Nivelles)
 nis-25072E: Bornival (Nivelles)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25120: Orp-Jauche + sous-municipalités
 nis-25120A: Orp-le-Grand (Orp-Jauche)
 nis-25120B: Jandrain-Jandrenouille (Orp-Jauche)
@@ -743,15 +494,6 @@ nis-25084: Perwijs + sous-municipalités
 nis-25084A: Perwez (Perwijs)
 nis-25084B: Thorembais-Saint-Trond (Perwijs)
 nis-25084C: Orbais (Perwijs)
-<<<<<<< HEAD
-nis-25084D: Mal\u00e8ves-Sainte-Marie-Wastines (Perwijs)
-nis-25084E: Thorembais-les-Béguines (Perwijs)
-nis-25122: Ramillies + sous-municipalités
-nis-25122B: Grand-Rosi\u00e8re-Hottomont (Ramillies)
-nis-25122A: Ramillies-Offus (Ramillies)
-nis-25122C: Geest-Gérompont-Petit-Rosi\u00e8re (Ramillies)
-nis-25122F: Autre-\u00c9glise (Ramillies)
-=======
 nis-25084D: Malèves-Sainte-Marie-Wastines (Perwijs)
 nis-25084E: Thorembais-les-Béguines (Perwijs)
 nis-25122: Ramillies + sous-municipalités
@@ -759,7 +501,6 @@ nis-25122B: Grand-Rosière-Hottomont (Ramillies)
 nis-25122A: Ramillies-Offus (Ramillies)
 nis-25122C: Geest-Gérompont-Petit-Rosière (Ramillies)
 nis-25122F: Autre-Église (Ramillies)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25122G: Huppaye (Ramillies)
 nis-25122D: Mont-Saint-André (Ramillies)
 nis-25122E: Bomal (Ramillies)
@@ -770,16 +511,6 @@ nis-25123C: Quenast (Rebecq)
 nis-25091: Rixensart + sous-municipalités
 nis-25091A: Rixensart (Rixensart)
 nis-25091B: Genval (Rixensart)
-<<<<<<< HEAD
-nis-25091C: Rosi\u00e8res (Rixensart)
-nis-25050: Terhulpen + sous-municipalités
-nis-25050A: La Hulpe (Terhulpen)
-nis-25105: Tubeke + sous-municipalités
-nis-25105A: Tubize (Tubeke)
-nis-25105B: Oisquercq (Tubeke)
-nis-25105C: Clabecq (Tubeke)
-nis-25105D: Saintes (Tubeke)
-=======
 nis-25091C: Rosières (Rixensart)
 nis-25050: La Hulpe + sous-municipalités
 nis-25050A: La Hulpe (La Hulpe)
@@ -788,7 +519,6 @@ nis-25105A: Tubize (Tubize)
 nis-25105B: Oisquercq (Tubize)
 nis-25105C: Clabecq (Tubize)
 nis-25105D: Saintes (Tubize)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-25107: Villers-la-Ville + sous-municipalités
 nis-25107A: Villers-la-Ville (Villers-la-Ville)
 nis-25107B: Tilly (Villers-la-Ville)
@@ -801,24 +531,6 @@ nis-25124C: Tourinnes-Saint-Lambert (Walhain)
 nis-25124B: Nil-Saint-Vincent-Saint-Martin (Walhain)
 nis-25110: Waterloo + sous-municipalités
 nis-25110A: Waterloo (Waterloo)
-<<<<<<< HEAD
-nis-25112: Waver + sous-municipalités
-nis-25112A: Wavre (Waver)
-nis-25112B: Bierges (Waver)
-nis-25112C: Limal (Waver)
-nis-30000: Province de Flandre-Occidentale
-reg-brugge: Regio Brugge
-nis-31005: Brugge + sous-municipalités
-nis-31005A: Brugge (Brugge)
-nis-31005B: Lissewege (Brugge)
-nis-31005C: Dudzele (Brugge)
-nis-31005D: Koolkerke (Brugge)
-nis-31005E: Sint-Kruis (Brugge)
-nis-31005F: Assebroek (Brugge)
-nis-31005G: Sint-Michiels (Brugge)
-nis-31005H: Sint-Andries (Brugge)
-reg-brugse-ommeland: Regio Brugse Ommeland
-=======
 nis-25112: Wavre + sous-municipalités
 nis-25112A: Wavre (Wavre)
 nis-25112B: Bierges (Wavre)
@@ -835,7 +547,6 @@ nis-31005F: Assebroek (Bruges)
 nis-31005G: Saint Michel (Bruges)
 nis-31005H: Saint-André (Bruges)
 reg-brugse-ommeland: Brugse Ommeland (région)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-31022: Oostkamp + sous-municipalités
 nis-31022A: Oostkamp (Oostkamp)
 nis-31022B: Hertsberge (Oostkamp)
@@ -871,11 +582,7 @@ nis-31012E: Snellegem (Jabbeke)
 nis-31003: Beernem + sous-municipalités
 nis-31003B: Oedelem (Beernem)
 nis-31003A: Beernem (Beernem)
-<<<<<<< HEAD
-nis-31003C: Sint-Joris (Beernem)
-=======
 nis-31003C: Saint-Georges (Beernem)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-31033: Torhout + sous-municipalités
 nis-31033-Z: Torhout (Torhout)
 nis-35014: Oudenburg + sous-municipalités
@@ -883,19 +590,11 @@ nis-35014A: Oudenburg (Oudenburg)
 nis-35014B: Ettelgem (Oudenburg)
 nis-35014C: Roksem (Oudenburg)
 nis-35014D: Westkerke (Oudenburg)
-<<<<<<< HEAD
-nis-35005: Gistel + sous-municipalités
-nis-35005A: Gistel (Gistel)
-nis-35005B: Moere (Gistel)
-nis-35005C: Zevekote (Gistel)
-nis-35005D: Snaaskerke (Gistel)
-=======
 nis-35005: Ghistelles + sous-municipalités
 nis-35005A: Ghistelles (Ghistelles)
 nis-35005B: Moere (Ghistelles)
 nis-35005C: Zevekote (Ghistelles)
 nis-35005D: Snaaskerke (Ghistelles)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-36011: Lichtervelde + sous-municipalités
 nis-36011A: Lichtervelde (Lichtervelde)
 nis-37015: Tielt + sous-municipalités
@@ -914,16 +613,6 @@ nis-37012A: Ruiselede (Ruiselede)
 nis-37020: Ardooie + sous-municipalités
 nis-37020A: Ardooie (Ardooie)
 nis-37020B: Koolskamp (Ardooie)
-<<<<<<< HEAD
-reg-leiestreek-west-vlaanderen: Regio Leiestreek West-Vlaanderen
-nis-36007: Ingelmunster + sous-municipalités
-nis-36007A: Ingelmunster (Ingelmunster)
-nis-36015: Roeselare + sous-municipalités
-nis-36015A-II: Beveren (Roeselare)
-nis-36015A-I: Roeselare (Roeselare)
-nis-36015B: Oekene (Roeselare)
-nis-36015C: Rumbeke (Roeselare)
-=======
 reg-leiestreek-west-vlaanderen: Leiestreek Flandre-Occidentale (région)
 nis-36007: Ingelmunster + sous-municipalités
 nis-36007A: Ingelmunster (Ingelmunster)
@@ -932,7 +621,6 @@ nis-36015A-II: Beveren (Roulers)
 nis-36015A-I: Roulers (Roulers)
 nis-36015B: Oekene (Roulers)
 nis-36015C: Rumbeke (Roulers)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-36008: Izegem + sous-municipalités
 nis-36008A-II: Emelgem (Izegem)
 nis-36008A-I: Izegem (Izegem)
@@ -947,11 +635,7 @@ nis-36012B: Dadizele (Moorslede)
 nis-37017: Wielsbeke + sous-municipalités
 nis-37017A: Wielsbeke (Wielsbeke)
 nis-37017B: Ooigem (Wielsbeke)
-<<<<<<< HEAD
-nis-37017C: Sint-Baafs-Vijve (Wielsbeke)
-=======
 nis-37017C: Vive-Saint-Bavon (Wielsbeke)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-37002: Dentergem + sous-municipalités
 nis-37002A: Dentergem (Dentergem)
 nis-37002B: Markegem (Dentergem)
@@ -961,23 +645,6 @@ nis-37007: Meulebeke + sous-municipalités
 nis-37007A: Meulebeke (Meulebeke)
 nis-37010: Oostrozebeke + sous-municipalités
 nis-37010A: Oostrozebeke (Oostrozebeke)
-<<<<<<< HEAD
-nis-34022: Kortrijk + sous-municipalités
-nis-34022A: Kortrijk (Kortrijk)
-nis-34022B: Heule (Kortrijk)
-nis-34022C: Bissegem (Kortrijk)
-nis-34022D: Marke (Kortrijk)
-nis-34022E: Aalbeke (Kortrijk)
-nis-34022F: Rollegem (Kortrijk)
-nis-34022G: Bellegem (Kortrijk)
-nis-34022H: Kooigem (Kortrijk)
-nis-34023: Kuurne + sous-municipalités
-nis-34023A: Kuurne (Kuurne)
-nis-34013: Harelbeke + sous-municipalités
-nis-34013B: Bavikhove (Harelbeke)
-nis-34013A: Harelbeke (Harelbeke)
-nis-34013C: Hulste (Harelbeke)
-=======
 nis-34022: Courtrai + sous-municipalités
 nis-34022A: Courtrai (Courtrai)
 nis-34022B: Heule (Courtrai)
@@ -993,7 +660,6 @@ nis-34013: Harlebeke + sous-municipalités
 nis-34013B: Bavikhove (Harlebeke)
 nis-34013A: Harlebeke (Harlebeke)
 nis-34013C: Hulste (Harlebeke)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-34009: Deerlijk + sous-municipalités
 nis-34009A: Deerlijk (Deerlijk)
 nis-34042: Zwevegem + sous-municipalités
@@ -1001,11 +667,7 @@ nis-34042A: Zwevegem (Zwevegem)
 nis-34042B: Otegem (Zwevegem)
 nis-34042C: Heestert (Zwevegem)
 nis-34042D: Moen (Zwevegem)
-<<<<<<< HEAD
-nis-34042E: Sint-Denijs (Zwevegem)
-=======
 nis-34042E: Saint-Genois(Zwevegem)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-34041: Wevelgem + sous-municipalités
 nis-34041A: Wevelgem (Wevelgem)
 nis-34041B: Gullegem (Wevelgem)
@@ -1023,15 +685,9 @@ nis-34003B: Waarmaarde (Avelgem)
 nis-34003C: Kerkhove (Avelgem)
 nis-34003D: Outrijve (Avelgem)
 nis-34003E: Bossuit (Avelgem)
-<<<<<<< HEAD
-nis-34043: Spiere-Helkijn + sous-municipalités
-nis-34043A: Spiere (Spiere-Helkijn)
-nis-34043B: Helkijn (Spiere-Helkijn)
-=======
 nis-34043: Espierres-Helchin + sous-municipalités
 nis-34043A: Espierres (Espierres-Helchin)
 nis-34043B: Helchin (Espierres-Helchin)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-34040: Waregem + sous-municipalités
 nis-34040A: Waregem (Waregem)
 nis-34040D: Vive-Saint-Eloi (Waregem)
@@ -1039,19 +695,11 @@ nis-34040B: Beveren (Waregem)
 nis-34040C: Desselgem (Waregem)
 nis-34025: Lendelede + sous-municipalités
 nis-34025A: Lendelede (Lendelede)
-<<<<<<< HEAD
-nis-34027: Menen + sous-municipalités
-nis-34027A: Menen (Menen)
-nis-34027B: Lauwe (Menen)
-nis-34027C: Rekkem (Menen)
-reg-vlaamse-kust: Regio Vlaamse Kust
-=======
 nis-34027: Menin + sous-municipalités
 nis-34027A: Menin (Menin)
 nis-34027B: Lowaige (Menin)
 nis-34027C: Rekkem (Menin)
 reg-vlaamse-kust: Zone côtière (région)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-31043: Knokke-Heist + sous-municipalités
 nis-31043A: Knokke (Knokke-Heist)
 nis-31043B: Heist (Knokke-Heist)
@@ -1060,21 +708,6 @@ nis-31043D: Westkapelle (Knokke-Heist)
 nis-31004: Blankenberge + sous-municipalités
 nis-31004A: Blankenberge (Blankenberge)
 nis-31004B: Uitkerke (Blankenberge)
-<<<<<<< HEAD
-nis-35029: De Haan + sous-municipalités
-nis-35029A: Klemskerke (De Haan)
-nis-35029B: Vlissegem (De Haan)
-nis-35029C: Wenduine (De Haan)
-nis-35002: Bredene + sous-municipalités
-nis-35002A: Bredene (Bredene)
-nis-38008: De Panne + sous-municipalités
-nis-38008A: De Panne (De Panne)
-nis-38008B: Adinkerke (De Panne)
-nis-35013: Oostende + sous-municipalités
-nis-35013-Y: Stene (Oostende)
-nis-35013-Z: Oostende (Oostende)
-nis-35013C: Zandvoorde (Oostende)
-=======
 nis-35029: Coq-sur-Mer + sous-municipalités
 nis-35029A: Klemskerke (Coq-sur-Mer)
 nis-35029B: Vlissegem (Coq-sur-Mer)
@@ -1088,7 +721,6 @@ nis-35013: Ostende + sous-municipalités
 nis-35013-Y: Stene (Ostende)
 nis-35013-Z: Ostende (Ostende)
 nis-35013C: Zandvoorde (Ostende)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-35011: Middelkerke + sous-municipalités
 nis-35011A: Middelkerke (Middelkerke)
 nis-35011B: Wilskerke (Middelkerke)
@@ -1099,17 +731,6 @@ nis-35011E: Schore (Middelkerke)
 nis-35011G: Slijpe (Middelkerke)
 nis-35011H: Westende (Middelkerke)
 nis-35011J: Lombardsijde (Middelkerke)
-<<<<<<< HEAD
-nis-38016: Nieuwpoort + sous-municipalités
-nis-38016A: Nieuwpoort (Nieuwpoort)
-nis-38016B: Sint-Joris (Nieuwpoort)
-nis-38016C: Ramskapelle (Nieuwpoort)
-nis-38014: Koksijde + sous-municipalités
-nis-38014A: Koksijde (Koksijde)
-nis-38014B: Oostduinkerke (Koksijde)
-nis-38014C: Wulpen (Koksijde)
-reg-westhoek: Regio Westhoek
-=======
 nis-38016: Nieuport + sous-municipalités
 nis-38016A: Nieuport (Nieuport)
 nis-38016B: Saint-Georges (Nieuport)
@@ -1119,7 +740,6 @@ nis-38014A: Coxyde (Coxyde)
 nis-38014B: Oostduinkerke (Coxyde)
 nis-38014C: Wulpen (Coxyde)
 reg-westhoek: Westhoek (région)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-36006: Hooglede + sous-municipalités
 nis-36006A: Hooglede (Hooglede)
 nis-36006B: Gits (Hooglede)
@@ -1127,20 +747,6 @@ nis-36019: Staden + sous-municipalités
 nis-36019A: Staden (Staden)
 nis-36019B: Oostnieuwkerke (Staden)
 nis-36019C: Westrozebeke (Staden)
-<<<<<<< HEAD
-nis-38025: Veurne + sous-municipalités
-nis-38025A: Veurne (Veurne)
-nis-38025B: Booitshoeke (Veurne)
-nis-38025C: Avekapelle (Veurne)
-nis-38025D: Eggewaartskapelle (Veurne)
-nis-38025E: Zoutenaaie (Veurne)
-nis-38025G: Bulskamp (Veurne)
-nis-38025F: Steenkerke (Veurne)
-nis-38025H-I: Wulveringem (Veurne)
-nis-38025H-II: Vinkem (Veurne)
-nis-38025J: Houtem (Veurne)
-nis-38025K: De Moeren (Veurne)
-=======
 nis-38025: Furnes + sous-municipalités
 nis-38025A: Furnes (Furnes)
 nis-38025B: Booitshoeke (Furnes)
@@ -1153,7 +759,6 @@ nis-38025H-I: Wulveringem (Furnes)
 nis-38025H-II: Vinkem (Furnes)
 nis-38025J: Houtem (Furnes)
 nis-38025K: De Moeren (Furnes)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-38002: Alveringem + sous-municipalités
 nis-38002A-III: Sint-Rijkers (Alveringem)
 nis-38002A-II: Alveringem (Alveringem)
@@ -1164,24 +769,6 @@ nis-38002D: Izenberge (Alveringem)
 nis-38002E: Gijverinkhove (Alveringem)
 nis-38002G: Beveren (Alveringem)
 nis-38002F: Stavele (Alveringem)
-<<<<<<< HEAD
-nis-32003: Diksmuide + sous-municipalités
-nis-32003A-II: Kaaskerke (Diksmuide)
-nis-32003A-III: Esen (Diksmuide)
-nis-32003A-I: Diksmuide (Diksmuide)
-nis-32003B: Beerst (Diksmuide)
-nis-32003C: Keiem (Diksmuide)
-nis-32003D: Leke (Diksmuide)
-nis-32003E: Vladslo (Diksmuide)
-nis-32003F: Woumen (Diksmuide)
-nis-32003G: Nieuwkapelle (Diksmuide)
-nis-32003H: Oudekapelle (Diksmuide)
-nis-32003K: Oostkerke (Diksmuide)
-nis-32003J: Sint-Jacobs-Kapelle (Diksmuide)
-nis-32003l: Lampernisse (Diksmuide)
-nis-32003M: Pervijze (Diksmuide)
-nis-32003N: Stuivekenskerke (Diksmuide)
-=======
 nis-32003: Dixmude + sous-municipalités
 nis-32003A-II: Kaaskerke (Dixmude)
 nis-32003A-III: Esen (Dixmude)
@@ -1198,7 +785,6 @@ nis-32003J: Saint-Jacques-Capelle (Dixmude)
 nis-32003l: Lampernisse (Dixmude)
 nis-32003M: Pervijze (Dixmude)
 nis-32003N: Stuivekenskerke (Dixmude)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-32011: Kortemark + sous-municipalités
 nis-32011A: Kortemark (Kortemark)
 nis-32011C: Werken (Kortemark)
@@ -1221,20 +807,6 @@ nis-33041: Vleteren + sous-municipalités
 nis-33041A: Oostvleteren (Vleteren)
 nis-33041B: Westvleteren (Vleteren)
 nis-33041C: Woesten (Vleteren)
-<<<<<<< HEAD
-nis-33011: Ieper + sous-municipalités
-nis-33011B: Brielen (Ieper)
-nis-33011A: Ieper (Ieper)
-nis-33011C: Sint-Jan (Ieper)
-nis-33011D: Boezinge (Ieper)
-nis-33011E: Zuidschote (Ieper)
-nis-33011F: Elverdinge (Ieper)
-nis-33011G: Vlamertinge (Ieper)
-nis-33011H: Dikkebus (Ieper)
-nis-33011J: Voormezele (Ieper)
-nis-33011K: Hollebeke (Ieper)
-nis-33011l: Zillebeke (Ieper)
-=======
 nis-33011: Ypres + sous-municipalités
 nis-33011B: Brielen (Ypres)
 nis-33011A: Ypres (Ypres)
@@ -1247,7 +819,6 @@ nis-33011H: Dikkebus (Ypres)
 nis-33011J: Voormezele (Ypres)
 nis-33011K: Hollebeke (Ypres)
 nis-33011l: Zillebeke (Ypres)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-33040: Langemark-Poelkapelle + sous-municipalités
 nis-33040B: Bikschote (Langemark-Poelkapelle)
 nis-33040A: Langemark (Langemark-Poelkapelle)
@@ -1260,13 +831,8 @@ nis-33039B: Wijtschate (Heuvelland)
 nis-33039D: Neuve-Église (Heuvelland)
 nis-33039E: Dranouter (Heuvelland)
 nis-33039G: Westouter (Heuvelland)
-<<<<<<< HEAD
-nis-33016: Mesen + sous-municipalités
-nis-33016A: Mesen (Mesen)
-=======
 nis-33016: Messines + sous-municipalités
 nis-33016A: Messines (Messines)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-33021: Poperinge + sous-municipalités
 nis-33021B: Reningelst (Poperinge)
 nis-33021A: Poperinge (Poperinge)
@@ -1280,35 +846,6 @@ nis-33037B: Passendale (Zonnebeke)
 nis-33037C: Beselare (Zonnebeke)
 nis-33037D: Geluveld (Zonnebeke)
 nis-33037E: Zandvoorde (Zonnebeke)
-<<<<<<< HEAD
-nis-33029: Wervik + sous-municipalités
-nis-33029A: Wervik (Wervik)
-nis-33029B: Geluwe (Wervik)
-nis-40000: Province de Flandre-Orientale
-reg-gent: Regio Gent
-nis-44021: Gent + sous-municipalités
-nis-44021-Z: Gent (Gent)
-nis-44021D-II: Mendonk (Gent)
-nis-44021D-III: Desteldonk (Gent)
-nis-44021D-IV: Oostakker (Gent)
-nis-44021D-I: Sint-Kruis-Winkel (Gent)
-nis-44021E: Sint-Amandsberg (Gent)
-nis-44021F: Gentbrugge (Gent)
-nis-44021H: Zwijnaarde (Gent)
-nis-44021G: Ledeberg (Gent)
-nis-44021J-II: Afsnee (Gent)
-nis-44021J-I: Sint-Denijs-Westrem (Gent)
-nis-44021K: Drongen (Gent)
-nis-44021l: Mariakerke (Gent)
-nis-44021M: Wondelgem (Gent)
-reg-leiestreek-oost-vlaanderen: Regio Leiestreek Oost-Vlaanderen
-nis-44048: Nazareth + sous-municipalités
-nis-44048A: Nazareth (Nazareth)
-nis-44048B: Eke (Nazareth)
-nis-44064: Sint-Martens-Latem + sous-municipalités
-nis-44064A: Sint-Martens-Latem (Sint-Martens-Latem)
-nis-44064B: Deurle (Sint-Martens-Latem)
-=======
 nis-33029: Wervicq + sous-municipalités
 nis-33029A: Wervicq (Wervicq)
 nis-33029B: Geluwe (Wervicq)
@@ -1336,7 +873,6 @@ nis-44048B: Eke (Nazareth)
 nis-44064: Laethem-Saint-Martin + sous-municipalités
 nis-44064A: Laethem-Saint-Martin (Laethem-Saint-Martin)
 nis-44064B: Deurle (Laethem-Saint-Martin)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-44012: De Pinte + sous-municipalités
 nis-44012B: Zevergem (De Pinte)
 nis-44012A: De Pinte (De Pinte)
@@ -1362,11 +898,7 @@ nis-44049C: Hansbeke (Deinze)
 nis-44049D: Merendree (Deinze)
 nis-44049E: Landegem (Deinze)
 nis-44049F: Vosselare (Deinze)
-<<<<<<< HEAD
-reg-meetjesland: Regio Meetjesland
-=======
 reg-meetjesland: Meetjesland (région)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-43018: Zelzate + sous-municipalités
 nis-43018A: Zelzate (Zelzate)
 nis-43005: Eeklo + sous-municipalités
@@ -1386,11 +918,7 @@ nis-43014C: Sint-Jan-in-Eremo (Sint-Laureins)
 nis-43014D: Waterland-Oudeman (Sint-Laureins)
 nis-43014E: Watervliet (Sint-Laureins)
 nis-43010: Maldegem + sous-municipalités
-<<<<<<< HEAD
-nis-43010B: Middelburg (Maldegem)
-=======
 nis-43010B: Middelbourg (Maldegem)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-43010A: Maldegem (Maldegem)
 nis-43010C: Adegem (Maldegem)
 nis-44073: Wachtebeke + sous-municipalités
@@ -1400,15 +928,6 @@ nis-44019A: Evergem (Evergem)
 nis-44019C-II: Kluizen (Evergem)
 nis-44019B: Sleidinge (Evergem)
 nis-44019C-I: Ertvelde (Evergem)
-<<<<<<< HEAD
-nis-44084: Aalter + sous-municipalités
-nis-44001A: Aalter (Aalter)
-nis-44001B: Bellem (Aalter)
-nis-44001C: Lotenhulle (Aalter)
-nis-44001D: Poeke (Aalter)
-nis-44029A: Knesselare (Aalter)
-nis-44029B: Ursel (Aalter)
-=======
 nis-44084: Aeltre + sous-municipalités
 nis-44001A: Aeltre (Aeltre)
 nis-44001B: Bellem (Aeltre)
@@ -1416,7 +935,6 @@ nis-44001C: Lotenhulle (Aeltre)
 nis-44001D: Poeke (Aeltre)
 nis-44029A: Knesselare (Aeltre)
 nis-44029B: Ursel (Aeltre)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-44085: Lievegem + sous-municipalités
 nis-44036A: Lovendegem (Lievegem)
 nis-44036B: Vinderhoute (Lievegem)
@@ -1424,32 +942,6 @@ nis-44072A: Waarschoot (Lievegem)
 nis-44080A: Zomergem (Lievegem)
 nis-44080B: Ronsele (Lievegem)
 nis-44080C: Oostwinkel (Lievegem)
-<<<<<<< HEAD
-reg-vlaamse-ardennen: Regio Vlaamse Ardennen
-nis-41018: Geraardsbergen + sous-municipalités
-nis-41018A: Geraardsbergen (Geraardsbergen)
-nis-41018B: Nederboelare (Geraardsbergen)
-nis-41018C: Onkerzele (Geraardsbergen)
-nis-41018D: Overboelare (Geraardsbergen)
-nis-41018E: Goeferdinge (Geraardsbergen)
-nis-41018F: Zarlardinge (Geraardsbergen)
-nis-41018G: Schendelbeke (Geraardsbergen)
-nis-41018K: Idegem (Geraardsbergen)
-nis-41018H: Ophasselt (Geraardsbergen)
-nis-41018J: Smeerebbe-Vloerzegem (Geraardsbergen)
-nis-41018l: Grimminge (Geraardsbergen)
-nis-41018N: Nieuwenhove (Geraardsbergen)
-nis-41018M: Zandbergen (Geraardsbergen)
-nis-41018P: Waarbeke (Geraardsbergen)
-nis-41018S: Viane (Geraardsbergen)
-nis-41018R: Moerbeke (Geraardsbergen)
-nis-41063: Sint-Lievens-Houtem + sous-municipalités
-nis-41063A: Sint-Lievens-Houtem (Sint-Lievens-Houtem)
-nis-41063B: Bavegem (Sint-Lievens-Houtem)
-nis-41063C: Letterhoutem (Sint-Lievens-Houtem)
-nis-41063D: Vlierzele (Sint-Lievens-Houtem)
-nis-41063E: Zonnegem (Sint-Lievens-Houtem)
-=======
 reg-vlaamse-ardennen: Ardennes Flamand (région)
 nis-41018: Grammont + sous-municipalités
 nis-41018A: Grammont (Grammont)
@@ -1474,7 +966,6 @@ nis-41063B: Bavegem (Hauthem-Saint-Liévin)
 nis-41063C: Letterhoutem (Hauthem-Saint-Liévin)
 nis-41063D: Vlierzele (Hauthem-Saint-Liévin)
 nis-41063E: Zonnegem (Hauthem-Saint-Liévin)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-41027: Herzele + sous-municipalités
 nis-41027A: Herzele (Herzele)
 nis-41027C: Borsbeke (Herzele)
@@ -1494,25 +985,15 @@ nis-41081E: Godveerdegem (Zottegem)
 nis-41081F: Erwetegem (Zottegem)
 nis-41081G: Sint-Goriks-Oudenhove (Zottegem)
 nis-41081H: Strijpen (Zottegem)
-<<<<<<< HEAD
-nis-41081J: Velzeke-Ruddershove (Zottegem)
-nis-41081K: Sint-Maria-Oudenhove (Zottegem)
-=======
 nis-41081J: Velsique-Ruddershove (Zottegem)
 nis-41081K: Audenhove-Sainte-Marie (Zottegem)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-45063: Lierde + sous-municipalités
 nis-45063B: Hemelveerdegem (Lierde)
 nis-45063A: Sint-Maria-Lierde (Lierde)
 nis-45063D: Sint-Martens-Lierde (Lierde)
 nis-45063C: Deftinge (Lierde)
-<<<<<<< HEAD
-nis-45041: Ronse + sous-municipalités
-nis-45041A: Ronse (Ronse)
-=======
 nis-45041: Renaix + sous-municipalités
 nis-45041A: Renaix (Renaix)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-45065: Zwalm + sous-municipalités
 nis-45065B: Paulatem (Zwalm)
 nis-45065C: Sint-Maria-Latem (Zwalm)
@@ -1535,13 +1016,8 @@ nis-45059G: Everbecq (Brakel)
 nis-45059F: Parike (Brakel)
 nis-45059E: Michelbeke (Brakel)
 nis-45062: Horebeke + sous-municipalités
-<<<<<<< HEAD
-nis-45062A: Sint-Maria-Horebeke (Horebeke)
-nis-45062B: Sint-Kornelis-Horebeke (Horebeke)
-=======
 nis-45062A: Hoorebeke-Sainte-Marie (Horebeke)
 nis-45062B: Hoorebeke-Saint-Corneille (Horebeke)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-45064: Maarkedal + sous-municipalités
 nis-45064A: Etikhove (Maarkedal)
 nis-45064B: Nukerke (Maarkedal)
@@ -1551,23 +1027,6 @@ nis-45060: Kluisbergen + sous-municipalités
 nis-45060A: Ruien (Kluisbergen)
 nis-45060B: Berchem (Kluisbergen)
 nis-45060C: Kwaremont (Kluisbergen)
-<<<<<<< HEAD
-nis-45060D: Zulzeke (Kluisbergen)
-nis-45035: Oudenaarde + sous-municipalités
-nis-45035A-IV: Edelare (Oudenaarde)
-nis-45035A-III: Leupegem (Oudenaarde)
-nis-45035A-II: Bevere (Oudenaarde)
-nis-45035A-I: Oudenaarde (Oudenaarde)
-nis-45035A-VII: Nederename (Oudenaarde)
-nis-45035A-VIII: Eine (Oudenaarde)
-nis-45035A-VI: Ename (Oudenaarde)
-nis-45035A-V: Volkegem (Oudenaarde)
-nis-45035B: Heurne (Oudenaarde)
-nis-45035C: Welden (Oudenaarde)
-nis-45035D: Mater (Oudenaarde)
-nis-45035E: Melden (Oudenaarde)
-nis-45035F: Mullem (Oudenaarde)
-=======
 nis-45060D: Sulsique (Kluisbergen)
 nis-45035: Audenarde + sous-municipalités
 nis-45035A-IV: Edelare (Audenarde)
@@ -1583,7 +1042,6 @@ nis-45035C: Welden (Audenarde)
 nis-45035D: Mater (Audenarde)
 nis-45035E: Melden (Audenarde)
 nis-45035F: Mullem (Audenarde)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-45061: Wortegem-Petegem + sous-municipalités
 nis-45061A: Petegem-aan-de-Schelde (Wortegem-Petegem)
 nis-45061D: Elsegem (Wortegem-Petegem)
@@ -1611,11 +1069,7 @@ nis-45017D: Nokere (Kruisem)
 nis-45057C: Huise (Kruisem)
 nis-45057B: Ouwegem (Kruisem)
 nis-45057A: Zingem (Kruisem)
-<<<<<<< HEAD
-reg-waasland: Regio Voeren
-=======
 reg-waasland: Région de Fourons
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-11056: Zwijndrecht + sous-municipalités
 nis-11056B: Burcht (Zwijndrecht)
 nis-11056A: Zwijndrecht (Zwijndrecht)
@@ -1633,19 +1087,11 @@ nis-46003E: Doel (Beveren)
 nis-46003F: Kallo (Beveren)
 nis-46003G: Melsele (Beveren)
 nis-46003H: Haasdonk (Beveren)
-<<<<<<< HEAD
-nis-46025: Temse + sous-municipalités
-nis-46025A: Temse (Temse)
-nis-46025C: Tielrode (Temse)
-nis-46025D: Elversele (Temse)
-nis-46025B: Steendorp (Temse)
-=======
 nis-46025: Tamise + sous-municipalités
 nis-46025A: Tamise (Tamise)
 nis-46025C: Tielrode (Tamise)
 nis-46025D: Elversele (Tamise)
 nis-46025B: Steendorp (Tamise)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-46013: Kruibeke + sous-municipalités
 nis-46013C: Rupelmonde (Kruibeke)
 nis-46013A: Kruibeke (Kruibeke)
@@ -1654,19 +1100,11 @@ nis-46014: Lokeren + sous-municipalités
 nis-46014B: Eksaarde (Lokeren)
 nis-46014A: Lokeren (Lokeren)
 nis-46014C: Daknam (Lokeren)
-<<<<<<< HEAD
-nis-46020: Sint-Gillis-Waas + sous-municipalités
-nis-46020B: De Klinge (Sint-Gillis-Waas)
-nis-46020-Z: Sint-Gillis-Waas (Sint-Gillis-Waas)
-nis-46020C: Meerdonk (Sint-Gillis-Waas)
-nis-46020D: Sint-Pauwels (Sint-Gillis-Waas)
-=======
 nis-46020: Saint-Gilles-Waes + sous-municipalités
 nis-46020B: La Clinge (Saint-Gilles-Waes)
 nis-46020-Z: Saint-Gilles-Waes (Saint-Gilles-Waes)
 nis-46020C: Meerdonk (Saint-Gilles-Waes)
 nis-46020D: Saint-Paul (Saint-Gilles-Waes)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-46024: Stekene + sous-municipalités
 nis-46024-Z: Stekene (Stekene)
 nis-46024B: Kemzeke (Stekene)
@@ -1679,19 +1117,6 @@ nis-44034C: Zeveneken (Lochristi)
 nis-44034D: Beervelde (Lochristi)
 nis-44045: Moerbeke + sous-municipalités
 nis-44045A: Moerbeke (Moerbeke)
-<<<<<<< HEAD
-reg-scheldeland-oost-vlaanderen: Regio Scheldeland Oost-Vlaanderen
-nis-41002: Aalst + sous-municipalités
-nis-41002A: Aalst (Aalst)
-nis-41002B: Hofstade (Aalst)
-nis-41002D: Herdersem (Aalst)
-nis-41002C: Gijzegem (Aalst)
-nis-41002E: Moorsel (Aalst)
-nis-41002F: Baardegem (Aalst)
-nis-41002G: Meldert (Aalst)
-nis-41002H: Erembodegem (Aalst)
-nis-41002J: Nieuwerkerken (Aalst)
-=======
 reg-scheldeland-oost-vlaanderen: Scheldeland Flandre-Orientale (région)
 nis-41002: Alost + sous-municipalités
 nis-41002A: Alost (Alost)
@@ -1703,7 +1128,6 @@ nis-41002F: Baardegem (Alost)
 nis-41002G: Mailard (Alost)
 nis-41002H: Erembodegem (Alost)
 nis-41002J: Nieuwerkerken (Alost)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-41034: Lede + sous-municipalités
 nis-41034B: Wanzele (Lede)
 nis-41034C: Impe (Lede)
@@ -1741,17 +1165,6 @@ nis-41011: Denderleeuw + sous-municipalités
 nis-41011A: Denderleeuw (Denderleeuw)
 nis-41011C: Welle (Denderleeuw)
 nis-41011B: Iddergem (Denderleeuw)
-<<<<<<< HEAD
-nis-42006: Dendermonde + sous-municipalités
-nis-42006A: Dendermonde (Dendermonde)
-nis-42006B: Appels (Dendermonde)
-nis-42006C: Sint-Gillis-bij-Dendermonde (Dendermonde)
-nis-42006E: Baasrode (Dendermonde)
-nis-42006D: Grembergen (Dendermonde)
-nis-42006F: Oudegem (Dendermonde)
-nis-42006G: Mespelare (Dendermonde)
-nis-42006H: Schoonaarde (Dendermonde)
-=======
 nis-42006: Termonde + sous-municipalités
 nis-42006A: Termonde (Termonde)
 nis-42006B: Appels (Termonde)
@@ -1761,7 +1174,6 @@ nis-42006D: Grembergen (Termonde)
 nis-42006F: Oudegem (Termonde)
 nis-42006G: Mespelare (Termonde)
 nis-42006H: Schoonaarde (Termonde)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-42008: Hamme + sous-municipalités
 nis-42008A: Hamme (Hamme)
 nis-42008B: Moerzeke (Hamme)
@@ -1802,30 +1214,6 @@ nis-44043A-I: Merelbeke (Merelbeke)
 nis-44043C: Munte (Merelbeke)
 nis-44043D: Schelderode (Merelbeke)
 nis-44043E: Melsen (Merelbeke)
-<<<<<<< HEAD
-nis-50000: Hainaut
-reg-henegouwen: Regio Henegouwen
-nis-51004: Aat + sous-municipalités
-nis-51004B: Lanquesaint (Aat)
-nis-51004A: Ath (Aat)
-nis-51004E: Meslin-l'\u00c9v\u00eaque (Aat)
-nis-51004C: Rebaix (Aat)
-nis-51004F: Ghislenghien (Aat)
-nis-51004D: Isi\u00e8res (Aat)
-nis-51004G: Gibecq (Aat)
-nis-51004H: Arbre (Aat)
-nis-51004J: Maffle (Aat)
-nis-51004K: Irchonwelz (Aat)
-nis-51004N: Villers-Notre-Dame (Aat)
-nis-51004l: Ormeignies (Aat)
-nis-51004M: Moulbaix (Aat)
-nis-51004P: Villers-Saint-Amand (Aat)
-nis-51004R: Ligne (Aat)
-nis-51004S: Houtaing (Aat)
-nis-51004U: Bouvignies (Aat)
-nis-51004T: Mainvault (Aat)
-nis-51004V: Ostiches (Aat)
-=======
 nis-50000: Province de Hainaut
 reg-henegouwen: Région de Hainaut
 nis-51004: Ath + sous-municipalités
@@ -1848,7 +1236,6 @@ nis-51004S: Houtaing (Ath)
 nis-51004U: Bouvignies (Ath)
 nis-51004T: Mainvault (Ath)
 nis-51004V: Ostiches (Ath)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-51008: Beloeil + sous-municipalités
 nis-51008B-II: Grandglise (Beloeil)
 nis-51008B-I: Stambruges (Beloeil)
@@ -1865,30 +1252,13 @@ nis-51009A-II: Harchies (Bernissart)
 nis-51009B-I: Ville-Pommeroeul (Bernissart)
 nis-51009A-I: Bernissart (Bernissart)
 nis-51009C: Blaton (Bernissart)
-<<<<<<< HEAD
-nis-51009B-II: Pommer\u0153ul (Bernissart)
-=======
 nis-51009B-II: Pommerœul (Bernissart)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-51012: Brugelette + sous-municipalités
 nis-51012A: Brugelette (Brugelette)
 nis-51012D: Mévergnies-lez-Lens (Brugelette)
 nis-51012B: Gages (Brugelette)
 nis-51012C: Cambron-Casteau (Brugelette)
 nis-51012E: Attre (Brugelette)
-<<<<<<< HEAD
-nis-51014: Chi\u00e8vres + sous-municipalités
-nis-51014B: Tongre-Saint-Martin (Chi\u00e8vres)
-nis-51014A: Chi\u00e8vres (Chi\u00e8vres)
-nis-51014C: Ladeuze (Chi\u00e8vres)
-nis-51014D: Grosage (Chi\u00e8vres)
-nis-51014E: Huissignies (Chi\u00e8vres)
-nis-51014F: Tongre-Notre-Dame (Chi\u00e8vres)
-nis-51017: Elzele + sous-municipalités
-nis-51017B: Wodecq (Elzele)
-nis-51017A: Ellezelles (Elzele)
-nis-51017C: Lahamaide (Elzele)
-=======
 nis-51014: Chièvres + sous-municipalités
 nis-51014B: Tongre-Saint-Martin (Chièvres)
 nis-51014A: Chièvres (Chièvres)
@@ -1900,7 +1270,6 @@ nis-51017: Ellezelles + sous-municipalités
 nis-51017B: Wodecq (Ellezelles)
 nis-51017A: Ellezelles (Ellezelles)
 nis-51017C: Lahamaide (Ellezelles)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-51065: Frasnes-lez-Anvaing + sous-municipalités
 nis-51065A: Frasnes-lez-Buissenal (Frasnes-lez-Anvaing)
 nis-51065B: Œudeghien (Frasnes-lez-Anvaing)
@@ -1916,30 +1285,6 @@ nis-51065l: Arc-Ainières (Frasnes-lez-Anvaing)
 nis-51065N: Dergneau (Frasnes-lez-Anvaing)
 nis-51065M: Wattripont (Frasnes-lez-Anvaing)
 nis-51065P: Saint-Sauveur (Frasnes-lez-Anvaing)
-<<<<<<< HEAD
-nis-51019: Vloesberg + sous-municipalités
-nis-51019A: Flobecq (Vloesberg)
-nis-53053: Bergen + sous-municipalités
-nis-53053A: Mons (Bergen)
-nis-53053E: Nimy (Bergen)
-nis-53053C: Cuesmes (Bergen)
-nis-53053B: Hyon (Bergen)
-nis-53053D: Ghlin (Bergen)
-nis-53053F-II: Saint-Denis (Bergen)
-nis-53053G: Maisi\u00e8res (Bergen)
-nis-53053F-I: Obourg (Bergen)
-nis-53053H: Havré (Bergen)
-nis-53053J: Saint-Symphorien (Bergen)
-nis-53053K: Villers-Saint-Ghislain (Bergen)
-nis-53053l: Harmignies (Bergen)
-nis-53053M: Harveng (Bergen)
-nis-53053P: Spiennes (Bergen)
-nis-53053N: Nouvelles (Bergen)
-nis-53053R: Mesvin (Bergen)
-nis-53053S: Ciply (Bergen)
-nis-53053T: Jemappes (Bergen)
-nis-53053U: Flénu (Bergen)
-=======
 nis-51019: Flobecq + sous-municipalités
 nis-51019A: Flobecq (Flobecq)
 nis-53053: Mons + sous-municipalités
@@ -1962,7 +1307,6 @@ nis-53053R: Mesvin (Mons)
 nis-53053S: Ciply (Mons)
 nis-53053T: Jemappes (Mons)
 nis-53053U: Flénu (Mons)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-53014: Boussu + sous-municipalités
 nis-53014A: Boussu (Boussu)
 nis-53014B: Hornu (Boussu)
@@ -1974,21 +1318,13 @@ nis-53020: Dour + sous-municipalités
 nis-53020B: Blaugies (Dour)
 nis-53020C: Wihéries (Dour)
 nis-53020A: Dour (Dour)
-<<<<<<< HEAD
-nis-53020D: \u00c9louges (Dour)
-=======
 nis-53020D: Élouges (Dour)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-53028: Frameries + sous-municipalités
 nis-53028B: Noirchain (Frameries)
 nis-53028A: Frameries (Frameries)
 nis-53028C: La Bouverie (Frameries)
 nis-53028D: Eugies (Frameries)
-<<<<<<< HEAD
-nis-53028E: Sars-la-Bruy\u00e8re (Frameries)
-=======
 nis-53028E: Sars-la-Bruyère (Frameries)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-53039: Hensies + sous-municipalités
 nis-53039A: Hensies (Hensies)
 nis-53039B: Montrœul-sur-Haine (Hensies)
@@ -2005,15 +1341,6 @@ nis-53083G: Autreppe (Honnelles)
 nis-53083H: Fayt-le-Franc (Honnelles)
 nis-53083J: Athis (Honnelles)
 nis-53083K: Erquennes (Honnelles)
-<<<<<<< HEAD
-nis-53044: Jurbeke + sous-municipalités
-nis-53044A: Jurbise (Jurbeke)
-nis-53044B: Masnuy-Saint-Jean (Jurbeke)
-nis-53044C: Masnuy-Saint-Pierre (Jurbeke)
-nis-53044D: Erbis\u0153ul (Jurbeke)
-nis-53044F: Erbaut (Jurbeke)
-nis-53044E: Herchies (Jurbeke)
-=======
 nis-53044: Jurbise + sous-municipalités
 nis-53044A: Jurbise (Jurbise)
 nis-53044B: Masnuy-Saint-Jean (Jurbise)
@@ -2021,7 +1348,6 @@ nis-53044C: Masnuy-Saint-Pierre (Jurbise)
 nis-53044D: Erbisœul (Jurbise)
 nis-53044F: Erbaut (Jurbise)
 nis-53044E: Herchies (Jurbise)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-53046: Lens + sous-municipalités
 nis-53046A: Lens (Lens)
 nis-53046B: Bauffe (Lens)
@@ -2079,17 +1405,10 @@ nis-52011M: Roux (Charleroi)
 nis-52011N: Jumet (Charleroi)
 nis-52011P: Gosselies (Charleroi)
 nis-52011R: Ransart (Charleroi)
-<<<<<<< HEAD
-nis-52012: Ch\u00e2telet + sous-municipalités
-nis-52012A: Ch\u00e2telet (Ch\u00e2telet)
-nis-52012B: Ch\u00e2telineau (Ch\u00e2telet)
-nis-52012C: Bouffioulx (Ch\u00e2telet)
-=======
 nis-52012: Châtelet + sous-municipalités
 nis-52012A: Châtelet (Châtelet)
 nis-52012B: Châtelineau (Châtelet)
 nis-52012C: Bouffioulx (Châtelet)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-52015: Courcelles + sous-municipalités
 nis-52015B: Souvret (Courcelles)
 nis-52015A: Courcelles (Courcelles)
@@ -2107,17 +1426,10 @@ nis-52021E: Heppignies (Fleurus)
 nis-52021F: Saint-Amand (Fleurus)
 nis-52021G: Wagnelée (Fleurus)
 nis-52021H: Brye (Fleurus)
-<<<<<<< HEAD
-nis-52022: Fontaine-l'Ev\u00eaque + sous-municipalités
-nis-52022A: Fontaine-l'\u00c9v\u00eaque (Fontaine-l'Ev\u00eaque)
-nis-52022B: Forchies-la-Marche (Fontaine-l'Ev\u00eaque)
-nis-52022C: Leernes (Fontaine-l'Ev\u00eaque)
-=======
 nis-52022: Fontaine-l'Evêque + sous-municipalités
 nis-52022A: Fontaine-l'Évêque (Fontaine-l'Evêque)
 nis-52022B: Forchies-la-Marche (Fontaine-l'Evêque)
 nis-52022C: Leernes (Fontaine-l'Evêque)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-52025: Gerpinnes + sous-municipalités
 nis-52025A: Gerpinnes (Gerpinnes)
 nis-52025B: Loverval (Gerpinnes)
@@ -2130,11 +1442,7 @@ nis-52075A: Mellet (Les Bons Villers)
 nis-52075B: Wayaux (Les Bons Villers)
 nis-52075C: Villers-Perwin (Les Bons Villers)
 nis-52075D: Frasnes-lez-Gosselies (Les Bons Villers)
-<<<<<<< HEAD
-nis-52075E: R\u00e8ves (Les Bons Villers)
-=======
 nis-52075E: Rèves (Les Bons Villers)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-52043: Manage + sous-municipalités
 nis-52043B: Bois-d'Haine (Manage)
 nis-52043A: Manage (Manage)
@@ -2144,16 +1452,6 @@ nis-52043E: Bellecourt (Manage)
 nis-52048: Montigny-le-Tilleul + sous-municipalités
 nis-52048B: Landelies (Montigny-le-Tilleul)
 nis-52048A: Montignies-le-Tilleul (Montigny-le-Tilleul)
-<<<<<<< HEAD
-nis-52055: Pont-\u00e0-celles + sous-municipalités
-nis-52055A: Pont-\u00e0-Celles (Pont-\u00e0-celles)
-nis-52055B: Obaix (Pont-\u00e0-celles)
-nis-52055D-II: Liberchies (Pont-\u00e0-celles)
-nis-52055C: Buzet (Pont-\u00e0-celles)
-nis-52055D-I: Luttre (Pont-\u00e0-celles)
-nis-52055E: Thiméon (Pont-\u00e0-celles)
-nis-52055F: Viesville (Pont-\u00e0-celles)
-=======
 nis-52055: Pont-à-celles + sous-municipalités
 nis-52055A: Pont-à-Celles (Pont-à-celles)
 nis-52055B: Obaix (Pont-à-celles)
@@ -2162,7 +1460,6 @@ nis-52055C: Buzet (Pont-à-celles)
 nis-52055D-I: Luttre (Pont-à-celles)
 nis-52055E: Thiméon (Pont-à-celles)
 nis-52055F: Viesville (Pont-à-celles)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-52063: Seneffe + sous-municipalités
 nis-52063A: Seneffe (Seneffe)
 nis-52063B: Feluy (Seneffe)
@@ -2193,42 +1490,6 @@ nis-57018C: Pottes (Celles)
 nis-57018D: Escanaffles (Celles)
 nis-57018E: Velaines (Celles)
 nis-57018F: Popuelles (Celles)
-<<<<<<< HEAD
-nis-57081: Doornik + sous-municipalités
-nis-57081B: Warchin (Doornik)
-nis-57081A: Tournai (Doornik)
-nis-57081C: Chercq (Doornik)
-nis-57081D: Havinnes (Doornik)
-nis-57081E-I: Quartes (Doornik)
-nis-57081E-II: Melles (Doornik)
-nis-57081F-II: Thimougies (Doornik)
-nis-57081F-I: Beclers (Doornik)
-nis-57081G-II: Barry (Doornik)
-nis-57081H: Vezon (Doornik)
-nis-57081G-I: Maulde (Doornik)
-nis-57081J: Gaurain-Ramecroix (Doornik)
-nis-57081L-II: Saint-Maur (Doornik)
-nis-57081K: Vaulx (Doornik)
-nis-57081M-II: Froidmont (Doornik)
-nis-57081L-I: \u00c8re (Doornik)
-nis-57081M-I: Willemeau (Doornik)
-nis-57081N: Esplechin (Doornik)
-nis-57081P-III: Orcq (Doornik)
-nis-57081P-II: Marquain (Doornik)
-nis-57081P-I: Lamain (Doornik)
-nis-57081R-II: Hertain (Doornik)
-nis-57081R-I: Blandain (Doornik)
-nis-57081S: Templeuve (Doornik)
-nis-57081T: Ramegnies-Chin (Doornik)
-nis-57081U: Froyennes (Doornik)
-nis-57081V-II: Mont-Saint-Aubert (Doornik)
-nis-57081W-II: Rumillies (Doornik)
-nis-57081V-I: Kain (Doornik)
-nis-57081W-I: Mourcourt (Doornik)
-nis-57027: Estaimpuis + sous-municipalités
-nis-57027A: Estaimpuis (Estaimpuis)
-nis-57027B: \u00c9vregnies (Estaimpuis)
-=======
 nis-57081: Tournai + sous-municipalités
 nis-57081B: Warchin (Tournai)
 nis-57081A: Tournai (Tournai)
@@ -2263,7 +1524,6 @@ nis-57081W-I: Mourcourt (Tournai)
 nis-57027: Estaimpuis + sous-municipalités
 nis-57027A: Estaimpuis (Estaimpuis)
 nis-57027B: Évregnies (Estaimpuis)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-57027C: Saint-Léger (Estaimpuis)
 nis-57027D: Estaimbourg (Estaimpuis)
 nis-57027E: Bailleul (Estaimpuis)
@@ -2281,11 +1541,7 @@ nis-57094J: Gallaix (Leuze-en-Hainaut)
 nis-57094F: Tourpes (Leuze-en-Hainaut)
 nis-57094K: Thieulain (Leuze-en-Hainaut)
 nis-57095: Mont-de-l'Enclus + sous-municipalités
-<<<<<<< HEAD
-nis-57095A: Amougies (Mont-de-l'Enclus)
-=======
 nis-57095A: A(Mont-de-l'Enclus)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-57095B: Russeignies (Mont-de-l'Enclus)
 nis-57095D: Orroir (Mont-de-l'Enclus)
 nis-57095C: Anseroeul (Mont-de-l'Enclus)
@@ -2310,19 +1566,6 @@ nis-57072: Rumes + sous-municipalités
 nis-57072A: Rumes (Rumes)
 nis-57072C: La Glanerie (Rumes)
 nis-57072B: Taintignies (Rumes)
-<<<<<<< HEAD
-nis-54010: Komen-Waasten + sous-municipalités
-nis-54010A: Comines (Komen-Waasten)
-nis-54010B: Bas-Warneton (Komen-Waasten)
-nis-54010C: Houthem (Komen-Waasten)
-nis-54010D: Warneton (Komen-Waasten)
-nis-54010E: Ploegsteert (Komen-Waasten)
-nis-54007: Moeskroen + sous-municipalités
-nis-54007B: Luingne (Moeskroen)
-nis-54007A: Mouscron (Moeskroen)
-nis-54007C: Herseaux (Moeskroen)
-nis-54007D: Dottignies (Moeskroen)
-=======
 nis-54010: Comines-Warmeton + sous-municipalités
 nis-54010A: Comines (Comines-Warmeton)
 nis-54010B: Bas-Warneton (Comines-Warmeton)
@@ -2334,16 +1577,11 @@ nis-54007B: Luingne (Mouscron)
 nis-54007A: Mouscron (Mouscron)
 nis-54007C: Herseaux (Mouscron)
 nis-54007D: Dottignies (Mouscron)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-56001: Anderlues + sous-municipalités
 nis-56001A: Anderlues (Anderlues)
 nis-56005: Beaumont + sous-municipalités
 nis-56005A: Beaumont (Beaumont)
-<<<<<<< HEAD
-nis-56005B: Barben\u00e7on (Beaumont)
-=======
 nis-56005B: Barbençon (Beaumont)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-56005D: Solre-Saint-Géry (Beaumont)
 nis-56005C: Renlies (Beaumont)
 nis-56005E: Leugnies (Beaumont)
@@ -2357,11 +1595,7 @@ nis-56011C: Leval-Trahegnies (Binche)
 nis-56011E: Buvrinnes (Binche)
 nis-56011G: Bray (Binche)
 nis-56011F: Waudrez (Binche)
-<<<<<<< HEAD
-nis-56011D: \u00c9pinois (Binche)
-=======
 nis-56011D: Épinois (Binche)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-56011H: Péronnes (Binche)
 nis-56016: Chimay + sous-municipalités
 nis-56016B: Virelles (Chimay)
@@ -2411,21 +1645,12 @@ nis-56044: Lobbes + sous-municipalités
 nis-56044A: Lobbes (Lobbes)
 nis-56044B: Sars-la-Buissière (Lobbes)
 nis-56044C: Bienne-lez-Happart (Lobbes)
-<<<<<<< HEAD
-nis-56044D: Mont-Sainte-Genevi\u00e8ve (Lobbes)
-nis-56049: Merbes-le-Ch\u00e2teau + sous-municipalités
-nis-56049A: Merbes-le-Ch\u00e2teau (Merbes-le-Ch\u00e2teau)
-nis-56049D: Fontaine-Valmont (Merbes-le-Ch\u00e2teau)
-nis-56049C: Labuissi\u00e8re (Merbes-le-Ch\u00e2teau)
-nis-56049B: Merbes-Sainte-Marie (Merbes-le-Ch\u00e2teau)
-=======
 nis-56044D: Mont-Sainte-Geneviève (Lobbes)
 nis-56049: Merbes-le-Château + sous-municipalités
 nis-56049A: Merbes-le-Château (Merbes-le-Château)
 nis-56049D: Fontaine-Valmont (Merbes-le-Château)
 nis-56049C: Labuissière (Merbes-le-Château)
 nis-56049B: Merbes-Sainte-Marie (Merbes-le-Château)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-56051: Momignies + sous-municipalités
 nis-56051A: Momignies (Momignies)
 nis-56051B: Macon (Momignies)
@@ -2435,11 +1660,7 @@ nis-56051F: Macquenoise (Momignies)
 nis-56051D: Seloignes (Momignies)
 nis-56051G: Beauwelz (Momignies)
 nis-56087: Morlanwelz + sous-municipalités
-<<<<<<< HEAD
-nis-56087B: Carni\u00e8res (Morlanwelz)
-=======
 nis-56087B: Carnières (Morlanwelz)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-56087C: Mont-Sainte-Aldegonde (Morlanwelz)
 nis-56087A: Morlanwelz-Mariemont (Morlanwelz)
 nis-56088: Sivry-Rance + sous-municipalités
@@ -2457,34 +1678,6 @@ nis-56078G: Leers-et-Fosteau (Thuin)
 nis-56078F: Ragnies (Thuin)
 nis-56078E: Donstiennes (Thuin)
 nis-56078H: Biercée (Thuin)
-<<<<<<< HEAD
-nis-55004: s Gravenbrakel + sous-municipalités
-nis-55004B: Hennuy\u00e8res (s Gravenbrakel)
-nis-55004A: Braine-le-Comte (s Gravenbrakel)
-nis-55004C: Ronqui\u00e8res (s Gravenbrakel)
-nis-55004D: Henripont (s Gravenbrakel)
-nis-55004E: Petit-Roeulx-lez-Braine (s Gravenbrakel)
-nis-55004F: Steenkerque (s Gravenbrakel)
-nis-55050: Ecaussinnes + sous-municipalités
-nis-55050A: \u00c9caussinnes-d'Enghien (Ecaussinnes)
-nis-55050C: Marche-lez-\u00c9caussinnes (Ecaussinnes)
-nis-55050B: \u00c9caussinnes-Lalaing (Ecaussinnes)
-nis-55010: Edingen + sous-municipalités
-nis-55010A: Enghien (Edingen)
-nis-55010B: Marcq (Edingen)
-nis-55010C: Petit-Enghien (Edingen)
-nis-55022: La Louvi\u00e8re + sous-municipalités
-nis-55022-Z: Houdeng-Goegnies (La Louvi\u00e8re)
-nis-55022A: La Louvi\u00e8re (La Louvi\u00e8re)
-nis-55022B: Haine-Saint-Pierre (La Louvi\u00e8re)
-nis-55022C: Haine-Saint-Paul (La Louvi\u00e8re)
-nis-55022D: Saint-Vaast (La Louvi\u00e8re)
-nis-55022F: Maurage (La Louvi\u00e8re)
-nis-55022E: Trivi\u00e8res (La Louvi\u00e8re)
-nis-55022H: Strépy-Bracquegnies (La Louvi\u00e8re)
-nis-55022G: Boussoit (La Louvi\u00e8re)
-nis-55022J: Houdeng-Aimeries (La Louvi\u00e8re)
-=======
 nis-55004: Braine-le-Comte + sous-municipalités
 nis-55004B: Hennuyères (Braine-le-Comte)
 nis-55004A: Braine-le-Comte (Braine-le-Comte)
@@ -2511,43 +1704,12 @@ nis-55022E: Trivières (La Louvière)
 nis-55022H: Strépy-Bracquegnies (La Louvière)
 nis-55022G: Boussoit (La Louvière)
 nis-55022J: Houdeng-Aimeries (La Louvière)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-55035: Le Roeulx + sous-municipalités
 nis-55035A: Le Roeulx (Le Roeulx)
 nis-55035B: Mignault (Le Roeulx)
 nis-55035C: Thieu (Le Roeulx)
 nis-55035D-II: Ville-sur-Haine (Le Roeulx)
 nis-55035D-I: Gottignies (Le Roeulx)
-<<<<<<< HEAD
-nis-55023: Lessen + sous-municipalités
-nis-55023A: Lessines (Lessen)
-nis-55023B: Deux-Acren (Lessen)
-nis-55023D: Ollignies (Lessen)
-nis-55023C: Bois-de-Lessines (Lessen)
-nis-55023E-II: Wannebecq (Lessen)
-nis-55023F: Ogy (Lessen)
-nis-55023E-I: Papignies (Lessen)
-nis-55023G: Ghoy (Lessen)
-nis-55039: Opzullik + sous-municipalités
-nis-55039B: Hellebecq (Opzullik)
-nis-55039A: Silly (Opzullik)
-nis-55039C: Bassilly (Opzullik)
-nis-55039D: Hoves (Opzullik)
-nis-55039E: Graty (Opzullik)
-nis-55039G: Fouleng (Opzullik)
-nis-55039H: Gondregnies (Opzullik)
-nis-55039F: Thoricourt (Opzullik)
-nis-55040: Zinnik + sous-municipalités
-nis-55040A: Soignies (Zinnik)
-nis-55040C: Thieusies (Zinnik)
-nis-55040D: Casteau (Zinnik)
-nis-55040F: Chaussée-Notre-Dame-Louvignies (Zinnik)
-nis-55040B: Naast (Zinnik)
-nis-55040E: Neufvilles (Zinnik)
-nis-55040G: Horrues (Zinnik)
-nis-60000: Province de Liège
-reg-luik: Regio Luik
-=======
 nis-55023: Lessines + sous-municipalités
 nis-55023A: Lessines (Lessines)
 nis-55023B: Deux-Acren (Lessines)
@@ -2576,21 +1738,10 @@ nis-55040E: Neufvilles (Soignies)
 nis-55040G: Horrues (Soignies)
 nis-60000: Province de Liège
 reg-luik: Région de Liège
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-64008: Berloz + sous-municipalités
 nis-64008A: Berloz (Berloz)
 nis-64008B: Rosoux-Crenwick (Berloz)
 nis-64008C: Corswarem (Berloz)
-<<<<<<< HEAD
-nis-64074: Borgworm + sous-municipalités
-nis-64074A: Waremme (Borgworm)
-nis-64074B: Oleye (Borgworm)
-nis-64074C: Lantremange (Borgworm)
-nis-64074F: Grand-Axhe (Borgworm)
-nis-64074E: Bovenistier (Borgworm)
-nis-64074D: Bleret (Borgworm)
-nis-64074G: Bettincourt (Borgworm)
-=======
 nis-64074: Waremme + sous-municipalités
 nis-64074A: Waremme (Waremme)
 nis-64074B: Oleye (Waremme)
@@ -2599,7 +1750,6 @@ nis-64074F: Grand-Axhe (Waremme)
 nis-64074E: Bovenistier (Waremme)
 nis-64074D: Bleret (Waremme)
 nis-64074G: Bettincourt (Waremme)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-64015: Braives + sous-municipalités
 nis-64015A: Braives (Braives)
 nis-64015B: Tourinne (Braives)
@@ -2641,11 +1791,7 @@ nis-64029E: Omal (Geer)
 nis-64029F: Ligney (Geer)
 nis-64029G: Lens-Saint-Servais (Geer)
 nis-64034: Hannuit + sous-municipalités
-<<<<<<< HEAD
-nis-64034A: Hannut (Hannuit)
-=======
 nis-64034A: Hannuit (Hannuit)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-64034B: Avernas-le-Bauduin (Hannuit)
 nis-64034C: Bertrée (Hannuit)
 nis-64034D: Cras-Avernas (Hannuit)
@@ -2663,18 +1809,6 @@ nis-64034S-I: Grand-Hallet (Hannuit)
 nis-64034R: Merdorp (Hannuit)
 nis-64034S-II: Petit-Hallet (Hannuit)
 nis-64034S-III: Wansin (Hannuit)
-<<<<<<< HEAD
-nis-64047: Lijsem + sous-municipalités
-nis-64047A: Lincent (Lijsem)
-nis-64047B: Pellaines (Lijsem)
-nis-64047C: Racour (Lijsem)
-nis-64056: Oerle + sous-municipalités
-nis-64056A-III: Lens-sur-Geer (Oerle)
-nis-64056A-II: Grandville (Oerle)
-nis-64056A-IV: Oreye (Oerle)
-nis-64056A-I: Bergilers (Oerle)
-nis-64056A-V: Otrange (Oerle)
-=======
 nis-64047: Lincent + sous-municipalités
 nis-64047A: Lincent (Lincent)
 nis-64047B: Pellaines (Lincent)
@@ -2685,7 +1819,6 @@ nis-64056A-II: Grandville (Oreye)
 nis-64056A-IV: Oreye (Oreye)
 nis-64056A-I: Bergilers (Oreye)
 nis-64056A-V: Otrange (Oreye)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-64063: Remicourt + sous-municipalités
 nis-64063A: Remicourt (Remicourt)
 nis-64063B: Lamine (Remicourt)
@@ -2713,11 +1846,7 @@ nis-61079D: Villers-aux-Tours (Anthisnes)
 nis-61010: Burdinne + sous-municipalités
 nis-61010A: Burdinne (Burdinne)
 nis-61010C: Lamontzée (Burdinne)
-<<<<<<< HEAD
-nis-61010B: Hann\u00eache (Burdinne)
-=======
 nis-61010B: Hannêche (Burdinne)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-61010D: Oteppe (Burdinne)
 nis-61010E: Marneffe (Burdinne)
 nis-61012: Clavier + sous-municipalités
@@ -2731,21 +1860,12 @@ nis-61080: Engis + sous-municipalités
 nis-61080-Z: Engis (Engis)
 nis-61080C: Clermont-sous-Huy (Engis)
 nis-61080D: Hermalle-sous-Huy (Engis)
-<<<<<<< HEAD
-nis-61019: Ferri\u00e8res + sous-municipalités
-nis-61019B: Vieuxville (Ferri\u00e8res)
-nis-61019A: Ferri\u00e8res (Ferri\u00e8res)
-nis-61019C: My (Ferri\u00e8res)
-nis-61019D: Xhoris (Ferri\u00e8res)
-nis-61019E: Werbomont (Ferri\u00e8res)
-=======
 nis-61019: Ferrières + sous-municipalités
 nis-61019B: Vieuxville (Ferrières)
 nis-61019A: Ferrières (Ferrières)
 nis-61019C: My (Ferrières)
 nis-61019D: Xhoris (Ferrières)
 nis-61019E: Werbomont (Ferrières)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-61024: Hamoir + sous-municipalités
 nis-61024A: Hamoir (Hamoir)
 nis-61024B: Comblain-Fairon (Hamoir)
@@ -2753,21 +1873,12 @@ nis-61024C: Filot (Hamoir)
 nis-61028: Héron + sous-municipalités
 nis-61028A: Héron (Héron)
 nis-61028C: Couthuin (Héron)
-<<<<<<< HEAD
-nis-61028D: Waret-l'\u00c9v\u00eaque (Héron)
-nis-61028B: Lavoir (Héron)
-nis-61031: Hoei + sous-municipalités
-nis-61031A: Huy (Hoei)
-nis-61031C: Tihange (Hoei)
-nis-61031B: Ben-Ahin (Hoei)
-=======
 nis-61028D: Waret-l'Évêque (Héron)
 nis-61028B: Lavoir (Héron)
 nis-61031: Huy + sous-municipalités
 nis-61031A: Huy (Huy)
 nis-61031C: Tihange (Huy)
 nis-61031B: Ben-Ahin (Huy)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-61039: Marchin + sous-municipalités
 nis-61039A: Marchin (Marchin)
 nis-61039B: Vyle-et-Tharoul (Marchin)
@@ -2794,11 +1905,7 @@ nis-61081E: Seny (Tinlot)
 nis-61063: Verlaine + sous-municipalités
 nis-61063C: Chapon-Seraing (Verlaine)
 nis-61063-Z: Verlaine (Verlaine)
-<<<<<<< HEAD
-nis-61063D: Seraing-le-Ch\u00e2teau (Verlaine)
-=======
 nis-61063D: Seraing-le-Château (Verlaine)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-61068: Villers-le-Bouillet + sous-municipalités
 nis-61068A: Villers-le-Bouillet (Villers-le-Bouillet)
 nis-61068B: Warnant-Dreye (Villers-le-Bouillet)
@@ -2832,15 +1939,6 @@ nis-62015: Beyne-Heusay + sous-municipalités
 nis-62015A: Beyne-Heusay (Beyne-Heusay)
 nis-62015C: Bellaire (Beyne-Heusay)
 nis-62015B: Queue-du-Bois (Beyne-Heusay)
-<<<<<<< HEAD
-nis-62011: Bitsingen + sous-municipalités
-nis-62011A: Bassenge (Bitsingen)
-nis-62011C: Boirs (Bitsingen)
-nis-62011B: Roclenge-sur-Geer (Bitsingen)
-nis-62011E: Wonck (Bitsingen)
-nis-62011D: Glons (Bitsingen)
-nis-62011F: \u00c9ben-\u00c9mael (Bitsingen)
-=======
 nis-62011: Bassenge + sous-municipalités
 nis-62011A: Bassenge (Bassenge)
 nis-62011C: Boirs (Bassenge)
@@ -2848,7 +1946,6 @@ nis-62011B: Roclenge-sur-Geer (Bassenge)
 nis-62011E: Wonck (Bassenge)
 nis-62011D: Glons (Bassenge)
 nis-62011F: Ében-Émael (Bassenge)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-62119: Blégny + sous-municipalités
 nis-62119A: Trembleur (Blégny)
 nis-62119B: Mortier (Blégny)
@@ -2882,32 +1979,19 @@ nis-62120A-II: Flémalle-Haute (Flémalle)
 nis-62120B: Ivoz-Ramet (Flémalle)
 nis-62120A-I: Flémalle-Grande (Flémalle)
 nis-62120C-II: Gleixhe (Flémalle)
-<<<<<<< HEAD
-nis-62120D: Mons-lez-Li\u00e8ge (Flémalle)
-=======
 nis-62120D: Mons-lez-Liège (Flémalle)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-62120C-I: Awirs (Flémalle)
 nis-62038: Fléron + sous-municipalités
 nis-62038A: Fléron (Fléron)
 nis-62038B: Retinne (Fléron)
 nis-62038D: Romsée (Fléron)
 nis-62038C: Magnée (Fléron)
-<<<<<<< HEAD
-nis-62118: Gr\u00e2ce-Hollogne + sous-municipalités
-nis-62118-Z: Hollogne-aux-Pierres (Gr\u00e2ce-Hollogne)
-nis-62118A: Gr\u00e2ce-Berleur (Gr\u00e2ce-Hollogne)
-nis-62118E: Velroux (Gr\u00e2ce-Hollogne)
-nis-62118F: Bierset (Gr\u00e2ce-Hollogne)
-nis-62118D: Horion-Hozémont (Gr\u00e2ce-Hollogne)
-=======
 nis-62118: Grâce-Hollogne + sous-municipalités
 nis-62118-Z: Hollogne-aux-Pierres (Grâce-Hollogne)
 nis-62118A: Grâce-Berleur (Grâce-Hollogne)
 nis-62118E: Velroux (Grâce-Hollogne)
 nis-62118F: Bierset (Grâce-Hollogne)
 nis-62118D: Horion-Hozémont (Grâce-Hollogne)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-62051: Herstal + sous-municipalités
 nis-62051B: Vottem (Herstal)
 nis-62051A: Herstal (Herstal)
@@ -2922,23 +2006,6 @@ nis-62060D: Villers-Saint-Siméon (Juprelle)
 nis-62060F: Lantin (Juprelle)
 nis-62060G: Wihogne (Juprelle)
 nis-62060H: Paifve (Juprelle)
-<<<<<<< HEAD
-nis-62063: Luik + sous-municipalités
-nis-62063-Z: Li\u00e8ge (Luik)
-nis-62063E: Bressoux (Luik)
-nis-62063D: Jupille-sur-Meuse (Luik)
-nis-62063C: Wandre (Luik)
-nis-62063K: Glain (Luik)
-nis-62063G: Ch\u00eanée (Luik)
-nis-62063H: Angleur (Luik)
-nis-62063F: Grivegnée (Luik)
-nis-62063l: Rocourt (Luik)
-nis-62121: Neupré + sous-municipalités
-nis-62121A: Neuville-en-Condroz (Neupré)
-nis-62121B: Plainevaux (Neupré)
-nis-62121C: Rotheux-Rimi\u00e8re (Neupré)
-nis-62121D: \u00c9hein (Neupré)
-=======
 nis-62063: Liège + sous-municipalités
 nis-62063-Z: Liège (Liège)
 nis-62063E: Bressoux (Liège)
@@ -2954,7 +2021,6 @@ nis-62121A: Neuville-en-Condroz (Neupré)
 nis-62121B: Plainevaux (Neupré)
 nis-62121C: Rotheux-Rimière (Neupré)
 nis-62121D: Éhein (Neupré)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-62079: Oupeye + sous-municipalités
 nis-62079A: Oupeye (Oupeye)
 nis-62079C: Hermalle-sous-Argenteau (Oupeye)
@@ -2978,11 +2044,7 @@ nis-62099B: Ayeneux (Soumagne)
 nis-62099C: Micheroux (Soumagne)
 nis-62099D: Melen (Soumagne)
 nis-62099E: Cérexhe-Heuseux (Soumagne)
-<<<<<<< HEAD
-nis-62099F: \u00c9vegnée-Tignée (Soumagne)
-=======
 nis-62099F: Évegnée-Tignée (Soumagne)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-62100: Sprimont + sous-municipalités
 nis-62100A: Sprimont (Sprimont)
 nis-62100C: Rouvreux (Sprimont)
@@ -2992,16 +2054,6 @@ nis-62100E: Gomzé-Andoumont (Sprimont)
 nis-62122: Trooz + sous-municipalités
 nis-62122B: Fraipont (Trooz)
 nis-62122C: Nessonvaux (Trooz)
-<<<<<<< HEAD
-nis-62122A: For\u00eat (Trooz)
-nis-62108: Wezet + sous-municipalités
-nis-62108B: Richelle (Wezet)
-nis-62108A: Visé (Wezet)
-nis-62108C: Argenteau (Wezet)
-nis-62108D: Cheratte (Wezet)
-nis-62108E: Lixhe (Wezet)
-nis-62108F: Lanaye (Wezet)
-=======
 nis-62122A: Forêt (Trooz)
 nis-62108: Visé + sous-municipalités
 nis-62108B: Richelle (Visé)
@@ -3010,7 +2062,6 @@ nis-62108C: Argenteau (Visé)
 nis-62108D: Cheratte (Visé)
 nis-62108E: Lixhe (Visé)
 nis-62108F: Lanaye (Visé)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-63001: Amel + sous-municipalités
 nis-63001-Z: Amel (Amel)
 nis-63001B: Heppenbach (Amel)
@@ -3020,24 +2071,6 @@ nis-63003A: Aubel (Aubel)
 nis-63004: Baelen + sous-municipalités
 nis-63004A: Baelen (Baelen)
 nis-63004B: Membach (Baelen)
-<<<<<<< HEAD
-nis-63012: B\u00fcllingen + sous-municipalités
-nis-63012-Z: Manderfeld (B\u00fcllingen)
-nis-63012A: B\u00fcllingen (B\u00fcllingen)
-nis-63012B: Rocherath (B\u00fcllingen)
-nis-63087: Burg-Reuland + sous-municipalités
-nis-63087A: Thommen (Burg-Reuland)
-nis-63087B: Reuland (Burg-Reuland)
-nis-63013: B\u00fctgenbach + sous-municipalités
-nis-63013A: B\u00fctgenbach (B\u00fctgenbach)
-nis-63013B: Elsenborn (B\u00fctgenbach)
-nis-63020: Dison + sous-municipalités
-nis-63020A: Dison (Dison)
-nis-63020B: Andrimont (Dison)
-nis-63023: Eupen + sous-municipalités
-nis-63023A: Eupen (Eupen)
-nis-63023B: Kettenis (Eupen)
-=======
 nis-63012: Bullange + sous-municipalités
 nis-63012-Z: Manderfeld (Bullange)
 nis-63012A: Bullange (Bullange)
@@ -3054,7 +2087,6 @@ nis-63020B: Andrimont (Dison)
 nis-63023: Néau + sous-municipalités
 nis-63023A: Néau (Néau)
 nis-63023B: Kettenis (Néau)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-63035: Herve + sous-municipalités
 nis-63035A: Herve (Herve)
 nis-63035B: Charneux (Herve)
@@ -3067,34 +2099,14 @@ nis-63035H: Julémont (Herve)
 nis-63038: Jalhay + sous-municipalités
 nis-63038A: Jalhay (Jalhay)
 nis-63038B: Sart (Jalhay)
-<<<<<<< HEAD
-nis-63040: Kelmis + sous-municipalités
-nis-63040A: Kelmis (Kelmis)
-nis-63040B: Neu-Moresnet (Kelmis)
-nis-63040C: Hergenrath (Kelmis)
-=======
 nis-63040: La Calamine + sous-municipalités
 nis-63040A: La Calamine (La Calamine)
 nis-63040B: Neu-Moresnet (La Calamine)
 nis-63040C: Hergenrath (La Calamine)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-63045: Lierneux + sous-municipalités
 nis-63045B: Bra (Lierneux)
 nis-63045C: Arbrefontaine (Lierneux)
 nis-63045A: Lierneux (Lierneux)
-<<<<<<< HEAD
-nis-63046: Limburg + sous-municipalités
-nis-63046A: Limbourg (Limburg)
-nis-63046B: Bilstain (Limburg)
-nis-63046C: Goé (Limburg)
-nis-63048: Lontzen + sous-municipalités
-nis-63048A: Lontzen (Lontzen)
-nis-63048B: Walhorn (Lontzen)
-nis-63049: Malmedy + sous-municipalités
-nis-63049A: Malmedy (Malmedy)
-nis-63049C: Bellevaux-Ligneuville (Malmedy)
-nis-63049B: Bevercé (Malmedy)
-=======
 nis-63046: Limbourg + sous-municipalités
 nis-63046A: Limbourg (Limbourg)
 nis-63046B: Bilstain (Limbourg)
@@ -3106,7 +2118,6 @@ nis-63049: Malmédy + sous-municipalités
 nis-63049A: Malmédy (Malmédy)
 nis-63049C: Bellevaux-Ligneuville (Malmédy)
 nis-63049B: Bevercé (Malmédy)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-63057: Olne + sous-municipalités
 nis-63057A: Olne (Olne)
 nis-63058: Pepinster + sous-municipalités
@@ -3114,40 +2125,22 @@ nis-63058A-II: Cornesse (Pepinster)
 nis-63058C: Wegnez (Pepinster)
 nis-63058B: Soiron (Pepinster)
 nis-63058A-I: Pepinster (Pepinster)
-<<<<<<< HEAD
-nis-63088: Plombi\u00e8res + sous-municipalités
-nis-63088A: Gemmenich (Plombi\u00e8res)
-nis-63088B: Moresnet (Plombi\u00e8res)
-nis-63088C: Montzen (Plombi\u00e8res)
-nis-63088D: Hombourg (Plombi\u00e8res)
-nis-63088E: Sippenaeken (Plombi\u00e8res)
-=======
 nis-63088: Plombières + sous-municipalités
 nis-63088A: Gemmenich (Plombières)
 nis-63088B: Moresnet (Plombières)
 nis-63088C: Montzen (Plombières)
 nis-63088D: Hombourg (Plombières)
 nis-63088E: Sippenaeken (Plombières)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-63061: Raeren + sous-municipalités
 nis-63061A: Raeren (Raeren)
 nis-63061B: Eynatten (Raeren)
 nis-63061C: Hauset (Raeren)
-<<<<<<< HEAD
-nis-63067: Sankt Vith + sous-municipalités
-nis-63067-Z: Sankt Vith (Sankt Vith)
-nis-63067D: Lommersweiler (Sankt Vith)
-nis-63067E: Crombach (Sankt Vith)
-nis-63067F: Recht (Sankt Vith)
-nis-63067C: Sch\u00f6nberg (Sankt Vith)
-=======
 nis-63067: Saint-Vith + sous-municipalités
 nis-63067-Z: Saint-Vith (Saint-Vith)
 nis-63067D: Lommersweiler (Saint-Vith)
 nis-63067E: Crombach (Saint-Vith)
 nis-63067F: Recht (Saint-Vith)
 nis-63067C: Schönberg (Saint-Vith)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-63072: Spa + sous-municipalités
 nis-63072A: Spa (Spa)
 nis-63073: Stavelot + sous-municipalités
@@ -3181,33 +2174,6 @@ nis-63080: Weismes + sous-municipalités
 nis-63080A: Waimes (Weismes)
 nis-63080B: Robertville (Weismes)
 nis-63080C: Faymonville (Weismes)
-<<<<<<< HEAD
-nis-63084: Welkenraedt + sous-municipalités
-nis-63084A: Welkenraedt (Welkenraedt)
-nis-63084B: Henri-Chapelle (Welkenraedt)
-nis-70000: Province de Limbourg
-reg-haspengouw: Regio Haspengouw
-nis-73001: Alken + sous-municipalités
-nis-73001A: Alken (Alken)
-nis-73083: Tongeren + sous-municipalités
-nis-73083A: Tongeren (Tongeren)
-nis-73083B: Koninksem (Tongeren)
-nis-73083C: Neerrepen (Tongeren)
-nis-73083D: Riksingen (Tongeren)
-nis-73083E: Henis (Tongeren)
-nis-73083F: Berg (Tongeren)
-nis-73083G: Mal (Tongeren)
-nis-73083H: Sluizen (Tongeren)
-nis-73083J: Nerem (Tongeren)
-nis-73083K-II: Diets-Heur (Tongeren)
-nis-73083K-I: Vreren (Tongeren)
-nis-73083P: Piringen (Tongeren)
-nis-73083l: Rutten (Tongeren)
-nis-73083R: Overrepen (Tongeren)
-nis-73083M: Lauw (Tongeren)
-nis-73083S: "'s-Herenelderen (Tongeren)"
-nis-73083N: Widooie (Tongeren)
-=======
 nis-63084: Welkenrath + sous-municipalités
 nis-63084A: Welkenrath (Welkenrath)
 nis-63084B: Henri-Chapelle (Welkenrath)
@@ -3233,7 +2199,6 @@ nis-73083R: Overrepen (Tongres)
 nis-73083M: Lowaige (Tongres)
 nis-73083S: \'s-Herenelderen (Tongres)
 nis-73083N: Widooie (Tongres)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-73028: Herstappe + sous-municipalités
 nis-73028A: Herstappe (Herstappe)
 nis-73040: Kortessem + sous-municipalités
@@ -3247,11 +2212,7 @@ nis-73032A: Hoeselt (Hoeselt)
 nis-73032B: Werm (Hoeselt)
 nis-73032C: Romershoven (Hoeselt)
 nis-73032E: Schalkhoven (Hoeselt)
-<<<<<<< HEAD
-nis-73032D: Sint-Huibrechts-Hern (Hoeselt)
-=======
 nis-73032D: Hern-Saint-Hubert (Hoeselt)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-73006: Bilzen + sous-municipalités
 nis-73006A: Bilzen (Bilzen)
 nis-73006B: Beverst (Bilzen)
@@ -3277,24 +2238,6 @@ nis-73066G: Fall-et-Mheer (Riemst)
 nis-73066H: Millen (Riemst)
 nis-73066J: Genoelselderen (Riemst)
 nis-73066K: Membruggen (Riemst)
-<<<<<<< HEAD
-nis-71053: Sint-Truiden + sous-municipalités
-nis-71053B: Halmaal (Sint-Truiden)
-nis-71053A: Sint-Truiden (Sint-Truiden)
-nis-71053C: Wilderen (Sint-Truiden)
-nis-71053D: Duras (Sint-Truiden)
-nis-71053E: Gorsem (Sint-Truiden)
-nis-71053F: Runkelen (Sint-Truiden)
-nis-71053H: Ordingen (Sint-Truiden)
-nis-71053G: Zepperen (Sint-Truiden)
-nis-71053J: Brustem (Sint-Truiden)
-nis-71053K: Groot-Gelmen (Sint-Truiden)
-nis-71053l: Engelmanshoven (Sint-Truiden)
-nis-71053M: Gelinden (Sint-Truiden)
-nis-71053N: Aalst (Sint-Truiden)
-nis-71053P: Kerkom-bij-Sint-Truiden (Sint-Truiden)
-nis-71053R: Velm (Sint-Truiden)
-=======
 nis-71053: Saint-Trond + sous-municipalités
 nis-71053B: Halmaal (Saint-Trond)
 nis-71053A: Saint-Trond (Saint-Trond)
@@ -3311,28 +2254,11 @@ nis-71053M: Gelinden (Saint-Trond)
 nis-71053N: Alost (Saint-Trond)
 nis-71053P: Kerkom-bij-Saint-Trond (Saint-Trond)
 nis-71053R: Velm (Saint-Trond)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-73098: Wellen + sous-municipalités
 nis-73098B: Herten (Wellen)
 nis-73098A: Wellen (Wellen)
 nis-73098C: Berlingen (Wellen)
 nis-73098D: Ulbeek (Wellen)
-<<<<<<< HEAD
-nis-73009: Borgloon + sous-municipalités
-nis-73009B: Kuttekoven (Borgloon)
-nis-73009A: Borgloon (Borgloon)
-nis-73009C: Kerniel (Borgloon)
-nis-73009E: Jesseren (Borgloon)
-nis-73009G: Groot-Loon (Borgloon)
-nis-73009D: Gors-Opleeuw (Borgloon)
-nis-73009F: Bommershoven (Borgloon)
-nis-73009J: Hendrieken (Borgloon)
-nis-73009H: Broekom (Borgloon)
-nis-73009K: Voort (Borgloon)
-nis-73009l: Gotem (Borgloon)
-nis-73009N: Rijkel (Borgloon)
-nis-73009M: Hoepertingen (Borgloon)
-=======
 nis-73009: Looz + sous-municipalités
 nis-73009B: Kuttekoven (Looz)
 nis-73009A: Looz (Looz)
@@ -3347,7 +2273,6 @@ nis-73009K: Voort (Looz)
 nis-73009l: Gotem (Looz)
 nis-73009N: Rijkel (Looz)
 nis-73009M: Hoepertingen (Looz)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-73022: Heers + sous-municipalités
 nis-73022A: Heers (Heers)
 nis-73022D: Fologne (Heers)
@@ -3359,17 +2284,10 @@ nis-73022H: Heks (Heers)
 nis-73022F: Mettekoven (Heers)
 nis-73022J: Horpmaal (Heers)
 nis-73022K: Vechmaal (Heers)
-<<<<<<< HEAD
-nis-73022M: Rukkelingen-Loon (Heers)
-nis-73022l: Mechelen-Bovelingen (Heers)
-nis-71017: Gingelom + sous-municipalités
-nis-71017B: Niel-bij-Sint-Truiden (Gingelom)
-=======
 nis-73022M: Roclenge-Looz (Heers)
 nis-73022l: Marlinne (Heers)
 nis-71017: Gingelom + sous-municipalités
 nis-71017B: Niel-Saint-Trond (Gingelom)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-71017A: Gingelom (Gingelom)
 nis-71017E: Borlo (Gingelom)
 nis-71017D: Buvingen (Gingelom)
@@ -3379,21 +2297,12 @@ nis-71017G: Boekhout (Gingelom)
 nis-71017H: Goyer (Gingelom)
 nis-71017K: Kortijs (Gingelom)
 nis-71017J: Montenaken (Gingelom)
-<<<<<<< HEAD
-nis-71017l: Vorsen (Gingelom)
-nis-71024: Herk-de-Stad + sous-municipalités
-nis-71024B: Donk (Herk-de-Stad)
-nis-71024A: Herk-de-Stad (Herk-de-Stad)
-nis-71024C: Schulen (Herk-de-Stad)
-nis-71024D: Berbroek (Herk-de-Stad)
-=======
 nis-71017l: Fresin (Gingelom)
 nis-71024: Herck-la-Ville + sous-municipalités
 nis-71024B: Donk (Herck-la-Ville)
 nis-71024A: Herck-la-Ville (Herck-la-Ville)
 nis-71024C: Schulen (Herck-la-Ville)
 nis-71024D: Berbroek (Herck-la-Ville)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-71020: Halen + sous-municipalités
 nis-71020A-II: Loksbergen (Halen)
 nis-71020B: Zelem (Halen)
@@ -3418,11 +2327,7 @@ nis-24059J: Overwinden (Landen)
 nis-24059K: Attenhoven (Landen)
 nis-24059G: Ezemaal (Landen)
 nis-24059l: Neerlanden (Landen)
-<<<<<<< HEAD
-reg-hasselt: Regio Hasselt
-=======
 reg-hasselt: Région de Hasselt
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-71022: Hasselt + sous-municipalités
 nis-71022B: Wimmertingen (Hasselt)
 nis-71022A: Hasselt (Hasselt)
@@ -3432,11 +2337,7 @@ nis-71022C: Herck-Saint-Lambert (Hasselt)
 nis-71022F: Kermt (Hasselt)
 nis-71022G: Spalbeek (Hasselt)
 nis-71022H: Stevoort (Hasselt)
-<<<<<<< HEAD
-reg-kempen: Regio Kempen
-=======
 reg-kempen: Kempen (région)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-11050: Wijnegem + sous-municipalités
 nis-11050A: Wijnegem (Wijnegem)
 nis-11054: Zandhoven + sous-municipalités
@@ -3472,11 +2373,7 @@ nis-11009B: Saint-Léonard (Brecht)
 nis-11009C: Sint-Job-in-'t-Goor (Brecht)
 nis-11039: Schilde + sous-municipalités
 nis-11039A: Schilde (Schilde)
-<<<<<<< HEAD
-nis-11039B: "'s-Gravenwezel (Schilde)"
-=======
-nis-11039B: '''s-Grez-Doiceauwezel (Schilde)'
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
+nis-11039B: \'s-Grez-Doiceauwezel (Schilde)
 nis-11055: Zoersel + sous-municipalités
 nis-11055B: Halle (Zoersel)
 nis-11055A: Zoersel (Zoersel)
@@ -3488,15 +2385,9 @@ nis-12009A: Duffel (Duffel)
 nis-12005: Bonheiden + sous-municipalités
 nis-12005A: Bonheiden (Bonheiden)
 nis-12005B: Rijmenam (Bonheiden)
-<<<<<<< HEAD
-nis-12035: Sint-Katelijne-Waver + sous-municipalités
-nis-12035B: Onze-Lieve-Vrouw-Waver (Sint-Katelijne-Waver)
-nis-12035A: Sint-Katelijne-Waver (Sint-Katelijne-Waver)
-=======
 nis-12035: Wavre-Saint-Cathérine + sous-municipalités
 nis-12035B: Wavre-Nôtre-Dame (Wavre-Saint-Cathérine)
 nis-12035A: Wavre-Saint-Cathérine (Wavre-Saint-Cathérine)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-13011: Herentals + sous-municipalités
 nis-13011A: Herentals (Herentals)
 nis-13011B: Noorderwijk (Herentals)
@@ -3544,26 +2435,16 @@ nis-13004A: Beerse (Beerse)
 nis-13004B: Vlimmeren (Beerse)
 nis-13046: Vosselaar + sous-municipalités
 nis-13046A: Vosselaar (Vosselaar)
-<<<<<<< HEAD
-nis-13031: Oud-Turnhout + sous-municipalités
-nis-13031A: Oud-Turnhout (Oud-Turnhout)
-=======
 nis-13031: Vieux-Turnhout + sous-municipalités
 nis-13031A: Vieux-Turnhout (Vieux-Turnhout)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-13001: Arendonk + sous-municipalités
 nis-13001A: Arendonk (Arendonk)
 nis-13035: Ravels + sous-municipalités
 nis-13035A: Ravels (Ravels)
 nis-13035B: Weelde (Ravels)
 nis-13035C: Poppel (Ravels)
-<<<<<<< HEAD
-nis-13002: Baarle-Hertog + sous-municipalités
-nis-13002A: Baarle-Hertog (Baarle-Hertog)
-=======
 nis-13002: Baerle-Duc + sous-municipalités
 nis-13002A: Baerle-Duc (Baerle-Duc)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-13025: Mol + sous-municipalités
 nis-13025A: Mol (Mol)
 nis-13053: Laakdal + sous-municipalités
@@ -3575,30 +2456,17 @@ nis-13008: Geel + sous-municipalités
 nis-13008-Z: Geel (Geel)
 nis-13021: Meerhout + sous-municipalités
 nis-13021A: Meerhout (Meerhout)
-<<<<<<< HEAD
-nis-13017: Kasterlee + sous-municipalités
-nis-13017B: Lichtaart (Kasterlee)
-nis-13017C: Tielen (Kasterlee)
-nis-13017A: Kasterlee (Kasterlee)
-=======
 nis-13017: Casterlé + sous-municipalités
 nis-13017B: Lichtaart (Casterlé)
 nis-13017C: Tielen (Casterlé)
 nis-13017A: Casterlé (Casterlé)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-13036: Retie + sous-municipalités
 nis-13036A: Retie (Retie)
 nis-13006: Dessel + sous-municipalités
 nis-13006A: Dessel (Dessel)
-<<<<<<< HEAD
-nis-13003: Balen + sous-municipalités
-nis-13003B: Olmen (Balen)
-nis-13003A: Balen (Balen)
-=======
 nis-13003: Baelen + sous-municipalités
 nis-13003B: Olmen (Baelen)
 nis-13003A: Baelen (Baelen)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-12014: Heist-op-den-Berg + sous-municipalités
 nis-12014A: Heist-op-den-Berg (Heist-op-den-Berg)
 nis-12014B: Hallaar (Heist-op-den-Berg)
@@ -3606,15 +2474,9 @@ nis-12014C: Itegem (Heist-op-den-Berg)
 nis-12014D: Wiekevorst (Heist-op-den-Berg)
 nis-12014E: Booischot (Heist-op-den-Berg)
 nis-12014F: Schriek (Heist-op-den-Berg)
-<<<<<<< HEAD
-nis-12021: Lier + sous-municipalités
-nis-12021A: Lier (Lier)
-nis-12021B: Koningshooikt (Lier)
-=======
 nis-12021: Lierre + sous-municipalités
 nis-12021A: Lierre (Lierre)
 nis-12021B: Koningshooikt (Lierre)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-12026: Nijlen + sous-municipalités
 nis-12026C: Kessel (Nijlen)
 nis-12026A: Nijlen (Nijlen)
@@ -3625,11 +2487,7 @@ nis-12029A: Putte (Putte)
 nis-12002: Berlaar + sous-municipalités
 nis-12002A-II: Gestel (Berlaar)
 nis-12002A-I: Berlaar (Berlaar)
-<<<<<<< HEAD
-reg-limburgse-kempen: Regio Limburgse Kempen
-=======
 reg-limburgse-kempen: Limburge Kempen (région)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-72039: Houthalen-Helchteren + sous-municipalités
 nis-72039B: Helchteren (Houthalen-Helchteren)
 nis-72039A: Houthalen (Houthalen-Helchteren)
@@ -3664,11 +2522,7 @@ nis-71070B: Zolder (Heusden-Zolder)
 nis-71037: Lummen + sous-municipalités
 nis-71037A: Lummen (Lummen)
 nis-71037B: Linkhout (Lummen)
-<<<<<<< HEAD
-nis-71037C: Meldert (Lummen)
-=======
 nis-71037C: Mailard (Lummen)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-71004: Beringen + sous-municipalités
 nis-71004A: Beringen (Beringen)
 nis-71004C: Koersel (Beringen)
@@ -3686,15 +2540,6 @@ nis-71067A: Zutendaal (Zutendaal)
 nis-71069: Ham + sous-municipalités
 nis-71069A: Oostham (Ham)
 nis-71069B: Kwaadmechelen (Ham)
-<<<<<<< HEAD
-nis-71034: Leopoldsburg + sous-municipalités
-nis-71034B: Heppen (Leopoldsburg)
-nis-71034A: Leopoldsburg (Leopoldsburg)
-nis-71057: Tessenderlo + sous-municipalités
-nis-71057A: Tessenderlo (Tessenderlo)
-nis-72043: Pelt + sous-municipalités
-nis-72025B: Sint-Huibrechts-Lille (Pelt)
-=======
 nis-71034: Bourg-Léopold + sous-municipalités
 nis-71034B: Heppen (Bourg-Léopold)
 nis-71034A: Bourg-Léopold (Bourg-Léopold)
@@ -3702,7 +2547,6 @@ nis-71057: Tessenderlo + sous-municipalités
 nis-71057A: Tessenderlo (Tessenderlo)
 nis-72043: Pelt + sous-municipalités
 nis-72025B: Lille-Saint-Hubert (Pelt)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-72025A: Neerpelt (Pelt)
 nis-72029A: Overpelt (Pelt)
 nis-72042: Oudsbergen + sous-municipalités
@@ -3712,11 +2556,7 @@ nis-72040A: Meeuwen (Oudsbergen)
 nis-72040C: Ellikom (Oudsbergen)
 nis-72040E: Neerglabbeek (Oudsbergen)
 nis-72040D: Gruitrode (Oudsbergen)
-<<<<<<< HEAD
-reg-maasland: Regio Maasland
-=======
 reg-maasland: Maasland (région)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-72018: Kinrooi + sous-municipalités
 nis-72018A: Kinrooi (Kinrooi)
 nis-72018B: Molenbeersel (Kinrooi)
@@ -3747,25 +2587,6 @@ nis-73107E: Leut (Maasmechelen)
 nis-73107D: Eisden (Maasmechelen)
 nis-73107F: Meeswijk (Maasmechelen)
 nis-73107H: Uikhoven (Maasmechelen)
-<<<<<<< HEAD
-reg-voerstreek: Regio Voerstreek
-nis-73109: Voeren + sous-municipalités
-nis-73109A: "'s-Gravenvoeren (Voeren)"
-nis-73109B: Sint-Martens-Voeren (Voeren)
-nis-73109C: Teuven (Voeren)
-nis-73109D: Remersdaal (Voeren)
-nis-73109E: Sint-Pieters-Voeren (Voeren)
-nis-73109F: Moelingen (Voeren)
-nis-80000: Luxembourg
-reg-luxemburg: Regio Luxemburg
-nis-81001: Aarlen + sous-municipalités
-nis-81001A: Arlon (Aarlen)
-nis-81001B: Autelbas (Aarlen)
-nis-81001D: Bonnert (Aarlen)
-nis-81001C: Heinsch (Aarlen)
-nis-81001E: Guirsch (Aarlen)
-nis-81001F: Toernich (Aarlen)
-=======
 reg-voerstreek: Voerstreek (région)
 nis-73109: Fourons + sous-municipalités
 nis-73109A: Fouron-le-Comte (Fourons)
@@ -3783,7 +2604,6 @@ nis-81001D: Bonnert (Arlon)
 nis-81001C: Heinsch (Arlon)
 nis-81001E: Guirsch (Arlon)
 nis-81001F: Toernich (Arlon)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-81003: Attert + sous-municipalités
 nis-81003A: Attert (Attert)
 nis-81003B: Tontelange (Attert)
@@ -3803,21 +2623,12 @@ nis-81015B: Sélange (Messancy)
 nis-81015C: Habergy (Messancy)
 nis-81015D: Wolkrange (Messancy)
 nis-81015E: Hondelange (Messancy)
-<<<<<<< HEAD
-nis-82003: Bastenaken + sous-municipalités
-nis-82003B: Wardin (Bastenaken)
-nis-82003A: Bastogne (Bastenaken)
-nis-82003C: Villers-la-Bonne-Eau (Bastenaken)
-nis-82003D: Noville (Bastenaken)
-nis-82003E: Longvilly (Bastenaken)
-=======
 nis-82003: Bastogne + sous-municipalités
 nis-82003B: Wardin (Bastogne)
 nis-82003A: Bastogne (Bastogne)
 nis-82003C: Villers-la-Bonne-Eau (Bastogne)
 nis-82003D: Noville (Bastogne)
 nis-82003E: Longvilly (Bastogne)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-82005: Bertogne + sous-municipalités
 nis-82005A: Bertogne (Bertogne)
 nis-82005B: Longchamps (Bertogne)
@@ -3844,15 +2655,6 @@ nis-82038: Sainte-Ode + sous-municipalités
 nis-82038B: Amberloup (Sainte-Ode)
 nis-82038A: Tillet (Sainte-Ode)
 nis-82038C: Lavacherie (Sainte-Ode)
-<<<<<<< HEAD
-nis-82036: Vaux-sur-S\u00fbre + sous-municipalités
-nis-82036B: Nives (Vaux-sur-S\u00fbre)
-nis-82036A: Vaux-lez-Rosi\u00e8res (Vaux-sur-S\u00fbre)
-nis-82036C: Morhet (Vaux-sur-S\u00fbre)
-nis-82036D: Hompré (Vaux-sur-S\u00fbre)
-nis-82036E: Sibret (Vaux-sur-S\u00fbre)
-nis-82036F: Juseret (Vaux-sur-S\u00fbre)
-=======
 nis-82036: Vaux-sur-Sûre + sous-municipalités
 nis-82036B: Nives (Vaux-sur-Sûre)
 nis-82036A: Vaux-lez-Rosières (Vaux-sur-Sûre)
@@ -3860,7 +2662,6 @@ nis-82036C: Morhet (Vaux-sur-Sûre)
 nis-82036D: Hompré (Vaux-sur-Sûre)
 nis-82036E: Sibret (Vaux-sur-Sûre)
 nis-82036F: Juseret (Vaux-sur-Sûre)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-82032: Vielsalm + sous-municipalités
 nis-82032B: Petit-Thier (Vielsalm)
 nis-82032A: Vielsalm (Vielsalm)
@@ -3880,11 +2681,7 @@ nis-83012H: Bomal (Durbuy)
 nis-83012l: Heyd (Durbuy)
 nis-83012M: Wéris (Durbuy)
 nis-83013: Erezée + sous-municipalités
-<<<<<<< HEAD
-nis-83013A: \u00c9rezée (Erezée)
-=======
 nis-83013A: Érezée (Erezée)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-83013B: Amonines (Erezée)
 nis-83013D: Mormont (Erezée)
 nis-83013C: Soy (Erezée)
@@ -3962,11 +2759,7 @@ nis-84029B: Saint-Médard (Herbeumont)
 nis-84029C: Straimont (Herbeumont)
 nis-84033: Léglise + sous-municipalités
 nis-84033A: Léglise (Léglise)
-<<<<<<< HEAD
-nis-84033B: \u00c9bly (Léglise)
-=======
 nis-84033B: Ébly (Léglise)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-84033C: Witry (Léglise)
 nis-84033D: Mellier (Léglise)
 nis-84033E: Assenois (Léglise)
@@ -3987,15 +2780,6 @@ nis-84077D: Recogne (Libramont-Chevigny)
 nis-84077G: Moircy (Libramont-Chevigny)
 nis-84077F: Sainte-Marie-Chevigny (Libramont-Chevigny)
 nis-84077H: Remagne (Libramont-Chevigny)
-<<<<<<< HEAD
-nis-84043: Neufch\u00e2teau + sous-municipalités
-nis-84043A: Neufch\u00e2teau (Neufch\u00e2teau)
-nis-84043B: Longlier (Neufch\u00e2teau)
-nis-84043C: Hamipré (Neufch\u00e2teau)
-nis-84043E: Tournay (Neufch\u00e2teau)
-nis-84043D: Grapfontaine (Neufch\u00e2teau)
-nis-84043F: Grandvoir (Neufch\u00e2teau)
-=======
 nis-84043: Neufchâteau + sous-municipalités
 nis-84043A: Neufchâteau (Neufchâteau)
 nis-84043B: Longlier (Neufchâteau)
@@ -4003,7 +2787,6 @@ nis-84043C: Hamipré (Neufchâteau)
 nis-84043E: Tournay (Neufchâteau)
 nis-84043D: Grapfontaine (Neufchâteau)
 nis-84043F: Grandvoir (Neufchâteau)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-84050: Paliseul + sous-municipalités
 nis-84050A: Paliseul (Paliseul)
 nis-84050B: Opont (Paliseul)
@@ -4039,11 +2822,7 @@ nis-85007D: Izel (Chiny)
 nis-85007E: Jamoigne (Chiny)
 nis-85007F: Termes (Chiny)
 nis-85009: Etalle + sous-municipalités
-<<<<<<< HEAD
-nis-85009A: \u00c9talle (Etalle)
-=======
 nis-85009A: Étalle (Etalle)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-85009B: Vance (Etalle)
 nis-85009D: Buzenol (Etalle)
 nis-85009C: Chantemelle (Etalle)
@@ -4079,11 +2858,7 @@ nis-85047A: Dampicourt (Rouvroy)
 nis-85047B: Harnoncourt (Rouvroy)
 nis-85047D: Torgny (Rouvroy)
 nis-85034: Saint-Léger + sous-municipalités
-<<<<<<< HEAD
-nis-85034B: Ch\u00e2tillon (Saint-Léger)
-=======
 nis-85034B: Châtillon (Saint-Léger)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-85034A: Saint-Léger (Saint-Léger)
 nis-85034C: Meix-le-Tige (Saint-Léger)
 nis-85039: Tintigny + sous-municipalités
@@ -4099,11 +2874,7 @@ nis-85045D: Saint-Mard (Virton)
 nis-85045E: Ruette (Virton)
 nis-85045F: Bleid (Virton)
 nis-90000: Province de Namur
-<<<<<<< HEAD
-reg-namen: Regio Namen + sous-municipalités
-=======
 reg-namen: Région de Namur + sous-municipalités
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-91005: Anhée + sous-municipalités
 nis-91005A-III: Haut-le-Wastia (Anhée)
 nis-91005A-II: Warnant (Anhée)
@@ -4127,20 +2898,6 @@ nis-91013K: Focant (Beauraing)
 nis-91013l: Honnay (Beauraing)
 nis-91013N: Vonêche (Beauraing)
 nis-91013P: Wancennes (Beauraing)
-<<<<<<< HEAD
-nis-91013R: Pondr\u00f4me (Beauraing)
-nis-91015: Bi\u00e8vre + sous-municipalités
-nis-91015A: Bi\u00e8vre (Bi\u00e8vre)
-nis-91015D-III: Gros-Fays (Bi\u00e8vre)
-nis-91015B: Graide (Bi\u00e8vre)
-nis-91015C: Naomé (Bi\u00e8vre)
-nis-91015D-II: Baillamont (Bi\u00e8vre)
-nis-91015D-IV: Cornimont (Bi\u00e8vre)
-nis-91015D-I: Oizy (Bi\u00e8vre)
-nis-91015E-III: Petit-Fays (Bi\u00e8vre)
-nis-91015E-I: Monceau-en-Ardenne (Bi\u00e8vre)
-nis-91015E-II: Bellefontaine (Bi\u00e8vre)
-=======
 nis-91013R: Pondrôme (Beauraing)
 nis-91015: Bièvre + sous-municipalités
 nis-91015A: Bièvre (Bièvre)
@@ -4153,7 +2910,6 @@ nis-91015D-I: Oizy (Bièvre)
 nis-91015E-III: Petit-Fays (Bièvre)
 nis-91015E-I: Monceau-en-Ardenne (Bièvre)
 nis-91015E-II: Bellefontaine (Bièvre)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-91030: Ciney + sous-municipalités
 nis-91030A: Ciney (Ciney)
 nis-91030B: Pessoux (Ciney)
@@ -4197,16 +2953,6 @@ nis-91059D: Scy (Hamois)
 nis-91059E: Emptinne (Hamois)
 nis-91059F: Natoye (Hamois)
 nis-91059G: Schaltin (Hamois)
-<<<<<<< HEAD
-nis-91142: Hasti\u00e8re + sous-municipalités
-nis-91142C: Waulsort (Hasti\u00e8re)
-nis-91142D: Blaimont (Hasti\u00e8re)
-nis-91142A: Hasti\u00e8re-Lavaux (Hasti\u00e8re)
-nis-91142B: Hasti\u00e8re-par-del\u00e0 (Hasti\u00e8re)
-nis-91142F: Agimont (Hasti\u00e8re)
-nis-91142G: Hermeton-sur-Meuse (Hasti\u00e8re)
-nis-91142E: Heer (Hasti\u00e8re)
-=======
 nis-91142: Hastière + sous-municipalités
 nis-91142C: Waulsort (Hastière)
 nis-91142D: Blaimont (Hastière)
@@ -4215,7 +2961,6 @@ nis-91142B: Hastière-par-delà (Hastière)
 nis-91142F: Agimont (Hastière)
 nis-91142G: Hermeton-sur-Meuse (Hastière)
 nis-91142E: Heer (Hastière)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-91064: Havelange + sous-municipalités
 nis-91064B: Verlée (Havelange)
 nis-91064C: Maffe (Havelange)
@@ -4227,11 +2972,7 @@ nis-91064G: Jeneffe (Havelange)
 nis-91064H: Miécret (Havelange)
 nis-91064J: Flostoy (Havelange)
 nis-91072: Houyet + sous-municipalités
-<<<<<<< HEAD
-nis-91072C: Mesnil-\u00c9glise (Houyet)
-=======
 nis-91072C: Mesnil-Église (Houyet)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-91072A: Houyet (Houyet)
 nis-91072D: Finnevaux (Houyet)
 nis-91072B: Hour (Houyet)
@@ -4246,13 +2987,8 @@ nis-91103B: Gerin (Onhaye)
 nis-91103A: Onhaye (Onhaye)
 nis-91103D: Serville (Onhaye)
 nis-91103C: Anthée (Onhaye)
-<<<<<<< HEAD
-nis-91103F: Sommi\u00e8re (Onhaye)
-nis-91103E: Fala\u00ebn (Onhaye)
-=======
 nis-91103F: Sommière (Onhaye)
 nis-91103E: Falaën (Onhaye)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-91103G: Weillen (Onhaye)
 nis-91114: Rochefort + sous-municipalités
 nis-91114A: Rochefort (Rochefort)
@@ -4277,13 +3013,8 @@ nis-91120E: Hogne (Somme-Leuze)
 nis-91120H: Heure (Somme-Leuze)
 nis-91120J: Bonsin (Somme-Leuze)
 nis-91143: Vresse-sur-Semois + sous-municipalités
-<<<<<<< HEAD
-nis-91143A-III: Lafor\u00eat (Vresse-sur-Semois)
-nis-91143B-III: Chairi\u00e8re (Vresse-sur-Semois)
-=======
 nis-91143A-III: Laforêt (Vresse-sur-Semois)
 nis-91143B-III: Chairière (Vresse-sur-Semois)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-91143A-II: Membre (Vresse-sur-Semois)
 nis-91143B-II: Mouzaive (Vresse-sur-Semois)
 nis-91143A-I: Vresse (Vresse-sur-Semois)
@@ -4321,17 +3052,10 @@ nis-92006B: Crupet (Assesse)
 nis-92006C: Maillen (Assesse)
 nis-92006D: Sart-Bernard (Assesse)
 nis-92006F: Sorinne-la-Longue (Assesse)
-<<<<<<< HEAD
-nis-92006E: Courri\u00e8re (Assesse)
-nis-92006G: Florée (Assesse)
-nis-92035: Eghezée + sous-municipalités
-nis-92035A: \u00c9ghezée (Eghezée)
-=======
 nis-92006E: Courrière (Assesse)
 nis-92006G: Florée (Assesse)
 nis-92035: Eghezée + sous-municipalités
 nis-92035A: Éghezée (Eghezée)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-92035B: Longchamps (Eghezée)
 nis-92035D: Mehaigne (Eghezée)
 nis-92035C: Upigny (Eghezée)
@@ -4371,11 +3095,7 @@ nis-92048D: Le Roux (Fosses-la-Ville)
 nis-92048E: Aisemont (Fosses-la-Ville)
 nis-92048F: Sart-Saint-Laurent (Fosses-la-Ville)
 nis-92142: Gembloux + sous-municipalités
-<<<<<<< HEAD
-nis-92142A-III: Sauveni\u00e8re (Gembloux)
-=======
 nis-92142A-III: Sauvenière (Gembloux)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-92142A-II: Ernage (Gembloux)
 nis-92142A-IV: Lonzée (Gembloux)
 nis-92142A-I: Gembloux (Gembloux)
@@ -4386,11 +3106,7 @@ nis-92142D: Isnes (Gembloux)
 nis-92142E: Bossière (Gembloux)
 nis-92142G: Bothey (Gembloux)
 nis-92142F: Mazy (Gembloux)
-<<<<<<< HEAD
-nis-92142H: Corroy-le-Ch\u00e2teau (Gembloux)
-=======
 nis-92142H: Corroy-le-Château (Gembloux)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-92054: Gesves + sous-municipalités
 nis-92054B: Faulx-les-Tombes (Gesves)
 nis-92054A: Gesves (Gesves)
@@ -4406,16 +3122,6 @@ nis-92140F: Moustier (Jemeppe-sur-Sambre)
 nis-92140G: Mornimont (Jemeppe-sur-Sambre)
 nis-92140E: Spy (Jemeppe-sur-Sambre)
 nis-92140H: Ham-sur-Sambre (Jemeppe-sur-Sambre)
-<<<<<<< HEAD
-nis-92141: La Bruy\u00e8re + sous-municipalités
-nis-92141A: \u00c9mines (La Bruy\u00e8re)
-nis-92141C: Bovesse (La Bruy\u00e8re)
-nis-92141B: Rhisnes (La Bruy\u00e8re)
-nis-92141D: Saint-Denis (La Bruy\u00e8re)
-nis-92141E: Meux (La Bruy\u00e8re)
-nis-92141F: Villers-lez-Heest (La Bruy\u00e8re)
-nis-92141G: Warisoulx (La Bruy\u00e8re)
-=======
 nis-92141: La Bruyère + sous-municipalités
 nis-92141A: Émines (La Bruyère)
 nis-92141C: Bovesse (La Bruyère)
@@ -4424,7 +3130,6 @@ nis-92141D: Saint-Denis (La Bruyère)
 nis-92141E: Meux (La Bruyère)
 nis-92141F: Villers-lez-Heest (La Bruyère)
 nis-92141G: Warisoulx (La Bruyère)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-92087: Mettet + sous-municipalités
 nis-92087A: Mettet (Mettet)
 nis-92087B: Saint-Gérard (Mettet)
@@ -4435,34 +3140,6 @@ nis-92087F: Biesmerée (Mettet)
 nis-92087H: Oret (Mettet)
 nis-92087G: Stave (Mettet)
 nis-92087J: Biesme (Mettet)
-<<<<<<< HEAD
-nis-92094: Namen + sous-municipalités
-nis-92094B: Jambes (Namen)
-nis-92094C: Wépion (Namen)
-nis-92094A: Namur (Namen)
-nis-92094D: Malonne (Namen)
-nis-92094E: Flawinne (Namen)
-nis-92094F: Temploux (Namen)
-nis-92094G: Suarlée (Namen)
-nis-92094H: Belgrade (Namen)
-nis-92094J: Saint-Servais (Namen)
-nis-92094L-II: Vedrin (Namen)
-nis-92094K: Bouge (Namen)
-nis-92094L-I: Daussoulx (Namen)
-nis-92094M: Saint-Marc (Namen)
-nis-92094N-II: Cognelée (Namen)
-nis-92094N-I: Champion (Namen)
-nis-92094P-II: Boninne (Namen)
-nis-92094P-I: Gelbressée (Namen)
-nis-92094R: Beez (Namen)
-nis-92094T: Lives-sur-Meuse (Namen)
-nis-92094U: Loyers (Namen)
-nis-92094S: Marche-les-Dames (Namen)
-nis-92094V: Wierde (Namen)
-nis-92094W: Naninne (Namen)
-nis-92094Y: Erpent (Namen)
-nis-92094X: Dave (Namen)
-=======
 nis-92094: Namur + sous-municipalités
 nis-92094B: Jambes (Namur)
 nis-92094C: Wépion (Namur)
@@ -4489,18 +3166,13 @@ nis-92094V: Wierde (Namur)
 nis-92094W: Naninne (Namur)
 nis-92094Y: Erpent (Namur)
 nis-92094X: Dave (Namur)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-92097: Ohey + sous-municipalités
 nis-92097A: Ohey (Ohey)
 nis-92097C: Perwez (Ohey)
 nis-92097B: Haillot (Ohey)
 nis-92097D: Goesnes (Ohey)
 nis-92097E: Jallet (Ohey)
-<<<<<<< HEAD
-nis-92097F: \u00c9velette (Ohey)
-=======
 nis-92097F: Évelette (Ohey)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-92101: Profondeville + sous-municipalités
 nis-92101A: Profondeville (Profondeville)
 nis-92101B: Lustin (Profondeville)
@@ -4602,11 +3274,7 @@ nis-93088E: Clermont (Walcourt)
 nis-93088F: Rognée (Walcourt)
 nis-93088G: Berzée (Walcourt)
 nis-93088J: Gourdinne (Walcourt)
-<<<<<<< HEAD
-nis-93088H: Thy-le-Ch\u00e2teau (Walcourt)
-=======
 nis-93088H: Thy-le-Château (Walcourt)
->>>>>>> bdfd3ab54e3bae76c06f9b7e79e9fd1c0dc94825
 nis-93088K: Somzée (Walcourt)
 nis-93088l: Tarcienne (Walcourt)
 nis-93088N: Chastrès (Walcourt)
