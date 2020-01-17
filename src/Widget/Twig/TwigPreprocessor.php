@@ -90,13 +90,13 @@ class TwigPreprocessor
     /**
      * @param array $events
      *   List of events to preprocess.
-     * @param string $preferredLanguage
+     * @param $preferredLanguage
      *   Langcode of the result to show
      * @param array $detail_link_settings
      *   Settings for the links to a detail of every event.
      * @return array
      */
-    public function preprocessEventList(array $events, string $preferredLanguage, array $settings)
+    public function preprocessEventList(array $events, $preferredLanguage, array $settings)
     {
 
         $preprocessedEvents = [];
@@ -398,9 +398,9 @@ class TwigPreprocessor
      *
      * @param Event $event
      * @param $variables
-     * @param string $preferredLanguage
+     * @param $preferredLanguage
      */
-    public function preprocessPriceInfo(Event $event, &$variables, string $preferredLanguage)
+    public function preprocessPriceInfo(Event $event, &$variables, $preferredLanguage)
     {
         $variables['price'] = '';
 
@@ -493,7 +493,7 @@ class TwigPreprocessor
      * @param $preferredLanguage
      * @return array
      */
-    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue, string $preferredLanguage, bool $isRegionType = false)
+    public function preprocessFacet(FacetResult $facetResult, $type, $label, $activeValue, $preferredLanguage, bool $isRegionType = false)
     {
         $facet = [
             'type' => $type,
@@ -509,7 +509,7 @@ class TwigPreprocessor
     /**
      * Get the list of facet options based on the given facet items.
      */
-    private function getFacetOptions($facetItems, $activeValue, string $preferredLanguage, bool $isRegionType = false)
+    private function getFacetOptions($facetItems, $activeValue, $preferredLanguage, bool $isRegionType = false)
     {
         $hasActive = false;
         $options = [];
@@ -820,7 +820,7 @@ class TwigPreprocessor
         }
     }
 
-    protected function translateStringWithFallback(?TranslatedString $translatedString, string $preferredLanguage)
+    protected function translateStringWithFallback(?TranslatedString $translatedString, $preferredLanguage)
     {
         if ($translatedString === null) {
             return '';
@@ -834,7 +834,7 @@ class TwigPreprocessor
         return $invoke;
     }
 
-    private function translateTerms(string $preferredLanguage, array $themes): array
+    private function translateTerms($preferredLanguage, array $themes): array
     {
         $translatedThemes = [];
         foreach ($themes as $term) {
@@ -843,7 +843,7 @@ class TwigPreprocessor
         return $translatedThemes;
     }
 
-    private function translateLabels(array $terms, string $preferredLanguage): array
+    private function translateLabels(array $terms, $preferredLanguage): array
     {
         $typeLabels = [];
         /** @var Term $term */
@@ -854,7 +854,7 @@ class TwigPreprocessor
         return $typeLabels;
     }
 
-    private function translateOrganizerName(Event $event, string $preferredLanguage): ?string
+    private function translateOrganizerName(Event $event, $preferredLanguage): ?string
     {
         if ($event->getOrganizer() === null || $event->getOrganizer()->getName() === null) {
             return null;
@@ -866,17 +866,17 @@ class TwigPreprocessor
         );
     }
 
-    private function translateTerm(string $preferredLanguage, Term $term): string
+    private function translateTerm($preferredLanguage, Term $term): string
     {
         return $this->translateTerm->__invoke($term, $preferredLanguage);
     }
 
     /**
-     * @param string $preferredLanguage
+     * @param $preferredLanguage
      * @param FacetResultItem $result
      * @return mixed|string
      */
-    private function translateRegionFacetResultItemName(string $preferredLanguage, FacetResultItem $result)
+    private function translateRegionFacetResultItemName($preferredLanguage, FacetResultItem $result)
     {
         $translation = $this->translator->trans($result->getValue(), [], 'region', $preferredLanguage);
 
@@ -888,12 +888,12 @@ class TwigPreprocessor
     }
 
     /**
-     * @param string $preferredLanguage
+     * @param $preferredLanguage
      * @param string $type
-     * @param string $preferredLanguage
+     * @param $preferredLanguage
      * @return mixed|string
      */
-    public function translateLabel(string $label, string $type, string $preferredLanguage = 'nl')
+    public function translateLabel(string $label, string $type, $preferredLanguage = 'nl')
     {
         $translation = $this->translator->trans($label, [], $type, $preferredLanguage);
         return $translation;

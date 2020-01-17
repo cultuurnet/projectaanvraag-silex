@@ -225,7 +225,7 @@ class Tips extends WidgetTypeBase
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '', string $preferredLanguage = 'nl')
+    public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         $query = new SearchQuery(true);
         $boostQuery = false;

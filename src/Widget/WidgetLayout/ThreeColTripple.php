@@ -16,7 +16,7 @@ class ThreeColTripple extends LayoutBase
     /**
      * {@inheritdoc}
      */
-    public function render(string $preferredLanguage = 'nl')
+    public function render($preferredLanguage = 'nl')
     {
         return $this->twig->render(
             'layouts/three-col-tripple/three-col-tripple.html.twig',

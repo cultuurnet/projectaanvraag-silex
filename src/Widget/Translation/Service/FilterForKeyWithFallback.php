@@ -14,7 +14,7 @@ class FilterForKeyWithFallback
         $this->fallBackLanguage = $fallBackLanguage;
     }
 
-    public function __invoke(array $values, string $preferredLanguage)
+    public function __invoke(array $values, $preferredLanguage)
     {
         if (empty($values)) {
             return [];
@@ -26,7 +26,7 @@ class FilterForKeyWithFallback
         return $values[$preferredLanguage];
     }
 
-    protected function hasPreferred(array $values, string $preferredLanguage): bool
+    protected function hasPreferred(array $values, $preferredLanguage): bool
     {
         return isset($values[$preferredLanguage]);
     }

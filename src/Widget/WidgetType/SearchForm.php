@@ -340,7 +340,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '', string $preferredLanguage = 'nl')
+    public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',
@@ -360,7 +360,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function renderPlaceholder(string $preferredLanguage = 'nl')
+    public function renderPlaceholder($preferredLanguage = 'nl')
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/search-form.js');
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/autocomplete.js');
@@ -420,7 +420,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter, string $preferredLanguage = 'nl')
+    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter, $preferredLanguage = 'nl')
     {
 
         // Check what filters should be placed active.

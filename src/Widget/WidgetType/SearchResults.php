@@ -436,7 +436,7 @@ class SearchResults extends WidgetTypeBase
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '', string $preferredLanguage = 'nl')
+    public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         // Retrieve the current request query parameters using the global Application object and filter.
         $urlQueryParams = $this->request->query->all();
