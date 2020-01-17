@@ -139,7 +139,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
      * @param $regionName
      *   Region to render.
      */
-    protected function renderRegion($regionName, string $preferredLanguage = 'nl')
+    protected function renderRegion($regionName, $preferredLanguage = 'nl')
     {
 
         $content = '';

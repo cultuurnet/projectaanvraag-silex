@@ -16,7 +16,7 @@ class ThreeColDoubleSidebar extends LayoutBase
     /**
      * {@inheritdoc}
      */
-    public function render(string $preferredLanguage = 'nl')
+    public function render($preferredLanguage = 'nl')
     {
         return $this->twig->render(
             'layouts/three-col-double-sidebar/three-col-double-sidebar.html.twig',

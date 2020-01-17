@@ -18,7 +18,7 @@ class TranslateTerm
         $this->translator = $translator;
     }
 
-    public function __invoke(Term $term, string $preferredLanguage)
+    public function __invoke(Term $term, $preferredLanguage)
     {
         $translation = $this->translator->trans($term->getId(), [], $term->getDomain(), $preferredLanguage);
         // fallback logic -> return the original label if no translation

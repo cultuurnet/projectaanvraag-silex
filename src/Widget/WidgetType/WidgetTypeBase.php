@@ -115,7 +115,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '', string $preferredLanguage = 'nl')
+    public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         return '';
     }

@@ -16,7 +16,7 @@ class TwoColSidebarLeft extends LayoutBase
     /**
      * {@inheritdoc}
      */
-    public function render(string $preferredLanguage = 'nl')
+    public function render($preferredLanguage = 'nl')
     {
         return $this->twig->render(
             'layouts/two-col-sidebar-left/two-col-sidebar-left.html.twig',
