@@ -150,6 +150,7 @@ class TwigPreprocessor
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
+            'hidden_labels' => $event->getHiddenLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
@@ -195,11 +196,12 @@ class TwigPreprocessor
             'vier taaliconen' => 4,
         ];
 
-        // Search for language keywords. Take the highest value of all items that match..
+        // Search for language keywords.
         $totalLanguageIcons = 0;
-        if (!empty($variables['labels'])) {
+        $mergedLabels = array_merge($variables['labels'], $variables['hidden_labels']);
+        if (!empty($mergedLabels)) {
             foreach ($languageIconKeywords as $keyword => $value) {
-                if (in_array($keyword, $variables['labels'])) {
+                if (in_array($keyword, $mergedLabels)) {
                     $totalLanguageIcons = $value;
                 }
             }
