@@ -8,18 +8,19 @@
     background-size: cover;
     width: 15px;
     height: 19px;
+    background-size: contain;
   }
 
   .cnw_taalicoon-face {
-    background-image: url(/assets/images/taalicoon-face.svg);
+    background-image: url(/assets/images/language-icons/nl.svg);
   }
 
   .cnw_taalicoon-ballon-filled {
-    background-image: url(/assets/images/taalicoon-ballon-filled.svg);
+    background-image: url(/assets/images/language-icons/balloon-filled.svg);
   }
 
   .cnw_taalicoon-ballon {
-    background-image: url(/assets/images/taalicoon-ballon.svg);
+    background-image: url(/assets/images/language-icons/balloon-empty.svg);
   }
 
 }
