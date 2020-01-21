@@ -196,18 +196,18 @@ class TwigPreprocessor
         ];
 
         // Search for language keywords. Take the highest value of all items that match..
-        $totalLanguageIcons = 0;
+        $totalLanguageIcons = [];
         if (!empty($variables['labels'])) {
             foreach ($languageIconKeywords as $keyword => $value) {
                 if (in_array($keyword, $variables['labels'])) {
-                    $totalLanguageIcons = $value;
+                    $totalLanguageIcons[] = $value;
                 }
             }
         }
 
         $variables['language_icons'] = '';
         if ($totalLanguageIcons) {
-            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['score' => $totalLanguageIcons]);
+            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['languageIcons' => $totalLanguageIcons]);
         }
 
         // Strip not allowed types.
