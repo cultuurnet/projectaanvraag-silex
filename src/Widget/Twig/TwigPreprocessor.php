@@ -200,7 +200,7 @@ class TwigPreprocessor
         if (!empty($variables['labels'])) {
             foreach ($languageIconKeywords as $keyword => $value) {
                 if (in_array($keyword, $variables['labels'])) {
-                    array_push($totalLanguageIcons, $value);
+                    $totalLanguageIcons[] = $value;
                 }
             }
         }
