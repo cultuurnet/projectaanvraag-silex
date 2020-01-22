@@ -53,6 +53,19 @@ class FilterForKeyWithFallbackTest extends TestCase
     /**
      * @test
      */
+    public function it_returns_main_language_array_if_preferred_and_fallback_is_not_present()
+    {
+        $values = [
+          'fr' => 'main-language-translation',
+        ];
+
+        $result = $this->translateLanguage->__invoke($values, self::PREFERRED_KEY, 'fr');
+        $this->assertEquals('main-language-translation', $result);
+    }
+
+    /**
+     * @test
+     */
     public function it_returns_empty_array_if_no_values()
     {
         $result = $this->translateLanguage->__invoke([], self::PREFERRED_KEY);

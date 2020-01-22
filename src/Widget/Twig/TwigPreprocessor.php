@@ -140,8 +140,8 @@ class TwigPreprocessor
     {
         $variables = [
             'id' => $event->getCdbid(),
-            'name' => $this->translateStringWithFallback($event->getName(), $langcode),
-            'description' => $this->translateStringWithFallback($event->getDescription(), $langcode),
+            'name' => $this->translateStringWithFallback($event->getName(), $langcode, $event->getMainLanguage()),
+            'description' => $this->translateStringWithFallback($event->getDescription(), $langcode, $event->getMainLanguage()),
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'expired' => ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
@@ -150,6 +150,7 @@ class TwigPreprocessor
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
+            'hidden_labels' => $event->getHiddenLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
@@ -195,19 +196,20 @@ class TwigPreprocessor
             'vier taaliconen' => 4,
         ];
 
-        // Search for language keywords. Take the highest value of all items that match..
-        $totalLanguageIcons = 0;
-        if (!empty($variables['labels'])) {
+        // Search for language keywords.
+        $totalLanguageIcons = [];
+        $mergedLabels = array_merge($variables['labels'], $variables['hidden_labels']);
+        if (!empty($mergedLabels)) {
             foreach ($languageIconKeywords as $keyword => $value) {
-                if (in_array($keyword, $variables['labels'])) {
-                    $totalLanguageIcons = $value;
+                if (in_array($keyword, $mergedLabels)) {
+                    $totalLanguageIcons[] = $value;
                 }
             }
         }
 
         $variables['language_icons'] = '';
         if ($totalLanguageIcons) {
-            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['score' => $totalLanguageIcons, 'preferredLanguage' => $langcode]);
+            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['languageIcons' => $totalLanguageIcons, 'preferredLanguage' => $langcode]);
         }
 
         // Strip not allowed types.
@@ -410,7 +412,7 @@ class TwigPreprocessor
             foreach ($priceInfos as $priceInfo) {
                 /** @var TranslatedString $priceName */
                 $priceName = $priceInfo->getName();
-                $translatedPriceName = $this->translateStringWithFallback($priceName, $preferredLanguage);
+                $translatedPriceName = $this->translateStringWithFallback($priceName, $preferredLanguage, $event->getMainLanguage());
                 $priceAmount = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : $this->translator->trans('event_price_free', [], 'messages', $preferredLanguage);
                 if ($priceInfo->getCategory() !== 'base') {
                     $prices[] = $translatedPriceName . ': ' . $priceAmount;
@@ -477,7 +479,7 @@ class TwigPreprocessor
             if ($bookingInfo->getUrl()) {
                 $variables['booking_info']['url'] = [
                    'url' => $bookingInfo->getUrl(),
-                   'label' => ($this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) !== '') ? $this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) : $bookingInfo->getUrl(),
+                   'label' => ($this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) !== '') ? $this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode, $event->getMainLanguage()) : $bookingInfo->getUrl(),
                 ];
             }
         }
@@ -587,14 +589,13 @@ class TwigPreprocessor
      */
     public function preprocessPlace(Place $place, $langcode)
     {
-
         $variables = [];
-        $variables['name'] = $this->translateStringWithFallback($place->getName(), $langcode);
+        $variables['name'] = $this->translateStringWithFallback($place->getName(), $langcode, $place->getMainLanguage());
         $variables['address'] = [];
 
         if ($address = $place->getAddress()) {
             /** @var TranslatedAddress $address */
-            $translatedAddress = $this->translateAddress($address, $langcode);
+            $translatedAddress = $this->translateAddress($address, $langcode, $place->getMainLanguage());
                 $variables['address']['street'] = $translatedAddress->getStreetAddress() ?? '';
                 $variables['address']['postalcode'] = $translatedAddress->getPostalCode() ?? '';
                 $variables['address']['city'] = $translatedAddress->getAddressLocality() ?? '';
@@ -820,17 +821,17 @@ class TwigPreprocessor
         }
     }
 
-    protected function translateStringWithFallback(?TranslatedString $translatedString, $preferredLanguage)
+    protected function translateStringWithFallback(?TranslatedString $translatedString, $preferredLanguage, $mainLanguage = 'nl')
     {
         if ($translatedString === null) {
             return '';
         }
-        return $this->filterForKeyWithFallback->__invoke($translatedString->getValues(), $preferredLanguage);
+        return $this->filterForKeyWithFallback->__invoke($translatedString->getValues(), $preferredLanguage, $mainLanguage);
     }
 
-    protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage)
+    protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage, $mainLanguage = 'nl')
     {
-        $invoke = $this->filterForKeyWithFallback->__invoke($translatedAddress->getAddresses(), $prefferedLanguage);
+        $invoke = $this->filterForKeyWithFallback->__invoke($translatedAddress->getAddresses(), $prefferedLanguage, $mainLanguage);
         return $invoke;
     }
 
