@@ -14,15 +14,16 @@ class FilterForKeyWithFallback
         $this->fallBackLanguage = $fallBackLanguage;
     }
 
-    public function __invoke(array $values, $preferredLanguage)
+    public function __invoke(array $values, $preferredLanguage, $mainLanguage = 'nl')
     {
         if (empty($values)) {
             return [];
         }
 
         if (!$this->hasPreferred($values, $preferredLanguage)) {
-            return $values[$this->fallBackLanguage];
+            return isset($values[$this->fallBackLanguage]) ? $values[$this->fallBackLanguage] : $values[$mainLanguage];
         }
+
         return $values[$preferredLanguage];
     }
 
