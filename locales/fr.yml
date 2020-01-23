@@ -31,3 +31,5 @@ search_results_exclude_long_term: Masquer les séries de longue durée
 search_results_exclude_permanent: Masquer les vues permanentes
 search_resutls_remove_all_filters: Supprimer tous les filtres
 search_results_searched_label: 'Vous avez recherché: '
+warning_no_city_selected: Choisissez une commune ou une région valide
+
