@@ -202,7 +202,7 @@ class WidgetApiController
         if ($request->query->has('render')) {
             $this->renderer->setProject($project);
             if ($widget = $widgetPage->getWidget($request->query->get('render'))) {
-                $data['preview'] = $this->renderer->renderWidget($widget);
+                $data['preview'] = $this->renderer->renderWidget($widget, '', $widgetPage->getLanguage());
             } else {
                 $data['preview'] = '';
             }
