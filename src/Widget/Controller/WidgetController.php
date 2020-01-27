@@ -161,14 +161,14 @@ class WidgetController
      * @param $cdbid
      * @return JsonResponse
      */
-    public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
+    public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '', $preferredLanguage = 'nl')
     {
         $project = $this->projectConverter->convert($widgetPage->getProjectId());
         $projectActive = $project->getStatus() === ProjectInterface::PROJECT_STATUS_ACTIVE;
 
         if ($cdbid && $request->headers->get('referer')) {
             $url = $request->headers->get('referer');
-           
+
             $this->commandBus->handle(new CreateArticleLink($url, $cdbid, $projectActive));
         }
 
@@ -177,7 +177,7 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
-        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : $preferredLanguage;
 
         $data = [
             'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid, $preferredLanguage),
