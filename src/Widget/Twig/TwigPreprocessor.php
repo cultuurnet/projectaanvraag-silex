@@ -799,14 +799,15 @@ class TwigPreprocessor
 
         if ($labels) {
             foreach ($labels as $label) {
-              foreach($museumPassLabels as $museumPassLabel)
-                if (stripos($label, $museumPassLabel) !== false) {
-                  return true;
+                foreach ($museumPassLabels as $museumPassLabel) {
+                    if (stripos($label, $museumPassLabel) !== false) {
+                        return true;
+                    }
                 }
             }
-        }
 
         return false;
+        }
     }
 
 
