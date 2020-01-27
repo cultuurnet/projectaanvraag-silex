@@ -301,6 +301,10 @@ class WidgetController
         $data = [
             'data' => $this->renderer->renderDetailPage($widget, $preferredLanguage),
         ];
+
+        // Make sure characters are correctly encoded otherwise the app could crash
+        $data['data'] = mb_convert_encoding($data['data'], "UTF-8", "UTF-8");
+
         $response = new JsonResponse($data);
 
         // If this is a jsonp request, set the requested callback.
