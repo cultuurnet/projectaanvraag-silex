@@ -161,7 +161,7 @@ class WidgetController
      * @param $cdbid
      * @return JsonResponse
      */
-    public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '', $preferredLanguage = 'nl')
+    public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
     {
         $project = $this->projectConverter->convert($widgetPage->getProjectId());
         $projectActive = $project->getStatus() === ProjectInterface::PROJECT_STATUS_ACTIVE;
@@ -177,7 +177,7 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
-        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : $preferredLanguage;
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
 
         $data = [
             'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid, $preferredLanguage),
