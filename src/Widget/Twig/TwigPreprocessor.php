@@ -806,7 +806,7 @@ class TwigPreprocessor
                 }
             }
 
-          return false;
+            return false;
         }
     }
 
