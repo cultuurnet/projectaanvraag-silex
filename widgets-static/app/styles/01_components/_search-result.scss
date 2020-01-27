@@ -1,6 +1,7 @@
 
 .cnw_taaliconen {
   display: block;
+  margin-bottom: 10px;
 
   .cnw_taalicoon {
     display: inline-block;
@@ -22,6 +23,10 @@
 
   .cnw_taalicoon-ballon {
     background-image: url(/assets/images/language-icons/balloon-empty.svg);
+  }
+
+  .cnw_taalicoon_text {
+    display: block;
   }
 
 }
