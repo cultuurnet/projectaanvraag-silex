@@ -209,7 +209,7 @@ class TwigPreprocessor
 
         $variables['language_icons'] = '';
         if ($totalLanguageIcons) {
-            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['languageIcons' => $totalLanguageIcons]);
+            $variables['language_icons'] = $this->twig->render('widgets/search-results-widget/language-icons.html.twig', ['languageIcons' => $totalLanguageIcons, 'preferredLanguage' => $langcode]);
         }
 
         // Strip not allowed types.

@@ -132,6 +132,9 @@ class ApplicationBase extends SilexApplication
                 $translator->addResource('yaml', __DIR__ . '/../locales/when/fr.yml', 'fr', 'when');
                 $translator->addResource('yaml', __DIR__ . '/../locales/when/nl.yml', 'nl', 'when');
                 $translator->addResource('yaml', __DIR__ . '/../locales/when/en.yml', 'en', 'when');
+                $translator->addResource('yaml', __DIR__ . '/../locales/language-icons/fr.yml', 'fr', 'language-icons');
+                $translator->addResource('yaml', __DIR__ . '/../locales/language-icons/nl.yml', 'nl', 'language-icons');
+                $translator->addResource('yaml', __DIR__ . '/../locales/language-icons/en.yml', 'en', 'language-icons');
                 return $translator;
             }
         );
