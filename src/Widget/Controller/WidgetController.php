@@ -168,7 +168,7 @@ class WidgetController
 
         if ($cdbid && $request->headers->get('referer')) {
             $url = $request->headers->get('referer');
-           
+
             $this->commandBus->handle(new CreateArticleLink($url, $cdbid, $projectActive));
         }
 
