@@ -153,10 +153,10 @@ class TwigPreprocessor
             'hidden_labels' => $event->getHiddenLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
+            'museumpas' => $this->isMuseumpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => ($event->getTermsByDomain('eventtype')[0]->getId()) ?: null,
         ];
-
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
         $image = $event->getImage() ?? $defaultImage;
         if (!empty($image)) {
@@ -783,6 +783,33 @@ class TwigPreprocessor
 
         return false;
     }
+
+    /**
+     * Check if event is considered an "Museumpas" event.
+     *
+     * @param \CultuurNet\SearchV3\ValueObjects\Event $event
+     * @return bool
+     */
+    protected function isMuseumpasEvent(Event $event)
+    {
+
+        $labels = $event->getLabels();
+        $labels = array_merge($labels, $event->getHiddenLabels());
+        $museumPassLabels = ['museumPASSmusees', 'museumpassmusées', 'Museumpas'];
+
+        if ($labels) {
+            foreach ($labels as $label) {
+                foreach ($museumPassLabels as $museumPassLabel) {
+                    if (stripos($label, $museumPassLabel) !== false) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+    }
+
 
     /**
      * Return array of facilities enriched with present information

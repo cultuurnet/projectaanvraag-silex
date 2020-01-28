@@ -78,6 +78,9 @@
                   "icon_uitpas": {
                     "enabled": true
                   },
+                  "icon_museumpass": {
+                    "enabled": true
+                  },
                   "description": {
                     "enabled": true,
                     "characters": 200
@@ -136,6 +139,10 @@
                   "show": true,
                   "label": "UitPas"
                 },
+                "icon_museumpass": {
+                  "show": true,
+                  "label": "Museumpas"
+                },
                 "description": {
                   "show": true,
                   "characters": 200
@@ -192,6 +199,10 @@
                 "icon_uitpas": {
                   "show": true,
                   "label": "UitPas"
+                },
+                "icon_museumpass": {
+                  "show": true,
+                  "label": "Museumpas logo"
                 },
                 "description": {
                   "show": true,

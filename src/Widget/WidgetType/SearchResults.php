@@ -60,6 +60,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "icon_uitpas":{
  *                  "enabled":true
  *              },
+ *              "icon_museumpass":{
+ *                  "enabled":true
+ *              },
  *              "description":{
  *                  "enabled":true,
  *                  "characters":200
@@ -135,6 +138,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true
  *              },
  *              "icon_uitpas":{
+ *                  "enabled":true
+ *              },
+ *              "icon_museumpass":{
  *                  "enabled":true
  *              },
  *              "description":{
@@ -220,6 +226,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "icon_uitpas":{
  *                  "enabled":"boolean"
  *              },
+ *              "icon_museumpass":{
+ *                  "enabled":"boolean"
+ *              },
  *              "description":{
  *                  "enabled":"boolean",
  *                  "characters":"integer"
@@ -298,6 +307,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean"
  *              },
  *              "icon_uitpas":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "icon_museumpass":{
  *                  "enabled":"boolean"
  *              },
  *              "when":{
