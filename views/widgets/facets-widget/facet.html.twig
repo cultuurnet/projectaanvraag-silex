@@ -2,7 +2,7 @@
 <!--  Faceted search -->
 <section class="cnw_facetedsearch cnw_facetedsearch--{{ facet.type }}">
     <h3 class="cnw_block-title">
-     {% if facet.type is same as('custom') %}
+    {% if facet.type is same as('custom') %}
       {{ facet.label }}
      {% else %}
       {{ facet.type | transTo(preferredLanguage, 'facets') }}
