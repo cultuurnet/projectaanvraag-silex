@@ -1,7 +1,13 @@
 
 <!--  Faceted search -->
 <section class="cnw_facetedsearch cnw_facetedsearch--{{ facet.type }}">
-    <h3 class="cnw_block-title">{{ facet.type | transTo(preferredLanguage, 'facets') }}</h3>
+    <h3 class="cnw_block-title">
+    {% if facet.type is same as('custom') %}
+      {{ facet.label }}
+     {% else %}
+      {{ facet.type | transTo(preferredLanguage, 'facets') }}
+    {% endif %} 
+    </h3>
 
 {% import _self as facet_render %}
 
