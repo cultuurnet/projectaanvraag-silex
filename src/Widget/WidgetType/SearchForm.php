@@ -352,7 +352,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 'settings_fields' => $this->settings['fields'],
                 'defaults' => $this->getDefaults(),
                 'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
-                'preferredLanguage' => $preferredLanguage,
+                'preferredLanguage' => ($preferredLanguage) ?: 'nl',
             ]
         );
     }
