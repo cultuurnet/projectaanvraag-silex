@@ -22,12 +22,12 @@ class FilterForKeyWithFallback
 
         if (!$this->hasPreferred($values, $preferredLanguage)) {
             if (isset($values[$this->fallBackLanguage])) {
-              return $values[$this->fallBackLanguage];
+                return $values[$this->fallBackLanguage];
             } elseif (isset($values[$mainLanguage])) {
-              return $values[$mainLanguage];
+                return $values[$mainLanguage];
             } else {
-              $firstKey = array_keys($values)[0];
-              return $values[$firstKey];
+                $firstKey = array_keys($values)[0];
+                return $values[$firstKey];
             }
         }
 
