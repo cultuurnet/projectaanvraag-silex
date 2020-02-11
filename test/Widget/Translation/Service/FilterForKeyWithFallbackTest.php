@@ -83,5 +83,4 @@ class FilterForKeyWithFallbackTest extends TestCase
         $result = $this->translateLanguage->__invoke([], self::PREFERRED_KEY);
         $this->assertEquals([], $result);
     }
-
 }
