@@ -155,7 +155,7 @@ class TwigPreprocessor
             'uitpas' => $this->isUitpasEvent($event),
             'museumpas' => $this->isMuseumpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
-            'typeId' => ($event->getTermsByDomain('eventtype')[0]->getId()) ?: null,
+            'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
         ];
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
         $image = $event->getImage() ?? $defaultImage;
