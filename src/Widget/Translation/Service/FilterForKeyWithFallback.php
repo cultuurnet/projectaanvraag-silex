@@ -31,7 +31,6 @@ class FilterForKeyWithFallback
 
             $firstKey = array_keys($values)[0];
             return $values[$firstKey];
-
         }
 
         return $values[$preferredLanguage];
@@ -46,5 +45,4 @@ class FilterForKeyWithFallback
     {
         return isset($values[$mainLanguage]);
     }
-
 }
