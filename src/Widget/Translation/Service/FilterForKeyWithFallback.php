@@ -23,12 +23,15 @@ class FilterForKeyWithFallback
         if (!$this->hasPreferred($values, $preferredLanguage)) {
             if (isset($values[$this->fallBackLanguage])) {
                 return $values[$this->fallBackLanguage];
-            } elseif (isset($values[$mainLanguage])) {
-                return $values[$mainLanguage];
-            } else {
-                $firstKey = array_keys($values)[0];
-                return $values[$firstKey];
             }
+
+            if ($this->hasMainLanguage($values, $mainLanguage)) {
+                return $values[$mainLanguage];
+            }
+
+            $firstKey = array_keys($values)[0];
+            return $values[$firstKey];
+
         }
 
         return $values[$preferredLanguage];
@@ -38,4 +41,10 @@ class FilterForKeyWithFallback
     {
         return isset($values[$preferredLanguage]);
     }
+
+    protected function hasMainLanguage(array $values, $mainLanguage): bool
+    {
+        return isset($values[$mainLanguage]);
+    }
+
 }
