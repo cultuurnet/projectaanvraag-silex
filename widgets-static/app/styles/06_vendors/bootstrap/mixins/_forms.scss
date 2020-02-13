@@ -5,16 +5,16 @@
 
 @mixin form-control-validation($color) {
   // Color the label and help text
-  .form-control-feedback,
-  .form-control-label,
-  .col-form-label,
-  .form-check-label,
-  .custom-control {
+  .cnw_form-control-feedback,
+  .cnw_form-control-label,
+  .cnw_col-form-label,
+  .cnw_form-check-label,
+  .cnw_custom-control {
     color: $color;
   }
 
   // Set the border and box shadow on specific inputs to match
-  .form-control {
+  .cnw_form-control {
     border-color: $color;
 
     &:focus {

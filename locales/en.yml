@@ -31,3 +31,4 @@ search_results_exclude_long_term: Hide long-running series
 search_results_exclude_permanent: Hide permanent sights
 search_resutls_remove_all_filters: Remove all filters
 search_results_searched_label: 'You looked up:'
+warning_no_city_selected: Choose a valid municipality or region
