@@ -316,6 +316,7 @@ class TwigPreprocessor
             $promotionsQuery->max = 4;
             $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
             $promotionsQuery->unexpired = true;
+            $organizer = $this->translateOrganizerName($event, $langcode);
 
             try {
                 $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
@@ -323,7 +324,9 @@ class TwigPreprocessor
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
                         'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
-                        'organizer' => $this->translateOrganizerName($event, $langcode),
+                        'organizer' => $organizer,
+                        'organizerUrlName' => $this->formatOrganizerUrlName($organizer),
+                        'organizerId' => $promotionsQuery->balieConsumerKey,
                     ]
                 );
             } catch (\Exception $e) {
@@ -394,6 +397,10 @@ class TwigPreprocessor
         return $promotions;
     }
 
+    public function formatOrganizerUrlName($organizer)
+    {
+        return str_replace(' ', '-', strtolower($organizer));
+    }
 
     /**
      * Preprocess the price information.
