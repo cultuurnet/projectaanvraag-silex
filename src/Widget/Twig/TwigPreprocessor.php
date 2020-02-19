@@ -397,9 +397,9 @@ class TwigPreprocessor
         return $promotions;
     }
 
-    public function formatOrganizerUrlName($organizer)
+    public function formatOrganizerUrlName($organizerName)
     {
-        return str_replace(' ', '-', strtolower($organizer));
+        return str_replace(' ', '-', strtolower($organizerName));
     }
 
     /**
