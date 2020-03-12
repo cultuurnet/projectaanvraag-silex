@@ -336,3 +336,12 @@ app-2-col-sidebar-right-layout .cnw_searchresult__options label.cnw_form-check-l
   position: relative;
   height: inherit;
 }
+
+.cnw_alert-info {
+  margin-top: .75rem;
+  padding: .75rem 1.25rem;
+  color:#004085;
+  background-color:#cce5ff;
+  border: 1px solid #b8daff;
+  border-radius: .25rem;
+}
