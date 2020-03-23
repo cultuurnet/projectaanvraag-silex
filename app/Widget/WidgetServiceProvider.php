@@ -86,7 +86,9 @@ class WidgetServiceProvider implements ServiceProviderInterface
                 new TranslateTerm(
                     $pimple['translator']
                 ),
-                $pimple['translator']
+                $pimple['translator'],
+                $pimple['curatoren_api'],
+                $pimple['curatoren_api_test']
             );
         };
 

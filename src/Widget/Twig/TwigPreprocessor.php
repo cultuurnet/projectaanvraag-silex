@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
+use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
@@ -65,6 +66,11 @@ class TwigPreprocessor
     private $translator;
 
     /**
+     * @var CuratorenClient
+     */
+    protected $curatorenClient;
+
+    /**
      * TwigPreprocessor constructor.
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
@@ -76,7 +82,8 @@ class TwigPreprocessor
         string $socialHost,
         FilterForKeyWithFallback $translateWithFallback,
         TranslateTerm $translateTerm,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        CuratorenClient $curatorenClient
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -85,6 +92,7 @@ class TwigPreprocessor
         $this->filterForKeyWithFallback = $translateWithFallback;
         $this->translateTerm = $translateTerm;
         $this->translator = $translator;
+        $this->curatorenClient = $curatorenClient;
     }
 
     /**
@@ -156,6 +164,7 @@ class TwigPreprocessor
             'museumpas' => $this->isMuseumpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
+            'editorial_label' => $this->preprocessEditorialLabel($event->getCdbid()),
         ];
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
         $image = $event->getImage() ?? $defaultImage;
@@ -378,6 +387,19 @@ class TwigPreprocessor
         }
         return $articles;
     }
+
+    /**
+     * Preprocess the editorial label for search results
+     * @param string $cdbid
+     * @param string $settings
+     */
+     public function preprocessEditorialLabel($cdbid) {
+         $articles = $this->curatorenClient->searchArticles($cdbid);
+         // $linkedArticles = $this->preprocessArticles($articles, $articleSettings);
+         $publishers = ['Indiestyle', 'gva', 'vrt'];
+         $label = 'UiTip van ' . implode(", ", $publishers);
+         return $label;
+     }
 
     /**
      * Preprocess the uitpas promotions.

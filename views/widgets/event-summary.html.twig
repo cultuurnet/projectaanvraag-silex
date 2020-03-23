@@ -25,6 +25,7 @@
                 {% else %}
                 {{ event.name }}
                 {% endif %}
+                <span class="cnw_badge cnw_badge-default cnw_badge-editorial">{{ event.editorial_label }}</span>
             </h2>
             <span class="cnw_stickers ">
                 {% if settings_items.icon_vlieg.enabled and event.vlieg %}

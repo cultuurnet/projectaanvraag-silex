@@ -117,6 +117,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "reservation_information":{
  *                  "enabled":false
+ *              },
+*              "editorial_label":{
+ *                  "enabled": true,
+ *                  "limit_publishers": false,
+ *                  "publishers": {}
  *              }
  *          },
  *          "search_params" : {
@@ -283,6 +288,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "reservation_information":{
  *                  "enabled":"boolean"
+ *              },
+ *              "editorial_label":{
+ *                  "enabled": "boolean",
+ *                  "limit_publishers": "boolean",
+ *                  "publishers": "CultuurNet\ProjectAanvraag\Widget\Settings\Publishers"
  *              }
  *          },
  *          "search_params" : {
