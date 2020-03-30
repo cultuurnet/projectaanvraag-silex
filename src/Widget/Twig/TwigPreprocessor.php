@@ -164,7 +164,6 @@ class TwigPreprocessor
             'museumpas' => $this->isMuseumpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
-            'editorial_label' => $this->preprocessEditorialLabel($event->getCdbid()),
         ];
         $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
         $image = $event->getImage() ?? $defaultImage;
@@ -238,6 +237,10 @@ class TwigPreprocessor
 
         if (!empty($settings['reservation_information'])) {
             $this->preprocessBookingInfo($event, $langcode, $variables);
+        }
+
+        if (!empty($settings['editorial_label']) && $settings['editorial_label']['enabled']) {
+          $variables['editorial_label'] = $this->preprocessEditorialLabel($event->getCdbid(), $settings['editorial_label']);
         }
 
         return $variables;
@@ -362,7 +365,7 @@ class TwigPreprocessor
      *
      * @param array $articles
      * @param array $settings
-     * @return array $settings
+     * @return array $articles
      */
     public function preprocessArticles($linkedArticles, $settings)
     {
@@ -393,10 +396,27 @@ class TwigPreprocessor
      * @param string $cdbid
      * @param string $settings
      */
-     public function preprocessEditorialLabel($cdbid) {
+     public function preprocessEditorialLabel($cdbid, $settings) {
          $articles = $this->curatorenClient->searchArticles($cdbid);
-         // $linkedArticles = $this->preprocessArticles($articles, $articleSettings);
-         $publishers = ['Indiestyle', 'gva', 'vrt'];
+
+         if (empty($articles['hydra:member'])) {
+           return;
+         }
+
+         $publishers = [];
+         foreach ($articles['hydra:member'] as $article) {
+            $publisher = $article['publisher'];
+            $showPublisher = in_array($publisher, $settings['publishers']);
+            if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $showPublisher)) {
+              // only add articles of allowed publishers to array
+              $publishers[] = $publisher;
+            }
+         }
+
+         if (empty($publishers)) {
+           return;
+         }
+
          $label = 'UiTip van ' . implode(", ", $publishers);
          return $label;
      }
