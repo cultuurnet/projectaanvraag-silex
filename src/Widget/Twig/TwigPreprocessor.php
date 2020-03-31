@@ -119,6 +119,14 @@ class TwigPreprocessor
                 $url->setQuery($query);
             }
 
+            $referer = parse_url($this->request->server->get('HTTP_REFERER'), PHP_URL_HOST);
+            $query = $url->getQuery();
+            $query['utm_source'] = urlencode($referer);
+            $query['utm_medium'] = 'referral';
+            $query['utm_campaign'] = 'widgets';
+
+            $url->setQuery($query);
+
             $preprocessedEvent['detail_link'] = $url->__toString();
 
             $preprocessedEvents[] = $preprocessedEvent;
