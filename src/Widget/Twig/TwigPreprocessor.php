@@ -118,10 +118,16 @@ class TwigPreprocessor
                 $query['cdbid'] = $preprocessedEvent['id'];
                 $url->setQuery($query);
             }
+
             $referer = parse_url($this->request->server->get('HTTP_REFERER'), PHP_URL_HOST);
-            $utmParams = (strpos($url->__toString(), '?')) ? '&' : '?';
-            $utmParams .= 'utm_source=' . urlencode($referer) . '&utm_medium=referral&utm_campaign=widgets';
-            $preprocessedEvent['detail_link'] = $url->__toString() . $utmParams;
+            $query = $url->getQuery();
+            $query['utm_source'] = urlencode($referer);
+            $query['utm_medium'] = 'referral';
+            $query['utm_campaign'] = 'widgets';
+
+            $url->setQuery($query);
+
+            $preprocessedEvent['detail_link'] = $url->__toString();
 
             $preprocessedEvents[] = $preprocessedEvent;
         }
