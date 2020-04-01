@@ -404,7 +404,7 @@ class TwigPreprocessor
      * @param string $cdbid
      * @param string $settings
      */
-    public function preprocessEditorialLabel($cdbid, $settings) 
+    public function preprocessEditorialLabel($cdbid, $settings)
     {
         $articles = $this->curatorenClient->searchArticles($cdbid);
 
