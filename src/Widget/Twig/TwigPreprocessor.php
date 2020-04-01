@@ -248,7 +248,7 @@ class TwigPreprocessor
         }
 
         if (!empty($settings['editorial_label']) && $settings['editorial_label']['enabled']) {
-          $variables['editorial_label'] = $this->preprocessEditorialLabel($event->getCdbid(), $settings['editorial_label']);
+            $variables['editorial_label'] = $this->preprocessEditorialLabel($event->getCdbid(), $settings['editorial_label']);
         }
 
         return $variables;
@@ -405,29 +405,29 @@ class TwigPreprocessor
      * @param string $settings
      */
      public function preprocessEditorialLabel($cdbid, $settings) {
-         $articles = $this->curatorenClient->searchArticles($cdbid);
+        $articles = $this->curatorenClient->searchArticles($cdbid);
 
-         if (empty($articles['hydra:member'])) {
-           return;
-         }
+        if (empty($articles['hydra:member'])) {
+          return;
+        }
 
-         $publishers = [];
-         foreach ($articles['hydra:member'] as $article) {
+        $publishers = [];
+        foreach ($articles['hydra:member'] as $article) {
             $publisher = $article['publisher'];
             $showPublisher = in_array($publisher, $settings['publishers']);
             if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $showPublisher)) {
               // only add articles of allowed publishers to array
               $publishers[] = $publisher;
             }
-         }
+        }
 
-         if (empty($publishers)) {
-           return;
-         }
+        if (empty($publishers)) {
+            return;
+        }
 
-         $label = 'UiTip van ' . implode(", ", $publishers);
-         return $label;
-     }
+        $label = 'UiTip van ' . implode(", ", $publishers);
+        return $label;
+    }
 
     /**
      * Preprocess the uitpas promotions.
