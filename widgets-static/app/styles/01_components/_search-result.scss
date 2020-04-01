@@ -228,10 +228,22 @@ p span.cnw_badge {
     }
   }
 
+  .cnw_badge-editorial {
+    background-color: transparent;
+    border: 1px solid gray;
+    color: gray;
+    font-size: 0.6em;
+    padding: 0.5em 0.5em;
+    margin-left: 10px;
+    i{
+      margin-right: 5px;
+    }
+
+  }
 }
 
-.cnw_searchresult--block i.cnw-fa,
-.cnw_searchresult-detail i.cnw-fa{
+.cnw_searchresult--block .list-item i.cnw-fa,
+.cnw_searchresult-detail .list-item i.cnw-fa{
     display: none;
 }
 
@@ -239,8 +251,8 @@ p span.cnw_badge {
   display: inline-block;
 }
 
-.cnw_searchresult--block.labels-as-icons i.cnw-fa,
-.cnw_searchresult-detail.labels-as-icons i.cnw-fa{
+.cnw_searchresult--block.labels-as-icons .list-item i.cnw-fa,
+.cnw_searchresult-detail.labels-as-icons .list-item i.cnw-fa{
   display: inline-block;
 }
 
@@ -258,7 +270,7 @@ p span.cnw_badge {
    .cnw_searchresult--block .cnw_searchresult-detail-label {
       display: none;
     }
-  .cnw_searchresult--block i.cnw-fa {
+  .cnw_searchresult--block .list-item i.cnw-fa {
     display: inline-block;
   }
 }
