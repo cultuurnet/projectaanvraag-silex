@@ -404,11 +404,12 @@ class TwigPreprocessor
      * @param string $cdbid
      * @param string $settings
      */
-     public function preprocessEditorialLabel($cdbid, $settings) {
+    public function preprocessEditorialLabel($cdbid, $settings) 
+    {
         $articles = $this->curatorenClient->searchArticles($cdbid);
 
         if (empty($articles['hydra:member'])) {
-          return;
+            return;
         }
 
         $publishers = [];
@@ -416,8 +417,7 @@ class TwigPreprocessor
             $publisher = $article['publisher'];
             $showPublisher = in_array($publisher, $settings['publishers']);
             if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $showPublisher)) {
-              // only add articles of allowed publishers to array
-              $publishers[] = $publisher;
+                $publishers[] = $publisher;
             }
         }
 
