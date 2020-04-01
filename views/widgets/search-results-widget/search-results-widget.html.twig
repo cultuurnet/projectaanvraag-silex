@@ -8,11 +8,11 @@
 
     <!--  Results  START -->
     <div class="cnw_searchresult__results">
-
+        <div class="cnw_alert-info">Heel wat activiteiten worden geannuleerd of verplaatst door organisatoren, als corona-preventie. Check even op de site van de organisator. </div>
         {%  if settings_general.current_search and active_filters|length > 0 %}
             <!--  searchWords  START -->
             <div class="cnw_searchresult__searchwords">
-                <p>{{ 'search_results_searched_label'| transTo(preferredLanguage) }} 
+                <p>{{ 'search_results_searched_label'| transTo(preferredLanguage) }}
                     {% for active_filter in active_filters %}
                         <span class="cnw_badge cnw_badge-default"> {{ active_filter.label }} <a href="#" data-active-keywords-name="{{ active_filter.name }}" data-active-keywords-default-option="{{ active_filter.is_default }}">x</a> </span>
                     {% endfor %}
