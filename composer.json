@@ -36,7 +36,8 @@
         "mongodb/mongodb": "1.1.*",
         "cultuurnet/calendar-summary-v3": "dev-master",
         "filp/whoops": "^2.5",
-        "hassankhan/config": "^2.1"
+        "hassankhan/config": "^2.1",
+        "league/container": "^3.3"
     },
     "extra": {
         "patches": {
