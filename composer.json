@@ -33,7 +33,8 @@
         "filp/whoops": "^2.5",
         "hassankhan/config": "^2.1",
         "league/container": "^3.3",
-        "league/route": "^4.3"
+        "league/route": "^4.3",
+        "zendframework/zend-httphandlerrunner": "^1.1"
     },
     "extra": {
         "patches": {
