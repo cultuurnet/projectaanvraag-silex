@@ -35,7 +35,8 @@
         "doctrine/mongodb-odm": "1.1.*",
         "mongodb/mongodb": "1.1.*",
         "cultuurnet/calendar-summary-v3": "dev-master",
-        "filp/whoops": "^2.5"
+        "filp/whoops": "^2.5",
+        "hassankhan/config": "^2.1"
     },
     "extra": {
         "patches": {
