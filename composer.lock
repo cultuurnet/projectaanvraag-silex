@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fef0721220c1ad17cfbf7dfd914e3a7f",
+    "content-hash": "7cab2def91a053ca24f2985db6089d9f",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -7724,25 +7724,25 @@
     ],
     "aliases": [
         {
-            "alias": "dev-develop",
-            "alias_normalized": "dev-develop",
-            "version": "9999999-dev",
-            "package": "cultuurnet/culturefeed-php"
-        },
-        {
             "alias": "1.2.x-dev",
             "alias_normalized": "1.2.9999999.9999999-dev",
             "version": "9999999-dev",
             "package": "cultuurnet/auth"
+        },
+        {
+            "alias": "dev-develop",
+            "alias_normalized": "dev-develop",
+            "version": "9999999-dev",
+            "package": "cultuurnet/culturefeed-php"
         }
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "cultuurnet/auth": 20,
+        "cultuurnet/calendar-summary-v3": 20,
         "cultuurnet/culturefeed-http-guzzle": 20,
         "cultuurnet/culturefeed-php": 20,
-        "cultuurnet/auth": 20,
-        "cultuurnet/search-v3": 20,
-        "cultuurnet/calendar-summary-v3": 20
+        "cultuurnet/search-v3": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
