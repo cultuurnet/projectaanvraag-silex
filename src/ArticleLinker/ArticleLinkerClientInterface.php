@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\ArticleLinker;
 
 use GuzzleHttp\ClientInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides an interface for search clients on the curatoren api
@@ -30,7 +29,7 @@ interface ArticleLinkerClientInterface
      *
      * @param String $url
      * @param String $cdbid
-     * @return Array
+     * @return array
      */
-    public function linkArticle(String $url, String $cdbid);
+    public function linkArticle(string $url, string $cdbid);
 }

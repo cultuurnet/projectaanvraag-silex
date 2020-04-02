@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Core\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Provides a controller to render widget pages and widgets.

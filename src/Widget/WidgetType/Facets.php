@@ -11,14 +11,9 @@ use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
-use CultuurNet\SearchV3\ValueObjects\FacetResult;
-use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
-use CultuurNet\SearchV3\ValueObjects\FacetResults;
 use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
-use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Provides the facets widget type.
