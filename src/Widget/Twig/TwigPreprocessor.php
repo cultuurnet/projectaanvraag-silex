@@ -403,6 +403,7 @@ class TwigPreprocessor
      * Preprocess the editorial label for search results
      * @param string $cdbid
      * @param string $settings
+     * @return string|null
      */
     public function preprocessEditorialLabel($cdbid, $settings)
     {
