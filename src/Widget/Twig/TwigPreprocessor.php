@@ -410,7 +410,7 @@ class TwigPreprocessor
         $articles = $this->curatorenClient->searchArticles($cdbid);
 
         if (empty($articles['hydra:member'])) {
-            return;
+            return null;
         }
 
         $publishers = [];
@@ -423,7 +423,7 @@ class TwigPreprocessor
         }
 
         if (empty($publishers)) {
-            return;
+            return null;
         }
 
         $label = 'UiTip van ' . implode(", ", $publishers);
