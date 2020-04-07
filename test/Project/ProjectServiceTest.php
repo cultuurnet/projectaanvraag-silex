@@ -189,7 +189,7 @@ class ProjectServiceTest extends TestCase
     public function testLoadProjectWithEnrichment()
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->createMock(Project::class, ['enrichWithConsumerInfo']);
+        $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
         $integrationType = $this->createMock(IntegrationType::class);
 
         $project->setName('name');
@@ -241,7 +241,7 @@ class ProjectServiceTest extends TestCase
     public function testTestExceptions()
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->createMock(Project::class, ['enrichWithConsumerInfo']);
+        $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
         $project->setTestConsumerKey('test');
@@ -275,7 +275,7 @@ class ProjectServiceTest extends TestCase
     public function testLiveExceptions()
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->createMock(Project::class, ['enrichWithConsumerInfo']);
+        $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
         $project->setLiveConsumerKey('live');
