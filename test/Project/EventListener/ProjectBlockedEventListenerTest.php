@@ -40,13 +40,13 @@ class ProjectBlockedEventListenerTest extends TestCase
     public function testHandle()
     {
         /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(ProjectInterface::class);
+        $project = $this->createMock(ProjectInterface::class);
         $project->expects($this->any())
             ->method('getInsightlyProjectId')
             ->willReturn(1);
 
         /** @var Project $insightlyProject */
-        $insightlyProject = $this->getMock(Project::class);
+        $insightlyProject = $this->createMock(Project::class);
         $this->insightlyClient
             ->expects($this->any())
             ->method('getProject')

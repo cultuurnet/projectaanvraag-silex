@@ -94,7 +94,7 @@ class ProjectControllerTest extends TestCase
             ->getMockBuilder(InsightlyClientInterface::class)
             ->getMock();
 
-        $this->couponValidator = $this->getMock(CouponValidatorInterface::class);
+        $this->couponValidator = $this->createMock(CouponValidatorInterface::class);
 
         $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker, $this->couponValidator, $this->insightlyClient);
 
@@ -636,7 +636,7 @@ class ProjectControllerTest extends TestCase
      */
     private function setupProjectTest($operation, $returnValue = true)
     {
-        $project = $this->getMock(ProjectInterface::class);
+        $project = $this->createMock(ProjectInterface::class);
 
         $this->projectService
             ->expects($this->any())

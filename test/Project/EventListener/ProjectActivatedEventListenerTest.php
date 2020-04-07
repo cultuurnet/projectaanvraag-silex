@@ -58,7 +58,7 @@ class ProjectActivatedEventListenerTest extends TestCase
         );
 
         // Mock the project + all called methods.
-        $this->project = $this->getMock(ProjectInterface::class);
+        $this->project = $this->createMock(ProjectInterface::class);
         $this->project->expects($this->any())
             ->method('getInsightlyProjectId')
             ->willReturn(1);
@@ -67,7 +67,7 @@ class ProjectActivatedEventListenerTest extends TestCase
             ->willReturn('liveKey');
 
         /** @var Project $insightlyProject */
-        $this->insightlyProject = $this->getMock(Project::class);
+        $this->insightlyProject = $this->createMock(Project::class);
         $this->insightlyProject->expects($this->any())
             ->method('getId')
             ->willReturn(1);

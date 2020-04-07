@@ -13,7 +13,7 @@ class ProjectCommandTest extends TestCase
     public function testProjectCommand()
     {
         /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(ProjectInterface::class);
+        $project = $this->createMock(ProjectInterface::class);
         $command = $this->getMockForAbstractClass(ProjectCommand::class, [$project]);
         //$createProject = new DeleteProject($project);
 

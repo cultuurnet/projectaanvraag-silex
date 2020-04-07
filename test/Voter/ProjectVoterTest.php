@@ -49,7 +49,7 @@ class ProjectVoterTest extends TestCase
     public function testVote()
     {
         /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(User::class);
+        $user = $this->createMock(User::class);
         $user->id = 123;
 
         $user->expects($this->any())
@@ -70,7 +70,7 @@ class ProjectVoterTest extends TestCase
     public function testAdminVote()
     {
         /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(User::class);
+        $user = $this->createMock(User::class);
 
         $user->expects($this->any())
             ->method('hasRole')

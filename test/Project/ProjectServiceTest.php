@@ -42,15 +42,15 @@ class ProjectServiceTest extends TestCase
      */
     public function setUp()
     {
-        $this->culturefeedLive = $this->getMock(\ICultureFeed::class);
-        $this->culturefeedTest = $this->getMock(\ICultureFeed::class);
+        $this->culturefeedLive = $this->createMock(\ICultureFeed::class);
+        $this->culturefeedTest = $this->createMock(\ICultureFeed::class);
         $this->projectRepository = $this->getMockBuilder(EntityRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
-        $this->user = $this->getMock(User::class);
+        $this->integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
+        $this->user = $this->createMock(User::class);
         $this->user->id = 'id';
-        $mongoDbConnection = $this->getMock(Connection::class);
+        $mongoDbConnection = $this->createMock(Connection::class);
 
         $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $this->projectRepository, $this->integrationTypeStorage, $this->user, $mongoDbConnection);
     }
@@ -189,8 +189,8 @@ class ProjectServiceTest extends TestCase
     public function testLoadProjectWithEnrichment()
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
-        $integrationType = $this->getMock(IntegrationType::class);
+        $project = $this->createMock(Project::class, ['enrichWithConsumerInfo']);
+        $integrationType = $this->createMock(IntegrationType::class);
 
         $project->setName('name');
         $project->setLiveConsumerKey('live');
@@ -199,9 +199,9 @@ class ProjectServiceTest extends TestCase
         $project->setTestApiKeySapi3('test api key');
         $project->setGroupId('test');
 
-        $liveConsumer = $this->getMock(\CultureFeed_Consumer::class);
+        $liveConsumer = $this->createMock(\CultureFeed_Consumer::class);
         $liveConsumer->consumerSecret = 'livesecret';
-        $testConsumer = $this->getMock(\CultureFeed_Consumer::class);
+        $testConsumer = $this->createMock(\CultureFeed_Consumer::class);
         $testConsumer->consumerSecret = 'testsecret';
 
         $this->projectRepository->expects($this->once())
@@ -241,7 +241,7 @@ class ProjectServiceTest extends TestCase
     public function testTestExceptions()
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
+        $project = $this->createMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
         $project->setTestConsumerKey('test');
@@ -275,7 +275,7 @@ class ProjectServiceTest extends TestCase
     public function testLiveExceptions()
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
+        $project = $this->createMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
         $project->setLiveConsumerKey('live');

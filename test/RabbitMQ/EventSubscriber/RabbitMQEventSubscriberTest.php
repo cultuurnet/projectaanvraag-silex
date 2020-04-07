@@ -74,11 +74,11 @@ class RabbitMQEventSubscriberTest extends TestCase
         $this->config['failed_message_delay'] = 5000;
 
         // Event bus
-        $this->eventBus = $this->getMock(MessageBusSupportingMiddleware::class);
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
         // Logger
-        $this->logger = $this->getMock(LoggerInterface::class);
-        $this->projectLogger = $this->getMock(LoggerInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->projectLogger = $this->createMock(LoggerInterface::class);
 
         // ProjectEvent
         $this->projectEvent = $this->getMockBuilder(ProjectCreated::class)
@@ -86,7 +86,7 @@ class RabbitMQEventSubscriberTest extends TestCase
             ->getMock();
 
         // Amqpmessage
-        $this->amqpMessage = $this->getMock(AMQPMessage::class);
+        $this->amqpMessage = $this->createMock(AMQPMessage::class);
         $this->amqpMessage->body = 'message';
 
         // Message failed event

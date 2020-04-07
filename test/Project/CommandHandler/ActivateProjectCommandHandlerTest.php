@@ -76,9 +76,9 @@ class ActivateProjectCommandHandlerTest extends TestCase
             ->expects($this->any())
             ->method('flush');
 
-        $this->project = $this->getMock(ProjectInterface::class);
+        $this->project = $this->createMock(ProjectInterface::class);
 
-        $this->user = $this->getMock(User::class);
+        $this->user = $this->createMock(User::class);
         $this->user->id = 123;
 
         $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, 3, 22678);
