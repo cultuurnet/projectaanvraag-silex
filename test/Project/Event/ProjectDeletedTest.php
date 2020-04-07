@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProjectDeletedTest extends TestCase
@@ -12,7 +13,7 @@ class ProjectDeletedTest extends TestCase
      */
     public function testProjectDeletedEvent()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var ProjectInterface|MockObject $project */
         $project = $this
             ->getMockBuilder(ProjectInterface::class)
             ->disableOriginalConstructor()

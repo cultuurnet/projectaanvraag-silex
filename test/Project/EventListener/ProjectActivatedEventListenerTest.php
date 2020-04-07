@@ -8,12 +8,13 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProjectActivatedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface|MockObject
      */
     protected $insightlyClient;
 
@@ -23,12 +24,12 @@ class ProjectActivatedEventListenerTest extends TestCase
     protected $eventListener;
 
     /**
-     * @var ProjectInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectInterface|MockObject
      */
     protected $project;
 
     /**
-     * @var Project|PHPUnit_Framework_MockObject_MockObject
+     * @var Project|MockObject
      */
     protected $insightlyProject;
 

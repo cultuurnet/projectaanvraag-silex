@@ -7,12 +7,13 @@ use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProjectBlockedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface|MockObject
      */
     protected $insightlyClient;
 
@@ -39,7 +40,7 @@ class ProjectBlockedEventListenerTest extends TestCase
      */
     public function testHandle()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var ProjectInterface|MockObject $project */
         $project = $this->createMock(ProjectInterface::class);
         $project->expects($this->atLeastOnce())
             ->method('getInsightlyProjectId')

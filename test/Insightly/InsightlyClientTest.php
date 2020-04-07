@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
@@ -45,7 +46,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
      */
     public function testUpdateProject()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project|MockObject $project */
         $project = $this
             ->getMockBuilder(Project::class)
             ->disableOriginalConstructor()

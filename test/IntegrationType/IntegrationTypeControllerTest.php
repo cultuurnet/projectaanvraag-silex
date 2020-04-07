@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Silex\WebTestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,7 +21,7 @@ class IntegrationTypeControllerTest extends TestCase
     protected $controller;
 
     /**
-     * @var IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var IntegrationTypeStorageInterface|MockObject
      */
     protected $integrationTypeStorageService;
 
