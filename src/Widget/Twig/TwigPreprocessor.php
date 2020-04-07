@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
+use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
@@ -65,6 +66,11 @@ class TwigPreprocessor
     private $translator;
 
     /**
+     * @var CuratorenClient
+     */
+    protected $curatorenClient;
+
+    /**
      * TwigPreprocessor constructor.
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
@@ -76,7 +82,8 @@ class TwigPreprocessor
         string $socialHost,
         FilterForKeyWithFallback $translateWithFallback,
         TranslateTerm $translateTerm,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        CuratorenClient $curatorenClient
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -85,6 +92,7 @@ class TwigPreprocessor
         $this->filterForKeyWithFallback = $translateWithFallback;
         $this->translateTerm = $translateTerm;
         $this->translator = $translator;
+        $this->curatorenClient = $curatorenClient;
     }
 
     /**
@@ -239,6 +247,10 @@ class TwigPreprocessor
             $this->preprocessBookingInfo($event, $langcode, $variables);
         }
 
+        if (!empty($settings['editorial_label']) && $settings['editorial_label']['enabled']) {
+            $variables['editorial_label'] = $this->preprocessEditorialLabel($event->getCdbid(), $settings['editorial_label']);
+        }
+
         return $variables;
     }
 
@@ -361,7 +373,7 @@ class TwigPreprocessor
      *
      * @param array $articles
      * @param array $settings
-     * @return array $settings
+     * @return array $articles
      */
     public function preprocessArticles($linkedArticles, $settings)
     {
@@ -385,6 +397,37 @@ class TwigPreprocessor
             }
         }
         return $articles;
+    }
+
+    /**
+     * Preprocess the editorial label for search results
+     * @param string $cdbid
+     * @param string $settings
+     * @return string|null
+     */
+    public function preprocessEditorialLabel($cdbid, $settings)
+    {
+        $articles = $this->curatorenClient->searchArticles($cdbid);
+
+        if (empty($articles['hydra:member'])) {
+            return null;
+        }
+
+        $publishers = [];
+        foreach ($articles['hydra:member'] as $article) {
+            $publisher = $article['publisher'];
+            $showPublisher = in_array($publisher, $settings['publishers']);
+            if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $showPublisher)) {
+                $publishers[] = $publisher;
+            }
+        }
+
+        if (empty($publishers)) {
+            return null;
+        }
+
+        $label = 'UiTip van ' . implode(", ", $publishers);
+        return $label;
     }
 
     /**
