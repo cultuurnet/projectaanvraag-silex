@@ -270,7 +270,8 @@ class Tips extends WidgetTypeBase
             // Sort by event end date.
             $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
         } else {
-            $query->addParameter(new Id($cdbid));
+            $cdbids = explode(' ', $cdbid);
+            $query->addParameter(new Query('(id:' . implode(' OR ', $cdbids) . ')'));
             // Disable default filters, except workflowstatus
             $query->addParameter(new AudienceType('*'));
             $query->addParameter(new AddressCountry('*'));
