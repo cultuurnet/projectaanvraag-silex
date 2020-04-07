@@ -260,7 +260,7 @@ class ProjectServiceTest extends TestCase
         // No exception should be rethrown.
         $this->projectService->loadProject(1);
 
-        $this->setExpectedException('\InvalidArgumentException', 'test');
+        $this->expectException('\InvalidArgumentException', 'test');
         $this->culturefeedTest->expects($this->any())
             ->method('getServiceConsumer')
             ->with('test')
@@ -293,7 +293,7 @@ class ProjectServiceTest extends TestCase
         // No exception should be rethrown.
         $this->projectService->loadProject(1);
 
-        $this->setExpectedException('\InvalidArgumentException', 'live');
+        $this->expectException('\InvalidArgumentException', 'live');
 
         $this->culturefeedLive->expects($this->any())
             ->method('getServiceConsumer')
