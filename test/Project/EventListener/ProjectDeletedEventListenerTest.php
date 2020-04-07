@@ -40,12 +40,12 @@ class ProjectDeletedEventListenerTest extends TestCase
     {
         $insightlyProject = $this->createMock(Project::class);
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('getProject')
             ->will($this->returnValue($insightlyProject));
 
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('updateProject')
             ->will($this->returnValue($insightlyProject));
 
@@ -54,7 +54,7 @@ class ProjectDeletedEventListenerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $projectDeleted->expects($this->any())
+        $projectDeleted->expects($this->atLeastOnce())
             ->method('getProject')
             ->will($this->returnValue($project));
 

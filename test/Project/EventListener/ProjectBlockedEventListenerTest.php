@@ -41,20 +41,20 @@ class ProjectBlockedEventListenerTest extends TestCase
     {
         /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->createMock(ProjectInterface::class);
-        $project->expects($this->any())
+        $project->expects($this->atLeastOnce())
             ->method('getInsightlyProjectId')
             ->willReturn(1);
 
         /** @var Project $insightlyProject */
         $insightlyProject = $this->createMock(Project::class);
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('getProject')
             ->with(1)
             ->will($this->returnValue($insightlyProject));
 
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('updateProject')
             ->with($insightlyProject)
             ->will($this->returnValue($insightlyProject));
@@ -63,7 +63,7 @@ class ProjectBlockedEventListenerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $projectBlocked->expects($this->any())
+        $projectBlocked->expects($this->atLeastOnce())
             ->method('getProject')
             ->will($this->returnValue($project));
 
