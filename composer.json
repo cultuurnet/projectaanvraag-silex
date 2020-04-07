@@ -34,8 +34,7 @@
         "doctrine/mongodb": "1.4.*",
         "doctrine/mongodb-odm": "1.1.*",
         "mongodb/mongodb": "1.1.*",
-        "cultuurnet/calendar-summary-v3": "dev-master",
-        "phpunit/phpunit": "^7.5"
+        "cultuurnet/calendar-summary-v3": "dev-master"
     },
     "extra": {
         "patches": {
@@ -55,7 +54,8 @@
         "squizlabs/php_codesniffer": "^2.7",
         "satooshi/php-coveralls": "^1.0",
         "escapestudios/symfony2-coding-standard": "^2.9",
-        "phing/phing": "^2.16"
+        "phing/phing": "^2.16",
+        "phpunit/phpunit": "^7.5"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
