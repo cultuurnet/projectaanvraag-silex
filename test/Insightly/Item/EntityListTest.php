@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-class EntityListTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EntityListTest extends TestCase
 {
     /**
      * Test EntityList

@@ -3,11 +3,12 @@
 namespace CultuurNet\ProjectAanvraag\Entity;
 
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the Coupon entity.
  */
-class ProjectTest extends \PHPUnit_Framework_TestCase
+class ProjectTest extends TestCase
 {
 
     /**

@@ -4,16 +4,18 @@ namespace CultuurNet\ProjectAanvraag\ArticleLinker\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\ArticleLinker\Command\CreateArticleLink;
 use CultuurNet\ProjectAanvraag\ArticleLinker\Event\ArticleLinkCreated;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 /**
  * Tests the CreateArticleLinkCommandHandler class.
  */
-class CreateArticleLinkCommandHandlerTest extends \PHPUnit_Framework_TestCase
+class CreateArticleLinkCommandHandlerTest extends TestCase
 {
 
     /**
-     * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageBusSupportingMiddleware|MockObject
      */
     protected $eventBus;
 

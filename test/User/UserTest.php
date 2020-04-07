@@ -3,8 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\User;
 
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
+use PHPUnit\Framework\TestCase;
 
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends TestCase
 {
 
     use JsonAssertionTrait;

@@ -3,8 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\Project\Command;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use PHPUnit\Framework\TestCase;
 
-class ProjectCommandTest extends \PHPUnit_Framework_TestCase
+class ProjectCommandTest extends TestCase
 {
     /**
      * Test the abstract ProjectCommand

@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\ArticleLinker\Command;
 
-class CreateArticleLinkTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CreateArticleLinkTest extends TestCase
 {
     /**
      * Test the getters and setters.

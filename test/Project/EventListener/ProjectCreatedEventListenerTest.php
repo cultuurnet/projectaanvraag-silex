@@ -17,8 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Http\Message\Response;
+use PHPUnit\Framework\TestCase;
 
-class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectCreatedEventListenerTest extends TestCase
 {
     /**
      * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject

@@ -15,9 +15,10 @@ use \CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
-class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
+class RequestActivationCommandHandlerTest extends TestCase
 {
     /**
      * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject

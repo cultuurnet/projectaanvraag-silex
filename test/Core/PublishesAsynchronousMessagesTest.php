@@ -2,18 +2,19 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
-use Akamon\MockeryCallableMock\MockeryCallableMock;
 use CultuurNet\ProjectAanvraag\CallableMock;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Asynchronous\Publisher\Publisher;
 
 /**
  * Tests PublishesAsynchronousMessages class.
  */
-class PublishesAsynchronousMessagesTest extends \PHPUnit_Framework_TestCase
+class PublishesAsynchronousMessagesTest extends TestCase
 {
 
     /**
-     * @var Publisher|PHPUnit_Framework_MockObject_MockObject
+     * @var Publisher|MockObject
      */
     private $publisher;
 

@@ -11,11 +11,12 @@ use Doctrine\MongoDB\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the ProjectService class.
  */
-class ProjectServiceTest extends \PHPUnit_Framework_TestCase
+class ProjectServiceTest extends TestCase
 {
 
     /** @var  ProjectService */

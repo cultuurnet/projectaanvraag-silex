@@ -5,9 +5,10 @@ namespace CultuurNet\ProjectAanvraag\Voter;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class ProjectVoterTest extends \PHPUnit_Framework_TestCase
+class ProjectVoterTest extends TestCase
 {
     /**
      * @var TokenInterface|\PHPUnit_Framework_MockObject_MockObject
