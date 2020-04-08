@@ -173,7 +173,7 @@ class TwigPreprocessor
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
         ];
-        $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
+        $defaultImage = $settings['image']['default_image']['enabled'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
         $image = $event->getImage() ?? $defaultImage;
         if (!empty($image)) {
             $image = str_replace("http://", "https://", $image);
