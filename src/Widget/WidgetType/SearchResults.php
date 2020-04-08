@@ -272,8 +272,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "width":"integer",
  *                  "height":"integer",
  *                  "default_image": {
- *                      "enabled": "boolean",
- *                      "type": "string"
+ *                      "enabled":"boolean",
+ *                      "type":"string"
  *                  },
  *                  "position":"string"
  *              },
