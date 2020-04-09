@@ -11,11 +11,6 @@ jobs:
                   tools: pecl
                   extensions: mongodb
             - uses: actions/checkout@v2
-            - uses: actions/cache@v1
-              id: cache
-              with:
-                  path: vendor
-                  key: composer-${{ hashFiles('**/composer.lock') }}
             - name: Install dependencies
               run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
             - name: Run PHPUnit tests
