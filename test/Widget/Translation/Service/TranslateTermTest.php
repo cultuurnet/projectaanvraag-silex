@@ -18,7 +18,7 @@ class TranslateTermTest extends TestCase
      */
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->translator = $this->prophesize(TranslatorInterface::class);
     }

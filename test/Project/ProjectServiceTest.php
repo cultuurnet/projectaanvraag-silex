@@ -41,7 +41,7 @@ class ProjectServiceTest extends TestCase
     /**
      * Setup the service with mock objects.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->culturefeedLive = $this->createMock(\ICultureFeed::class);
         $this->culturefeedTest = $this->createMock(\ICultureFeed::class);

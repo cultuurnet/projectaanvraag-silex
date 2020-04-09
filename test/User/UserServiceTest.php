@@ -20,7 +20,7 @@ class UserServiceTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->userRoleStorage = $this->createMock(UserRoleStorageInterface::class);
         $this->cultureFeed = $this->getMockBuilder(\CultureFeed::class)

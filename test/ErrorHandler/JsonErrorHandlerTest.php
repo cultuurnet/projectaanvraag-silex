@@ -26,7 +26,7 @@ class JsonErrorHandlerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->request = $this
             ->getMockBuilder('Symfony\Component\HttpFoundation\Request')

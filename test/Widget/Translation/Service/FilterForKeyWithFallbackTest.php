@@ -16,7 +16,7 @@ class FilterForKeyWithFallbackTest extends TestCase
      */
     private $translateLanguage;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->translateLanguage = new FilterForKeyWithFallback(
             self::FALLBACK_KEY

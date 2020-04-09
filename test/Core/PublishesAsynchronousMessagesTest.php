@@ -23,7 +23,7 @@ class PublishesAsynchronousMessagesTest extends TestCase
      */
     private $publishesAsynchronousMessages;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->publisher = $this->createMock(Publisher::class);
         $this->publishesAsynchronousMessages = new PublishesAsynchronousMessages($this->publisher);

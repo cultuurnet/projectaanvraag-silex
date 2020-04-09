@@ -24,7 +24,7 @@ class CouponValidatorTest extends TestCase
     /**
      * Setup the service with mock objects.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->couponRepository = $this->getMockBuilder(EntityRepository::class)
             ->disableOriginalConstructor()

@@ -24,7 +24,7 @@ class ProjectDeletedEventListenerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->insightlyClient = $this
             ->getMockBuilder(InsightlyClientInterface::class)

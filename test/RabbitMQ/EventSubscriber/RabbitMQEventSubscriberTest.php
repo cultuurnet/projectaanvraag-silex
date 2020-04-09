@@ -69,7 +69,7 @@ class RabbitMQEventSubscriberTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         // Config
         $this->config['failed_message_delay'] = 5000;

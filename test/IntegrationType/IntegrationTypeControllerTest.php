@@ -29,7 +29,7 @@ class IntegrationTypeControllerTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $integrationTypesStorageService = $this
             ->getMockBuilder('CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorage')
