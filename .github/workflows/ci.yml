@@ -15,5 +15,7 @@ jobs:
               run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
             - name: Run PHPUnit tests
               run: vendor/bin/phpunit
-            - name: Coveralls report
-              run: vendor/bin/php-coveralls -vvv
+            - name: Coveralls
+                uses: coverallsapp/github-action@master
+                with:
+                    github-token: ${{ secrets.GITHUB_TOKEN }}
