@@ -3,7 +3,7 @@
     "description": "A silex application that serves as API backend for the projectaanvraag application",
     "license": "GPL-3.0",
     "require": {
-        "php": "7.1",
+        "php": "^7.4",
         "silex/silex": "~2.0",
         "cweagans/composer-patches": "^1.5",
         "cultuurnet/silex-uitid-provider": "2.x-dev",
