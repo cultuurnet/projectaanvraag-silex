@@ -2,17 +2,15 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class EntityListTest extends TestCase
 {
-    /**
-     * Test EntityList
-     * @expectedException \InvalidArgumentException
-     */
     public function testEntityListExceptionHandling()
     {
         $data = [new \stdClass()];
+        $this->expectException(InvalidArgumentException::class);
         new EntityList($data);
     }
 }
