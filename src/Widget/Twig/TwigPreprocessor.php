@@ -73,7 +73,7 @@ class TwigPreprocessor
     /**
      * @var array
      */
-    public $fallbackImages;
+    private $fallbackImages;
 
     /**
      * TwigPreprocessor constructor.
@@ -394,7 +394,10 @@ class TwigPreprocessor
         }
 
         if ($settings['type'] === 'theme') {
-            $this->fallbackImages = (empty($this->fallbackImages)) ? Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml')) : $this->fallbackImages;
+
+            if (empty($this->fallbackImages)) {
+                $this->fallbackImages = Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml'));
+            }
 
             foreach ($this->fallbackImages as $fallbackImage) {
                 if ($fallbackImage['eventtype_id'] === $eventTypeId) {
