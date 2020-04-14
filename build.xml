@@ -11,9 +11,9 @@
     </target>
 
     <target name="coding-standards">
-        <exec command="vendor/bin/phpcs  test --extensions=php --standard=phpcs-ruleset.xml"/>
-        <exec command="vendor/bin/phpcs  src --extensions=php --standard=phpcs-ruleset.xml"/>
-        <exec command="vendor/bin/phpcs  app --extensions=php --standard=phpcs-ruleset.xml"/>
+        <exec command="vendor/bin/phpcs  test --extensions=php --standard=phpcs-ruleset.xml" checkreturn="true"/>
+        <exec command="vendor/bin/phpcs  src --extensions=php --standard=phpcs-ruleset.xml" checkreturn="true"/>
+        <exec command="vendor/bin/phpcs  app --extensions=php --standard=phpcs-ruleset.xml" checkreturn="true"/>
     </target>
 
     <target name="phpcbf">
