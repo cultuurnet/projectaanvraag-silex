@@ -17,15 +17,7 @@
     </target>
 
     <target name="coding-standards">
-        <exec command="vendor/bin/phpcs --config-set installed_paths vendor/escapestudios/symfony2-coding-standard"
-              passthru="true"/>
-        <phpcodesniffer
-                standard="phpcs-ruleset.xml"
-                format="full"
-                allowedFileExtensions="php"
-                haltonerror="true">
-            <fileset refid="php"/>
-        </phpcodesniffer>
+        <exec command="vendor/bin/phpcs --extensions=php --standard=phpcs-ruleset.xml"/>
     </target>
 
     <target name="phpcbf">
