@@ -71,6 +71,11 @@ class TwigPreprocessor
     protected $curatorenClient;
 
     /**
+     * @var array
+     */
+    public $fallbackImages;
+
+    /**
      * TwigPreprocessor constructor.
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
@@ -93,7 +98,10 @@ class TwigPreprocessor
         $this->translateTerm = $translateTerm;
         $this->translator = $translator;
         $this->curatorenClient = $curatorenClient;
+        $this->fallbackImages = [];
     }
+
+
 
     /**
      * @param array $events
@@ -386,9 +394,10 @@ class TwigPreprocessor
         }
 
         if ($settings['type'] === 'theme') {
-            $fallbackImages = Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml'));
 
-            foreach ($fallbackImages as $fallbackImage) {
+            $this->fallbackImages = (empty($this->fallbackImages)) ? Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml')) : $this->fallbackImages;
+
+            foreach ($this->fallbackImages as $fallbackImage) {
                 if ($fallbackImage['eventtype_id'] === $eventTypeId) {
                     return $fallbackImage['image'];
                 }
