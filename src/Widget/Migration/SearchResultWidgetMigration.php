@@ -39,7 +39,9 @@ class SearchResultWidgetMigration extends WidgetMigration
                 'enabled' => $imgSettings['show'],
                 'width' => $imgSettings['size']['width'],
                 'height' => $imgSettings['size']['height'],
-                'default_image' => (isset($imgSettings['show_default']) ? $imgSettings['show_default'] : false),
+                'default_image' => [
+                  'enabled' => (isset($imgSettings['show_default']) ? $imgSettings['show_default'] : false),
+                  'type' => 'uit',
                 'position' => 'right',
             ];
         }
@@ -58,7 +60,10 @@ class SearchResultWidgetMigration extends WidgetMigration
                 'enabled' => $imgSettings['show'],
                 'width' => $imgSettings['size']['width'],
                 'height' => $imgSettings['size']['height'],
-                'default_image' => false,
+                'default_image' => [
+                  'enabled' => false,
+                  'type' => 'uit',
+                ],
                 'position' => 'right',
             ];
         }
