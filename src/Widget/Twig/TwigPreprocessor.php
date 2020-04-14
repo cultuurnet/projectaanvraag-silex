@@ -377,26 +377,24 @@ class TwigPreprocessor
      */
     public function getDefaultImage($settings, $eventTypeId)
     {
-      if (!$settings['image']['default_image']['enabled']) {
+      if (!$settings['enabled']) {
         return '';
       }
 
-      if ($settings['image']['default_image']['type'] === 'uit') {
+      if ($settings['type'] === 'uit') {
         return $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png';
       }
 
-      if ($settings['image']['default_image']['type'] === 'theme') {
-        // get theme
+      if ($settings['type'] === 'theme') {
         $fallbackImages = Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml'));
 
-        $fallbackImage = '';
         foreach ($fallbackImages as $fallbackImage) {
-            if (in_array($fallbackImage['eventtype_id'], $eventTypeId)) {
+            if ($fallbackImage['eventtype_id'] === $eventTypeId) {
                return $fallbackImage['image'];
             } 
         }
 
-        return $fallbackImage;
+        return '';
       }
 
     }
