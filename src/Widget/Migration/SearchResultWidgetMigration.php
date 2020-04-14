@@ -43,6 +43,7 @@ class SearchResultWidgetMigration extends WidgetMigration
                   'enabled' => (isset($imgSettings['show_default']) ? $imgSettings['show_default'] : false),
                   'type' => 'uit',
                 'position' => 'right',
+                ],
             ];
         }
         // items icon vlieg
