@@ -391,7 +391,7 @@ class TwigPreprocessor
             foreach ($fallbackImages as $fallbackImage) {
                 if ($fallbackImage['eventtype_id'] === $eventTypeId) {
                     return $fallbackImage['image'];
-                } 
+                }
             }
 
             return '';
