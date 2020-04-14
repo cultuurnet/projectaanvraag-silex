@@ -15,3 +15,17 @@ jobs:
               run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
             - name: Run PHPUnit tests
               run: vendor/bin/phpunit
+
+    code-style:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+                  tools: pecl
+                  extensions: mongodb
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+            - name: Run PHPCS
+              run: vendor/bin/phpcs --extensions=php --standard=phpcs-ruleset.xml src app test
