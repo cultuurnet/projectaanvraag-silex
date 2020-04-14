@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Project aanvraag" default="test">
-    <fileset id="php" dir="./">
-        <include name="**/*.php"/>
-        <exclude name="vendor/"/>
-        <exclude name="proxies/"/>
-    </fileset>
-
     <target name="composer-validate">
         <exec executable="composer" passthru="true" checkreturn="true">
             <arg value="validate"/>
@@ -31,12 +25,6 @@
               passthru="true"/>
     </target>
 
-    <target name="lint">
-        <phplint>
-            <fileset refid="php"/>
-        </phplint>
-    </target>
-
     <!--
         The PHPUnit task of Phing does not support white-lists for code
         coverage. Therefore we use the exec task instead.
@@ -50,7 +38,6 @@
 
     <target name="test">
         <phingcall target="composer-validate"/>
-        <!--<phingcall target="lint"/>-->
         <phingcall target="unit-tests"/>
         <phingcall target="coding-standards"/>
     </target>
