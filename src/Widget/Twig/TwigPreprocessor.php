@@ -394,7 +394,6 @@ class TwigPreprocessor
         }
 
         if ($settings['type'] === 'theme') {
-
             $this->fallbackImages = (empty($this->fallbackImages)) ? Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml')) : $this->fallbackImages;
 
             foreach ($this->fallbackImages as $fallbackImage) {
