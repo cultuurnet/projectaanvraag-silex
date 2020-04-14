@@ -173,7 +173,7 @@ class TwigPreprocessor
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
         ];
-        $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
+        $defaultImage = $this->getDefaultImage($settings['image']['default_image'], $variables['typeId']);
         $image = $event->getImage() ?? $defaultImage;
         if (!empty($image)) {
             $image = str_replace("http://", "https://", $image);
@@ -366,6 +366,39 @@ class TwigPreprocessor
         }
 
         return $variables;
+    }
+
+    /**
+     * Get the default image
+     *
+     * @param array $settings
+     * @param string $eventTypeId
+     * @return string $defaultImage
+     */
+    public function getDefaultImage($settings, $eventTypeId)
+    {
+      if (!$settings['image']['default_image']['enabled']) {
+        return '';
+      }
+
+      if ($settings['image']['default_image']['type'] === 'uit') {
+        return $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png';
+      }
+
+      if ($settings['image']['default_image']['type'] === 'theme') {
+        // get theme
+        $fallbackImages = Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml'));
+
+        $fallbackImage = '';
+        foreach ($fallbackImages as $fallbackImage) {
+            if (in_array($fallbackImage['eventtype_id'], $eventTypeId)) {
+               return $fallbackImage['image'];
+            } 
+        }
+
+        return $fallbackImage;
+      }
+
     }
 
     /**
