@@ -6,7 +6,6 @@
         "php": "^7.4",
         "silex/silex": "~2.0",
         "cweagans/composer-patches": "^1.5",
-        "cultuurnet/silex-uitid-provider": "2.x-dev",
         "simple-bus/rabbitmq-bundle-bridge": "^3.0",
         "knplabs/console-service-provider": "^2.0",
         "simple-bus/jms-serializer-bridge": "^1.0",
@@ -36,7 +35,8 @@
         "doctrine/mongodb-odm": "1.1.*",
         "mongodb/mongodb": "1.1.*",
         "cultuurnet/calendar-summary-v3": "dev-master",
-        "guzzlehttp/psr7": "^1.6"
+        "guzzlehttp/psr7": "^1.6",
+        "symfony/security": "^3.4"
     },
     "extra": {
         "patches": {
