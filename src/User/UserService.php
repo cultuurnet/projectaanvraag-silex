@@ -2,10 +2,20 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
-use CultuurNet\UiTIDProvider\User\UserService as UiTIDUserService;
+use CultuurNet\UiTIDProvider\User\UserServiceInterface;
 
-class UserService extends UiTIDUserService
+class UserService implements UserServiceInterface
 {
+    /**
+     * Include private fields when returning user data.
+     */
+    const INCLUDE_PRIVATE_FIELDS = true;
+
+    /**
+     * @var \CultureFeed
+     */
+    protected $cultureFeed;
+
     /**
      * @var UserRoleStorageInterface
      */
@@ -17,8 +27,7 @@ class UserService extends UiTIDUserService
      */
     public function __construct(\CultureFeed $cultureFeed, UserRoleStorageInterface $userRoleStorage)
     {
-        parent::__construct($cultureFeed);
-
+        $this->cultureFeed = $cultureFeed;
         $this->userRoleStorage = $userRoleStorage;
     }
 
@@ -40,6 +49,31 @@ class UserService extends UiTIDUserService
             $user->setRoles(array_merge($this->userRoleStorage->getRolesByUserId($user->id), $roles));
 
             return $user;
+        } catch (\CultureFeed_ParseException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @param $username
+     * @return User|null
+     */
+    public function getUserByUsername($username)
+    {
+        try {
+            $query = new \CultureFeed_SearchUsersQuery();
+            $query->nick = $username;
+
+            $results = $this->cultureFeed->searchUsers($query);
+            $users = $results->objects;
+
+            if (empty($users)) {
+                return null;
+            }
+
+            $user = reset($users);
+
+            return $this->getUser($user->id);
         } catch (\CultureFeed_ParseException $e) {
             return null;
         }

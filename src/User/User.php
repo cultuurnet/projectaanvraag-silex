@@ -2,9 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
-use CultuurNet\UiTIDProvider\User\User as UiTIDUser;
+use CultureFeed_User;
+use JsonSerializable;
 
-class User extends UiTIDUser implements UserInterface
+class User extends CultureFeed_User implements JsonSerializable, UserInterface
 {
 
     /**
@@ -80,10 +81,10 @@ class User extends UiTIDUser implements UserInterface
     }
 
     /**
-     * @param \CultureFeed_User $user
+     * @param CultureFeed_User $user
      * @return User|self
      */
-    public static function fromCultureFeedUser(\CultureFeed_User $user)
+    public static function fromCultureFeedUser(CultureFeed_User $user)
     {
         $new = new self();
 
@@ -97,5 +98,36 @@ class User extends UiTIDUser implements UserInterface
         }
 
         return $new;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPassword()
+    {
+        return '';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUsername()
+    {
+        return $this->nick;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function eraseCredentials()
+    {
     }
 }
