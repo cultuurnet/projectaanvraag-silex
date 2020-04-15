@@ -25,7 +25,7 @@
                 {% else %}
                 {{ event.name }}
                 {% endif %}
-                {% if settings_items.editorial_label.enabled and event.editorial_label %}
+                {% if settings_items.editorial_label is defined and settings_items.editorial_label.enabled and event.editorial_label %}
                   <span class="cnw_badge cnw_badge-default cnw_badge-editorial">
                     <i class="cnw-fa cnw-fa-heart"></i>{{ event.editorial_label }}
                   </span>
