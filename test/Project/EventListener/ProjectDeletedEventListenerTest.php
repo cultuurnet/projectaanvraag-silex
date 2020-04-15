@@ -6,11 +6,13 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectDeletedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface|MockObject
      */
     protected $insightlyClient;
 
@@ -22,7 +24,7 @@ class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->insightlyClient = $this
             ->getMockBuilder(InsightlyClientInterface::class)
@@ -37,23 +39,23 @@ class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle()
     {
-        $insightlyProject = $this->getMock(Project::class);
+        $insightlyProject = $this->createMock(Project::class);
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('getProject')
             ->will($this->returnValue($insightlyProject));
 
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('updateProject')
             ->will($this->returnValue($insightlyProject));
 
-        $project = $this->getMock(ProjectInterface::class);
+        $project = $this->createMock(ProjectInterface::class);
         $projectDeleted = $this->getMockBuilder(ProjectDeleted::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $projectDeleted->expects($this->any())
+        $projectDeleted->expects($this->atLeastOnce())
             ->method('getProject')
             ->will($this->returnValue($project));
 

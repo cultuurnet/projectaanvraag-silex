@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Project aanvraag" default="test">
-    <fileset id="php" dir="./">
-        <include name="**/*.php"/>
-        <exclude name="vendor/"/>
-        <exclude name="proxies/"/>
-    </fileset>
-
     <target name="composer-validate">
         <exec executable="composer" passthru="true" checkreturn="true">
             <arg value="validate"/>
@@ -17,15 +11,9 @@
     </target>
 
     <target name="coding-standards">
-        <exec command="vendor/bin/phpcs --config-set installed_paths vendor/escapestudios/symfony2-coding-standard"
-              passthru="true"/>
-        <phpcodesniffer
-                standard="phpcs-ruleset.xml"
-                format="full"
-                allowedFileExtensions="php"
-                haltonerror="true">
-            <fileset refid="php"/>
-        </phpcodesniffer>
+        <exec command="vendor/bin/phpcs  --extensions=php --standard=phpcs-ruleset.xml src app test"
+            checkreturn="true"
+            passthru="true"/>
     </target>
 
     <target name="phpcbf">
@@ -35,12 +23,6 @@
               passthru="true"/>
         <exec command="vendor/bin/phpcbf app --standard=phpcs-ruleset.xml"
               passthru="true"/>
-    </target>
-
-    <target name="lint">
-        <phplint>
-            <fileset refid="php"/>
-        </phplint>
     </target>
 
     <!--
@@ -56,7 +38,6 @@
 
     <target name="test">
         <phingcall target="composer-validate"/>
-        <!--<phingcall target="lint"/>-->
         <phingcall target="unit-tests"/>
         <phingcall target="coding-standards"/>
     </target>

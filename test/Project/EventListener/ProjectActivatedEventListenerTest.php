@@ -8,11 +8,13 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectActivatedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface|MockObject
      */
     protected $insightlyClient;
 
@@ -22,19 +24,19 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
     protected $eventListener;
 
     /**
-     * @var ProjectInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectInterface|MockObject
      */
     protected $project;
 
     /**
-     * @var Project|PHPUnit_Framework_MockObject_MockObject
+     * @var Project|MockObject
      */
     protected $insightlyProject;
 
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->insightlyClient = $this
             ->getMockBuilder(InsightlyClientInterface::class)
@@ -57,7 +59,7 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
         );
 
         // Mock the project + all called methods.
-        $this->project = $this->getMock(ProjectInterface::class);
+        $this->project = $this->createMock(ProjectInterface::class);
         $this->project->expects($this->any())
             ->method('getInsightlyProjectId')
             ->willReturn(1);
@@ -66,7 +68,7 @@ class ProjectActivatedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->willReturn('liveKey');
 
         /** @var Project $insightlyProject */
-        $this->insightlyProject = $this->getMock(Project::class);
+        $this->insightlyProject = $this->createMock(Project::class);
         $this->insightlyProject->expects($this->any())
             ->method('getId')
             ->willReturn(1);

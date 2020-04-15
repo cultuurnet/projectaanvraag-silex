@@ -5,17 +5,19 @@ namespace CultuurNet\ProjectAanvraag\Voter;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class ProjectVoterTest extends \PHPUnit_Framework_TestCase
+class ProjectVoterTest extends TestCase
 {
     /**
-     * @var TokenInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TokenInterface|MockObject
      */
     protected $token;
 
     /**
-     * @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectInterface|MockObject
      */
     protected $project;
 
@@ -27,7 +29,7 @@ class ProjectVoterTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->token = $this
             ->getMockBuilder(TokenInterface::class)
@@ -47,8 +49,8 @@ class ProjectVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testVote()
     {
-        /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(User::class);
+        /** @var UserInterface|MockObject $user */
+        $user = $this->createMock(User::class);
         $user->id = 123;
 
         $user->expects($this->any())
@@ -68,8 +70,8 @@ class ProjectVoterTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdminVote()
     {
-        /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(User::class);
+        /** @var UserInterface|MockObject $user */
+        $user = $this->createMock(User::class);
 
         $user->expects($this->any())
             ->method('hasRole')

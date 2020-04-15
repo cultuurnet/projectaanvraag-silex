@@ -5,6 +5,8 @@ namespace CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\RabbitMQBundleBridge\Event\Events;
@@ -12,25 +14,25 @@ use SimpleBus\RabbitMQBundleBridge\Event\MessageConsumptionFailed;
 use SimpleBus\Serialization\Envelope\Envelope;
 use SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopSerializer;
 
-class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
+class RabbitMQEventSubscriberTest extends TestCase
 {
     /**
-     * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageBusSupportingMiddleware|MockObject
      */
     protected $eventBus;
 
     /**
-     * @var MessageInEnvelopSerializer|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageInEnvelopSerializer|MockObject
      */
     protected $messageInEnveloppeSerializer;
 
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|MockObject
      */
     protected $logger;
 
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|MockObject
      */
     protected $projectLogger;
 
@@ -40,44 +42,44 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
     protected $config;
 
     /**
-     * @var ProjectEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectEvent|MockObject
      */
     protected $projectEvent;
 
     /**
-     * @var MessageConsumptionFailed|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageConsumptionFailed|MockObject
      */
     protected $messageConsumptionFailedEvent;
 
     /**
-     * @var Envelope|\PHPUnit_Framework_MockObject_MockObject
+     * @var Envelope|MockObject
      */
     protected $envelope;
 
     /**
-     * @var AMQPMessage|\PHPUnit_Framework_MockObject_MockObject
+     * @var AMQPMessage|MockObject
      */
     protected $amqpMessage;
 
     /**
-     * @var \Exception|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Exception|MockObject
      */
     protected $exception;
 
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         // Config
         $this->config['failed_message_delay'] = 5000;
 
         // Event bus
-        $this->eventBus = $this->getMock(MessageBusSupportingMiddleware::class);
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
         // Logger
-        $this->logger = $this->getMock(LoggerInterface::class);
-        $this->projectLogger = $this->getMock(LoggerInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->projectLogger = $this->createMock(LoggerInterface::class);
 
         // ProjectEvent
         $this->projectEvent = $this->getMockBuilder(ProjectCreated::class)
@@ -85,7 +87,7 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         // Amqpmessage
-        $this->amqpMessage = $this->getMock(AMQPMessage::class);
+        $this->amqpMessage = $this->createMock(AMQPMessage::class);
         $this->amqpMessage->body = 'message';
 
         // Message failed event

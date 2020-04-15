@@ -4,16 +4,15 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use Guzzle\Http\Exception\ClientErrorResponseException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
-    /**
-     * Test client request method
-     * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
-     */
     public function testRequestExceptionHandling()
     {
         $client = $this->getMockClient(null, 404);
+        $this->expectException(ClientErrorResponseException::class);
         $client->getProjects();
     }
 
@@ -45,7 +44,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
      */
     public function testUpdateProject()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project|MockObject $project */
         $project = $this
             ->getMockBuilder(Project::class)
             ->disableOriginalConstructor()

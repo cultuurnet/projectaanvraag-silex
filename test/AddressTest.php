@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag;
 
-class AddressTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AddressTest extends TestCase
 {
 
     /**

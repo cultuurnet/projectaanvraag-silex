@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\ArticleLinker\Event;
 
-class ArticleLinkCreatedTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ArticleLinkCreatedTest extends TestCase
 {
     /**
      * Test the getters and setters.

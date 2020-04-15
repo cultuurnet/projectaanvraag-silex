@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Address;
+use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
@@ -17,13 +18,17 @@ use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class ProjectControllerTest extends \PHPUnit_Framework_TestCase
+class ProjectControllerTest extends TestCase
 {
     /**
      * @var ProjectController
@@ -31,32 +36,32 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     protected $controller;
 
     /**
-     * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageBusSupportingMiddleware|MockObject
      */
     protected $messageBus;
 
     /**
-     * @var ProjectServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectServiceInterface|MockObject
      */
     protected $projectService;
 
     /**
-     * @var Request|\PHPUnit_Framework_MockObject_MockObject
+     * @var Request|MockObject
      */
     protected $request;
 
     /**
-     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface|MockObject
      */
     protected $authorizationChecker;
 
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface|MockObject
      */
     protected $insightlyClient;
 
     /**
-     * @var CouponValidatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var CouponValidatorInterface|MockObject
      */
     protected $couponValidator;
 
@@ -68,7 +73,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->messageBus = $this
             ->getMockBuilder('SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware')
@@ -93,7 +98,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder(InsightlyClientInterface::class)
             ->getMock();
 
-        $this->couponValidator = $this->getMock(CouponValidatorInterface::class);
+        $this->couponValidator = $this->createMock(CouponValidatorInterface::class);
 
         $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker, $this->couponValidator, $this->insightlyClient);
 
@@ -153,10 +158,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
     }
 
-    /**
-     * Test createProject exception
-     * @expectedException \CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException
-     */
     public function testCreateProjectException()
     {
         $this->request
@@ -164,6 +165,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->method('getContent')
             ->will($this->returnValue(''));
 
+        $this->expectException(MissingRequiredFieldsException::class);
         $this->controller->createProject($this->request);
     }
 
@@ -207,20 +209,13 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse($project), $response, 'It correctly fetches the project');
     }
 
-    /**
-     * Test getProject AccessDeniedHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testGetProjectAccessDeniedException()
     {
         $this->setupProjectTest('view', false);
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->getProject(1);
     }
 
-    /**
-     * Test getProject NotFoundHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
     public function testGetProjectNotFoundHttpException()
     {
         $this->projectService
@@ -233,6 +228,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
             ->method('isGranted')
             ->willReturn(null);
 
+        $this->expectException(NotFoundHttpException::class);
         $this->controller->getProject(1);
     }
 
@@ -253,13 +249,10 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
     }
 
-    /**
-     * Test deleteProject AccessDeniedHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testDeleteProjectException()
     {
         $this->setupProjectTest('edit', false);
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->deleteProject(1);
     }
 
@@ -280,13 +273,10 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
     }
 
-    /**
-     * Test blockProject AccessDeniedHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testBlockProjectException()
     {
         $this->setupProjectTest('block', false);
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->blockProject(1);
     }
 
@@ -306,13 +296,10 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
     }
 
-    /**
-     * Test activateProject AccessDeniedHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testActivateProjectException()
     {
         $this->setupProjectTest('activate', false);
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->activateProject(1);
     }
 
@@ -366,14 +353,11 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
     }
 
-    /**
-     * Test requestActivation AccessDeniedHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testRequestActivationException()
     {
         $request = Request::create('/');
         $this->setupProjectTest('edit', false);
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->requestActivation(1, $request);
     }
 
@@ -398,27 +382,21 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse($project), $response, 'It correctly handles the request');
     }
 
-    /**
-     * Test requestActivation AccessDeniedHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testUpdateContentFilterException()
     {
         $request = Request::create('/');
         $this->setupProjectTest('edit', false);
 
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->updateContentFilter($request, 1);
     }
 
-    /**
-     * Test requestActivation MissingRequiredFieldsException
-     * @expectedException \CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException
-     */
     public function testUpdateContentFilterRequiredFields()
     {
         $request = Request::create('/');
         $this->setupProjectTest('edit');
 
+        $this->expectException(MissingRequiredFieldsException::class);
         $this->controller->updateContentFilter($request, 1);
     }
 
@@ -470,13 +448,10 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse($organisation), $response, 'It correctly fetches the organisation');
     }
 
-    /**
-     * Test getOrganisation not found exception
-     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
     public function testGetOrganisationNotFound()
     {
         $this->setupProjectTest('edit', true);
+        $this->expectException(NotFoundHttpException::class);
         $this->controller->getOrganisation(1);
     }
 
@@ -542,10 +517,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new JsonResponse($project), $response, 'It correctly updates the organisation');
     }
 
-    /**
-     * Test if the ID's are validated when updating an organisation.
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testUpdateOrganisationIdValidation()
     {
         $project = new Project();
@@ -601,30 +572,25 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
         $postData = file_get_contents(__DIR__ . '/../data/update_organisation.json');
         $request = Request::create('/', 'PUT', [], [], [], [], $postData);
 
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->updateOrganisation(1, $request);
     }
 
-    /**
-     * Test requestActivation AccessDeniedHttpException
-     * @expectedException \CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException
-     */
     public function testUpdateOrganisationValidateFields()
     {
         $request = Request::create('/');
         $this->setupProjectTest('edit', true);
 
+        $this->expectException(MissingRequiredFieldsException::class);
         $this->controller->updateOrganisation(1, $request);
     }
 
-    /**
-     * Test requestActivation AccessDeniedHttpException
-     * @expectedException \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
     public function testUpdateOrganisationAccessDenied()
     {
         $request = Request::create('/');
         $this->setupProjectTest('edit', false);
 
+        $this->expectException(AccessDeniedHttpException::class);
         $this->controller->updateOrganisation(1, $request);
     }
 
@@ -635,7 +601,7 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     private function setupProjectTest($operation, $returnValue = true)
     {
-        $project = $this->getMock(ProjectInterface::class);
+        $project = $this->createMock(ProjectInterface::class);
 
         $this->projectService
             ->expects($this->any())

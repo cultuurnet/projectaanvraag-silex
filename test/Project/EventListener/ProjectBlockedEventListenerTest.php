@@ -7,11 +7,13 @@ use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectBlockedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface|MockObject
      */
     protected $insightlyClient;
 
@@ -23,7 +25,7 @@ class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->insightlyClient = $this
             ->getMockBuilder(InsightlyClientInterface::class)
@@ -38,22 +40,22 @@ class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(ProjectInterface::class);
-        $project->expects($this->any())
+        /** @var ProjectInterface|MockObject $project */
+        $project = $this->createMock(ProjectInterface::class);
+        $project->expects($this->atLeastOnce())
             ->method('getInsightlyProjectId')
             ->willReturn(1);
 
         /** @var Project $insightlyProject */
-        $insightlyProject = $this->getMock(Project::class);
+        $insightlyProject = $this->createMock(Project::class);
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('getProject')
             ->with(1)
             ->will($this->returnValue($insightlyProject));
 
         $this->insightlyClient
-            ->expects($this->any())
+            ->expects($this->atLeastOnce())
             ->method('updateProject')
             ->with($insightlyProject)
             ->will($this->returnValue($insightlyProject));
@@ -62,7 +64,7 @@ class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $projectBlocked->expects($this->any())
+        $projectBlocked->expects($this->atLeastOnce())
             ->method('getProject')
             ->will($this->returnValue($project));
 

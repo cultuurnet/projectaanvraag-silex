@@ -4,8 +4,9 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 use CultuurNet\ProjectAanvraag\Insightly\AbstractInsightlyClientTest;
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
+use PHPUnit\Framework\TestCase;
 
-class ContactTest extends \PHPUnit_Framework_TestCase
+class ContactTest extends TestCase
 {
     use JsonAssertionTrait;
 

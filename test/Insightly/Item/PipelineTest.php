@@ -4,8 +4,9 @@ namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 use CultuurNet\ProjectAanvraag\Insightly\AbstractInsightlyClientTest;
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
+use PHPUnit\Framework\TestCase;
 
-class PipelineTest extends \PHPUnit_Framework_TestCase
+class PipelineTest extends TestCase
 {
     use JsonAssertionTrait;
 

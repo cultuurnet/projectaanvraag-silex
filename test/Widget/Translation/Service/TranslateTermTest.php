@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Translation\Service;
 
 use CultuurNet\SearchV3\ValueObjects\Term;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -14,13 +15,13 @@ class TranslateTermTest extends TestCase
     const TERM_LABEL = 'label';
 
     /**
-     * @var \Prophecy\Prophecy\ObjectProphecy|TranslatorInterface
+     * @var MockObject|TranslatorInterface
      */
     private $translator;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        $this->translator = $this->prophesize(TranslatorInterface::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
     }
 
     /**
@@ -30,12 +31,11 @@ class TranslateTermTest extends TestCase
     {
         $term = $this->aTerm();
 
-        $this->translator->trans(self::TERM_ID, [], self::TERM_DOMAIN, self::PREFERRED_LANGUAGE)
+        $this->translator->method('trans')
+            ->with(self::TERM_ID, [], self::TERM_DOMAIN, self::PREFERRED_LANGUAGE)
             ->willReturn('translated');
 
-        $translateTerm = new TranslateTerm(
-            $this->translator->reveal()
-        );
+        $translateTerm = new TranslateTerm($this->translator);
 
         $translatedTerm = $translateTerm->__invoke($term, self::PREFERRED_LANGUAGE);
         $this->assertEquals($translatedTerm, 'translated');
@@ -46,12 +46,11 @@ class TranslateTermTest extends TestCase
      */
     public function it_fallback_to_returning_label_if_there_is_no_translation()
     {
-        $this->translator->trans(self::TERM_ID, [], self::TERM_DOMAIN, self::PREFERRED_LANGUAGE)
+        $this->translator->method('trans')
+            ->with(self::TERM_ID, [], self::TERM_DOMAIN, self::PREFERRED_LANGUAGE)
             ->willReturn(self::TERM_ID);
 
-        $translateTerm = new TranslateTerm(
-            $this->translator->reveal()
-        );
+        $translateTerm = new TranslateTerm($this->translator);
 
         $term = $this->aTerm();
         $translatedTerm = $translateTerm->__invoke($term, self::PREFERRED_LANGUAGE);

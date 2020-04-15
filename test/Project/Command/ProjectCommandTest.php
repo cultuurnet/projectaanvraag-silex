@@ -3,16 +3,18 @@
 namespace CultuurNet\ProjectAanvraag\Project\Command;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ProjectCommandTest extends \PHPUnit_Framework_TestCase
+class ProjectCommandTest extends TestCase
 {
     /**
      * Test the abstract ProjectCommand
      */
     public function testProjectCommand()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(ProjectInterface::class);
+        /** @var ProjectInterface|MockObject $project */
+        $project = $this->createMock(ProjectInterface::class);
         $command = $this->getMockForAbstractClass(ProjectCommand::class, [$project]);
         //$createProject = new DeleteProject($project);
 
