@@ -1,9 +1,9 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Security;
+namespace CultuurNet\ProjectAanvraag\Security;
 
-use CultuurNet\UiTIDProvider\User\User;
-use CultuurNet\UiTIDProvider\User\UserServiceInterface;
+use CultuurNet\ProjectAanvraag\User\User;
+use CultuurNet\ProjectAanvraag\User\UserServiceInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;

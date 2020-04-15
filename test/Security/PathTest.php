@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Security;
+namespace CultuurNet\ProjectAanvraag\Security;
 
 use PHPUnit\Framework\TestCase;
 

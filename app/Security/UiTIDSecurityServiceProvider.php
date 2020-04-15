@@ -2,10 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Security;
 
-use CultuurNet\UiTIDProvider\Security\PreflightRequestMatcher;
-use CultuurNet\UiTIDProvider\Security\UiTIDAuthenticator;
-use CultuurNet\UiTIDProvider\Security\UiTIDListener;
-use CultuurNet\UiTIDProvider\Security\UiTIDUserProvider;
+use CultuurNet\ProjectAanvraag\Security\PreflightRequestMatcher;
+use CultuurNet\ProjectAanvraag\Security\UiTIDAuthenticator;
+use CultuurNet\ProjectAanvraag\Security\UiTIDListener;
+use CultuurNet\ProjectAanvraag\Security\UiTIDUserProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

@@ -3,7 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Security;
 
 use CultuurNet\ProjectAanvraag\User\User;
-use CultuurNet\UiTIDProvider\Security\UiTIDUserProvider as CultuurNetUiTIDUserProvider;
+use CultuurNet\ProjectAanvraag\Security\UiTIDUserProvider as CultuurNetUiTIDUserProvider;
 
 class UiTIDUserProvider extends CultuurNetUiTIDUserProvider
 {

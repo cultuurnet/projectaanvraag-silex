@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Auth;
+namespace CultuurNet\ProjectAanvraag\Auth;
 
 use CultuurNet\Auth\ConsumerCredentials;
 use CultuurNet\Auth\Guzzle\Service;

@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Auth;
+namespace CultuurNet\ProjectAanvraag\Auth;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

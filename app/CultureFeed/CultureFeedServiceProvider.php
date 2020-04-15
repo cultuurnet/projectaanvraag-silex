@@ -1,10 +1,10 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\CultureFeed;
+namespace CultuurNet\ProjectAanvraag\CultureFeed;
 
 use CultuurNet\Auth\ConsumerCredentials;
 use CultuurNet\Auth\TokenCredentials;
-use CultuurNet\UiTIDProvider\User\UserSessionService;
+use CultuurNet\ProjectAanvraag\User\UserSessionService;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

@@ -25,7 +25,7 @@ use CultuurNet\ProjectAanvraag\Widget\Translation\TranslationTwigExtension;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
 use CultuurNet\ProjectAanvraag\WidgetMigration\WidgetMigrationProvider;
-use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
+use CultuurNet\ProjectAanvraag\Auth\AuthServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
 use DF\DoctrineMongoDbOdm\Silex\Provider\DoctrineMongoDbOdmProvider;
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;

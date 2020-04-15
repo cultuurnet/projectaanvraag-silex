@@ -2,9 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
-use CultuurNet\UiTIDProvider\User\CachedUserService;
-use CultuurNet\UiTIDProvider\User\UserService;
-use CultuurNet\UiTIDProvider\User\UserSessionService;
+use CultuurNet\ProjectAanvraag\User\CachedUserService;
+use CultuurNet\ProjectAanvraag\User\UserService;
+use CultuurNet\ProjectAanvraag\User\UserSessionService;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

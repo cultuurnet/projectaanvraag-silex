@@ -1,11 +1,11 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Security;
+namespace CultuurNet\ProjectAanvraag\Security;
 
 use CultuurNet\Auth\TokenCredentials;
 use CultuurNet\Auth\User as MinimalUserInfo;
-use CultuurNet\UiTIDProvider\User\User;
-use CultuurNet\UiTIDProvider\User\UserSessionService;
+use CultuurNet\ProjectAanvraag\User\User;
+use CultuurNet\ProjectAanvraag\User\UserSessionService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;

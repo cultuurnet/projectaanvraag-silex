@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\User;
+namespace CultuurNet\ProjectAanvraag\User;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

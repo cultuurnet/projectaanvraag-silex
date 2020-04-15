@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
-use CultuurNet\UiTIDProvider\User\UserServiceInterface;
+use CultuurNet\ProjectAanvraag\User\UserServiceInterface;
 
 class UserService implements UserServiceInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\User;
+namespace CultuurNet\ProjectAanvraag\User;
 
 use CultuurNet\Auth\TokenCredentials;
 use CultuurNet\Auth\User as MinimalUserInfo;

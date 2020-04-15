@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\User;
+namespace CultuurNet\ProjectAanvraag\User;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\User;
+namespace CultuurNet\ProjectAanvraag\User;
 
 interface UserServiceInterface
 {

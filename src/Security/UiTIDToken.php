@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Security;
+namespace CultuurNet\ProjectAanvraag\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 

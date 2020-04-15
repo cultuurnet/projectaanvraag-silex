@@ -1,10 +1,10 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Auth;
+namespace CultuurNet\ProjectAanvraag\Auth;
 
 use CultuurNet\Auth\TokenCredentials;
 use CultuurNet\Auth\User;
-use CultuurNet\UiTIDProvider\User\UserSessionService;
+use CultuurNet\ProjectAanvraag\User\UserSessionService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RedirectResponse;

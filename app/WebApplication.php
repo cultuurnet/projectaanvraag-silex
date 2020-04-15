@@ -15,9 +15,9 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetAPIControllerProvider;
 use CultuurNet\ProjectAanvraag\Widget\WidgetControllerProvider;
 use CultuurNet\ProjectAanvraag\Upload\UploadControllerProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyControllerProvider;
-use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
-use CultuurNet\UiTIDProvider\Security\Path;
-use CultuurNet\UiTIDProvider\User\UserControllerProvider;
+use CultuurNet\ProjectAanvraag\Security\MultiPathRequestMatcher;
+use CultuurNet\ProjectAanvraag\Security\Path;
+use CultuurNet\ProjectAanvraag\User\UserControllerProvider;
 use JDesrosiers\Silex\Provider\CorsServiceProvider;
 use Silex\Application as SilexApplication;
 use Silex\Provider\HttpCacheServiceProvider;
@@ -158,7 +158,7 @@ class WebApplication extends ApplicationBase
         $this->mount('uitid', new UserControllerProvider());
         $this->mount(
             'culturefeed/oauth',
-            new \CultuurNet\UiTIDProvider\Auth\AuthControllerProvider()
+            new \CultuurNet\ProjectAanvraag\Auth\AuthControllerProvider()
         );
 
         $this->mount(

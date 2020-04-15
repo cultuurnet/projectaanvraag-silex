@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Session;
+namespace CultuurNet\ProjectAanvraag\Session;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -9,7 +9,7 @@ use Pimple\ServiceProviderInterface;
  * Provides a default session configuration for UiTID projects.
  *
  * Class SessionConfigurationProvider
- * @package CultuurNet\UiTIDProvider\Session
+ * @package CultuurNet\ProjectAanvraag\Session
  */
 class SessionConfigurationProvider implements ServiceProviderInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace CultuurNet\UiTIDProvider\Security;
+namespace CultuurNet\ProjectAanvraag\Security;
 
-use CultuurNet\UiTIDProvider\User\UserServiceInterface;
+use CultuurNet\ProjectAanvraag\User\UserServiceInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
