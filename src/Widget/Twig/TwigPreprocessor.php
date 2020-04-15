@@ -71,6 +71,11 @@ class TwigPreprocessor
     protected $curatorenClient;
 
     /**
+     * @var array
+     */
+    private $fallbackImages;
+
+    /**
      * TwigPreprocessor constructor.
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
@@ -93,7 +98,10 @@ class TwigPreprocessor
         $this->translateTerm = $translateTerm;
         $this->translator = $translator;
         $this->curatorenClient = $curatorenClient;
+        $this->fallbackImages = [];
     }
+
+
 
     /**
      * @param array $events
@@ -173,7 +181,7 @@ class TwigPreprocessor
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
         ];
-        $defaultImage = $settings['image']['default_image']['enabled'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
+        $defaultImage = $this->getDefaultImage($settings['image']['default_image'], $variables['typeId']);
         $image = $event->getImage() ?? $defaultImage;
         if (!empty($image)) {
             $image = str_replace("http://", "https://", $image);
@@ -366,6 +374,38 @@ class TwigPreprocessor
         }
 
         return $variables;
+    }
+
+    /**
+     * Get the default image
+     *
+     * @param array $settings
+     * @param string $eventTypeId
+     * @return string $defaultImage
+     */
+    public function getDefaultImage($settings, $eventTypeId)
+    {
+        if (!$settings['enabled']) {
+            return '';
+        }
+
+        if ($settings['type'] === 'uit') {
+            return $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png';
+        }
+
+        if ($settings['type'] === 'theme') {
+            if (empty($this->fallbackImages)) {
+                $this->fallbackImages = Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml'));
+            }
+
+            foreach ($this->fallbackImages as $fallbackImage) {
+                if ($fallbackImage['eventtype_id'] === $eventTypeId) {
+                    return $fallbackImage['image'];
+                }
+            }
+
+            return '';
+        }
     }
 
     /**

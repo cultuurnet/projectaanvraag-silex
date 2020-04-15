@@ -42,6 +42,7 @@ class SearchResultWidgetMigration extends WidgetMigration
                 'default_image' => [
                   'enabled' => (isset($imgSettings['show_default']) ? $imgSettings['show_default'] : false),
                   'type' => 'uit',
+                ],
                 'position' => 'right',
             ];
         }
