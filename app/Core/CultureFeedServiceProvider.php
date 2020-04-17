@@ -3,7 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Core;
 
 use CultuurNet\Auth\ConsumerCredentials;
-use CultuurNet\UiTIDProvider\CultureFeed\CultureFeedServiceProvider as CultureFeedServiceProviderOriginal;
+use CultuurNet\ProjectAanvraag\CultureFeed\CultureFeedServiceProvider as CultureFeedServiceProviderOriginal;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
