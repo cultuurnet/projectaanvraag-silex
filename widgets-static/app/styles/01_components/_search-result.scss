@@ -263,12 +263,12 @@ p span.cnw_badge {
 
 .cnw_searchresult--block.labels-as-icons .cnw_searchresult-detail-label,
 .cnw_searchresult-detail.labels-as-icons .cnw_searchresult-detail-label{
-  display: none;
+  @include hiddenClip;
 }
 
 @media (max-width: 768px) {
-   .cnw_searchresult--block .cnw_searchresult-detail-label {
-      display: none;
+  .cnw_searchresult--block .cnw_searchresult-detail-label {
+      @include hiddenClip;
     }
   .cnw_searchresult--block .list-item i.cnw-fa {
     display: inline-block;
