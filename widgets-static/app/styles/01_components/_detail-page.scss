@@ -74,7 +74,7 @@
         display: block;
       }
       em.cnw_searchresult-detail-label {
-        display: none !important;
+        @include hiddenClip;
       }
     }
   }
