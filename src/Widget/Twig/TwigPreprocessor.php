@@ -473,7 +473,7 @@ class TwigPreprocessor
         $editorialLabelText = 'UiT-tip van ';
         $label = $editorialLabelText . implode(", ", $publishers);
 
-        if (count($publishers) > 1 ) {
+        if (count($publishers) > 1) {
             $lastPublisher = array_pop($publisher);
             $label = $editorialLabelText . implode(", ", $publishers);
             $label .= ' en ' . $lastPublisher;
