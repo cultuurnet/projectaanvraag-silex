@@ -448,7 +448,6 @@ class TwigPreprocessor
     public function preprocessEditorialLabel($cdbid, $settings)
     {
         $articles = $this->curatorenClient->searchArticles($cdbid);
-
         if (empty($articles['hydra:member'])) {
             return null;
         }
@@ -460,19 +459,27 @@ class TwigPreprocessor
             $publisher = $article['publisher'];
             $showPublisher = in_array($publisher, $settings['publishers']);
             $publisherInArray = in_array($publisher, $publishers);
-            if (!$publisherInArray && !$limitPublishers) {
+            if (!$limitPublishers || $showPublisher) {
                 $publishers[] = $publisher;
             }
-            if (!$publisherInArray && ($limitPublishers && $showPublisher)) {
-                $publishers[] = $publisher;
-            }
+
+            $publishers = array_unique($publishers);
+
         }
 
         if (empty($publishers)) {
             return null;
         }
 
-        $label = 'UiTip van ' . implode(", ", $publishers);
+        $editorialLabelText = 'UiT-tip van ';
+        $label = $editorialLabelText . implode(", ", $publishers);
+
+        if (count($publishers) > 1 ) {
+          $lastPublisher = array_pop($publisher);
+          $label = $editorialLabelText . implode(", ", $publishers);
+          $label .= ' en ' . $lastPublisher;
+        }
+
         return $label;
     }
 
