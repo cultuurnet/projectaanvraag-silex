@@ -448,6 +448,7 @@ class TwigPreprocessor
     public function preprocessEditorialLabel($cdbid, $settings)
     {
         $articles = $this->curatorenClient->searchArticles($cdbid);
+
         if (empty($articles['hydra:member'])) {
             return null;
         }
