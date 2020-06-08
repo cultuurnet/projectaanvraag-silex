@@ -463,9 +463,7 @@ class TwigPreprocessor
             if (!$limitPublishers || $showPublisher) {
                 $publishers[] = $publisher;
             }
-
             $publishers = array_unique($publishers);
-
         }
 
         if (empty($publishers)) {
@@ -476,9 +474,9 @@ class TwigPreprocessor
         $label = $editorialLabelText . implode(", ", $publishers);
 
         if (count($publishers) > 1 ) {
-          $lastPublisher = array_pop($publisher);
-          $label = $editorialLabelText . implode(", ", $publishers);
-          $label .= ' en ' . $lastPublisher;
+            $lastPublisher = array_pop($publisher);
+            $label = $editorialLabelText . implode(", ", $publishers);
+            $label .= ' en ' . $lastPublisher;
         }
 
         return $label;
