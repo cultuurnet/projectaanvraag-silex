@@ -474,7 +474,7 @@ class TwigPreprocessor
         $label = $editorialLabelText . implode(", ", $publishers);
 
         if (count($publishers) > 1) {
-            $lastPublisher = array_pop($publisher);
+            $lastPublisher = array_pop($publishers);
             $label = $editorialLabelText . implode(", ", $publishers);
             $label .= ' en ' . $lastPublisher;
         }
