@@ -463,8 +463,8 @@ class TwigPreprocessor
             if (!$limitPublishers || $showPublisher) {
                 $publishers[] = $publisher;
             }
-            $publishers = array_unique($publishers);
         }
+        $publishers = array_unique($publishers);
 
         if (empty($publishers)) {
             return null;
