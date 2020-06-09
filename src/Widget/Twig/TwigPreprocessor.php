@@ -454,19 +454,31 @@ class TwigPreprocessor
         }
 
         $publishers = [];
+        $limitPublishers = $settings['limit_publishers'];
+
         foreach ($articles['hydra:member'] as $article) {
             $publisher = $article['publisher'];
             $showPublisher = in_array($publisher, $settings['publishers']);
-            if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $showPublisher)) {
+            $publisherInArray = in_array($publisher, $publishers);
+            if (!$limitPublishers || $showPublisher) {
                 $publishers[] = $publisher;
             }
         }
+        $publishers = array_unique($publishers);
 
         if (empty($publishers)) {
             return null;
         }
 
-        $label = 'UiTip van ' . implode(", ", $publishers);
+        $editorialLabelText = 'UiT-tip van ';
+        $label = $editorialLabelText . implode(", ", $publishers);
+
+        if (count($publishers) > 1) {
+            $lastPublisher = array_pop($publishers);
+            $label = $editorialLabelText . implode(", ", $publishers);
+            $label .= ' en ' . $lastPublisher;
+        }
+
         return $label;
     }
 
