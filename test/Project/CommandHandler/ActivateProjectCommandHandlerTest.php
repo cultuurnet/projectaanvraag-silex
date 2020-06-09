@@ -83,7 +83,7 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
           'default_consumer' => 3,
           'uitpas' => 22678,
           'auth0_refresh_token' => 24640,
-          'entry_v3' => 24380
+          'entry_v3' => 24380,
         ];
 
         $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, $this->permissionGroups);

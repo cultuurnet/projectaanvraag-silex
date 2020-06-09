@@ -73,7 +73,7 @@ class ActivateProjectCommandHandler
         $createConsumer->group = [$this->permissionGroups['default_consumer'], $project->getGroupId()];
 
         if ($project->getGroupId() === $this->permissionGroups['entry_v3']) {
-          $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
+            $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
         }
 
         if ($project->getSapiVersion() == '3') {

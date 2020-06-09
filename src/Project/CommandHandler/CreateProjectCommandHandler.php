@@ -98,7 +98,7 @@ class CreateProjectCommandHandler
             $createConsumer->description = $createProject->getDescription();
             $createConsumer->group = [$this->permissionGroups['default_consumer'], $createProject->getIntegrationType()];
             if ($createProject->getIntegrationType() === $this->permissionGroups['entry_v3']) {
-              $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
+                $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
             }
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
             // Add uitpas permission to consumer
@@ -185,7 +185,7 @@ class CreateProjectCommandHandler
         $createConsumer->description = $createProject->getDescription();
         $createConsumer->group = [$this->permissionGroups['default_consumer'], $createProject->getIntegrationType()];
         if ($createProject->getIntegrationType() === $this->permissionGroups['entry_v3']) {
-          $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
+            $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
         }
 
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
