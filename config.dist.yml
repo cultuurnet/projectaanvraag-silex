@@ -132,14 +132,11 @@ css_stats:
 # Google tag manager code
 google_tag_manager:
 
-# The default consumer group to use
-default_consumer_group: 3
-
-# The uitpas permission group
-uitpas_permission_group: 22678
-
-# auth0 refresh token permission group
-auth0_refresh_token_permission_group: 
+permission_groups: 
+  default_consumer: 3
+  auth0_refresh_token: 24640
+  entry_v3: 24380
+  uitpas: 22678
 
 # App-URL
 app_host: "http://projectaanvraag.uitdatabank.be"
