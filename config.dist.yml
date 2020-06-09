@@ -138,6 +138,9 @@ default_consumer_group: 3
 # The uitpas permission group
 uitpas_permission_group: 22678
 
+# auth0 refresh token permission group
+auth0_refresh_token_permission_group: 
+
 # App-URL
 app_host: "http://projectaanvraag.uitdatabank.be"
 social_host: "http://social.uit.be"
