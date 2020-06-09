@@ -43,14 +43,9 @@ class CreateProjectCommandHandler
     protected $user;
 
     /**
-     * @var int
+     * @var array
      */
-    protected $defaultConsumerGroup;
-
-    /**
-     * @var int
-     */
-    protected $uitpasPermissionGroup;
+    protected $permissionGroups;
 
     /**
      * CreateProjectCommandHandler constructor.
@@ -59,18 +54,16 @@ class CreateProjectCommandHandler
      * @param \ICultureFeed $cultureFeedTest
      * @param \ICultureFeed $cultureFeed
      * @param UitIdUserInterface $user
-     * @param int $defaultConsumerGroup
-     * @param int $uitpasPermissionGroup
+     * @param array $permissionGroups
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, \ICultureFeed $cultureFeed, UitIdUserInterface $user, $defaultConsumerGroup, int $uitpasPermissionGroup)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, \ICultureFeed $cultureFeed, UitIdUserInterface $user, $permissionGroups)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->cultureFeedTest = $cultureFeedTest;
         $this->cultureFeed = $cultureFeed;
         $this->user = $user;
-        $this->defaultConsumerGroup = $defaultConsumerGroup;
-        $this->uitpasPermissionGroup = $uitpasPermissionGroup;
+        $this->permissionGroups = $permissionGroups;
     }
 
     /**
@@ -103,10 +96,13 @@ class CreateProjectCommandHandler
             $createConsumer = new \CultureFeed_Consumer();
             $createConsumer->name = $createProject->getName();
             $createConsumer->description = $createProject->getDescription();
-            $createConsumer->group = [$this->defaultConsumerGroup, $createProject->getIntegrationType()];
+            $createConsumer->group = [$this->permissionGroups['default_consumer'], $createProject->getIntegrationType()];
+            if ($createProject->getIntegrationType() === $this->permissionGroups['entry_v3']) {
+              $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
+            }
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
             // Add uitpas permission to consumer
-            $this->cultureFeed->addUitpasPermission($cultureFeedLiveConsumer, $this->uitpasPermissionGroup);
+            $this->cultureFeed->addUitpasPermission($cultureFeedLiveConsumer, $this->permissionGroups['uitpas']);
             $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
             $project->setLiveApiKeySapi3($cultureFeedLiveConsumer->apiKeySapi3);
@@ -187,7 +183,10 @@ class CreateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
         $createConsumer->description = $createProject->getDescription();
-        $createConsumer->group = [$this->defaultConsumerGroup, $createProject->getIntegrationType()];
+        $createConsumer->group = [$this->permissionGroups['default_consumer'], $createProject->getIntegrationType()];
+        if ($createProject->getIntegrationType() === $this->permissionGroups['entry_v3']) {
+          $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
+        }
 
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
 
@@ -195,7 +194,7 @@ class CreateProjectCommandHandler
         $this->cultureFeedTest->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $uid);
 
         // Add uitpas permission to consumer
-        $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $this->uitpasPermissionGroup);
+        $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups['uitpas']);
 
         return $cultureFeedConsumer;
     }

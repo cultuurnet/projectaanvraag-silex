@@ -37,14 +37,9 @@ class ActivateProjectCommandHandler
     protected $user;
 
     /**
-     * @var int
+     * @var array
      */
-    protected $defaultConsumerGroup;
-
-    /**
-     * @var int
-     */
-    protected $uitpasPermissionGroup;
+    protected $permissionGroups;
 
     /**
      * CreateProjectCommandHandler constructor.
@@ -52,17 +47,15 @@ class ActivateProjectCommandHandler
      * @param EntityManagerInterface $entityManager
      * @param \CultureFeed $cultureFeedLive
      * @param User $user
-     * @param int $defaultConsumerGroup
-     * @param int $uitpasPermissionGroup
+     * @param array $defaultConsumerGroup
      */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $defaultConsumerGroup, int $uitpasPermissionGroup)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $permissionGroups)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->cultureFeedLive = $cultureFeedLive;
         $this->user = $user;
-        $this->defaultConsumerGroup = $defaultConsumerGroup;
-        $this->uitpasPermissionGroup = $uitpasPermissionGroup;
+        $this->permissionGroups = $permissionGroups;
     }
 
     /**
@@ -77,7 +70,12 @@ class ActivateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $project->getName();
         $createConsumer->description = $project->getDescription();
-        $createConsumer->group = [$this->defaultConsumerGroup, $project->getGroupId()];
+        $createConsumer->group = [$this->permissionGroups['default_consumer'], $project->getGroupId()];
+
+        if ($project->getGroupId() === $this->permissionGroups['entry_v3']) {
+          $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
+        }
+
         if ($project->getSapiVersion() == '3') {
             $createConsumer->searchPrefixSapi3 = $project->getContentFilter();
         } else {
@@ -92,7 +90,7 @@ class ActivateProjectCommandHandler
         $this->cultureFeedLive->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $this->user->id);
 
         // Add uitpas permssion to consumer
-        $this->cultureFeedLive->addUitpasPermission($cultureFeedConsumer, $this->uitpasPermissionGroup);
+        $this->cultureFeedLive->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups['uitpas']);
 
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);
