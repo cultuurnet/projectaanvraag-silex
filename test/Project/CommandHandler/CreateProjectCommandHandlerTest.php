@@ -76,9 +76,15 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
         $this->user->id = 123;
         $this->user->mbox = 'test@test.be';
         $this->user->nick = 'test';
+        $this->permissionGroups = [
+          'default_consumer' => 3,
+          'uitpas' => 22678,
+          'auth0_refresh_token' => 24640,
+          'entry_v3' => 24380
+        ];
 
         $this->commandHandler = $this->getMockBuilder(CreateProjectCommandHandler::class)
-            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, 3, 22678])
+            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, $this->permissionGroups])
             ->setMethods(['generatePassword'])
             ->getMock();
     }
