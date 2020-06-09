@@ -37,5 +37,9 @@ class ProjectProvider implements ServiceProviderInterface
         $pimple['uitpas_permission_group'] = function (Container $pimple) {
             return $pimple['config']['uitpas_permission_group'];
         };
+
+        $pimple['auth0_refresh_token_permission_group'] = function (Container $pimple) {
+            return $pimple['config']['auth0_refresh_token_permission_group'];
+        };
     }
 }
