@@ -170,10 +170,9 @@ class WidgetController
             $url = $request->headers->get('referer');
 
             $cdbidsArr = explode(' ', $cdbid);
-            foreach($cdbidsArr as $id) {
+            foreach ($cdbidsArr as $id) {
                 $this->commandBus->handle(new CreateArticleLink($url, $id, $projectActive));
             }
-
         }
 
         if (!$project) {
