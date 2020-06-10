@@ -277,7 +277,7 @@ class Tips extends WidgetTypeBase
             $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
         } else {
             $cdbids = explode(' ', $cdbid);
-            $query->addParameter(new Query('(id:' . implode(' OR ', $cdbids) . ')'));
+            $query->addParameter(new Query('id:' . implode(' OR id:', $cdbids)));
             // Disable default filters, except workflowstatus
             $query->addParameter(new AudienceType('*'));
             $query->addParameter(new AddressCountry('*'));
