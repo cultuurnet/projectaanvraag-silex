@@ -133,10 +133,10 @@ css_stats:
 google_tag_manager:
 
 permission_groups: 
-  default_consumer: 3
-  auth0_refresh_token: 24640
-  entry_v3: 24380
-  uitpas: 22678
+  24378: [3, 24378] # widgets
+  24379: [3, 24379] # api 3
+  24380: [3, 24380, 24640] # entry_v3
+  22678: [22678] # uitpas
 
 # App-URL
 app_host: "http://projectaanvraag.uitdatabank.be"
