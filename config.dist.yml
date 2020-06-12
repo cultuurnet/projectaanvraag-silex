@@ -132,11 +132,19 @@ css_stats:
 # Google tag manager code
 google_tag_manager:
 
-permission_groups: 
-  24378: [3, 24378] # widgets
-  24379: [3, 24379] # api 3
-  24380: [3, 24380, 24640] # entry_v3
-  22678: [22678] # uitpas
+permission_groups:
+  # Widgets
+  24378:
+    uitid: [3, 24378]
+    uitpas: 22678
+  # API 3
+  24379:
+    uitid: [3, 24379]
+    uitpas: 22678
+  # EntryAPI3
+  24380:
+    uitid: [3, 24380, 24640]
+    uitpas: 22678
 
 # App-URL
 app_host: "http://projectaanvraag.uitdatabank.be"

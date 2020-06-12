@@ -68,10 +68,10 @@ class ActivateProjectCommandHandler
 
         // Create the consumer
         $createConsumer = new \CultureFeed_Consumer();
-        $groupId = $project->getGroupId();
         $createConsumer->name = $project->getName();
         $createConsumer->description = $project->getDescription();
-        $createConsumer->group = $this->permissionGroups[$groupId];
+        $groupId = $project->getGroupId();
+        $createConsumer->group = $this->permissionGroups[$groupId]['uitid'];
 
         if ($project->getSapiVersion() == '3') {
             $createConsumer->searchPrefixSapi3 = $project->getContentFilter();
@@ -87,7 +87,7 @@ class ActivateProjectCommandHandler
         $this->cultureFeedLive->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $this->user->id);
 
         // Add uitpas permssion to consumer
-        $this->cultureFeedLive->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups[22678]);
+        $this->cultureFeedLive->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups[$groupId]['uitpas']);
 
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);

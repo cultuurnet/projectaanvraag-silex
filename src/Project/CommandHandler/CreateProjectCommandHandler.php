@@ -183,16 +183,15 @@ class CreateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
         $createConsumer->description = $createProject->getDescription();
-        $integrationType =  $createProject->getIntegrationType();
-        $createConsumer->group = $this->permissionGroups[$integrationType];
-
+        $integrationType = $createProject->getIntegrationType();
+        $createConsumer->group = $this->permissionGroups[$integrationType]['uitid'];
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
 
         // Add the user as service consumer admin.
         $this->cultureFeedTest->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $uid);
 
         // Add uitpas permission to consumer
-        $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups[22678]);
+        $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups[$integrationType]['uitpas']);
 
         return $cultureFeedConsumer;
     }
