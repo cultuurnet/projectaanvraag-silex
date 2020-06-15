@@ -15,6 +15,8 @@ integration_types:
       type: 'output'
       self_service: true
       enable_activation: true
+      uitid_permissions: [3, 24378]
+      uitpas_permissions: [22678]
   24379:
       name: 'API3'
       description: 'Toegang tot de nieuwste zoekengine van de UiTdatabank'
@@ -29,6 +31,8 @@ integration_types:
       type: 'output'
       self_service: true
       enable_activation: true
+      uitid_permissions: [3, 24379]
+      uitpas_permissions: [22678]
   24380:
       name: 'Entry API'
       description: 'Via Entry API kan je items in UiTdatabank aanmaken, aanpassen en verwijderen.'
@@ -43,6 +47,8 @@ integration_types:
       self_service: false
       type: 'input'
       enable_activation: true
+      uitid_permissions: [3, 24380, 24640]
+      uitpas_permissions: [22678]
   24745:
       name: 'Culturefeed'
       description: 'Modules waarmee je een UiTagenda integreert in een Drupal-site'
