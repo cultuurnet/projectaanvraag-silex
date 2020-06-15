@@ -5,6 +5,8 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\User;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\PasswordGeneratorTrait;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
@@ -43,27 +45,24 @@ class CreateProjectCommandHandler
     protected $user;
 
     /**
-     * @var array
+     * @var IntegrationTypeStorageInterface
      */
-    protected $permissionGroups;
+    private $integrationTypeStorage;
 
-    /**
-     * CreateProjectCommandHandler constructor.
-     * @param MessageBusSupportingMiddleware $eventBus
-     * @param EntityManagerInterface $entityManager
-     * @param \ICultureFeed $cultureFeedTest
-     * @param \ICultureFeed $cultureFeed
-     * @param UitIdUserInterface $user
-     * @param array $permissionGroups
-     */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \ICultureFeed $cultureFeedTest, \ICultureFeed $cultureFeed, UitIdUserInterface $user, $permissionGroups)
-    {
+    public function __construct(
+        MessageBusSupportingMiddleware $eventBus,
+        EntityManagerInterface $entityManager,
+        \ICultureFeed $cultureFeedTest,
+        \ICultureFeed $cultureFeed,
+        UitIdUserInterface $user,
+        IntegrationTypeStorageInterface $integrationTypeStorage
+    ) {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->cultureFeedTest = $cultureFeedTest;
         $this->cultureFeed = $cultureFeed;
         $this->user = $user;
-        $this->permissionGroups = $permissionGroups;
+        $this->integrationTypeStorage = $integrationTypeStorage;
     }
 
     /**
@@ -73,6 +72,12 @@ class CreateProjectCommandHandler
      */
     public function handle(CreateProject $createProject)
     {
+        $integrationTypeId = $createProject->getIntegrationType();
+        $integrationType = $this->integrationTypeStorage->load($integrationTypeId);
+        if (!$integrationType) {
+            throw new \RuntimeException("Cannot create project for unknown integration type ({$integrationTypeId}).");
+        }
+
         // Prepare project.
         $project = new Project();
         $project->setName($createProject->getName());
@@ -84,7 +89,7 @@ class CreateProjectCommandHandler
         $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
 
         // Create the test consumer.
-        $testConsumer = $this->createTestConsumer($createProject);
+        $testConsumer = $this->createTestConsumer($createProject, $integrationType);
 
         /** @var \CultureFeed_Consumer $cultureFeedConsumer */
         $project->setTestConsumerKey($testConsumer->consumerKey);
@@ -96,13 +101,10 @@ class CreateProjectCommandHandler
             $createConsumer = new \CultureFeed_Consumer();
             $createConsumer->name = $createProject->getName();
             $createConsumer->description = $createProject->getDescription();
-            $createConsumer->group = [$this->permissionGroups['default_consumer'], $createProject->getIntegrationType()];
-            if ($createProject->getIntegrationType() === $this->permissionGroups['entry_v3']) {
-                $createConsumer->group[] = $this->permissionGroups['auth0_refresh_token'];
-            }
+            $createConsumer->group = $integrationType->getUitIdPermissionGroups();
             $cultureFeedLiveConsumer = $this->cultureFeed->createServiceConsumer($createConsumer);
             // Add uitpas permission to consumer
-            $this->cultureFeed->addUitpasPermission($cultureFeedLiveConsumer, $this->permissionGroups['uitpas']);
+            $this->cultureFeed->addUitpasPermission($cultureFeedLiveConsumer, $integrationType->getUitPasPermissionGroups());
             $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
             $project->setLiveConsumerKey($cultureFeedLiveConsumer->consumerKey);
             $project->setLiveApiKeySapi3($cultureFeedLiveConsumer->apiKeySapi3);
@@ -173,9 +175,8 @@ class CreateProjectCommandHandler
      * Create the test consumer, and add the user as admin.
      * @param CreateProject $createProject
      */
-    private function createTestConsumer(CreateProject $createProject)
+    private function createTestConsumer(CreateProject $createProject, IntegrationType $integrationType)
     {
-
         // Make sure the user also exists on test.
         $uid = $this->createTestUser($this->user->getUsername(), $this->user->mbox);
 
@@ -183,15 +184,14 @@ class CreateProjectCommandHandler
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
         $createConsumer->description = $createProject->getDescription();
-        $integrationType = $createProject->getIntegrationType();
-        $createConsumer->group = $this->permissionGroups[$integrationType]['uitid'];
+        $createConsumer->group = $integrationType->getUitIdPermissionGroups();
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
 
         // Add the user as service consumer admin.
         $this->cultureFeedTest->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $uid);
 
         // Add uitpas permission to consumer
-        $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups[$integrationType]['uitpas']);
+        $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $integrationType->getUitPasPermissionGroups());
 
         return $cultureFeedConsumer;
     }

@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
@@ -37,25 +38,17 @@ class ActivateProjectCommandHandler
     protected $user;
 
     /**
-     * @var array
+     * @var IntegrationTypeStorageInterface
      */
-    protected $permissionGroups;
+    private $integrationTypeStorage;
 
-    /**
-     * CreateProjectCommandHandler constructor.
-     * @param MessageBusSupportingMiddleware $eventBus
-     * @param EntityManagerInterface $entityManager
-     * @param \CultureFeed $cultureFeedLive
-     * @param User $user
-     * @param array $defaultConsumerGroup
-     */
-    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, User $user, $permissionGroups)
+    public function __construct(MessageBusSupportingMiddleware $eventBus, EntityManagerInterface $entityManager, \CultureFeed $cultureFeedLive, UserInterface $user, IntegrationTypeStorageInterface $integrationTypeStorage)
     {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->cultureFeedLive = $cultureFeedLive;
         $this->user = $user;
-        $this->permissionGroups = $permissionGroups;
+        $this->integrationTypeStorage = $integrationTypeStorage;
     }
 
     /**
@@ -64,14 +57,19 @@ class ActivateProjectCommandHandler
      */
     public function handle(ActivateProject $activateProject)
     {
+        $integrationTypeId = $activateProject->getProject()->getGroupId();
+        $integrationType = $this->integrationTypeStorage->load($integrationTypeId);
+        if (!$integrationType) {
+            throw new \RuntimeException("Cannot activate project for unknown integration type ({$integrationTypeId}).");
+        }
+
         $project = $activateProject->getProject();
 
         // Create the consumer
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $project->getName();
         $createConsumer->description = $project->getDescription();
-        $groupId = $project->getGroupId();
-        $createConsumer->group = $this->permissionGroups[$groupId]['uitid'];
+        $createConsumer->group = $integrationType->getUitIdPermissionGroups();
 
         if ($project->getSapiVersion() == '3') {
             $createConsumer->searchPrefixSapi3 = $project->getContentFilter();
@@ -87,7 +85,7 @@ class ActivateProjectCommandHandler
         $this->cultureFeedLive->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $this->user->id);
 
         // Add uitpas permssion to consumer
-        $this->cultureFeedLive->addUitpasPermission($cultureFeedConsumer, $this->permissionGroups[$groupId]['uitpas']);
+        $this->cultureFeedLive->addUitpasPermission($cultureFeedConsumer, $integrationType->getUitPasPermissionGroups());
 
         // Update local db.
         $project->setStatus(ProjectInterface::PROJECT_STATUS_ACTIVE);

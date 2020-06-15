@@ -4,6 +4,8 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
@@ -52,6 +54,11 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
     protected $project;
 
     /**
+     * @var IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $integrationTypeStorage;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -77,16 +84,24 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
 
         $this->project = $this->getMock(ProjectInterface::class);
 
+        $this->project
+            ->method('getGroupId')
+            ->willReturn(123);
+
+        $integrationType = new IntegrationType();
+        $integrationType->setUitIdPermissionGroups([3, 123]);
+        $integrationType->setUitPasPermissionGroups([]);
+
+        $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
+        $this->integrationTypeStorage
+            ->method('load')
+            ->with(123)
+            ->willReturn($integrationType);
+
         $this->user = $this->getMock(User::class);
         $this->user->id = 123;
-        $this->permissionGroups = [
-          'default_consumer' => 3,
-          'uitpas' => 22678,
-          'auth0_refresh_token' => 24640,
-          'entry_v3' => 24380,
-        ];
 
-        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, $this->permissionGroups);
+        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, $this->integrationTypeStorage);
     }
 
     /**

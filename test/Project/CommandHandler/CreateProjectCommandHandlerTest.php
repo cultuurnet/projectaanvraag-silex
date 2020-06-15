@@ -4,6 +4,8 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
@@ -44,6 +46,11 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
     protected $user;
 
     /**
+     * @var IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $integrationTypeStorage;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -72,19 +79,23 @@ class CreateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('handle');
 
+        $integrationType = new IntegrationType();
+        $integrationType->setUitIdPermissionGroups([3, 123]);
+        $integrationType->setUitPasPermissionGroups([]);
+
+        $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
+        $this->integrationTypeStorage
+            ->method('load')
+            ->with(123)
+            ->willReturn($integrationType);
+
         $this->user = new User();
         $this->user->id = 123;
         $this->user->mbox = 'test@test.be';
         $this->user->nick = 'test';
-        $this->permissionGroups = [
-          'default_consumer' => 3,
-          'uitpas' => 22678,
-          'auth0_refresh_token' => 24640,
-          'entry_v3' => 24380,
-        ];
 
         $this->commandHandler = $this->getMockBuilder(CreateProjectCommandHandler::class)
-            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, $this->permissionGroups])
+            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, $this->integrationTypeStorage])
             ->setMethods(['generatePassword'])
             ->getMock();
     }
