@@ -1,30 +1,79 @@
 # Integration types
 integration_types:
-  22678:
+  24378:
       name: 'Widgets' # name of the type
       description: 'Kant en klare html-modules die je in je website kan inpassen' # description show on the form
       price: 110.0 # price for this widget
       url: '/#!/integrations#widgets' # url for more information
+      get_started_url: 'http://documentatie.uitdatabank.be/content/widgets/latest/index.html'
       extra_info: # list of bullet points that are shown in the footer of the application
         - 'Geschikt voor basisoplossingen'
-        - 'Zelf of door CultuurNet in te stellen'
+        - 'Zelf of door publiq in te stellen'
       action_button: 'widgets'
       group_id: 'group_id'
-  22679:
+      sapi_version: 3
+      type: 'output'
+      self_service: true
+      enable_activation: true
+      uitid_permissions: [3, 24378]
+      uitpas_permissions: [22678]
+  24379:
+      name: 'API3'
+      description: 'Toegang tot de nieuwste zoekengine van de UiTdatabank'
+      price: 80.0
+      url: '/#!/integrations#api'
+      get_started_url: 'https://documentatie.uitdatabank.be/content/search_api_3/latest/getting-started.html'
+      extra_info:
+        - 'Gestoeld op de JSON-LD-technologie'
+        - 'Robuuste performantie'
+      group_id: 'group_id'
+      sapi_version: 3
+      type: 'output'
+      self_service: true
+      enable_activation: true
+      uitid_permissions: [3, 24379]
+      uitpas_permissions: [22678]
+  24380:
+      name: 'Entry API'
+      description: 'Via Entry API kan je items in UiTdatabank aanmaken, aanpassen en verwijderen.'
+      price: 0
+      url: '/#!/integrations#api'
+      get_started_url: 'https://documentatie.uitdatabank.be/content/entry_api_3/latest/start.html'
+      extra_info:
+        - 'JSON-standaard'
+        - 'Activatie op live-omgeving enkel op aanvraag'
+      group_id: 'group_id'
+      sapi_version: 3
+      self_service: false
+      type: 'input'
+      enable_activation: true
+      uitid_permissions: [3, 24380, 24640]
+      uitpas_permissions: [22678]
+  24745:
       name: 'Culturefeed'
       description: 'Modules waarmee je een UiTagenda integreert in een Drupal-site'
       price: 80.0
       url: '/#!/integrations#culturefeed'
+      get_started_url: 'https://github.com/cultuurnet/culturefeed/wiki'
       extra_info:
         - 'Van agenda tot een volledige (campagne)website'
         - 'Fijngestelde SEO'
       group_id: 'group_id'
-  22677:
-      name: 'API'
-      description: 'Met deze API krijg je toegang tot de zoekengine van de UiTdatabank'
+      sapi_version: 2
+      type: 'output'
+      self_service: true
+      enable_activation: false
+  24742:
+      name: 'API2'
+      description: 'Toegang tot de zoekengine van de UiTdatabank'
       price: 80.0
       url: '/#!/integrations#api'
+      get_started_url: 'http://documentatie.uitdatabank.be/content/search_api/latest/start.html'
       extra_info:
-        - 'Platformonafhankelijk'
-        - 'Individuele oplossingen op maat mogelijk'
+        - 'Platformonafhankelijk via XML-standaard'
+        - 'Individuele oplossingen op maat zijn mogelijk'
       group_id: 'group_id'
+      sapi_version: 2
+      type: 'output'
+      self_service: true
+      enable_activation: false
