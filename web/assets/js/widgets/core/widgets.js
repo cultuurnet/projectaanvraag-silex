@@ -194,12 +194,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
      * Render a given widget.
      */
     CultuurnetWidgets.renderWidget = function(widgetId, widgetPageId) {
-
         var deferred = jQuery.Deferred();
+        var origin = window.location.href;
 
         // Only render the widget if it's a known id.
         if (CultuurnetWidgetsSettings[widgetPageId].widgetMapping && CultuurnetWidgetsSettings[widgetPageId].widgetMapping.hasOwnProperty(widgetId)) {
-            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId);
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '?origin=' + origin);
         }
         else {
             deferred.reject('The given widget id was not found');
@@ -231,10 +231,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
     CultuurnetWidgets.renderSearchResults = function(widgetId, widgetPageId) {
 
         var deferred = jQuery.Deferred();
+        var origin = window.location.href;
 
         // Only render the widget if it's a known id.
         if (CultuurnetWidgetsSettings[widgetPageId].widgetMapping && CultuurnetWidgetsSettings[widgetPageId].widgetMapping.hasOwnProperty(widgetId)) {
-            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '/search-results-with-facets');
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '/search-results-with-facets' + '?origin=' + origin );
         }
         else {
             deferred.reject('The given widget id was not found');
