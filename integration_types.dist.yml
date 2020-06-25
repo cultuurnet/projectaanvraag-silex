@@ -18,7 +18,7 @@ integration_types:
       uitid_permissions: [3, 24378]
       uitpas_permissions: [22678]
   24379:
-      name: 'API3'
+      name: 'Search API 3'
       description: 'Toegang tot de nieuwste zoekengine van de UiTdatabank'
       price: 80.0
       url: '/#!/integrations#api'
