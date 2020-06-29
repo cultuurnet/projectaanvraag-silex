@@ -44,12 +44,12 @@ class SearchResultWidgetMigration extends WidgetMigration
         }
 
         if (isset($legacySettings['items']['image'])) {
-          $imgSettings = $legacySettings['items']['image'];
-          $settings['items']['image'] = $imgSettings;
-          $settings['items']['image']['default_image'] = [
-            'enabled' => $imgSettings['enabled'] ?? false,
-            'type' => 'uit',
-          ];
+            $imgSettings = $legacySettings['items']['image'];
+            $settings['items']['image'] = $imgSettings;
+            $settings['items']['image']['default_image'] = [
+                'enabled' => $imgSettings['enabled'] ?? false,
+                'type' => 'uit',
+            ];
         }
 
         // items icon vlieg
