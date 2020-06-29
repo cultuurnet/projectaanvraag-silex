@@ -32,8 +32,8 @@ class PushWidgetMigration extends WidgetMigration
             ];
         }
 
-        if (isset($legaceySettings['items']['image'])) {
-          $imgSettings = $legaceySettings['items']['image'];
+        if (isset($legacySettings['items']['image'])) {
+          $imgSettings = $legacySettings['items']['image'];
           $settings['items']['image'] = $imgSettings;
           $settings['items']['image']['default_image'] = [
             'enabled' => $imgSettings['enabled'] ?? false,
