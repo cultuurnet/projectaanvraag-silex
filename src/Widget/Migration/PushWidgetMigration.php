@@ -29,11 +29,20 @@ class PushWidgetMigration extends WidgetMigration
                 'width' => $imgSettings['size']['width'],
                 'height' => $imgSettings['size']['height'],
                 'default_image' => [
-                  'enabled' => $imgSettings['show_default'] ?? false,
+                  'enabled' => $imgSettings['show'] ?? false,
                   'type' => 'uit',
                 ],
                 'position' => 'left',
             ];
+        }
+
+        if (isset($legaceySettings['items']['image'])) {
+          $imgSettings = $legaceySettings['items']['image'];
+          $settings['items']['image'] = $imgSettings;
+          $settings['items']['image']['default_image'] = [
+            'enabled' => $imgSettings['enabled'] ?? false,
+            'type' => 'uit',
+          ];
         }
 
         // Add generic fields settings;
