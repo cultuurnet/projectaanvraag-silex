@@ -43,15 +43,6 @@ class SearchResultWidgetMigration extends WidgetMigration
             ];
         }
 
-        if (isset($legacySettings['items']['image'])) {
-            $imgSettings = $legacySettings['items']['image'];
-            $settings['items']['image'] = $imgSettings;
-            $settings['items']['image']['default_image'] = [
-                'enabled' => $imgSettings['enabled'] ?? false,
-                'type' => 'uit',
-            ];
-        }
-
         // items icon vlieg
         if (isset($legacySettings['control_results']['visual']['results']['logo_vlieg']['show'])) {
             $settings['items']['icon_vlieg']['enabled'] = $legacySettings['control_results']['visual']['results']['logo_vlieg']['show'];
@@ -67,10 +58,6 @@ class SearchResultWidgetMigration extends WidgetMigration
                 'enabled' => $imgSettings['show'],
                 'width' => $imgSettings['size']['width'],
                 'height' => $imgSettings['size']['height'],
-                'default_image' => [
-                  'enabled' => false,
-                  'type' => 'uit',
-                ],
                 'position' => 'right',
             ];
         }
