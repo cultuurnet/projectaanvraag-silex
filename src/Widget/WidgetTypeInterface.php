@@ -18,9 +18,10 @@ interface WidgetTypeInterface extends \JsonSerializable
     /**
      * Render the widget.
      * @param $cdbid
+     * @param $preferredLanguage
      * @return string
      */
-    public function render($cdbid = '');
+    public function render($cdbid = '', $preferredLanguage = 'nl');
 
     /**
      * Render the widget placeholder, when a page is loaded.

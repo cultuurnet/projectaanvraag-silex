@@ -189,7 +189,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
         $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
-        $integrationType = $this->getMock(IntegrationType::class);
+        $integrationType = new IntegrationType();
 
         $project->setName('name');
         $project->setLiveConsumerKey('live');

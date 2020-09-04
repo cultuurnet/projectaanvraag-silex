@@ -125,6 +125,14 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $jquery;
 
     /**
+     * @var string
+     *
+     * @ODM\Field(type="string", name="language")
+     */
+    protected $language;
+
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -358,6 +366,22 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     /**
      * {@inheritdoc}
      */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getWidget($widgetId)
     {
         /** @var LayoutInterface $row */
@@ -397,6 +421,7 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
             'selectedTheme' => (string) $this->selectedTheme,
             'mobile' => (boolean) $this->mobile,
             'jquery' => (boolean) $this->jquery,
+            'language' => (string) ($this->language) ?: 'nl' ,
         ];
     }
 }

@@ -92,7 +92,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
       e.preventDefault();
 
-
         // Don't submit if there was an autocomplete open.
         if (!CultuurnetWidgets.autocompleteSubmit()) {
             return;
@@ -101,6 +100,18 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         // Search all input fields.
         var paramsToSubmit = {};
         var $form = jQuery(this);
+
+        var noCitySelected = $form.find('.city-not-selected');
+
+        if (noCitySelected.length > 0) {
+          noCitySelected.addClass('cnw_form-control-danger');
+          noCitySelected
+            .parent()
+            .addClass('cnw_has-danger')
+            .find('.cnw_form-control-feedback')
+            .removeClass('element-invisible')
+          return; // Don't submit
+        }
 
         var openInNewWindow = $form.data('widget-new-window');
 

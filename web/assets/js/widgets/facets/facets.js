@@ -64,12 +64,6 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 e.preventDefault();
                 $facetsToggle.toggleClass('cnw_facets_toggle--open');
                 $facetWrapper.toggle();
-                if ($facetsToggle.hasClass('cnw_facets_toggle--open')) {
-                    $facetsToggle.html('Verberg verfijningen');
-                }
-                else {
-                    $facetsToggle.html('Toon verfijningen');
-                }
             });
             
             // Facets are default hidden for mobile.

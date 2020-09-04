@@ -1,8 +1,10 @@
-<div class="cnw_row cnw_d-flex cnw_searchresult-detail {% if settings_general.labels_as_icons.enabled %} labels-as-icons {% endif %}" data-view-tracking-category="detail" data-view-tracking-extra-data="{{ tag_manager_data }}">
+{% set showIcons = (settings_general.labels_as_icons.enabled or preferredLanguage != 'nl') %}
+
+<div class="cnw_row cnw_d-flex cnw_searchresult-detail {% if showIcons %} labels-as-icons {% endif %}" data-view-tracking-category="detail" data-view-tracking-extra-data="{{ tag_manager_data }}">
 
     {% if settings.image.enabled and event.image is defined %}
         <div class="cnw_col-4 {% if settings.image.position == 'right' %} cnw_flex-md-last{% endif %}">
-            <img src="{{ event.image }}" alt="{{ event.image_description }}" class="cnw_img_responsive {{ settings.image.position }}">
+            <img src="{{ event.image }}" alt="{{ event.name }}" class="cnw_img_responsive {{ settings.image.position }}">
             {% if event.copyright %}
             <p class="cnw_copyright">{{ '&copy;' }} {{event.copyright}}</p>
             {% endif %}
@@ -12,30 +14,22 @@
     <div class="{% if settings.image.enabled %}cnw_col-8 {% else %} cnw_col-12{% endif %} cnw_flex-md-first">
         <div class="cnw_region cnw_region-content">
 
-
             <section class="cnw_block cnw_block-system cnw_clearfix">
                 <h1 class="cnw_page-title">{{ event.name }}</h1>
 
-                {% set summary_class = '' %}
-
-
+            <span class="cnw_stickers ">
                 {% if settings.icon_vlieg.enabled and event.vlieg %}
-                    {% set summary_class = ' has-cnw-icon' %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
                         <span class="cnw_txt">{{ event.vlieg }}</span>
                     </span>
                 {% endif %}
-
+                {% if settings.icon_museumpass.enabled and event.museumpas %}
+                    <span class="cnw_sticker cnw_sticker--museumpas">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 118.4 75.3" xml:space="preserve"><style>.st0{fill:#191734}.st2{fill:#e61f63}</style><path class="st0" d="M29.2 26.3l-1-7.6-3.5 7.6h-1.1l-3.5-7.6-1 7.6h-3.7l2-13.2H21l3.1 7.2 3.1-7.2h3.6l2 13.2h-3.6zM72.1 21.3v-8.1h3.7v8c0 1.3.8 2.1 2 2.1s2-.8 2-2.1v-8h3.7v8.1c0 3.2-2.4 5.4-5.7 5.4-3.3 0-5.7-2.2-5.7-5.4zM99.3 26.3l-1-7.6-3.5 7.6h-1.1l-3.5-7.6-1 7.6h-3.7l2-13.2h3.6l3.1 7.2 3.1-7.2h3.6l2 13.2h-3.6zM29.2 62.1l-1-7.6-3.5 7.6h-1.1l-3.5-7.6-1 7.6h-3.7l2-13.2H21l3.1 7.2 3.1-7.2h3.6l2 13.2h-3.6zM34.8 57v-8h3.7v8c0 1.3.8 2.1 2 2.1s2-.8 2-2.1v-8h3.7v8c0 3.2-2.4 5.4-5.7 5.4-3.3.1-5.7-2.1-5.7-5.4zM82.7 57.9h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3h-3.6c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2-.1-5.3-1.8-5.3-4.6z"/><g><path class="st2" d="M34.8 21.3v-8.1h3.7v8c0 1.3.8 2.1 2 2.1s2-.8 2-2.1v-8h3.7v8.1c0 3.2-2.4 5.4-5.7 5.4-3.3 0-5.7-2.2-5.7-5.4zM48.4 22.1h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3H55c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2 0-5.3-1.7-5.3-4.6zM69.8 23.2v3.1h-8.6V13.2h8.4v3.1h-4.8v1.9h4.3v3h-4.3v2h5zM26.7 35.8c0 2.8-2.1 4.8-4.9 4.8h-2v3.6h-3.6V31.1h5.6c2.8 0 4.9 2 4.9 4.7zm-3.7 0c0-.9-.6-1.6-1.6-1.6h-1.5v3.2h1.5c.9 0 1.6-.6 1.6-1.6zM35.6 42.1H31l-.7 2.1h-3.9L31.6 31h3.5l5.3 13.2h-4l-.8-2.1zm-2.3-6.9l-1.4 4.1h2.9l-1.5-4.1zM40.8 40h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3h-3.6c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2 0-5.3-1.8-5.3-4.6zM53 40h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3h-3.6c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2 0-5.3-1.8-5.3-4.6zM48.4 57.9h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3H55c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2-.1-5.3-1.8-5.3-4.6zM69.8 59v3.1h-8.6V49h8.4v3.1h-4.8V54h4.3v3h-4.3v2h5zM80.9 59v3.1h-8.6V49h8.4v3.1h-4.8V54h4.3v3h-4.3v2h5zM63.4 47.4l-.6-1.8 4.9-2 .5 2.8z"/></g></svg>
+                    </span>
+                {% endif %}
                 {% if settings.icon_uitpas.enabled and event.uitpas %}
-
-                    {% set class = '' %}
-                    {% set summary_class = ' has-cnw-icon' %}
-                    {% if settings.icon_vlieg.enabled and event.vlieg %}
-                    {% set class = ' cnw_sticker--has-vlieg '%}
-                        {% set summary_class = ' has-both-cnw-icons' %}
-                    {% endif %}
-
-                    <span class="cnw_sticker cnw_sticker--uitpas{{ class }}">
+                    <span class="cnw_sticker cnw_sticker--uitpas">
 
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 343 180.774">
                             <defs>
@@ -57,8 +51,9 @@
 
                     </span>
                 {% endif %}
+            </span>
 
-                <div class="cnw_detail-summary{{ summary_class }}">
+                <div class="cnw_detail-summary">
 
                     {% if event.summary %}
 
@@ -66,7 +61,7 @@
                           {{ event.summary | raw }}
                       </div>
 
-                      <a href="#" class="cnw_detail-summary-toggle">Lees meer</a>
+                      <a href="#" class="cnw_detail-summary-toggle">{{ 'event_read_more'| transTo(preferredLanguage) }}</a>
 
                     {% endif %}
 
@@ -76,7 +71,7 @@
 
                 </div>
 
-                <p class="cnw_searchresult-detail-block-title">Info</p>
+                <p class="cnw_searchresult-detail-block-title">{{ 'event_detail_info'| transTo(preferredLanguage) }}</p>
 
 
                 <dl class="cnw_row cnw_searchresult-detail-info">
@@ -93,7 +88,7 @@
                         {{ event.where.address.postalcode }} {{ event.where.address.city }}
                         {% if settings.map %}
                             <br/>
-                            <a href="{{ event.directions_link }} " target="_blank">Hoe geraak ik hier?</a>
+                            <a href="{{ event.directions_link }} " target="_blank">{{ 'event_directions'| transTo(preferredLanguage) }}</a>
                         {% endif %}
                         {% endif %}
                     </dd>
@@ -107,8 +102,8 @@
                     <dd class="cnw-event-date-container">
                         {{ event.when_details | raw }}
                         <a href="#" class="cnw-event-date-info-toggle cnw_hidden">
-                            <span>Toon alle data</span>
-                            <span>Toon minder data</span>
+                            <span>{{ 'event_detail_show_all_dates'| transTo(preferredLanguage) }}</span>
+                            <span>{{ 'event_detail_show_less_dates'| transTo(preferredLanguage) }}</span>
                         </a>
                     </dd>
                     {% endif %}
@@ -126,12 +121,12 @@
                         <em class="cnw_searchresult-detail-label">{{ settings.audience.label }}</em>
                         <i class="cnw-fa cnw-fa-male"></i>
                     </dt>
-                    <dd>Specifiek voor leden</dd>
+                    <dd>{{ 'event_detail_member_specific'| transTo(preferredLanguage) }}</dd>
                     {% endif %}
 
                     {% if settings.language_icons.enabled and event.language_icons %}
                         <dt>
-                            <em class="cnw_searchresult-detail-label">Taaliconen</em>
+                            <em class="cnw_searchresult-detail-label">{{ 'event_detail_language_icons'| transTo(preferredLanguage) }}</em>
                             <i class="cnw-fa cnw-fa-language"></i>
                         </dt>
                         <dd>{{ event.language_icons | raw }}</dd>
@@ -139,7 +134,7 @@
 
                     {% if settings.price_information and event.price %}
                         <dt>
-                            <em class="cnw_searchresult-detail-label">Prijs</em>
+                            <em class="cnw_searchresult-detail-label">{{ 'event_detail_price'| transTo(preferredLanguage) }}</em>
                             <i class="cnw-fa cnw-fa-eur"></i>
                         </dt>
                         <dd class="cnw_searchresult-detail-price-info">{{ event.price | raw}}</dd>
@@ -147,13 +142,13 @@
 
                     {% if settings.reservation_information and event.booking_info %}
                         <dt>
-                            <em class="cnw_searchresult-detail-label">Reserveringen</em>
+                            <em class="cnw_searchresult-detail-label">{{ 'event_detail_reservations'| transTo(preferredLanguage) }}</em>
                             <i class="cnw-fa cnw-fa-ticket"></i>
                         </dt>
                         <dd>
                             <ul class="cnw_searchresult-detail-booking-info">
                             {% if (event.booking_info.phone is defined) %}
-                                <li>Bel naar <strong>{{ event.booking_info.phone }}</strong></li>
+                                <li>{{ 'event_detail_phone'| transTo(preferredLanguage) }} <strong>{{ event.booking_info.phone }}</strong></li>
                             {% endif %}
                             {% if (event.booking_info.email is defined) %}
                                 <li>{{ event.booking_info.email }}</li>
@@ -177,7 +172,7 @@
                     {% endif %}
                     {% if settings.contact_information and event.contact_info and (event.contact_info.emails or event.contact_info.phone_numbers) %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label"> Contact</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_contact'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-phone"></i>
                     </dt>
                     <dd>
@@ -201,7 +196,7 @@
 
                     {% if settings.contact_information and event.links %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label">Links</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_links'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-external-link"></i>
                     </dt>
                     <dd>
@@ -213,7 +208,7 @@
 
                     {% if settings.language_switcher and event.language_switcher|length > 1 %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label">Talen</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_languages'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-globe"></i>
                     </dt>
                     <dd>
@@ -225,7 +220,7 @@
 
                     {% if settings.labels.enabled and event.labels %}
                     <dt>
-                        <em class="cnw_searchresult-detail-label">Labels</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_labels'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-tag"></i>
                     </dt>
                     <dd>
@@ -249,7 +244,7 @@
 
                     {% if settings.share_buttons and event.share_links %}
                         <dt>
-                          <em class="cnw_searchresult-detail-label">Deel deze pagina</em>
+                          <em class="cnw_searchresult-detail-label">{{ 'event_detail_share'| transTo(preferredLanguage) }}</em>
                           <i class="cnw-fa cnw-fa-share-alt"></i>
                         </dt>
                         <dd>

@@ -78,6 +78,15 @@ class IntegrationType implements \JsonSerializable
      */
     protected $enableActivation;
 
+    /**
+     * @var array
+     */
+    private $uitIdPermissionGroups;
+
+    /**
+     * @var array
+     */
+    private $uitPasPermissionGroups;
 
     /**
      * @return string
@@ -311,6 +320,26 @@ class IntegrationType implements \JsonSerializable
     {
         $this->type = $type;
         return $this;
+    }
+
+    public function getUitIdPermissionGroups(): array
+    {
+        return $this->uitIdPermissionGroups;
+    }
+
+    public function setUitIdPermissionGroups($uitIdPermissionGroups): void
+    {
+        $this->uitIdPermissionGroups = $uitIdPermissionGroups;
+    }
+
+    public function getUitPasPermissionGroups(): array
+    {
+        return $this->uitPasPermissionGroups;
+    }
+
+    public function setUitPasPermissionGroups($uitPasPermissionGroups): void
+    {
+        $this->uitPasPermissionGroups = $uitPasPermissionGroups;
     }
 
     /**

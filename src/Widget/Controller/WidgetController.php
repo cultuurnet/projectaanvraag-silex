@@ -168,8 +168,11 @@ class WidgetController
 
         if ($cdbid && $request->headers->get('referer')) {
             $url = $request->headers->get('referer');
-           
-            $this->commandBus->handle(new CreateArticleLink($url, $cdbid, $projectActive));
+
+            $cdbidsArr = explode(' ', $cdbid);
+            foreach ($cdbidsArr as $id) {
+                $this->commandBus->handle(new CreateArticleLink($url, $id, $projectActive));
+            }
         }
 
         if (!$project) {
@@ -177,8 +180,10 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $data = [
-            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid),
+            'data' => $this->renderer->renderWidget($this->getWidget($widgetPage, $widgetId), $cdbid, $preferredLanguage),
         ];
         $response = new JsonResponse($data);
 
@@ -244,15 +249,18 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $renderedWidgets = [
-            'search_results' => $this->renderer->renderWidget($searchResultsWidget),
+            'search_results' => $this->renderer->renderWidget($searchResultsWidget, '', $preferredLanguage),
             'facets' => [],
+            'preferredLanguage' => $preferredLanguage,
         ];
 
         $searchResult = $searchResultsWidget->getSearchResult();
         foreach ($facetWidgets as $facetWidgetId => $facetWidget) {
             $facetWidget->setSearchResult($searchResult);
-            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget);
+            $renderedWidgets['facets'][$facetWidgetId] = $this->renderer->renderWidget($facetWidget, '', $preferredLanguage);
         }
 
         $data = [
@@ -291,9 +299,15 @@ class WidgetController
         }
         $this->renderer->setProject($project);
 
+        $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+
         $data = [
-            'data' => $this->renderer->renderDetailPage($widget),
+            'data' => $this->renderer->renderDetailPage($widget, $preferredLanguage),
         ];
+
+        // Make sure characters are correctly encoded otherwise the app could crash
+        $data['data'] = mb_convert_encoding($data['data'], "UTF-8", "UTF-8");
+
         $response = new JsonResponse($data);
 
         // If this is a jsonp request, set the requested callback.
@@ -328,11 +342,12 @@ class WidgetController
      * Provide autocompletion results for regions.
      * @param Request $request
      * @param $searchString
+     * @param $language
      * @return JsonResponse
      */
-    public function getRegionAutocompleteResult(Request $request, $searchString)
+    public function getRegionAutocompleteResult(Request $request, $searchString, $language = 'nl')
     {
-        $matches = $this->regionService->getAutocompletResults($searchString);
+        $matches = $this->regionService->getAutocompletResults($searchString, $language);
         // Sort $matches according levenshtein distance
         $matches = $this->regionService->sortByLevenshtein($matches, $searchString);
 

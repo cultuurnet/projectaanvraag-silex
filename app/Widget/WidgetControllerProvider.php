@@ -38,6 +38,7 @@ class WidgetControllerProvider implements ControllerProviderInterface
 
         // Autocompletes
         $controllers->get('/autocomplete/regions/{searchString}', 'widget_controller:getRegionAutocompleteResult');
+        $controllers->get('/autocomplete/regions/{searchString}/{language}', 'widget_controller:getRegionAutocompleteResult');
 
         $controllers->get('/search', 'widget_controller:searchExample');
 
