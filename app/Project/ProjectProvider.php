@@ -29,13 +29,5 @@ class ProjectProvider implements ServiceProviderInterface
         $pimple['project_converter'] = function (Container $pimple) {
             return new ProjectConverter($pimple['project_repository']);
         };
-
-        $pimple['default_consumer_group'] = function (Container $pimple) {
-            return $pimple['config']['default_consumer_group'];
-        };
-
-        $pimple['uitpas_permission_group'] = function (Container $pimple) {
-            return $pimple['config']['uitpas_permission_group'];
-        };
     }
 }

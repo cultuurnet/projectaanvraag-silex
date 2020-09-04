@@ -340,7 +340,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '')
+    public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         return $this->twig->render(
             'widgets/search-form-widget/search-form-widget.html.twig',
@@ -352,6 +352,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 'settings_fields' => $this->settings['fields'],
                 'defaults' => $this->getDefaults(),
                 'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
+                'preferredLanguage' => ($preferredLanguage) ?: 'nl',
             ]
         );
     }
@@ -359,7 +360,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function renderPlaceholder()
+    public function renderPlaceholder($preferredLanguage = 'nl')
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/search-form.js');
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/autocomplete.js');
@@ -371,7 +372,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
 
         $this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
 
-        return $this->render();
+        return $this->render('', $preferredLanguage);
     }
 
     /**
@@ -419,7 +420,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
     /**
      * {@inheritdoc}
      */
-    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter)
+    public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter, $preferredLanguage = 'nl')
     {
 
         // Check what filters should be placed active.
@@ -512,14 +513,14 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                 if ($activeValue === 'custom_date') {
                     $cetTimezone = new \DateTimeZone('CET');
                     $query = '';
-                    $labelParts = ['activiteiten'];
+                    $labelParts = [$this->twigPreprocessor->translateLabel('activities', 'messages', $preferredLanguage)];
                     if (isset($activeFilters['date-start'])) {
                         $dateTime = \DateTime::createFromFormat('d/m/Y', $activeFilters['date-start'], $cetTimezone);
                         if ($dateTime) {
                             $dateTime->setTime(0, 0, 0);
                             $query .= $dateTime->format('c');
                         }
-                        $labelParts[] = 'van ' . $activeFilters['date-start'];
+                        $labelParts[] = $this->twigPreprocessor->translateLabel('from', 'when', $preferredLanguage) . ' ' . $activeFilters['date-start'];
                     } else {
                         $query .= '*';
                     }
@@ -528,7 +529,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                         if ($dateTime) {
                             $dateTime->setTime(23, 59, 59);
                             $query .= (' TO ' . $dateTime->format('c'));
-                            $labelParts[] = 'tot ' .  $activeFilters['date-end'];
+                            $labelParts[] = $this->twigPreprocessor->translateLabel('to', 'when', $preferredLanguage) . ' ' .  $activeFilters['date-end'];
                         }
                     } else {
                         $query .= ' TO *';
@@ -548,7 +549,7 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                         $advancedQuery[] = 'dateRange:' . $dateRange['query'];
 
                         $searchResultsActiveFilters[] = [
-                            'label' => $dateRange['label'],
+                            'label' => $this->twigPreprocessor->translateLabel($activeValue, 'when', $preferredLanguage),
                             'name' => 'search-form[' . $this->id . '][when]',
                             'is_default' => false,
                         ];
@@ -562,7 +563,11 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
                     'is_default' => false,
                 ];
             } elseif ($key === 'where') {
-                $region = $this->regionService->getItemByName($activeValue);
+                if ($preferredLanguage === 'nl') {
+                    $region = $this->regionService->getItemByName($activeValue);
+                } else {
+                    $region = $this->regionService->getItemByTranslatedName($activeValue, $preferredLanguage);
+                }
                 if ($region) {
                     $searchResultsActiveFilters[] = [
                         'label' => $region->name,

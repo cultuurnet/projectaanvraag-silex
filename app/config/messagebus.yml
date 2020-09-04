@@ -96,8 +96,7 @@ handlers:
             - culturefeed_test
             - culturefeed
             - uitid_user_session_data_complete
-            - default_consumer_group
-            - uitpas_permission_group
+            - integration_types.storage
 
     activate_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\ActivateProject
@@ -107,8 +106,7 @@ handlers:
             - orm.em
             - culturefeed
             - uitid_user_session_data_complete
-            - default_consumer_group
-            - uitpas_permission_group
+            - integration_types.storage
 
     request_activation_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\RequestActivation

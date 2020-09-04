@@ -1,0 +1,34 @@
+activities: activities
+event_age_range: From %min_age% years to %max_age% years.
+event_age_range_no_min: From 0 years to %max_age% years.
+event_age_range_min: From %min_age% years.
+event_expired: This event has ended
+event_full_date: %date% at %hour%
+event_read_more: Read more
+event_directions: how do I get here?
+event_detail_contact: Contact
+event_detail_info: Info
+event_detail_member_specific: Exclusively for members
+event_detail_phone: Call to
+event_detail_price: Price
+event_detail_labels: Labels
+event_detail_languages: Languages
+event_detail_language_icons: Language icons
+event_detail_links: Left
+event_detail_reservations: Reservations
+event_detail_share: Share this page
+event_detail_show_all_dates: Show all dates
+event_detail_show_less_dates: Show less dates
+event_price_free: free
+facets_show: Show refinements
+facets_hide: Hide refinements
+pager_first: First
+pager_previous: Previous
+pager_next: Next
+pager_last: Last
+search_results_counter: results found
+search_results_exclude_long_term: Hide long-running series
+search_results_exclude_permanent: Hide permanent sights
+search_resutls_remove_all_filters: Remove all filters
+search_results_searched_label: 'You looked up:'
+warning_no_city_selected: Choose a valid municipality or region

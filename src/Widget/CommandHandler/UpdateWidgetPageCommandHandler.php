@@ -50,6 +50,8 @@ class UpdateWidgetPageCommandHandler extends WidgetPageCommandHandler
         $widgetPageToSave->setJquery($newWidgetPage->getJquery());
         $widgetPageToSave->setMobile($newWidgetPage->getMobile());
 
+        $widgetPageToSave->setLanguage($newWidgetPage->getLanguage());
+
         $widgetPageToSave->setLastUpdatedBy($this->user->id);
         $widgetPageToSave->setLastUpdated($_SERVER['REQUEST_TIME']);
         $widgetPageToSave->setAsDraft();

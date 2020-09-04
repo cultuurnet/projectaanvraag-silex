@@ -203,6 +203,20 @@ interface WidgetPageInterface
     public function setJquery($preventJQuery);
 
     /**
+     * Does the page does not want jQuery?
+     *
+     * @return string
+     */
+    public function getLanguage();
+
+    /**
+     * Set the desire of the page to exclude jQuery
+     *
+     * @param string $language
+     */
+    public function setLanguage($language);
+
+    /**
      * Get the widget with the given id.
      *
      * @param $widgetId

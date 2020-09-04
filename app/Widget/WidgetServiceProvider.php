@@ -4,6 +4,8 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Widget\Converter\WidgetPageConverter;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
+use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use Doctrine\Common\Cache\Cache;
 use Pimple\Container;
@@ -75,11 +77,22 @@ class WidgetServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['widget_twig_preprocessor'] = function (Container $pimple) {
-            return new TwigPreprocessor($pimple['translator'], $pimple['twig'], $pimple['request_stack'], $pimple['culturefeed'], $pimple['config']['social_host']);
+            return new TwigPreprocessor(
+                $pimple['twig'],
+                $pimple['request_stack'],
+                $pimple['culturefeed'],
+                $pimple['config']['social_host'],
+                new FilterForKeyWithFallback('nl'),
+                new TranslateTerm(
+                    $pimple['translator']
+                ),
+                $pimple['translator'],
+                $pimple['curatoren_api']
+            );
         };
 
         $pimple['widget_region_service'] = function (Container $pimple) {
-            return new RegionService($pimple['region_json_location']);
+            return new RegionService($pimple['region_json_location'], $pimple['translator']);
         };
     }
 }

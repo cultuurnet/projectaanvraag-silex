@@ -32,10 +32,11 @@
                 <div class="cnw_col">
                     {% if  settings_fields.location.keyword_search.enabled %}
                         <div class="cnw_form-group cnw_zoek-waar">
-                            <label>
+                            <label class="cnw_form-control-label">
                                 {{  settings_fields.location.keyword_search.label }}
                             </label>
-                            <input type="text" class="cnw_form-control cnw_form-autocomplete" id="where-{{ id }}" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}" data-autocomplete-path="{{ when_autocomplete_path }}">
+                            <input type="text" class="cnw_form-control cnw_form-autocomplete" id="where-{{ id }}" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}" data-autocomplete-path="{{ when_autocomplete_path }}" data-autocomplete-language="{{ preferredLanguage }}">
+                            <p class="cnw_form-control-feedback element-invisible">{{ 'warning_no_city_selected' | transTo(preferredLanguage) }}</p>
                         </div>
                     {% endif %}
 
@@ -59,25 +60,25 @@
                                     <option value="">{{ settings_fields.time.date_search.placeholder }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.today %}
-                                <option value="today"{% if defaults.when == 'today' %} selected{% endif %} }}>Vandaag</option>
+                                <option value="today"{% if defaults.when == 'today' %} selected{% endif %} }}>{{ 'today'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.tomorrow %}
-                                <option value="tomorrow"{% if defaults.when == 'tomorrow' %} selected{% endif %}>Morgen</option>
+                                <option value="tomorrow"{% if defaults.when == 'tomorrow' %} selected{% endif %}>{{ 'tomorrow'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.weekend %}
-                                <option value="thisweekend"{% if defaults.when == 'thisweekend' %} selected{% endif %}>Dit weekend</option>
+                                <option value="thisweekend"{% if defaults.when == 'thisweekend' %} selected{% endif %}>{{ 'thisweekend'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.days_7 %}
-                                <option value="next7days"{% if defaults.when == 'next7days' %} selected{% endif %}>Binnen 7 dagen</option>
+                                <option value="next7days"{% if defaults.when == 'next7days' %} selected{% endif %}>{{ 'next7days'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.days_14 %}
-                                <option value="next14days"{% if defaults.when == 'next14days' %} selected{% endif %}>Binnen 14 dagen</option>
+                                <option value="next14days"{% if defaults.when == 'next14days' %} selected{% endif %}>{{ 'next14days'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.days_30 %}
-                                <option value="next30days"{% if defaults.when == 'next30days' %} selected{% endif %}>Binnen 30 dagen</option>
+                                <option value="next30days"{% if defaults.when == 'next30days' %} selected{% endif %}>{{ 'next30days'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                                 {% if settings_fields.time.date_search.options.custom_date %}
-                                <option value="custom_date"{% if defaults.when == 'custom_date' %} selected{% endif %}>Aangepaste datum</option>
+                                <option value="custom_date"{% if defaults.when == 'custom_date' %} selected{% endif %}>{{ 'customdate'| transTo(preferredLanguage, 'when') }}</option>
                                 {% endif %}
                             </select>
 
@@ -85,15 +86,15 @@
                                 <div class="cnw_form-custom-date"{% if defaults.when != 'custom_date' %} style="display: none;" {% endif %}>
                                     <div class="cnw_form-custom-date-group cnw_form-custom-date-group-start">
                                         <label>
-                                            Van
+                                            {{ 'from'| transTo(preferredLanguage, 'when') }}
                                         </label>
-                                        <input type="text" class="cnw_form-control cnw_col cnw_form-date-start" name="search-form[{{ id }}][date-start]"/>
+                                        <input type="text" class="cnw_form-control cnw_col cnw_form-date-start" name="search-form[{{ id }}][date-start]" autocomplete="off"/>
                                     </div>
                                     <div class="cnw_form-custom-date-group cnw_form-custom-date-group-end">
                                         <label>
-                                            Tot
+                                            {{ 'to'| transTo(preferredLanguage, 'when') }}
                                         </label>
-                                        <input type="text" class="cnw_form-control cnw_col  cnw_form-date-end" name="search-form[{{ id }}][date-end]"/>
+                                        <input type="text" class="cnw_form-control cnw_col  cnw_form-date-end" name="search-form[{{ id }}][date-end]" autocomplete="off"/>
                                     </div>
                                 </div>
                             {% endif %}

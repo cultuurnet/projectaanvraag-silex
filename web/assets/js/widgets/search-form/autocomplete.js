@@ -16,8 +16,9 @@
                     .attr('aria-autocomplete', 'list');
 
                 var uri = $input.data('autocomplete-path');
+                var language = $input.data('autocomplete-language');
                 if (!acdb[uri]) {
-                    acdb[uri] = new CultuurnetWidgets.ACDB(uri);
+                    acdb[uri] = new CultuurnetWidgets.ACDB(uri, language);
                 }
 
                 $input.parent()
@@ -41,6 +42,21 @@
                 this.owner.hidePopup();
             }).length == 0;
     };
+
+    /**
+     * Reset the errors on the city autocomplete field
+     */
+    CultuurnetWidgets.resetErrorsAutocomplete = function(input) {
+      var $input = jQuery(input);
+      if ($input.hasClass('city-not-selected')) {
+        $input.removeClass('city-not-selected');
+        $input
+          .parent()
+          .removeClass('cnw_has-danger')
+          .find('.cnw_form-control-feedback')
+          .addClass('element-invisible')
+      }
+    }
 
     /**
      * An AutoComplete object.
@@ -107,9 +123,11 @@
 
             default: // All other keys.
                 if (input.value.length > 0 && !input.readOnly) {
+                    jQuery(input).addClass('city-not-selected');
                     this.populatePopup();
                 }
                 else {
+                    CultuurnetWidgets.resetErrorsAutocomplete(input);
                     this.hidePopup(e.keyCode);
                 }
                 return true;
@@ -120,7 +138,8 @@
      * Puts the currently highlighted suggestion into the autocomplete field.
      */
     CultuurnetWidgets.jsAC.prototype.select = function (node) {
-        this.input.value = jQuery(node)[0].innerText;
+      CultuurnetWidgets.resetErrorsAutocomplete(this.input);
+      this.input.value = jQuery(node)[0].innerText;
     };
 
     /**
@@ -209,7 +228,7 @@
 
         // Do search.
         this.db.owner = this;
-        this.db.search(this.input.value);
+        this.db.search(this.input.value, this.language);
     };
 
     /**
@@ -266,7 +285,8 @@
     /**
      * An AutoComplete DataBase object.
      */
-    CultuurnetWidgets.ACDB = function (uri) {
+    CultuurnetWidgets.ACDB = function (uri, language) {
+        this.language = language;
         this.uri = uri;
         this.delay = 300;
         this.cache = {};
@@ -302,7 +322,7 @@
             // encodeURIComponent to allow autocomplete search terms to contain slashes.
             jQuery.ajax({
                 type: 'GET',
-                url: db.uri + '/' + encodeURIComponent(searchString).replace(/%2F/g, '/'),
+                url: db.uri + '/' + encodeURIComponent(searchString).replace(/%2F/g, '/') + '/' + db.language,
                 dataType: 'jsonp',
                 crossDomain: true,
                 success: function (matches) {

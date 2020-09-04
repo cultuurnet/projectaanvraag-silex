@@ -152,7 +152,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '')
+    public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         // If a render is requested without search results context, perform a full search.
         if (empty($this->searchResult)) {
@@ -173,29 +173,29 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 
         if ($this->settings['filters']['when']) {
             $activeValue = $urlQueryParams['when'] ?? [];
-            $facets[] = $this->twigPreprocessor->getDateFacet($activeValue);
+            $facets[] = $this->twigPreprocessor->getDateFacet($activeValue, $preferredLanguage);
         }
 
         if ($facetsRaw && $this->settings['filters']['where']) {
             $activeValue = $urlQueryParams['where'] ?? [];
-            $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue);
+            $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['regions'], 'where', 'Waar', $activeValue, $preferredLanguage, true);
         }
 
         if ($facetsRaw && $this->settings['filters']['what']) {
             $activeValue = $urlQueryParams['what'] ?? [];
 
-            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue);
+            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['types'], 'what', 'Wat', $activeValue, $preferredLanguage);
             $facets[] = $facet;
             if ($facet['hasActive'] || isset($urlQueryParams['theme'])) {
                 $activeValue = $urlQueryParams['theme'] ?? [];
-                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue);
+                $facets[] = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['themes'], 'theme', 'Verfijn op type', $activeValue, $preferredLanguage);
             }
         }
 
         if ($facetsRaw && $this->settings['filters']['facilities']) {
             $activeValue = $urlQueryParams['facilities'] ?? [];
 
-            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['facilities'], 'facilities', 'Voorzieningen', $activeValue);
+            $facet = $this->twigPreprocessor->preprocessFacet($facetsRaw->getFacetResults()['facilities'], 'facilities', 'Voorzieningen', $activeValue, $preferredLanguage);
             $facets[] = $facet;
         }
 
@@ -212,6 +212,7 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
             [
                 'id' => $this->index, // Use the index as identifier for smaller querystrings.
                 'facets' => $facets,
+                'preferredLanguage' => $preferredLanguage,
             ]
         );
     }

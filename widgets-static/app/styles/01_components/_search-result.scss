@@ -1,5 +1,7 @@
 
 .cnw_taaliconen {
+  display: block;
+  margin-bottom: 10px;
 
   .cnw_taalicoon {
     display: inline-block;
@@ -8,18 +10,23 @@
     background-size: cover;
     width: 15px;
     height: 19px;
+    background-size: contain;
   }
 
   .cnw_taalicoon-face {
-    background-image: url(/assets/images/taalicoon-face.svg);
+    background-image: url(/assets/images/language-icons/nl.svg);
   }
 
   .cnw_taalicoon-ballon-filled {
-    background-image: url(/assets/images/taalicoon-ballon-filled.svg);
+    background-image: url(/assets/images/language-icons/balloon-filled.svg);
   }
 
   .cnw_taalicoon-ballon {
-    background-image: url(/assets/images/taalicoon-ballon.svg);
+    background-image: url(/assets/images/language-icons/balloon-empty.svg);
+  }
+
+  .cnw_taalicoon_text {
+    display: block;
   }
 
 }
@@ -114,6 +121,11 @@
   .uit-logo-text {
     fill : #b58d35;
   }
+}
+
+.cnw_sticker--museumpas {
+  display: block;
+  width: 45px;
 }
 
 .cnw_searchresult__options {
@@ -216,10 +228,22 @@ p span.cnw_badge {
     }
   }
 
+  .cnw_badge-editorial {
+    background-color: transparent;
+    border: 1px solid gray;
+    color: gray;
+    font-size: 0.6em;
+    padding: 0.5em 0.5em;
+    margin-left: 10px;
+    i{
+      margin-right: 5px;
+    }
+
+  }
 }
 
-.cnw_searchresult--block i.cnw-fa,
-.cnw_searchresult-detail i.cnw-fa{
+.cnw_searchresult--block .list-item i.cnw-fa,
+.cnw_searchresult-detail .list-item i.cnw-fa{
     display: none;
 }
 
@@ -227,8 +251,8 @@ p span.cnw_badge {
   display: inline-block;
 }
 
-.cnw_searchresult--block.labels-as-icons i.cnw-fa,
-.cnw_searchresult-detail.labels-as-icons i.cnw-fa{
+.cnw_searchresult--block.labels-as-icons .list-item i.cnw-fa,
+.cnw_searchresult-detail.labels-as-icons .list-item i.cnw-fa{
   display: inline-block;
 }
 
@@ -239,14 +263,14 @@ p span.cnw_badge {
 
 .cnw_searchresult--block.labels-as-icons .cnw_searchresult-detail-label,
 .cnw_searchresult-detail.labels-as-icons .cnw_searchresult-detail-label{
-  display: none;
+  @include hiddenClip;
 }
 
 @media (max-width: 768px) {
-   .cnw_searchresult--block .cnw_searchresult-detail-label {
-      display: none;
+  .cnw_searchresult--block .cnw_searchresult-detail-label {
+      @include hiddenClip;
     }
-  .cnw_searchresult--block i.cnw-fa {
+  .cnw_searchresult--block .list-item i.cnw-fa {
     display: inline-block;
   }
 }
@@ -323,4 +347,13 @@ app-2-col-sidebar-right-layout .cnw_searchresult__options label.cnw_form-check-l
 .cnw_full-facilities.show {
   position: relative;
   height: inherit;
+}
+
+.cnw_alert-info {
+  margin: .75rem 0;
+  padding: .75rem 1.25rem;
+  color:#004085;
+  background-color:#cce5ff;
+  border: 1px solid #b8daff;
+  border-radius: .25rem;
 }
