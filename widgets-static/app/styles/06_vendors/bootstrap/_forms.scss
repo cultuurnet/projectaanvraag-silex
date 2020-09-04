@@ -272,7 +272,7 @@ select.cnw_form-control-lg {
 .cnw_has-warning {
   @include form-control-validation($brand-warning);
 
-  .form-control-warning {
+  .cnw_form-control-warning {
     background-image: $form-icon-warning;
   }
 }

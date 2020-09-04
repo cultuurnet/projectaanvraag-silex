@@ -1,2 +1,34 @@
-event_full_date: %date% om %hour% uur
+activities: activiteiten
 event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
+event_age_range_no_min: Vanaf 0 jaar tot en met %max_age% jaar.
+event_age_range_min: Vanaf %min_age% jaar.
+event_expired: Dit evenement is afgelopen
+event_full_date: %date% om %hour% uur
+event_read_more: Lees meer 
+event_directions: hoe geraak ik hier?
+event_detail_contact: Contact
+event_detail_info: Info
+event_detail_member_specific: Specifiek voor leden
+event_detail_phone: Bel naar
+event_detail_price: Prijs
+event_detail_labels: Labels
+event_detail_languages: Talen
+event_detail_language_icons: Taaliconen
+event_detail_links: Links
+event_detail_reservations: Reserveringen
+event_detail_share: Deel deze pagina
+event_detail_show_all_dates: Toon alle data
+event_detail_show_less_dates: Toon minder data
+event_price_free: gratis
+facets_show: Toon verfijningen
+facets_hide: Verberg verfijningen
+pager_first: Eerste
+pager_previous: Vorige
+pager_next: Volgende
+pager_last: Laatste
+search_results_counter: resultaten gevonden
+search_results_exclude_long_term: Verberg langlopende reeksen
+search_results_exclude_permanent: Verberg permanente bezienswaardigheden
+search_resutls_remove_all_filters: Alle filters verwijderen
+search_results_searched_label: 'Je zocht op:'
+warning_no_city_selected: Kies een geldige gemeente of regio

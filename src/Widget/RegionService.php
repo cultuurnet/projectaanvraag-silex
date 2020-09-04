@@ -2,6 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget;
 
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Translation\TranslatorInterface;
+
 /**
  * Provides a service to search on regions.
  */
@@ -12,14 +15,11 @@ class RegionService
      */
     protected $jsonLocation;
 
-    /**
-     * RegionService constructor.
-     *
-     * @param $jsonLocation
-     */
-    public function __construct($jsonLocation)
+
+    public function __construct($jsonLocation, TranslatorInterface $translator)
     {
         $this->jsonLocation = $jsonLocation;
+        $this->translator = $translator;
     }
 
     /**
@@ -27,17 +27,24 @@ class RegionService
      *
      * @param $searchString
      */
-    public function getAutocompletResults($searchString)
+    public function getAutocompletResults($searchString, $language = 'nl')
     {
         $data = file_get_contents($this->jsonLocation);
-
         $searchString = strtolower($searchString);
         $matches = [];
         $regions = json_decode($data);
         if (!empty($regions)) {
             foreach ($regions as $region) {
-                if (strpos(strtolower($region->name), $searchString) !== false) {
-                    $matches[] = $region->name;
+                if ($language === 'nl') {
+                    $translatedRegion = $region->name;
+                } else {
+                    $translatedRegion = $this->translator->trans($region->key, [], 'region', $language);
+                    if ($translatedRegion === $region->key) {
+                        $translatedRegion = $region->name;
+                    }
+                }
+                if (strpos(strtolower($translatedRegion), $searchString) !== false) {
+                    $matches[] = $translatedRegion;
                 }
             }
         }
@@ -60,6 +67,26 @@ class RegionService
                 if ($region->name === $name) {
                     return $region;
                 }
+            }
+        }
+    }
+
+    /**
+     * Get an item by a translated name
+     *
+     * @param $translatedName
+     * @param $translatedLanguage
+     */
+    public function getItemByTranslatedName($translatedName, $translatedLanguage)
+    {
+        $regions = Yaml::parse(file_get_contents(__DIR__ . '/../../locales/region/'. $translatedLanguage .'.yml'));
+        foreach ($regions as $key => $region) {
+            if ($region === $translatedName) {
+                $matchedRegion = (object) array(
+                  'key' => $key,
+                  'name' => $region,
+                );
+                return $matchedRegion;
             }
         }
     }

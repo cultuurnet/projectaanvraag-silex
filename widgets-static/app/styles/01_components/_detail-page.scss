@@ -7,24 +7,19 @@
     &.has-cnw-icon {
       padding-right: 60px;
     }
-
-    &.has-both-cnw-icons {
-      padding-right: 120px;
-    }
-
   }
   .cnw_sticker--vlieg {
     float: right;
   }
 
-  .cnw_sticker--uitpas {
+  .cnw_sticker {
+    margin-right: 10px;
+  }
+
+  .cnw_sticker--uitpas,
+  .cnw_sticker--museumpas {
     margin-top: 10px;
     float: right;
-
-    &.cnw_sticker--has-vlieg {
-      margin-right: 10px;
-    }
-
   }
 
   &-link {
@@ -79,7 +74,7 @@
         display: block;
       }
       em.cnw_searchresult-detail-label {
-        display: none !important;
+        @include hiddenClip;
       }
     }
   }
@@ -132,7 +127,7 @@
     }
 
     ul {
-      margin: 0;
+      margin: 0 0 10px 0;
       padding: 0;
       list-style: none;
     }

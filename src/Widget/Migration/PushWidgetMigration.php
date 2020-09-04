@@ -28,7 +28,6 @@ class PushWidgetMigration extends WidgetMigration
                 'enabled' => $imgSettings['show'] ?? false,
                 'width' => $imgSettings['size']['width'],
                 'height' => $imgSettings['size']['height'],
-                'default_image' => $imgSettings['show_default'] ?? false,
                 'position' => 'left',
             ];
         }

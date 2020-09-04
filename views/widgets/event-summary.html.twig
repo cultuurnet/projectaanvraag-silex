@@ -1,16 +1,16 @@
 <!--  results - CARD  START -->
+{% set showIcons = (settings_general.labels_as_icons.enabled or preferredLanguage != 'nl') %}
 
-<div class="cnw_searchresult--block {% if settings_general.labels_as_icons.enabled %} labels-as-icons {% endif %} cnw_row ">
-
+<div class="cnw_searchresult--block {% if showIcons %} labels-as-icons {% endif %} cnw_row ">
     {% if settings_items.image.enabled %}
     <div class="cnw_col-3 {% if settings_items.image.position == 'right' %} cnw_flex-last {% endif %}">
         {% if event.image is defined %}
         {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
         <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="image">
-            <img src="{{ event.image }}" alt="{{ event.image_description }}" class="cnw_img_responsive {{ settings_items.image.position }}">
+            <img src="{{ event.image }}" alt="{{ event.name }}" class="cnw_img_responsive {{ settings_items.image.position }}">
         </a>
         {% else %}
-            <img src="{{ event.image }}" alt="{{ event.image_description }}" class="cnw_img_responsive {{ settings_items.image.position }}">
+            <img src="{{ event.image }}" alt="{{ event.name }}" class="cnw_img_responsive {{ settings_items.image.position }}">
         {% endif %}
         {% endif %}
 
@@ -25,11 +25,21 @@
                 {% else %}
                 {{ event.name }}
                 {% endif %}
+                {% if settings_items.editorial_label is defined and settings_items.editorial_label.enabled and event.editorial_label %}
+                  <span class="cnw_badge cnw_badge-default cnw_badge-editorial">
+                    <i class="cnw-fa cnw-fa-heart"></i>{{ event.editorial_label }}
+                  </span>
+                {% endif %}
             </h2>
             <span class="cnw_stickers ">
                 {% if settings_items.icon_vlieg.enabled and event.vlieg %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
                         <span class="cnw_txt">{{ event.vlieg }}</span>
+                    </span>
+                {% endif %}
+                {% if settings_items.icon_museumpass.enabled and event.museumpas %}
+                    <span class="cnw_sticker cnw_sticker--museumpas">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 118.4 75.3" xml:space="preserve"><style>.st0{fill:#191734}.st2{fill:#e61f63}</style><path class="st0" d="M29.2 26.3l-1-7.6-3.5 7.6h-1.1l-3.5-7.6-1 7.6h-3.7l2-13.2H21l3.1 7.2 3.1-7.2h3.6l2 13.2h-3.6zM72.1 21.3v-8.1h3.7v8c0 1.3.8 2.1 2 2.1s2-.8 2-2.1v-8h3.7v8.1c0 3.2-2.4 5.4-5.7 5.4-3.3 0-5.7-2.2-5.7-5.4zM99.3 26.3l-1-7.6-3.5 7.6h-1.1l-3.5-7.6-1 7.6h-3.7l2-13.2h3.6l3.1 7.2 3.1-7.2h3.6l2 13.2h-3.6zM29.2 62.1l-1-7.6-3.5 7.6h-1.1l-3.5-7.6-1 7.6h-3.7l2-13.2H21l3.1 7.2 3.1-7.2h3.6l2 13.2h-3.6zM34.8 57v-8h3.7v8c0 1.3.8 2.1 2 2.1s2-.8 2-2.1v-8h3.7v8c0 3.2-2.4 5.4-5.7 5.4-3.3.1-5.7-2.1-5.7-5.4zM82.7 57.9h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3h-3.6c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2-.1-5.3-1.8-5.3-4.6z"/><g><path class="st2" d="M34.8 21.3v-8.1h3.7v8c0 1.3.8 2.1 2 2.1s2-.8 2-2.1v-8h3.7v8.1c0 3.2-2.4 5.4-5.7 5.4-3.3 0-5.7-2.2-5.7-5.4zM48.4 22.1h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3H55c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2 0-5.3-1.7-5.3-4.6zM69.8 23.2v3.1h-8.6V13.2h8.4v3.1h-4.8v1.9h4.3v3h-4.3v2h5zM26.7 35.8c0 2.8-2.1 4.8-4.9 4.8h-2v3.6h-3.6V31.1h5.6c2.8 0 4.9 2 4.9 4.7zm-3.7 0c0-.9-.6-1.6-1.6-1.6h-1.5v3.2h1.5c.9 0 1.6-.6 1.6-1.6zM35.6 42.1H31l-.7 2.1h-3.9L31.6 31h3.5l5.3 13.2h-4l-.8-2.1zm-2.3-6.9l-1.4 4.1h2.9l-1.5-4.1zM40.8 40h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3h-3.6c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2 0-5.3-1.8-5.3-4.6zM53 40h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3h-3.6c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2 0-5.3-1.8-5.3-4.6zM48.4 57.9h3.7c0 .9.7 1.4 1.6 1.4.8 0 1.5-.4 1.5-1.1 0-.8-1-1.1-2.3-1.4-1.9-.5-4.3-1.1-4.3-4.1 0-2.6 1.9-4.1 5-4.1 3.2 0 5 1.6 5 4.3H55c0-.8-.6-1.2-1.4-1.2-.6 0-1.3.3-1.3.9 0 .7 1 1 2.2 1.3 1.9.5 4.5 1.1 4.5 4.2 0 2.9-2.2 4.4-5.3 4.4-3.2-.1-5.3-1.8-5.3-4.6zM69.8 59v3.1h-8.6V49h8.4v3.1h-4.8V54h4.3v3h-4.3v2h5zM80.9 59v3.1h-8.6V49h8.4v3.1h-4.8V54h4.3v3h-4.3v2h5zM63.4 47.4l-.6-1.8 4.9-2 .5 2.8z"/></g></svg>
                     </span>
                 {% endif %}
                 {% if settings_items.icon_uitpas.enabled and event.uitpas %}
@@ -62,7 +72,7 @@
                     {% if settings_items.type.enabled and event.type.0 is defined %}
                         <span class="cnw_badge cnw_badge-default" >
                                 <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
-                            {{ event.type.0 }}
+                                {{ event.typeId | transTo(preferredLanguage, 'eventtype') }}
                         </span>
                     {% endif %}
                     {{ event.summary | replace({'&nbsp;': ' '}) }}
@@ -113,14 +123,14 @@
                         <div class="list-item-content">
                         {{ event.when_summary }}
                         {% if event.expired %}
-                          <p><i> Dit evenement is afgelopen </i></p>
+                          <p><i>{{ 'event_expired'| transTo(preferredLanguage) }}</i></p>
                         {% endif %}
                         </div>
                     {% else %}
                         <div class="list-item-content">
                         {{ event.when_summary }}
                         {% if event.expired %}
-                          <p><i> Dit evenement is afgelopen </i></p>
+                          <p><i>{{ 'event_expired'| transTo(preferredLanguage) }}</i></p>
                         {% endif %}
                         </div>
                     {% endif %}
@@ -162,7 +172,7 @@
                 {% if settings_items.language_icons.enabled and event.language_icons %}
                   <div class="list-item">
                     <div class="list-item-aside">
-                        <em class="cnw_searchresult-detail-label">Taaliconen</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_language_icons'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-language"></i>
                     </div>
                     <div class="list-item-content">{{ event.language_icons | raw }}</div>
@@ -172,7 +182,7 @@
                 {% if settings_items.price_information.enabled and event.price %}
                   <div class="list-item">
                     <div class="list-item-aside">
-                        <em class="cnw_searchresult-detail-label">Prijs</em>
+                        <em class="cnw_searchresult-detail-label">{{ 'event_detail_price'| transTo(preferredLanguage) }}</em>
                         <i class="cnw-fa cnw-fa-eur"></i>
                     </div>
                     <div class="list-item-content cnw_searchresult-price-info">{{ event.price | raw}}</div>
@@ -187,7 +197,7 @@
                     </div>
                     <div class="list-item-content cnw_searchresult-detail-booking-info">
                       {% if (event.booking_info.phone is defined) %}
-                          <p>Bel naar <strong>{{ event.booking_info.phone }}</strong></p>
+                          <p>{{ 'event_detail_phone'| transTo(preferredLanguage) }} <strong>{{ event.booking_info.phone }}</strong></p>
                       {% endif %}
                       {% if (event.booking_info.email is defined) %}
                           <p>{{ event.booking_info.email }}</p>

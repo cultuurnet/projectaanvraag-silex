@@ -60,6 +60,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "icon_uitpas":{
  *                  "enabled":true
  *              },
+ *              "icon_museumpass":{
+ *                  "enabled":true
+ *              },
  *              "description":{
  *                  "enabled":true,
  *                  "characters":200
@@ -91,7 +94,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "width":480,
  *                  "height":360,
- *                  "default_image":true,
+ *                  "default_image": {
+ *                      "enabled":true,
+ *                      "type":"uit"
+ *                  },
  *                  "position":"left"
  *              },
  *              "labels":{
@@ -114,6 +120,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "reservation_information":{
  *                  "enabled":false
+ *              },
+*              "editorial_label":{
+ *                  "enabled": true,
+ *                  "limit_publishers": false,
+ *                  "publishers": {}
  *              }
  *          },
  *          "search_params" : {
@@ -135,6 +146,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true
  *              },
  *              "icon_uitpas":{
+ *                  "enabled":true
+ *              },
+ *              "icon_museumpass":{
  *                  "enabled":true
  *              },
  *              "description":{
@@ -169,7 +183,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "width":480,
  *                  "height":360,
- *                  "default_image":true,
+ *                  "default_image": {
+ *                      "enabled":true,
+ *                      "type":"uit"
+ *                  },
  *                  "position":"left"
  *              },
  *              "labels":{
@@ -220,6 +237,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "icon_uitpas":{
  *                  "enabled":"boolean"
  *              },
+ *              "icon_museumpass":{
+ *                  "enabled":"boolean"
+ *              },
  *              "description":{
  *                  "enabled":"boolean",
  *                  "characters":"integer"
@@ -251,7 +271,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "width":"integer",
  *                  "height":"integer",
- *                  "default_image":"boolean",
+ *                  "default_image": {
+ *                      "enabled":"boolean",
+ *                      "type":"string"
+ *                  },
  *                  "position":"string"
  *              },
  *              "labels":{
@@ -274,6 +297,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "reservation_information":{
  *                  "enabled":"boolean"
+ *              },
+ *              "editorial_label":{
+ *                  "enabled": "boolean",
+ *                  "limit_publishers": "boolean",
+ *                  "publishers": "CultuurNet\ProjectAanvraag\Widget\Settings\Publishers"
  *              }
  *          },
  *          "search_params" : {
@@ -298,6 +326,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean"
  *              },
  *              "icon_uitpas":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "icon_museumpass":{
  *                  "enabled":"boolean"
  *              },
  *              "when":{
@@ -334,7 +365,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "width":"integer",
  *                  "height":"integer",
- *                  "default_image":"boolean",
+ *                  "default_image": {
+ *                      "enabled":"boolean",
+ *                      "type":"string"
+ *                  },
  *                  "position":"string"
  *              },
  *              "facilities":{
@@ -436,7 +470,7 @@ class SearchResults extends WidgetTypeBase
     /**
      * {@inheritdoc}
      */
-    public function render($cdbid = '')
+    public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         // Retrieve the current request query parameters using the global Application object and filter.
         $urlQueryParams = $this->request->query->all();
@@ -572,13 +606,14 @@ class SearchResults extends WidgetTypeBase
             'widgets/search-results-widget/search-results-widget.html.twig',
             [
                 'result_count' => $this->searchResult->getTotalItems(),
-                'events' => $this->twigPreprocessor->preprocessEventList($this->searchResult->getMember()->getItems(), 'nl', $this->settings),
+                'events' => $this->twigPreprocessor->preprocessEventList($this->searchResult->getMember()->getItems(), $preferredLanguage, $this->settings),
                 'pager' => $pager,
                 'settings_items' => $this->settings['items'],
                 'settings_header' => $this->settings['header'],
                 'settings_footer' => $this->settings['footer'],
                 'settings_general' => $this->settings['general'],
                 'id' => $this->index,
+                'preferredLanguage' => $preferredLanguage,
                 'active_filters' => $allActiveFilters,
                 'extra_filters' => $extraFilters,
                 'tag_manager_data' => json_encode($tagManagerData),
@@ -598,7 +633,7 @@ class SearchResults extends WidgetTypeBase
     /**
      * Render the details for a requested item.
      */
-    public function renderDetail()
+    public function renderDetail($preferredLanguage)
     {
 
         if (!$this->request->query->has('cdbid')) {
@@ -626,7 +661,7 @@ class SearchResults extends WidgetTypeBase
             return '';
         }
 
-        $langcode = $this->request->query->has('langcode') ? $this->request->query->get('langcode') : 'nl';
+        $langcode = $this->request->query->has('langcode') ? $this->request->query->get('langcode') : $preferredLanguage;
         $name = $events[0]->getName()->getValueForLanguage($langcode);
         $tagManagerData = [
             'pageTitleSuffix' => 'Event | ' . $name,
@@ -637,6 +672,7 @@ class SearchResults extends WidgetTypeBase
             'settings' => $this->settings['detail_page'],
             'settings_general' => $this->settings['general'],
             'tag_manager_data' => json_encode($tagManagerData),
+            'preferredLanguage' => $preferredLanguage,
         ];
 
         if (!empty($this->settings['detail_page']['articles']['enabled'])) {

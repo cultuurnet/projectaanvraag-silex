@@ -81,6 +81,10 @@ class WidgetPageEntityDeserializer
             $widgetPageEntity->setJquery($jsonObject['jquery']);
         }
 
+        if (isset($jsonObject['language'])) {
+            $widgetPageEntity->setLanguage($jsonObject['language']);
+        }
+
         $rows = [];
         $widgetIndex = -1;
         if (isset($jsonObject['rows']) && is_array($jsonObject['rows'])) {
