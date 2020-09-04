@@ -78,7 +78,10 @@ use Pimple\Container;
  *                  "enabled":true,
  *                  "width":480,
  *                  "height":360,
- *                  "default_image":true,
+ *                  "default_image": {
+ *                      "enabled":true,
+ *                      "type":"uit"
+ *                  },
  *                  "position":"left"
  *              },
  *              "labels":{
@@ -155,7 +158,10 @@ use Pimple\Container;
  *                  "enabled":"boolean",
  *                  "width":"integer",
  *                  "height":"integer",
- *                  "default_image":"boolean",
+ *                  "default_image": {
+ *                      "enabled":"boolean",
+ *                      "type":"string"
+ *                  },
  *                  "position":"string"
  *              },
  *              "labels":{
@@ -270,7 +276,8 @@ class Tips extends WidgetTypeBase
             // Sort by event end date.
             $query->addSort('availableTo', SearchQueryInterface::SORT_DIRECTION_ASC);
         } else {
-            $query->addParameter(new Id($cdbid));
+            $cdbids = explode(' ', $cdbid);
+            $query->addParameter(new Query('id:' . implode(' OR id:', $cdbids)));
             // Disable default filters, except workflowstatus
             $query->addParameter(new AudienceType('*'));
             $query->addParameter(new AddressCountry('*'));

@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
+use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
@@ -65,6 +66,16 @@ class TwigPreprocessor
     private $translator;
 
     /**
+     * @var CuratorenClient
+     */
+    protected $curatorenClient;
+
+    /**
+     * @var array
+     */
+    private $fallbackImages;
+
+    /**
      * TwigPreprocessor constructor.
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
@@ -76,7 +87,8 @@ class TwigPreprocessor
         string $socialHost,
         FilterForKeyWithFallback $translateWithFallback,
         TranslateTerm $translateTerm,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        CuratorenClient $curatorenClient
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -85,7 +97,11 @@ class TwigPreprocessor
         $this->filterForKeyWithFallback = $translateWithFallback;
         $this->translateTerm = $translateTerm;
         $this->translator = $translator;
+        $this->curatorenClient = $curatorenClient;
+        $this->fallbackImages = [];
     }
+
+
 
     /**
      * @param array $events
@@ -104,7 +120,7 @@ class TwigPreprocessor
             $preprocessedEvent = $this->preprocessEvent($event, $preferredLanguage, $settings['items']);
 
             $linkType = 'query';
-            $detailUrl = $this->request->server->get('HTTP_REFERER');
+            $detailUrl = $this->request->query->get('origin', '');
             if (isset($settings['general']['detail_link'])) {
                 $detailUrl = $settings['general']['detail_link']['url'] ?? $detailUrl;
                 $linkType = $settings['general']['detail_link']['cdbid'] ?? $linkType;
@@ -118,6 +134,14 @@ class TwigPreprocessor
                 $query['cdbid'] = $preprocessedEvent['id'];
                 $url->setQuery($query);
             }
+
+            $referer = parse_url($this->request->server->get('HTTP_REFERER'), PHP_URL_HOST);
+            $query = $url->getQuery();
+            $query['utm_source'] = urlencode($referer);
+            $query['utm_medium'] = 'referral';
+            $query['utm_campaign'] = 'widgets';
+
+            $url->setQuery($query);
 
             $preprocessedEvent['detail_link'] = $url->__toString();
 
@@ -157,7 +181,7 @@ class TwigPreprocessor
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
         ];
-        $defaultImage = $settings['image']['default_image'] ? $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png' : '';
+        $defaultImage = $this->getDefaultImage($settings['image']['default_image'], $variables['typeId']);
         $image = $event->getImage() ?? $defaultImage;
         if (!empty($image)) {
             $image = str_replace("http://", "https://", $image);
@@ -229,6 +253,10 @@ class TwigPreprocessor
 
         if (!empty($settings['reservation_information'])) {
             $this->preprocessBookingInfo($event, $langcode, $variables);
+        }
+
+        if (!empty($settings['editorial_label']) && $settings['editorial_label']['enabled']) {
+            $variables['editorial_label'] = $this->preprocessEditorialLabel($event->getCdbid(), $settings['editorial_label']);
         }
 
         return $variables;
@@ -316,6 +344,7 @@ class TwigPreprocessor
             $promotionsQuery->max = 4;
             $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
             $promotionsQuery->unexpired = true;
+            $organizerName = $this->translateOrganizerName($event, $langcode);
 
             try {
                 $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
@@ -323,7 +352,9 @@ class TwigPreprocessor
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
                         'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
-                        'organizer' => $this->translateOrganizerName($event, $langcode),
+                        'organizerName' => $organizerName,
+                        'organizerUrlName' => $this->formatOrganizerUrlName($organizerName),
+                        'organizerId' => $promotionsQuery->balieConsumerKey,
                     ]
                 );
             } catch (\Exception $e) {
@@ -346,11 +377,43 @@ class TwigPreprocessor
     }
 
     /**
+     * Get the default image
+     *
+     * @param array $settings
+     * @param string $eventTypeId
+     * @return string $defaultImage
+     */
+    public function getDefaultImage($settings, $eventTypeId)
+    {
+        if (!$settings['enabled']) {
+            return '';
+        }
+
+        if ($settings['type'] === 'uit') {
+            return $this->request->getScheme() . '://media.uitdatabank.be/static/uit-placeholder.png';
+        }
+
+        if ($settings['type'] === 'theme') {
+            if (empty($this->fallbackImages)) {
+                $this->fallbackImages = Yaml::parse(file_get_contents(__DIR__ . '/../../../fallback_images.yml'));
+            }
+
+            foreach ($this->fallbackImages as $fallbackImage) {
+                if ($fallbackImage['eventtype_id'] === $eventTypeId) {
+                    return $fallbackImage['image'];
+                }
+            }
+
+            return '';
+        }
+    }
+
+    /**
      * Preprocess event articles
      *
      * @param array $articles
      * @param array $settings
-     * @return array $settings
+     * @return array $articles
      */
     public function preprocessArticles($linkedArticles, $settings)
     {
@@ -377,6 +440,49 @@ class TwigPreprocessor
     }
 
     /**
+     * Preprocess the editorial label for search results
+     * @param string $cdbid
+     * @param string $settings
+     * @return string|null
+     */
+    public function preprocessEditorialLabel($cdbid, $settings)
+    {
+        $articles = $this->curatorenClient->searchArticles($cdbid);
+
+        if (empty($articles['hydra:member'])) {
+            return null;
+        }
+
+        $publishers = [];
+        $limitPublishers = $settings['limit_publishers'];
+
+        foreach ($articles['hydra:member'] as $article) {
+            $publisher = $article['publisher'];
+            $showPublisher = in_array($publisher, $settings['publishers']);
+            $publisherInArray = in_array($publisher, $publishers);
+            if (!$limitPublishers || $showPublisher) {
+                $publishers[] = $publisher;
+            }
+        }
+        $publishers = array_unique($publishers);
+
+        if (empty($publishers)) {
+            return null;
+        }
+
+        $editorialLabelText = 'UiT-tip van ';
+        $label = $editorialLabelText . implode(", ", $publishers);
+
+        if (count($publishers) > 1) {
+            $lastPublisher = array_pop($publishers);
+            $label = $editorialLabelText . implode(", ", $publishers);
+            $label .= ' en ' . $lastPublisher;
+        }
+
+        return $label;
+    }
+
+    /**
      * Preprocess the uitpas promotions.
      * @param \CultureFeed_ResultSet $resultSet
      */
@@ -394,6 +500,10 @@ class TwigPreprocessor
         return $promotions;
     }
 
+    public function formatOrganizerUrlName($organizerName)
+    {
+        return str_replace(' ', '-', strtolower($organizerName));
+    }
 
     /**
      * Preprocess the price information.

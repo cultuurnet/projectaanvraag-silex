@@ -94,7 +94,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "width":480,
  *                  "height":360,
- *                  "default_image":true,
+ *                  "default_image": {
+ *                      "enabled":true,
+ *                      "type":"uit"
+ *                  },
  *                  "position":"left"
  *              },
  *              "labels":{
@@ -117,6 +120,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "reservation_information":{
  *                  "enabled":false
+ *              },
+*              "editorial_label":{
+ *                  "enabled": true,
+ *                  "limit_publishers": false,
+ *                  "publishers": {}
  *              }
  *          },
  *          "search_params" : {
@@ -175,7 +183,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true,
  *                  "width":480,
  *                  "height":360,
- *                  "default_image":true,
+ *                  "default_image": {
+ *                      "enabled":true,
+ *                      "type":"uit"
+ *                  },
  *                  "position":"left"
  *              },
  *              "labels":{
@@ -260,7 +271,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "width":"integer",
  *                  "height":"integer",
- *                  "default_image":"boolean",
+ *                  "default_image": {
+ *                      "enabled":"boolean",
+ *                      "type":"string"
+ *                  },
  *                  "position":"string"
  *              },
  *              "labels":{
@@ -283,6 +297,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "reservation_information":{
  *                  "enabled":"boolean"
+ *              },
+ *              "editorial_label":{
+ *                  "enabled": "boolean",
+ *                  "limit_publishers": "boolean",
+ *                  "publishers": "CultuurNet\ProjectAanvraag\Widget\Settings\Publishers"
  *              }
  *          },
  *          "search_params" : {
@@ -346,7 +365,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean",
  *                  "width":"integer",
  *                  "height":"integer",
- *                  "default_image":"boolean",
+ *                  "default_image": {
+ *                      "enabled":"boolean",
+ *                      "type":"string"
+ *                  },
  *                  "position":"string"
  *              },
  *              "facilities":{
