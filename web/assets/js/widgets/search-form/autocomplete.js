@@ -44,6 +44,21 @@
     };
 
     /**
+     * Reset the errors on the city autocomplete field
+     */
+    CultuurnetWidgets.resetErrorsAutocomplete = function(input) {
+      var $input = jQuery(input);
+      if ($input.hasClass('city-not-selected')) {
+        $input.removeClass('city-not-selected');
+        $input
+          .parent()
+          .removeClass('cnw_has-danger')
+          .find('.cnw_form-control-feedback')
+          .addClass('element-invisible')
+      }
+    }
+
+    /**
      * An AutoComplete object.
      */
     CultuurnetWidgets.jsAC = function ($input, db) {
@@ -108,9 +123,11 @@
 
             default: // All other keys.
                 if (input.value.length > 0 && !input.readOnly) {
+                    jQuery(input).addClass('city-not-selected');
                     this.populatePopup();
                 }
                 else {
+                    CultuurnetWidgets.resetErrorsAutocomplete(input);
                     this.hidePopup(e.keyCode);
                 }
                 return true;
@@ -121,7 +138,8 @@
      * Puts the currently highlighted suggestion into the autocomplete field.
      */
     CultuurnetWidgets.jsAC.prototype.select = function (node) {
-        this.input.value = jQuery(node)[0].innerText;
+      CultuurnetWidgets.resetErrorsAutocomplete(this.input);
+      this.input.value = jQuery(node)[0].innerText;
     };
 
     /**

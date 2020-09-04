@@ -72,6 +72,8 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
                 $integrationType->setSelfService(isset($type['self_service']) ? $type['self_service'] : true);
                 $integrationType->setEnableActivation(isset($type['enable_activation']) ? $type['enable_activation'] : true);
                 $integrationType->setType(!empty($type['type']) ? $type['type'] : 'output');
+                $integrationType->setUitIdPermissionGroups($type['uitid_permissions'] ?? []);
+                $integrationType->setUitPasPermissionGroups($type['uitpas_permissions'] ?? []);
                 $this->integrationTypes[$integrationType->getId()] = $integrationType;
             }
         }

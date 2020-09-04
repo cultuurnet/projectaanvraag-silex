@@ -27,6 +27,27 @@ class PageRows extends Type
 
         $rows = [];
         foreach ($value as $row) {
+            if (isset($row["regions"]["content"]["widgets"])) {
+                // Convert old default_image setting value to new format.
+                // In the past it was just a boolean, but now it's supposed to be an object
+                // with `enabled` and `type`.
+                foreach ($row["regions"]["content"]["widgets"] as &$widget) {
+                    if (isset($widget["settings"]["items"]["image"]["default_image"]) && is_bool($widget["settings"]["items"]["image"]["default_image"])) {
+                        $widget["settings"]["items"]["image"]["default_image"] = [
+                            "enabled" => $widget["settings"]["items"]["image"]["default_image"],
+                            "type" => "uit",
+                        ];
+                    }
+
+                    if (isset($widget["settings"]["detail_page"]["image"]["default_image"]) && is_bool($widget["settings"]["detail_page"]["image"]["default_image"])) {
+                        $widget["settings"]["detail_page"]["image"]["default_image"] = [
+                            "enabled" => $widget["settings"]["detail_page"]["image"]["default_image"],
+                            "type" => "uit",
+                        ];
+                    }
+                }
+            }
+            
             $rows[] = $app['widget_layout_manager']->createInstance($row['type']);
         }
 
@@ -48,7 +69,25 @@ class PageRows extends Type
     
             $return = [];
             foreach ($value as $row) {
-                $return[] = $app[\'widget_layout_manager\']->createInstance($row[\'type\'], $row);
+                if (isset($row["regions"]["content"]["widgets"])) {
+                    foreach ($row["regions"]["content"]["widgets"] as &$widget) {
+                        if (isset($widget["settings"]["items"]["image"]["default_image"]) && is_bool($widget["settings"]["items"]["image"]["default_image"])) {
+                            $widget["settings"]["items"]["image"]["default_image"] = [
+                                "enabled" => $widget["settings"]["items"]["image"]["default_image"],
+                                "type" => "uit",
+                            ];
+                        }
+    
+                        if (isset($widget["settings"]["detail_page"]["image"]["default_image"]) && is_bool($widget["settings"]["detail_page"]["image"]["default_image"])) {
+                            $widget["settings"]["detail_page"]["image"]["default_image"] = [
+                                "enabled" => $widget["settings"]["detail_page"]["image"]["default_image"],
+                                "type" => "uit",
+                            ];
+                        }
+                    }
+                }
+
+                $return[] = $app["widget_layout_manager"]->createInstance($row["type"], $row);
             }
         ';
     }
