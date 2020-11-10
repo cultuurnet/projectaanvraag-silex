@@ -777,7 +777,7 @@ class TwigPreprocessor
         if ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
             return $calendarFormatter->format($event, 'sm');
         } else {
-            return $calendarFormatter->format($event, 'md');
+            return $calendarFormatter->format($event, 'lg');
         }
     }
 
