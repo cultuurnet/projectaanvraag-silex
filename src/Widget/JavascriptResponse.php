@@ -57,8 +57,8 @@ class JavascriptResponse extends Response
      * @return string
      */
     private function renderContent($content)
-    {
-        return 'document.write("' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '");';
+    {   $widgetWrapperId = "uit-widget";
+        return 'if(document.getElementById("'. $widgetWrapperId .'")){document.getElementById("'. $widgetWrapperId .'").innerHTML = "' . addslashes($content) . '";}else{document.write("' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '");}';
     }
 
     /**
