@@ -59,7 +59,7 @@ class JavascriptResponse extends Response
     private function renderContent($content)
     {
         $widgetWrapperId = "uit-widget";
-        return 'if(document.getElementById("'. $widgetWrapperId .'")){document.getElementById("'. $widgetWrapperId .'").innerHTML = "' . addslashes($content) . '";}else{document.write("' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '");}';
+        return 'if(document.getElementById("'. $widgetWrapperId .'")){document.getElementById("'. $widgetWrapperId .'").innerHTML = "' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '";}else{document.write("' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '");}';
     }
 
     /**
