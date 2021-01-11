@@ -54,6 +54,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "type":{
  *                  "enabled":true
  *              },
+ *              "theme":{
+ *                  "enabled": true
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -229,6 +232,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *          },
  *          "items":{
  *              "type":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "theme":{
  *                  "enabled":"boolean"
  *              },
  *              "icon_vlieg":{
