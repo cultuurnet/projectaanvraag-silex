@@ -55,7 +55,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true
  *              },
  *              "theme":{
- *                  "enabled": false
+ *                  "enabled": true
  *              },
  *              "icon_vlieg":{
  *                  "enabled":true

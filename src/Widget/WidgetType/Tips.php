@@ -39,7 +39,7 @@ use Pimple\Container;
  *                  "enabled":true
  *              },
  *              "theme":{
- *                  "enabled":false
+ *                  "enabled":true
  *              },
  *              "icon_vlieg":{
  *                  "enabled":true
