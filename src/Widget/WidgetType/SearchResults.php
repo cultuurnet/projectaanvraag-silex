@@ -134,6 +134,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "country": "BE",
  *          },
  *          "detail_page":{
+ *              "type":{
+ *                  "enabled":true
+ *              },
+ *              "theme":{
+ *                  "enabled":true
+ *              },
  *              "map":false,
  *              "price_information":true,
  *              "contact_information":true,
@@ -316,6 +322,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "country": "string",
  *          },
  *          "detail_page":{
+ *              "type":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "theme":{
+ *                  "enabled":"boolean"
+ *              },
  *              "map":"boolean",
  *              "price_information":"boolean",
  *              "contact_information":"boolean",
