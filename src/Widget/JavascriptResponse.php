@@ -109,7 +109,7 @@ class JavascriptResponse extends Response
         $cssMinify->add($this->widgetPage->getCss());
 
         $cssPath = 'widgets/layout/' . $this->widgetPage->getId() . '.css';
-        // $cssMinify->minify(WWW_ROOT . '/' . $cssPath);
+        $cssMinify->minify(WWW_ROOT . '/' . $cssPath);
 
         $cssUrl = $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/' . $cssPath;
 
