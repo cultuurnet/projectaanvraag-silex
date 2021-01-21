@@ -14,15 +14,22 @@ class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     private $insighltyClient;
 
+    /**
+     * @var array
+     */
+    private $config;
+
     protected function setUp()
     {
         parent::setUp();
 
-        $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
+        $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
         $this->insighltyClient = new InsightlyClient(
-            new Client($config['insightly']['host']),
-            $config['insightly']['api_key']
+            new Client($this->config['insightly']['host']),
+            $this->config['insightly']['api_key']
         );
+
+
     }
 
     public function testContactIntegration()
