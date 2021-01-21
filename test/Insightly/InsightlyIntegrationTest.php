@@ -19,10 +19,9 @@ class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
-
         $this->insighltyClient = new InsightlyClient(
-            new Client($config['insightly.host']),
-            $config['insightly.api_key']
+            new Client($config['insightly']['host']),
+            $config['insightly']['api_key']
         );
     }
 
