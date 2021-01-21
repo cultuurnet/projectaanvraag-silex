@@ -162,7 +162,7 @@ class InsightlyClient implements InsightlyClientInterface
         return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
     }
 
-    public function deleteContact(int $id): bool
+    public function deleteContact($id)
     {
         $response = $this->request(RequestInterface::DELETE, 'Contacts/' . $id);
         return $response->getStatusCode() === 202;
