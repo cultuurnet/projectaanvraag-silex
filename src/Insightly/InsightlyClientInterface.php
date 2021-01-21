@@ -34,6 +34,8 @@ interface InsightlyClientInterface
      */
     public function getContact($id);
 
+    public function deleteContact(int $id): bool;
+
     /**
      * Gets a contact by email
      *
