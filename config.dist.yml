@@ -61,7 +61,7 @@ rabbitmq:
 
 # Insightly settings
 insightly:
-  host: https://api.insight.ly/v2.2
+  host: https://api.insight.ly/v3.1
   api_key:
   project_config:
 
