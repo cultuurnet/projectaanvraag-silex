@@ -48,4 +48,24 @@ class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
         $deleted = $this->insighltyClient->deleteContact($createdContactId);
         $this->assertTrue($deleted);
     }
+
+    public function testProjectIntegration()
+    {
+        $project = new Project();
+        $project->setName('Project for John Doe');
+        $project->setStatus(Project::STATUS_IN_PROGRESS);
+        $project->setCategoryId(4345629);
+        $project->setDetails('This project is created for John Doe');
+
+        $createdProjectId = $this->insighltyClient->createProject($project)->getId();
+
+        $insightlyProject = $this->insighltyClient->getProject($createdProjectId);
+        $this->assertEquals('Project for John Doe', $insightlyProject->getName());
+        $this->assertEquals(Project::STATUS_IN_PROGRESS, $insightlyProject->getStatus());
+        $this->assertEquals(4345629, $insightlyProject->getCategoryId());
+        $this->assertEquals('This project is created for John Doe', $insightlyProject->getDetails());
+
+        $deleted = $this->insighltyClient->deleteProject($createdProjectId);
+        $this->assertTrue($deleted);
+    }
 }
