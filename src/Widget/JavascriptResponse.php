@@ -58,8 +58,9 @@ class JavascriptResponse extends Response
      */
     private function renderContent($content)
     {
-        $widgetWrapperId = "uit-widget";
-        return 'if(document.getElementById("'. $widgetWrapperId .'")){document.getElementById("'. $widgetWrapperId .'").innerHTML = "' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '";}else{document.write("' . trim(preg_replace('~[\r\n]+~', ' ', addslashes($content))) . '");}';
+        $content = trim(preg_replace('~[\r\n]+~', ' ', addslashes($content)));
+        $pageId = $this->widgetPage->getId();
+        return 'var scriptEl = document.querySelector(\'script[src$="'.$pageId.'.js"]\');if(scriptEl && document.querySelector(scriptEl.getAttribute("data-render-to"))){document.querySelector(scriptEl.getAttribute("data-render-to")).innerHTML = "' . $content . '";}else{document.write("' . $content . '");}';
     }
 
     /**
