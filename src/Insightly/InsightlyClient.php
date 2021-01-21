@@ -157,6 +157,15 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
+    public function deleteProject($id)
+    {
+        $response = $this->request(RequestInterface::DELETE, 'Projects/' . $id);
+        return $response->getStatusCode() === 202;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getContact($id)
     {
         return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
