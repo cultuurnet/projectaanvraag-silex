@@ -115,17 +115,18 @@ class Contact extends Entity
      */
     public function toInsightly()
     {
-        $contactInfos = [];
-        foreach ($this->getContactInfos() as $contactInfo) {
-            $contactInfos[] = $contactInfo->toInsightly();
-        }
-
         $data = [
             'CONTACT_ID' => $this->getId(),
             'FIRST_NAME' => $this->getFirstName(),
             'LAST_NAME' => $this->getLastName(),
-            'CONTACTINFOS' => $contactInfos,
         ];
+
+        foreach ($this->getContactInfos() as $contactInfo) {
+            if ($contactInfo->getType() === ContactInfo::TYPE_EMAIL) {
+                $data['EMAIL_ADDRESS'] = $contactInfo->getDetail();
+                break;
+            }
+        }
 
         return array_filter($data);
     }
