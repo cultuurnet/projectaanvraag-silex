@@ -40,6 +40,5 @@ class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $deleted = $this->insighltyClient->deleteContact($createdContactId);
         $this->assertTrue($deleted);
-        $this->assertNull($this->insighltyClient->getContact($createdContactId));
     }
 }
