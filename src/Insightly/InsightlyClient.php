@@ -162,6 +162,9 @@ class InsightlyClient implements InsightlyClientInterface
         return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function deleteContact($id)
     {
         $response = $this->request(RequestInterface::DELETE, 'Contacts/' . $id);
