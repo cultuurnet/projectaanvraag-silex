@@ -200,9 +200,11 @@ class InsightlyClient implements InsightlyClientInterface
         $query = $this->addQueryFilters($options);
         $updatedProject =  GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
 
-        /** @var Link $link */
-        foreach ($project->getLinks() as $link) {
-            $this->request(RequestInterface::POST, 'Projects/'. $updatedProject->getId() .'/Links', $query, json_encode($link->toInsightly()));
+        if ($project->getLinks()) {
+            /** @var Link $link */
+            foreach ($project->getLinks() as $link) {
+                $this->request(RequestInterface::POST, 'Projects/' . $updatedProject->getId() . '/Links', $query, json_encode($link->toInsightly()));
+            }
         }
 
         return $updatedProject;
@@ -216,9 +218,11 @@ class InsightlyClient implements InsightlyClientInterface
         $query = $this->addQueryFilters($options);
         $createdProject = GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
 
-        /** @var Link $link */
-        foreach ($project->getLinks() as $link) {
-            $this->request(RequestInterface::POST, 'Projects/'. $createdProject->getId() .'/Links', $query, json_encode($link->toInsightly()));
+        if ($project->getLinks()) {
+            /** @var Link $link */
+            foreach ($project->getLinks() as $link) {
+                $this->request(RequestInterface::POST, 'Projects/' . $createdProject->getId() . '/Links', $query, json_encode($link->toInsightly()));
+            }
         }
 
         return $createdProject;
