@@ -99,14 +99,6 @@ class ProjectTest extends AbstractInsightlyClientTest
             ],
             'CAN_EDIT' => $project->canEdit(),
             'CAN_DELETE' => $project->canDelete(),
-            'LINKS' => [
-                [
-                    'CONTACT_ID' => 123,
-                ],
-                [
-                    'CONTACT_ID' => 123,
-                ],
-            ],
             'TAGS' => [
                 [
                     'TAG_NAME' => 'my_tag',
