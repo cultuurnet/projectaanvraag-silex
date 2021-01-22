@@ -2,8 +2,11 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\Address;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use Guzzle\Http\Client;
 use Symfony\Component\Yaml\Yaml;
 
@@ -66,6 +69,27 @@ class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('This project is created for John Doe', $insightlyProject->getDetails());
 
         $deleted = $this->insighltyClient->deleteProject($createdProjectId);
+        $this->assertTrue($deleted);
+    }
+
+    public function testOrganisationIntegration()
+    {
+        $organisation = new Organisation();
+        $organisation->setName('Organisation Anonymous');
+
+        $address = new Address();
+        $address->setType('WORK');
+        $address->setStreet('Street Name');
+        $address->setCity('City Name');
+        $address->setPostal('1000');
+        $organisation->getAddresses()->append($address);
+
+        $createdOrganisationId = $this->insighltyClient->createOrganisation($organisation)->getId();
+
+        $insightlyOrganisation = $this->insighltyClient->getOrganisation($createdOrganisationId);
+        $this->assertEquals('Organisation Anonymous', $insightlyOrganisation->getName());
+
+        $deleted = $this->insighltyClient->deleteOrganisation($createdOrganisationId);
         $this->assertTrue($deleted);
     }
 }
