@@ -67,15 +67,26 @@
                 {% endif %}
             </span>
 
+            <p class="cnw_card-description">
+            {% if settings_items.type.enabled and event.type.0 is defined %}
+                <span class="cnw_badge cnw_badge-default" >
+                    <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
+                    {{ event.typeId | transTo(preferredLanguage, 'eventtype') }}
+                </span>
+            {% endif %}
+            {% if settings_items.theme.enabled %}
+                  {% for theme in event.themes %}
+                      <span class="cnw_badge cnw_badge-default">
+                          <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
+                          {{ theme }}
+                      </span>
+                  {% endfor %}
+            {% endif %}
+            </p>
+
             {% if settings_items.description.enabled %}
                 <p class="cnw_card-description">
-                    {% if settings_items.type.enabled and event.type.0 is defined %}
-                        <span class="cnw_badge cnw_badge-default" >
-                                <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
-                                {{ event.typeId | transTo(preferredLanguage, 'eventtype') }}
-                        </span>
-                    {% endif %}
-                    {{ event.summary | replace({'&nbsp;': ' '}) }}
+                   {{ event.summary | replace({'&nbsp;': ' '}) }}
                 </p>
             {% endif %}
 
