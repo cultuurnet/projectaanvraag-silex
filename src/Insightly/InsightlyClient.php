@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactsResult;
@@ -206,7 +207,15 @@ class InsightlyClient implements InsightlyClientInterface
     public function createProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-        return GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
+
+        $createdProject = GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
+
+        /** @var Link $link */
+        foreach ($project->getLinks() as $link) {
+            $this->request(RequestInterface::POST, 'Projects/'. $createdProject->getId() .'/Links', $query, json_encode($link->toInsightly()));
+        }
+
+        return $createdProject;
     }
 
     /**
