@@ -1,6 +1,7 @@
 <phpunit bootstrap="vendor/autoload.php">
     <testsuite name="all">
         <directory>test</directory>
+        <exclude>./test/Insightly/InsightlyIntegrationTest.php</exclude>
     </testsuite>
     <logging>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
