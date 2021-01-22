@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly;
 
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactsResult;
@@ -157,9 +158,27 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
+    public function deleteProject($id)
+    {
+        $response = $this->request(RequestInterface::DELETE, 'Projects/' . $id);
+        return $response->getStatusCode() === 202;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getContact($id)
     {
         return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteContact($id)
+    {
+        $response = $this->request(RequestInterface::DELETE, 'Contacts/' . $id);
+        return $response->getStatusCode() === 202;
     }
 
     /**
@@ -179,7 +198,16 @@ class InsightlyClient implements InsightlyClientInterface
     public function updateProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
+        $updatedProject =  GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
+
+        if ($project->getLinks()) {
+            /** @var Link $link */
+            foreach ($project->getLinks() as $link) {
+                $this->request(RequestInterface::POST, 'Projects/' . $updatedProject->getId() . '/Links', $query, json_encode($link->toInsightly()));
+            }
+        }
+
+        return $updatedProject;
     }
 
     /**
@@ -188,7 +216,16 @@ class InsightlyClient implements InsightlyClientInterface
     public function createProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-        return GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
+        $createdProject = GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
+
+        if ($project->getLinks()) {
+            /** @var Link $link */
+            foreach ($project->getLinks() as $link) {
+                $this->request(RequestInterface::POST, 'Projects/' . $createdProject->getId() . '/Links', $query, json_encode($link->toInsightly()));
+            }
+        }
+
+        return $createdProject;
     }
 
     /**
@@ -249,6 +286,15 @@ class InsightlyClient implements InsightlyClientInterface
     public function getOrganisation($organisationId)
     {
         return GetOrganisationResult::parseToResult($this->request(RequestInterface::GET, 'Organisations/' . $organisationId));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteOrganisation($id)
+    {
+        $response = $this->request(RequestInterface::DELETE, 'Organisations/' . $id);
+        return $response->getStatusCode() === 202;
     }
 
     /**

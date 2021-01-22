@@ -32,11 +32,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $insightly = $address->toInsightly();
         $expectedInsightly = [
-            'ADDRESS_ID' => 'my-id',
-            'ADDRESS_TYPE' => 'my-type',
-            'STREET' => 'my-street',
-            'CITY' => 'my-city',
-            'POSTCODE' => 'my-postal',
+            'ADDRESS_BILLING_STREET' => 'my-street',
+            'ADDRESS_BILLING_CITY' => 'my-city',
+            'ADDRESS_BILLING_POSTCODE' => 'my-postal',
         ];
         $this->assertEquals($expectedInsightly, $insightly);
 

@@ -174,25 +174,26 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
      */
     public function toInsightly()
     {
-        $addresses = [];
-        foreach ($this->addresses as $address) {
-            $addresses[] = $address->toInsightly();
-        }
-
-        $contactInfo = [];
-        foreach ($this->contactInfo as $info) {
-            $contactInfo[] = $info->toInsightly();
-        }
-
         $data = parent::toInsightly();
 
         $data += [
             'ORGANISATION_ID' => $this->getId(),
             'ORGANISATION_NAME' => $this->getName(),
             'BACKGROUND' => $this->getBackground(),
-            'ADDRESSES' => $addresses,
-            'CONTACTINFOS' => $contactInfo,
         ];
+
+        foreach ($this->contactInfo as $contactInfo) {
+            if ($contactInfo->getType() === ContactInfo::TYPE_EMAIL) {
+                $data['EMAIL_ADDRESS'] = $contactInfo->getDetail();
+                break;
+            }
+        }
+
+        if (count($this->addresses) > 0) {
+            /** @var Address $address */
+            $address = $this->addresses[0];
+            $data = array_merge($data, $address->toInsightly());
+        }
 
         unset($data['VISIBLE_TO']);
         unset($data['CAN_EDIT']);

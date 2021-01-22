@@ -217,15 +217,19 @@ class Link extends Entity implements InsightlySerializableInterface, JsonUnseria
     {
         $data = [
             'LINK_ID' => $this->getId(),
-            'CONTACT_ID' => $this->getContactId(),
-            'OPPORTUNITY_ID' => $this->getOpportunityId(),
-            'ORGANISATION_ID' => $this->getOrganisationId(),
-            'PROJECT_ID' => $this->getProjectId(),
-            'SECOND_PROJECT_ID' => $this->getSecondProjectId(),
-            'SECOND_OPPORTUNITY_ID' => $this->getSecondOpportunityId(),
             'ROLE' => $this->getRole(),
             'DETAILS' => $this->getDetails(),
         ];
+
+        if ($this->getContactId()) {
+            $data['LINK_OBJECT_ID'] = $this->getContactId();
+            $data['LINK_OBJECT_NAME'] = 'Contact';
+        }
+
+        if ($this->getOrganisationId()) {
+            $data['LINK_OBJECT_ID'] = $this->getOrganisationId();
+            $data['LINK_OBJECT_NAME'] = 'Organisation';
+        }
 
         return array_filter($data);
     }

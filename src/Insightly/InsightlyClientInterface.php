@@ -27,12 +27,24 @@ interface InsightlyClientInterface
     public function getProject($id);
 
     /**
+     * @param int $id
+     * @return bool
+     */
+    public function deleteProject($id);
+
+    /**
      * Gets a contact
      *
      * @param int $id
      * @return Contact
      */
     public function getContact($id);
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function deleteContact($id);
 
     /**
      * Gets a contact by email
@@ -115,6 +127,12 @@ interface InsightlyClientInterface
      * @return Organisation
      */
     public function getOrganisation($organisationId);
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function deleteOrganisation($id);
 
     /**
      * Update an organisation

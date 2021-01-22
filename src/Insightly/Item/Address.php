@@ -157,11 +157,9 @@ class Address implements \JsonSerializable, InsightlySerializableInterface, Json
     public function toInsightly()
     {
         $data = [
-            'ADDRESS_ID' => $this->getId(),
-            'ADDRESS_TYPE' => $this->getType(),
-            'STREET' => $this->getStreet(),
-            'CITY' => $this->getCity(),
-            'POSTCODE' => $this->getPostal(),
+            'ADDRESS_BILLING_STREET' => $this->getStreet(),
+            'ADDRESS_BILLING_CITY' => $this->getCity(),
+            'ADDRESS_BILLING_POSTCODE' => $this->getPostal(),
         ];
 
         return array_filter($data);

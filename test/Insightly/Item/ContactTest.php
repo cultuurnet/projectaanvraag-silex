@@ -33,11 +33,11 @@ class ContactTest extends \PHPUnit_Framework_TestCase
         $contact->addContactInfo('type-1', 'detail-1', 'sub-type-1', 'label-1');
 
         $contactInfo[1] = new ContactInfo();
-        $contactInfo[1]->setType('type-2');
+        $contactInfo[1]->setType(ContactInfo::TYPE_EMAIL);
         $contactInfo[1]->setSubType('sub-type-2');
         $contactInfo[1]->setLabel('label-2');
         $contactInfo[1]->setDetail('detail-2');
-        $contact->addContactInfo('type-2', 'detail-2', 'sub-type-2', 'label-2');
+        $contact->addContactInfo(ContactInfo::TYPE_EMAIL, 'detail-2', 'sub-type-2', 'label-2');
         $this->assertEquals($contactInfo, $contact->getContactInfos());
 
         $contactInfo[2] = new ContactInfo();
@@ -53,26 +53,7 @@ class ContactTest extends \PHPUnit_Framework_TestCase
             'CONTACT_ID' => 'my-id',
             'FIRST_NAME' => 'my-first-name',
             'LAST_NAME' => 'my-last-name',
-            'CONTACTINFOS' => [
-                [
-                    'TYPE' => 'type-1',
-                    'SUBTYPE' => 'sub-type-1',
-                    'LABEL' => 'label-1',
-                    'DETAIL' => 'detail-1',
-                ],
-                [
-                    'TYPE' => 'type-2',
-                    'SUBTYPE' => 'sub-type-2',
-                    'LABEL' => 'label-2',
-                    'DETAIL' => 'detail-2',
-                ],
-                [
-                    'TYPE' => 'type-3',
-                    'SUBTYPE' => 'sub-type-3',
-                    'LABEL' => 'label-3',
-                    'DETAIL' => 'detail-3',
-                ],
-            ],
+            'EMAIL_ADDRESS' => 'detail-2',
         ];
         $this->assertEquals($expectedInsightly, $insightly);
     }
