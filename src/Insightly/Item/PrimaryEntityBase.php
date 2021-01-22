@@ -359,14 +359,6 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
             ];
         }
 
-        $links = [];
-        if (!empty($this->links)) {
-            /** @var Link $link */
-            foreach ($this->links as $link) {
-                $links[] = $link->toInsightly();
-            }
-        }
-
         $tags = [];
         if (!empty($this->tags)) {
             /** @var Tag $tag */
@@ -384,7 +376,6 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
             'VISIBLE_TEAM_ID' => $this->getVisibleTeamId(),
             'VISIBLE_USER_IDS' => $this->getVisibleUserIds(),
             'CUSTOMFIELDS' => $customFields,
-            'LINKS' => $links,
             'TAGS' => $tags,
             'CAN_EDIT' => $this->canEdit(),
             'CAN_DELETE' => $this->canDelete(),
