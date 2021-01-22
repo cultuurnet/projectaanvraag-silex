@@ -192,7 +192,7 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
         if (count($this->addresses) > 0) {
             /** @var Address $address */
             $address = $this->addresses[0];
-            $data =\array_merge($data, $address->toInsightly());
+            $data = array_merge($data, $address->toInsightly());
         }
 
         unset($data['VISIBLE_TO']);
