@@ -31,8 +31,6 @@ class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
             new Client($this->config['insightly']['host']),
             $this->config['insightly']['api_key']
         );
-
-
     }
 
     public function testContactIntegration()
