@@ -198,7 +198,14 @@ class InsightlyClient implements InsightlyClientInterface
     public function updateProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-        return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
+        $updatedProject =  GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects', $query, json_encode($project->toInsightly())));
+
+        /** @var Link $link */
+        foreach ($project->getLinks() as $link) {
+            $this->request(RequestInterface::POST, 'Projects/'. $updatedProject->getId() .'/Links', $query, json_encode($link->toInsightly()));
+        }
+
+        return $updatedProject;
     }
 
     /**
@@ -207,7 +214,6 @@ class InsightlyClient implements InsightlyClientInterface
     public function createProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
-
         $createdProject = GetProjectResult::parseToResult($this->request(RequestInterface::POST, 'Projects', $query, json_encode($project->toInsightly())));
 
         /** @var Link $link */
