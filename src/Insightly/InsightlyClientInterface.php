@@ -129,6 +129,12 @@ interface InsightlyClientInterface
     public function getOrganisation($organisationId);
 
     /**
+     * @param int $id
+     * @return bool
+     */
+    public function deleteOrganisation($id);
+
+    /**
      * Update an organisation
      *
      * @param $organisation

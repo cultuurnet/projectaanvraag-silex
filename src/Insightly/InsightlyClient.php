@@ -272,6 +272,15 @@ class InsightlyClient implements InsightlyClientInterface
     /**
      * {@inheritdoc}
      */
+    public function deleteOrganisation($id)
+    {
+        $response = $this->request(RequestInterface::DELETE, 'Organisations/' . $id);
+        return $response->getStatusCode() === 202;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateOrganisation(Organisation $organisation)
     {
         return GetOrganisationResult::parseToResult($this->request(RequestInterface::PUT, 'Organisations/', null, json_encode($organisation->toInsightly())));
