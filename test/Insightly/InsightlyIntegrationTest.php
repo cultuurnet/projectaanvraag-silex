@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Address;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use Guzzle\Http\Client;
@@ -65,6 +66,41 @@ class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Project::STATUS_IN_PROGRESS, $insightlyProject->getStatus());
         $this->assertEquals(4345629, $insightlyProject->getCategoryId());
         $this->assertEquals('This project is created for John Doe', $insightlyProject->getDetails());
+
+        $deleted = $this->insighltyClient->deleteProject($createdProjectId);
+        $this->assertTrue($deleted);
+    }
+
+    public function testProjectWithLinkIntegration()
+    {
+        $contact = new Contact();
+        $contact->setFirstName('John');
+        $contact->setLastName('Doe');
+        $contact->addContactInfo(ContactInfo::TYPE_EMAIL, 'john.doe@anonymous.be');
+
+        $createdContactId = $this->insighltyClient->createContact($contact)->getId();
+
+        $project = new Project();
+        $project->setName('Project for John Doe with Link');
+        $project->setStatus(Project::STATUS_IN_PROGRESS);
+        $project->setCategoryId(4345629);
+        $project->setDetails('This project is created for John Doe with a link');
+
+        $link = new Link();
+        $link->setContactId($createdContactId);
+        $link->setRole('Aanvrager');
+        $project->addLink($link);
+
+        $createdProjectId = $this->insighltyClient->createProject($project)->getId();
+
+        $insightlyProject = $this->insighltyClient->getProject($createdProjectId);
+        $this->assertEquals('Project for John Doe with Link', $insightlyProject->getName());
+        $this->assertEquals(Project::STATUS_IN_PROGRESS, $insightlyProject->getStatus());
+        $this->assertEquals(4345629, $insightlyProject->getCategoryId());
+        $this->assertEquals('This project is created for John Doe with a link', $insightlyProject->getDetails());
+
+        $deleted = $this->insighltyClient->deleteContact($createdContactId);
+        $this->assertTrue($deleted);
 
         $deleted = $this->insighltyClient->deleteProject($createdProjectId);
         $this->assertTrue($deleted);
