@@ -17,7 +17,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php-versions }}
-                  extensions: intl
+                  extensions: intl, bcmath
                   tools: composer:v1
 
             - name: Check PHP Version
