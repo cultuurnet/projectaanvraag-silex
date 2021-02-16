@@ -187,7 +187,7 @@ class TwigPreprocessor
             $image = str_replace("http://", "https://", $image);
             $url = Url::factory($image);
             $query = $url->getQuery();
-            $query['crop'] = 'auto';
+            $query['crop'] = 'edges';
             $query['scale'] = 'both';
             $query['height'] = $settings['image']['height'];
             $query['width'] = $settings['image']['width'];
