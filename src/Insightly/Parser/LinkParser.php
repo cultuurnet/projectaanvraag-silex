@@ -37,7 +37,7 @@ class LinkParser implements ParserInterface
             }
 
             if ($data['LINK_OBJECT_NAME'] === 'Organisation') {
-                $link->setContactId($data['LINK_OBJECT_ID']);
+                $link->setOrganisationId($data['LINK_OBJECT_ID']);
             }
         }
 
