@@ -29,6 +29,18 @@ class LinkParser implements ParserInterface
         $link->setRole(!empty($data['ROLE']) ? $data['ROLE'] : null);
         $link->setDetails(!empty($data['DETAILS']) ? $data['DETAILS'] : null);
 
+        // Work around to take into account the new format of links
+        // This needs a more robust solution, see https://jira.uitdatabank.be/browse/PROJ-156
+        if (isset($data['LINK_OBJECT_NAME'], $data['LINK_OBJECT_ID'])) {
+            if ($data['LINK_OBJECT_NAME'] === 'Contact') {
+                $link->setContactId($data['LINK_OBJECT_ID']);
+            }
+
+            if ($data['LINK_OBJECT_NAME'] === 'Organisation') {
+                $link->setContactId($data['LINK_OBJECT_ID']);
+            }
+        }
+
         return $link;
     }
 }
