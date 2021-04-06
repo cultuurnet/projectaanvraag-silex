@@ -62,6 +62,7 @@
     "config": {
         "platform": {
             "ext-mongo": "1.6.16"
-        }
+        },
+        "sort-packages": true
     }
 }
