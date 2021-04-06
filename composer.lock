@@ -312,12 +312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "55ad2c0fc1189c58f35c63d40953d0ad08d41386"
+                "reference": "cdab2e1fcdc6938284b77ee21a88edaa782a57c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/55ad2c0fc1189c58f35c63d40953d0ad08d41386",
-                "reference": "55ad2c0fc1189c58f35c63d40953d0ad08d41386",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/cdab2e1fcdc6938284b77ee21a88edaa782a57c9",
+                "reference": "cdab2e1fcdc6938284b77ee21a88edaa782a57c9",
                 "shasum": ""
             },
             "require": {
@@ -349,7 +349,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2021-04-06T13:49:16+00:00"
+            "time": "2021-04-06T14:20:30+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
