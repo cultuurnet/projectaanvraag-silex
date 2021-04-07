@@ -2,13 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Twig;
 
-use CultuurNet\CalendarSummaryV3\CalendarHTMLFormatter;
-use CultuurNet\CalendarSummaryV3\CalendarPlainTextFormatter;
-use CultuurNet\ProjectAanvraag\Logger;
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
+use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
+use CultuurNet\SearchV3\ValueObjects\CalendarSummaryLanguage;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
@@ -114,7 +113,6 @@ class TwigPreprocessor
      */
     public function preprocessEventList(array $events, $preferredLanguage, array $settings)
     {
-
         $preprocessedEvents = [];
         foreach ($events as $event) {
             $preprocessedEvent = $this->preprocessEvent($event, $preferredLanguage, $settings['items']);
@@ -750,69 +748,42 @@ class TwigPreprocessor
         return $facet;
     }
 
-    /**
-     * Format all the event dates to 1 summary variable.
-     * @param Event $event
-     */
-    protected function formatEventDatesSummary(Event $event, string $langcode)
+    protected function formatEventDatesSummary(Event $event, string $langcode): string
     {
-
-        // Switch the time locale to the requested langcode.
-        switch ($langcode) {
-            case 'fr':
-                $locale = 'fr_FR';
-                break;
-
-            case 'en':
-                $locale = 'en';
-                break;
-
-            case 'nl':
-            default:
-                $locale = 'nl_NL';
-                break;
+        if ($event->getCalendarSummary() === null) {
+            return '';
         }
-        $calendarFormatter = new CalendarPlainTextFormatter($locale, false);
 
         if ($event->getCalendarType() === Offer::CALENDAR_TYPE_MULTIPLE) {
-            return $calendarFormatter->format($event, 'sm');
+            return $event->getCalendarSummary()->getSummary(
+                new CalendarSummaryLanguage($langcode),
+                new CalendarSummaryFormat('text', 'sm')
+            );
         }
 
         if ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
-            return $calendarFormatter->format($event, 'lg');
+            return $event->getCalendarSummary()->getSummary(
+                new CalendarSummaryLanguage($langcode),
+                new CalendarSummaryFormat('text', 'lg')
+            );
         }
 
-        return $calendarFormatter->format($event, 'md');
+        return $event->getCalendarSummary()->getSummary(
+            new CalendarSummaryLanguage($langcode),
+            new CalendarSummaryFormat('text', 'md')
+        );
     }
 
-    /**
-     * Format the event dates for the detail page.
-     *
-     * @param Event $event
-     * @param string $langcode
-     */
-    protected function formatEventDatesDetail(Event $event, string $langcode)
+    protected function formatEventDatesDetail(Event $event, string $langcode): string
     {
-
-        // Switch the time locale to the requested langcode.
-        switch ($langcode) {
-            case 'fr':
-                $locale = 'fr_FR';
-                break;
-
-            case 'en':
-                $locale = 'en';
-                break;
-
-            case 'nl':
-            default:
-                $locale = 'nl_NL';
-                break;
+        if ($event->getCalendarSummary() === null) {
+            return '';
         }
 
-        $hidePastDates = true;
-        $calendarFormatter = new CalendarHTMLFormatter($locale, $hidePastDates);
-        return $calendarFormatter->format($event, 'lg');
+        return $event->getCalendarSummary()->getSummary(
+            new CalendarSummaryLanguage($langcode),
+            new CalendarSummaryFormat('html', 'lg')
+        );
     }
 
     /**

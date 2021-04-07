@@ -7,11 +7,10 @@ use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\AddressCountry;
+use CultuurNet\SearchV3\Parameter\CalendarSummary;
 use CultuurNet\SearchV3\Parameter\CalendarType;
-use CultuurNet\SearchV3\Parameter\DateFrom;
 use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
-use CultuurNet\SearchV3\Parameter\Facet;
 use CultuurNet\SearchV3\Parameter\AvailableTo;
 use CultuurNet\SearchV3\Parameter\AvailableFrom;
 use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
@@ -19,9 +18,9 @@ use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
-
+use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
+use CultuurNet\SearchV3\ValueObjects\CalendarSummaryType;
 use CultuurNet\SearchV3\ValueObjects\PagedCollection;
-use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Pimple\Container;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -562,6 +561,11 @@ class SearchResults extends WidgetTypeBase
                 )
             );
         }
+
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'lg')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
 
         // Sort by score when query contains boosting elements.
         if ($boostQuery) {
