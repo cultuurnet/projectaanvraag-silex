@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bcdf700b6cca45d40867db62bc8b66de",
+    "content-hash": "032c0a375d5218a1dd41109903c86632",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -308,16 +308,16 @@
         },
         {
             "name": "cultuurnet/search-v3",
-            "version": "dev-feature/WID-377-calendar-summary-parameter",
+            "version": "v1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "cdab2e1fcdc6938284b77ee21a88edaa782a57c9"
+                "reference": "28ed66fd14dce0a013d05e9454d604c5b1caf796"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/cdab2e1fcdc6938284b77ee21a88edaa782a57c9",
-                "reference": "cdab2e1fcdc6938284b77ee21a88edaa782a57c9",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/28ed66fd14dce0a013d05e9454d604c5b1caf796",
+                "reference": "28ed66fd14dce0a013d05e9454d604c5b1caf796",
                 "shasum": ""
             },
             "require": {
@@ -349,7 +349,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2021-04-06T14:20:30+00:00"
+            "time": "2021-04-07T08:34:02+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -7695,7 +7695,6 @@
         "cultuurnet/auth": 20,
         "cultuurnet/culturefeed-http-guzzle": 20,
         "cultuurnet/culturefeed-php": 20,
-        "cultuurnet/search-v3": 20,
         "cultuurnet/silex-uitid-provider": 20
     },
     "prefer-stable": true,
