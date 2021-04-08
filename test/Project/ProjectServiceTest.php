@@ -195,9 +195,9 @@ class ProjectServiceTest extends TestCase
         $project->setTestApiKeySapi3('test api key');
         $project->setGroupId('test');
 
-        $liveConsumer = $this->getMock(\CultureFeed_Consumer::class);
+        $liveConsumer = $this->createMock(\CultureFeed_Consumer::class);
         $liveConsumer->consumerSecret = 'livesecret';
-        $testConsumer = $this->getMock(\CultureFeed_Consumer::class);
+        $testConsumer = $this->createMock(\CultureFeed_Consumer::class);
         $testConsumer->consumerSecret = 'testsecret';
 
         $this->projectRepository->expects($this->once())
