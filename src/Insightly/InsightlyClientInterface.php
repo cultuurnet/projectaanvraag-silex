@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 
@@ -141,4 +142,10 @@ interface InsightlyClientInterface
      * @return Organisation
      */
     public function updateOrganisation(Organisation $organisation);
+
+    /**
+     * @param int ProjectId
+     * @return Link[]
+     */
+    public function getProjectLinks($projectId);
 }

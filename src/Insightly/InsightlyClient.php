@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetContactsResult;
+use CultuurNet\ProjectAanvraag\Insightly\Result\GetLinksResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetOrganisationResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetPipelinesResult;
 use CultuurNet\ProjectAanvraag\Insightly\Result\GetProjectResult;
@@ -303,5 +304,13 @@ class InsightlyClient implements InsightlyClientInterface
     public function updateOrganisation(Organisation $organisation)
     {
         return GetOrganisationResult::parseToResult($this->request(RequestInterface::PUT, 'Organisations/', null, json_encode($organisation->toInsightly())));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProjectLinks($projectId)
+    {
+        return GetLinksResult::parseToResult($this->request(RequestInterface::GET, 'Project/' . $projectId . '/Links'));
     }
 }
