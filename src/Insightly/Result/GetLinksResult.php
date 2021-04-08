@@ -11,11 +11,13 @@ class GetLinksResult implements ResponseToResultInterface
     {
         $links = json_decode($response->getBody(), true);
 
+        // @codingStandardsIgnoreStart
         return array_map(
             static function ($link) {
                 return LinkParser::parseToResult($link);
             },
             $links
         );
+        // @codingStandardsIgnoreEnd
     }
 }
