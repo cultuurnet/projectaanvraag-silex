@@ -9,6 +9,9 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
  */
 class LinkParser implements ParserInterface
 {
+    public const OBJECT_NAME_CONTACT = 'Contact';
+    public const OBJECT_NAME_ORGANIZATION = 'Organization';
+
     /**
      * Parse a link based on the given data
      *
@@ -32,11 +35,11 @@ class LinkParser implements ParserInterface
         // Work around to take into account the new format of links
         // This needs a more robust solution, see https://jira.uitdatabank.be/browse/PROJ-156
         if (isset($data['LINK_OBJECT_NAME'], $data['LINK_OBJECT_ID'])) {
-            if ($data['LINK_OBJECT_NAME'] === 'Contact') {
+            if ($data['LINK_OBJECT_NAME'] === self::OBJECT_NAME_CONTACT) {
                 $link->setContactId($data['LINK_OBJECT_ID']);
             }
 
-            if ($data['LINK_OBJECT_NAME'] === 'Organisation') {
+            if ($data['LINK_OBJECT_NAME'] === self::OBJECT_NAME_ORGANIZATION) {
                 $link->setOrganisationId($data['LINK_OBJECT_ID']);
             }
         }

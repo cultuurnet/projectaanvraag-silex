@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
 use CultuurNet\ProjectAanvraag\Insightly\InsightlySerializableInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Parser\LinkParser;
 
 class Link extends Entity implements InsightlySerializableInterface, JsonUnserializeInterface
 {
@@ -223,12 +224,12 @@ class Link extends Entity implements InsightlySerializableInterface, JsonUnseria
 
         if ($this->getContactId()) {
             $data['LINK_OBJECT_ID'] = $this->getContactId();
-            $data['LINK_OBJECT_NAME'] = 'Contact';
+            $data['LINK_OBJECT_NAME'] = LinkParser::OBJECT_NAME_CONTACT;
         }
 
         if ($this->getOrganisationId()) {
             $data['LINK_OBJECT_ID'] = $this->getOrganisationId();
-            $data['LINK_OBJECT_NAME'] = 'Organisation';
+            $data['LINK_OBJECT_NAME'] = LinkParser::OBJECT_NAME_ORGANIZATION;
         }
 
         return array_filter($data);
