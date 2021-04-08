@@ -4,12 +4,13 @@ namespace CultuurNet\ProjectAanvraag\Core;
 
 use Akamon\MockeryCallableMock\MockeryCallableMock;
 use CultuurNet\ProjectAanvraag\CallableMock;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Asynchronous\Publisher\Publisher;
 
 /**
  * Tests PublishesAsynchronousMessages class.
  */
-class PublishesAsynchronousMessagesTest extends \PHPUnit_Framework_TestCase
+class PublishesAsynchronousMessagesTest extends TestCase
 {
 
     /**

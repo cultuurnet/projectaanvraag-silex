@@ -9,9 +9,10 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use Guzzle\Http\Client;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
-class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
+class InsightlyIntegrationTest extends TestCase
 {
     /**
      * @var InsightlyClient

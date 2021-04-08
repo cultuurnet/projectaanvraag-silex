@@ -2,18 +2,14 @@
 
 namespace CultuurNet\ProjectAanvraag\ArticleLinker;
 
-use CultuurNet\ProjectAanvraag\Coupon\Exception\CouponInUseException;
-use CultuurNet\ProjectAanvraag\Coupon\Exception\InvalidCouponException;
-use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
-use CultuurNet\ProjectAanvraag\Entity\Coupon;
-use Doctrine\ORM\EntityRepository;
 use GuzzleHttp\ClientInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Tests the ArticleLinkerClient class.
  */
-class ArticleLinkerClientTest extends \PHPUnit_Framework_TestCase
+class ArticleLinkerClientTest extends TestCase
 {
 
     /**

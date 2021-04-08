@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
-class UserServiceTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class UserServiceTest extends TestCase
 {
     /**
      * @var UserRoleStorageInterface|\PHPUnit_Framework_MockObject_MockObject

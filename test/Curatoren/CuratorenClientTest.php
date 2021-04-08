@@ -3,12 +3,13 @@
 namespace CultuurNet\ProjectAanvraag\Curatoren;
 
 use GuzzleHttp\ClientInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Tests the CuratorenClient class.
  */
-class CuratorenClientTest extends \PHPUnit_Framework_TestCase
+class CuratorenClientTest extends TestCase
 {
 
     /**

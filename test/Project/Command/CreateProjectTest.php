@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Command;
 
-class CreateProjectTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CreateProjectTest extends TestCase
 {
     /**
      * Test the CreateProject command

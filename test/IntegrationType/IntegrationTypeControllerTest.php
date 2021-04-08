@@ -4,12 +4,9 @@ namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
-use Silex\WebTestCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Yaml\Yaml;
+use PHPUnit\Framework\TestCase;
 
-class IntegrationTypeControllerTest extends \PHPUnit_Framework_TestCase
+class IntegrationTypeControllerTest extends TestCase
 {
     use JsonAssertionTrait;
 

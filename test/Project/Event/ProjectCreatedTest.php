@@ -5,8 +5,9 @@ namespace CultuurNet\ProjectAanvraag\Project\Event;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Entity\User;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
+use PHPUnit\Framework\TestCase;
 
-class ProjectCreatedTest extends \PHPUnit_Framework_TestCase
+class ProjectCreatedTest extends TestCase
 {
     /**
      * Test the ProjectCreated event

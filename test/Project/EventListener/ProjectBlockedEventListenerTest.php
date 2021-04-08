@@ -6,9 +6,9 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\TestCase;
 
-class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectBlockedEventListenerTest extends TestCase
 {
     /**
      * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject

@@ -7,16 +7,15 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
-use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
-use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
-class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
+class ActivateProjectCommandHandlerTest extends TestCase
 {
     /**
      * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject

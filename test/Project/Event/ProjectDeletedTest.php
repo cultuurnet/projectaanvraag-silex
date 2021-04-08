@@ -3,8 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use PHPUnit\Framework\TestCase;
 
-class ProjectDeletedTest extends \PHPUnit_Framework_TestCase
+class ProjectDeletedTest extends TestCase
 {
     /**
      * Test the ProjectDeleted event
