@@ -17,7 +17,7 @@ class CuratorenClientTest extends TestCase
      */
     public function testGetAndSet()
     {
-        $guzzleClient = $this->getMockBuilder(ClientInterface::class)->getMock();
+        $guzzleClient = $this->createMock(ClientInterface::class);
         $guzzleClientTwo = clone $guzzleClient;
         $client = new CuratorenClient($guzzleClient);
 
@@ -40,8 +40,8 @@ class CuratorenClientTest extends TestCase
             'cdbid' => 'test',
         ];
 
-        $guzzleClient = $this->getMockBuilder(ClientInterface::class)->getMock();
-        $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $guzzleClient = $this->createMock(ClientInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
         $client = new CuratorenClient($guzzleClient);
 
         $response->expects($this->once())

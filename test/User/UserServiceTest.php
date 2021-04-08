@@ -21,10 +21,8 @@ class UserServiceTest extends TestCase
      */
     public function setUp()
     {
-        $this->userRoleStorage = $this->getMock(UserRoleStorageInterface::class);
-        $this->cultureFeed = $this->getMockBuilder(\CultureFeed::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->userRoleStorage = $this->createMock(UserRoleStorageInterface::class);
+        $this->cultureFeed = $this->createMock(\CultureFeed::class);
     }
 
     /**

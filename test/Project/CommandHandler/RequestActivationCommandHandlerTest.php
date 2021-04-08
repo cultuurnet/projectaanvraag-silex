@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use \CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\User\User;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -68,24 +69,15 @@ class RequestActivationCommandHandlerTest extends TestCase
      */
     public function setUp()
     {
-        $this->eventBus = $this
-            ->getMockBuilder('SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
-        $this->entityManager = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->entityManager = $this->createMock(EntityManager::class);
 
         $this->entityManager
             ->expects($this->any())
             ->method('flush');
 
-        $this->insightlyClient = $this
-            ->getMockBuilder(InsightlyClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
         $this->insightlyConfig = [
             'pipeline' => 1,

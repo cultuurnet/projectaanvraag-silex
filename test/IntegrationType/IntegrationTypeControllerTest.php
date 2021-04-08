@@ -26,10 +26,7 @@ class IntegrationTypeControllerTest extends TestCase
      */
     public function setUp()
     {
-        $integrationTypesStorageService = $this
-            ->getMockBuilder('CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorage')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $integrationTypesStorageService = $this->createMock(IntegrationTypeStorage::class);
 
         $this->integrationTypeStorageService = $integrationTypesStorageService;
         $this->controller = new IntegrationTypeController($this->integrationTypeStorageService);

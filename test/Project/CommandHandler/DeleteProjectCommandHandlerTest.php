@@ -2,11 +2,13 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultureFeed;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -48,25 +50,13 @@ class DeleteProjectCommandHandlerTest extends TestCase
      */
     public function setUp()
     {
-        $this->eventBus = $this
-            ->getMockBuilder('SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
-        $this->entityManager = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->entityManager = $this->createMock(EntityManager::class);
 
-        $this->cultureFeed = $this
-            ->getMockBuilder('\CultureFeed')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->cultureFeed = $this->createMock(CultureFeed::class);
 
-        $this->cultureFeedTest = $this
-            ->getMockBuilder('\CultureFeed')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->cultureFeedTest = $this->createMock(CultureFeed::class);
 
         $this->entityManager
             ->expects($this->any())

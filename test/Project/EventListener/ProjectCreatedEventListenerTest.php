@@ -9,6 +9,7 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\TestCase;
@@ -50,15 +51,9 @@ class ProjectCreatedEventListenerTest extends TestCase
      */
     public function setUp()
     {
-        $this->insightlyClient = $this
-            ->getMockBuilder(InsightlyClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
-        $this->entityManager = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->entityManager = $this->createMock(EntityManager::class);
 
         $this->eventListener = new ProjectCreatedEventListener(
             $this->insightlyClient,
@@ -92,10 +87,7 @@ class ProjectCreatedEventListenerTest extends TestCase
         $this->localUser->setFirstName('firstname');
         $this->localUser->setEmail('email@email.com');
 
-        $repository = $this
-            ->getMockBuilder(EntityRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $repository = $this->createMock(EntityRepository::class);
 
         $this->entityManager
             ->expects($this->any())

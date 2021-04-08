@@ -30,15 +30,9 @@ class ProjectVoterTest extends TestCase
      */
     public function setUp()
     {
-        $this->token = $this
-            ->getMockBuilder(TokenInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->token = $this->createMock(TokenInterface::class);
 
-        $this->project = $this
-            ->getMockBuilder(ProjectInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->project = $this->createMock(ProjectInterface::class);
 
         $this->voter = new ProjectVoter();
     }
@@ -49,7 +43,7 @@ class ProjectVoterTest extends TestCase
     public function testVote()
     {
         /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(User::class);
+        $user = $this->createMock(User::class);
         $user->id = 123;
 
         $user->expects($this->any())
@@ -70,7 +64,7 @@ class ProjectVoterTest extends TestCase
     public function testAdminVote()
     {
         /** @var UserInterface|\PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock(User::class);
+        $user = $this->createMock(User::class);
 
         $user->expects($this->any())
             ->method('hasRole')

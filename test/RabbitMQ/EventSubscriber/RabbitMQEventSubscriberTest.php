@@ -74,38 +74,28 @@ class RabbitMQEventSubscriberTest extends TestCase
         $this->config['failed_message_delay'] = 5000;
 
         // Event bus
-        $this->eventBus = $this->getMock(MessageBusSupportingMiddleware::class);
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
         // Logger
-        $this->logger = $this->getMock(LoggerInterface::class);
-        $this->projectLogger = $this->getMock(LoggerInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->projectLogger = $this->createMock(LoggerInterface::class);
 
         // ProjectEvent
-        $this->projectEvent = $this->getMockBuilder(ProjectCreated::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->projectEvent = $this->createMock(ProjectCreated::class);
 
         // Amqpmessage
-        $this->amqpMessage = $this->getMock(AMQPMessage::class);
+        $this->amqpMessage = $this->createMock(AMQPMessage::class);
         $this->amqpMessage->body = 'message';
 
         // Message failed event
-        $this->messageConsumptionFailedEvent = $this->getMockBuilder(MessageConsumptionFailed::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->messageConsumptionFailedEvent = $this->createMock(MessageConsumptionFailed::class);
 
-        $this->exception = $this->getMockBuilder(\Exception::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->exception = $this->createMock(\Exception::class);
 
-        $this->envelope = $this->getMockBuilder(Envelope::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->envelope = $this->createMock(Envelope::class);
 
         // MessageInEvenloppeSerializer
-        $this->messageInEnveloppeSerializer = $this->getMockBuilder(MessageInEnvelopSerializer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->messageInEnveloppeSerializer = $this->createMock(MessageInEnvelopSerializer::class);
 
         $this->messageInEnveloppeSerializer->expects($this->any())
             ->method('unwrapAndDeserialize')

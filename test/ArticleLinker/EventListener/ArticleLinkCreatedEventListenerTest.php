@@ -17,16 +17,9 @@ class ArticleLinkCreatedEventListenerTest extends TestCase
     public function testExistingHandle()
     {
 
-        $articleLinkerClient = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $articleLinkerClientTest = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $cacheBackend = $this
-            ->getMockBuilder(DoctrineCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $articleLinkerClient = $this->createMock(ArticleLinkerClientInterface::class);
+        $articleLinkerClientTest = $this->createMock(ArticleLinkerClientInterface::class);
+        $cacheBackend = $this->createMock(DoctrineCache::class);
 
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,
@@ -47,17 +40,9 @@ class ArticleLinkCreatedEventListenerTest extends TestCase
      */
     public function testNonExistingHandle()
     {
-        $articleLinkerClient = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $articleLinkerClientTest = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $cacheBackend = $this
-            ->getMockBuilder(DoctrineCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $articleLinkerClient = $this->createMock(ArticleLinkerClientInterface::class);
+        $articleLinkerClientTest = $this->createMock(ArticleLinkerClientInterface::class);
+        $cacheBackend = $this->createMock(DoctrineCache::class);
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,
             $articleLinkerClientTest,
@@ -81,13 +66,9 @@ class ArticleLinkCreatedEventListenerTest extends TestCase
      */
     public function testHandleNoCache()
     {
-        $articleLinkerClient = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
+        $articleLinkerClient = $this->createMock(ArticleLinkerClientInterface::class);
         
-        $articleLinkerClientTest = $this
-          ->getMockBuilder(ArticleLinkerClientInterface::class)
-          ->getMock();
+        $articleLinkerClientTest = $this->createMock(ArticleLinkerClientInterface::class);
 
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,

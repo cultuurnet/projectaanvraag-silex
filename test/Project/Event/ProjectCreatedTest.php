@@ -15,16 +15,10 @@ class ProjectCreatedTest extends TestCase
     public function testProjectCreatedEvent()
     {
         /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this
-            ->getMockBuilder(ProjectInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $project = $this->createMock(ProjectInterface::class);
 
         /** @var User|\PHPUnit_Framework_MockObject_MockObject $project */
-        $user = $this
-            ->getMockBuilder(UserInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $user = $this->createMock(UserInterface::class);
 
         $projectCreated = new ProjectCreated($project, $user);
         $projectCreated->setProject($project);

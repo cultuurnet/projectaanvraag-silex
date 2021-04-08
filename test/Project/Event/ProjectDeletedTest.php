@@ -13,10 +13,7 @@ class ProjectDeletedTest extends TestCase
     public function testProjectDeletedEvent()
     {
         /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this
-            ->getMockBuilder(ProjectInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $project = $this->createMock(ProjectInterface::class);
 
         $projectDeleted = new ProjectDeleted($project);
         $projectDeleted->setProject($project);

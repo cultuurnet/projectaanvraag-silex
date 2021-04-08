@@ -16,6 +16,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
+use CultuurNet\ProjectAanvraag\Project\ProjectService;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -71,30 +72,17 @@ class ProjectControllerTest extends TestCase
      */
     public function setUp()
     {
-        $this->messageBus = $this
-            ->getMockBuilder('SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->messageBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
-        $this->projectService = $this
-            ->getMockBuilder('CultuurNet\ProjectAanvraag\Project\ProjectService')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->projectService = $this->createMock(ProjectService::class);
 
-        $this->request = $this
-            ->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->request = $this->createMock(Request::class);
 
-        $this->authorizationChecker = $this
-            ->getMockBuilder('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')
-            ->getMock();
+        $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
-        $this->insightlyClient = $this
-            ->getMockBuilder(InsightlyClientInterface::class)
-            ->getMock();
+        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
-        $this->couponValidator = $this->getMock(CouponValidatorInterface::class);
+        $this->couponValidator = $this->createMock(CouponValidatorInterface::class);
 
         $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker, $this->couponValidator, $this->insightlyClient);
 
@@ -636,7 +624,7 @@ class ProjectControllerTest extends TestCase
      */
     private function setupProjectTest($operation, $returnValue = true)
     {
-        $project = $this->getMock(ProjectInterface::class);
+        $project = $this->createMock(ProjectInterface::class);
 
         $this->projectService
             ->expects($this->any())

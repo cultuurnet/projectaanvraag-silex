@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
+use CultureFeed;
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationType;
@@ -10,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\TestCase;
@@ -62,26 +64,17 @@ class ActivateProjectCommandHandlerTest extends TestCase
      */
     public function setUp()
     {
-        $this->eventBus = $this
-            ->getMockBuilder('SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
-        $this->entityManager = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->entityManager = $this->createMock(EntityManager::class);
 
-        $this->cultureFeed = $this
-            ->getMockBuilder('\CultureFeed')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->cultureFeed = $this->createMock(CultureFeed::class);
 
         $this->entityManager
             ->expects($this->any())
             ->method('flush');
 
-        $this->project = $this->getMock(ProjectInterface::class);
+        $this->project = $this->createMock(ProjectInterface::class);
 
         $this->project
             ->method('getGroupId')
@@ -91,13 +84,13 @@ class ActivateProjectCommandHandlerTest extends TestCase
         $integrationType->setUitIdPermissionGroups([3, 123]);
         $integrationType->setUitPasPermissionGroups([]);
 
-        $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
+        $this->integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
         $this->integrationTypeStorage
             ->method('load')
             ->with(123)
             ->willReturn($integrationType);
 
-        $this->user = $this->getMock(User::class);
+        $this->user = $this->createMock(User::class);
         $this->user->id = 123;
 
         $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, $this->integrationTypeStorage);
@@ -144,10 +137,7 @@ class ActivateProjectCommandHandlerTest extends TestCase
         $coupon = new Coupon();
         $savedCoupon = clone $coupon;
         $savedCoupon->setUsed(true);
-        $couponRepository = $this
-            ->getMockBuilder(EntityRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $couponRepository = $this->createMock(EntityRepository::class);
 
         $this->entityManager
             ->expects($this->any())

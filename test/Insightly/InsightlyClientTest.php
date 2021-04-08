@@ -46,10 +46,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
     public function testUpdateProject()
     {
         /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this
-            ->getMockBuilder(Project::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $project = $this->createMock(Project::class);
 
         $client = $this->getMockClient('getProject.json');
         $project = $client->updateProject($project);

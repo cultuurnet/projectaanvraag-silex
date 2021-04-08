@@ -28,10 +28,7 @@ class CreateArticleLinkCommandHandlerTest extends TestCase
      */
     public function setUp()
     {
-        $this->eventBus = $this
-            ->getMockBuilder('SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
         $this->commandHandler = new CreateArticleLinkCommandHandler($this->eventBus);
     }
