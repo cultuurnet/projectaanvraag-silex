@@ -322,10 +322,13 @@ class ProjectController
             $insightyProject = $this->insightlyclient->getProject($project->getInsightlyProjectId());
 
             /** @var Link $link */
-            foreach ($insightyProject->getLinks() as $link) {
-                if ($link->getOrganisationId()) {
-                    $organisation = $this->insightlyclient->getOrganisation($link->getOrganisationId());
-                    break;
+            $insightyLinks = $this->insightlyclient->getProjectLinks($insightyProject->getId());
+
+            foreach ($insightyLinks as $insightyLink) {
+                // One of the links is the organisation
+                // This requires a refactor see: https://jira.uitdatabank.be/browse/PROJ-156
+                if ($insightyLink->getOrganisationId()) {
+                    $organisation = $this->insightlyclient->getOrganisation($insightyLink->getOrganisationId());
                 }
             }
         }
