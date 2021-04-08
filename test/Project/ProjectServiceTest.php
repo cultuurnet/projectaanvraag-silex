@@ -42,15 +42,13 @@ class ProjectServiceTest extends TestCase
      */
     public function setUp()
     {
-        $this->culturefeedLive = $this->getMock(\ICultureFeed::class);
-        $this->culturefeedTest = $this->getMock(\ICultureFeed::class);
-        $this->projectRepository = $this->getMockBuilder(EntityRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
-        $this->user = $this->getMock(User::class);
+        $this->culturefeedLive = $this->createMock(\ICultureFeed::class);
+        $this->culturefeedTest = $this->createMock(\ICultureFeed::class);
+        $this->projectRepository = $this->createMock(EntityRepository::class);
+        $this->integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
+        $this->user = $this->createMock(User::class);
         $this->user->id = 'id';
-        $mongoDbConnection = $this->getMock(Connection::class);
+        $mongoDbConnection = $this->createMock(Connection::class);
 
         $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $this->projectRepository, $this->integrationTypeStorage, $this->user, $mongoDbConnection);
     }
@@ -96,9 +94,7 @@ class ProjectServiceTest extends TestCase
     private function searchTest($criteria, $start, $max, $name = '')
     {
         // Mock the querybuilder.
-        $queryBuilder = $this->getMockBuilder(QueryBuilder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $queryBuilder = $this->createMock(QueryBuilder::class);
 
         // Return the mock on createQueryBuilder.
         $this->projectRepository->expects($this->once())
