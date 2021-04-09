@@ -49,11 +49,6 @@
       @include media-breakpoint-down(xs) {
         @include make-col(2);
       }
-
-      .cnw-fa {
-        display: none;
-      }
-
     }
 
     dd {
