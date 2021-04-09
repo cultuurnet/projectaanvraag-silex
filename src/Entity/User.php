@@ -66,111 +66,72 @@ class User implements UserInterface
         $this->id = $id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInsightlyContactId()
     {
         return $this->insightlyContactId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setInsightylContactId($insightlyContactId)
     {
         $this->insightlyContactId = $insightlyContactId;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFirstName()
     {
         return $this->firstName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLastName()
     {
         return $this->lastName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getEmail()
     {
         return $this->email;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setEmail($email)
     {
         $this->email = $email;
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getNick()
     {
         return $this->nick;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setNick($nick)
     {
         $this->nick = $nick;
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function jsonSerialize()
     {
         $json = [];

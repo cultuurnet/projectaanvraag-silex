@@ -66,9 +66,6 @@ class ProjectService implements ProjectServiceInterface
         $this->mongodbConnection = $mongodbConnection;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function searchProjects($start = 0, $max = 20, $name = '')
     {
         $query = $this->projectRepository->createQueryBuilder('p');
@@ -112,9 +109,6 @@ class ProjectService implements ProjectServiceInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function loadProject($id)
     {
         $criteria = [
@@ -174,9 +168,6 @@ class ProjectService implements ProjectServiceInterface
         return $project;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateContentFilter(ProjectInterface $project, $contentFilter)
     {
 

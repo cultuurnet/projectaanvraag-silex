@@ -9,8 +9,6 @@ class AsyncCommandRoutingKeyResolver implements RoutingKeyResolver
 {
     /**
      * Always return the asynchronous_commands routing key.
-     *
-     * {@inheritdoc}
      */
     public function resolveRoutingKeyFor($message)
     {

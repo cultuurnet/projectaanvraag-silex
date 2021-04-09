@@ -81,9 +81,6 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
@@ -95,17 +92,11 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLastWidgetIndex()
     {
         return $this->lastWidgetIndex;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getWidgetMapping()
     {
         return $this->widgetMapping;
@@ -152,42 +143,27 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         return $content;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isRegionEmpty($region)
     {
         return empty($this->regions[$region]) || empty($this->regions[$region]['widgets']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasWidget($widgetId)
     {
         return isset($this->widgetMapping[$widgetId]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getWidget($widgetId)
     {
         $region = $this->widgetMapping[$widgetId] ?? '';
         return $this->regions[$region]['widgets'][$widgetId] ?? null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getWidgetIds()
     {
         return array_keys($this->widgetMapping);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getWidgets()
     {
         $widgets = [];
@@ -197,17 +173,11 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         return $widgets;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addWidget($region, $widget)
     {
         $this->regions[$region]['widgets'][] = $widget;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeWidget($widget)
     {
         if (isset($this->widgetMapping[$widget->getId()])) {
@@ -223,9 +193,6 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         $regions = [];

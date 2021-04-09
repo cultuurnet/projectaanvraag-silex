@@ -23,10 +23,6 @@ class IntegrationTypeControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected $integrationTypeStorageService;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $integrationTypesStorageService = $this

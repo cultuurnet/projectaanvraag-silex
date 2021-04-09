@@ -10,9 +10,6 @@ use Pimple\ServiceProviderInterface;
 
 class CoreProvider implements ServiceProviderInterface
 {
-    /**
-     * @inheritDoc
-     */
     public function register(Container $pimple)
     {
         $pimple['service_loader'] = $pimple->protect(

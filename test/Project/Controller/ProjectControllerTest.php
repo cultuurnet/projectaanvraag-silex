@@ -64,9 +64,6 @@ class ProjectControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected $formData;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->messageBus = $this

@@ -132,17 +132,11 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
     protected $language;
 
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setId($id)
     {
         $this->id = $id;
@@ -166,122 +160,77 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setTitle($title)
     {
         $this->title = $title;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTitle()
     {
         return $this->title;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setRows($rows)
     {
         $this->rows = $rows;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRows()
     {
         return $this->rows;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isDraft()
     {
         return $this->draft;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAsDraft()
     {
         $this->draft = true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function publish()
     {
         $this->draft = false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProjectId()
     {
         return $this->projectId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setProjectId($projectId)
     {
         $this->projectId = $projectId;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLastUpdatedBy()
     {
         return $this->lastUpdatedBy;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setLastUpdatedBy($userID)
     {
         $this->lastUpdatedBy = $userID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCreatedBy()
     {
         return $this->createdBy;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCreatedBy($userID)
     {
         $this->createdBy = $userID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCreated()
     {
         return (string) $this->created;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCreated($created)
     {
         $this->created = $created;
@@ -296,26 +245,17 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
         return (string) $this->lastUpdated;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setLastUpdated($updated)
     {
         $this->lastUpdated = $updated;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCss()
     {
         return $this->css;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCss($css)
     {
         $this->css = $css;
@@ -331,57 +271,36 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
         $this->selectedTheme = $selectedTheme;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMobile()
     {
         return $this->mobile;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setMobile($mobile)
     {
         $this->mobile = $mobile;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getJquery()
     {
         return $this->jquery;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setJquery($jquery)
     {
         $this->jquery = $jquery;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLanguage()
     {
         return $this->language;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setLanguage($language)
     {
         $this->language = $language;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getWidget($widgetId)
     {
         /** @var LayoutInterface $row */
@@ -392,9 +311,6 @@ class WidgetPageEntity implements WidgetPageInterface, \JsonSerializable
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         /**

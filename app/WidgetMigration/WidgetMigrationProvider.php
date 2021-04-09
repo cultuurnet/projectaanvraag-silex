@@ -13,9 +13,6 @@ use Pimple\ServiceProviderInterface;
 
 class WidgetMigrationProvider implements ServiceProviderInterface
 {
-    /**
-     * @inheritDoc
-     */
     public function register(Container $pimple)
     {
 

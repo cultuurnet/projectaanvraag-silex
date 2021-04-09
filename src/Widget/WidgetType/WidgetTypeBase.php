@@ -97,9 +97,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         $this->settings = $settings;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
@@ -112,25 +109,16 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function renderPlaceholder()
     {
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         return [
@@ -141,9 +129,6 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId()
     {
         return $this->id;

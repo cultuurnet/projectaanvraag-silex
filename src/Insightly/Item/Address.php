@@ -122,9 +122,6 @@ class Address implements \JsonSerializable, InsightlySerializableInterface, Json
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         $json = [];
@@ -135,9 +132,6 @@ class Address implements \JsonSerializable, InsightlySerializableInterface, Json
         return $json;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function jsonUnSerialize($json)
     {
         $address = new self();
@@ -151,9 +145,6 @@ class Address implements \JsonSerializable, InsightlySerializableInterface, Json
         return $address;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toInsightly()
     {
         $data = [

@@ -29,9 +29,6 @@ class FixedTtlCacheStorage extends DefaultCacheStorage
         $this->ttl = $ttl;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function cache(RequestInterface $request, Response $response)
     {
 

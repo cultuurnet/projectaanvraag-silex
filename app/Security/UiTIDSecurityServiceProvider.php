@@ -7,9 +7,6 @@ use CultuurNet\UiTIDProvider\Security\UiTIDSecurityServiceProvider as CultuurNet
 
 class UiTIDSecurityServiceProvider extends CultuurNetUiTIDSecurityServiceProvider
 {
-    /**
-     * @inheritdoc
-     */
     public function register(Container $pimple)
     {
         parent::register($pimple);

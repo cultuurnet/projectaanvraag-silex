@@ -12,8 +12,6 @@ use Guzzle\Http\Message\Response;
 class GetContactsResult implements ResponseToResultInterface
 {
   /**
-   * @inheritdoc
-   *
    * @return EntityList
    *   Entitylist of parsed projects
    */

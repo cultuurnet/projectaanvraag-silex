@@ -136,7 +136,6 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
     /**
      * Serializes a Contact info to an Insightly accepted array
      * @return array
-     * {@inheritdoc}
      */
     public function jsonSerialize()
     {
@@ -148,9 +147,6 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
         return $json;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function jsonUnSerialize($json)
     {
         $contactInfo = new self();
@@ -163,9 +159,6 @@ class ContactInfo extends Entity implements \JsonSerializable, InsightlySerializ
         return $contactInfo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toInsightly()
     {
         $data = [

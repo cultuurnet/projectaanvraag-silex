@@ -19,9 +19,6 @@ class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     protected $eventListener;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->insightlyClient = $this

@@ -64,9 +64,6 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected $commandHandler;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->eventBus = $this

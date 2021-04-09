@@ -11,10 +11,6 @@ use Pimple\ServiceProviderInterface;
  */
 class ShareProxyServiceProvider implements ServiceProviderInterface
 {
-
-    /**
-     * @inheritDoc
-     */
     public function register(Container $pimple)
     {
         $pimple['offer_cbid_converter'] = function (Container $pimple) {

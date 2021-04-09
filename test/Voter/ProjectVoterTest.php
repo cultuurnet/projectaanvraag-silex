@@ -24,9 +24,6 @@ class ProjectVoterTest extends \PHPUnit_Framework_TestCase
      */
     protected $voter;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->token = $this

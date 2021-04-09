@@ -25,9 +25,6 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
         $this->configFilePath = $configFilePath;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIntegrationTypes()
     {
         if (!is_array($this->integrationTypes)) {
@@ -39,9 +36,6 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
         return $this->integrationTypes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load($id)
     {
         $types = $this->getIntegrationTypes();

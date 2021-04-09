@@ -246,9 +246,6 @@ class Project extends PrimaryEntityBase
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         $json = parent::jsonSerialize();

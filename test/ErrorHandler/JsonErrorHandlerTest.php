@@ -21,9 +21,6 @@ class JsonErrorHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected $errorHandler;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->request = $this

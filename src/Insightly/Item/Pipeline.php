@@ -96,9 +96,6 @@ class Pipeline extends Entity
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         $json = parent::jsonSerialize();

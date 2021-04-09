@@ -105,9 +105,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
@@ -149,9 +146,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         $this->searchResult = $searchResult;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         // If a render is requested without search results context, perform a full search.
@@ -217,9 +211,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function renderPlaceholder()
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/facets/facets.js');
@@ -233,9 +224,6 @@ class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter)
     {
         if ($this->getTargetedSearchResultsWidgetId() == $searchResultsQueryAlter->getWidgetId()) {

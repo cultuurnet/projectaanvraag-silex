@@ -139,52 +139,34 @@ class InsightlyClient implements InsightlyClientInterface
         return $this->responseCache[$cacheKey];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProjects($options = [])
     {
         $query = $this->addQueryFilters($options);
         return GetProjectsResult::parseToResult($this->request(RequestInterface::GET, 'Projects', $query));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProject($id)
     {
         return GetProjectResult::parseToResult($this->request(RequestInterface::GET, 'Projects/' . $id));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function deleteProject($id)
     {
         $response = $this->request(RequestInterface::DELETE, 'Projects/' . $id);
         return $response->getStatusCode() === 202;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContact($id)
     {
         return GetContactResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/' . $id));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function deleteContact($id)
     {
         $response = $this->request(RequestInterface::DELETE, 'Contacts/' . $id);
         return $response->getStatusCode() === 202;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContactByEmail($email)
     {
         $options['top'] = 1;
@@ -193,9 +175,6 @@ class InsightlyClient implements InsightlyClientInterface
         return GetContactsResult::parseToResult($this->request(RequestInterface::GET, 'Contacts/Search', $query));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
@@ -211,9 +190,6 @@ class InsightlyClient implements InsightlyClientInterface
         return $updatedProject;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createProject($project, $options = [])
     {
         $query = $this->addQueryFilters($options);
@@ -229,26 +205,17 @@ class InsightlyClient implements InsightlyClientInterface
         return $createdProject;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createContact($contact)
     {
         return GetContactResult::parseToResult($this->request(RequestInterface::POST, 'Contacts', null, json_encode($contact->toInsightly())));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPipelines($options = [])
     {
         $query = $this->addQueryFilters($options);
         return GetPipelinesResult::parseToResult($this->request(RequestInterface::GET, 'Pipelines', $query));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateProjectPipeline($projectId, $pipelineId, $newStageId)
     {
         $data = [
@@ -261,9 +228,6 @@ class InsightlyClient implements InsightlyClientInterface
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/Pipeline', null, json_encode($data)));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateProjectPipelineStage($projectId, $newStageId)
     {
         $data = [
@@ -273,42 +237,27 @@ class InsightlyClient implements InsightlyClientInterface
         return GetProjectResult::parseToResult($this->request(RequestInterface::PUT, 'Projects/' . $projectId . '/PipelineStage', null, json_encode($data)));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createOrganisation(Organisation $organisation)
     {
         return GetOrganisationResult::parseToResult($this->request(RequestInterface::POST, 'Organisations', null, json_encode($organisation->toInsightly())));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getOrganisation($organisationId)
     {
         return GetOrganisationResult::parseToResult($this->request(RequestInterface::GET, 'Organisations/' . $organisationId));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function deleteOrganisation($id)
     {
         $response = $this->request(RequestInterface::DELETE, 'Organisations/' . $id);
         return $response->getStatusCode() === 202;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateOrganisation(Organisation $organisation)
     {
         return GetOrganisationResult::parseToResult($this->request(RequestInterface::PUT, 'Organisations/', null, json_encode($organisation->toInsightly())));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProjectLinks($projectId)
     {
         return GetLinksResult::parseToResult($this->request(RequestInterface::GET, 'Project/' . $projectId . '/Links'));

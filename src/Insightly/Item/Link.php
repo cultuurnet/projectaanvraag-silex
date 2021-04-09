@@ -191,9 +191,6 @@ class Link extends Entity implements InsightlySerializableInterface, JsonUnseria
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function jsonUnSerialize($json)
     {
         $link = new self();

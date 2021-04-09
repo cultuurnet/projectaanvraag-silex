@@ -7,9 +7,6 @@ use CultuurNet\UiTIDProvider\Security\UiTIDUserProvider as CultuurNetUiTIDUserPr
 
 class UiTIDUserProvider extends CultuurNetUiTIDUserProvider
 {
-    /**
-     * @inheritdoc
-     */
     public function supportsClass($class)
     {
         return $class === User::class;

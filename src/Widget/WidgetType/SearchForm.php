@@ -321,9 +321,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
@@ -337,9 +334,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
             $container['widget_region_service']
         );
     }
-    /**
-     * {@inheritdoc}
-     */
     public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         return $this->twig->render(
@@ -357,9 +351,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function renderPlaceholder($preferredLanguage = 'nl')
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/search-form.js');
@@ -417,9 +408,6 @@ class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterf
         return $defaults;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function alterSearchResultsQuery(SearchResultsQueryAlter $searchResultsQueryAlter, $preferredLanguage = 'nl')
     {
 

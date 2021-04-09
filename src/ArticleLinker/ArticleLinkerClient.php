@@ -26,25 +26,16 @@ class ArticleLinkerClient implements ArticleLinkerClientInterface
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setClient(ClientInterface $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getClient()
     {
         return $this->client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function linkArticle(String $url, String $cdbid)
     {
         $data = [
