@@ -45,7 +45,7 @@ class OrganisationParser extends PrimaryEntityParser implements ParserInterface
             $organisation->setAddresses($addressList);
         }
 
-        // Addresses are stored inside the root of an organization and now longer as a list.
+        // Addresses are stored inside the root of an organization and no longer as a list.
         // This requires a refactor see: https://jira.uitdatabank.be/browse/PROJ-156
         if (!empty($data['ADDRESS_BILLING_STREET'])) {
             $address = new Address();
