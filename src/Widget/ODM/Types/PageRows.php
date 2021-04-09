@@ -12,9 +12,6 @@ use Doctrine\ODM\MongoDB\Types\Type;
 class PageRows extends Type
 {
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToPHPValue($value)
     {
         // Note: this function is only called when your custom type is used
@@ -54,9 +51,6 @@ class PageRows extends Type
         return $rows;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function closureToPHP()
     {
         // Return the string body of a PHP closure that will receive $value
@@ -92,9 +86,6 @@ class PageRows extends Type
         ';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToDatabaseValue($value)
     {
         $dbValue = [];

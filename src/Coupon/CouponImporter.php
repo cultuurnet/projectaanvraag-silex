@@ -36,9 +36,6 @@ class CouponImporter
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function import($filePath)
     {
         $file = new \SplFileObject($filePath);

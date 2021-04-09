@@ -12,9 +12,6 @@ use Pimple\ServiceProviderInterface;
  */
 class CultureFeedServiceProvider extends CultureFeedServiceProviderOriginal implements ServiceProviderInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function register(Container $pimple)
     {
         // Register live.

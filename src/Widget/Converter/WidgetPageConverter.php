@@ -37,7 +37,6 @@ class WidgetPageConverter implements ConverterInterface
     }
 
     /**
-     * {@inheritdoc}
      * @return WidgetPageInterface|null
      */
     public function convert($id)

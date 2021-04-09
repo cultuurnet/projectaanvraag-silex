@@ -64,9 +64,6 @@ class RabbitMQEventSubscriberTest extends \PHPUnit_Framework_TestCase
      */
     protected $exception;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         // Config

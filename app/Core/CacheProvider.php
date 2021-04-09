@@ -15,10 +15,6 @@ use Pimple\ServiceProviderInterface;
  */
 class CacheProvider implements ServiceProviderInterface
 {
-
-    /**
-     * @inheritDoc
-     */
     public function register(Container $pimple)
     {
         $pimple['cache_doctrine_filesystem'] = function (Container $pimple) {

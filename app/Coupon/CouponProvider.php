@@ -10,10 +10,6 @@ use Pimple\ServiceProviderInterface;
  */
 class CouponProvider implements ServiceProviderInterface
 {
-
-    /**
-     * @inheritDoc
-     */
     public function register(Container $pimple)
     {
 

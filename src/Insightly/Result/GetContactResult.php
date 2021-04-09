@@ -12,8 +12,6 @@ use Guzzle\Http\Message\Response;
 class GetContactResult implements ResponseToResultInterface
 {
     /**
-     * @inheritdoc
-     *
      * @return Contact
      */
     public static function parseToResult(Response $response)

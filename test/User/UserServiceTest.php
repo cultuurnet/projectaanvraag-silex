@@ -14,9 +14,6 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $cultureFeed;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->userRoleStorage = $this->getMock(UserRoleStorageInterface::class);

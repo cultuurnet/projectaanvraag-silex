@@ -10,9 +10,6 @@ use Pimple\Container;
 
 class SearchAPIServiceProvider extends APIServiceProviderBase
 {
-    /**
-     * @inheritdoc
-     */
     public function register(Container $pimple)
     {
 

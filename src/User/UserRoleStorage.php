@@ -25,9 +25,6 @@ class UserRoleStorage implements UserRoleStorageInterface
         $this->configFilePath = $configFilePath;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRoles()
     {
         if (!is_array($this->userRoles)) {
@@ -37,9 +34,6 @@ class UserRoleStorage implements UserRoleStorageInterface
         return array_keys($this->userRoles);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUserRoles()
     {
         if (!is_array($this->userRoles)) {
@@ -64,9 +58,6 @@ class UserRoleStorage implements UserRoleStorageInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRolesByUserId($userId)
     {
         $roles = [];

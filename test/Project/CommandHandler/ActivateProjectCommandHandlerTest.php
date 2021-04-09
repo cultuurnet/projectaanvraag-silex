@@ -58,9 +58,6 @@ class ActivateProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     private $integrationTypeStorage;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->eventBus = $this

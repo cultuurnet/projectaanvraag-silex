@@ -99,9 +99,6 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedEvents()
     {
         return [Events::MESSAGE_CONSUMPTION_FAILED => 'onConsumptionFailed'];

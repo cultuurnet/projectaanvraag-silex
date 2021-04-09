@@ -13,9 +13,6 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\Layout;
  */
 class TwoColSidebarRight extends LayoutBase
 {
-    /**
-     * {@inheritdoc}
-     */
     public function render($preferredLanguage = 'nl')
     {
         return $this->twig->render(

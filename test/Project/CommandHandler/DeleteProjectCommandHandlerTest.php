@@ -45,9 +45,6 @@ class DeleteProjectCommandHandlerTest extends \PHPUnit_Framework_TestCase
      */
     protected $user;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->eventBus = $this

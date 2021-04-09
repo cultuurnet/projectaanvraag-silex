@@ -342,9 +342,6 @@ class IntegrationType implements \JsonSerializable
         $this->uitPasPermissionGroups = $uitPasPermissionGroups;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         $json = [];

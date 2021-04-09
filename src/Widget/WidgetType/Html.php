@@ -31,17 +31,11 @@ class Html extends WidgetTypeBase
 
     use TextProcessingTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         return $this->renderPlaceholder();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function renderPlaceholder()
     {
         return $this->twig->render(

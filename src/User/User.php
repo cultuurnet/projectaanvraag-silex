@@ -59,9 +59,6 @@ class User extends UiTIDUser implements UserInterface
         return $this->isAdmin;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         $json = [];

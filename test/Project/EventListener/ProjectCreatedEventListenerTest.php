@@ -50,9 +50,6 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     protected $localUser;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->insightlyClient = $this

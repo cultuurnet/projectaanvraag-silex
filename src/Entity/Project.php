@@ -559,18 +559,12 @@ class Project implements ProjectInterface
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setTotalWidgets($totalWidgets)
     {
         $this->totalWidgets = $totalWidgets;
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTotalWidgets()
     {
         return $this->totalWidgets;
@@ -592,9 +586,6 @@ class Project implements ProjectInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function jsonSerialize()
     {
         $json = [];

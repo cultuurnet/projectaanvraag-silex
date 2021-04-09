@@ -46,9 +46,6 @@ class CssStats implements CssStatsInterface, \JsonSerializable
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addColor($color)
     {
         $this->colors[] = $color;
@@ -56,9 +53,6 @@ class CssStats implements CssStatsInterface, \JsonSerializable
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getColors($occurrence = true)
     {
         if ($occurrence) {
@@ -71,36 +65,24 @@ class CssStats implements CssStatsInterface, \JsonSerializable
         return $this->colors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setColors($colors)
     {
         $this->colors = $colors;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addColors($colors)
     {
         $this->colors += $colors;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addFontFamily($fontFamily)
     {
         $this->fontFamilies[] = $fontFamily;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFontFamilies($occurrence = true)
     {
         if ($occurrence) {
@@ -113,18 +95,12 @@ class CssStats implements CssStatsInterface, \JsonSerializable
         return $this->fontFamilies;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setFontFamilies($fontFamilies)
     {
         $this->fontFamilies = $fontFamilies;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addFontFamilies($fontFamilies)
     {
         $this->fontFamilies += $fontFamilies;
@@ -150,9 +126,6 @@ class CssStats implements CssStatsInterface, \JsonSerializable
         return $formattedValues;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         return [

@@ -169,9 +169,6 @@ class Organisation extends PrimaryEntityBase implements JsonUnserializeInterface
         return $organisation;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toInsightly()
     {
         $data = parent::toInsightly();

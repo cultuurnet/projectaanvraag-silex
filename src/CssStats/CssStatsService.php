@@ -24,18 +24,12 @@ class CssStatsService implements CssStatsServiceInterface
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCssStatsFromUrl($url)
     {
         // Parse the css
         return $this->parseCss($this->getCssFromUrl($url), $url);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCssFromUrl($url)
     {
         $parsedUrl = parse_url($url);
@@ -92,9 +86,6 @@ class CssStatsService implements CssStatsServiceInterface
         return $cssContent;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function parseCss($css, $origin)
     {
         $cssStats = new CssStats();
