@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProjectActivatedEventListenerTest extends TestCase
@@ -21,12 +22,12 @@ class ProjectActivatedEventListenerTest extends TestCase
     protected $eventListener;
 
     /**
-     * @var ProjectInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectInterface|MockObject
      */
     protected $project;
 
     /**
-     * @var Project|PHPUnit_Framework_MockObject_MockObject
+     * @var Project|MockObject
      */
     protected $insightlyProject;
 
