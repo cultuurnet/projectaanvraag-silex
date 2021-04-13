@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\ArticleLinker\EventListener;
 
 use CultuurNet\ProjectAanvraag\ArticleLinker\ArticleLinkerClientInterface;
 use CultuurNet\ProjectAanvraag\ArticleLinker\Event\ArticleLinkCreated;
-use CultuurNet\ProjectAanvraag\Entity\Cache;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Simple\DoctrineCache;
 
