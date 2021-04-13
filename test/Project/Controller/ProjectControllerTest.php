@@ -5,7 +5,6 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 use CultuurNet\ProjectAanvraag\Address;
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
-use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;

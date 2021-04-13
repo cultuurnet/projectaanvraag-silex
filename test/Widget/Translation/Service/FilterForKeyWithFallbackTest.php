@@ -2,8 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Translation\Service;
 
-use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
-use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use PHPUnit\Framework\TestCase;
 
 class FilterForKeyWithFallbackTest extends TestCase
