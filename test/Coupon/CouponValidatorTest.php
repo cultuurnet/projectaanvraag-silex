@@ -46,32 +46,20 @@ class CouponValidatorTest extends TestCase
         $this->validator->validateCoupon('coupon');
     }
 
-    /**
-     * Test if validator throws invalid coupon exception.
-     * @expectedException \CultuurNet\ProjectAanvraag\Coupon\Exception\InvalidCouponException
-     */
-    public function testInValidCoupon()
+    public function testInValidCouponException()
     {
         $this->couponRepository->expects($this->once())
             ->method('find')
             ->with('coupon')
             ->willReturn(null);
 
-        try {
-            $this->validator->validateCoupon('coupon');
-        } catch (InvalidCouponException $e) {
-            $this->assertEquals($e->getValidationCode(), InvalidCouponException::ERROR_CODE);
-            throw $e;
-        }
+        $this->expectException(InvalidCouponException::class);
+
+        $this->validator->validateCoupon('coupon');
     }
 
-    /**
-     * Test if validator throws invalid coupon exception.
-     * @expectedException \CultuurNet\ProjectAanvraag\Coupon\Exception\CouponInUseException
-     */
-    public function testCouponInUse()
+    public function testCouponInUseException()
     {
-
         $coupon = new Coupon();
         $coupon->setUsed(true);
 
@@ -80,11 +68,8 @@ class CouponValidatorTest extends TestCase
             ->with('coupon')
             ->willReturn($coupon);
 
-        try {
-            $this->validator->validateCoupon('coupon');
-        } catch (CouponInUseException $e) {
-            $this->assertEquals($e->getValidationCode(), CouponInUseException::ERROR_CODE);
-            throw $e;
-        }
+        $this->expectException(CouponInUseException::class);
+
+        $this->validator->validateCoupon('coupon');
     }
 }

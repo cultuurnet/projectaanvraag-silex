@@ -4,16 +4,16 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
-    /**
-     * Test client request method
-     * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
-     */
     public function testRequestExceptionHandling()
     {
         $client = $this->getMockClient(null, 404);
+
+        $this->expectException(ClientErrorResponseException::class);
+
         $client->getProjects();
     }
 
