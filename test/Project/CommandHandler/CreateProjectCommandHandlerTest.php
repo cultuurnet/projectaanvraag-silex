@@ -49,11 +49,6 @@ class CreateProjectCommandHandlerTest extends TestCase
     protected $user;
 
     /**
-     * @var IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $integrationTypeStorage;
-
-    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -74,8 +69,8 @@ class CreateProjectCommandHandlerTest extends TestCase
         $integrationType->setUitIdPermissionGroups([3, 123]);
         $integrationType->setUitPasPermissionGroups([]);
 
-        $this->integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
-        $this->integrationTypeStorage
+        $integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
+        $integrationTypeStorage
             ->method('load')
             ->with(123)
             ->willReturn($integrationType);
@@ -86,7 +81,7 @@ class CreateProjectCommandHandlerTest extends TestCase
         $this->user->nick = 'test';
 
         $this->commandHandler = $this->getMockBuilder(CreateProjectCommandHandler::class)
-            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, $this->integrationTypeStorage])
+            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, $integrationTypeStorage])
             ->setMethods(['generatePassword'])
             ->getMock();
     }

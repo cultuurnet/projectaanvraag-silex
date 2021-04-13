@@ -19,19 +19,14 @@ class InsightlyIntegrationTest extends TestCase
      */
     private $insighltyClient;
 
-    /**
-     * @var array
-     */
-    private $config;
-
     protected function setUp()
     {
         parent::setUp();
 
-        $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
+        $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
         $this->insighltyClient = new InsightlyClient(
-            new Client($this->config['insightly']['host']),
-            $this->config['insightly']['api_key']
+            new Client($config['insightly']['host']),
+            $config['insightly']['api_key']
         );
     }
 

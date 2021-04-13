@@ -54,10 +54,6 @@ class ActivateProjectCommandHandlerTest extends TestCase
      */
     protected $project;
 
-    /**
-     * @var IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $integrationTypeStorage;
 
     /**
      * {@inheritdoc}
@@ -84,8 +80,8 @@ class ActivateProjectCommandHandlerTest extends TestCase
         $integrationType->setUitIdPermissionGroups([3, 123]);
         $integrationType->setUitPasPermissionGroups([]);
 
-        $this->integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
-        $this->integrationTypeStorage
+        $integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
+        $integrationTypeStorage
             ->method('load')
             ->with(123)
             ->willReturn($integrationType);
@@ -93,7 +89,7 @@ class ActivateProjectCommandHandlerTest extends TestCase
         $this->user = $this->createMock(User::class);
         $this->user->id = 123;
 
-        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, $this->integrationTypeStorage);
+        $this->commandHandler = new ActivateProjectCommandHandler($this->eventBus, $this->entityManager, $this->cultureFeed, $this->user, $integrationTypeStorage);
     }
 
     /**
