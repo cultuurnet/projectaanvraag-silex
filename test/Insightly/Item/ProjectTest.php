@@ -18,7 +18,7 @@ class ProjectTest extends AbstractInsightlyClientTest
         $projects = $client->getProjects();
 
         /** @var Project $project */
-        $project = reset($projects);
+        $project = $projects[0];
 
         $this->assertJsonEquals(json_encode($project), 'Insightly/data/serialized/project.json');
 
