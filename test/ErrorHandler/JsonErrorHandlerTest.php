@@ -50,7 +50,7 @@ class JsonErrorHandlerTest extends TestCase
         $e = new \Exception('Some exception');
         $response = $this->handleException($e, false);
 
-        $this->assertEquals($response, null, 'It correctly skips the handling of the exception.');
+        $this->assertEquals(null, $response, 'It correctly skips the handling of the exception.');
     }
 
     /**
@@ -76,7 +76,7 @@ class JsonErrorHandlerTest extends TestCase
         $e = new MissingRequiredFieldsException();
         $response = $this->handleException($e, false);
 
-        $this->assertEquals($response, null, 'It correctly skips the handling of the validation exception.');
+        $this->assertEquals(null, $response, 'It correctly skips the handling of the validation exception.');
     }
 
     /**
@@ -98,7 +98,7 @@ class JsonErrorHandlerTest extends TestCase
         $e = new AccessDeniedHttpException();
         $response = $this->handleException($e, false);
 
-        $this->assertEquals($response, null, 'It correctly skips the handling of the access denied exception.');
+        $this->assertEquals(null, $response, 'It correctly skips the handling of the access denied exception.');
     }
 
     /**
@@ -120,7 +120,7 @@ class JsonErrorHandlerTest extends TestCase
         $e = new NotFoundHttpException();
         $response = $this->handleException($e, false);
 
-        $this->assertEquals($response, null, 'It correctly skips the handling of the not found exception.');
+        $this->assertEquals(null, $response, 'It correctly skips the handling of the not found exception.');
     }
 
     /**

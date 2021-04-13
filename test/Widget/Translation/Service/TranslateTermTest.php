@@ -38,7 +38,7 @@ class TranslateTermTest extends TestCase
         );
 
         $translatedTerm = $translateTerm->__invoke($term, self::PREFERRED_LANGUAGE);
-        $this->assertEquals($translatedTerm, 'translated');
+        $this->assertEquals('translated', $translatedTerm);
     }
 
     /**
@@ -55,7 +55,7 @@ class TranslateTermTest extends TestCase
 
         $term = $this->aTerm();
         $translatedTerm = $translateTerm->__invoke($term, self::PREFERRED_LANGUAGE);
-        $this->assertEquals($translatedTerm, self::TERM_LABEL);
+        $this->assertEquals(self::TERM_LABEL, $translatedTerm);
     }
 
     private function aTerm(): Term

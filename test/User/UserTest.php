@@ -25,10 +25,10 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf(User::class, $user);
 
-        $this->assertEquals($user->id, '123', 'The id is correctly parsed');
-        $this->assertEquals($user->nick, 'nickname', 'The nick is correctly parsed');
-        $this->assertEquals($user->familyName, 'familyName', 'The familyName is correctly parsed');
-        $this->assertEquals($user->givenName, 'firstName', 'The givenName is correctly parsed');
+        $this->assertEquals('123', $user->id, 'The id is correctly parsed');
+        $this->assertEquals('nickname', $user->nick, 'The nick is correctly parsed');
+        $this->assertEquals('familyName', $user->familyName, 'The familyName is correctly parsed');
+        $this->assertEquals('firstName', $user->givenName, 'The givenName is correctly parsed');
     }
 
 

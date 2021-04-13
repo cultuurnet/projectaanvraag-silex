@@ -589,7 +589,7 @@ class ProjectControllerTest extends TestCase
 
         $this->controller->updateOrganisation(1, $request);
     }
-    
+
     public function testUpdateOrganisationAccessDenied()
     {
         $request = Request::create('/');

@@ -14,8 +14,8 @@ class UserRoleStorageTest extends TestCase
         $userRoleStorage = new UserRoleStorage(__DIR__ . '/data/config/user_roles.yml');
         $roles = $userRoleStorage->getRoles();
 
-        $this->assertEquals($roles, ['administrator'], 'It correctly returns the available user roles');
-        $this->assertEquals($userRoleStorage->getRoles('948cf2a5-65c5-470e-ab55-97ee4b05f576'), ['administrator'], 'It correctly returns the roles for a given user id');
+        $this->assertEquals(['administrator'], $roles, 'It correctly returns the available user roles');
+        $this->assertEquals(['administrator'], $userRoleStorage->getRoles('948cf2a5-65c5-470e-ab55-97ee4b05f576'), 'It correctly returns the roles for a given user id');
 
         // Test roles and ids
         $userRoleStorageIds = new UserRoleStorage(__DIR__ . '/data/config/user_roles.yml');

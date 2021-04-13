@@ -13,17 +13,17 @@ class CreateProjectTest extends TestCase
     {
         $createProject = new CreateProject('My project', 'Some description', 123);
 
-        $this->assertEquals($createProject->getName(), 'My project', 'The name is correctly returned');
-        $this->assertEquals($createProject->getIntegrationType(), 123, 'The integration type is correctly returned');
-        $this->assertEquals($createProject->getDescription(), 'Some description', 'The description is correctly returned');
+        $this->assertEquals('My project', $createProject->getName(), 'The name is correctly returned');
+        $this->assertEquals(123, $createProject->getIntegrationType(), 'The integration type is correctly returned');
+        $this->assertEquals('Some description', $createProject->getDescription(), 'The description is correctly returned');
 
         // Test setters
         $createProject->setDescription('Some new description');
         $createProject->setName('My new project name');
         $createProject->setIntegrationType(12345);
 
-        $this->assertEquals($createProject->getName(), 'My new project name', 'The name is correctly returned');
-        $this->assertEquals($createProject->getIntegrationType(), 12345, 'The integration type is correctly returned');
-        $this->assertEquals($createProject->getDescription(), 'Some new description', 'The description is correctly returned');
+        $this->assertEquals('My new project name', $createProject->getName(), 'The name is correctly returned');
+        $this->assertEquals(12345, $createProject->getIntegrationType(), 'The integration type is correctly returned');
+        $this->assertEquals('Some new description', $createProject->getDescription(), 'The description is correctly returned');
     }
 }

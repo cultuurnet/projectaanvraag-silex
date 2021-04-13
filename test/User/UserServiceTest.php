@@ -66,6 +66,6 @@ class UserServiceTest extends TestCase
         $userService = new UserService($this->cultureFeed, $this->userRoleStorage);
         $user = $userService->getUser(1);
 
-        $this->assertEquals($user, null, 'It correctly handles a CultureFeed_ParseException');
+        $this->assertEquals(null, $user, 'It correctly handles a CultureFeed_ParseException');
     }
 }
