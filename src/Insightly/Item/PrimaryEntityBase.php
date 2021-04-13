@@ -332,9 +332,6 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
         unset($this->customFields[$key]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         $json = parent::jsonSerialize();
@@ -346,9 +343,6 @@ abstract class PrimaryEntityBase extends Entity implements \JsonSerializable, In
         return $json;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toInsightly()
     {
         $customFields = [];

@@ -46,9 +46,6 @@ class ProjectCreatedEventListenerTest extends TestCase
      */
     protected $localUser;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);

@@ -20,9 +20,6 @@ class ProjectBlockedEventListenerTest extends TestCase
      */
     protected $eventListener;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);

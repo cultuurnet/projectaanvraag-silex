@@ -25,9 +25,6 @@ class ProjectVoterTest extends TestCase
      */
     protected $voter;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->token = $this->createMock(TokenInterface::class);

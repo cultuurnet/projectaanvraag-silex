@@ -457,9 +457,6 @@ class SearchResults extends WidgetTypeBase
         $this->eventBus = $eventBus;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
@@ -484,9 +481,6 @@ class SearchResults extends WidgetTypeBase
         return $this->searchResult;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         // Retrieve the current request query parameters using the global Application object and filter.
@@ -643,9 +637,6 @@ class SearchResults extends WidgetTypeBase
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function renderPlaceholder()
     {
         $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-results/search-results.js');

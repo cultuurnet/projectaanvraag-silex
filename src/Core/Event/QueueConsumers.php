@@ -38,17 +38,11 @@ class QueueConsumers extends AbstractRetryableMessage implements ConsumerTypeInt
         $this->max = $max;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType()
     {
         return $this->type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setType($type)
     {
         $this->type = $type;

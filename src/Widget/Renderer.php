@@ -95,17 +95,11 @@ class Renderer implements RendererInterface
         $this->curatorenClientTest = $curatorenClientTest;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function addSettings(array $settings)
     {
         $this->settings = array_merge($this->settings, $settings);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setProject(ProjectInterface $project)
     {
         $this->project = $project;
@@ -129,9 +123,6 @@ class Renderer implements RendererInterface
         $this->curatorenClient->setClient(new \GuzzleHttp\Client($curatorenConfig));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function renderPage(WidgetPageInterface $widgetPage)
     {
 
@@ -212,9 +203,6 @@ class Renderer implements RendererInterface
         return '<div class="cultuurnet-widgets" data-widget-page-id="' . $widgetPage->getId() . '"></div>';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function renderWidget(WidgetTypeInterface $widgetType, $cdbid = '', $preferredLanguage = 'nl')
     {
         return $widgetType->render($cdbid, $preferredLanguage);
@@ -225,9 +213,6 @@ class Renderer implements RendererInterface
         return $searchResultsWidget->renderDetail($preferredLanguage);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function attachJavascript($value, $type = 'file', $weight = 0)
     {
         $this->jsFiles[] = [
@@ -237,9 +222,6 @@ class Renderer implements RendererInterface
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function attachCss($path, $weight = 0)
     {
         $this->cssFiles[] = [
@@ -248,18 +230,12 @@ class Renderer implements RendererInterface
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAttachedJs()
     {
         uasort($this->jsFiles, [$this, 'sortByWeight']);
         return $this->jsFiles;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAttachedCss()
     {
         uasort($this->cssFiles, [$this, 'sortByWeight']);

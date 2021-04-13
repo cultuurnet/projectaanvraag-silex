@@ -69,9 +69,6 @@ class DiscoveryBase implements DiscoveryInterface
         $this->annotationReader = new CachedReader(new AnnotationReader(), $this->cache);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function discoverDefinitions()
     {
 
@@ -110,9 +107,6 @@ class DiscoveryBase implements DiscoveryInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function register($path, $namespace)
     {
         $this->discoveryInfo[] = [
@@ -121,18 +115,12 @@ class DiscoveryBase implements DiscoveryInterface
         ];
     }
 
-    /**
-     * * {@inheritdoc}
-     */
     public function getDefinitions()
     {
         $this->discoverDefinitions();
         return $this->definitions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefinition($id)
     {
         $this->discoverDefinitions();

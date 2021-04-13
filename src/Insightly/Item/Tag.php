@@ -12,9 +12,6 @@ class Tag extends Entity
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         return ['name' => $this->id];

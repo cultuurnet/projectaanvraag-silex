@@ -45,9 +45,6 @@ class BlockProjectCommandHandlerTest extends TestCase
      */
     protected $user;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);

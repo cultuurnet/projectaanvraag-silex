@@ -21,9 +21,6 @@ class JsonErrorHandlerTest extends TestCase
      */
     protected $errorHandler;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->request = $this->createMock(Request::class);

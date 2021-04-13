@@ -40,17 +40,11 @@ class SyncConsumer extends AbstractRetryableMessage implements ConsumerTypeInter
         $this->consumerData['groups'] = implode(",", $consumer->group);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType()
     {
         return $this->type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setType($type)
     {
         $this->type = $type;

@@ -9,9 +9,6 @@ use Pimple\Container;
 
 class CuratorenAPIServiceProvider extends APIServiceProviderBase
 {
-    /**
-     * @inheritdoc
-     */
     public function register(Container $pimple)
     {
 

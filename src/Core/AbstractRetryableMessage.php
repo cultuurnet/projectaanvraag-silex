@@ -31,9 +31,6 @@ abstract class AbstractRetryableMessage implements AsynchronousMessageInterface,
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDelay()
     {
         return $this->delay;

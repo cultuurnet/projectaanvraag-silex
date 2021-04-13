@@ -224,9 +224,6 @@ class Tips extends WidgetTypeBase
         $this->searchClient = $searchClient;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
@@ -240,9 +237,6 @@ class Tips extends WidgetTypeBase
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function render($cdbid = '', $preferredLanguage = 'nl')
     {
         $query = new SearchQuery(true);
@@ -306,9 +300,6 @@ class Tips extends WidgetTypeBase
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function renderPlaceholder()
     {
         return $this->twig->render('widgets/widget-placeholder.html.twig', ['id' => $this->id, 'type' => 'tips', 'autoload' => true]);

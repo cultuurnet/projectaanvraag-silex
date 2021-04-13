@@ -8,9 +8,6 @@ use Pimple\Container;
 
 class UserServiceProvider extends UiTIDUserServiceProvider
 {
-    /**
-     * @inheritdoc
-     */
     public function register(Container $pimple)
     {
         parent::register($pimple);

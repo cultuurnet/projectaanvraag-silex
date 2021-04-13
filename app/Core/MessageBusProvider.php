@@ -41,10 +41,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class MessageBusProvider implements ServiceProviderInterface, EventListenerProviderInterface
 {
-
-    /**
-     * @inheritDoc
-     */
     public function register(Container $pimple)
     {
 
@@ -263,9 +259,6 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
     {
         $dispatcher->addSubscriber(new RabbitMQEventSubscriber($app['event_bus'], $app['envelope_serializer'], $app['monolog.rabbitmq'], $app['monolog.projects'], $app['config']['rabbitmq']));

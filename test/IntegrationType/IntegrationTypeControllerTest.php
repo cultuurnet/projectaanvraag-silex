@@ -20,10 +20,6 @@ class IntegrationTypeControllerTest extends TestCase
      */
     protected $integrationTypeStorageService;
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $integrationTypesStorageService = $this->createMock(IntegrationTypeStorage::class);

@@ -25,25 +25,16 @@ class CuratorenClient implements CuratorenClientInterface
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setClient(ClientInterface $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getClient()
     {
         return $this->client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function searchArticles(String $cdbid)
     {
         $options = [

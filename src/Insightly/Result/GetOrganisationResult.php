@@ -13,8 +13,6 @@ use Guzzle\Http\Message\Response;
 class GetOrganisationResult implements ResponseToResultInterface
 {
     /**
-     * @inheritdoc
-     *
      * @return Organisation
      */
     public static function parseToResult(Response $response)

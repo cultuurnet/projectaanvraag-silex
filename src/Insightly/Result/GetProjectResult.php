@@ -12,8 +12,6 @@ use Guzzle\Http\Message\Response;
 class GetProjectResult implements ResponseToResultInterface
 {
     /**
-     * @inheritdoc
-     *
      * @return Project
      */
     public static function parseToResult(Response $response)

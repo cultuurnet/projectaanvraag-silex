@@ -55,9 +55,6 @@ class ActivateProjectCommandHandlerTest extends TestCase
     protected $project;
 
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);

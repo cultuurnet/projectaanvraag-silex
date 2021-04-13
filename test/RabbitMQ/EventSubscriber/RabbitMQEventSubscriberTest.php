@@ -65,9 +65,6 @@ class RabbitMQEventSubscriberTest extends TestCase
      */
     protected $exception;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         // Config

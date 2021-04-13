@@ -27,9 +27,6 @@ class CouponValidator implements CouponValidatorInterface
         $this->couponRepository = $repository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validateCoupon($coupon)
     {
         /** @var CouponInterface $couponEntity */

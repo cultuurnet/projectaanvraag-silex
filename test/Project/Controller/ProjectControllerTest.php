@@ -69,9 +69,6 @@ class ProjectControllerTest extends TestCase
      */
     protected $formData;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp()
     {
         $this->messageBus = $this->createMock(MessageBusSupportingMiddleware::class);
@@ -412,6 +409,7 @@ class ProjectControllerTest extends TestCase
         $project->setUpdated(new \DateTime());
 
         $insightlyProject = new \CultuurNet\ProjectAanvraag\Insightly\Item\Project();
+        $insightlyProject->setId(2);
         $link = new Link();
         $link->setOrganisationId(3);
         $insightlyProject->addLink($link);
@@ -424,6 +422,12 @@ class ProjectControllerTest extends TestCase
             ->method('getProject')
             ->with(2)
             ->willReturn($insightlyProject);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getProjectLinks')
+            ->with(2)
+            ->willReturn([$link]);
 
         $this->insightlyClient
             ->expects($this->once())
@@ -469,6 +473,7 @@ class ProjectControllerTest extends TestCase
         $project->setUpdated(new \DateTime());
 
         $insightlyProject = new \CultuurNet\ProjectAanvraag\Insightly\Item\Project();
+        $insightlyProject->setId(2);
         $link = new Link();
         $link->setOrganisationId(3);
         $insightlyProject->addLink($link);
@@ -484,15 +489,17 @@ class ProjectControllerTest extends TestCase
         $contactInfo->setId(102388049);
         $organisation->setContactInfo([$contactInfo]);
 
-        $link = new Link();
-        $link->setId(125674597);
-        $organisation->addLink($link);
-
         $this->insightlyClient
             ->expects($this->once())
             ->method('getProject')
             ->with(2)
             ->willReturn($insightlyProject);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getProjectLinks')
+            ->with(2)
+            ->willReturn([$link]);
 
         $this->insightlyClient
             ->expects($this->once())
@@ -528,6 +535,7 @@ class ProjectControllerTest extends TestCase
         $project->setUpdated(new \DateTime());
 
         $insightlyProject = new \CultuurNet\ProjectAanvraag\Insightly\Item\Project();
+        $insightlyProject->setId(2);
         $link = new Link();
         $link->setOrganisationId(3);
         $insightlyProject->addLink($link);
@@ -543,15 +551,17 @@ class ProjectControllerTest extends TestCase
         $contactInfo->setId(1023880549);
         $organisation->setContactInfo([$contactInfo]);
 
-        $link = new Link();
-        $link->setId(1256745979);
-        $organisation->addLink($link);
-
         $this->insightlyClient
             ->expects($this->once())
             ->method('getProject')
             ->with(2)
             ->willReturn($insightlyProject);
+
+        $this->insightlyClient
+            ->expects($this->once())
+            ->method('getProjectLinks')
+            ->with(2)
+            ->willReturn([$link]);
 
         $this->insightlyClient
             ->expects($this->once())

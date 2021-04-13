@@ -12,10 +12,6 @@ use Silex\ControllerCollection;
  */
 class WidgetAPIControllerProvider implements ControllerProviderInterface
 {
-
-    /**
-     * {@inheritdoc}
-     */
     public function connect(Application $app)
     {
 

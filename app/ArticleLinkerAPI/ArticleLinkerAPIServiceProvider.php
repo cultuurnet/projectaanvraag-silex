@@ -11,9 +11,6 @@ use Symfony\Component\Cache\Simple\DoctrineCache;
 
 class ArticleLinkerAPIServiceProvider extends APIServiceProviderBase
 {
-    /**
-     * @inheritdoc
-     */
     public function register(Container $pimple)
     {
 
