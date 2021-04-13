@@ -53,7 +53,7 @@ class CuratorenClientTest extends TestCase
             ->with('GET', 'news_articles', $expectedOptions)
             ->willReturn($response);
 
-        $result = $client->searchArticles('my-cdbid', $expectedOptions);
+        $result = $client->searchArticles('my-cdbid');
         $this->assertEquals($expectedResult, $result);
     }
 }

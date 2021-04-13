@@ -86,7 +86,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
     public function testUpdateProjectPipelineStage()
     {
         $client = $this->getMockClient('getProject.json');
-        $project = $client->updateProjectPipelineStage(1, 'pipelineId', 'stageId');
+        $project = $client->updateProjectPipelineStage(1, 'stageId');
 
         $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $project, 'It correctly returns an Insightly project');
     }

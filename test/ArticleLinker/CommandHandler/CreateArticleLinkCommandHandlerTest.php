@@ -39,7 +39,7 @@ class CreateArticleLinkCommandHandlerTest extends TestCase
     public function testHandleCreateArticleLink()
     {
         $projectActive = false;
-        $createArticleLink = new CreateArticleLink('my-url', 'my-cdbid', $projectActive);
+        $createArticleLink = new CreateArticleLink('my-url', 'my-cdbid');
         $articleLinkCreated = new ArticleLinkCreated('my-url', 'my-cdbid', $projectActive);
 
         $this->eventBus->expects($this->once())
