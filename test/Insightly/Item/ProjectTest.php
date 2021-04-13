@@ -64,7 +64,7 @@ class ProjectTest extends AbstractInsightlyClientTest
         $this->assertEquals([1, 2, 3], $project->getVisibleUserIds(), 'It correctly returns the visible user ids');
         $this->assertEquals($project->getTags(), new EntityList([$tag]), 'It correctly returns the tags');
         $this->assertEquals($project->getLinks(), new EntityList([$link, $link]), 'It correctly returns the links');
-        $this->assertEquals(2, count($project->getLinks()), 'It correctly returns the number of links');
+        $this->assertCount(2, $project->getLinks(), 'It correctly returns the number of links');
         $this->assertEquals(true, $project->canDelete(), 'It correctly returns the canDelete state');
         $this->assertEquals(true, $project->canEdit(), 'It correctly returns the canEdit state');
 

@@ -26,7 +26,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
         $projects = $client->getProjects();
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $projects, 'It only contains instances of Project');
-        $this->assertEquals(3, count($projects), 'It contains 3 items');
+        $this->assertCount(3, $projects, 'It contains 3 items');
     }
 
     /**
@@ -77,7 +77,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
         $pipelines = $client->getPipelines();
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline', $pipelines, 'It only contains instances of Pipeline');
-        $this->assertEquals(2, count($pipelines), 'It contains 2 items');
+        $this->assertCount(2, $pipelines, 'It contains 2 items');
     }
 
     /**
