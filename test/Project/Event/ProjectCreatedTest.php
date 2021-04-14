@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Event;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Entity\User;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProjectCreatedTest extends TestCase
@@ -14,10 +15,10 @@ class ProjectCreatedTest extends TestCase
      */
     public function testProjectCreatedEvent()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var ProjectInterface & MockObject $project */
         $project = $this->createMock(ProjectInterface::class);
 
-        /** @var User|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var User & MockObject $project */
         $user = $this->createMock(UserInterface::class);
 
         $projectCreated = new ProjectCreated($project, $user);

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class ProjectActivatedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface & MockObject
      */
     protected $insightlyClient;
 
@@ -22,12 +22,12 @@ class ProjectActivatedEventListenerTest extends TestCase
     protected $eventListener;
 
     /**
-     * @var ProjectInterface|MockObject
+     * @var ProjectInterface & MockObject
      */
     protected $project;
 
     /**
-     * @var Project|MockObject
+     * @var Project & MockObject
      */
     protected $insightlyProject;
 

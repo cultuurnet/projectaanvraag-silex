@@ -14,7 +14,7 @@ class PublishesAsynchronousMessagesTest extends TestCase
 {
 
     /**
-     * @var Publisher|MockObject
+     * @var Publisher & MockObject
      */
     private $publisher;
 

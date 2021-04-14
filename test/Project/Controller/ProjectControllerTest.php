@@ -18,6 +18,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectService;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,32 +36,32 @@ class ProjectControllerTest extends TestCase
     protected $controller;
 
     /**
-     * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageBusSupportingMiddleware & MockObject
      */
     protected $messageBus;
 
     /**
-     * @var ProjectServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectServiceInterface & MockObject
      */
     protected $projectService;
 
     /**
-     * @var Request|\PHPUnit_Framework_MockObject_MockObject
+     * @var Request & MockObject
      */
     protected $request;
 
     /**
-     * @var AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var AuthorizationCheckerInterface & MockObject
      */
     protected $authorizationChecker;
 
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface & MockObject
      */
     protected $insightlyClient;
 
     /**
-     * @var CouponValidatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var CouponValidatorInterface & MockObject
      */
     protected $couponValidator;
 

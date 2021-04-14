@@ -12,12 +12,13 @@ use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProjectCreatedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface & MockObject
      */
     protected $insightlyClient;
 
@@ -27,22 +28,22 @@ class ProjectCreatedEventListenerTest extends TestCase
     protected $eventListener;
 
     /**
-     * @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectInterface & MockObject
      */
     protected $project;
 
     /**
-     * @var Project|\PHPUnit_Framework_MockObject_MockObject
+     * @var Project & MockObject
      */
     protected $insightlyProject;
 
     /**
-     * @var EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManagerInterface & MockObject
      */
     protected $entityManager;
 
     /**
-     * @var \CultuurNet\ProjectAanvraag\Entity\User|\PHPUnit_Framework_MockObject_MockObject
+     * @var \CultuurNet\ProjectAanvraag\Entity\User & MockObject
      */
     protected $localUser;
 

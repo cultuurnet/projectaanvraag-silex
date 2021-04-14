@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -16,22 +17,22 @@ use SimpleBus\Serialization\Envelope\Serializer\MessageInEnvelopSerializer;
 class RabbitMQEventSubscriberTest extends TestCase
 {
     /**
-     * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageBusSupportingMiddleware & MockObject
      */
     protected $eventBus;
 
     /**
-     * @var MessageInEnvelopSerializer|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageInEnvelopSerializer & MockObject
      */
     protected $messageInEnveloppeSerializer;
 
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface & MockObject
      */
     protected $logger;
 
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface & MockObject
      */
     protected $projectLogger;
 
@@ -41,27 +42,27 @@ class RabbitMQEventSubscriberTest extends TestCase
     protected $config;
 
     /**
-     * @var ProjectEvent|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectEvent & MockObject
      */
     protected $projectEvent;
 
     /**
-     * @var MessageConsumptionFailed|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageConsumptionFailed & MockObject
      */
     protected $messageConsumptionFailedEvent;
 
     /**
-     * @var Envelope|\PHPUnit_Framework_MockObject_MockObject
+     * @var Envelope & MockObject
      */
     protected $envelope;
 
     /**
-     * @var AMQPMessage|\PHPUnit_Framework_MockObject_MockObject
+     * @var AMQPMessage & MockObject
      */
     protected $amqpMessage;
 
     /**
-     * @var \Exception|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Exception & MockObject
      */
     protected $exception;
 

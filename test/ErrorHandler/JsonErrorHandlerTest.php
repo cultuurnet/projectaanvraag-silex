@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\ErrorHandler;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class JsonErrorHandlerTest extends TestCase
 {
     /**
-     * @var Request|\PHPUnit_Framework_MockObject_MockObject
+     * @var Request & MockObject
      */
     protected $request;
 

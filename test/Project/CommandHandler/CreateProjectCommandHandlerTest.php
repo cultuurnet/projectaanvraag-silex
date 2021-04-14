@@ -13,38 +13,39 @@ use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class CreateProjectCommandHandlerTest extends TestCase
 {
     /**
-     * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageBusSupportingMiddleware & MockObject
      */
     protected $eventBus;
 
     /**
-     * @var EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManagerInterface & MockObject
      */
     protected $entityManager;
 
     /**
-     * @var \CultureFeed|\PHPUnit_Framework_MockObject_MockObject
+     * @var \CultureFeed & MockObject
      */
     protected $cultureFeed;
 
     /**
-     * @var \CultureFeed|\PHPUnit_Framework_MockObject_MockObject
+     * @var \CultureFeed & MockObject
      */
     protected $cultureFeedTest;
 
     /**
-     * @var CreateProjectCommandHandler|\PHPUnit_Framework_MockObject_MockObject
+     * @var CreateProjectCommandHandler & MockObject
      */
     protected $commandHandler;
 
     /**
-     * @var UserInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var UserInterface & MockObject
      */
     protected $user;
 

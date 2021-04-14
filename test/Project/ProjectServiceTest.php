@@ -11,6 +11,7 @@ use Doctrine\MongoDB\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,19 +23,19 @@ class ProjectServiceTest extends TestCase
     /** @var  ProjectService */
     protected $projectService;
 
-    /** @var  \ICultureFeed|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \ICultureFeed & MockObject */
     protected $culturefeedLive;
 
-    /** @var  \ICultureFeed|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \ICultureFeed & MockObject */
     protected $culturefeedTest;
 
-    /** @var  EntityRepository|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  EntityRepository & MockObject */
     protected $projectRepository;
 
-    /** @var  IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  IntegrationTypeStorageInterface & MockObject */
     protected $integrationTypeStorage;
 
-    /** @var  User|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  User & MockObject */
     protected $user;
 
     /**
@@ -184,7 +185,7 @@ class ProjectServiceTest extends TestCase
      */
     public function testLoadProjectWithEnrichment()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project & MockObject $project */
         $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
         $integrationType = new IntegrationType();
 
@@ -236,7 +237,7 @@ class ProjectServiceTest extends TestCase
      */
     public function testTestExceptions()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project & MockObject $project */
         $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
@@ -271,7 +272,7 @@ class ProjectServiceTest extends TestCase
      */
     public function testLiveExceptions()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
+        /** @var Project & MockObject $project */
         $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
