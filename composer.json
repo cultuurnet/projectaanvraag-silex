@@ -41,16 +41,21 @@
     },
     "autoload": {
         "psr-4": {
-            "CultuurNet\\ProjectAanvraag\\": ["src", "app"]
+            "CultuurNet\\ProjectAanvraag\\": [
+                "src",
+                "app"
+            ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "CultuurNet\\ProjectAanvraag\\": ["test"]
+            "CultuurNet\\ProjectAanvraag\\": [
+                "test"
+            ]
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8",
+        "phpunit/phpunit": "^7.5",
         "squizlabs/php_codesniffer": "^2.7",
         "satooshi/php-coveralls": "^1.0",
         "escapestudios/symfony2-coding-standard": "^2.9",
@@ -63,5 +68,8 @@
             "ext-mongo": "1.6.16"
         },
         "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }

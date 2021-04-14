@@ -4,12 +4,10 @@ namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 use CultuurNet\ProjectAanvraag\IntegrationType\Controller\IntegrationTypeController;
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
-use Silex\WebTestCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Yaml\Yaml;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class IntegrationTypeControllerTest extends \PHPUnit_Framework_TestCase
+class IntegrationTypeControllerTest extends TestCase
 {
     use JsonAssertionTrait;
 
@@ -19,16 +17,13 @@ class IntegrationTypeControllerTest extends \PHPUnit_Framework_TestCase
     protected $controller;
 
     /**
-     * @var IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var IntegrationTypeStorageInterface & MockObject
      */
     protected $integrationTypeStorageService;
 
     public function setUp()
     {
-        $integrationTypesStorageService = $this
-            ->getMockBuilder('CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorage')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $integrationTypesStorageService = $this->createMock(IntegrationTypeStorage::class);
 
         $this->integrationTypeStorageService = $integrationTypesStorageService;
         $this->controller = new IntegrationTypeController($this->integrationTypeStorageService);

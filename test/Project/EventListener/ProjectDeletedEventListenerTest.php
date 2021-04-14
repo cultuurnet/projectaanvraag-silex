@@ -6,11 +6,13 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectDeletedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface & MockObject
      */
     protected $insightlyClient;
 
@@ -21,10 +23,7 @@ class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->insightlyClient = $this
-            ->getMockBuilder(InsightlyClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
         $this->eventListener = new ProjectDeletedEventListener($this->insightlyClient, []);
     }
@@ -34,7 +33,7 @@ class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle()
     {
-        $insightlyProject = $this->getMock(Project::class);
+        $insightlyProject = $this->createMock(Project::class);
         $this->insightlyClient
             ->expects($this->any())
             ->method('getProject')
@@ -45,15 +44,15 @@ class ProjectDeletedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->method('updateProject')
             ->will($this->returnValue($insightlyProject));
 
-        $project = $this->getMock(ProjectInterface::class);
-        $projectDeleted = $this->getMockBuilder(ProjectDeleted::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $project = $this->createMock(ProjectInterface::class);
+        $projectDeleted = $this->createMock(ProjectDeleted::class);
 
         $projectDeleted->expects($this->any())
             ->method('getProject')
             ->will($this->returnValue($project));
 
         $this->eventListener->handle($projectDeleted);
+
+        $this->addToAssertionCount(1);
     }
 }

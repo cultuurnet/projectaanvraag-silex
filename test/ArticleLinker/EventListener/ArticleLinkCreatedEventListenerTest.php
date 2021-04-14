@@ -4,10 +4,10 @@ namespace CultuurNet\ProjectAanvraag\ArticleLinker\EventListener;
 
 use CultuurNet\ProjectAanvraag\ArticleLinker\ArticleLinkerClientInterface;
 use CultuurNet\ProjectAanvraag\ArticleLinker\Event\ArticleLinkCreated;
-use CultuurNet\ProjectAanvraag\Entity\Cache;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Simple\DoctrineCache;
 
-class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ArticleLinkCreatedEventListenerTest extends TestCase
 {
 
     /**
@@ -16,16 +16,9 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
     public function testExistingHandle()
     {
 
-        $articleLinkerClient = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $articleLinkerClientTest = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $cacheBackend = $this
-            ->getMockBuilder(DoctrineCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $articleLinkerClient = $this->createMock(ArticleLinkerClientInterface::class);
+        $articleLinkerClientTest = $this->createMock(ArticleLinkerClientInterface::class);
+        $cacheBackend = $this->createMock(DoctrineCache::class);
 
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,
@@ -46,17 +39,9 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNonExistingHandle()
     {
-        $articleLinkerClient = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $articleLinkerClientTest = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
-        $cacheBackend = $this
-            ->getMockBuilder(DoctrineCache::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $articleLinkerClient = $this->createMock(ArticleLinkerClientInterface::class);
+        $articleLinkerClientTest = $this->createMock(ArticleLinkerClientInterface::class);
+        $cacheBackend = $this->createMock(DoctrineCache::class);
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,
             $articleLinkerClientTest,
@@ -80,13 +65,9 @@ class ArticleLinkCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleNoCache()
     {
-        $articleLinkerClient = $this
-            ->getMockBuilder(ArticleLinkerClientInterface::class)
-            ->getMock();
+        $articleLinkerClient = $this->createMock(ArticleLinkerClientInterface::class);
         
-        $articleLinkerClientTest = $this
-          ->getMockBuilder(ArticleLinkerClientInterface::class)
-          ->getMock();
+        $articleLinkerClientTest = $this->createMock(ArticleLinkerClientInterface::class);
 
         $eventListener = new ArticleLinkCreatedEventListener(
             $articleLinkerClient,

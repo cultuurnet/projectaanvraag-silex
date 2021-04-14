@@ -2,55 +2,56 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
-use CultuurNet\Auth\Guzzle\Log\Request;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Address;
-use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfoTest;
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use \CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\User\User;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
-class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
+class RequestActivationCommandHandlerTest extends TestCase
 {
     /**
-     * @var MessageBusSupportingMiddleware|\PHPUnit_Framework_MockObject_MockObject
+     * @var MessageBusSupportingMiddleware & MockObject
      */
     protected $eventBus;
 
     /**
-     * @var EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManagerInterface & MockObject
      */
     protected $entityManager;
 
     /**
-     * @var \CultureFeed|\PHPUnit_Framework_MockObject_MockObject
+     * @var \CultureFeed & MockObject
      */
     protected $cultureFeed;
 
     /**
-     * @var \CultureFeed|\PHPUnit_Framework_MockObject_MockObject
+     * @var \CultureFeed & MockObject
      */
     protected $cultureFeedTest;
 
     /**
-     * @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectInterface & MockObject
      */
     protected $project;
 
     /**
-     * @var InsightlyProject|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyProject & MockObject
      */
     protected $insightlyProject;
 
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface & MockObject
      */
     protected $insightlyClient;
 
@@ -66,24 +67,15 @@ class RequestActivationCommandHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->eventBus = $this
-            ->getMockBuilder('SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
 
-        $this->entityManager = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->entityManager = $this->createMock(EntityManager::class);
 
         $this->entityManager
             ->expects($this->any())
             ->method('flush');
 
-        $this->insightlyClient = $this
-            ->getMockBuilder(InsightlyClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
         $this->insightlyConfig = [
             'pipeline' => 1,

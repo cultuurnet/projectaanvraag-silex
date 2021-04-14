@@ -3,12 +3,13 @@
 namespace CultuurNet\ProjectAanvraag\Curatoren;
 
 use GuzzleHttp\ClientInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Tests the CuratorenClient class.
  */
-class CuratorenClientTest extends \PHPUnit_Framework_TestCase
+class CuratorenClientTest extends TestCase
 {
 
     /**
@@ -16,7 +17,7 @@ class CuratorenClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAndSet()
     {
-        $guzzleClient = $this->getMockBuilder(ClientInterface::class)->getMock();
+        $guzzleClient = $this->createMock(ClientInterface::class);
         $guzzleClientTwo = clone $guzzleClient;
         $client = new CuratorenClient($guzzleClient);
 
@@ -39,8 +40,8 @@ class CuratorenClientTest extends \PHPUnit_Framework_TestCase
             'cdbid' => 'test',
         ];
 
-        $guzzleClient = $this->getMockBuilder(ClientInterface::class)->getMock();
-        $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $guzzleClient = $this->createMock(ClientInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
         $client = new CuratorenClient($guzzleClient);
 
         $response->expects($this->once())
@@ -52,7 +53,7 @@ class CuratorenClientTest extends \PHPUnit_Framework_TestCase
             ->with('GET', 'news_articles', $expectedOptions)
             ->willReturn($response);
 
-        $result = $client->searchArticles('my-cdbid', $expectedOptions);
+        $result = $client->searchArticles('my-cdbid');
         $this->assertEquals($expectedResult, $result);
     }
 }

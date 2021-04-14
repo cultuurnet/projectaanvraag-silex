@@ -3,8 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
+use PHPUnit\Framework\TestCase;
 
-class IntegrationTypeStorageTest extends \PHPUnit_Framework_TestCase
+class IntegrationTypeStorageTest extends TestCase
 {
     use JsonAssertionTrait;
 

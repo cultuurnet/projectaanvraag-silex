@@ -9,28 +9,24 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use Guzzle\Http\Client;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
-class InsightlyIntegrationTest extends \PHPUnit_Framework_TestCase
+class InsightlyIntegrationTest extends TestCase
 {
     /**
      * @var InsightlyClient
      */
     private $insighltyClient;
 
-    /**
-     * @var array
-     */
-    private $config;
-
     protected function setUp()
     {
         parent::setUp();
 
-        $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
+        $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
         $this->insighltyClient = new InsightlyClient(
-            new Client($this->config['insightly']['host']),
-            $this->config['insightly']['api_key']
+            new Client($config['insightly']['host']),
+            $config['insightly']['api_key']
         );
     }
 

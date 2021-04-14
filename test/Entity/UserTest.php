@@ -2,10 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Entity;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests the User entity.
  */
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends TestCase
 {
 
     /**

@@ -2,24 +2,25 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
-class UserServiceTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+
+class UserServiceTest extends TestCase
 {
     /**
-     * @var UserRoleStorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var UserRoleStorageInterface & MockObject
      */
     protected $userRoleStorage;
 
     /**
-     * @var \CultureFeed|\PHPUnit_Framework_MockObject_MockObject
+     * @var \CultureFeed & MockObject
      */
     protected $cultureFeed;
 
     public function setUp()
     {
-        $this->userRoleStorage = $this->getMock(UserRoleStorageInterface::class);
-        $this->cultureFeed = $this->getMockBuilder(\CultureFeed::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->userRoleStorage = $this->createMock(UserRoleStorageInterface::class);
+        $this->cultureFeed = $this->createMock(\CultureFeed::class);
     }
 
     /**
@@ -63,6 +64,6 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
         $userService = new UserService($this->cultureFeed, $this->userRoleStorage);
         $user = $userService->getUser(1);
 
-        $this->assertEquals($user, null, 'It correctly handles a CultureFeed_ParseException');
+        $this->assertEquals(null, $user, 'It correctly handles a CultureFeed_ParseException');
     }
 }

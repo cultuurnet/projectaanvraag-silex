@@ -11,29 +11,31 @@ use Doctrine\MongoDB\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the ProjectService class.
  */
-class ProjectServiceTest extends \PHPUnit_Framework_TestCase
+class ProjectServiceTest extends TestCase
 {
 
     /** @var  ProjectService */
     protected $projectService;
 
-    /** @var  \ICultureFeed|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \ICultureFeed & MockObject */
     protected $culturefeedLive;
 
-    /** @var  \ICultureFeed|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \ICultureFeed & MockObject */
     protected $culturefeedTest;
 
-    /** @var  EntityRepository|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  EntityRepository & MockObject */
     protected $projectRepository;
 
-    /** @var  IntegrationTypeStorageInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  IntegrationTypeStorageInterface & MockObject */
     protected $integrationTypeStorage;
 
-    /** @var  User|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  User & MockObject */
     protected $user;
 
     /**
@@ -41,15 +43,13 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->culturefeedLive = $this->getMock(\ICultureFeed::class);
-        $this->culturefeedTest = $this->getMock(\ICultureFeed::class);
-        $this->projectRepository = $this->getMockBuilder(EntityRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->integrationTypeStorage = $this->getMock(IntegrationTypeStorageInterface::class);
-        $this->user = $this->getMock(User::class);
+        $this->culturefeedLive = $this->createMock(\ICultureFeed::class);
+        $this->culturefeedTest = $this->createMock(\ICultureFeed::class);
+        $this->projectRepository = $this->createMock(EntityRepository::class);
+        $this->integrationTypeStorage = $this->createMock(IntegrationTypeStorageInterface::class);
+        $this->user = $this->createMock(User::class);
         $this->user->id = 'id';
-        $mongoDbConnection = $this->getMock(Connection::class);
+        $mongoDbConnection = $this->createMock(Connection::class);
 
         $this->projectService = new ProjectService($this->culturefeedLive, $this->culturefeedTest, $this->projectRepository, $this->integrationTypeStorage, $this->user, $mongoDbConnection);
     }
@@ -95,9 +95,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
     private function searchTest($criteria, $start, $max, $name = '')
     {
         // Mock the querybuilder.
-        $queryBuilder = $this->getMockBuilder(QueryBuilder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $queryBuilder = $this->createMock(QueryBuilder::class);
 
         // Return the mock on createQueryBuilder.
         $this->projectRepository->expects($this->once())
@@ -187,8 +185,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadProjectWithEnrichment()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
+        /** @var Project & MockObject $project */
+        $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
         $integrationType = new IntegrationType();
 
         $project->setName('name');
@@ -198,9 +196,9 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         $project->setTestApiKeySapi3('test api key');
         $project->setGroupId('test');
 
-        $liveConsumer = $this->getMock(\CultureFeed_Consumer::class);
+        $liveConsumer = $this->createMock(\CultureFeed_Consumer::class);
         $liveConsumer->consumerSecret = 'livesecret';
-        $testConsumer = $this->getMock(\CultureFeed_Consumer::class);
+        $testConsumer = $this->createMock(\CultureFeed_Consumer::class);
         $testConsumer->consumerSecret = 'testsecret';
 
         $this->projectRepository->expects($this->once())
@@ -239,8 +237,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestExceptions()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
+        /** @var Project & MockObject $project */
+        $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
         $project->setTestConsumerKey('test');
@@ -259,7 +257,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         // No exception should be rethrown.
         $this->projectService->loadProject(1);
 
-        $this->setExpectedException('\InvalidArgumentException', 'test');
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->culturefeedTest->expects($this->any())
             ->method('getServiceConsumer')
             ->with('test')
@@ -273,8 +272,8 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLiveExceptions()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(Project::class, ['enrichWithConsumerInfo']);
+        /** @var Project & MockObject $project */
+        $project = $this->createPartialMock(Project::class, ['enrichWithConsumerInfo']);
 
         $project->setName('name');
         $project->setLiveConsumerKey('live');
@@ -292,7 +291,7 @@ class ProjectServiceTest extends \PHPUnit_Framework_TestCase
         // No exception should be rethrown.
         $this->projectService->loadProject(1);
 
-        $this->setExpectedException('\InvalidArgumentException', 'live');
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->culturefeedLive->expects($this->any())
             ->method('getServiceConsumer')

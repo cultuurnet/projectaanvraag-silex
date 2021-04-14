@@ -29,8 +29,6 @@
   "visibleTo": "EVERYONE",
   "visibleTeamId": null,
   "visibleUserIds": null,
-  "tags": null,
-  "links": null,
   "canEdit": true,
   "canDelete": true,
   "customFields": {

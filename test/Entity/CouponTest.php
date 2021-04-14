@@ -2,10 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Entity;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests the Coupon entity.
  */
-class CouponTest extends \PHPUnit_Framework_TestCase
+class CouponTest extends TestCase
 {
 
     /**

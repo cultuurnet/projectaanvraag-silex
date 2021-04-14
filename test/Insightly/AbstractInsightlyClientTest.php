@@ -5,8 +5,9 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 use Guzzle\Http\Client;
 use Guzzle\Http\Message\Response;
 use Guzzle\Plugin\Mock\MockPlugin;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractInsightlyClientTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractInsightlyClientTest extends TestCase
 {
     /**
      * Helper method for mocking a Client

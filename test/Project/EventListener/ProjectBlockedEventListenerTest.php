@@ -6,12 +6,13 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectBlockedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface & MockObject
      */
     protected $insightlyClient;
 
@@ -22,10 +23,7 @@ class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->insightlyClient = $this
-            ->getMockBuilder(InsightlyClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
         $this->eventListener = new ProjectBlockedEventListener($this->insightlyClient, []);
     }
@@ -35,14 +33,14 @@ class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandle()
     {
-        /** @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this->getMock(ProjectInterface::class);
+        /** @var ProjectInterface & MockObject $project */
+        $project = $this->createMock(ProjectInterface::class);
         $project->expects($this->any())
             ->method('getInsightlyProjectId')
             ->willReturn(1);
 
         /** @var Project $insightlyProject */
-        $insightlyProject = $this->getMock(Project::class);
+        $insightlyProject = $this->createMock(Project::class);
         $this->insightlyClient
             ->expects($this->any())
             ->method('getProject')
@@ -55,14 +53,14 @@ class ProjectBlockedEventListenerTest extends \PHPUnit_Framework_TestCase
             ->with($insightlyProject)
             ->will($this->returnValue($insightlyProject));
 
-        $projectBlocked = $this->getMockBuilder(ProjectBlocked::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $projectBlocked = $this->createMock(ProjectBlocked::class);
 
         $projectBlocked->expects($this->any())
             ->method('getProject')
             ->will($this->returnValue($project));
 
         $this->eventListener->handle($projectBlocked);
+
+        $this->addToAssertionCount(1);
     }
 }

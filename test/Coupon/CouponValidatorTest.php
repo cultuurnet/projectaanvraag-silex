@@ -6,17 +6,19 @@ use CultuurNet\ProjectAanvraag\Coupon\Exception\CouponInUseException;
 use CultuurNet\ProjectAanvraag\Coupon\Exception\InvalidCouponException;
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the CouponValidator class.
  */
-class CouponValidatorTest extends \PHPUnit_Framework_TestCase
+class CouponValidatorTest extends TestCase
 {
 
     /** @var  CouponValidatorInterface */
     protected $validator;
 
-    /** @var  EntityRepository|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  EntityRepository & MockObject */
     protected $couponRepository;
 
     /**
@@ -24,9 +26,7 @@ class CouponValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->couponRepository = $this->getMockBuilder(EntityRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->couponRepository = $this->createMock(EntityRepository::class);
 
         $this->validator = new CouponValidator($this->couponRepository);
     }
@@ -47,32 +47,20 @@ class CouponValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->validateCoupon('coupon');
     }
 
-    /**
-     * Test if validator throws invalid coupon exception.
-     * @expectedException \CultuurNet\ProjectAanvraag\Coupon\Exception\InvalidCouponException
-     */
-    public function testInValidCoupon()
+    public function testInValidCouponException()
     {
         $this->couponRepository->expects($this->once())
             ->method('find')
             ->with('coupon')
             ->willReturn(null);
 
-        try {
-            $this->validator->validateCoupon('coupon');
-        } catch (InvalidCouponException $e) {
-            $this->assertEquals($e->getValidationCode(), InvalidCouponException::ERROR_CODE);
-            throw $e;
-        }
+        $this->expectException(InvalidCouponException::class);
+
+        $this->validator->validateCoupon('coupon');
     }
 
-    /**
-     * Test if validator throws invalid coupon exception.
-     * @expectedException \CultuurNet\ProjectAanvraag\Coupon\Exception\CouponInUseException
-     */
-    public function testCouponInUse()
+    public function testCouponInUseException()
     {
-
         $coupon = new Coupon();
         $coupon->setUsed(true);
 
@@ -81,11 +69,8 @@ class CouponValidatorTest extends \PHPUnit_Framework_TestCase
             ->with('coupon')
             ->willReturn($coupon);
 
-        try {
-            $this->validator->validateCoupon('coupon');
-        } catch (CouponInUseException $e) {
-            $this->assertEquals($e->getValidationCode(), CouponInUseException::ERROR_CODE);
-            throw $e;
-        }
+        $this->expectException(CouponInUseException::class);
+
+        $this->validator->validateCoupon('coupon');
     }
 }

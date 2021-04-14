@@ -8,20 +8,17 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
-use CultuurNet\ProjectAanvraag\User\User;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Guzzle\Http\Exception\ClientErrorResponseException;
-use Guzzle\Http\Message\Response;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
+class ProjectCreatedEventListenerTest extends TestCase
 {
     /**
-     * @var InsightlyClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var InsightlyClientInterface & MockObject
      */
     protected $insightlyClient;
 
@@ -31,36 +28,30 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
     protected $eventListener;
 
     /**
-     * @var ProjectInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProjectInterface & MockObject
      */
     protected $project;
 
     /**
-     * @var Project|\PHPUnit_Framework_MockObject_MockObject
+     * @var Project & MockObject
      */
     protected $insightlyProject;
 
     /**
-     * @var EntityManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var EntityManagerInterface & MockObject
      */
     protected $entityManager;
 
     /**
-     * @var \CultuurNet\ProjectAanvraag\Entity\User|\PHPUnit_Framework_MockObject_MockObject
+     * @var \CultuurNet\ProjectAanvraag\Entity\User & MockObject
      */
     protected $localUser;
 
     public function setUp()
     {
-        $this->insightlyClient = $this
-            ->getMockBuilder(InsightlyClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
-        $this->entityManager = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->entityManager = $this->createMock(EntityManager::class);
 
         $this->eventListener = new ProjectCreatedEventListener(
             $this->insightlyClient,
@@ -94,10 +85,7 @@ class ProjectCreatedEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->localUser->setFirstName('firstname');
         $this->localUser->setEmail('email@email.com');
 
-        $repository = $this
-            ->getMockBuilder(EntityRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $repository = $this->createMock(EntityRepository::class);
 
         $this->entityManager
             ->expects($this->any())

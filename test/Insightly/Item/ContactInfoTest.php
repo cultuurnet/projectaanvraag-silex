@@ -2,10 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Item;
 
-use CultuurNet\ProjectAanvraag\Insightly\AbstractInsightlyClientTest;
 use CultuurNet\ProjectAanvraag\JsonAssertionTrait;
+use PHPUnit\Framework\TestCase;
 
-class ContactInfoTest extends \PHPUnit_Framework_TestCase
+class ContactInfoTest extends TestCase
 {
     use JsonAssertionTrait;
 

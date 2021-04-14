@@ -4,16 +4,17 @@ namespace CultuurNet\ProjectAanvraag\Insightly;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
+use Guzzle\Http\Exception\ClientErrorResponseException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class InsighltyClientTest extends AbstractInsightlyClientTest
 {
-    /**
-     * Test client request method
-     * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
-     */
     public function testRequestExceptionHandling()
     {
         $client = $this->getMockClient(null, 404);
+
+        $this->expectException(ClientErrorResponseException::class);
+
         $client->getProjects();
     }
 
@@ -26,7 +27,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
         $projects = $client->getProjects();
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $projects, 'It only contains instances of Project');
-        $this->assertEquals(3, count($projects), 'It contains 3 items');
+        $this->assertCount(3, $projects, 'It contains 3 items');
     }
 
     /**
@@ -45,11 +46,8 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
      */
     public function testUpdateProject()
     {
-        /** @var Project|\PHPUnit_Framework_MockObject_MockObject $project */
-        $project = $this
-            ->getMockBuilder(Project::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Project & MockObject $project */
+        $project = $this->createMock(Project::class);
 
         $client = $this->getMockClient('getProject.json');
         $project = $client->updateProject($project);
@@ -80,7 +78,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
         $pipelines = $client->getPipelines();
 
         $this->assertContainsOnlyInstancesOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Pipeline', $pipelines, 'It only contains instances of Pipeline');
-        $this->assertEquals(2, count($pipelines), 'It contains 2 items');
+        $this->assertCount(2, $pipelines, 'It contains 2 items');
     }
 
     /**
@@ -89,7 +87,7 @@ class InsighltyClientTest extends AbstractInsightlyClientTest
     public function testUpdateProjectPipelineStage()
     {
         $client = $this->getMockClient('getProject.json');
-        $project = $client->updateProjectPipelineStage(1, 'pipelineId', 'stageId');
+        $project = $client->updateProjectPipelineStage(1, 'stageId');
 
         $this->assertInstanceOf('\CultuurNet\ProjectAanvraag\Insightly\Item\Project', $project, 'It correctly returns an Insightly project');
     }

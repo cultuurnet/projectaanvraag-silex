@@ -2,18 +2,14 @@
 
 namespace CultuurNet\ProjectAanvraag\ArticleLinker;
 
-use CultuurNet\ProjectAanvraag\Coupon\Exception\CouponInUseException;
-use CultuurNet\ProjectAanvraag\Coupon\Exception\InvalidCouponException;
-use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
-use CultuurNet\ProjectAanvraag\Entity\Coupon;
-use Doctrine\ORM\EntityRepository;
 use GuzzleHttp\ClientInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Tests the ArticleLinkerClient class.
  */
-class ArticleLinkerClientTest extends \PHPUnit_Framework_TestCase
+class ArticleLinkerClientTest extends TestCase
 {
 
     /**
@@ -21,7 +17,7 @@ class ArticleLinkerClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAndSet()
     {
-        $guzzleClient = $this->getMockBuilder(ClientInterface::class)->getMock();
+        $guzzleClient = $this->createMock(ClientInterface::class);
         $guzzleClientTwo = clone $guzzleClient;
         $client = new ArticleLinkerClient($guzzleClient);
 
@@ -45,8 +41,8 @@ class ArticleLinkerClientTest extends \PHPUnit_Framework_TestCase
                 ],
         ];
 
-        $guzzleClient = $this->getMockBuilder(ClientInterface::class)->getMock();
-        $response = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $guzzleClient = $this->createMock(ClientInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
         $client = new ArticleLinkerClient($guzzleClient);
 
         $guzzleClient->expects($this->once())
