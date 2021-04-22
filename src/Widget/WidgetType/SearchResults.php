@@ -665,8 +665,8 @@ class SearchResults extends WidgetTypeBase
         );
         $query->addParameter(new AudienceType('*'));
         $query->addParameter(new AddressCountry('*'));
-        $query->addParameter(new AvailableTo('*'));
-        $query->addParameter(new AvailableFrom('*'));
+        $query->addParameter(AvailableTo::wildcard());
+        $query->addParameter(AvailableFrom::wildcard());
         $this->searchResult = $this->searchClient->searchEvents($query);
 
         $events = $this->searchResult->getMember()->getItems();
