@@ -388,8 +388,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         });
 
         var encodedLeftBracket = encodeURIComponent('[');
-        var encodedRightBracket = encodeURIComponent('[');
-        return newParams.join('&').replace('[', encodedLeftBracket).replace(']', encodedRightBracket);
+        var encodedRightBracket = encodeURIComponent(']');
+        return newParams.join('&').replaceAll('[', encodedLeftBracket).replaceAll(']', encodedRightBracket);
     };
 
     CultuurnetWidgets.addLoadEvent = function(func) {
