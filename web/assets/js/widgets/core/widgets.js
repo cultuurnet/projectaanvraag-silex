@@ -387,7 +387,9 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
           newParams.push(key + '=' + value);
         });
 
-        return newParams.join('&').replaceAll('[', '%5B').replaceAll(']', '%5D');
+        var encodedLeftBracket = encodeURIComponent('[');
+        var encodedRightBracket = encodeURIComponent('[');
+        return newParams.join('&').replace('[', encodedLeftBracket).replace(']', encodedRightBracket);
     };
 
     CultuurnetWidgets.addLoadEvent = function(func) {
