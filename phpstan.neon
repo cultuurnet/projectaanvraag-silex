@@ -6,3 +6,5 @@ parameters:
 		- src
 		- test
 		- web/index.php
+	bootstrapFiles:
+		- app/ApplicationBase.php

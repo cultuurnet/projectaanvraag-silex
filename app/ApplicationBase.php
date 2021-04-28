@@ -41,6 +41,8 @@ use Symfony\Component\Translation\Loader\JsonFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\TranslatorInterface;
 
+define('WWW_ROOT', realpath(__DIR__ . '/../web'));
+
 /**
  * Base Application class for the projectaanvraag application.
  */
