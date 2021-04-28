@@ -68,7 +68,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
      * @param array $configuration
      * @param bool $cleanup
      */
-    public function __construct(array $pluginDefinition, WidgetPluginManager $widgetManager, \Twig_Environment $twig, array $configuration, bool $cleanup)
+    final public function __construct(array $pluginDefinition, WidgetPluginManager $widgetManager, \Twig_Environment $twig, array $configuration, bool $cleanup)
     {
         $this->pluginDefinition = $pluginDefinition;
         $this->widgetManager = $widgetManager;
@@ -81,7 +81,7 @@ abstract class LayoutBase implements LayoutInterface, ContainerFactoryPluginInte
         }
     }
 
-    public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
+    final public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
         return new static(
             $pluginDefinition,
