@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\ProjectAanvraag\RabbitMQ\RoutingKeyresolver;
+namespace CultuurNet\ProjectAanvraag\RabbitMQ\RoutingKeyResolver;
 
 use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
 use SimpleBus\Asynchronous\Routing\RoutingKeyResolver;
