@@ -95,7 +95,8 @@ class ShareProxyController
         WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
         \Twig_Environment $twig,
         RequestStack $requestStack,
-        bool $debugMode) {
+        bool $debugMode
+    ) {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
