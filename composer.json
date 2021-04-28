@@ -71,9 +71,11 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "phpstan": "vendor/bin/phpstan",
+        "phpcs": "vendor/bin/phpcs --standard=phpcs-ruleset.xml app/ src/ test/",
         "ci": [
             "composer phpstan",
-            "composer test"
+            "composer test",
+            "composer phpcs"
         ]
     }
 }
