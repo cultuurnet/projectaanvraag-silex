@@ -195,7 +195,7 @@ use Pimple\Container;
  *      }
  * )
  */
-class Tips extends WidgetTypeBase
+final class Tips extends WidgetTypeBase
 {
     /**
      * @var MessageBusSupportingMiddleware
