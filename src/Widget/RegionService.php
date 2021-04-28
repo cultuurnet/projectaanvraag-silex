@@ -13,8 +13,12 @@ class RegionService
     /**
      * @var string
      */
-    protected $jsonLocation;
+    private $jsonLocation;
 
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     public function __construct($jsonLocation, TranslatorInterface $translator)
     {

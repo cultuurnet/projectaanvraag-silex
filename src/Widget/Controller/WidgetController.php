@@ -75,19 +75,10 @@ class WidgetController
      */
     protected $articleLinkerClient;
 
-    /**
-     * WidgetController constructor.
-     *
-     * @param RendererInterface $renderer
-     * @param DocumentRepository $widgetRepository
-     * @param Connection $db
-     * @param MessageBusSupportingMiddleware $commandBus
-     */
     public function __construct(
         RendererInterface $renderer,
         DocumentRepository $widgetRepository,
         ProjectConverter $projectConverter,
-        Connection $db,
         WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
         bool $debugMode,
         string $legacyHost,
@@ -164,14 +155,13 @@ class WidgetController
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
     {
         $project = $this->projectConverter->convert($widgetPage->getProjectId());
-        $projectActive = $project->getStatus() === ProjectInterface::PROJECT_STATUS_ACTIVE;
 
         if ($cdbid && $request->headers->get('referer')) {
             $url = $request->headers->get('referer');
 
             $cdbidsArr = explode(' ', $cdbid);
             foreach ($cdbidsArr as $id) {
-                $this->commandBus->handle(new CreateArticleLink($url, $id, $projectActive));
+                $this->commandBus->handle(new CreateArticleLink($url, $id));
             }
         }
 

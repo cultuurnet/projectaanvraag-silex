@@ -2,8 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Core\EventListener;
 
-use CultuurNet\ProjectAanvraag\Core\Event\QueueWidgetMigration;
 use CultuurNet\ProjectAanvraag\Widget\Command\MigrateWidgetPage;
+use CultuurNet\ProjectAanvraag\WidgetMigration\Event\QueueWidgetMigration;
 use Doctrine\DBAL\Connection;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Doctrine\ORM\EntityManagerInterface;

@@ -272,7 +272,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *      }
  * )
  */
-class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterface
+final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 {
 
     /**

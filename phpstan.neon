@@ -1,0 +1,10 @@
+parameters:
+	level: 1
+	paths:
+		- app
+		- bin
+		- src
+		- test
+		- web/index.php
+	bootstrapFiles:
+		- app/ApplicationBase.php

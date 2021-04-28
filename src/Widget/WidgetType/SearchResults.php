@@ -402,7 +402,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *     }
  * )
  */
-class SearchResults extends WidgetTypeBase
+final class SearchResults extends WidgetTypeBase
 {
 
     /**

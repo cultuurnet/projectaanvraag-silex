@@ -71,6 +71,7 @@ class User extends UiTIDUser implements UserInterface
 
         // Unset the "following" property on the user, as it contains a recursive reference to the user
         // object itself, which makes it impossible to json_encode the user object.
+        // @phpstan-ignore-next-line
         unset($json['following']);
 
         return $json;

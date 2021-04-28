@@ -99,6 +99,7 @@ class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInter
 
     public static function create(Container $container, array $pluginDefinition, array $configuration, bool $cleanup)
     {
+        // @phpstan-ignore-next-line
         return new static(
             $pluginDefinition,
             $configuration,

@@ -41,6 +41,8 @@ use Symfony\Component\Translation\Loader\JsonFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\TranslatorInterface;
 
+define('WWW_ROOT', realpath(__DIR__ . '/../web'));
+
 /**
  * Base Application class for the projectaanvraag application.
  */
@@ -68,8 +70,6 @@ class ApplicationBase extends SilexApplication
             $this->register(new YamlConfigServiceProvider(__DIR__ . '/../config.yml'));
             file_put_contents($this['cache_directory'] . '/config.php', '<?php return ' . var_export($this['config'], true) . ';');
         }
-
-        define('WWW_ROOT', realpath(__DIR__ . '/../web'));
 
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;

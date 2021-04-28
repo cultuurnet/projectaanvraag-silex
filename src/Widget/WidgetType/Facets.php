@@ -69,7 +69,7 @@ use Symfony\Component\Yaml\Yaml;
  *      }
  * )
  */
-class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
+final class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 {
 
     /**
