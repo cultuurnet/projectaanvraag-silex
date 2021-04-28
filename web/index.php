@@ -3,6 +3,8 @@ use CultuurNet\ProjectAanvraag\WebApplication;
 
 //tideways_enable(TIDEWAYS_FLAGS_NO_SPANS);
 
+define('WWW_ROOT', realpath(__DIR__));
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 global $app;

@@ -69,8 +69,6 @@ class ApplicationBase extends SilexApplication
             file_put_contents($this['cache_directory'] . '/config.php', '<?php return ' . var_export($this['config'], true) . ';');
         }
 
-        define('WWW_ROOT', realpath(__DIR__ . '/../web'));
-
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
 
