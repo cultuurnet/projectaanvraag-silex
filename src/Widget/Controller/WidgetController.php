@@ -75,19 +75,10 @@ class WidgetController
      */
     protected $articleLinkerClient;
 
-    /**
-     * WidgetController constructor.
-     *
-     * @param RendererInterface $renderer
-     * @param DocumentRepository $widgetRepository
-     * @param Connection $db
-     * @param MessageBusSupportingMiddleware $commandBus
-     */
     public function __construct(
         RendererInterface $renderer,
         DocumentRepository $widgetRepository,
         ProjectConverter $projectConverter,
-        Connection $db,
         WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
         bool $debugMode,
         string $legacyHost,
