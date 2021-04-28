@@ -2,10 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\WidgetMigration;
 
-use CultuurNet\CulturefeedHttpGuzzle\HttpClient;
-use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
-use Doctrine\ODM\MongoDB\Id\UuidGenerator;
-use Guzzle\Http\Client;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Pimple\Container;
