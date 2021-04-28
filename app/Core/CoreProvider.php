@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
-use CultuurNet\CulturefeedHttpGuzzle\HttpClient;
 use Doctrine\ODM\MongoDB\Id\UuidGenerator;
 use Guzzle\Http\Client;
 use Pimple\Container;

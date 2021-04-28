@@ -2,11 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Core;
 
-use CultuurNet\CulturefeedHttpGuzzle\HttpClient;
-use CultuurNet\ProjectAanvraag\Core\Schema\DatabaseSchemaInstaller;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\RedisCache;
-use Guzzle\Http\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
