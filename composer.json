@@ -56,10 +56,8 @@
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^2.9",
-        "phing/phing": "^2.16",
         "phpstan/phpstan": "^0.12.85",
         "phpunit/phpunit": "^7.5",
-        "satooshi/php-coveralls": "^1.0",
         "squizlabs/php_codesniffer": "^2.7"
     },
     "minimum-stability": "dev",
@@ -73,9 +71,11 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "phpstan": "vendor/bin/phpstan",
+        "phpcs": "vendor/bin/phpcs --standard=phpcs-ruleset.xml app/ src/ test/",
         "ci": [
             "composer phpstan",
-            "composer test"
+            "composer test",
+            "composer phpcs"
         ]
     }
 }

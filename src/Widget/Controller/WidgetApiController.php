@@ -19,7 +19,6 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeDiscovery;
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use Satooshi\Bundle\CoverallsV1Bundle\Entity\Exception\RequirementsNotSatisfiedException;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -305,7 +304,7 @@ class WidgetApiController
     protected function verifyProjectAccess(ProjectInterface $project, WidgetPageInterface $widgetPage, $access = ProjectVoter::VIEW)
     {
         if ($project->getId() != $widgetPage->getProjectId()) {
-            throw new RequirementsNotSatisfiedException('The widget page project id does not match the current project.');
+            throw new \InvalidArgumentException('The widget page project id does not match the current project.');
         }
 
         if (!$this->authorizationChecker->isGranted($access, $project)) {

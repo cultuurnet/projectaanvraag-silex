@@ -39,5 +39,5 @@ jobs:
               if: steps.composer-cache.outputs.cache-hit != 'true'
               run: composer install --no-progress --no-suggest
 
-            - name: Run Phing
-              run: vendor/bin/phing test
+            - name: Run CI checks
+              run: composer ci
