@@ -14,9 +14,16 @@ class ShareProxyControllerProvider implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-
         $app['share_proxy_controller'] = function (Application $app) {
-            return new ShareProxyController($app['widget_renderer'], $app['widget_repository'], $app['mongodb'], $app['search_api'], $app['widget_page_deserializer'], $app['twig'], $app['request_stack'], $app['debug']);
+            return new ShareProxyController(
+                $app['widget_renderer'],
+                $app['widget_repository'],
+                $app['search_api'],
+                $app['widget_page_deserializer'],
+                $app['twig'],
+                $app['request_stack'],
+                $app['debug']
+            );
         };
 
         /* @var ControllerCollection $controllers */

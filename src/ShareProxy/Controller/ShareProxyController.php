@@ -88,19 +88,14 @@ class ShareProxyController
      */
     protected $debugMode;
 
-    /**
-     * ShareProxyController constructor.
-     * @param RendererInterface $renderer
-     * @param DocumentRepository $widgetRepository
-     * @param Connection $db
-     * @param SearchClient $searchClient
-     * @param WidgetPageEntityDeserializer $widgetPageEntityDeserializer
-     * @param \Twig_Environment $twig
-     * @param RequestStack $requestStack
-     * @param bool $debugMode
-     */
-    public function __construct(RendererInterface $renderer, DocumentRepository $widgetRepository, Connection $db, SearchClient $searchClient, WidgetPageEntityDeserializer $widgetPageEntityDeserializer, \Twig_Environment $twig, RequestStack $requestStack, bool $debugMode)
-    {
+    public function __construct(
+        RendererInterface $renderer,
+        DocumentRepository $widgetRepository,
+        SearchClient $searchClient,
+        WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
+        \Twig_Environment $twig,
+        RequestStack $requestStack,
+        bool $debugMode) {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
         $this->searchClient = $searchClient;
