@@ -17,14 +17,14 @@ class InsightlyIntegrationTest extends TestCase
     /**
      * @var InsightlyClient
      */
-    private $insighltyClient;
+    private $insightlyClient;
 
     protected function setUp()
     {
         parent::setUp();
 
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../config.yml'));
-        $this->insighltyClient = new InsightlyClient(
+        $this->insightlyClient = new InsightlyClient(
             new Client($config['insightly']['host']),
             $config['insightly']['api_key']
         );
@@ -37,13 +37,13 @@ class InsightlyIntegrationTest extends TestCase
         $contact->setLastName('Doe');
         $contact->addContactInfo(ContactInfo::TYPE_EMAIL, 'john.doe@anonymous.be');
 
-        $createdContactId = $this->insighltyClient->createContact($contact)->getId();
+        $createdContactId = $this->insightlyClient->createContact($contact)->getId();
 
-        $insightlyContact = $this->insighltyClient->getContact($createdContactId);
+        $insightlyContact = $this->insightlyClient->getContact($createdContactId);
         $this->assertEquals('John', $insightlyContact->getFirstName());
         $this->assertEquals('Doe', $insightlyContact->getLastName());
 
-        $deleted = $this->insighltyClient->deleteContact($createdContactId);
+        $deleted = $this->insightlyClient->deleteContact($createdContactId);
         $this->assertTrue($deleted);
     }
 
@@ -59,13 +59,13 @@ class InsightlyIntegrationTest extends TestCase
         $address->setPostal('1000');
         $organisation->getAddresses()->append($address);
 
-        $createdOrganisationId = $this->insighltyClient->createOrganisation($organisation)->getId();
+        $createdOrganisationId = $this->insightlyClient->createOrganisation($organisation)->getId();
 
-        $insightlyOrganisation = $this->insighltyClient->getOrganisation($createdOrganisationId);
+        $insightlyOrganisation = $this->insightlyClient->getOrganisation($createdOrganisationId);
         $this->assertEquals('Organisation Anonymous', $insightlyOrganisation->getName());
         $this->assertEquals('Street Name', $insightlyOrganisation->getAddresses()->current()->getStreet());
 
-        $deleted = $this->insighltyClient->deleteOrganisation($createdOrganisationId);
+        $deleted = $this->insightlyClient->deleteOrganisation($createdOrganisationId);
         $this->assertTrue($deleted);
     }
 
@@ -77,15 +77,15 @@ class InsightlyIntegrationTest extends TestCase
         $project->setCategoryId(4345629);
         $project->setDetails('This project is created for John Doe');
 
-        $createdProjectId = $this->insighltyClient->createProject($project)->getId();
+        $createdProjectId = $this->insightlyClient->createProject($project)->getId();
 
-        $insightlyProject = $this->insighltyClient->getProject($createdProjectId);
+        $insightlyProject = $this->insightlyClient->getProject($createdProjectId);
         $this->assertEquals('Project for John Doe', $insightlyProject->getName());
         $this->assertEquals(Project::STATUS_IN_PROGRESS, $insightlyProject->getStatus());
         $this->assertEquals(4345629, $insightlyProject->getCategoryId());
         $this->assertEquals('This project is created for John Doe', $insightlyProject->getDetails());
 
-        $deleted = $this->insighltyClient->deleteProject($createdProjectId);
+        $deleted = $this->insightlyClient->deleteProject($createdProjectId);
         $this->assertTrue($deleted);
     }
 
@@ -95,11 +95,11 @@ class InsightlyIntegrationTest extends TestCase
         $contact->setFirstName('John');
         $contact->setLastName('Doe');
         $contact->addContactInfo(ContactInfo::TYPE_EMAIL, 'john.doe@anonymous.be');
-        $createdContactId = $this->insighltyClient->createContact($contact)->getId();
+        $createdContactId = $this->insightlyClient->createContact($contact)->getId();
 
         $organisation = new Organisation();
         $organisation->setName('Organisation Anonymous');
-        $createdOrganisationId = $this->insighltyClient->createOrganisation($organisation)->getId();
+        $createdOrganisationId = $this->insightlyClient->createOrganisation($organisation)->getId();
 
         $project = new Project();
         $project->setName('Project for John Doe with Link');
@@ -116,25 +116,25 @@ class InsightlyIntegrationTest extends TestCase
         $organizationLink->setOrganisationId($createdOrganisationId);
         $project->addLink($organizationLink);
 
-        $createdProjectId = $this->insighltyClient->createProject($project)->getId();
+        $createdProjectId = $this->insightlyClient->createProject($project)->getId();
 
-        $insightlyProject = $this->insighltyClient->getProject($createdProjectId);
+        $insightlyProject = $this->insightlyClient->getProject($createdProjectId);
         $this->assertEquals('Project for John Doe with Link', $insightlyProject->getName());
         $this->assertEquals(Project::STATUS_IN_PROGRESS, $insightlyProject->getStatus());
         $this->assertEquals(4345629, $insightlyProject->getCategoryId());
         $this->assertEquals('This project is created for John Doe with a link', $insightlyProject->getDetails());
 
-        $insightlyLinks = $this->insighltyClient->getProjectLinks($createdProjectId);
+        $insightlyLinks = $this->insightlyClient->getProjectLinks($createdProjectId);
         $this->assertEquals($createdContactId, $insightlyLinks[0]->getContactId());
         $this->assertEquals($createdOrganisationId, $insightlyLinks[1]->getOrganisationId());
 
-        $deleted = $this->insighltyClient->deleteContact($createdContactId);
+        $deleted = $this->insightlyClient->deleteContact($createdContactId);
         $this->assertTrue($deleted);
 
-        $deleted = $this->insighltyClient->deleteOrganisation($createdOrganisationId);
+        $deleted = $this->insightlyClient->deleteOrganisation($createdOrganisationId);
         $this->assertTrue($deleted);
 
-        $deleted = $this->insighltyClient->deleteProject($createdProjectId);
+        $deleted = $this->insightlyClient->deleteProject($createdProjectId);
         $this->assertTrue($deleted);
     }
 }

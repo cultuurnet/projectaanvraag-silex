@@ -7,7 +7,7 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class InsighltyClientTest extends AbstractInsightlyClientTest
+class InsightlyClientTest extends AbstractInsightlyClientTest
 {
     public function testRequestExceptionHandling()
     {
