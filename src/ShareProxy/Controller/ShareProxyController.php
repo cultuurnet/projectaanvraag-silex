@@ -2,12 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\ShareProxy\Controller;
 
-use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
-use CultuurNet\ProjectAanvraag\Widget\LayoutManager;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
-use CultuurNet\SearchV3\PagedCollection;
-use CultuurNet\SearchV3\Parameter\Labels;
 use CultuurNet\SearchV3\SearchClient;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
