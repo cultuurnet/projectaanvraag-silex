@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Project\Command;
 
 use CultuurNet\ProjectAanvraag\Address;
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 
 /**

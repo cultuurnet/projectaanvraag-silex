@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Insightly\Parser;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Tag;
 
 /**
  * Contact parser

@@ -5,7 +5,6 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Address;
-use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;

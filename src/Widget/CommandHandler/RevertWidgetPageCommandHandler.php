@@ -2,13 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\CommandHandler;
 
-use CultuurNet\ProjectAanvraag\User\UserInterface;
 use CultuurNet\ProjectAanvraag\Widget\Command\RevertWidgetPage;
-use CultuurNet\ProjectAanvraag\Widget\Command\UpgradeWidgetPage;
-use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPagePublished;
-use CultuurNet\ProjectAanvraag\Widget\Command\PublishWidgetPage;
-use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 

@@ -3,8 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\ArticleLinker;
 
 use GuzzleHttp\ClientInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Guzzle\Http\Client;
 
 /**
  * Default search client to perform searches on the curatoren api.

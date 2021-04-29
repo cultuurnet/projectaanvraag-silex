@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag;
 
 use Pimple\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Defines a common interface for dependency container injection.

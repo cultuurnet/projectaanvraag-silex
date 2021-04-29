@@ -3,11 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\Widget\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\User\UserInterface;
-use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPageCreated;
 use CultuurNet\ProjectAanvraag\Widget\Command\CreateWidgetPage;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\Id\UuidGenerator;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 

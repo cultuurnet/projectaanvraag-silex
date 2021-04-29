@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Widget\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use CultuurNet\ProjectAanvraag\Widget\Command\DeleteWidgetPage;
-use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPageDeleted;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;

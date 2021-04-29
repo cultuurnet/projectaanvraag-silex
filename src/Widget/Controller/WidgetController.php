@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Controller;
 
 use CultuurNet\ProjectAanvraag\Project\Converter\ProjectConverter;
-use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetRowEntity;
 use CultuurNet\ProjectAanvraag\Widget\JavascriptResponse;
@@ -16,12 +15,10 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetType\Facets;
 use CultuurNet\ProjectAanvraag\Widget\WidgetType\SearchResults;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use CultuurNet\SearchV3\PagedCollection;
-use Doctrine\MongoDB\Connection;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use CultuurNet\ProjectAanvraag\ArticleLinker;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use CultuurNet\ProjectAanvraag\ArticleLinker\Command\CreateArticleLink;
 

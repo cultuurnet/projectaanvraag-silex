@@ -25,7 +25,6 @@ use Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand;
 use Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Knp\Provider\ConsoleServiceProvider;
-use Silex\Application as SilexApplication;
 use Symfony\Component\Console\Helper\HelperSet;
 
 /**

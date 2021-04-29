@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Widget;
 
 use MatthiasMullie\Minify\CSS;
 use MatthiasMullie\Minify\JS;
-use MatthiasMullie\Minify\Minify;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Widget\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Widget\Command\MigrateWidgetPage;
-use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPageMigrated;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;

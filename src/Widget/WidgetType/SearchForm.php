@@ -7,11 +7,9 @@ use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RegionService;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\SearchV3\Parameter\Query;
-use CultuurNet\SearchV3\SearchQueryInterface;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
 

@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Console\Command;
 
-use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\RedisCache;
 use FilesystemIterator;
 use Knp\Command\Command;

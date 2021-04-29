@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 

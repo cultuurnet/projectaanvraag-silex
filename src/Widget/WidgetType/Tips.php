@@ -7,14 +7,12 @@ use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\AddressCountry;
 use CultuurNet\SearchV3\Parameter\Query;
-use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\AvailableTo;
 use CultuurNet\SearchV3\Parameter\AvailableFrom;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 use Pimple\Container;
 

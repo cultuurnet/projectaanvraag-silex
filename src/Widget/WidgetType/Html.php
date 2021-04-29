@@ -3,11 +3,8 @@
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
 use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
-use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
-use Pimple\Container;
 
 /**
  * Provides the html widget type.

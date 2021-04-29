@@ -3,9 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Insightly\Parser;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Item\PrimaryEntityBase;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 
 /**
  * Organisation parser

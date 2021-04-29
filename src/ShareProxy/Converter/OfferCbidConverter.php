@@ -3,12 +3,9 @@
 namespace CultuurNet\ProjectAanvraag\ShareProxy\Converter;
 
 use CultuurNet\ProjectAanvraag\ConverterInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
-use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\Parameter\Query;
-use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**

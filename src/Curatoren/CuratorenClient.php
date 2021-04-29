@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Curatoren;
 
 use GuzzleHttp\ClientInterface;
-use Guzzle\Http\Client;
 
 /**
  * Default search client to perform searches on the curatoren api.

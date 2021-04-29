@@ -2,9 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Result;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
-use CultuurNet\ProjectAanvraag\Insightly\Parser\ProjectParser;
 use Guzzle\Http\Message\Response;
 
 /**

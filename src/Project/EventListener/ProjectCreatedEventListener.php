@@ -13,7 +13,6 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 use Doctrine\ORM\EntityManagerInterface;
-use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class ProjectCreatedEventListener extends ProjectCrudEventListener
 {

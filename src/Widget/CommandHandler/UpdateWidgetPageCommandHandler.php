@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Widget\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use CultuurNet\ProjectAanvraag\Widget\Command\UpdateWidgetPage;
-use CultuurNet\ProjectAanvraag\Widget\Event\WidgetPageUpdated;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
