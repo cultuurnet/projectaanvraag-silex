@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Insightly\Parser;
 
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 
 /**

@@ -2,14 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
-use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
-use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;

@@ -2,11 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Coupon;
 
-use CultuurNet\ProjectAanvraag\Coupon\Exception\CouponInUseException;
-use CultuurNet\ProjectAanvraag\Coupon\Exception\InvalidCouponException;
 use CultuurNet\ProjectAanvraag\Entity\Coupon;
-use CultuurNet\ProjectAanvraag\Entity\CouponInterface;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Entity;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 

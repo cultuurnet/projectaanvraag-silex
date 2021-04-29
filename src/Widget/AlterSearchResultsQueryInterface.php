@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Widget;
 
 use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
-use CultuurNet\SearchV3\SearchQueryInterface;
 
 /**
  * Provides an interface for classes that want to alter the search results.

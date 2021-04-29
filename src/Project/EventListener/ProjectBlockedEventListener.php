@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
 
 class ProjectBlockedEventListener extends ProjectCrudEventListener

@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Core;
 
 use SimpleBus\Asynchronous\Publisher\Publisher;
 use SimpleBus\Message\Bus\Middleware\MessageBusMiddleware;
-use SimpleBus\Message\CallableResolver\Exception\UndefinedCallable;
 
 class PublishesAsynchronousMessages implements MessageBusMiddleware
 {

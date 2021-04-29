@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Widget\ODM\Types;
 
 use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetFactory;
 use Doctrine\ODM\MongoDB\Types\Type;
 
 /**

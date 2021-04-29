@@ -7,8 +7,6 @@ use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPager;
-use CultuurNet\SearchV3\ValueObjects\FacetResults;
-use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use Pimple\Container;
 
 class WidgetTypeBase implements WidgetTypeInterface, ContainerFactoryPluginInterface

@@ -3,9 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Upload;
 
 use Symfony\Component\HttpFoundation\Request;
-use Silex\Api\ControllerProviderInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
 
 class UploadController
 {

@@ -4,7 +4,6 @@ namespace CultuurNet\ProjectAanvraag\Widget\Entities;
 
 use CultuurNet\ProjectAanvraag\Widget\LayoutInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
-use CultuurNet\ProjectAanvraag\Widget\WidgetTypeInterface;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**

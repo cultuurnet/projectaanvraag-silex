@@ -19,7 +19,6 @@ use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
-use CultuurNet\SearchV3\ValueObjects\CalendarSummaryType;
 use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;

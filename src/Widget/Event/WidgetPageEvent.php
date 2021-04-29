@@ -3,7 +3,6 @@
 namespace CultuurNet\ProjectAanvraag\Widget\Event;
 
 use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
-use CultuurNet\ProjectAanvraag\Widget\Entities\WidgetPageEntity;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageInterface;
 use JMS\Serializer\Annotation\Type;
 
