@@ -25,10 +25,12 @@ class InsightlyClientTest extends TestCase
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../../config.yml'));
 
         $this->insightlyClient = new InsightlyClient(
-            new Client([
-                'base_uri' => $config['integrations']['insightly']['host'],
-                'http_errors' => false,
-            ]),
+            new Client(
+                [
+                    'base_uri' => $config['integrations']['insightly']['host'],
+                    'http_errors' => false,
+                ]
+            ),
             $config['integrations']['insightly']['api_key']
         );
     }
