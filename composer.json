@@ -73,9 +73,10 @@
         "phpstan": "vendor/bin/phpstan",
         "phpcs": "vendor/bin/phpcs --standard=phpcs-ruleset.xml app/ src/ test/",
         "ci": [
+            "composer validate",
+            "composer phpcs",
             "composer phpstan",
-            "composer test",
-            "composer phpcs"
+            "composer test"
         ]
     }
 }
