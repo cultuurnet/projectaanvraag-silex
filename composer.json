@@ -3,6 +3,7 @@
     "description": "A silex application that serves as API backend for the projectaanvraag application",
     "license": "GPL-3.0",
     "require": {
+        "ext-json": "*",
         "cultuurnet/auth": "dev-master as 1.2.x-dev",
         "cultuurnet/culturefeed-php": "dev-master as dev-develop",
         "cultuurnet/search-v3": "^1.3",
