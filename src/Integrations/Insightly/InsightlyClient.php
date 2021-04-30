@@ -10,8 +10,10 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\DeleteFailed;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordLimitReached;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ContactSerializer;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
@@ -75,6 +77,48 @@ final class InsightlyClient
         $contactAsArray = json_decode($response->getBody()->getContents(), true);
 
         return (new ContactSerializer())->fromInsightlyArray($contactAsArray);
+    }
+
+    public function createOpportunity(Opportunity $opportunity): Id
+    {
+        $request = new Request(
+            'POST',
+            'Opportunities/',
+            $this->createHeaders(),
+            json_encode((new OpportunitySerializer())->toInsightlyArray($opportunity))
+        );
+
+        $response = $this->sendRequest($request);
+
+        $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return new Id($opportunityAsArray['OPPORTUNITY_ID']);
+    }
+
+    public function deleteOpportunityById(Id $id): void
+    {
+        $request = new Request(
+            'DELETE',
+            'Opportunities/' . $id->getValue(),
+            $this->createHeaders()
+        );
+
+        $this->sendRequest($request);
+    }
+
+    public function getOpportunityById(Id $id): Opportunity
+    {
+        $request = new Request(
+            'GET',
+            'Opportunities/' . $id->getValue(),
+            $this->createHeaders()
+        );
+
+        $response = $this->sendRequest($request);
+
+        $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new OpportunitySerializer())->fromInsightlyArray($opportunityAsArray);
     }
 
     private function createHeaders(): array

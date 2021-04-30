@@ -6,9 +6,13 @@ namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\LastName;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -58,5 +62,30 @@ class InsightlyClientTest extends TestCase
 
         $this->expectException(RecordNotFound::class);
         $this->insightlyClient->getContactById($id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_opportunities(): void
+    {
+        $expectedOpportunity = new Opportunity(
+            new Name('Opportunity Jane'),
+            OpportunityState::open(),
+            new Description('This is the opportunity for a project for Jane Doe')
+        );
+
+        $id = $this->insightlyClient->createOpportunity($expectedOpportunity);
+
+        $actualOpportunity = $this->insightlyClient->getOpportunityById($id);
+        $this->assertEquals(
+            $expectedOpportunity->withId($id),
+            $actualOpportunity
+        );
+
+        $this->insightlyClient->deleteOpportunityById($id);
+
+        $this->expectException(RecordNotFound::class);
+        $this->insightlyClient->getOpportunityById($id);
     }
 }
