@@ -31,10 +31,16 @@ final class InsightlyClient
      */
     private $apiKey;
 
-    public function __construct(ClientInterface $httpClient, string $apiKey)
+    /**
+     * @var PipelineStages
+     */
+    private $pipelineStages;
+
+    public function __construct(ClientInterface $httpClient, string $apiKey, PipelineStages $pipelineStages)
     {
         $this->httpClient = $httpClient;
         $this->apiKey = $apiKey;
+        $this->pipelineStages = $pipelineStages;
     }
 
     public function createContact(Contact $contact): Id
@@ -85,14 +91,29 @@ final class InsightlyClient
             'POST',
             'Opportunities/',
             $this->createHeaders(),
-            json_encode((new OpportunitySerializer())->toInsightlyArray($opportunity))
+            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyArray($opportunity))
         );
 
         $response = $this->sendRequest($request);
 
         $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
+        $id = new Id($opportunityAsArray['OPPORTUNITY_ID']);
 
-        return new Id($opportunityAsArray['OPPORTUNITY_ID']);
+        $this->updateOpportunityStage($opportunity->withId($id));
+
+        return $id;
+    }
+
+    private function updateOpportunityStage(Opportunity $opportunity): void
+    {
+        $stageRequest = new Request(
+            'PUT',
+            'Opportunities/' . $opportunity->getId()->getValue() . '/Pipeline',
+            $this->createHeaders(),
+            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyStageChange($opportunity))
+        );
+
+        $this->sendRequest($stageRequest);
     }
 
     public function deleteOpportunityById(Id $id): void
@@ -118,7 +139,7 @@ final class InsightlyClient
 
         $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
 
-        return (new OpportunitySerializer())->fromInsightlyArray($opportunityAsArray);
+        return (new OpportunitySerializer($this->pipelineStages))->fromInsightlyArray($opportunityAsArray);
     }
 
     private function createHeaders(): array
