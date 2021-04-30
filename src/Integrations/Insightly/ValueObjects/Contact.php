@@ -7,7 +7,7 @@ namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects;
 final class Contact
 {
     /**
-     * @var Id
+     * @var ?Id
      */
     private $id;
 
