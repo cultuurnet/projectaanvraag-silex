@@ -22,14 +22,24 @@ class Opportunity
     private $state;
 
     /**
+     * @var OpportunityStage
+     */
+    private $stage;
+
+    /**
      * @var Description
      */
     private $description;
 
-    public function __construct(Name $name, OpportunityState $state, Description $description)
-    {
+    public function __construct(
+        Name $name,
+        OpportunityState $state,
+        OpportunityStage $stage,
+        Description $description
+    ) {
         $this->name = $name;
         $this->state = $state;
+        $this->stage = $stage;
         $this->description = $description;
     }
 
@@ -53,6 +63,11 @@ class Opportunity
     public function getState(): OpportunityState
     {
         return $this->state;
+    }
+
+    public function getStage(): OpportunityStage
+    {
+        return $this->stage;
     }
 
     public function getDescription(): Description

@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\LastName;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +36,8 @@ class InsightlyClientTest extends TestCase
                     'http_errors' => false,
                 ]
             ),
-            $config['integrations']['insightly']['api_key']
+            $config['integrations']['insightly']['api_key'],
+            new PipelineStages($config['integrations']['insightly']['pipelines'])
         );
     }
 
@@ -72,6 +74,7 @@ class InsightlyClientTest extends TestCase
         $expectedOpportunity = new Opportunity(
             new Name('Opportunity Jane'),
             OpportunityState::open(),
+            OpportunityStage::test(),
             new Description('This is the opportunity for a project for Jane Doe')
         );
 
