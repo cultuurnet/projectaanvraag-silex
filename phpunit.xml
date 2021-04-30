@@ -2,6 +2,7 @@
     <testsuite name="all">
         <directory>test</directory>
         <exclude>./test/Insightly/InsightlyIntegrationTest.php</exclude>
+        <exclude>./test/Integrations/InsightlyClientTest.php</exclude>
     </testsuite>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
