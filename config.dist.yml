@@ -59,6 +59,11 @@ rabbitmq:
   # Time in miliseconds before retrying a message
   failed_message_delay: 3600000 # 1 hour
 
+integrations:
+  insightly:
+    host: https://api.insight.ly/v3.1/
+    api_key:
+
 # Insightly settings
 insightly:
   host: https://api.insight.ly/v3.1
