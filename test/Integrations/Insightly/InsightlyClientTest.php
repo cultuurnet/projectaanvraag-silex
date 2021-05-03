@@ -9,6 +9,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\LastName;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
@@ -25,6 +26,16 @@ class InsightlyClientTest extends TestCase
      */
     private $insightlyClient;
 
+    /**
+     * @var Id|null
+     */
+    private $contactId;
+
+    /**
+     * @var Id|null
+     */
+    private $opportunityId;
+
     protected function setUp(): void
     {
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../../config.yml'));
@@ -39,6 +50,10 @@ class InsightlyClientTest extends TestCase
             $config['integrations']['insightly']['api_key'],
             new PipelineStages($config['integrations']['insightly']['pipelines'])
         );
+
+        // Reset ids before every test run
+        $this->contactId = null;
+        $this->opportunityId = null;
     }
 
     /**
@@ -52,18 +67,18 @@ class InsightlyClientTest extends TestCase
             new Email('jane.doe@anonymous.com')
         );
 
-        $id = $this->insightlyClient->createContact($expectedContact);
+        $this->contactId = $this->insightlyClient->createContact($expectedContact);
 
-        $actualContact = $this->insightlyClient->getContactById($id);
+        $actualContact = $this->insightlyClient->getContactById($this->contactId);
         $this->assertEquals(
-            $expectedContact->withId($id),
+            $expectedContact->withId($this->contactId),
             $actualContact
         );
 
-        $this->insightlyClient->deleteContactById($id);
+        $this->insightlyClient->deleteContactById($this->contactId);
 
         $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->getContactById($id);
+        $this->insightlyClient->getContactById($this->contactId);
     }
 
     /**
@@ -78,17 +93,30 @@ class InsightlyClientTest extends TestCase
             new Description('This is the opportunity for a project for Jane Doe')
         );
 
-        $id = $this->insightlyClient->createOpportunity($expectedOpportunity);
+        $this->opportunityId = $this->insightlyClient->createOpportunity($expectedOpportunity);
 
-        $actualOpportunity = $this->insightlyClient->getOpportunityById($id);
+        $actualOpportunity = $this->insightlyClient->getOpportunityById($this->opportunityId);
         $this->assertEquals(
-            $expectedOpportunity->withId($id),
+            $expectedOpportunity->withId($this->opportunityId),
             $actualOpportunity
         );
 
-        $this->insightlyClient->deleteOpportunityById($id);
+        $this->insightlyClient->deleteOpportunityById($this->opportunityId);
 
         $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->getOpportunityById($id);
+        $this->insightlyClient->getOpportunityById($this->opportunityId);
+    }
+
+    protected function onNotSuccessfulTest(\Throwable $t): void
+    {
+        if ($this->contactId instanceof Id) {
+            $this->insightlyClient->deleteContactById($this->contactId);
+        }
+
+        if ($this->opportunityId instanceof Id) {
+            $this->insightlyClient->deleteOpportunityById($this->opportunityId);
+        }
+
+        parent::onNotSuccessfulTest($t);
     }
 }
