@@ -1,0 +1,10 @@
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuite name="all">
+        <directory>./test/Integrations/Insightly</directory>
+    </testsuite>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/Integrations/Insightly</directory>
+        </whitelist>
+    </filter>
+</phpunit>

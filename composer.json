@@ -70,6 +70,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
+        "test:integrations:insightly": "vendor/bin/phpunit --configuration phpunit.integrations.insightly.xml",
         "phpstan": "vendor/bin/phpstan",
         "phpcs": "vendor/bin/phpcs --standard=phpcs-ruleset.xml app/ src/ test/",
         "ci": [
@@ -77,6 +78,9 @@
             "composer phpcs",
             "composer phpstan",
             "composer test"
+        ],
+        "test:integrations": [
+            "composer test:integrations:insightly"
         ]
     }
 }
