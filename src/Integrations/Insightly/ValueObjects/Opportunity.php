@@ -31,16 +31,23 @@ class Opportunity
      */
     private $description;
 
+    /**
+     * @var IntegrationType
+     */
+    private $integrationType;
+
     public function __construct(
         Name $name,
         OpportunityState $state,
         OpportunityStage $stage,
-        Description $description
+        Description $description,
+        IntegrationType $integrationType
     ) {
         $this->name = $name;
         $this->state = $state;
         $this->stage = $stage;
         $this->description = $description;
+        $this->integrationType = $integrationType;
     }
 
     public function withId(Id $id): self
@@ -73,5 +80,10 @@ class Opportunity
     public function getDescription(): Description
     {
         return $this->description;
+    }
+
+    public function getIntegrationType(): IntegrationType
+    {
+        return $this->integrationType;
     }
 }

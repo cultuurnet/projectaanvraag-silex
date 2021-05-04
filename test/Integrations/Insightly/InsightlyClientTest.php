@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\LastName;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
@@ -90,7 +91,8 @@ class InsightlyClientTest extends TestCase
             new Name('Opportunity Jane'),
             OpportunityState::open(),
             OpportunityStage::test(),
-            new Description('This is the opportunity for a project for Jane Doe')
+            new Description('This is the opportunity for a project for Jane Doe'),
+            IntegrationType::searchV3()
         );
 
         $this->opportunityId = $this->insightlyClient->createOpportunity($expectedOpportunity);
