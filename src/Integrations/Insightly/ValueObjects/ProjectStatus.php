@@ -21,7 +21,7 @@ final class ProjectStatus
         self::DEFERRED,
         self::CANCELLED,
         self::ABANDONED,
-        self::COMPLETED
+        self::COMPLETED,
     ];
 
     /**
