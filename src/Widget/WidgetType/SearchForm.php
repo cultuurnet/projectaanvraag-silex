@@ -542,7 +542,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                     }
                 }
             } elseif ($key === 'what') {
-                $advancedQuery[] = "\"" . $activeValue . "\"";
+                $advancedQuery[] = str_replace(' ', ' AND ', $activeValue);
                 $searchResultsActiveFilters[] = [
                     'label' => $activeValue,
                     'name' => 'search-form[' . $this->id . '][what]',
