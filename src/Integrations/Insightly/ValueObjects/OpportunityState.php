@@ -14,7 +14,7 @@ final class OpportunityState
     private const WON = 'Won';
     private const OPEN = 'Open';
 
-    const ALLOWED_STATES = [
+    private const ALLOWED_STATES = [
         self::ABANDONED,
         self::LOST,
         self::SUSPENDED,

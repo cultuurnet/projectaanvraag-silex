@@ -14,7 +14,7 @@ final class OpportunityStage
     private const OFFER = 'offer';
     private const CLOSED = 'closed';
 
-    const ALLOWED_STAGES = [
+    private const ALLOWED_STAGES = [
         self::TEST,
         self::REQUEST,
         self::INFORMATION,
