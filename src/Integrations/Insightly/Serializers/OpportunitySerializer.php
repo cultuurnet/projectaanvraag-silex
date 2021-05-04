@@ -39,8 +39,8 @@ final class OpportunitySerializer
                     'FIELD_NAME' => self::CUSTOM_FIELD_INTEGRATION_TYPE,
                     'CUSTOM_FIELD_ID' => self::CUSTOM_FIELD_INTEGRATION_TYPE,
                     'FIELD_VALUE' => $opportunity->getIntegrationType()->getValue(),
-                ]
-            ]
+                ],
+            ],
         ];
 
         if ($opportunity->getId()) {
