@@ -97,12 +97,21 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_manage_opportunities(): void
     {
+        $this->contactId = $this->insightlyClient->contactResource()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
         $expectedOpportunity = new Opportunity(
             new Name('Opportunity Jane'),
             OpportunityState::open(),
             OpportunityStage::test(),
             new Description('This is the opportunity for a project for Jane Doe'),
-            IntegrationType::searchV3()
+            IntegrationType::searchV3(),
+            $this->contactId
         );
 
         $this->opportunityId = $this->insightlyClient->opportunityResource()->create($expectedOpportunity);
