@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 
 final class PipelineStages
 {
@@ -37,5 +38,16 @@ final class PipelineStages
     public function getProjectsPipelineId(): int
     {
         return $this->mapping['projects']['id'];
+    }
+
+    public function getIdFromProjectStage(ProjectStage $projectStage): int
+    {
+        return $this->mapping['projects']['stages'][$projectStage->getValue()];
+    }
+
+    public function getProjectStageFromId(int $id): ProjectStage
+    {
+        $key = array_search($id, $this->mapping['projects']['stages'], false);
+        return new ProjectStage($key);
     }
 }
