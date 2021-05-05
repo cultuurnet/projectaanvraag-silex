@@ -78,18 +78,18 @@ class InsightlyClientTest extends TestCase
             new Email('jane.doe@anonymous.com')
         );
 
-        $this->contactId = $this->insightlyClient->createContact($expectedContact);
+        $this->contactId = $this->insightlyClient->contactResource()->create($expectedContact);
 
-        $actualContact = $this->insightlyClient->getContactById($this->contactId);
+        $actualContact = $this->insightlyClient->contactResource()->getById($this->contactId);
         $this->assertEquals(
             $expectedContact->withId($this->contactId),
             $actualContact
         );
 
-        $this->insightlyClient->deleteContactById($this->contactId);
+        $this->insightlyClient->contactResource()->deleteById($this->contactId);
 
         $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->getContactById($this->contactId);
+        $this->insightlyClient->contactResource()->getById($this->contactId);
     }
 
     /**
@@ -105,18 +105,18 @@ class InsightlyClientTest extends TestCase
             IntegrationType::searchV3()
         );
 
-        $this->opportunityId = $this->insightlyClient->createOpportunity($expectedOpportunity);
+        $this->opportunityId = $this->insightlyClient->opportunityResource()->create($expectedOpportunity);
 
-        $actualOpportunity = $this->insightlyClient->getOpportunityById($this->opportunityId);
+        $actualOpportunity = $this->insightlyClient->opportunityResource()->getById($this->opportunityId);
         $this->assertEquals(
             $expectedOpportunity->withId($this->opportunityId),
             $actualOpportunity
         );
 
-        $this->insightlyClient->deleteOpportunityById($this->opportunityId);
+        $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
 
         $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->getOpportunityById($this->opportunityId);
+        $this->insightlyClient->opportunityResource()->getById($this->opportunityId);
     }
 
     /**
@@ -133,32 +133,32 @@ class InsightlyClientTest extends TestCase
             new Coupon('coupon_code')
         );
 
-        $this->projectId = $this->insightlyClient->createProject($expectedProject);
+        $this->projectId = $this->insightlyClient->projectResource()->create($expectedProject);
 
-        $actualProject = $this->insightlyClient->getProjectById($this->projectId);
+        $actualProject = $this->insightlyClient->projectResource()->getById($this->projectId);
         $this->assertEquals(
             $expectedProject->withId($this->projectId),
             $actualProject
         );
 
-        $this->insightlyClient->deleteProjectById($this->projectId);
+        $this->insightlyClient->projectResource()->deleteById($this->projectId);
 
         $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->getProjectById($this->projectId);
+        $this->insightlyClient->projectResource()->getById($this->projectId);
     }
 
     protected function onNotSuccessfulTest(\Throwable $t): void
     {
         if ($this->contactId instanceof Id) {
-            $this->insightlyClient->deleteContactById($this->contactId);
+            $this->insightlyClient->contactResource()->deleteById($this->contactId);
         }
 
         if ($this->opportunityId instanceof Id) {
-            $this->insightlyClient->deleteOpportunityById($this->opportunityId);
+            $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
         }
 
         if ($this->projectId instanceof Id) {
-            $this->insightlyClient->deleteProjectById($this->projectId);
+            $this->insightlyClient->projectResource()->deleteById($this->projectId);
         }
 
         parent::onNotSuccessfulTest($t);

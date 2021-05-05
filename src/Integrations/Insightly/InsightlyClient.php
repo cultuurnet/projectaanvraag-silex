@@ -9,6 +9,9 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\BadRequest;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\DeleteFailed;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordLimitReached;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\ContactResource;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\OpportunityResource;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\ProjectResource;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ContactSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ProjectSerializer;
@@ -45,163 +48,22 @@ final class InsightlyClient
         $this->pipelineStages = $pipelineStages;
     }
 
-    public function createContact(Contact $contact): Id
+    public function contactResource(): ContactResource
     {
-        $request = new Request(
-            'POST',
-            'Contacts/',
-            $this->createHeaders(),
-            json_encode((new ContactSerializer())->toInsightlyArray($contact))
-        );
-
-        $response = $this->sendRequest($request);
-
-        $contactAsArray = json_decode($response->getBody()->getContents(), true);
-
-        return new Id($contactAsArray['CONTACT_ID']);
+        return new ContactResource($this);
     }
 
-    public function deleteContactById(Id $id): void
+    public function opportunityResource(): OpportunityResource
     {
-        $request = new Request(
-            'DELETE',
-            'Contacts/' . $id->getValue(),
-            $this->createHeaders()
-        );
-
-        $this->sendRequest($request);
+        return new OpportunityResource($this, $this->pipelineStages);
     }
 
-    public function getContactById(Id $id): Contact
+    public function projectResource(): ProjectResource
     {
-        $request = new Request(
-            'GET',
-            'Contacts/' . $id->getValue(),
-            $this->createHeaders()
-        );
-
-        $response = $this->sendRequest($request);
-
-        $contactAsArray = json_decode($response->getBody()->getContents(), true);
-
-        return (new ContactSerializer())->fromInsightlyArray($contactAsArray);
+        return new ProjectResource($this, $this->pipelineStages);
     }
 
-    public function createOpportunity(Opportunity $opportunity): Id
-    {
-        $request = new Request(
-            'POST',
-            'Opportunities/',
-            $this->createHeaders(),
-            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyArray($opportunity))
-        );
-
-        $response = $this->sendRequest($request);
-
-        $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
-        $id = new Id($opportunityAsArray['OPPORTUNITY_ID']);
-
-        $this->updateOpportunityStage($opportunity->withId($id));
-
-        return $id;
-    }
-
-    private function updateOpportunityStage(Opportunity $opportunity): void
-    {
-        $stageRequest = new Request(
-            'PUT',
-            'Opportunities/' . $opportunity->getId()->getValue() . '/Pipeline',
-            $this->createHeaders(),
-            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyStageChange($opportunity))
-        );
-
-        $this->sendRequest($stageRequest);
-    }
-
-    public function deleteOpportunityById(Id $id): void
-    {
-        $request = new Request(
-            'DELETE',
-            'Opportunities/' . $id->getValue(),
-            $this->createHeaders()
-        );
-
-        $this->sendRequest($request);
-    }
-
-    public function getOpportunityById(Id $id): Opportunity
-    {
-        $request = new Request(
-            'GET',
-            'Opportunities/' . $id->getValue(),
-            $this->createHeaders()
-        );
-
-        $response = $this->sendRequest($request);
-
-        $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
-
-        return (new OpportunitySerializer($this->pipelineStages))->fromInsightlyArray($opportunityAsArray);
-    }
-
-    public function createProject(Project $project): Id
-    {
-        $request = new Request(
-            'POST',
-            'Projects/',
-            $this->createHeaders(),
-            json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyArray($project))
-        );
-
-        $response = $this->sendRequest($request);
-
-        $projectAsArray = json_decode($response->getBody()->getContents(), true);
-        $id = new Id($projectAsArray['PROJECT_ID']);
-
-        $this->updateProjectStage($project->withId($id));
-
-        return $id;
-    }
-
-    private function updateProjectStage(Project $project): void
-    {
-        $stageRequest = new Request(
-            'PUT',
-            'Projects/' . $project->getId()->getValue() . '/Pipeline',
-            $this->createHeaders(),
-            json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyStageChange($project))
-        );
-
-        $this->sendRequest($stageRequest);
-    }
-
-    public function deleteProjectById(Id $id): void
-    {
-        $request = new Request(
-            'DELETE',
-            'Projects/' . $id->getValue(),
-            $this->createHeaders()
-        );
-
-        $this->sendRequest($request);
-    }
-
-    public function getProjectById(Id $id): Project
-    {
-        $request = new Request(
-            'GET',
-            'Projects/' . $id->getValue(),
-            $this->createHeaders()
-        );
-
-        $response = $this->sendRequest($request);
-
-        $projectAsArray = json_decode($response->getBody()->getContents(), true);
-
-        return (new ProjectSerializer($this->pipelineStages))->fromInsightlyArray($projectAsArray);
-    }
-
-    private function createHeaders(): array
+    public function createHeaders(): array
     {
         return [
             'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':'),
@@ -209,7 +71,7 @@ final class InsightlyClient
         ];
     }
 
-    private function sendRequest(RequestInterface $request): ResponseInterface
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
         $response = $this->httpClient->send($request);
         $this->validateResponse($response);
@@ -217,7 +79,7 @@ final class InsightlyClient
         return $response;
     }
 
-    private function validateResponse(ResponseInterface $response): void
+    public function validateResponse(ResponseInterface $response): void
     {
         switch ($response->getStatusCode()) {
             case 400:
