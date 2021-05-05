@@ -27,7 +27,7 @@ final class ContactResource
         $request = new Request(
             'POST',
             'Contacts/',
-            $this->insightlyClient->createHeaders(),
+            [],
             json_encode((new ContactSerializer())->toInsightlyArray($contact))
         );
 
@@ -42,8 +42,7 @@ final class ContactResource
     {
         $request = new Request(
             'DELETE',
-            'Contacts/' . $id->getValue(),
-            $this->insightlyClient->createHeaders()
+            'Contacts/' . $id->getValue()
         );
 
         $this->insightlyClient->sendRequest($request);
@@ -53,8 +52,7 @@ final class ContactResource
     {
         $request = new Request(
             'GET',
-            'Contacts/' . $id->getValue(),
-            $this->insightlyClient->createHeaders()
+            'Contacts/' . $id->getValue()
         );
 
         $response = $this->insightlyClient->sendRequest($request);

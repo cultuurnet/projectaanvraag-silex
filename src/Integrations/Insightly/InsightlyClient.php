@@ -63,23 +63,23 @@ final class InsightlyClient
         return new ProjectResource($this, $this->pipelineStages);
     }
 
-    public function createHeaders(): array
-    {
-        return [
-            'Authorization' => 'Basic ' . base64_encode($this->apiKey . ':'),
-            'Content-Type' => 'application/json',
-        ];
-    }
-
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        $response = $this->httpClient->send($request);
+        $requestWithHeaders = $request
+            ->withAddedHeader(
+                'Authorization', 'Basic ' . base64_encode($this->apiKey . ':')
+            )
+            ->withAddedHeader(
+                'Content-Type', 'application/json'
+            );
+
+        $response = $this->httpClient->send($requestWithHeaders);
         $this->validateResponse($response);
 
         return $response;
     }
 
-    public function validateResponse(ResponseInterface $response): void
+    private function validateResponse(ResponseInterface $response): void
     {
         switch ($response->getStatusCode()) {
             case 400:

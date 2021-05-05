@@ -34,7 +34,7 @@ final class OpportunityResource
         $request = new Request(
             'POST',
             'Opportunities/',
-            $this->insightlyClient->createHeaders(),
+            [],
             json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyArray($opportunity))
         );
 
@@ -52,8 +52,7 @@ final class OpportunityResource
     {
         $request = new Request(
             'DELETE',
-            'Opportunities/' . $id->getValue(),
-            $this->insightlyClient->createHeaders()
+            'Opportunities/' . $id->getValue()
         );
 
         $this->insightlyClient->sendRequest($request);
@@ -63,8 +62,7 @@ final class OpportunityResource
     {
         $request = new Request(
             'GET',
-            'Opportunities/' . $id->getValue(),
-            $this->insightlyClient->createHeaders()
+            'Opportunities/' . $id->getValue()
         );
 
         $response = $this->insightlyClient->sendRequest($request);
@@ -79,7 +77,7 @@ final class OpportunityResource
         $stageRequest = new Request(
             'PUT',
             'Opportunities/' . $opportunity->getId()->getValue() . '/Pipeline',
-            $this->insightlyClient->createHeaders(),
+            [],
             json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyStageChange($opportunity))
         );
 

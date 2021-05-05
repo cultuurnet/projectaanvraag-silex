@@ -34,7 +34,7 @@ final class ProjectResource
         $request = new Request(
             'POST',
             'Projects/',
-            $this->insightlyClient->createHeaders(),
+            [],
             json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyArray($project))
         );
 
@@ -52,8 +52,7 @@ final class ProjectResource
     {
         $request = new Request(
             'DELETE',
-            'Projects/' . $id->getValue(),
-            $this->insightlyClient->createHeaders()
+            'Projects/' . $id->getValue()
         );
 
         $this->insightlyClient->sendRequest($request);
@@ -63,8 +62,7 @@ final class ProjectResource
     {
         $request = new Request(
             'GET',
-            'Projects/' . $id->getValue(),
-            $this->insightlyClient->createHeaders()
+            'Projects/' . $id->getValue()
         );
 
         $response = $this->insightlyClient->sendRequest($request);
@@ -79,7 +77,7 @@ final class ProjectResource
         $stageRequest = new Request(
             'PUT',
             'Projects/' . $project->getId()->getValue() . '/Pipeline',
-            $this->insightlyClient->createHeaders(),
+            [],
             json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyStageChange($project))
         );
 
