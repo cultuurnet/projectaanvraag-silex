@@ -67,10 +67,12 @@ final class InsightlyClient
     {
         $requestWithHeaders = $request
             ->withAddedHeader(
-                'Authorization', 'Basic ' . base64_encode($this->apiKey . ':')
+                'Authorization',
+                'Basic ' . base64_encode($this->apiKey . ':')
             )
             ->withAddedHeader(
-                'Content-Type', 'application/json'
+                'Content-Type',
+                'application/json'
             );
 
         $response = $this->httpClient->send($requestWithHeaders);
