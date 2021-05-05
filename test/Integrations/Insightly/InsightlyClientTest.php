@@ -126,6 +126,11 @@ class InsightlyClientTest extends TestCase
 
         $this->opportunityId = $this->insightlyClient->opportunityResource()->create($expectedOpportunity);
 
+        // When a create is done on Insightly not all objects are stored immediately
+        // When getting the created object it can happen some parts like linked contact and custom fields are still missing
+        // This sleep will fix that 😬
+        sleep(1);
+
         $actualOpportunity = $this->insightlyClient->opportunityResource()->getById($this->opportunityId);
         $this->assertEquals(
             $expectedOpportunity->withId($this->opportunityId),
