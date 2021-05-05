@@ -11,9 +11,11 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordLimitReac
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ContactSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySerializer;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ProjectSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
@@ -140,6 +142,63 @@ final class InsightlyClient
         $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
 
         return (new OpportunitySerializer($this->pipelineStages))->fromInsightlyArray($opportunityAsArray);
+    }
+
+    public function createProject(Project $project): Id
+    {
+        $request = new Request(
+            'POST',
+            'Projects/',
+            $this->createHeaders(),
+            json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyArray($project))
+        );
+
+        $response = $this->sendRequest($request);
+
+        $projectAsArray = json_decode($response->getBody()->getContents(), true);
+        $id = new Id($projectAsArray['PROJECT_ID']);
+
+        $this->updateProjectStage($project->withId($id));
+
+        return $id;
+    }
+
+    private function updateProjectStage(Project $project): void
+    {
+        $stageRequest = new Request(
+            'PUT',
+            'Projects/' . $project->getId()->getValue() . '/Pipeline',
+            $this->createHeaders(),
+            json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyStageChange($project))
+        );
+
+        $this->sendRequest($stageRequest);
+    }
+
+    public function deleteProjectById(Id $id): void
+    {
+        $request = new Request(
+            'DELETE',
+            'Projects/' . $id->getValue(),
+            $this->createHeaders()
+        );
+
+        $this->sendRequest($request);
+    }
+
+    public function getProjectById(Id $id): Project
+    {
+        $request = new Request(
+            'GET',
+            'Projects/' . $id->getValue(),
+            $this->createHeaders()
+        );
+
+        $response = $this->sendRequest($request);
+
+        $projectAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new ProjectSerializer($this->pipelineStages))->fromInsightlyArray($projectAsArray);
     }
 
     private function createHeaders(): array

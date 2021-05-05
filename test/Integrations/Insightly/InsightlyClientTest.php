@@ -6,6 +6,7 @@ namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
@@ -16,6 +17,9 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -37,6 +41,11 @@ class InsightlyClientTest extends TestCase
      */
     private $opportunityId;
 
+    /**
+     * @var Id|null
+     */
+    private $projectId;
+
     protected function setUp(): void
     {
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../../config.yml'));
@@ -55,6 +64,7 @@ class InsightlyClientTest extends TestCase
         // Reset ids before every test run
         $this->contactId = null;
         $this->opportunityId = null;
+        $this->projectId = null;
     }
 
     /**
@@ -109,6 +119,34 @@ class InsightlyClientTest extends TestCase
         $this->insightlyClient->getOpportunityById($this->opportunityId);
     }
 
+    /**
+     * @test
+     */
+    public function it_can_manage_projects(): void
+    {
+        $expectedProject = new Project(
+            new Name('Project Jane'),
+            ProjectStage::live(),
+            ProjectStatus::inProgress(),
+            new Description('This is the project for Jane Doe'),
+            IntegrationType::searchV3(),
+            new Coupon('coupon_code')
+        );
+
+        $this->projectId = $this->insightlyClient->createProject($expectedProject);
+
+        $actualProject = $this->insightlyClient->getProjectById($this->projectId);
+        $this->assertEquals(
+            $expectedProject->withId($this->projectId),
+            $actualProject
+        );
+
+        $this->insightlyClient->deleteProjectById($this->projectId);
+
+        $this->expectException(RecordNotFound::class);
+        $this->insightlyClient->getProjectById($this->projectId);
+    }
+
     protected function onNotSuccessfulTest(\Throwable $t): void
     {
         if ($this->contactId instanceof Id) {
@@ -117,6 +155,10 @@ class InsightlyClientTest extends TestCase
 
         if ($this->opportunityId instanceof Id) {
             $this->insightlyClient->deleteOpportunityById($this->opportunityId);
+        }
+
+        if ($this->projectId instanceof Id) {
+            $this->insightlyClient->deleteProjectById($this->projectId);
         }
 
         parent::onNotSuccessfulTest($t);
