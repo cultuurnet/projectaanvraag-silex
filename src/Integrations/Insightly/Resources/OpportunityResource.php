@@ -46,6 +46,8 @@ final class OpportunityResource
 
         $this->updateStage($id, $opportunity->getStage());
 
+        $this->linkContact($id, $opportunity->getContactId());
+
         return $id;
     }
 
@@ -72,6 +74,17 @@ final class OpportunityResource
 
         return ($this->opportunitySerializer->fromInsightlyArray($opportunityAsArray));
     }
+
+    private function linkContact(Id $opportunityId, Id $contactId): void
+    {
+        $request = new Request(
+            'POST',
+            'Opportunities/' . $opportunityId->getValue() . '/Links',
+            [],
+            json_encode($this->opportunitySerializer->toInsightlyContactLink($contactId))
+        );
+
+        $this->insightlyClient->sendRequest($request);
     }
 
     private function updateStage(Id $id, OpportunityStage $stage): void
