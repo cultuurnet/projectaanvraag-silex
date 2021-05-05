@@ -61,10 +61,25 @@ class InsightlyClientTest extends TestCase
             new PipelineStages($config['integrations']['insightly']['pipelines'])
         );
 
-        // Reset ids before every test run
+        // Reset ids before every test run and cleanup with the teardown
         $this->contactId = null;
         $this->opportunityId = null;
         $this->projectId = null;
+    }
+
+    protected function tearDown(): void
+    {
+        if ($this->contactId instanceof Id) {
+            $this->insightlyClient->contactResource()->deleteById($this->contactId);
+        }
+
+        if ($this->opportunityId instanceof Id) {
+            $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
+        }
+
+        if ($this->projectId instanceof Id) {
+            $this->insightlyClient->projectResource()->deleteById($this->projectId);
+        }
     }
 
     /**
@@ -85,11 +100,6 @@ class InsightlyClientTest extends TestCase
             $expectedContact->withId($this->contactId),
             $actualContact
         );
-
-        $this->insightlyClient->contactResource()->deleteById($this->contactId);
-
-        $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->contactResource()->getById($this->contactId);
     }
 
     /**
@@ -121,11 +131,6 @@ class InsightlyClientTest extends TestCase
             $expectedOpportunity->withId($this->opportunityId),
             $actualOpportunity
         );
-
-        $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
-
-        $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->opportunityResource()->getById($this->opportunityId);
     }
 
     /**
@@ -149,27 +154,5 @@ class InsightlyClientTest extends TestCase
             $expectedProject->withId($this->projectId),
             $actualProject
         );
-
-        $this->insightlyClient->projectResource()->deleteById($this->projectId);
-
-        $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->projectResource()->getById($this->projectId);
-    }
-
-    protected function onNotSuccessfulTest(\Throwable $t): void
-    {
-        if ($this->contactId instanceof Id) {
-            $this->insightlyClient->contactResource()->deleteById($this->contactId);
-        }
-
-        if ($this->opportunityId instanceof Id) {
-            $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
-        }
-
-        if ($this->projectId instanceof Id) {
-            $this->insightlyClient->projectResource()->deleteById($this->projectId);
-        }
-
-        parent::onNotSuccessfulTest($t);
     }
 }
