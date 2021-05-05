@@ -16,7 +16,9 @@
 
     <rule ref="Symfony2.Arrays.MultiLineArrayComma" />
     <rule ref="Symfony2.Classes.PropertyDeclaration" />
-    <rule ref="Symfony2.NamingConventions.ValidClassName" />
+    <rule ref="Symfony2.NamingConventions.ValidClassName">
+        <exclude-pattern>src/Integrations/*</exclude-pattern>
+    </rule>
     <rule ref="Symfony2.NamingConventions.ValidClassName.InvalidAbstractName">
         <exclude-pattern>*</exclude-pattern>
     </rule>
