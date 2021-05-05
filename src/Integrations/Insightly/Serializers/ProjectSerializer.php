@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
 
 final class ProjectSerializer
@@ -57,12 +58,12 @@ final class ProjectSerializer
         return $opportunityAsArray;
     }
 
-    public function toInsightlyStageChange(Project $project): array
+    public function toInsightlyStageChange(ProjectStage $stage): array
     {
         return [
             'PIPELINE_ID' => $this->pipelineStages->getProjectsPipelineId(),
             'PIPELINE_STAGE_CHANGE' => [
-                'STAGE_ID' => $this->pipelineStages->getIdFromProjectStage($project->getStage()),
+                'STAGE_ID' => $this->pipelineStages->getIdFromProjectStage($stage),
             ],
         ];
     }

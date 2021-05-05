@@ -9,6 +9,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\PipelineStages;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
 use GuzzleHttp\Psr7\Request;
 
 final class OpportunityResource
@@ -43,7 +44,7 @@ final class OpportunityResource
         $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
         $id = new Id($opportunityAsArray['OPPORTUNITY_ID']);
 
-        $this->updateStage($opportunity->withId($id));
+        $this->updateStage($id, $opportunity->getStage());
 
         return $id;
     }
@@ -72,13 +73,13 @@ final class OpportunityResource
         return (new OpportunitySerializer($this->pipelineStages))->fromInsightlyArray($opportunityAsArray);
     }
 
-    private function updateStage(Opportunity $opportunity): void
+    private function updateStage(Id $id, OpportunityStage $stage): void
     {
         $stageRequest = new Request(
             'PUT',
-            'Opportunities/' . $opportunity->getId()->getValue() . '/Pipeline',
+            'Opportunities/' . $id->getValue() . '/Pipeline',
             [],
-            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyStageChange($opportunity))
+            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyStageChange($stage))
         );
 
         $this->insightlyClient->sendRequest($stageRequest);

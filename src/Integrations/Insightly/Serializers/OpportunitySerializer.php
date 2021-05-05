@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
 
 final class OpportunitySerializer
@@ -50,12 +51,12 @@ final class OpportunitySerializer
         return $opportunityAsArray;
     }
 
-    public function toInsightlyStageChange(Opportunity $opportunity): array
+    public function toInsightlyStageChange(OpportunityStage $stage): array
     {
         return [
             'PIPELINE_ID' => $this->pipelineStages->getOpportunitiesPipelineId(),
             'PIPELINE_STAGE_CHANGE' => [
-                'STAGE_ID' => $this->pipelineStages->getIdFromOpportunityStage($opportunity->getStage()),
+                'STAGE_ID' => $this->pipelineStages->getIdFromOpportunityStage($stage),
             ],
         ];
     }
