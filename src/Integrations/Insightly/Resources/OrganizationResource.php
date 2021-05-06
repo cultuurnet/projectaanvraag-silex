@@ -32,7 +32,7 @@ final class OrganizationResource
     {
         $request = new Request(
             'POST',
-            'Opportunities/',
+            'Organizations/',
             [],
             json_encode($this->organizationSerializer->toInsightlyArray($organization))
         );
