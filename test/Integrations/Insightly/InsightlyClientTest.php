@@ -61,10 +61,25 @@ class InsightlyClientTest extends TestCase
             new PipelineStages($config['integrations']['insightly']['pipelines'])
         );
 
-        // Reset ids before every test run
+        // Reset ids before every test run and cleanup with the teardown
         $this->contactId = null;
         $this->opportunityId = null;
         $this->projectId = null;
+    }
+
+    protected function tearDown(): void
+    {
+        if ($this->contactId instanceof Id) {
+            $this->insightlyClient->contactResource()->deleteById($this->contactId);
+        }
+
+        if ($this->opportunityId instanceof Id) {
+            $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
+        }
+
+        if ($this->projectId instanceof Id) {
+            $this->insightlyClient->projectResource()->deleteById($this->projectId);
+        }
     }
 
     /**
@@ -85,11 +100,6 @@ class InsightlyClientTest extends TestCase
             $expectedContact->withId($this->contactId),
             $actualContact
         );
-
-        $this->insightlyClient->contactResource()->deleteById($this->contactId);
-
-        $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->contactResource()->getById($this->contactId);
     }
 
     /**
@@ -97,26 +107,35 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_manage_opportunities(): void
     {
+        $this->contactId = $this->insightlyClient->contactResource()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
         $expectedOpportunity = new Opportunity(
             new Name('Opportunity Jane'),
             OpportunityState::open(),
             OpportunityStage::test(),
             new Description('This is the opportunity for a project for Jane Doe'),
-            IntegrationType::searchV3()
+            IntegrationType::searchV3(),
+            $this->contactId
         );
 
         $this->opportunityId = $this->insightlyClient->opportunityResource()->create($expectedOpportunity);
+
+        // When a create is done on Insightly not all objects are stored immediately
+        // When getting the created object it can happen some parts like linked contact and custom fields are still missing
+        // This sleep will fix that 😬
+        sleep(1);
 
         $actualOpportunity = $this->insightlyClient->opportunityResource()->getById($this->opportunityId);
         $this->assertEquals(
             $expectedOpportunity->withId($this->opportunityId),
             $actualOpportunity
         );
-
-        $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
-
-        $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->opportunityResource()->getById($this->opportunityId);
     }
 
     /**
@@ -140,27 +159,5 @@ class InsightlyClientTest extends TestCase
             $expectedProject->withId($this->projectId),
             $actualProject
         );
-
-        $this->insightlyClient->projectResource()->deleteById($this->projectId);
-
-        $this->expectException(RecordNotFound::class);
-        $this->insightlyClient->projectResource()->getById($this->projectId);
-    }
-
-    protected function onNotSuccessfulTest(\Throwable $t): void
-    {
-        if ($this->contactId instanceof Id) {
-            $this->insightlyClient->contactResource()->deleteById($this->contactId);
-        }
-
-        if ($this->opportunityId instanceof Id) {
-            $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
-        }
-
-        if ($this->projectId instanceof Id) {
-            $this->insightlyClient->projectResource()->deleteById($this->projectId);
-        }
-
-        parent::onNotSuccessfulTest($t);
     }
 }

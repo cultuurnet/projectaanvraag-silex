@@ -20,14 +20,14 @@ final class OpportunityResource
     private $insightlyClient;
 
     /**
-     * @var PipelineStages
+     * @var OpportunitySerializer
      */
-    private $pipelineStages;
+    private $opportunitySerializer;
 
     public function __construct(InsightlyClient $insightlyClient, PipelineStages $pipelineStages)
     {
         $this->insightlyClient = $insightlyClient;
-        $this->pipelineStages = $pipelineStages;
+        $this->opportunitySerializer = new OpportunitySerializer($pipelineStages);
     }
 
     public function create(Opportunity $opportunity): Id
@@ -36,7 +36,7 @@ final class OpportunityResource
             'POST',
             'Opportunities/',
             [],
-            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyArray($opportunity))
+            json_encode($this->opportunitySerializer->toInsightlyArray($opportunity))
         );
 
         $response = $this->insightlyClient->sendRequest($request);
@@ -45,6 +45,8 @@ final class OpportunityResource
         $id = new Id($opportunityAsArray['OPPORTUNITY_ID']);
 
         $this->updateStage($id, $opportunity->getStage());
+
+        $this->linkContact($id, $opportunity->getContactId());
 
         return $id;
     }
@@ -70,7 +72,19 @@ final class OpportunityResource
 
         $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
 
-        return (new OpportunitySerializer($this->pipelineStages))->fromInsightlyArray($opportunityAsArray);
+        return ($this->opportunitySerializer->fromInsightlyArray($opportunityAsArray));
+    }
+
+    private function linkContact(Id $opportunityId, Id $contactId): void
+    {
+        $request = new Request(
+            'POST',
+            'Opportunities/' . $opportunityId->getValue() . '/Links',
+            [],
+            json_encode($this->opportunitySerializer->toInsightlyContactLink($contactId))
+        );
+
+        $this->insightlyClient->sendRequest($request);
     }
 
     private function updateStage(Id $id, OpportunityStage $stage): void
@@ -79,7 +93,7 @@ final class OpportunityResource
             'PUT',
             'Opportunities/' . $id->getValue() . '/Pipeline',
             [],
-            json_encode((new OpportunitySerializer($this->pipelineStages))->toInsightlyStageChange($stage))
+            json_encode($this->opportunitySerializer->toInsightlyStageChange($stage))
         );
 
         $this->insightlyClient->sendRequest($stageRequest);

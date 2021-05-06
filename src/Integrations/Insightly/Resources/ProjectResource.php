@@ -20,14 +20,14 @@ final class ProjectResource
     private $insightlyClient;
 
     /**
-     * @var PipelineStages
+     * @var ProjectSerializer
      */
-    private $pipelineStages;
+    private $projectSerializer;
 
     public function __construct(InsightlyClient $insightlyClient, PipelineStages $pipelineStages)
     {
         $this->insightlyClient = $insightlyClient;
-        $this->pipelineStages = $pipelineStages;
+        $this->projectSerializer = new ProjectSerializer($pipelineStages);
     }
 
     public function create(Project $project): Id
@@ -36,7 +36,7 @@ final class ProjectResource
             'POST',
             'Projects/',
             [],
-            json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyArray($project))
+            json_encode($this->projectSerializer->toInsightlyArray($project))
         );
 
         $response = $this->insightlyClient->sendRequest($request);
@@ -70,7 +70,7 @@ final class ProjectResource
 
         $projectAsArray = json_decode($response->getBody()->getContents(), true);
 
-        return (new ProjectSerializer($this->pipelineStages))->fromInsightlyArray($projectAsArray);
+        return $this->projectSerializer->fromInsightlyArray($projectAsArray);
     }
 
     private function updateStage(Id $id, ProjectStage $stage): void
@@ -79,7 +79,7 @@ final class ProjectResource
             'PUT',
             'Projects/' . $id->getValue() . '/Pipeline',
             [],
-            json_encode((new ProjectSerializer($this->pipelineStages))->toInsightlyStageChange($stage))
+            json_encode($this->projectSerializer->toInsightlyStageChange($stage))
         );
 
         $this->insightlyClient->sendRequest($stageRequest);
