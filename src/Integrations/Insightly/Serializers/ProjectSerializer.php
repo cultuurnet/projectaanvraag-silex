@@ -52,7 +52,7 @@ final class ProjectSerializer
         ];
 
         if ($project->getId()) {
-            $opportunityAsArray['PROJECT_ID'] = $project->getId();
+            $opportunityAsArray['PROJECT_ID'] = $project->getId()->getValue();
         }
 
         return $opportunityAsArray;
