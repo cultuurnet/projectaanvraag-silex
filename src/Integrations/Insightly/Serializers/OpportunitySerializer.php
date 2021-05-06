@@ -61,15 +61,6 @@ final class OpportunitySerializer
         ];
     }
 
-    public function toInsightlyContactLink(Id $contactId): array
-    {
-        return [
-            'LINK_OBJECT_ID' => $contactId->getValue(),
-            'LINK_OBJECT_NAME' => 'Contact',
-            'ROLE' => 'Aanvrager',
-        ];
-    }
-
     public function fromInsightlyArray(array $insightlyArray): Opportunity
     {
         $integrationType = null;
@@ -80,13 +71,7 @@ final class OpportunitySerializer
             }
         }
 
-        $contactId = null;
-        foreach ($insightlyArray['LINKS'] as $link) {
-            if ($link['LINK_OBJECT_NAME'] === 'Contact') {
-                $contactId = new Id($link['LINK_OBJECT_ID']);
-                break;
-            }
-        }
+        $contactId = (new LinkSerializer())->contactIdFromLinks($insightlyArray['LINKS']);
 
         return (new Opportunity(
             new Name($insightlyArray['OPPORTUNITY_NAME']),
