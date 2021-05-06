@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
 
 final class OrganizationSerializer
 {
@@ -40,5 +45,36 @@ final class OrganizationSerializer
         }
 
         return $organizationAsArray;
+    }
+
+    public function fromInsightlyArray(array $insightlyArray): Organization
+    {
+        $email = null;
+        $taxNumber = null;
+        foreach ($insightlyArray['CUSTOMFIELDS'] as $customField) {
+            if ($customField['CUSTOM_FIELD_ID'] === self::CUSTOM_FIELD_EMAIL) {
+                $email = new Email($customField['FIELD_VALUE']);
+            }
+
+            if ($customField['CUSTOM_FIELD_ID'] === self::CUSTOM_FIELD_TAX_NUMBER) {
+                $taxNumber = new TaxNumber($customField['FIELD_VALUE']);
+            }
+        }
+
+        $organization = (new Organization(
+            new Name($insightlyArray['ORGANISATION_NAME']),
+            new Address(
+                $insightlyArray['ADDRESS_BILLING_STREET'],
+                $insightlyArray['ADDRESS_BILLING_POSTCODE'],
+                $insightlyArray['ADDRESS_BILLING_CITY']
+            ),
+            $email
+        ))->withId(new Id($insightlyArray['ORGANISATION_ID']));
+
+        if ($taxNumber) {
+            $organization = $organization->withTaxNumber($taxNumber);
+        }
+
+        return $organization;
     }
 }
