@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
@@ -16,6 +17,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
@@ -45,6 +47,11 @@ class InsightlyClientTest extends TestCase
      */
     private $projectId;
 
+    /**
+     * @var Id|null
+     */
+    private $organizationId;
+
     protected function setUp(): void
     {
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../../config.yml'));
@@ -64,6 +71,7 @@ class InsightlyClientTest extends TestCase
         $this->contactId = null;
         $this->opportunityId = null;
         $this->projectId = null;
+        $this->organizationId = null;
     }
 
     protected function tearDown(): void
@@ -78,6 +86,10 @@ class InsightlyClientTest extends TestCase
 
         if ($this->projectId instanceof Id) {
             $this->insightlyClient->projects()->deleteById($this->projectId);
+        }
+
+        if ($this->organizationId instanceof Id) {
+            $this->insightlyClient->organizations()->deleteById($this->organizationId);
         }
     }
 
@@ -167,6 +179,32 @@ class InsightlyClientTest extends TestCase
         $actualProject = $this->insightlyClient->projects()->getById($this->projectId);
         $this->assertEquals(
             $expectedProject->withId($this->projectId),
+            $actualProject
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_organizations(): void
+    {
+        $expectedOrganization = new Organization(
+            new Name('Anonymous'),
+            new Address(
+                'Street without a name 000',
+                '1234',
+                'Nowhere town'
+            ),
+            new Email('account@anonymous.com')
+        );
+
+        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->organizations()->getById($this->organizationId);
+        $this->assertEquals(
+            $expectedOrganization->withId($this->organizationId),
             $actualProject
         );
     }
