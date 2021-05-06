@@ -48,17 +48,17 @@ final class InsightlyClient
         $this->pipelineStages = $pipelineStages;
     }
 
-    public function contactResource(): ContactResource
+    public function contacts(): ContactResource
     {
         return new ContactResource($this);
     }
 
-    public function opportunityResource(): OpportunityResource
+    public function opportunities(): OpportunityResource
     {
         return new OpportunityResource($this, $this->pipelineStages);
     }
 
-    public function projectResource(): ProjectResource
+    public function projects(): ProjectResource
     {
         return new ProjectResource($this, $this->pipelineStages);
     }
