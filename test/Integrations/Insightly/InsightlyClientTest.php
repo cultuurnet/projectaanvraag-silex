@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
@@ -143,16 +142,27 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_manage_projects(): void
     {
+        $this->contactId = $this->insightlyClient->contactResource()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
         $expectedProject = new Project(
             new Name('Project Jane'),
             ProjectStage::live(),
             ProjectStatus::inProgress(),
             new Description('This is the project for Jane Doe'),
             IntegrationType::searchV3(),
-            new Coupon('coupon_code')
+            new Coupon('coupon_code'),
+            $this->contactId
         );
 
         $this->projectId = $this->insightlyClient->projectResource()->create($expectedProject);
+
+        sleep(1);
 
         $actualProject = $this->insightlyClient->projectResource()->getById($this->projectId);
         $this->assertEquals(
