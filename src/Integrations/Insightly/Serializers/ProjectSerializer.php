@@ -82,13 +82,16 @@ final class ProjectSerializer
             }
         }
 
+        $contactId = (new LinkSerializer())->contactIdFromLinks($insightlyArray['LINKS']);
+
         return (new Project(
             new Name($insightlyArray['PROJECT_NAME']),
             $this->pipelineStages->getProjectStageFromId($insightlyArray['STAGE_ID']),
             new ProjectStatus($insightlyArray['STATUS']),
             new Description($insightlyArray['PROJECT_DETAILS']),
             $integrationType,
-            $coupon
+            $coupon,
+            $contactId
         ))->withId(
             new Id($insightlyArray['PROJECT_ID'])
         );

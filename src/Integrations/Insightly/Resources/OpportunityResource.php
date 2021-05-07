@@ -6,6 +6,7 @@ namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources;
 
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\PipelineStages;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\LinkSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
@@ -81,7 +82,7 @@ final class OpportunityResource
             'POST',
             'Opportunities/' . $opportunityId->getValue() . '/Links',
             [],
-            json_encode($this->opportunitySerializer->toInsightlyContactLink($contactId))
+            json_encode((new LinkSerializer())->contactIdToLink($contactId))
         );
 
         $this->insightlyClient->sendRequest($request);

@@ -6,6 +6,7 @@ namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources;
 
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\PipelineStages;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\LinkSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ProjectSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
@@ -46,6 +47,8 @@ final class ProjectResource
 
         $this->updateStage($id, $project->getStage());
 
+        $this->linkContact($id, $project->getContactId());
+
         return $id;
     }
 
@@ -71,6 +74,18 @@ final class ProjectResource
         $projectAsArray = json_decode($response->getBody()->getContents(), true);
 
         return $this->projectSerializer->fromInsightlyArray($projectAsArray);
+    }
+
+    private function linkContact(Id $opportunityId, Id $contactId): void
+    {
+        $request = new Request(
+            'POST',
+            'Projects/' . $opportunityId->getValue() . '/Links',
+            [],
+            json_encode((new LinkSerializer())->contactIdToLink($contactId))
+        );
+
+        $this->insightlyClient->sendRequest($request);
     }
 
     private function updateStage(Id $id, ProjectStage $stage): void
