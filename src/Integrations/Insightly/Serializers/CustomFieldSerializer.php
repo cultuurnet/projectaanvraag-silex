@@ -41,7 +41,7 @@ final class CustomFieldSerializer
             }
         }
 
-        throw new InvalidArgumentException('The key: ' . $key . ' is not found inside: ' . implode($customFields));
+        throw new InvalidArgumentException('The key: ' . $key . ' is not found.');
     }
 
     private function createCustomField(string $key, string $value): array
