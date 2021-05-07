@@ -5,16 +5,22 @@ declare(strict_types=1);
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers;
 
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
+use InvalidArgumentException;
 
 final class OrganizationSerializer
 {
-    private const CUSTOM_FIELD_EMAIL = 'Email_boekhouding__c';
-    private const CUSTOM_FIELD_TAX_NUMBER = 'BTW_nummer__c';
+    /**
+     * @var CustomFieldSerializer
+     */
+    private $customFieldSerializer;
+
+    public function __construct()
+    {
+        $this->customFieldSerializer = new CustomFieldSerializer();
+    }
 
     public function toInsightlyArray(Organization $organization): array
     {
@@ -24,20 +30,14 @@ final class OrganizationSerializer
             'ADDRESS_BILLING_POSTCODE' => $organization->getAddress()->getPostal(),
             'ADDRESS_BILLING_CITY' => $organization->getAddress()->getCity(),
             'CUSTOMFIELDS' => [
-                [
-                    'FIELD_NAME' => self::CUSTOM_FIELD_EMAIL,
-                    'CUSTOM_FIELD_ID' => self::CUSTOM_FIELD_EMAIL,
-                    'FIELD_VALUE' => $organization->getEmail()->getValue(),
-                ],
+                $this->customFieldSerializer->emailToCustomField($organization->getEmail())
             ],
         ];
 
         if ($organization->getTaxNumber()) {
-            $organizationAsArray[]['CUSTOMFIELDS'] = [
-                'FIELD_NAME' => self::CUSTOM_FIELD_TAX_NUMBER,
-                'CUSTOM_FIELD_ID' => self::CUSTOM_FIELD_TAX_NUMBER,
-                'FIELD_VALUE' => $organization->getTaxNumber()->getValue(),
-            ];
+            $organizationAsArray[]['CUSTOMFIELDS'] = $this->customFieldSerializer->taxNumberToCustomField(
+                $organization->getTaxNumber()
+            );
         }
 
         if ($organization->getId()) {
@@ -49,18 +49,6 @@ final class OrganizationSerializer
 
     public function fromInsightlyArray(array $insightlyArray): Organization
     {
-        $email = null;
-        $taxNumber = null;
-        foreach ($insightlyArray['CUSTOMFIELDS'] as $customField) {
-            if ($customField['CUSTOM_FIELD_ID'] === self::CUSTOM_FIELD_EMAIL) {
-                $email = new Email($customField['FIELD_VALUE']);
-            }
-
-            if ($customField['CUSTOM_FIELD_ID'] === self::CUSTOM_FIELD_TAX_NUMBER) {
-                $taxNumber = new TaxNumber($customField['FIELD_VALUE']);
-            }
-        }
-
         $organization = (new Organization(
             new Name($insightlyArray['ORGANISATION_NAME']),
             new Address(
@@ -68,11 +56,13 @@ final class OrganizationSerializer
                 $insightlyArray['ADDRESS_BILLING_POSTCODE'],
                 $insightlyArray['ADDRESS_BILLING_CITY']
             ),
-            $email
+            $this->customFieldSerializer->getEmail($insightlyArray['CUSTOMFIELDS'])
         ))->withId(new Id($insightlyArray['ORGANISATION_ID']));
 
-        if ($taxNumber) {
+        try {
+            $taxNumber = $this->customFieldSerializer->getTaxNumber($insightlyArray['CUSTOMFIELDS']);
             $organization = $organization->withTaxNumber($taxNumber);
+        } catch (InvalidArgumentException $exception) {
         }
 
         return $organization;
