@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use InvalidArgumentException;
 
 final class CustomFieldSerializer
 {
     private const CUSTOM_FIELD_INTEGRATION_TYPE = 'Product__c';
+    private const CUSTOM_FIELD_COUPON = 'Coupon_field__c';
 
     public function getIntegrationType(array $customFields): IntegrationType
     {
         return new IntegrationType($this->getCustomFieldValue($customFields, self::CUSTOM_FIELD_INTEGRATION_TYPE));
+    }
+
+    public function getCoupon(array $customFields): Coupon
+    {
+        return new Coupon($this->getCustomFieldValue($customFields, self::CUSTOM_FIELD_COUPON));
     }
 
     public function integrationTypeToCustomField(IntegrationType $integrationType): array
@@ -21,6 +28,10 @@ final class CustomFieldSerializer
         return $this->createCustomField(self::CUSTOM_FIELD_INTEGRATION_TYPE, $integrationType->getValue());
     }
 
+    public function couponToCustomField(Coupon $coupon): array
+    {
+        return $this->createCustomField(self::CUSTOM_FIELD_COUPON, $coupon->getValue());
+    }
 
     private function getCustomFieldValue(array $customFields, string $key): string
     {
