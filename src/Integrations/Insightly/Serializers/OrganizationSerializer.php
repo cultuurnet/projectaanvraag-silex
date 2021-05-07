@@ -30,7 +30,7 @@ final class OrganizationSerializer
             'ADDRESS_BILLING_POSTCODE' => $organization->getAddress()->getPostal(),
             'ADDRESS_BILLING_CITY' => $organization->getAddress()->getCity(),
             'CUSTOMFIELDS' => [
-                $this->customFieldSerializer->emailToCustomField($organization->getEmail())
+                $this->customFieldSerializer->emailToCustomField($organization->getEmail()),
             ],
         ];
 

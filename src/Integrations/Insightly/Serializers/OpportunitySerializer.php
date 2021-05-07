@@ -33,7 +33,7 @@ final class OpportunitySerializer
             'PIPELINE_ID' => $this->pipelineStages->getOpportunitiesPipelineId(),
             'STAGE_ID' => $this->pipelineStages->getIdFromOpportunityStage($opportunity->getStage()),
             'CUSTOMFIELDS' => [
-                (new CustomFieldSerializer())->integrationTypeToCustomField($opportunity->getIntegrationType())
+                (new CustomFieldSerializer())->integrationTypeToCustomField($opportunity->getIntegrationType()),
             ],
         ];
 
