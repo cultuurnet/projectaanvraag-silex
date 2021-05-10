@@ -7,7 +7,6 @@ namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\PipelineStages;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
@@ -15,8 +14,6 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunitySt
 
 final class OpportunitySerializer
 {
-    private const CUSTOM_FIELD_INTEGRATION_TYPE = 'Product__c';
-
     /**
      * @var PipelineStages
      */
@@ -36,11 +33,7 @@ final class OpportunitySerializer
             'PIPELINE_ID' => $this->pipelineStages->getOpportunitiesPipelineId(),
             'STAGE_ID' => $this->pipelineStages->getIdFromOpportunityStage($opportunity->getStage()),
             'CUSTOMFIELDS' => [
-                [
-                    'FIELD_NAME' => self::CUSTOM_FIELD_INTEGRATION_TYPE,
-                    'CUSTOM_FIELD_ID' => self::CUSTOM_FIELD_INTEGRATION_TYPE,
-                    'FIELD_VALUE' => $opportunity->getIntegrationType()->getValue(),
-                ],
+                (new CustomFieldSerializer())->integrationTypeToCustomField($opportunity->getIntegrationType()),
             ],
         ];
 
@@ -63,13 +56,7 @@ final class OpportunitySerializer
 
     public function fromInsightlyArray(array $insightlyArray): Opportunity
     {
-        $integrationType = null;
-        foreach ($insightlyArray['CUSTOMFIELDS'] as $customField) {
-            if ($customField['CUSTOM_FIELD_ID'] === self::CUSTOM_FIELD_INTEGRATION_TYPE) {
-                $integrationType = new IntegrationType($customField['FIELD_VALUE']);
-                break;
-            }
-        }
+        $integrationType = (new CustomFieldSerializer())->getIntegrationType($insightlyArray['CUSTOMFIELDS']);
 
         $contactId = (new LinkSerializer())->contactIdFromLinks($insightlyArray['LINKS']);
 
