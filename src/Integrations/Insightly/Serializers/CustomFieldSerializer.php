@@ -34,7 +34,7 @@ final class CustomFieldSerializer
 
     public function getTaxNumber(array $customFields): TaxNumber
     {
-        return new TaxNumber($this->getCustomFieldValue($customFields, self:: CUSTOM_FIELD_TAX_NUMBER));
+        return new TaxNumber($this->getCustomFieldValue($customFields, self::CUSTOM_FIELD_TAX_NUMBER));
     }
 
     public function integrationTypeToCustomField(IntegrationType $integrationType): array
