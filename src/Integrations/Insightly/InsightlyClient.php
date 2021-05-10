@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordLimitReac
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\ContactResource;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\OpportunityResource;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\OrganizationResource;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\ProjectResource;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ContactSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySerializer;
@@ -48,19 +49,24 @@ final class InsightlyClient
         $this->pipelineStages = $pipelineStages;
     }
 
-    public function contactResource(): ContactResource
+    public function contacts(): ContactResource
     {
         return new ContactResource($this);
     }
 
-    public function opportunityResource(): OpportunityResource
+    public function opportunities(): OpportunityResource
     {
         return new OpportunityResource($this, $this->pipelineStages);
     }
 
-    public function projectResource(): ProjectResource
+    public function projects(): ProjectResource
     {
         return new ProjectResource($this, $this->pipelineStages);
+    }
+
+    public function organizations(): OrganizationResource
+    {
+        return new OrganizationResource($this);
     }
 
     public function sendRequest(RequestInterface $request): ResponseInterface

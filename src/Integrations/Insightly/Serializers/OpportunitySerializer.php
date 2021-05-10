@@ -45,7 +45,7 @@ final class OpportunitySerializer
         ];
 
         if ($opportunity->getId()) {
-            $opportunityAsArray['OPPORTUNITY_ID'] = $opportunity->getId();
+            $opportunityAsArray['OPPORTUNITY_ID'] = $opportunity->getId()->getValue();
         }
 
         return $opportunityAsArray;

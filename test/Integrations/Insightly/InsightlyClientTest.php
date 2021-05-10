@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
@@ -16,6 +17,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
@@ -45,6 +47,11 @@ class InsightlyClientTest extends TestCase
      */
     private $projectId;
 
+    /**
+     * @var Id|null
+     */
+    private $organizationId;
+
     protected function setUp(): void
     {
         $config = Yaml::parse(file_get_contents(__DIR__ . '/../../../config.yml'));
@@ -64,20 +71,25 @@ class InsightlyClientTest extends TestCase
         $this->contactId = null;
         $this->opportunityId = null;
         $this->projectId = null;
+        $this->organizationId = null;
     }
 
     protected function tearDown(): void
     {
         if ($this->contactId instanceof Id) {
-            $this->insightlyClient->contactResource()->deleteById($this->contactId);
+            $this->insightlyClient->contacts()->deleteById($this->contactId);
         }
 
         if ($this->opportunityId instanceof Id) {
-            $this->insightlyClient->opportunityResource()->deleteById($this->opportunityId);
+            $this->insightlyClient->opportunities()->deleteById($this->opportunityId);
         }
 
         if ($this->projectId instanceof Id) {
-            $this->insightlyClient->projectResource()->deleteById($this->projectId);
+            $this->insightlyClient->projects()->deleteById($this->projectId);
+        }
+
+        if ($this->organizationId instanceof Id) {
+            $this->insightlyClient->organizations()->deleteById($this->organizationId);
         }
     }
 
@@ -92,9 +104,9 @@ class InsightlyClientTest extends TestCase
             new Email('jane.doe@anonymous.com')
         );
 
-        $this->contactId = $this->insightlyClient->contactResource()->create($expectedContact);
+        $this->contactId = $this->insightlyClient->contacts()->create($expectedContact);
 
-        $actualContact = $this->insightlyClient->contactResource()->getById($this->contactId);
+        $actualContact = $this->insightlyClient->contacts()->getById($this->contactId);
         $this->assertEquals(
             $expectedContact->withId($this->contactId),
             $actualContact
@@ -106,7 +118,7 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_manage_opportunities(): void
     {
-        $this->contactId = $this->insightlyClient->contactResource()->create(
+        $this->contactId = $this->insightlyClient->contacts()->create(
             new Contact(
                 new FirstName('Jane'),
                 new LastName('Doe'),
@@ -123,14 +135,14 @@ class InsightlyClientTest extends TestCase
             $this->contactId
         );
 
-        $this->opportunityId = $this->insightlyClient->opportunityResource()->create($expectedOpportunity);
+        $this->opportunityId = $this->insightlyClient->opportunities()->create($expectedOpportunity);
 
         // When a create is done on Insightly not all objects are stored immediately
         // When getting the created object it can happen some parts like linked contact and custom fields are still missing
         // This sleep will fix that 😬
         sleep(1);
 
-        $actualOpportunity = $this->insightlyClient->opportunityResource()->getById($this->opportunityId);
+        $actualOpportunity = $this->insightlyClient->opportunities()->getById($this->opportunityId);
         $this->assertEquals(
             $expectedOpportunity->withId($this->opportunityId),
             $actualOpportunity
@@ -142,7 +154,7 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_manage_projects(): void
     {
-        $this->contactId = $this->insightlyClient->contactResource()->create(
+        $this->contactId = $this->insightlyClient->contacts()->create(
             new Contact(
                 new FirstName('Jane'),
                 new LastName('Doe'),
@@ -160,13 +172,39 @@ class InsightlyClientTest extends TestCase
             $this->contactId
         );
 
-        $this->projectId = $this->insightlyClient->projectResource()->create($expectedProject);
+        $this->projectId = $this->insightlyClient->projects()->create($expectedProject);
 
         sleep(1);
 
-        $actualProject = $this->insightlyClient->projectResource()->getById($this->projectId);
+        $actualProject = $this->insightlyClient->projects()->getById($this->projectId);
         $this->assertEquals(
             $expectedProject->withId($this->projectId),
+            $actualProject
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_organizations(): void
+    {
+        $expectedOrganization = new Organization(
+            new Name('Anonymous'),
+            new Address(
+                'Street without a name 000',
+                '1234',
+                'Nowhere town'
+            ),
+            new Email('account@anonymous.com')
+        );
+
+        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->organizations()->getById($this->organizationId);
+        $this->assertEquals(
+            $expectedOrganization->withId($this->organizationId),
             $actualProject
         );
     }
