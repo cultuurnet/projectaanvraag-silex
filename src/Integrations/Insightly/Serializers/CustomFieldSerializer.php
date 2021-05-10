@@ -29,7 +29,7 @@ final class CustomFieldSerializer
 
     public function getEmail(array $customFields): Email
     {
-        return new Email($this->getCustomFieldValue($customFields, self:: CUSTOM_FIELD_EMAIL));
+        return new Email($this->getCustomFieldValue($customFields, self::CUSTOM_FIELD_EMAIL));
     }
 
     public function getTaxNumber(array $customFields): TaxNumber
