@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Core\YamlConfigServiceProvider;
 use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
 use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider as LegacyInsightlyServiceProvider;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
@@ -326,6 +327,17 @@ class ApplicationBase extends SilexApplication
             [
                 'insightly.host' => $this['config']['insightly']['host'],
                 'insightly.api_key' => $this['config']['insightly']['api_key'],
+                'insightly.project_config' => $this['config']['insightly']['project_config'],
+            ]
+        );
+
+        // Integrations
+        $this->register(
+            new InsightlyServiceProvider(),
+            [
+                'integrations.insightly.host' => $this['config']['integrations']['insightly']['host'],
+                'integrations.insightly.api_key' => $this['config']['integrations']['insightly']['api_key'],
+                'integrations.insightly.pipelines' => $this['config']['integrations']['insightly']['pipelines'],
             ]
         );
 
