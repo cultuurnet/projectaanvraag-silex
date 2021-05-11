@@ -99,7 +99,7 @@ final class ProjectCreatedListener
             ProjectStage::live(),
             ProjectStatus::completed(),
             new Description($project->getDescription()),
-            $integrationType
+            $integrationType,
             new Coupon($project->getCoupon())
         );
     }
