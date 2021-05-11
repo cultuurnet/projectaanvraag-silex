@@ -131,11 +131,13 @@ class InsightlyClientTest extends TestCase
             OpportunityState::open(),
             OpportunityStage::test(),
             new Description('This is the opportunity for a project for Jane Doe'),
-            IntegrationType::searchV3(),
-            $this->contactId
+            IntegrationType::searchV3()
         );
 
-        $this->opportunityId = $this->insightlyClient->opportunities()->create($expectedOpportunity);
+        $this->opportunityId = $this->insightlyClient->opportunities()->createWithContact(
+            $expectedOpportunity,
+            $this->contactId
+        );
 
         // When a create is done on Insightly not all objects are stored immediately
         // When getting the created object it can happen some parts like linked contact and custom fields are still missing

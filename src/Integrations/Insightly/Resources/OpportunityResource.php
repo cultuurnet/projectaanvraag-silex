@@ -31,7 +31,7 @@ final class OpportunityResource
         $this->opportunitySerializer = new OpportunitySerializer($pipelineStages);
     }
 
-    public function create(Opportunity $opportunity): Id
+    public function createWithContact(Opportunity $opportunity, Id $contactId): Id
     {
         $request = new Request(
             'POST',
@@ -47,7 +47,7 @@ final class OpportunityResource
 
         $this->updateStage($id, $opportunity->getStage());
 
-        $this->linkContact($id, $opportunity->getContactId());
+        $this->linkContact($id, $contactId);
 
         return $id;
     }
