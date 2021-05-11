@@ -4,7 +4,7 @@ subscribers:
             - widget_search_results_query_alter_listener
     asynchronous:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
-            - project_created_listener
+            - leagcy_project_created_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
             - project_deleted_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
@@ -28,7 +28,7 @@ listeners:
             - articlelinker_api_test
             - articlelinker_cache
 
-    project_created_listener:
+    leagcy_project_created_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectCreatedEventListener
         arguments:
             - legacy_insightly_client
