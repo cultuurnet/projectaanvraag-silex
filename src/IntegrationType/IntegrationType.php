@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType as InsightlyIntegrationType;
+
 /**
  * Class for integration types
  */
@@ -87,6 +89,11 @@ class IntegrationType implements \JsonSerializable
      * @var array
      */
     private $uitPasPermissionGroups;
+
+    /**
+     * @var InsightlyIntegrationType|null
+     */
+    private $insightlyIntegrationType;
 
     /**
      * @return string
@@ -340,6 +347,16 @@ class IntegrationType implements \JsonSerializable
     public function setUitPasPermissionGroups($uitPasPermissionGroups): void
     {
         $this->uitPasPermissionGroups = $uitPasPermissionGroups;
+    }
+
+    public function getInsightlyIntegrationType(): ?InsightlyIntegrationType
+    {
+        return $this->insightlyIntegrationType;
+    }
+
+    public function setInsightlyIntegrationType(InsightlyIntegrationType $insightlyIntegrationType): void
+    {
+        $this->insightlyIntegrationType = $insightlyIntegrationType;
     }
 
     public function jsonSerialize()

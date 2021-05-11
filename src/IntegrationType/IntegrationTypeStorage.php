@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\IntegrationType;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType as InsightlyIntegrationType;
 use Symfony\Component\Yaml\Yaml;
 
 class IntegrationTypeStorage implements IntegrationTypeStorageInterface
@@ -68,6 +69,11 @@ class IntegrationTypeStorage implements IntegrationTypeStorageInterface
                 $integrationType->setType(!empty($type['type']) ? $type['type'] : 'output');
                 $integrationType->setUitIdPermissionGroups($type['uitid_permissions'] ?? []);
                 $integrationType->setUitPasPermissionGroups($type['uitpas_permissions'] ?? []);
+
+                if (!empty($type['insightly_integration_type'])) {
+                    $integrationType->setInsightlyIntegrationType(InsightlyIntegrationType::fromKey($type['insightly_integration_type']));
+                }
+
                 $this->integrationTypes[$integrationType->getId()] = $integrationType;
             }
         }
