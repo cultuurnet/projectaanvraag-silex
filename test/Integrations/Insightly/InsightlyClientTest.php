@@ -170,11 +170,10 @@ class InsightlyClientTest extends TestCase
             ProjectStatus::inProgress(),
             new Description('This is the project for Jane Doe'),
             IntegrationType::searchV3(),
-            new Coupon('coupon_code'),
-            $this->contactId
+            new Coupon('coupon_code')
         );
 
-        $this->projectId = $this->insightlyClient->projects()->create($expectedProject);
+        $this->projectId = $this->insightlyClient->projects()->createWithContact($expectedProject, $this->contactId);
 
         sleep(1);
 

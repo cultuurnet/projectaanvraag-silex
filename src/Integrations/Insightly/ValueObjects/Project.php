@@ -41,19 +41,13 @@ final class Project
      */
     private $coupon;
 
-    /**
-     * @var Id
-     */
-    private $contactId;
-
     public function __construct(
         Name $name,
         ProjectStage $stage,
         ProjectStatus $status,
         Description $description,
         IntegrationType $integrationType,
-        Coupon $coupon,
-        Id $contactId
+        Coupon $coupon
     ) {
         $this->name = $name;
         $this->stage = $stage;
@@ -61,7 +55,6 @@ final class Project
         $this->description = $description;
         $this->integrationType = $integrationType;
         $this->coupon = $coupon;
-        $this->contactId = $contactId;
     }
 
     public function withId(Id $id): self
@@ -104,10 +97,5 @@ final class Project
     public function getCoupon(): Coupon
     {
         return $this->coupon;
-    }
-
-    public function getContactId(): Id
-    {
-        return $this->contactId;
     }
 }
