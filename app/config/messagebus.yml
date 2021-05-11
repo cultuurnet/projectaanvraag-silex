@@ -34,24 +34,28 @@ listeners:
             - legacy_insightly_client
             - insightly.project_config
             - orm.em
+            - use_new_insightly_instance
 
     project_activated_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectActivatedEventListener
         arguments:
             - legacy_insightly_client
             - insightly.project_config
+            - use_new_insightly_instance
 
     project_deleted_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectDeletedEventListener
         arguments:
             - legacy_insightly_client
             - insightly.project_config
+            - use_new_insightly_instance
 
     project_blocked_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectBlockedEventListener
         arguments:
             - legacy_insightly_client
             - insightly.project_config
+            - use_new_insightly_instance
 
     queue_consumers_listener:
         class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueConsumersEventListener

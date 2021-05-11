@@ -17,6 +17,10 @@ class ProjectActivatedEventListener extends ProjectCrudEventListener
      */
     public function handle(AbstractProjectEvent $projectActivated)
     {
+        if ($this->newInsightlyInstance) {
+            return;
+        }
+
         /** @var ProjectActivated $projectActivated */
         $this->loadInsightlyProject($projectActivated);
         $this->insightlyProject->addCustomField($this->insightlyConfig['custom_fields']['live_key'], $projectActivated->getProject()->getLiveConsumerKey());

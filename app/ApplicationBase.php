@@ -317,6 +317,9 @@ class ApplicationBase extends SilexApplication
         // Coupons.
         $this->register(new CouponProvider());
 
+        // Enable/disable the new Insightly instance
+        $this['use_new_insightly_instance'] = $this['config']['features']['new_insightly_instance'];
+
         // Insightly
         $this->register(
             new LegacyInsightlyServiceProvider(),

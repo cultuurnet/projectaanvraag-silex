@@ -26,14 +26,15 @@ abstract class ProjectCrudEventListener
     protected $insightlyConfig;
 
     /**
-     * ProjectCrudEventListener constructor.
-     * @param InsightlyClientInterface $insightlyClient
-     * @param array $insightlyConfig
+     * @var bool
      */
-    public function __construct(InsightlyClientInterface $insightlyClient, $insightlyConfig)
+    protected $newInsightlyInstance;
+
+    public function __construct(InsightlyClientInterface $insightlyClient, array $insightlyConfig, bool $newInsightlyInstance)
     {
         $this->insightlyClient = $insightlyClient;
         $this->insightlyConfig = $insightlyConfig;
+        $this->newInsightlyInstance = $newInsightlyInstance;
     }
 
     /**

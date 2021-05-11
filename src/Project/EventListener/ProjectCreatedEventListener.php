@@ -21,15 +21,13 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      */
     protected $entityManager;
 
-    /**
-     * ProjectDeletedEventListener constructor.
-     * @param InsightlyClientInterface $insightlyClient
-     * @param array $insightlyConfig
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(InsightlyClientInterface $insightlyClient, array $insightlyConfig, EntityManagerInterface $entityManager)
-    {
-        parent::__construct($insightlyClient, $insightlyConfig);
+    public function __construct(
+        InsightlyClientInterface $insightlyClient,
+        array $insightlyConfig,
+        EntityManagerInterface $entityManager,
+        bool $newInsightlyInstance
+    ) {
+        parent::__construct($insightlyClient, $insightlyConfig, $newInsightlyInstance);
 
         $this->entityManager = $entityManager;
     }
@@ -41,6 +39,9 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      */
     public function handle(AbstractProjectEvent $projectCreated)
     {
+        if ($this->newInsightlyInstance) {
+            return;
+        }
 
         /**
          * @var ProjectInterface $project
