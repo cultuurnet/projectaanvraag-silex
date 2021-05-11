@@ -15,7 +15,13 @@ class ProjectControllerProvider implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $app['project_controller'] = function (Application $app) {
-            return new ProjectController($app['command_bus'], $app['project_service'], $app['security.authorization_checker'], $app['coupon_validator'], $app['insightly_client']);
+            return new ProjectController(
+                $app['command_bus'],
+                $app['project_service'],
+                $app['security.authorization_checker'],
+                $app['coupon_validator'],
+                $app['legacy_insightly_client']
+            );
         };
 
         /* @var ControllerCollection $controllers */

@@ -31,26 +31,26 @@ listeners:
     project_created_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectCreatedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
             - orm.em
 
     project_activated_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectActivatedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
 
     project_deleted_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectDeletedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
 
     project_blocked_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectBlockedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
 
     queue_consumers_listener:
@@ -115,9 +115,8 @@ handlers:
           - event_bus
           - orm.em
           - uitid_user_session_data_complete
-          - insightly_client
+          - legacy_insightly_client
           - insightly.project_config
-
 
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject
