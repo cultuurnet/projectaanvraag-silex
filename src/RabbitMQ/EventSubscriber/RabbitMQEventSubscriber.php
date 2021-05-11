@@ -3,7 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber;
 
 use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use CultuurNet\ProjectAanvraag\Project\Event\AbstractProjectEvent;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use SimpleBus\RabbitMQBundleBridge\Event\Events;
@@ -86,7 +86,7 @@ class RabbitMQEventSubscriber implements EventSubscriberInterface
             // Allow the message to fail 5 times, then log it
             if ($message->getAttempts() == 5) {
                 // Only log failed attempts for project events
-                if ($message instanceof ProjectEvent) {
+                if ($message instanceof AbstractProjectEvent) {
                     $this->projectLogger->error('Message: ' . $eventMessage->body);
                 }
             }

@@ -3,7 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use CultuurNet\ProjectAanvraag\Project\Event\AbstractProjectEvent;
 
 /**
  * Abstract event listener for project crud actions to Insightly.
@@ -38,10 +38,10 @@ abstract class ProjectCrudEventListener
 
     /**
      * Load the insightly project.
-     * @param ProjectEvent $projectEvent
+     * @param AbstractProjectEvent $projectEvent
      * @internal param Project $project
      */
-    protected function loadInsightlyProject(ProjectEvent $projectEvent)
+    protected function loadInsightlyProject(AbstractProjectEvent $projectEvent)
     {
         $this->insightlyProject = $this->insightlyClient->getProject($projectEvent->getProject()->getInsightlyProjectId());
     }
