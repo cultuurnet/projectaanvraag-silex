@@ -62,6 +62,7 @@ final class ProjectCreatedListener
     public function handle(ProjectCreated $projectCreated): void
     {
         if (!$this->useNewInsightlyInstance) {
+            $this->logger->debug('Not using new Insightly instance');
             return;
         }
 
@@ -93,16 +94,20 @@ final class ProjectCreatedListener
             $this->createContact($projectCreated->getUser())
         );
 
+        $this->logger->debug('Created contact with id ' . $contactId->getValue());
+
         if ($projectCreated->getUsedCoupon()) {
-            $this->insightlyClient->projects()->createWithContact(
+            $insightlyProjectId = $this->insightlyClient->projects()->createWithContact(
                 $this->createProject($project, $insightlyIntegrationType),
                 $contactId
             );
+            $this->logger->debug('Created project with id ' . $insightlyProjectId->getValue());
         } else {
-            $this->insightlyClient->opportunities()->createWithContact(
+            $insightlyOpportunityId =  $this->insightlyClient->opportunities()->createWithContact(
                 $this->createOpportunity($project, $insightlyIntegrationType),
                 $contactId
             );
+            $this->logger->debug('Created opportunity with id ' . $insightlyOpportunityId->getValue());
         }
     }
 
