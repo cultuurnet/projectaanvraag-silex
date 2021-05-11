@@ -63,6 +63,7 @@ listeners:
         arguments:
             - insightly_client
             - use_new_insightly_instance
+            - insightly_logger
 
     queue_consumers_listener:
         class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueConsumersEventListener

@@ -22,6 +22,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
+use Psr\Log\LoggerInterface;
 
 final class ProjectCreatedListener
 {
@@ -35,10 +36,19 @@ final class ProjectCreatedListener
      */
     private $useNewInsightlyInstance;
 
-    public function __construct(InsightlyClient $insightlyClient, bool $useNewInsightlyInstance)
-    {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(
+        InsightlyClient $insightlyClient,
+        bool $useNewInsightlyInstance,
+        LoggerInterface $logger
+    ) {
         $this->insightlyClient = $insightlyClient;
         $this->useNewInsightlyInstance = $useNewInsightlyInstance;
+        $this->logger = $logger;
     }
 
     public function handle(ProjectCreated $projectCreated): void
@@ -47,9 +57,16 @@ final class ProjectCreatedListener
             return;
         }
 
+        $projectId = $projectCreated->getProject()->getId();
         $group = $projectCreated->getProject()->getGroup();
-        $insightlyIntegrationType = $group ? $group->getInsightlyIntegrationType() : null;
+        if (!$group) {
+            $this->logger->warning('Project with id ' . $projectId . ' created without group');
+            return;
+        }
+
+        $insightlyIntegrationType = $group->getInsightlyIntegrationType();
         if (!$insightlyIntegrationType) {
+            $this->logger->warning('Project with id ' . $projectId . ' created with group id ' . $group->getId() . ' without Insightly integration type');
             // The project has no Insightly integration type configured for its group id in integration_types.yml
             // For example CultureFeed or SAPI2 (not used anymore in reality)
             return;

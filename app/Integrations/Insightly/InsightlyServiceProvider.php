@@ -3,6 +3,8 @@
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
 use GuzzleHttp\Client;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -13,6 +15,12 @@ class InsightlyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
+        $app['insightly_logger'] = function (Container $app) {
+            $logger = new Logger('insightly_api');
+            $logger->pushHandler(new RotatingFileHandler(__DIR__ . '/../../../log/integrations/insightly.log', 0, Logger::DEBUG));
+            return $logger;
+        };
+
         $app['insightly_client'] = function (Container $app) {
             return new InsightlyClient(
                 new Client(
