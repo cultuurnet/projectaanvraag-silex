@@ -22,10 +22,16 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
+use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use Psr\Log\LoggerInterface;
 
 final class ProjectCreatedListener
 {
+    /**
+     * @var ProjectServiceInterface
+     */
+    private $projectService;
+
     /**
      * @var InsightlyClient
      */
@@ -42,10 +48,12 @@ final class ProjectCreatedListener
     private $logger;
 
     public function __construct(
+        ProjectServiceInterface $projectService,
         InsightlyClient $insightlyClient,
         bool $useNewInsightlyInstance,
         LoggerInterface $logger
     ) {
+        $this->projectService = $projectService;
         $this->insightlyClient = $insightlyClient;
         $this->useNewInsightlyInstance = $useNewInsightlyInstance;
         $this->logger = $logger;
@@ -58,7 +66,16 @@ final class ProjectCreatedListener
         }
 
         $projectId = $projectCreated->getProject()->getId();
-        $group = $projectCreated->getProject()->getGroup();
+
+        // Re-load the project from the project service, so non-serialized properties like $group get hydrated.
+        try {
+            $project = $this->projectService->loadProject($projectId);
+        } catch (\Exception $e) {
+            $this->logger->warning('Created project with id ' . $projectId . ' could not be loaded');
+            return;
+        }
+
+        $group = $project->getGroup();
         if (!$group) {
             $this->logger->warning('Project with id ' . $projectId . ' created without group');
             return;
@@ -78,12 +95,12 @@ final class ProjectCreatedListener
 
         if ($projectCreated->getUsedCoupon()) {
             $this->insightlyClient->projects()->createWithContact(
-                $this->createProject($projectCreated->getProject(), $insightlyIntegrationType),
+                $this->createProject($project, $insightlyIntegrationType),
                 $contactId
             );
         } else {
             $this->insightlyClient->opportunities()->createWithContact(
-                $this->createOpportunity($projectCreated->getProject(), $insightlyIntegrationType),
+                $this->createOpportunity($project, $insightlyIntegrationType),
                 $contactId
             );
         }
