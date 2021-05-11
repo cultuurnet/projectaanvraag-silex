@@ -5,6 +5,7 @@ subscribers:
     asynchronous:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
             - leagcy_project_created_listener
+            - project_created_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
             - project_deleted_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
@@ -55,6 +56,12 @@ listeners:
         arguments:
             - legacy_insightly_client
             - insightly.project_config
+            - use_new_insightly_instance
+
+    project_created_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\ProjectCreatedListener
+        arguments:
+            - insightly_client
             - use_new_insightly_instance
 
     queue_consumers_listener:
