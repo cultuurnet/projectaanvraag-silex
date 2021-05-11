@@ -21,16 +21,16 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunitySt
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
+use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
-use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use Psr\Log\LoggerInterface;
 
 final class ProjectCreatedListener
 {
     /**
-     * @var ProjectServiceInterface
+     * @var IntegrationTypeStorageInterface
      */
-    private $projectService;
+    private $integrationTypeStorage;
 
     /**
      * @var InsightlyClient
@@ -48,12 +48,12 @@ final class ProjectCreatedListener
     private $logger;
 
     public function __construct(
-        ProjectServiceInterface $projectService,
+        IntegrationTypeStorageInterface $integrationTypeStorage,
         InsightlyClient $insightlyClient,
         bool $useNewInsightlyInstance,
         LoggerInterface $logger
     ) {
-        $this->projectService = $projectService;
+        $this->integrationTypeStorage = $integrationTypeStorage;
         $this->insightlyClient = $insightlyClient;
         $this->useNewInsightlyInstance = $useNewInsightlyInstance;
         $this->logger = $logger;
@@ -66,27 +66,26 @@ final class ProjectCreatedListener
             return;
         }
 
-        $projectId = $projectCreated->getProject()->getId();
+        $project = $projectCreated->getProject();
+        $projectId = $project->getId();
+        $groupId = $project->getGroupId();
 
-        // Re-load the project from the project service, so non-serialized properties like $group get hydrated.
-        try {
-            $project = $this->projectService->loadProject($projectId);
-        } catch (\Exception $e) {
-            $this->logger->warning('Created project with id ' . $projectId . ' could not be loaded');
+        if (!$groupId) {
+            $this->logger->error('Project created with id ' . $projectId . ' has no group id');
             return;
         }
 
-        $group = $project->getGroup();
-        if (!$group) {
-            $this->logger->warning('Project with id ' . $projectId . ' created without group');
+        // Load the integration type info based on the group id (because $project->getGroup() will return null since it
+        // was not serialized when the event was published on the AMQP queue).
+        $integrationType = $this->integrationTypeStorage->load($groupId);
+        if (!$integrationType) {
+            $this->logger->error('Project created with id ' . $projectId . ' has a group id ' . $groupId . ' that has no integration type configured');
             return;
         }
 
-        $insightlyIntegrationType = $group->getInsightlyIntegrationType();
+        $insightlyIntegrationType = $integrationType->getInsightlyIntegrationType();
         if (!$insightlyIntegrationType) {
-            $this->logger->warning('Project with id ' . $projectId . ' created with group id ' . $group->getId() . ' without Insightly integration type');
-            // The project has no Insightly integration type configured for its group id in integration_types.yml
-            // For example CultureFeed or SAPI2 (not used anymore in reality)
+            $this->logger->error('Project created with id ' . $projectId . ' and group id ' . $groupId . ' has no Insightly integration type configured');
             return;
         }
 
