@@ -47,18 +47,26 @@ final class ProjectCreatedListener
             return;
         }
 
+        $group = $projectCreated->getProject()->getGroup();
+        $insightlyIntegrationType = $group ? $group->getInsightlyIntegrationType() : null;
+        if (!$insightlyIntegrationType) {
+            // The project has no Insightly integration type configured for its group id in integration_types.yml
+            // For example CultureFeed or SAPI2 (not used anymore in reality)
+            return;
+        }
+
         $contactId = $this->insightlyClient->contacts()->create(
             $this->createContact($projectCreated->getUser())
         );
 
         if ($projectCreated->getUsedCoupon()) {
             $this->insightlyClient->projects()->createWithContact(
-                $this->createProject($projectCreated->getProject()),
+                $this->createProject($projectCreated->getProject(), $insightlyIntegrationType),
                 $contactId
             );
         } else {
             $this->insightlyClient->opportunities()->createWithContact(
-                $this->createOpportunity($projectCreated->getProject()),
+                $this->createOpportunity($projectCreated->getProject(), $insightlyIntegrationType),
                 $contactId
             );
         }
@@ -73,25 +81,25 @@ final class ProjectCreatedListener
         );
     }
 
-    private function createOpportunity(ProjectInterface $project): Opportunity
+    private function createOpportunity(ProjectInterface $project, IntegrationType $integrationType): Opportunity
     {
         return new Opportunity(
             new Name($project->getName()),
             OpportunityState::open(),
             OpportunityStage::test(),
             new Description($project->getDescription()),
-            IntegrationType::searchV3() // TODO
+            $integrationType
         );
     }
 
-    private function createProject(ProjectInterface $project): Project
+    private function createProject(ProjectInterface $project, IntegrationType $integrationType): Project
     {
         return new Project(
             new Name($project->getName()),
             ProjectStage::live(),
             ProjectStatus::completed(),
             new Description($project->getDescription()),
-            IntegrationType::searchV3(), // TODO
+            $integrationType
             new Coupon($project->getCoupon())
         );
     }
