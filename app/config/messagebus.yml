@@ -63,6 +63,7 @@ listeners:
         arguments:
             - integration_types.storage
             - insightly_client
+            - orm.em
             - use_new_insightly_instance
             - insightly_logger
 

@@ -24,6 +24,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 final class ProjectCreatedListener
@@ -39,6 +40,11 @@ final class ProjectCreatedListener
     private $insightlyClient;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
      * @var boolean
      */
     private $useNewInsightlyInstance;
@@ -51,11 +57,13 @@ final class ProjectCreatedListener
     public function __construct(
         IntegrationTypeStorageInterface $integrationTypeStorage,
         InsightlyClient $insightlyClient,
+        EntityManagerInterface $entityManager,
         bool $useNewInsightlyInstance,
         LoggerInterface $logger
     ) {
         $this->integrationTypeStorage = $integrationTypeStorage;
         $this->insightlyClient = $insightlyClient;
+        $this->entityManager = $entityManager;
         $this->useNewInsightlyInstance = $useNewInsightlyInstance;
         $this->logger = $logger;
     }
