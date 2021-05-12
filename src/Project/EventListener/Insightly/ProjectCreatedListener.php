@@ -6,6 +6,7 @@ namespace CultuurNet\ProjectAanvraag\Project\EventListener\Insightly;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
@@ -89,11 +90,19 @@ final class ProjectCreatedListener
             return;
         }
 
-        $contactId = $this->insightlyClient->contacts()->create(
-            $this->createContact($projectCreated->getUser())
-        );
+        $contact = $this->createContact($projectCreated->getUser());
+        try {
+            $contactId = $this->insightlyClient->contacts()->getByEmail($contact->getEmail())->getId();
 
-        $this->logger->debug('Created contact with id ' . $contactId->getValue());
+            if ($contactId === null) {
+                $this->logger->error('The id of contact ' . $contact->getEmail()->getValue() . ' is not set in Insightly.');
+                return;
+            }
+            $this->logger->debug('Found contact with id ' . $contactId->getValue());
+        } catch (RecordNotFound $exception) {
+            $contactId = $this->insightlyClient->contacts()->create($contact);
+            $this->logger->debug('Created contact with id ' . $contactId->getValue());
+        }
 
         if ($projectCreated->getUsedCoupon()) {
             $insightlyProjectId = $this->insightlyClient->projects()->createWithContact(
