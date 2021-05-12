@@ -140,6 +140,7 @@ class Project implements ProjectInterface
     protected $testApiKeySapi3;
 
     /**
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      * @var string
      * @Type("string")
      */
