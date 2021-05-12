@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
@@ -106,11 +107,21 @@ class InsightlyClientTest extends TestCase
 
         $this->contactId = $this->insightlyClient->contacts()->create($expectedContact);
 
-        $actualContact = $this->insightlyClient->contacts()->getById($this->contactId);
+        $actualContact = $this->insightlyClient->contacts()->getByEmail($expectedContact->getEmail());
         $this->assertEquals(
             $expectedContact->withId($this->contactId),
             $actualContact
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_when_contact_not_found(): void
+    {
+        $this->expectException(RecordNotFound::class);
+
+        $this->insightlyClient->contacts()->getByEmail(new Email('jane.doe@anonymous.com'));
     }
 
     /**
