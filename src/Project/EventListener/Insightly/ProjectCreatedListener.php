@@ -90,7 +90,7 @@ final class ProjectCreatedListener
             return;
         }
 
-        $contact = $this->createContact($projectCreated->getUser());
+        $contact = $this->createContactObject($projectCreated->getUser());
         try {
             $contactId = $this->insightlyClient->contacts()->getByEmail($contact->getEmail())->getId();
 
@@ -106,20 +106,20 @@ final class ProjectCreatedListener
 
         if ($projectCreated->getUsedCoupon()) {
             $insightlyProjectId = $this->insightlyClient->projects()->createWithContact(
-                $this->createProject($project, $insightlyIntegrationType),
+                $this->createProjectObject($project, $insightlyIntegrationType),
                 $contactId
             );
             $this->logger->debug('Created project with id ' . $insightlyProjectId->getValue());
         } else {
             $insightlyOpportunityId =  $this->insightlyClient->opportunities()->createWithContact(
-                $this->createOpportunity($project, $insightlyIntegrationType),
+                $this->createOpportunityObject($project, $insightlyIntegrationType),
                 $contactId
             );
             $this->logger->debug('Created opportunity with id ' . $insightlyOpportunityId->getValue());
         }
     }
 
-    private function createContact(UserInterface $user): Contact
+    private function createContactObject(UserInterface $user): Contact
     {
         return new Contact(
             new FirstName(empty($user->getFirstName()) ? $user->getNick() : $user->getFirstName()),
@@ -128,7 +128,7 @@ final class ProjectCreatedListener
         );
     }
 
-    private function createOpportunity(ProjectInterface $project, IntegrationType $integrationType): Opportunity
+    private function createOpportunityObject(ProjectInterface $project, IntegrationType $integrationType): Opportunity
     {
         return new Opportunity(
             new Name($project->getName()),
@@ -139,7 +139,7 @@ final class ProjectCreatedListener
         );
     }
 
-    private function createProject(ProjectInterface $project, IntegrationType $integrationType): Project
+    private function createProjectObject(ProjectInterface $project, IntegrationType $integrationType): Project
     {
         return new Project(
             new Name($project->getName()),
