@@ -75,10 +75,16 @@ final class ProjectCreatedListener
             return;
         }
 
-        $project = $projectCreated->getProject();
-        $projectId = $project->getId();
-        $groupId = $project->getGroupId();
+        $projectId = $projectCreated->getProject()->getId();
 
+        /** @var \CultuurNet\ProjectAanvraag\Entity\Project $project */
+        $project = $this->entityManager->getRepository('ProjectAanvraag:Project')->find($projectId);
+        if (!$project) {
+            $this->logger->error('Project with id ' . $projectId . ' not found inside internal database');
+            return;
+        }
+
+        $groupId = $project->getGroupId();
         if (!$groupId) {
             $this->logger->error('Project created with id ' . $projectId . ' has no group id');
             return;
@@ -117,14 +123,22 @@ final class ProjectCreatedListener
                 $this->createProjectObject($project, $insightlyIntegrationType),
                 $contactId
             );
+
+            $project->setProjectIdInsightly($insightlyProjectId->getValue());
+
             $this->logger->debug('Created project with id ' . $insightlyProjectId->getValue());
         } else {
             $insightlyOpportunityId =  $this->insightlyClient->opportunities()->createWithContact(
                 $this->createOpportunityObject($project, $insightlyIntegrationType),
                 $contactId
             );
+
+            $project->setOpportunityIdInsightly($insightlyOpportunityId->getValue());
+
             $this->logger->debug('Created opportunity with id ' . $insightlyOpportunityId->getValue());
         }
+
+        $this->entityManager->flush();
     }
 
     private function createContactObject(UserInterface $user): Contact
