@@ -53,6 +53,20 @@ class Project implements ProjectInterface
     protected $insightlyProjectId;
 
     /**
+     * @ORM\Column(name="project_id_insightly", type="integer", nullable=true)
+     * @Type("integer")
+     * @var int
+     */
+    protected $projectIdInsightly;
+
+    /**
+     * @ORM\Column(name="opportunity_id_insightly", type="integer", nullable=true)
+     * @Type("integer")
+     * @var int
+     */
+    protected $opportunityIdInsightly;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Type("string")
      * @var string
@@ -504,6 +518,28 @@ class Project implements ProjectInterface
     public function setInsightlyProjectId($insightlyProjectId)
     {
         $this->insightlyProjectId = $insightlyProjectId;
+        return $this;
+    }
+
+    public function getProjectIdInsightly(): int
+    {
+        return $this->projectIdInsightly;
+    }
+
+    public function setProjectIdInsightly(int $projectIdInsightly): self
+    {
+        $this->projectIdInsightly = $projectIdInsightly;
+        return $this;
+    }
+
+    public function getOpportunityIdInsightly(): int
+    {
+        return $this->opportunityIdInsightly;
+    }
+
+    public function setOpportunityIdInsightly(int $opportunityIdInsightly): self
+    {
+        $this->opportunityIdInsightly = $opportunityIdInsightly;
         return $this;
     }
 
