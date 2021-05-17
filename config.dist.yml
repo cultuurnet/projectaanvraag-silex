@@ -140,3 +140,6 @@ google_tag_manager:
 # App-URL
 app_host: "http://projectaanvraag.uitdatabank.be"
 social_host: "http://social.uit.be"
+
+features:
+  new_insightly_instance: false

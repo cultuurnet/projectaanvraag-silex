@@ -2,7 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Event;
 
-class ProjectBlocked extends ProjectEvent
+class ProjectBlocked extends AbstractProjectEvent
 {
 
 }

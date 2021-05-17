@@ -6,7 +6,7 @@ use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
 use JMS\Serializer\Annotation\Type;
 
-class ProjectCreated extends ProjectEvent
+class ProjectCreated extends AbstractProjectEvent
 {
     /**
      * @var string

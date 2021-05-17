@@ -17,8 +17,7 @@ class InsightlyServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['insightly_client'] = function (Container $app) {
-
+        $app['legacy_insightly_client'] = function (Container $app) {
             $logger = new Logger('insightly_api');
             if ($app['debug']) {
                 $logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));

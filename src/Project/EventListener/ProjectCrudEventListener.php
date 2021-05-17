@@ -3,7 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use CultuurNet\ProjectAanvraag\Project\Event\AbstractProjectEvent;
 
 /**
  * Abstract event listener for project crud actions to Insightly.
@@ -26,22 +26,23 @@ abstract class ProjectCrudEventListener
     protected $insightlyConfig;
 
     /**
-     * ProjectCrudEventListener constructor.
-     * @param InsightlyClientInterface $insightlyClient
-     * @param array $insightlyConfig
+     * @var bool
      */
-    public function __construct(InsightlyClientInterface $insightlyClient, $insightlyConfig)
+    protected $newInsightlyInstance;
+
+    public function __construct(InsightlyClientInterface $insightlyClient, array $insightlyConfig, bool $newInsightlyInstance)
     {
         $this->insightlyClient = $insightlyClient;
         $this->insightlyConfig = $insightlyConfig;
+        $this->newInsightlyInstance = $newInsightlyInstance;
     }
 
     /**
      * Load the insightly project.
-     * @param ProjectEvent $projectEvent
+     * @param AbstractProjectEvent $projectEvent
      * @internal param Project $project
      */
-    protected function loadInsightlyProject(ProjectEvent $projectEvent)
+    protected function loadInsightlyProject(AbstractProjectEvent $projectEvent)
     {
         $this->insightlyProject = $this->insightlyClient->getProject($projectEvent->getProject()->getInsightlyProjectId());
     }

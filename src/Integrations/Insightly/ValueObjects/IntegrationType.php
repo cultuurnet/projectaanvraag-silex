@@ -13,9 +13,9 @@ final class IntegrationType
     private const WIDGETS_V3 = 'Publicatie Widgets V3';
 
     private const ALLOWED_INTEGRATION_TYPES = [
-        self::SEARCH_V3,
-        self::ENTRY_V3,
-        self::WIDGETS_V3,
+        'SEARCH_V3' => self::SEARCH_V3,
+        'ENTRY_V3' => self::ENTRY_V3,
+        'WIDGETS_V3' => self::WIDGETS_V3,
     ];
 
     /**
@@ -52,5 +52,16 @@ final class IntegrationType
     public static function widgetsV3(): self
     {
         return new self(self::WIDGETS_V3);
+    }
+
+    public static function fromKey(string $key): IntegrationType
+    {
+        if (!isset(self::ALLOWED_INTEGRATION_TYPES[$key])) {
+            throw new InvalidArgumentException(
+                'Encountered unsupported IntegrationType key: ' . $key . '. Allowed values: ' . implode(', ', array_keys(self::ALLOWED_INTEGRATION_TYPES))
+            );
+        }
+
+        return new self(self::ALLOWED_INTEGRATION_TYPES[$key]);
     }
 }

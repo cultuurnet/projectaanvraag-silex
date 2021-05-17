@@ -58,15 +58,12 @@ final class OpportunitySerializer
     {
         $integrationType = (new CustomFieldSerializer())->getIntegrationType($insightlyArray['CUSTOMFIELDS']);
 
-        $contactId = (new LinkSerializer())->contactIdFromLinks($insightlyArray['LINKS']);
-
         return (new Opportunity(
             new Name($insightlyArray['OPPORTUNITY_NAME']),
             new OpportunityState($insightlyArray['OPPORTUNITY_STATE']),
             $this->pipelineStages->getOpportunityStageFromId($insightlyArray['STAGE_ID']),
             new Description($insightlyArray['OPPORTUNITY_DETAILS']),
-            $integrationType,
-            $contactId
+            $integrationType
         ))->withId(
             new Id($insightlyArray['OPPORTUNITY_ID'])
         );

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ContactSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Uri;
 
 final class ContactResource
 {
@@ -48,17 +51,21 @@ final class ContactResource
         $this->insightlyClient->sendRequest($request);
     }
 
-    public function getById(Id $id): Contact
+    public function getByEmail(Email $email): Contact
     {
         $request = new Request(
             'GET',
-            'Contacts/' . $id->getValue()
+            'Contacts/Search/?field_name=EMAIL_ADDRESS&field_value=' . $email->getValue() . '&top=1'
         );
 
         $response = $this->insightlyClient->sendRequest($request);
 
-        $contactAsArray = json_decode($response->getBody()->getContents(), true);
+        $contactsAsArray = json_decode($response->getBody()->getContents(), true);
 
-        return (new ContactSerializer())->fromInsightlyArray($contactAsArray);
+        if (count($contactsAsArray) < 1) {
+            throw new RecordNotFound('No contacts found with email ' . $email->getValue());
+        }
+
+        return (new ContactSerializer())->fromInsightlyArray($contactsAsArray[0]);
     }
 }

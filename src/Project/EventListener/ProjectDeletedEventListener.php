@@ -4,17 +4,21 @@ namespace CultuurNet\ProjectAanvraag\Project\EventListener;
 
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use CultuurNet\ProjectAanvraag\Project\Event\AbstractProjectEvent;
 
 class ProjectDeletedEventListener extends ProjectCrudEventListener
 {
     /**
      * Handle the command
-     * @param ProjectEvent $projectDeleted
+     * @param AbstractProjectEvent $projectDeleted
      * @throws \Exception
      */
-    public function handle(ProjectEvent $projectDeleted)
+    public function handle(AbstractProjectEvent $projectDeleted)
     {
+        if ($this->newInsightlyInstance) {
+            return;
+        }
+
         /** @var ProjectDeleted $projectDeleted */
         $this->loadInsightlyProject($projectDeleted);
         $this->insightlyProject->setStatus(Project::STATUS_ABANDONED);

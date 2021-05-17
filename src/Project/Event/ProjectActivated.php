@@ -5,7 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Event;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use JMS\Serializer\Annotation\Type;
 
-class ProjectActivated extends ProjectEvent
+class ProjectActivated extends AbstractProjectEvent
 {
     /**
      * @Type("string")
