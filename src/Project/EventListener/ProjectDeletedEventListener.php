@@ -15,7 +15,7 @@ class ProjectDeletedEventListener extends ProjectCrudEventListener
      */
     public function handle(AbstractProjectEvent $projectDeleted)
     {
-        if ($this->newInsightlyInstance) {
+        if ($this->useNewInsightlyInstance) {
             return;
         }
 

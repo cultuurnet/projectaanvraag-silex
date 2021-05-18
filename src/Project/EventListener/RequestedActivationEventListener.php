@@ -13,7 +13,7 @@ final class RequestedActivationEventListener extends ProjectCrudEventListener
 {
     public function handle(RequestedActivation $requestedActivation): void
     {
-        if ($this->newInsightlyInstance) {
+        if ($this->useNewInsightlyInstance) {
             return;
         }
 

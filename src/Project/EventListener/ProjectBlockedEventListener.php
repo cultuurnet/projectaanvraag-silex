@@ -15,7 +15,7 @@ class ProjectBlockedEventListener extends ProjectCrudEventListener
      */
     public function handle(AbstractProjectEvent $projectBlocked)
     {
-        if ($this->newInsightlyInstance) {
+        if ($this->useNewInsightlyInstance) {
             return;
         }
 
