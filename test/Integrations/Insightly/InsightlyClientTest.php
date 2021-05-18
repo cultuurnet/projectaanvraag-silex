@@ -22,6 +22,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -214,7 +215,33 @@ class InsightlyClientTest extends TestCase
 
         sleep(1);
 
-        $actualProject = $this->insightlyClient->organizations()->getById($this->organizationId);
+        $actualProject = $this->insightlyClient->organizations()->getByEmail($expectedOrganization->getEmail());
+        $this->assertEquals(
+            $expectedOrganization->withId($this->organizationId),
+            $actualProject
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_organizations_with_tax_number(): void
+    {
+        $expectedOrganization = (new Organization(
+            new Name('Anonymous'),
+            new Address(
+                'Street without a name 000',
+                '1234',
+                'Nowhere town'
+            ),
+            new Email('account@anonymous.com')
+        ))->withTaxNumber(new TaxNumber('BE123456789'));
+
+        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->organizations()->getByTaxNumber($expectedOrganization->getTaxNumber());
         $this->assertEquals(
             $expectedOrganization->withId($this->organizationId),
             $actualProject
