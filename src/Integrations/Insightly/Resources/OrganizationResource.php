@@ -94,18 +94,4 @@ final class OrganizationResource
 
         return ($this->organizationSerializer->fromInsightlyArray($organizationAsArray[0]));
     }
-
-    public function getById(Id $id): Organization
-    {
-        $request = new Request(
-            'GET',
-            'Organizations/' . $id->getValue()
-        );
-
-        $response = $this->insightlyClient->sendRequest($request);
-
-        $organizationAsArray = json_decode($response->getBody()->getContents(), true);
-
-        return ($this->organizationSerializer->fromInsightlyArray($organizationAsArray));
-    }
 }
