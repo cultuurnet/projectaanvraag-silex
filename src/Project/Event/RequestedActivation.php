@@ -32,17 +32,13 @@ class RequestedActivation extends AbstractProjectEvent
      */
     private $vatNumber;
 
-    /**
-     * ProjectActivated constructor.
-     * @param ProjectInterface $project
-     *   Project that was requested to activated
-     * @param $email
-     * @param $name
-     * @param $address
-     * @param $vatNumber
-     */
-    public function __construct(ProjectInterface $project, $email, $name, $address, $vatNumber)
-    {
+    public function __construct(
+        ProjectInterface $project,
+        string $email,
+        string $name,
+        Address $address,
+        string $vatNumber
+    ) {
         parent::__construct($project);
 
         $this->email = $email;
