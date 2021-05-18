@@ -35,7 +35,7 @@ final class OrganizationSerializer
         ];
 
         if ($organization->getTaxNumber()) {
-            $organizationAsArray[]['CUSTOMFIELDS'] = $this->customFieldSerializer->taxNumberToCustomField(
+            $organizationAsArray['CUSTOMFIELDS'][] = $this->customFieldSerializer->taxNumberToCustomField(
                 $organization->getTaxNumber()
             );
         }
