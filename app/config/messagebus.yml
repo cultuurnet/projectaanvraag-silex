@@ -128,9 +128,6 @@ handlers:
         arguments:
           - event_bus
           - orm.em
-          - uitid_user_session_data_complete
-          - legacy_insightly_client
-          - insightly.project_config
 
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject
