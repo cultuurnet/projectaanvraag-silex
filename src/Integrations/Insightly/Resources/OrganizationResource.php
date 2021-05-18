@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\CustomFieldSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OrganizationSerializer;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
 use GuzzleHttp\Psr7\Request;
 
 final class OrganizationResource
@@ -51,6 +55,44 @@ final class OrganizationResource
         );
 
         $this->insightlyClient->sendRequest($request);
+    }
+
+    public function getByTaxNumber(TaxNumber $taxNumber): Organization
+    {
+        $request = new Request(
+            'GET',
+            'Organizations/Search/?field_name=' . CustomFieldSerializer::CUSTOM_FIELD_TAX_NUMBER .
+            '&field_value=' . $taxNumber->getValue() . '&top=1'
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $organizationAsArray = json_decode($response->getBody()->getContents(), true);
+
+        if (count($organizationAsArray) < 1) {
+            throw new RecordNotFound('No organizations found with tax number ' . $taxNumber->getValue());
+        }
+
+        return ($this->organizationSerializer->fromInsightlyArray($organizationAsArray[0]));
+    }
+
+    public function getByEmail(Email $email): Organization
+    {
+        $request = new Request(
+            'GET',
+            'Organizations/Search/?field_name=' . CustomFieldSerializer::CUSTOM_FIELD_EMAIL .
+            '&field_value=' . $email->getValue() . '&top=1'
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $organizationAsArray = json_decode($response->getBody()->getContents(), true);
+
+        if (count($organizationAsArray) < 1) {
+            throw new RecordNotFound('No organizations found with email ' . $email->getValue());
+        }
+
+        return ($this->organizationSerializer->fromInsightlyArray($organizationAsArray[0]));
     }
 
     public function getById(Id $id): Organization
