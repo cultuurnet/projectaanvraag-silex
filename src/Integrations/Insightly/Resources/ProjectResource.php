@@ -52,6 +52,15 @@ final class ProjectResource
         return $id;
     }
 
+    public function createWithContactAndOrganization(Project $project, Id $contactId, Id $organizationId): Id
+    {
+        $id = $this->createWithContact($project, $contactId);
+
+        $this->linkOrganization($id, $organizationId);
+
+        return $id;
+    }
+
     public function deleteById(Id $id): void
     {
         $request = new Request(
