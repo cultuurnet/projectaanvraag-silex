@@ -90,6 +90,20 @@ final class ProjectResource
         return (new LinkSerializer())->contactIdFromLinks($projectAsArray['LINKS']);
     }
 
+    public function getLinkedOrganizationId(Id $id): Id
+    {
+        $request = new Request(
+            'GET',
+            'Projects/' . $id->getValue()
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $projectAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new LinkSerializer())->organizationIdFromLinks($projectAsArray['LINKS']);
+    }
+
     private function linkContact(Id $opportunityId, Id $contactId): void
     {
         $request = new Request(
