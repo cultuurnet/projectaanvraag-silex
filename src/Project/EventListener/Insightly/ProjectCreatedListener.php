@@ -7,6 +7,7 @@ namespace CultuurNet\ProjectAanvraag\Project\EventListener\Insightly;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\GroupIdConverter;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
@@ -22,17 +23,17 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunitySt
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
-use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 
 final class ProjectCreatedListener
 {
     /**
-     * @var IntegrationTypeStorageInterface
+     * @var GroupIdConverter
      */
-    private $integrationTypeStorage;
+    private $groupIdConverter;
 
     /**
      * @var InsightlyClient
@@ -55,13 +56,13 @@ final class ProjectCreatedListener
     private $logger;
 
     public function __construct(
-        IntegrationTypeStorageInterface $integrationTypeStorage,
+        GroupIdConverter $groupIdConverter,
         InsightlyClient $insightlyClient,
         EntityManagerInterface $entityManager,
         bool $useNewInsightlyInstance,
         LoggerInterface $logger
     ) {
-        $this->integrationTypeStorage = $integrationTypeStorage;
+        $this->groupIdConverter = $groupIdConverter;
         $this->insightlyClient = $insightlyClient;
         $this->entityManager = $entityManager;
         $this->useNewInsightlyInstance = $useNewInsightlyInstance;
@@ -90,17 +91,10 @@ final class ProjectCreatedListener
             return;
         }
 
-        // Load the integration type info based on the group id (because $project->getGroup() will return null since it
-        // was not serialized when the event was published on the AMQP queue).
-        $integrationType = $this->integrationTypeStorage->load($groupId);
-        if (!$integrationType) {
-            $this->logger->error('Project created with id ' . $projectId . ' has a group id ' . $groupId . ' that has no integration type configured');
-            return;
-        }
-
-        $insightlyIntegrationType = $integrationType->getInsightlyIntegrationType();
-        if (!$insightlyIntegrationType) {
-            $this->logger->error('Project created with id ' . $projectId . ' and group id ' . $groupId . ' has no Insightly integration type configured');
+        try {
+            $insightlyIntegrationType = $this->groupIdConverter->toIntegrationType($groupId);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            $this->logger->error('Error when converting groupId: ' . $invalidArgumentException->getMessage());
             return;
         }
 
