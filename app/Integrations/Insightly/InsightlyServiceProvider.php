@@ -33,5 +33,9 @@ class InsightlyServiceProvider implements ServiceProviderInterface
                 new PipelineStages($app['integrations.insightly.pipelines'])
             );
         };
+
+        $app['group_id_converter'] = function (Container $app) {
+            return new GroupIdConverter($app['integration_types.storage']);
+        };
     }
 }
