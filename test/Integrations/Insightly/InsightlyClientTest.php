@@ -198,6 +198,9 @@ class InsightlyClientTest extends TestCase
             $expectedProject->withId($this->projectId),
             $actualProject
         );
+
+        $actualLinkedContactId = $this->insightlyClient->projects()->getLinkedContactId($this->projectId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
     }
 
     /**
