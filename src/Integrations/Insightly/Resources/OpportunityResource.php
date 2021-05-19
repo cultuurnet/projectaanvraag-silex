@@ -87,7 +87,7 @@ final class OpportunityResource
 
         $this->insightlyClient->sendRequest($stageRequest);
     }
-    
+
     private function linkContact(Id $opportunityId, Id $contactId): void
     {
         $request = new Request(
