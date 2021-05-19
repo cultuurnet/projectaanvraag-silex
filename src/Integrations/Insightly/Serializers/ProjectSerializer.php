@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
+use InvalidArgumentException;
 
 final class ProjectSerializer
 {
@@ -63,15 +64,22 @@ final class ProjectSerializer
 
     public function fromInsightlyArray(array $insightlyArray): Project
     {
-        return (new Project(
+        $project = (new Project(
             new Name($insightlyArray['PROJECT_NAME']),
             $this->pipelineStages->getProjectStageFromId($insightlyArray['STAGE_ID']),
             new ProjectStatus($insightlyArray['STATUS']),
             new Description($insightlyArray['PROJECT_DETAILS']),
-            $this->customFieldSerializer->getIntegrationType($insightlyArray['CUSTOMFIELDS']),
-            $this->customFieldSerializer->getCoupon($insightlyArray['CUSTOMFIELDS'])
+            $this->customFieldSerializer->getIntegrationType($insightlyArray['CUSTOMFIELDS'])
         ))->withId(
             new Id($insightlyArray['PROJECT_ID'])
         );
+
+        try {
+            $coupon = $this->customFieldSerializer->getCoupon($insightlyArray['CUSTOMFIELDS']);
+            $project = $project->withCoupon($coupon);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+        }
+
+        return $project;
     }
 }

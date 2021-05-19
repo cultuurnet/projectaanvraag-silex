@@ -157,13 +157,18 @@ final class ProjectCreatedListener
 
     private function createProjectObject(ProjectInterface $project, IntegrationType $integrationType): Project
     {
-        return new Project(
+        $projectObject = new Project(
             new Name($project->getName()),
             ProjectStage::live(),
             ProjectStatus::completed(),
             new Description($project->getDescription()),
-            $integrationType,
-            new Coupon($project->getCoupon())
+            $integrationType
         );
+
+        if (!empty($project->getCoupon())) {
+            $projectObject = $projectObject->withCoupon($project->getCoupon());
+        }
+
+        return $projectObject;
     }
 }

@@ -176,14 +176,13 @@ class InsightlyClientTest extends TestCase
             )
         );
 
-        $expectedProject = new Project(
+        $expectedProject = (new Project(
             new Name('Project Jane'),
             ProjectStage::live(),
             ProjectStatus::inProgress(),
             new Description('This is the project for Jane Doe'),
-            IntegrationType::searchV3(),
-            new Coupon('coupon_code')
-        );
+            IntegrationType::searchV3()
+        ))->withCoupon(new Coupon('coupon_code'));
 
         $this->projectId = $this->insightlyClient->projects()->createWithContact($expectedProject, $this->contactId);
 
