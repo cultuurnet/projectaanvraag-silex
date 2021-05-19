@@ -254,4 +254,58 @@ class InsightlyClientTest extends TestCase
             $actualProject
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_projects_with_a_contact_and_an_organization(): void
+    {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
+        $this->organizationId = $this->insightlyClient->organizations()->create(
+            new Organization(
+                new Name('Anonymous'),
+                new Address(
+                    'Street without a name 000',
+                    '1234',
+                    'Nowhere town'
+                ),
+                new Email('account@anonymous.com')
+            )
+        );
+
+        $expectedProject = (new Project(
+            new Name('Project Jane'),
+            ProjectStage::live(),
+            ProjectStatus::inProgress(),
+            new Description('This is the project for Jane Doe'),
+            IntegrationType::searchV3()
+        ))->withCoupon(new Coupon('coupon_code'));
+
+        $this->projectId = $this->insightlyClient->projects()->createWithContactAndOrganization(
+            $expectedProject,
+            $this->contactId,
+            $this->organizationId
+        );
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->projects()->getById($this->projectId);
+        $this->assertEquals(
+            $expectedProject->withId($this->projectId),
+            $actualProject
+        );
+
+        $actualLinkedContactId = $this->insightlyClient->projects()->getLinkedContactId($this->projectId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
+
+        $actualLinkedOrganizationId = $this->insightlyClient->projects()->getLinkedOrganizationId($this->projectId);
+        $this->assertEquals($this->organizationId, $actualLinkedOrganizationId);
+    }
 }
