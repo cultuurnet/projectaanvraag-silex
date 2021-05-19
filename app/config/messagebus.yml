@@ -70,7 +70,7 @@ listeners:
     project_created_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\ProjectCreatedListener
         arguments:
-            - integration_types.storage
+            - group_id_converter
             - insightly_client
             - orm.em
             - use_new_insightly_instance
