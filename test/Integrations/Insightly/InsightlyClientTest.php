@@ -108,6 +108,8 @@ class InsightlyClientTest extends TestCase
 
         $this->contactId = $this->insightlyClient->contacts()->create($expectedContact);
 
+        sleep(1);
+
         $actualContact = $this->insightlyClient->contacts()->getByEmail($expectedContact->getEmail());
         $this->assertEquals(
             $expectedContact->withId($this->contactId),
