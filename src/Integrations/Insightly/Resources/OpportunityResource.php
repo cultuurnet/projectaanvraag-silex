@@ -88,6 +88,20 @@ final class OpportunityResource
         $this->insightlyClient->sendRequest($stageRequest);
     }
 
+    public function getLinkedContactId(Id $id): Id
+    {
+        $request = new Request(
+            'GET',
+            'Opportunities/' . $id->getValue()
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new LinkSerializer())->contactIdFromLinks($opportunityAsArray['LINKS']);
+    }
+
     private function linkContact(Id $opportunityId, Id $contactId): void
     {
         $request = new Request(

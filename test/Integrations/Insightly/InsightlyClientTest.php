@@ -163,6 +163,9 @@ class InsightlyClientTest extends TestCase
             $expectedOpportunity->withId($this->opportunityId),
             $actualOpportunity
         );
+
+        $actualLinkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($this->opportunityId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
     }
 
     /**
