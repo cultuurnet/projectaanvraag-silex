@@ -88,7 +88,7 @@ final class OpportunityResource
         $this->insightlyClient->sendRequest($request);
     }
 
-    private function updateStage(Id $id, OpportunityStage $stage): void
+    public function updateStage(Id $id, OpportunityStage $stage): void
     {
         $stageRequest = new Request(
             'PUT',
