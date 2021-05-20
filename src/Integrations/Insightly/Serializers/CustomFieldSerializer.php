@@ -8,7 +8,6 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
-use InvalidArgumentException;
 
 final class CustomFieldSerializer
 {
@@ -65,7 +64,7 @@ final class CustomFieldSerializer
             }
         }
 
-        throw new InvalidArgumentException('The key: ' . $key . ' is not found.');
+        throw CustomFieldNotFound::forKey($key);
     }
 
     private function createCustomField(string $key, string $value): array

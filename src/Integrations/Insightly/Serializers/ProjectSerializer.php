@@ -11,7 +11,6 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
-use InvalidArgumentException;
 
 final class ProjectSerializer
 {
@@ -77,7 +76,7 @@ final class ProjectSerializer
         try {
             $coupon = $this->customFieldSerializer->getCoupon($insightlyArray['CUSTOMFIELDS']);
             $project = $project->withCoupon($coupon);
-        } catch (InvalidArgumentException $invalidArgumentException) {
+        } catch (CustomFieldNotFound $customFieldNotFound) {
         }
 
         return $project;
