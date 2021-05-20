@@ -8,6 +8,7 @@ subscribers:
             - project_created_listener
         CultuurNet\ProjectAanvraag\Project\Event\RequestedActivation:
             - legacy_requested_activation_listener
+            - requested_activation_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
             - project_deleted_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
@@ -71,8 +72,13 @@ listeners:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\ProjectCreatedListener
         arguments:
             - group_id_converter
+
+    requested_activation_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\RequestedActivationListener
+        arguments:
             - insightly_client
             - orm.em
+            - group_id_converter
             - use_new_insightly_instance
             - insightly_logger
 
