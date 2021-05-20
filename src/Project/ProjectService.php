@@ -165,6 +165,14 @@ class ProjectService implements ProjectServiceInterface
             $project->setSapiVersion($integrationType->getSapiVersion());
         }
 
+        // Temporary workarounds for the UI that requires an insightlyProjectId
+        if (!$project->getInsightlyProjectId() && $project->getOpportunityIdInsightly()) {
+            $project->setInsightlyProjectId($project->getOpportunityIdInsightly());
+        }
+        if (!$project->getInsightlyProjectId() && $project->getProjectIdInsightly()) {
+            $project->setInsightlyProjectId($project->getProjectIdInsightly());
+        }
+
         return $project;
     }
 
