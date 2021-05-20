@@ -3,7 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\RabbitMQ\EventSubscriber;
 
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use CultuurNet\ProjectAanvraag\Project\Event\AbstractProjectEvent;
 use PhpAmqpLib\Message\AMQPMessage;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -42,7 +42,7 @@ class RabbitMQEventSubscriberTest extends TestCase
     protected $config;
 
     /**
-     * @var ProjectEvent & MockObject
+     * @var AbstractProjectEvent & MockObject
      */
     protected $projectEvent;
 
@@ -108,7 +108,7 @@ class RabbitMQEventSubscriberTest extends TestCase
     {
         $this->eventBus->expects($this->once())
             ->method('handle')
-            ->with($this->isInstanceOf(ProjectEvent::class));
+            ->with($this->isInstanceOf(AbstractProjectEvent::class));
 
         $this->projectEvent->expects($this->once())
             ->method('attempt');

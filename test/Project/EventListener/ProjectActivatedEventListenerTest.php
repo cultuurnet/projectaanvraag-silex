@@ -47,7 +47,8 @@ class ProjectActivatedEventListenerTest extends TestCase
                     'live_met_coupon' => 'coupon',
                     'live_met_abonnement' => 'no coupon',
                 ],
-            ]
+            ],
+            false
         );
 
         // Mock the project + all called methods.

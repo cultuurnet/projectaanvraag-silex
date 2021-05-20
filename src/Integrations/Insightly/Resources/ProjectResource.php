@@ -31,7 +31,7 @@ final class ProjectResource
         $this->projectSerializer = new ProjectSerializer($pipelineStages);
     }
 
-    public function create(Project $project): Id
+    public function createWithContact(Project $project, Id $contactId): Id
     {
         $request = new Request(
             'POST',
@@ -47,7 +47,7 @@ final class ProjectResource
 
         $this->updateStage($id, $project->getStage());
 
-        $this->linkContact($id, $project->getContactId());
+        $this->linkContact($id, $contactId);
 
         return $id;
     }

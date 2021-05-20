@@ -70,7 +70,8 @@ class ProjectCreatedEventListenerTest extends TestCase
                     'test' => 'no coupon',
                 ],
             ],
-            $this->entityManager
+            $this->entityManager,
+            false
         );
 
         $this->project = new \CultuurNet\ProjectAanvraag\Entity\Project();

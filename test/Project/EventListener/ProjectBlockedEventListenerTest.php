@@ -25,7 +25,7 @@ class ProjectBlockedEventListenerTest extends TestCase
     {
         $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
-        $this->eventListener = new ProjectBlockedEventListener($this->insightlyClient, []);
+        $this->eventListener = new ProjectBlockedEventListener($this->insightlyClient, [], false);
     }
 
     /**

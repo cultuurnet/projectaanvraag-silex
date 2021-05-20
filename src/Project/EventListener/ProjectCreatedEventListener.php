@@ -11,7 +11,7 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Project as InsightlyProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectEvent;
+use CultuurNet\ProjectAanvraag\Project\Event\AbstractProjectEvent;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProjectCreatedEventListener extends ProjectCrudEventListener
@@ -21,26 +21,27 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      */
     protected $entityManager;
 
-    /**
-     * ProjectDeletedEventListener constructor.
-     * @param InsightlyClientInterface $insightlyClient
-     * @param array $insightlyConfig
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(InsightlyClientInterface $insightlyClient, array $insightlyConfig, EntityManagerInterface $entityManager)
-    {
-        parent::__construct($insightlyClient, $insightlyConfig);
+    public function __construct(
+        InsightlyClientInterface $insightlyClient,
+        array $insightlyConfig,
+        EntityManagerInterface $entityManager,
+        bool $newInsightlyInstance
+    ) {
+        parent::__construct($insightlyClient, $insightlyConfig, $newInsightlyInstance);
 
         $this->entityManager = $entityManager;
     }
 
     /**
      * Handle the command
-     * @param ProjectEvent $projectCreated
+     * @param AbstractProjectEvent $projectCreated
      * @throws \Exception
      */
-    public function handle(ProjectEvent $projectCreated)
+    public function handle(AbstractProjectEvent $projectCreated)
     {
+        if ($this->newInsightlyInstance) {
+            return;
+        }
 
         /**
          * @var ProjectInterface $project

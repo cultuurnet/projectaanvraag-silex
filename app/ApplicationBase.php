@@ -10,7 +10,8 @@ use CultuurNet\ProjectAanvraag\Core\MessageBusProvider;
 use CultuurNet\ProjectAanvraag\Core\YamlConfigServiceProvider;
 use CultuurNet\ProjectAanvraag\Coupon\CouponProvider;
 use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceProvider;
-use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider;
+use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider as LegacyInsightlyServiceProvider;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
@@ -199,16 +200,6 @@ class ApplicationBase extends SilexApplication
         $this->register(new UserRoleServiceProvider(__DIR__ . '/../user_roles.yml'));
         $this->register(new UserServiceProvider());
 
-        // Insightly
-        $this->register(
-            new InsightlyServiceProvider(),
-            [
-                'insightly.host' => $this['config']['insightly']['host'],
-                'insightly.api_key' => $this['config']['insightly']['api_key'],
-                'insightly.project_config' => $this['config']['insightly']['project_config'],
-            ]
-        );
-
         $this->register(new CoreProvider());
 
         // Doctrine DBAL (custom implementation) and ORM.
@@ -327,12 +318,26 @@ class ApplicationBase extends SilexApplication
         // Coupons.
         $this->register(new CouponProvider());
 
+        // Enable/disable the new Insightly instance
+        $this['use_new_insightly_instance'] = $this['config']['features']['new_insightly_instance'];
+
         // Insightly
         $this->register(
-            new InsightlyServiceProvider(),
+            new LegacyInsightlyServiceProvider(),
             [
                 'insightly.host' => $this['config']['insightly']['host'],
                 'insightly.api_key' => $this['config']['insightly']['api_key'],
+                'insightly.project_config' => $this['config']['insightly']['project_config'],
+            ]
+        );
+
+        // Integrations
+        $this->register(
+            new InsightlyServiceProvider(),
+            [
+                'integrations.insightly.host' => $this['config']['integrations']['insightly']['host'],
+                'integrations.insightly.api_key' => $this['config']['integrations']['insightly']['api_key'],
+                'integrations.insightly.pipelines' => $this['config']['integrations']['insightly']['pipelines'],
             ]
         );
 

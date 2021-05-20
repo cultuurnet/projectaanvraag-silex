@@ -13,15 +13,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\ContactResource;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\OpportunityResource;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\OrganizationResource;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources\ProjectResource;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ContactSerializer;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySerializer;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ProjectSerializer;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

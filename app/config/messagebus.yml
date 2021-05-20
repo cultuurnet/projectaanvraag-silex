@@ -4,6 +4,7 @@ subscribers:
             - widget_search_results_query_alter_listener
     asynchronous:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
+            - leagcy_project_created_listener
             - project_created_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
             - project_deleted_listener
@@ -28,30 +29,43 @@ listeners:
             - articlelinker_api_test
             - articlelinker_cache
 
-    project_created_listener:
+    leagcy_project_created_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectCreatedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
             - orm.em
+            - use_new_insightly_instance
 
     project_activated_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectActivatedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
+            - use_new_insightly_instance
 
     project_deleted_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectDeletedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
+            - use_new_insightly_instance
 
     project_blocked_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectBlockedEventListener
         arguments:
-            - insightly_client
+            - legacy_insightly_client
             - insightly.project_config
+            - use_new_insightly_instance
+
+    project_created_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\ProjectCreatedListener
+        arguments:
+            - integration_types.storage
+            - insightly_client
+            - orm.em
+            - use_new_insightly_instance
+            - insightly_logger
 
     queue_consumers_listener:
         class: \CultuurNet\ProjectAanvraag\Core\EventListener\QueueConsumersEventListener
@@ -115,9 +129,8 @@ handlers:
           - event_bus
           - orm.em
           - uitid_user_session_data_complete
-          - insightly_client
+          - legacy_insightly_client
           - insightly.project_config
-
 
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject

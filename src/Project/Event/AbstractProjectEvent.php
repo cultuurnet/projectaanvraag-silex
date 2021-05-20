@@ -6,7 +6,7 @@ use CultuurNet\ProjectAanvraag\Core\AbstractRetryableMessage;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use JMS\Serializer\Annotation\Type;
 
-abstract class ProjectEvent extends AbstractRetryableMessage
+abstract class AbstractProjectEvent extends AbstractRetryableMessage
 {
     /**
      * @var ProjectInterface
@@ -35,7 +35,7 @@ abstract class ProjectEvent extends AbstractRetryableMessage
 
     /**
      * @param ProjectInterface $project
-     * @return ProjectEvent
+     * @return AbstractProjectEvent
      */
     public function setProject($project)
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly;
 
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
@@ -106,11 +107,21 @@ class InsightlyClientTest extends TestCase
 
         $this->contactId = $this->insightlyClient->contacts()->create($expectedContact);
 
-        $actualContact = $this->insightlyClient->contacts()->getById($this->contactId);
+        $actualContact = $this->insightlyClient->contacts()->getByEmail($expectedContact->getEmail());
         $this->assertEquals(
             $expectedContact->withId($this->contactId),
             $actualContact
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_when_contact_not_found(): void
+    {
+        $this->expectException(RecordNotFound::class);
+
+        $this->insightlyClient->contacts()->getByEmail(new Email('jane.doe@anonymous.com'));
     }
 
     /**
@@ -131,11 +142,13 @@ class InsightlyClientTest extends TestCase
             OpportunityState::open(),
             OpportunityStage::test(),
             new Description('This is the opportunity for a project for Jane Doe'),
-            IntegrationType::searchV3(),
-            $this->contactId
+            IntegrationType::searchV3()
         );
 
-        $this->opportunityId = $this->insightlyClient->opportunities()->create($expectedOpportunity);
+        $this->opportunityId = $this->insightlyClient->opportunities()->createWithContact(
+            $expectedOpportunity,
+            $this->contactId
+        );
 
         // When a create is done on Insightly not all objects are stored immediately
         // When getting the created object it can happen some parts like linked contact and custom fields are still missing
@@ -168,11 +181,10 @@ class InsightlyClientTest extends TestCase
             ProjectStatus::inProgress(),
             new Description('This is the project for Jane Doe'),
             IntegrationType::searchV3(),
-            new Coupon('coupon_code'),
-            $this->contactId
+            new Coupon('coupon_code')
         );
 
-        $this->projectId = $this->insightlyClient->projects()->create($expectedProject);
+        $this->projectId = $this->insightlyClient->projects()->createWithContact($expectedProject, $this->contactId);
 
         sleep(1);
 

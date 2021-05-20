@@ -69,8 +69,7 @@ final class ProjectSerializer
             new ProjectStatus($insightlyArray['STATUS']),
             new Description($insightlyArray['PROJECT_DETAILS']),
             $this->customFieldSerializer->getIntegrationType($insightlyArray['CUSTOMFIELDS']),
-            $this->customFieldSerializer->getCoupon($insightlyArray['CUSTOMFIELDS']),
-            (new LinkSerializer())->contactIdFromLinks($insightlyArray['LINKS'])
+            $this->customFieldSerializer->getCoupon($insightlyArray['CUSTOMFIELDS'])
         ))->withId(
             new Id($insightlyArray['PROJECT_ID'])
         );

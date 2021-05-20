@@ -36,25 +36,18 @@ class Opportunity
      */
     private $integrationType;
 
-    /**
-     * @var Id
-     */
-    private $contactId;
-
     public function __construct(
         Name $name,
         OpportunityState $state,
         OpportunityStage $stage,
         Description $description,
-        IntegrationType $integrationType,
-        Id $contactId
+        IntegrationType $integrationType
     ) {
         $this->name = $name;
         $this->state = $state;
         $this->stage = $stage;
         $this->description = $description;
         $this->integrationType = $integrationType;
-        $this->contactId = $contactId;
     }
 
     public function withId(Id $id): self
@@ -92,10 +85,5 @@ class Opportunity
     public function getIntegrationType(): IntegrationType
     {
         return $this->integrationType;
-    }
-
-    public function getContactId(): Id
-    {
-        return $this->contactId;
     }
 }

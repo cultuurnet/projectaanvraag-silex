@@ -25,7 +25,7 @@ class ProjectDeletedEventListenerTest extends TestCase
     {
         $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
 
-        $this->eventListener = new ProjectDeletedEventListener($this->insightlyClient, []);
+        $this->eventListener = new ProjectDeletedEventListener($this->insightlyClient, [], false);
     }
 
     /**
