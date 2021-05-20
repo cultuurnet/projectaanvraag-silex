@@ -40,9 +40,12 @@ final class ProjectSerializer
             'STAGE_ID' => $this->pipelineStages->getIdFromProjectStage($project->getStage()),
             'CUSTOMFIELDS' => [
                 $this->customFieldSerializer->integrationTypeToCustomField($project->getIntegrationType()),
-                $this->customFieldSerializer->couponToCustomField($project->getCoupon()),
             ],
         ];
+
+        if ($project->getCoupon()) {
+            $opportunityAsArray['CUSTOMFIELDS'][] = $this->customFieldSerializer->couponToCustomField($project->getCoupon());
+        }
 
         if ($project->getId()) {
             $opportunityAsArray['PROJECT_ID'] = $project->getId()->getValue();
