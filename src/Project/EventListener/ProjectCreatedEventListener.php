@@ -25,9 +25,9 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
         InsightlyClientInterface $insightlyClient,
         array $insightlyConfig,
         EntityManagerInterface $entityManager,
-        bool $newInsightlyInstance
+        bool $useNewInsightlyInstance
     ) {
-        parent::__construct($insightlyClient, $insightlyConfig, $newInsightlyInstance);
+        parent::__construct($insightlyClient, $insightlyConfig, $useNewInsightlyInstance);
 
         $this->entityManager = $entityManager;
     }
@@ -39,7 +39,7 @@ class ProjectCreatedEventListener extends ProjectCrudEventListener
      */
     public function handle(AbstractProjectEvent $projectCreated)
     {
-        if ($this->newInsightlyInstance) {
+        if ($this->useNewInsightlyInstance) {
             return;
         }
 

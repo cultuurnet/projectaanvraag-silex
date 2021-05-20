@@ -6,6 +6,8 @@ subscribers:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
             - leagcy_project_created_listener
             - project_created_listener
+        CultuurNet\ProjectAanvraag\Project\Event\RequestedActivation:
+            - legacy_requested_activation_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
             - project_deleted_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
@@ -35,6 +37,13 @@ listeners:
             - legacy_insightly_client
             - insightly.project_config
             - orm.em
+            - use_new_insightly_instance
+
+    legacy_requested_activation_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\RequestedActivationEventListener
+        arguments:
+            - legacy_insightly_client
+            - insightly.project_config
             - use_new_insightly_instance
 
     project_activated_listener:
@@ -128,9 +137,6 @@ handlers:
         arguments:
           - event_bus
           - orm.em
-          - uitid_user_session_data_complete
-          - legacy_insightly_client
-          - insightly.project_config
 
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject

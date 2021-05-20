@@ -32,17 +32,13 @@ class RequestedActivation extends AbstractProjectEvent
      */
     private $vatNumber;
 
-    /**
-     * ProjectActivated constructor.
-     * @param ProjectInterface $project
-     *   Project that was requested to activated
-     * @param $email
-     * @param $name
-     * @param $address
-     * @param $vatNumber
-     */
-    public function __construct(ProjectInterface $project, $email, $name, $address, $vatNumber)
-    {
+    public function __construct(
+        ProjectInterface $project,
+        string $email,
+        string $name,
+        Address $address,
+        string $vatNumber
+    ) {
         parent::__construct($project);
 
         $this->email = $email;
@@ -60,31 +56,11 @@ class RequestedActivation extends AbstractProjectEvent
     }
 
     /**
-     * @param string $name
-     * @return RequestedActivation
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
     {
         return $this->email;
-    }
-
-    /**
-     * @param string $email
-     * @return RequestedActivation
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-        return $this;
     }
 
     /**
@@ -96,30 +72,10 @@ class RequestedActivation extends AbstractProjectEvent
     }
 
     /**
-     * @param Address $address
-     * @return RequestedActivation
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getVatNumber()
     {
         return $this->vatNumber;
-    }
-
-    /**
-     * @param string $vatNumber
-     * @return RequestedActivation
-     */
-    public function setVatNumber($vatNumber)
-    {
-        $this->vatNumber = $vatNumber;
-        return $this;
     }
 }
