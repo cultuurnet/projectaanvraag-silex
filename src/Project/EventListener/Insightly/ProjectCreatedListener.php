@@ -10,7 +10,6 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\GroupIdConverter;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
@@ -31,11 +30,6 @@ use Psr\Log\LoggerInterface;
 final class ProjectCreatedListener
 {
     /**
-     * @var GroupIdConverter
-     */
-    private $groupIdConverter;
-
-    /**
      * @var InsightlyClient
      */
     private $insightlyClient;
@@ -44,6 +38,11 @@ final class ProjectCreatedListener
      * @var EntityManagerInterface
      */
     protected $entityManager;
+
+    /**
+     * @var GroupIdConverter
+     */
+    private $groupIdConverter;
 
     /**
      * @var boolean
@@ -56,15 +55,15 @@ final class ProjectCreatedListener
     private $logger;
 
     public function __construct(
-        GroupIdConverter $groupIdConverter,
         InsightlyClient $insightlyClient,
         EntityManagerInterface $entityManager,
+        GroupIdConverter $groupIdConverter,
         bool $useNewInsightlyInstance,
         LoggerInterface $logger
     ) {
-        $this->groupIdConverter = $groupIdConverter;
         $this->insightlyClient = $insightlyClient;
         $this->entityManager = $entityManager;
+        $this->groupIdConverter = $groupIdConverter;
         $this->useNewInsightlyInstance = $useNewInsightlyInstance;
         $this->logger = $logger;
     }

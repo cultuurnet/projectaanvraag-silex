@@ -71,7 +71,11 @@ listeners:
     project_created_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\ProjectCreatedListener
         arguments:
+            - insightly_client
+            - orm.em
             - group_id_converter
+            - use_new_insightly_instance
+            - insightly_logger
 
     requested_activation_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\RequestedActivationListener
