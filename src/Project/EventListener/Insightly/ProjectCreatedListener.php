@@ -7,9 +7,9 @@ namespace CultuurNet\ProjectAanvraag\Project\EventListener\Insightly;
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\GroupIdConverter;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
@@ -22,18 +22,13 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunitySt
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
-use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 
 final class ProjectCreatedListener
 {
-    /**
-     * @var IntegrationTypeStorageInterface
-     */
-    private $integrationTypeStorage;
-
     /**
      * @var InsightlyClient
      */
@@ -43,6 +38,11 @@ final class ProjectCreatedListener
      * @var EntityManagerInterface
      */
     protected $entityManager;
+
+    /**
+     * @var GroupIdConverter
+     */
+    private $groupIdConverter;
 
     /**
      * @var boolean
@@ -55,15 +55,15 @@ final class ProjectCreatedListener
     private $logger;
 
     public function __construct(
-        IntegrationTypeStorageInterface $integrationTypeStorage,
         InsightlyClient $insightlyClient,
         EntityManagerInterface $entityManager,
+        GroupIdConverter $groupIdConverter,
         bool $useNewInsightlyInstance,
         LoggerInterface $logger
     ) {
-        $this->integrationTypeStorage = $integrationTypeStorage;
         $this->insightlyClient = $insightlyClient;
         $this->entityManager = $entityManager;
+        $this->groupIdConverter = $groupIdConverter;
         $this->useNewInsightlyInstance = $useNewInsightlyInstance;
         $this->logger = $logger;
     }
@@ -90,17 +90,10 @@ final class ProjectCreatedListener
             return;
         }
 
-        // Load the integration type info based on the group id (because $project->getGroup() will return null since it
-        // was not serialized when the event was published on the AMQP queue).
-        $integrationType = $this->integrationTypeStorage->load($groupId);
-        if (!$integrationType) {
-            $this->logger->error('Project created with id ' . $projectId . ' has a group id ' . $groupId . ' that has no integration type configured');
-            return;
-        }
-
-        $insightlyIntegrationType = $integrationType->getInsightlyIntegrationType();
-        if (!$insightlyIntegrationType) {
-            $this->logger->error('Project created with id ' . $projectId . ' and group id ' . $groupId . ' has no Insightly integration type configured');
+        try {
+            $insightlyIntegrationType = $this->groupIdConverter->toIntegrationType($groupId);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            $this->logger->error('Error when converting groupId: ' . $invalidArgumentException->getMessage());
             return;
         }
 
@@ -163,13 +156,18 @@ final class ProjectCreatedListener
 
     private function createProjectObject(ProjectInterface $project, IntegrationType $integrationType): Project
     {
-        return new Project(
+        $projectObject = new Project(
             new Name($project->getName()),
             ProjectStage::live(),
             ProjectStatus::completed(),
             new Description($project->getDescription()),
-            $integrationType,
-            new Coupon($project->getCoupon())
+            $integrationType
         );
+
+        if (!empty($project->getCoupon())) {
+            $projectObject = $projectObject->withCoupon($project->getCoupon());
+        }
+
+        return $projectObject;
     }
 }

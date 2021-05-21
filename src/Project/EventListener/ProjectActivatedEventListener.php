@@ -17,7 +17,7 @@ class ProjectActivatedEventListener extends ProjectCrudEventListener
      */
     public function handle(AbstractProjectEvent $projectActivated)
     {
-        if ($this->newInsightlyInstance) {
+        if ($this->useNewInsightlyInstance) {
             return;
         }
 

@@ -6,6 +6,9 @@ subscribers:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated:
             - leagcy_project_created_listener
             - project_created_listener
+        CultuurNet\ProjectAanvraag\Project\Event\RequestedActivation:
+            - legacy_requested_activation_listener
+            - requested_activation_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectDeleted:
             - project_deleted_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
@@ -37,6 +40,13 @@ listeners:
             - orm.em
             - use_new_insightly_instance
 
+    legacy_requested_activation_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\RequestedActivationEventListener
+        arguments:
+            - legacy_insightly_client
+            - insightly.project_config
+            - use_new_insightly_instance
+
     project_activated_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectActivatedEventListener
         arguments:
@@ -61,9 +71,18 @@ listeners:
     project_created_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\ProjectCreatedListener
         arguments:
-            - integration_types.storage
             - insightly_client
             - orm.em
+            - group_id_converter
+            - use_new_insightly_instance
+            - insightly_logger
+
+    requested_activation_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\RequestedActivationListener
+        arguments:
+            - insightly_client
+            - orm.em
+            - group_id_converter
             - use_new_insightly_instance
             - insightly_logger
 
@@ -128,9 +147,6 @@ handlers:
         arguments:
           - event_bus
           - orm.em
-          - uitid_user_session_data_complete
-          - legacy_insightly_client
-          - insightly.project_config
 
     delete_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\DeleteProject

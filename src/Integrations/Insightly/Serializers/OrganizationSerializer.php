@@ -35,7 +35,7 @@ final class OrganizationSerializer
         ];
 
         if ($organization->getTaxNumber()) {
-            $organizationAsArray[]['CUSTOMFIELDS'] = $this->customFieldSerializer->taxNumberToCustomField(
+            $organizationAsArray['CUSTOMFIELDS'][] = $this->customFieldSerializer->taxNumberToCustomField(
                 $organization->getTaxNumber()
             );
         }
@@ -62,7 +62,7 @@ final class OrganizationSerializer
         try {
             $taxNumber = $this->customFieldSerializer->getTaxNumber($insightlyArray['CUSTOMFIELDS']);
             $organization = $organization->withTaxNumber($taxNumber);
-        } catch (InvalidArgumentException $exception) {
+        } catch (CustomFieldNotFound $customFieldNotFound) {
         }
 
         return $organization;

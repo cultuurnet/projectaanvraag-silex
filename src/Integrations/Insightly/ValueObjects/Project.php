@@ -37,7 +37,7 @@ final class Project
     private $integrationType;
 
     /**
-     * @var Coupon
+     * @var ?Coupon
      */
     private $coupon;
 
@@ -46,21 +46,26 @@ final class Project
         ProjectStage $stage,
         ProjectStatus $status,
         Description $description,
-        IntegrationType $integrationType,
-        Coupon $coupon
+        IntegrationType $integrationType
     ) {
         $this->name = $name;
         $this->stage = $stage;
         $this->status = $status;
         $this->description = $description;
         $this->integrationType = $integrationType;
-        $this->coupon = $coupon;
     }
 
     public function withId(Id $id): self
     {
         $clone = clone $this;
         $clone->id = $id;
+        return $clone;
+    }
+
+    public function withCoupon(Coupon $coupon): self
+    {
+        $clone = clone $this;
+        $clone->coupon = $coupon;
         return $clone;
     }
 
@@ -94,7 +99,7 @@ final class Project
         return $this->integrationType;
     }
 
-    public function getCoupon(): Coupon
+    public function getCoupon(): ?Coupon
     {
         return $this->coupon;
     }

@@ -22,6 +22,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -107,6 +108,8 @@ class InsightlyClientTest extends TestCase
 
         $this->contactId = $this->insightlyClient->contacts()->create($expectedContact);
 
+        sleep(1);
+
         $actualContact = $this->insightlyClient->contacts()->getByEmail($expectedContact->getEmail());
         $this->assertEquals(
             $expectedContact->withId($this->contactId),
@@ -160,6 +163,56 @@ class InsightlyClientTest extends TestCase
             $expectedOpportunity->withId($this->opportunityId),
             $actualOpportunity
         );
+
+        $actualLinkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($this->opportunityId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_update_opportunities(): void
+    {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
+        $expectedOpportunity = new Opportunity(
+            new Name('Opportunity Jane'),
+            OpportunityState::open(),
+            OpportunityStage::test(),
+            new Description('This is the opportunity for a project for Jane Doe'),
+            IntegrationType::searchV3()
+        );
+
+        $this->opportunityId = $this->insightlyClient->opportunities()->createWithContact(
+            $expectedOpportunity,
+            $this->contactId
+        );
+
+        $this->insightlyClient->opportunities()->updateStage($this->opportunityId, OpportunityStage::request());
+        $this->insightlyClient->opportunities()->updateState($this->opportunityId, OpportunityState::won());
+
+        // When a create is done on Insightly not all objects are stored immediately
+        // When getting the created object it can happen some parts like linked contact and custom fields are still missing
+        // This sleep will fix that 😬
+        sleep(1);
+
+        $actualOpportunity = $this->insightlyClient->opportunities()->getById($this->opportunityId);
+        $this->assertEquals(
+            $expectedOpportunity
+                ->withId($this->opportunityId)
+                ->updateStage(OpportunityStage::request())
+                ->updateState(OpportunityState::won()),
+            $actualOpportunity
+        );
+
+        $actualLinkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($this->opportunityId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
     }
 
     /**
@@ -175,14 +228,13 @@ class InsightlyClientTest extends TestCase
             )
         );
 
-        $expectedProject = new Project(
+        $expectedProject = (new Project(
             new Name('Project Jane'),
             ProjectStage::live(),
             ProjectStatus::inProgress(),
             new Description('This is the project for Jane Doe'),
-            IntegrationType::searchV3(),
-            new Coupon('coupon_code')
-        );
+            IntegrationType::searchV3()
+        ))->withCoupon(new Coupon('coupon_code'));
 
         $this->projectId = $this->insightlyClient->projects()->createWithContact($expectedProject, $this->contactId);
 
@@ -193,6 +245,9 @@ class InsightlyClientTest extends TestCase
             $expectedProject->withId($this->projectId),
             $actualProject
         );
+
+        $actualLinkedContactId = $this->insightlyClient->projects()->getLinkedContactId($this->projectId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
     }
 
     /**
@@ -214,10 +269,90 @@ class InsightlyClientTest extends TestCase
 
         sleep(1);
 
-        $actualProject = $this->insightlyClient->organizations()->getById($this->organizationId);
+        $actualProject = $this->insightlyClient->organizations()->getByEmail($expectedOrganization->getEmail());
         $this->assertEquals(
             $expectedOrganization->withId($this->organizationId),
             $actualProject
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_organizations_with_tax_number(): void
+    {
+        $expectedOrganization = (new Organization(
+            new Name('Anonymous'),
+            new Address(
+                'Street without a name 000',
+                '1234',
+                'Nowhere town'
+            ),
+            new Email('account@anonymous.com')
+        ))->withTaxNumber(new TaxNumber('BE123456789'));
+
+        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->organizations()->getByTaxNumber($expectedOrganization->getTaxNumber());
+        $this->assertEquals(
+            $expectedOrganization->withId($this->organizationId),
+            $actualProject
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_projects_with_a_contact_and_an_organization(): void
+    {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
+        $this->organizationId = $this->insightlyClient->organizations()->create(
+            new Organization(
+                new Name('Anonymous'),
+                new Address(
+                    'Street without a name 000',
+                    '1234',
+                    'Nowhere town'
+                ),
+                new Email('account@anonymous.com')
+            )
+        );
+
+        $expectedProject = (new Project(
+            new Name('Project Jane'),
+            ProjectStage::live(),
+            ProjectStatus::inProgress(),
+            new Description('This is the project for Jane Doe'),
+            IntegrationType::searchV3()
+        ))->withCoupon(new Coupon('coupon_code'));
+
+        $this->projectId = $this->insightlyClient->projects()->createWithContactAndOrganization(
+            $expectedProject,
+            $this->contactId,
+            $this->organizationId
+        );
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->projects()->getById($this->projectId);
+        $this->assertEquals(
+            $expectedProject->withId($this->projectId),
+            $actualProject
+        );
+
+        $actualLinkedContactId = $this->insightlyClient->projects()->getLinkedContactId($this->projectId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
+
+        $actualLinkedOrganizationId = $this->insightlyClient->projects()->getLinkedOrganizationId($this->projectId);
+        $this->assertEquals($this->organizationId, $actualLinkedOrganizationId);
     }
 }

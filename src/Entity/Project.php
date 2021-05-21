@@ -55,14 +55,14 @@ class Project implements ProjectInterface
     /**
      * @ORM\Column(name="project_id_insightly", type="integer", nullable=true)
      * @Type("integer")
-     * @var int
+     * @var ?int
      */
     protected $projectIdInsightly;
 
     /**
      * @ORM\Column(name="opportunity_id_insightly", type="integer", nullable=true)
      * @Type("integer")
-     * @var int
+     * @var ?int
      */
     protected $opportunityIdInsightly;
 
@@ -521,7 +521,7 @@ class Project implements ProjectInterface
         return $this;
     }
 
-    public function getProjectIdInsightly(): int
+    public function getProjectIdInsightly(): ?int
     {
         return $this->projectIdInsightly;
     }
@@ -532,7 +532,7 @@ class Project implements ProjectInterface
         return $this;
     }
 
-    public function getOpportunityIdInsightly(): int
+    public function getOpportunityIdInsightly(): ?int
     {
         return $this->opportunityIdInsightly;
     }

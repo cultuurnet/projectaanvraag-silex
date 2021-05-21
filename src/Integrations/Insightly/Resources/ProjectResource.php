@@ -52,6 +52,15 @@ final class ProjectResource
         return $id;
     }
 
+    public function createWithContactAndOrganization(Project $project, Id $contactId, Id $organizationId): Id
+    {
+        $id = $this->createWithContact($project, $contactId);
+
+        $this->linkOrganization($id, $organizationId);
+
+        return $id;
+    }
+
     public function deleteById(Id $id): void
     {
         $request = new Request(
@@ -76,6 +85,34 @@ final class ProjectResource
         return $this->projectSerializer->fromInsightlyArray($projectAsArray);
     }
 
+    public function getLinkedContactId(Id $id): Id
+    {
+        $request = new Request(
+            'GET',
+            'Projects/' . $id->getValue()
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $projectAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new LinkSerializer())->contactIdFromLinks($projectAsArray['LINKS']);
+    }
+
+    public function getLinkedOrganizationId(Id $id): Id
+    {
+        $request = new Request(
+            'GET',
+            'Projects/' . $id->getValue()
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $projectAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new LinkSerializer())->organizationIdFromLinks($projectAsArray['LINKS']);
+    }
+
     private function linkContact(Id $opportunityId, Id $contactId): void
     {
         $request = new Request(
@@ -83,6 +120,18 @@ final class ProjectResource
             'Projects/' . $opportunityId->getValue() . '/Links',
             [],
             json_encode((new LinkSerializer())->contactIdToLink($contactId))
+        );
+
+        $this->insightlyClient->sendRequest($request);
+    }
+
+    private function linkOrganization(Id $opportunityId, Id $organizationId): void
+    {
+        $request = new Request(
+            'POST',
+            'Projects/' . $opportunityId->getValue() . '/Links',
+            [],
+            json_encode((new LinkSerializer())->organizationIdToLink($organizationId))
         );
 
         $this->insightlyClient->sendRequest($request);
