@@ -10,6 +10,7 @@ final class LinkSerializer
 {
     private const CONTACT_LINK_OBJECT_NAME = 'Contact';
     private const ORGANIZATION_LINK_OBJECT_NAME = 'Organization';
+    private const OPPORTUNITY_LINK_OBJECT_NAME = 'Opportunity';
 
     public function contactIdToLink(Id $contactId): array
     {
@@ -25,6 +26,14 @@ final class LinkSerializer
         return [
             'LINK_OBJECT_ID' => $organizationId->getValue(),
             'LINK_OBJECT_NAME' => self::ORGANIZATION_LINK_OBJECT_NAME,
+        ];
+    }
+
+    public function opportunityIdToLink(Id $opportunityId): array
+    {
+        return [
+            'LINK_OBJECT_ID' => $opportunityId->getValue(),
+            'LINK_OBJECT_NAME' => self::OPPORTUNITY_LINK_OBJECT_NAME,
         ];
     }
 
