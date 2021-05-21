@@ -104,13 +104,12 @@ final class RequestedActivationListener
             $integrationType
         );
 
-        // Todo: Link opportunity
-        $linkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId);
-        $this->insightlyClient->projects()->createWithContactAndOrganization(
+        $projectId = $this->insightlyClient->projects()->createWithContact(
             $project,
-            $linkedContactId,
-            $organization->getId()
+            $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
         );
+        $this->insightlyClient->projects()->linkOrganization($projectId, $organization->getId());
+        $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
     }
 
     private function getExistingOrganization(RequestedActivation $requestedActivation): Organization
