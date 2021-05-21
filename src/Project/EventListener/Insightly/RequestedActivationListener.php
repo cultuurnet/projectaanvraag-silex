@@ -15,6 +15,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
@@ -83,6 +84,7 @@ class RequestedActivationListener
 
         $insightlyOpportunityId = new Id($project->getOpportunityIdInsightly());
         $this->insightlyClient->opportunities()->updateStage($insightlyOpportunityId, OpportunityStage::request());
+        $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::won());
 
         try {
             $organization = $this->getExistingOrganization($requestedActivation);
