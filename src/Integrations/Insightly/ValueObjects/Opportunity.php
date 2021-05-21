@@ -72,9 +72,23 @@ class Opportunity
         return $this->state;
     }
 
+    public function updateState(OpportunityState $state): self
+    {
+        $clone = clone $this;
+        $clone->state = $state;
+        return $clone;
+    }
+
     public function getStage(): OpportunityStage
     {
         return $this->stage;
+    }
+
+    public function updateStage(OpportunityStage $stage): self
+    {
+        $clone = clone $this;
+        $clone->stage = $stage;
+        return $clone;
     }
 
     public function getDescription(): Description
