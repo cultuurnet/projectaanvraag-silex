@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySer
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
 use GuzzleHttp\Psr7\Request;
 
 final class OpportunityResource
@@ -86,6 +87,20 @@ final class OpportunityResource
         );
 
         $this->insightlyClient->sendRequest($stageRequest);
+    }
+
+    public function updateState(Id $id, OpportunityState $state): void
+    {
+        $opportunity = $this->getById($id)->updateState($state);
+
+        $request = new Request(
+            'PUT',
+            'Opportunities/',
+            [],
+            json_encode($this->opportunitySerializer->toInsightlyArray($opportunity))
+        );
+
+        $this->insightlyClient->sendRequest($request);
     }
 
     public function getLinkedContactId(Id $id): Id
