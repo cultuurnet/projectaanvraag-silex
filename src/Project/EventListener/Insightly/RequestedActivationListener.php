@@ -23,7 +23,7 @@ use CultuurNet\ProjectAanvraag\Project\Event\RequestedActivation;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
-class RequestedActivationListener
+final class RequestedActivationListener
 {
     /**
      * @var InsightlyClient
