@@ -137,6 +137,18 @@ final class ProjectResource
         $this->insightlyClient->sendRequest($request);
     }
 
+    private function linkOpportunity(Id $projectId, Id $opportunityId): void
+    {
+        $request = new Request(
+            'POST',
+            'Projects/' . $projectId->getValue() . '/Links',
+            [],
+            json_encode((new LinkSerializer())->opportunityIdToLink($opportunityId))
+        );
+
+        $this->insightlyClient->sendRequest($request);
+    }
+
     private function updateStage(Id $id, ProjectStage $stage): void
     {
         $stageRequest = new Request(
