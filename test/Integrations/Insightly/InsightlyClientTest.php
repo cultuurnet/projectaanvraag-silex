@@ -355,4 +355,57 @@ class InsightlyClientTest extends TestCase
         $actualLinkedOrganizationId = $this->insightlyClient->projects()->getLinkedOrganizationId($this->projectId);
         $this->assertEquals($this->organizationId, $actualLinkedOrganizationId);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_manage_projects_with_a_contact_and_an_opportunity(): void
+    {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
+        $this->opportunityId = $this->insightlyClient->opportunities()->createWithContact(
+            new Opportunity(
+                new Name('Opportunity Jane'),
+                OpportunityState::open(),
+                OpportunityStage::test(),
+                new Description('This is the opportunity for a project for Jane Doe'),
+                IntegrationType::searchV3()
+            ),
+            $this->contactId
+        );
+
+        $expectedProject = (new Project(
+            new Name('Project Jane'),
+            ProjectStage::live(),
+            ProjectStatus::inProgress(),
+            new Description('This is the project for Jane Doe'),
+            IntegrationType::searchV3()
+        ))->withCoupon(new Coupon('coupon_code'));
+
+        $this->projectId = $this->insightlyClient->projects()->createWithContact(
+            $expectedProject,
+            $this->contactId
+        );
+        $this->insightlyClient->projects()->linkOpportunity($this->projectId, $this->opportunityId);
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->projects()->getById($this->projectId);
+        $this->assertEquals(
+            $expectedProject->withId($this->projectId),
+            $actualProject
+        );
+
+        $actualLinkedContactId = $this->insightlyClient->projects()->getLinkedContactId($this->projectId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
+
+        $actualLinkedOpportunityId = $this->insightlyClient->projects()->getLinkedOpportunityId($this->projectId);
+        $this->assertEquals($this->opportunityId, $actualLinkedOpportunityId);
+    }
 }
