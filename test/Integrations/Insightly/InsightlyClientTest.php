@@ -335,11 +335,11 @@ class InsightlyClientTest extends TestCase
             IntegrationType::searchV3()
         ))->withCoupon(new Coupon('coupon_code'));
 
-        $this->projectId = $this->insightlyClient->projects()->createWithContactAndOrganization(
+        $this->projectId = $this->insightlyClient->projects()->createWithContact(
             $expectedProject,
-            $this->contactId,
-            $this->organizationId
+            $this->contactId
         );
+        $this->insightlyClient->projects()->linkOrganization($this->projectId, $this->organizationId);
 
         sleep(1);
 
