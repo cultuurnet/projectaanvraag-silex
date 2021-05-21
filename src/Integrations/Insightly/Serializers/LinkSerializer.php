@@ -47,6 +47,11 @@ final class LinkSerializer
         return $this->getId($links, self::ORGANIZATION_LINK_OBJECT_NAME);
     }
 
+    public function opportunityIdFromLinks(array $links): Id
+    {
+        return $this->getId($links, self::OPPORTUNITY_LINK_OBJECT_NAME);
+    }
+
     private function getId(array $links, string $linkObjectName): Id
     {
         $id = null;
