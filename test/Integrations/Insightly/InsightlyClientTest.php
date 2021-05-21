@@ -171,6 +171,53 @@ class InsightlyClientTest extends TestCase
     /**
      * @test
      */
+    public function it_can_update_opportunities(): void
+    {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
+        $expectedOpportunity = new Opportunity(
+            new Name('Opportunity Jane'),
+            OpportunityState::open(),
+            OpportunityStage::test(),
+            new Description('This is the opportunity for a project for Jane Doe'),
+            IntegrationType::searchV3()
+        );
+
+        $this->opportunityId = $this->insightlyClient->opportunities()->createWithContact(
+            $expectedOpportunity,
+            $this->contactId
+        );
+
+        $this->insightlyClient->opportunities()->updateStage($this->opportunityId, OpportunityStage::request());
+        $this->insightlyClient->opportunities()->updateState($this->opportunityId, OpportunityState::won());
+
+        // When a create is done on Insightly not all objects are stored immediately
+        // When getting the created object it can happen some parts like linked contact and custom fields are still missing
+        // This sleep will fix that 😬
+        sleep(1);
+
+        $actualOpportunity = $this->insightlyClient->opportunities()->getById($this->opportunityId);
+        $this->assertEquals(
+            $expectedOpportunity
+                ->withId($this->opportunityId)
+                ->updateStage(OpportunityStage::request())
+                ->updateState(OpportunityState::won()),
+            $actualOpportunity
+        );
+
+        $actualLinkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($this->opportunityId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_manage_projects(): void
     {
         $this->contactId = $this->insightlyClient->contacts()->create(
