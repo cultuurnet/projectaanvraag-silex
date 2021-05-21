@@ -90,11 +90,10 @@ final class ProjectActivatedListener
             $integrationType
         ))->withCoupon(new Coupon($projectActivated->getUsedCoupon()));
 
-        // Todo: Link opportunity
-        $linkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId);
-        $this->insightlyClient->projects()->createWithContact(
+        $projectId = $this->insightlyClient->projects()->createWithContact(
             $project,
-            $linkedContactId
+            $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
         );
+        $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
     }
 }
