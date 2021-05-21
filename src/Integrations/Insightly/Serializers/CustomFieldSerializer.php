@@ -8,14 +8,13 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
-use InvalidArgumentException;
 
 final class CustomFieldSerializer
 {
     private const CUSTOM_FIELD_INTEGRATION_TYPE = 'Product__c';
     private const CUSTOM_FIELD_COUPON = 'Coupon_field__c';
-    private const CUSTOM_FIELD_EMAIL = 'Email_boekhouding__c';
-    private const CUSTOM_FIELD_TAX_NUMBER = 'BTW_nummer__c';
+    public const CUSTOM_FIELD_EMAIL = 'Email_boekhouding__c';
+    public const CUSTOM_FIELD_TAX_NUMBER = 'BTW_nummer__c';
 
     public function getIntegrationType(array $customFields): IntegrationType
     {
@@ -65,7 +64,7 @@ final class CustomFieldSerializer
             }
         }
 
-        throw new InvalidArgumentException('The key: ' . $key . ' is not found.');
+        throw CustomFieldNotFound::forKey($key);
     }
 
     private function createCustomField(string $key, string $value): array

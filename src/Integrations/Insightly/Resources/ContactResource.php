@@ -11,7 +11,6 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Uri;
 
 final class ContactResource
 {

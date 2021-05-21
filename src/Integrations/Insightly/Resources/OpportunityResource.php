@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OpportunitySer
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Opportunity;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
 use GuzzleHttp\Psr7\Request;
 
 final class OpportunityResource
@@ -76,6 +77,46 @@ final class OpportunityResource
         return ($this->opportunitySerializer->fromInsightlyArray($opportunityAsArray));
     }
 
+    public function updateStage(Id $id, OpportunityStage $stage): void
+    {
+        $stageRequest = new Request(
+            'PUT',
+            'Opportunities/' . $id->getValue() . '/Pipeline',
+            [],
+            json_encode($this->opportunitySerializer->toInsightlyStageChange($stage))
+        );
+
+        $this->insightlyClient->sendRequest($stageRequest);
+    }
+
+    public function updateState(Id $id, OpportunityState $state): void
+    {
+        $opportunity = $this->getById($id)->updateState($state);
+
+        $request = new Request(
+            'PUT',
+            'Opportunities/',
+            [],
+            json_encode($this->opportunitySerializer->toInsightlyArray($opportunity))
+        );
+
+        $this->insightlyClient->sendRequest($request);
+    }
+
+    public function getLinkedContactId(Id $id): Id
+    {
+        $request = new Request(
+            'GET',
+            'Opportunities/' . $id->getValue()
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $opportunityAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new LinkSerializer())->contactIdFromLinks($opportunityAsArray['LINKS']);
+    }
+
     private function linkContact(Id $opportunityId, Id $contactId): void
     {
         $request = new Request(
@@ -86,17 +127,5 @@ final class OpportunityResource
         );
 
         $this->insightlyClient->sendRequest($request);
-    }
-
-    private function updateStage(Id $id, OpportunityStage $stage): void
-    {
-        $stageRequest = new Request(
-            'PUT',
-            'Opportunities/' . $id->getValue() . '/Pipeline',
-            [],
-            json_encode($this->opportunitySerializer->toInsightlyStageChange($stage))
-        );
-
-        $this->insightlyClient->sendRequest($stageRequest);
     }
 }

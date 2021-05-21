@@ -40,9 +40,12 @@ final class ProjectSerializer
             'STAGE_ID' => $this->pipelineStages->getIdFromProjectStage($project->getStage()),
             'CUSTOMFIELDS' => [
                 $this->customFieldSerializer->integrationTypeToCustomField($project->getIntegrationType()),
-                $this->customFieldSerializer->couponToCustomField($project->getCoupon()),
             ],
         ];
+
+        if ($project->getCoupon()) {
+            $opportunityAsArray['CUSTOMFIELDS'][] = $this->customFieldSerializer->couponToCustomField($project->getCoupon());
+        }
 
         if ($project->getId()) {
             $opportunityAsArray['PROJECT_ID'] = $project->getId()->getValue();
@@ -63,15 +66,22 @@ final class ProjectSerializer
 
     public function fromInsightlyArray(array $insightlyArray): Project
     {
-        return (new Project(
+        $project = (new Project(
             new Name($insightlyArray['PROJECT_NAME']),
             $this->pipelineStages->getProjectStageFromId($insightlyArray['STAGE_ID']),
             new ProjectStatus($insightlyArray['STATUS']),
             new Description($insightlyArray['PROJECT_DETAILS']),
-            $this->customFieldSerializer->getIntegrationType($insightlyArray['CUSTOMFIELDS']),
-            $this->customFieldSerializer->getCoupon($insightlyArray['CUSTOMFIELDS'])
+            $this->customFieldSerializer->getIntegrationType($insightlyArray['CUSTOMFIELDS'])
         ))->withId(
             new Id($insightlyArray['PROJECT_ID'])
         );
+
+        try {
+            $coupon = $this->customFieldSerializer->getCoupon($insightlyArray['CUSTOMFIELDS']);
+            $project = $project->withCoupon($coupon);
+        } catch (CustomFieldNotFound $customFieldNotFound) {
+        }
+
+        return $project;
     }
 }
