@@ -113,11 +113,11 @@ final class ProjectResource
         return (new LinkSerializer())->organizationIdFromLinks($projectAsArray['LINKS']);
     }
 
-    private function linkContact(Id $opportunityId, Id $contactId): void
+    private function linkContact(Id $projectId, Id $contactId): void
     {
         $request = new Request(
             'POST',
-            'Projects/' . $opportunityId->getValue() . '/Links',
+            'Projects/' . $projectId->getValue() . '/Links',
             [],
             json_encode((new LinkSerializer())->contactIdToLink($contactId))
         );
@@ -125,11 +125,11 @@ final class ProjectResource
         $this->insightlyClient->sendRequest($request);
     }
 
-    private function linkOrganization(Id $opportunityId, Id $organizationId): void
+    private function linkOrganization(Id $projectId, Id $organizationId): void
     {
         $request = new Request(
             'POST',
-            'Projects/' . $opportunityId->getValue() . '/Links',
+            'Projects/' . $projectId->getValue() . '/Links',
             [],
             json_encode((new LinkSerializer())->organizationIdToLink($organizationId))
         );
