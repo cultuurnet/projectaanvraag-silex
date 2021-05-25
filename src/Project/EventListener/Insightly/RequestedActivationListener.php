@@ -8,11 +8,9 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\GroupIdConverter;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\IntegrationType;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityStage;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\OpportunityState;
@@ -25,7 +23,7 @@ use CultuurNet\ProjectAanvraag\Project\Event\RequestedActivation;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
-class RequestedActivationListener
+final class RequestedActivationListener
 {
     /**
      * @var InsightlyClient
@@ -106,12 +104,12 @@ class RequestedActivationListener
             $integrationType
         );
 
-        $linkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId);
-        $this->insightlyClient->projects()->createWithContactAndOrganization(
+        $projectId = $this->insightlyClient->projects()->createWithContact(
             $project,
-            $linkedContactId,
-            $organization->getId()
+            $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
         );
+        $this->insightlyClient->projects()->linkOrganization($projectId, $organization->getId());
+        $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
     }
 
     private function getExistingOrganization(RequestedActivation $requestedActivation): Organization
