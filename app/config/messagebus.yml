@@ -14,6 +14,7 @@ subscribers:
         CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
             - project_blocked_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated:
+            - legacy_project_activated_listener
             - project_activated_listener
         CultuurNet\ProjectAanvraag\Core\Event\QueueConsumers:
             - queue_consumers_listener
@@ -47,7 +48,7 @@ listeners:
             - insightly.project_config
             - use_new_insightly_instance
 
-    project_activated_listener:
+    legacy_project_activated_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\ProjectActivatedEventListener
         arguments:
             - legacy_insightly_client
@@ -79,6 +80,15 @@ listeners:
 
     requested_activation_listener:
         class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\RequestedActivationListener
+        arguments:
+            - insightly_client
+            - orm.em
+            - group_id_converter
+            - use_new_insightly_instance
+            - insightly_logger
+
+    project_activated_listener:
+        class: \CultuurNet\ProjectAanvraag\Project\EventListener\Insightly\ProjectActivatedListener
         arguments:
             - insightly_client
             - orm.em
