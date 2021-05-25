@@ -82,13 +82,18 @@ final class ProjectActivatedListener
 
         $integrationType = $this->groupIdConverter->toIntegrationType($projectActivated->getProject()->getGroupId());
 
-        $project = (new Project(
+        $project = new Project(
             new Name($projectActivated->getProject()->getName()),
             ProjectStage::live(),
             ProjectStatus::completed(),
             new Description($projectActivated->getProject()->getDescription()),
             $integrationType
-        ))->withCoupon(new Coupon($projectActivated->getUsedCoupon()));
+        );
+
+        // An admin can activate without a coupon
+        if ($projectActivated->getUsedCoupon()) {
+            $project = $project->withCoupon(new Coupon($projectActivated->getUsedCoupon()));
+        }
 
         $projectId = $this->insightlyClient->projects()->createWithContact(
             $project,
