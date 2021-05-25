@@ -11,6 +11,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\ProjectSeriali
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Project;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStage;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\ProjectStatus;
 use GuzzleHttp\Psr7\Request;
 
 final class ProjectResource
@@ -74,6 +75,20 @@ final class ProjectResource
         $projectAsArray = json_decode($response->getBody()->getContents(), true);
 
         return $this->projectSerializer->fromInsightlyArray($projectAsArray);
+    }
+
+    public function updateStatus(Id $id, ProjectStatus $status): void
+    {
+        $project = $this->getById($id)->updateStatus($status);
+
+        $request = new Request(
+            'PUT',
+            'Projects/',
+            [],
+            json_encode($this->projectSerializer->toInsightlyArray($project))
+        );
+
+        $this->insightlyClient->sendRequest($request);
     }
 
     public function getLinkedContactId(Id $id): Id
