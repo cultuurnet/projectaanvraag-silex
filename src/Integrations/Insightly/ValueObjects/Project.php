@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects;
 
+use CultuurNet\SearchV3\ValueObjects\Status;
+
 final class Project
 {
     /**
@@ -87,6 +89,13 @@ final class Project
     public function getStatus(): ProjectStatus
     {
         return $this->status;
+    }
+
+    public function updateStatus(ProjectStatus $status): Project
+    {
+        $clone = clone $this;
+        $clone->status = $status;
+        return $clone;
     }
 
     public function getDescription(): Description
