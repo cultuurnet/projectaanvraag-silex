@@ -52,16 +52,13 @@ class ProjectController
      */
     protected $couponValidator;
 
-    /**
-     * ProjectController constructor.
-     * @param MessageBusSupportingMiddleware $commandBus
-     * @param ProjectServiceInterface $projectService
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param CouponValidatorInterface $couponValidator
-     * @param InsightlyClientInterface $legacyInsightlyClient
-     */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $legacyInsightlyClient)
-    {
+    public function __construct(
+        MessageBusSupportingMiddleware $commandBus,
+        ProjectServiceInterface $projectService,
+        AuthorizationCheckerInterface $authorizationChecker,
+        CouponValidatorInterface $couponValidator,
+        InsightlyClientInterface $legacyInsightlyClient
+    ) {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
