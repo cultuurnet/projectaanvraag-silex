@@ -110,6 +110,9 @@ final class RequestedActivationListener
         );
         $this->insightlyClient->projects()->linkOrganization($projectId, $organization->getId());
         $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
+
+        $project->setProjectIdInsightly($projectId->getValue());
+        $this->entityManager->flush();
     }
 
     private function getExistingOrganization(RequestedActivation $requestedActivation): Organization
