@@ -253,6 +253,43 @@ class InsightlyClientTest extends TestCase
     /**
      * @test
      */
+    public function it_can_update_projects(): void
+    {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
+        $expectedProject = (new Project(
+            new Name('Project Jane'),
+            ProjectStage::live(),
+            ProjectStatus::inProgress(),
+            new Description('This is the project for Jane Doe'),
+            IntegrationType::searchV3()
+        ))->withCoupon(new Coupon('coupon_code'));
+
+        $this->projectId = $this->insightlyClient->projects()->createWithContact($expectedProject, $this->contactId);
+
+        $this->insightlyClient->projects()->updateStatus($this->projectId, ProjectStatus::cancelled());
+
+        sleep(1);
+
+        $actualProject = $this->insightlyClient->projects()->getById($this->projectId);
+        $this->assertEquals(
+            $expectedProject->withId($this->projectId),
+            $actualProject
+        );
+
+        $actualLinkedContactId = $this->insightlyClient->projects()->getLinkedContactId($this->projectId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_manage_organizations(): void
     {
         $expectedOrganization = new Organization(

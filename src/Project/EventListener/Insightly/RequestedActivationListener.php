@@ -96,7 +96,7 @@ final class RequestedActivationListener
 
         $integrationType = $this->groupIdConverter->toIntegrationType($requestedActivation->getProject()->getGroupId());
 
-        $project = new Project(
+        $insightlyProject = new Project(
             new Name($requestedActivation->getProject()->getName()),
             ProjectStage::live(),
             ProjectStatus::completed(),
@@ -105,11 +105,19 @@ final class RequestedActivationListener
         );
 
         $projectId = $this->insightlyClient->projects()->createWithContact(
-            $project,
+            $insightlyProject,
             $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
         );
         $this->insightlyClient->projects()->linkOrganization($projectId, $organization->getId());
         $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
+
+        $this->logger->debug(
+            'Requested activation of project ' . $projectId->getValue() . ' for opportunity ' . $insightlyOpportunityId->getValue()
+        );
+
+        $project->setProjectIdInsightly($projectId->getValue());
+        $project->setInsightlyProjectId($projectId->getValue());
+        $this->entityManager->flush();
     }
 
     private function getExistingOrganization(RequestedActivation $requestedActivation): Organization
