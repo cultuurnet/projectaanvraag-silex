@@ -100,5 +100,8 @@ final class ProjectActivatedListener
             $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
         );
         $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
+
+        $project->setProjectIdInsightly($projectId->getValue());
+        $this->entityManager->flush();
     }
 }
