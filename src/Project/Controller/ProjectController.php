@@ -9,6 +9,7 @@ use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -40,27 +41,41 @@ final class ProjectController
     private $authorizationChecker;
 
     /**
+     * @var CouponValidatorInterface
+     */
+    private $couponValidator;
+
+    /**
      * @var InsightlyClientInterface
      */
     private $legacyInsightlyClient;
 
     /**
-     * @var CouponValidatorInterface
+     * @var InsightlyClient
      */
-    private $couponValidator;
+    private $insightlyClient;
+
+    /**
+     * @var bool
+     */
+    private $useNewInsightlyInstance;
 
     public function __construct(
         MessageBusSupportingMiddleware $commandBus,
         ProjectServiceInterface $projectService,
         AuthorizationCheckerInterface $authorizationChecker,
         CouponValidatorInterface $couponValidator,
-        InsightlyClientInterface $legacyInsightlyClient
+        InsightlyClientInterface $legacyInsightlyClient,
+        InsightlyClient  $insightlyClient,
+        bool $useNewInsightlyInstance
     ) {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
-        $this->legacyInsightlyClient = $legacyInsightlyClient;
         $this->couponValidator = $couponValidator;
+        $this->legacyInsightlyClient = $legacyInsightlyClient;
+        $this->insightlyClient = $insightlyClient;
+        $this->useNewInsightlyInstance = $useNewInsightlyInstance;
     }
 
     /**
