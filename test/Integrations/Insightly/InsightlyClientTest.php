@@ -279,7 +279,7 @@ class InsightlyClientTest extends TestCase
 
         $actualProject = $this->insightlyClient->projects()->getById($this->projectId);
         $this->assertEquals(
-            $expectedProject->withId($this->projectId),
+            $expectedProject->withId($this->projectId)->updateStatus(ProjectStatus::cancelled()),
             $actualProject
         );
 
