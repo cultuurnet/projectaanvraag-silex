@@ -96,7 +96,7 @@ final class RequestedActivationListener
 
         $integrationType = $this->groupIdConverter->toIntegrationType($requestedActivation->getProject()->getGroupId());
 
-        $project = new Project(
+        $insightlyProject = new Project(
             new Name($requestedActivation->getProject()->getName()),
             ProjectStage::live(),
             ProjectStatus::completed(),
@@ -105,7 +105,7 @@ final class RequestedActivationListener
         );
 
         $projectId = $this->insightlyClient->projects()->createWithContact(
-            $project,
+            $insightlyProject,
             $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
         );
         $this->insightlyClient->projects()->linkOrganization($projectId, $organization->getId());
