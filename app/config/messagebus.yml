@@ -13,6 +13,7 @@ subscribers:
             - project_deleted_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectBlocked:
             - legacy_project_blocked_listener
+            - project_blocked_listener
         CultuurNet\ProjectAanvraag\Project\Event\ProjectActivated:
             - legacy_project_activated_listener
             - project_activated_listener
