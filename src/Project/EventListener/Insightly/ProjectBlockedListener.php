@@ -65,11 +65,15 @@ final class ProjectBlockedListener
         if ($project->getProjectIdInsightly()) {
             $insightlyProjectId = new Id($project->getProjectIdInsightly());
             $this->insightlyClient->projects()->updateStatus($insightlyProjectId, ProjectStatus::cancelled());
+
+            $this->logger->debug('Cancelled project ' . $insightlyProjectId->getValue());
         }
 
         if ($project->getOpportunityIdInsightly()) {
             $insightlyOpportunityId = new Id($project->getOpportunityIdInsightly());
             $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::suspended());
+
+            $this->logger->debug('Cancelled opportunity ' . $insightlyOpportunityId->getValue());
         }
     }
 }

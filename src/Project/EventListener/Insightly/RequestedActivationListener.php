@@ -111,6 +111,10 @@ final class RequestedActivationListener
         $this->insightlyClient->projects()->linkOrganization($projectId, $organization->getId());
         $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
 
+        $this->logger->debug(
+            'Requested activation of project ' . $projectId->getValue() . ' for opportunity ' . $insightlyOpportunityId->getValue()
+        );
+
         $project->setProjectIdInsightly($projectId->getValue());
         $project->setInsightlyProjectId($projectId->getValue());
         $this->entityManager->flush();

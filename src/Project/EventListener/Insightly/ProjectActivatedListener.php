@@ -101,6 +101,10 @@ final class ProjectActivatedListener
         );
         $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
 
+        $this->logger->debug(
+            'Activated project ' . $projectId->getValue() . ' for opportunity ' . $insightlyOpportunityId->getValue()
+        );
+
         $project->setProjectIdInsightly($projectId->getValue());
         $project->setInsightlyProjectId($projectId->getValue());
         $this->entityManager->flush();
