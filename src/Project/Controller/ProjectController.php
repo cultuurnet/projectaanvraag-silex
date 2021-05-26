@@ -45,7 +45,7 @@ class ProjectController
     /**
      * @var InsightlyClientInterface
      */
-    protected $insightlyclient;
+    protected $legacyInsightlyClient;
 
     /**
      * @var CouponValidatorInterface
@@ -58,14 +58,14 @@ class ProjectController
      * @param ProjectServiceInterface $projectService
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param CouponValidatorInterface $couponValidator
-     * @param InsightlyClientInterface $insightlyClient
+     * @param InsightlyClientInterface $legacyInsightlyClient
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient)
+    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $legacyInsightlyClient)
     {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
-        $this->insightlyclient = $insightlyClient;
+        $this->legacyInsightlyClient = $legacyInsightlyClient;
         $this->couponValidator = $couponValidator;
     }
 
@@ -265,7 +265,7 @@ class ProjectController
         $postedOrganisation->setLinks($currentOrganisation->getLinks());
 
         // Update the organisation
-        $this->insightlyclient->updateOrganisation($postedOrganisation);
+        $this->legacyInsightlyClient->updateOrganisation($postedOrganisation);
 
         return new JsonResponse($project);
     }
@@ -319,16 +319,16 @@ class ProjectController
         $organisation = null;
 
         if (!empty($project->getInsightlyProjectId())) {
-            $insightlyProject = $this->insightlyclient->getProject($project->getInsightlyProjectId());
+            $insightlyProject = $this->legacyInsightlyClient->getProject($project->getInsightlyProjectId());
 
             /** @var Link $link */
-            $insightlyLinks = $this->insightlyclient->getProjectLinks($insightlyProject->getId());
+            $insightlyLinks = $this->legacyInsightlyClient->getProjectLinks($insightlyProject->getId());
 
             foreach ($insightlyLinks as $insightlyLink) {
                 // One of the links is the organisation
                 // This requires a refactor see: https://jira.uitdatabank.be/browse/PROJ-156
                 if ($insightlyLink->getOrganisationId()) {
-                    $organisation = $this->insightlyclient->getOrganisation($insightlyLink->getOrganisationId());
+                    $organisation = $this->legacyInsightlyClient->getOrganisation($insightlyLink->getOrganisationId());
                 }
             }
         }
