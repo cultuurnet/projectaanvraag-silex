@@ -22,35 +22,32 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-/**
- * Controller for project related tasks.
- */
-class ProjectController
+final class ProjectController
 {
     /**
      * @var MessageBusSupportingMiddleware
      */
-    protected $commandBus;
+    private $commandBus;
 
     /**
      * @var ProjectServiceInterface
      */
-    protected $projectService;
+    private $projectService;
 
     /**
      * @var AuthorizationCheckerInterface
      */
-    protected $authorizationChecker;
+    private $authorizationChecker;
 
     /**
      * @var InsightlyClientInterface
      */
-    protected $legacyInsightlyClient;
+    private $legacyInsightlyClient;
 
     /**
      * @var CouponValidatorInterface
      */
-    protected $couponValidator;
+    private $couponValidator;
 
     public function __construct(
         MessageBusSupportingMiddleware $commandBus,
