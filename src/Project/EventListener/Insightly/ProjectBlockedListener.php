@@ -73,7 +73,7 @@ final class ProjectBlockedListener
             $insightlyOpportunityId = new Id($project->getOpportunityIdInsightly());
             $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::suspended());
 
-            $this->logger->debug('Cancelled opportunity ' . $insightlyOpportunityId->getValue());
+            $this->logger->debug('Suspended opportunity ' . $insightlyOpportunityId->getValue());
         }
     }
 }
