@@ -7,9 +7,15 @@ use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Address as AddressEntity;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
+use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OrganizationSerializer;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -325,14 +331,17 @@ final class ProjectController
      */
     private function getOrganisationByProject($project)
     {
-        $organisation = null;
+        if (!$this->useNewInsightlyInstance) {
+            if (empty($project->getInsightlyProjectId())) {
+                return null;
+            }
 
-        if (!empty($project->getInsightlyProjectId())) {
             $insightlyProject = $this->legacyInsightlyClient->getProject($project->getInsightlyProjectId());
 
             /** @var Link $link */
             $insightlyLinks = $this->legacyInsightlyClient->getProjectLinks($insightlyProject->getId());
 
+            $organisation = null;
             foreach ($insightlyLinks as $insightlyLink) {
                 // One of the links is the organisation
                 // This requires a refactor see: https://jira.uitdatabank.be/browse/PROJ-156
@@ -340,9 +349,24 @@ final class ProjectController
                     $organisation = $this->legacyInsightlyClient->getOrganisation($insightlyLink->getOrganisationId());
                 }
             }
+
+            return $organisation;
         }
 
-        return $organisation;
+        if ($project->getProjectIdInsightly()) {
+            $organizationId = $this->insightlyClient->projects()->getLinkedOrganizationId(new Id($project->getProjectIdInsightly()));
+            $organization = $this->insightlyClient->organizations()->getById($organizationId);
+
+            $parsedOrganization = OrganisationParser::parseToResult((new OrganizationSerializer())->toInsightlyArray($organization));
+            if ($organization->getTaxNumber()) {
+                $parsedOrganization->addCustomField('ORGANISATION_FIELD_1', $organization->getTaxNumber()->getValue());
+            }
+            $parsedOrganization->addCustomField('ORGANISATION_FIELD_2', $organization->getEmail()->getValue());
+
+            return $parsedOrganization;
+        }
+
+        return null;
     }
 
     /**
