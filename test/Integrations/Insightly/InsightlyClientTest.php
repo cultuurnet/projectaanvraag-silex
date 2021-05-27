@@ -342,6 +342,44 @@ class InsightlyClientTest extends TestCase
     /**
      * @test
      */
+    public function it_can_update_organizations(): void
+    {
+        $expectedOrganization = new Organization(
+            new Name('Anonymous'),
+            new Address(
+                'Street without a name 000',
+                '1234',
+                'Nowhere town'
+            ),
+            new Email('account@anonymous.com')
+        );
+
+        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+
+        $expectedUpdatedOrganization = (new Organization(
+            new Name('Anonymous - update'),
+            new Address(
+                'Street without a name 000 - update',
+                '1234 - update',
+                'Nowhere town - update'
+            ),
+            new Email('account@anonymousupdate.com')
+        ))->withId($this->organizationId);
+
+        $this->insightlyClient->organizations()->update($expectedUpdatedOrganization);
+
+        sleep(1);
+
+        $actualUpdatedProject = $this->insightlyClient->organizations()->getById($expectedUpdatedOrganization->getId());
+        $this->assertEquals(
+            $expectedUpdatedOrganization,
+            $actualUpdatedProject
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_can_manage_projects_with_a_contact_and_an_organization(): void
     {
         $this->contactId = $this->insightlyClient->contacts()->create(
