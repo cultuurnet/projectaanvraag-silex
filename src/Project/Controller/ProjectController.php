@@ -280,7 +280,13 @@ final class ProjectController
         $postedOrganisation->setLinks($currentOrganisation->getLinks());
 
         // Update the organisation
-        $this->legacyInsightlyClient->updateOrganisation($postedOrganisation);
+        if (!$this->useNewInsightlyInstance) {
+            $this->legacyInsightlyClient->updateOrganisation($postedOrganisation);
+        } else {
+            $this->insightlyClient->organizations()->update(
+                (new OrganizationSerializer())->fromInsightlyArray($postedOrganisation->toInsightly())
+            );
+        }
 
         return new JsonResponse($project);
     }
