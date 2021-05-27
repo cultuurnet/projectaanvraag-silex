@@ -52,6 +52,9 @@ final class ProjectDeletedListener
             $this->insightlyClient->projects()->updateStatus($insightlyProjectId, ProjectStatus::abandoned());
 
             $this->logger->debug('Abandoned project ' . $insightlyProjectId->getValue());
+
+            // No need to abandon the opportunity, because the opportunity was won previously.
+            return;
         }
 
         if ($project->getOpportunityIdInsightly()) {
