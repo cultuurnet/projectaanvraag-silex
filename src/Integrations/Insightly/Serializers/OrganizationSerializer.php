@@ -8,7 +8,6 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
-use InvalidArgumentException;
 
 final class OrganizationSerializer
 {
