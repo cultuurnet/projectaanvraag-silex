@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\GroupIdConverter;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Contact;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Coupon;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Description;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\FirstName;
@@ -165,7 +166,7 @@ final class ProjectCreatedListener
         );
 
         if (!empty($project->getCoupon())) {
-            $projectObject = $projectObject->withCoupon($project->getCoupon());
+            $projectObject = $projectObject->withCoupon(new Coupon($project->getCoupon()));
         }
 
         return $projectObject;
