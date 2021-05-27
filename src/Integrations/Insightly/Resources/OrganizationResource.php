@@ -47,6 +47,22 @@ final class OrganizationResource
         return new Id($organizationAsArray['ORGANISATION_ID']);
     }
 
+    public function update(Organization $organization): void
+    {
+        if ($organization->getId() === null) {
+            throw new \InvalidArgumentException('Id of the organization is required');
+        }
+
+        $request = new Request(
+            'PUT',
+            'Organizations/',
+            [],
+            json_encode($this->organizationSerializer->toInsightlyArray($organization))
+        );
+
+        $this->insightlyClient->sendRequest($request);
+    }
+
     public function deleteById(Id $id): void
     {
         $request = new Request(

@@ -8,7 +8,6 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Address;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Name;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Organization;
-use InvalidArgumentException;
 
 final class OrganizationSerializer
 {
@@ -53,7 +52,7 @@ final class OrganizationSerializer
             new Name($insightlyArray['ORGANISATION_NAME']),
             new Address(
                 $insightlyArray['ADDRESS_BILLING_STREET'],
-                $insightlyArray['ADDRESS_BILLING_POSTCODE'],
+                (string) $insightlyArray['ADDRESS_BILLING_POSTCODE'],
                 $insightlyArray['ADDRESS_BILLING_CITY']
             ),
             $this->customFieldSerializer->getEmail($insightlyArray['CUSTOMFIELDS'])
