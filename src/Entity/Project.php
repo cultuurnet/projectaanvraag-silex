@@ -526,7 +526,7 @@ class Project implements ProjectInterface
         return $this->projectIdInsightly;
     }
 
-    public function setProjectIdInsightly(int $projectIdInsightly): self
+    public function setProjectIdInsightly(int $projectIdInsightly): ProjectInterface
     {
         $this->projectIdInsightly = $projectIdInsightly;
         return $this;
@@ -537,7 +537,7 @@ class Project implements ProjectInterface
         return $this->opportunityIdInsightly;
     }
 
-    public function setOpportunityIdInsightly(int $opportunityIdInsightly): self
+    public function setOpportunityIdInsightly(int $opportunityIdInsightly): ProjectInterface
     {
         $this->opportunityIdInsightly = $opportunityIdInsightly;
         return $this;

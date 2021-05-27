@@ -112,6 +112,14 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
      */
     public function setInsightlyProjectId($insightlyProjectId);
 
+    public function getProjectIdInsightly(): ?int;
+
+    public function setProjectIdInsightly(int $projectIdInsightly): ProjectInterface;
+
+    public function getOpportunityIdInsightly(): ?int;
+
+    public function setOpportunityIdInsightly(int $opportunityIdInsightly): ProjectInterface;
+
     /**
      * @return \DateTime
      */
