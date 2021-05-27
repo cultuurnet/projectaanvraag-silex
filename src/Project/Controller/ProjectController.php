@@ -7,8 +7,15 @@ use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
+use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
+use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
+use CultuurNet\ProjectAanvraag\Insightly\Item\Address as AddressEntity;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
+use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OrganizationSerializer;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -22,51 +29,59 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-/**
- * Controller for project related tasks.
- */
-class ProjectController
+final class ProjectController
 {
     /**
      * @var MessageBusSupportingMiddleware
      */
-    protected $commandBus;
+    private $commandBus;
 
     /**
      * @var ProjectServiceInterface
      */
-    protected $projectService;
+    private $projectService;
 
     /**
      * @var AuthorizationCheckerInterface
      */
-    protected $authorizationChecker;
-
-    /**
-     * @var InsightlyClientInterface
-     */
-    protected $insightlyclient;
+    private $authorizationChecker;
 
     /**
      * @var CouponValidatorInterface
      */
-    protected $couponValidator;
+    private $couponValidator;
 
     /**
-     * ProjectController constructor.
-     * @param MessageBusSupportingMiddleware $commandBus
-     * @param ProjectServiceInterface $projectService
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param CouponValidatorInterface $couponValidator
-     * @param InsightlyClientInterface $insightlyClient
+     * @var InsightlyClientInterface
      */
-    public function __construct(MessageBusSupportingMiddleware $commandBus, ProjectServiceInterface $projectService, AuthorizationCheckerInterface $authorizationChecker, CouponValidatorInterface $couponValidator, InsightlyClientInterface $insightlyClient)
-    {
+    private $legacyInsightlyClient;
+
+    /**
+     * @var InsightlyClient
+     */
+    private $insightlyClient;
+
+    /**
+     * @var bool
+     */
+    private $useNewInsightlyInstance;
+
+    public function __construct(
+        MessageBusSupportingMiddleware $commandBus,
+        ProjectServiceInterface $projectService,
+        AuthorizationCheckerInterface $authorizationChecker,
+        CouponValidatorInterface $couponValidator,
+        InsightlyClientInterface $legacyInsightlyClient,
+        InsightlyClient  $insightlyClient,
+        bool $useNewInsightlyInstance
+    ) {
         $this->commandBus = $commandBus;
         $this->projectService = $projectService;
         $this->authorizationChecker = $authorizationChecker;
-        $this->insightlyclient = $insightlyClient;
         $this->couponValidator = $couponValidator;
+        $this->legacyInsightlyClient = $legacyInsightlyClient;
+        $this->insightlyClient = $insightlyClient;
+        $this->useNewInsightlyInstance = $useNewInsightlyInstance;
     }
 
     /**
@@ -265,7 +280,7 @@ class ProjectController
         $postedOrganisation->setLinks($currentOrganisation->getLinks());
 
         // Update the organisation
-        $this->insightlyclient->updateOrganisation($postedOrganisation);
+        $this->legacyInsightlyClient->updateOrganisation($postedOrganisation);
 
         return new JsonResponse($project);
     }
@@ -316,24 +331,42 @@ class ProjectController
      */
     private function getOrganisationByProject($project)
     {
-        $organisation = null;
+        if (!$this->useNewInsightlyInstance) {
+            if (empty($project->getInsightlyProjectId())) {
+                return null;
+            }
 
-        if (!empty($project->getInsightlyProjectId())) {
-            $insightyProject = $this->insightlyclient->getProject($project->getInsightlyProjectId());
+            $insightlyProject = $this->legacyInsightlyClient->getProject($project->getInsightlyProjectId());
 
             /** @var Link $link */
-            $insightyLinks = $this->insightlyclient->getProjectLinks($insightyProject->getId());
+            $insightlyLinks = $this->legacyInsightlyClient->getProjectLinks($insightlyProject->getId());
 
-            foreach ($insightyLinks as $insightyLink) {
+            $organisation = null;
+            foreach ($insightlyLinks as $insightlyLink) {
                 // One of the links is the organisation
                 // This requires a refactor see: https://jira.uitdatabank.be/browse/PROJ-156
-                if ($insightyLink->getOrganisationId()) {
-                    $organisation = $this->insightlyclient->getOrganisation($insightyLink->getOrganisationId());
+                if ($insightlyLink->getOrganisationId()) {
+                    $organisation = $this->legacyInsightlyClient->getOrganisation($insightlyLink->getOrganisationId());
                 }
             }
+
+            return $organisation;
         }
 
-        return $organisation;
+        if ($project->getProjectIdInsightly()) {
+            $organizationId = $this->insightlyClient->projects()->getLinkedOrganizationId(new Id($project->getProjectIdInsightly()));
+            $organization = $this->insightlyClient->organizations()->getById($organizationId);
+
+            $parsedOrganization = OrganisationParser::parseToResult((new OrganizationSerializer())->toInsightlyArray($organization));
+            if ($organization->getTaxNumber()) {
+                $parsedOrganization->addCustomField('ORGANISATION_FIELD_1', $organization->getTaxNumber()->getValue());
+            }
+            $parsedOrganization->addCustomField('ORGANISATION_FIELD_2', $organization->getEmail()->getValue());
+
+            return $parsedOrganization;
+        }
+
+        return null;
     }
 
     /**

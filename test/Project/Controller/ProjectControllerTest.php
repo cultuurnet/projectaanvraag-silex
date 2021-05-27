@@ -11,6 +11,8 @@ use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\PipelineStages;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
@@ -18,6 +20,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectService;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
+use GuzzleHttp\ClientInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -33,42 +36,47 @@ class ProjectControllerTest extends TestCase
     /**
      * @var ProjectController
      */
-    protected $controller;
+    private $controller;
 
     /**
      * @var MessageBusSupportingMiddleware & MockObject
      */
-    protected $messageBus;
+    private $messageBus;
 
     /**
      * @var ProjectServiceInterface & MockObject
      */
-    protected $projectService;
+    private $projectService;
 
     /**
      * @var Request & MockObject
      */
-    protected $request;
+    private $request;
 
     /**
      * @var AuthorizationCheckerInterface & MockObject
      */
-    protected $authorizationChecker;
+    private $authorizationChecker;
 
     /**
      * @var InsightlyClientInterface & MockObject
      */
-    protected $insightlyClient;
+    private $legacyInsightlyClient;
+
+    /**
+     * @var InsightlyClient
+     */
+    private $insightlyClient;
 
     /**
      * @var CouponValidatorInterface & MockObject
      */
-    protected $couponValidator;
+    private $couponValidator;
 
     /**
      * @var \stdClass
      */
-    protected $formData;
+    private $formData;
 
     public function setUp()
     {
@@ -80,11 +88,25 @@ class ProjectControllerTest extends TestCase
 
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
 
-        $this->insightlyClient = $this->createMock(InsightlyClientInterface::class);
+        $this->legacyInsightlyClient = $this->createMock(InsightlyClientInterface::class);
+
+        $this->insightlyClient = new InsightlyClient(
+            $this->createMock(ClientInterface::class),
+            'api_key',
+            new PipelineStages([])
+        );
 
         $this->couponValidator = $this->createMock(CouponValidatorInterface::class);
 
-        $this->controller = new ProjectController($this->messageBus, $this->projectService, $this->authorizationChecker, $this->couponValidator, $this->insightlyClient);
+        $this->controller = new ProjectController(
+            $this->messageBus,
+            $this->projectService,
+            $this->authorizationChecker,
+            $this->couponValidator,
+            $this->legacyInsightlyClient,
+            $this->insightlyClient,
+            false
+        );
 
         $this->formData = new \stdClass();
         $this->formData->name = 'name';
@@ -418,19 +440,19 @@ class ProjectControllerTest extends TestCase
         $organisation = new Organisation();
         $organisation->setName('name');
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getProject')
             ->with(2)
             ->willReturn($insightlyProject);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getProjectLinks')
             ->with(2)
             ->willReturn([$link]);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getOrganisation')
             ->with(3)
@@ -490,19 +512,19 @@ class ProjectControllerTest extends TestCase
         $contactInfo->setId(102388049);
         $organisation->setContactInfo([$contactInfo]);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getProject')
             ->with(2)
             ->willReturn($insightlyProject);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getProjectLinks')
             ->with(2)
             ->willReturn([$link]);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getOrganisation')
             ->with(3)
@@ -552,19 +574,19 @@ class ProjectControllerTest extends TestCase
         $contactInfo->setId(1023880549);
         $organisation->setContactInfo([$contactInfo]);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getProject')
             ->with(2)
             ->willReturn($insightlyProject);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getProjectLinks')
             ->with(2)
             ->willReturn([$link]);
 
-        $this->insightlyClient
+        $this->legacyInsightlyClient
             ->expects($this->once())
             ->method('getOrganisation')
             ->with(3)

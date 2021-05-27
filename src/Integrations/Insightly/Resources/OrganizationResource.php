@@ -57,6 +57,20 @@ final class OrganizationResource
         $this->insightlyClient->sendRequest($request);
     }
 
+    public function getById(Id $id): Organization
+    {
+        $request = new Request(
+            'GET',
+            'Organizations/' . $id->getValue()
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $organizationAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return ($this->organizationSerializer->fromInsightlyArray($organizationAsArray));
+    }
+
     public function getByTaxNumber(TaxNumber $taxNumber): Organization
     {
         $request = new Request(

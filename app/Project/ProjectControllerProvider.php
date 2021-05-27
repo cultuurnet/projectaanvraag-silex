@@ -20,7 +20,9 @@ class ProjectControllerProvider implements ControllerProviderInterface
                 $app['project_service'],
                 $app['security.authorization_checker'],
                 $app['coupon_validator'],
-                $app['legacy_insightly_client']
+                $app['legacy_insightly_client'],
+                $app['insightly_client'],
+                $app['use_new_insightly_instance']
             );
         };
 
