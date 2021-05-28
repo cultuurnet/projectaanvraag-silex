@@ -56,7 +56,7 @@ final class CustomFieldSerializer
         return $this->createCustomField(self::CUSTOM_FIELD_TAX_NUMBER, $taxNumber->getValue());
     }
 
-    private function getCustomFieldValue(array $customFields, string $key): string
+    public function getCustomFieldValue(array $customFields, string $key): string
     {
         foreach ($customFields as $customField) {
             if ($customField['CUSTOM_FIELD_ID'] === $key) {
@@ -67,7 +67,7 @@ final class CustomFieldSerializer
         throw CustomFieldNotFound::forKey($key);
     }
 
-    private function createCustomField(string $key, string $value): array
+    public function createCustomField(string $key, string $value): array
     {
         return [
             'FIELD_NAME' => $key,
