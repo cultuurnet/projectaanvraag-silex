@@ -14,6 +14,8 @@ use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\CustomFieldNotFound;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\CustomFieldSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OrganizationSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
 use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
@@ -283,8 +285,29 @@ final class ProjectController
         if (!$this->useNewInsightlyInstance) {
             $this->legacyInsightlyClient->updateOrganisation($postedOrganisation);
         } else {
+            $organizationAsArray = $postedOrganisation->toInsightly();
+
+            // Transforming the legacy format of custom fields to the new format.
+            $customFields = [];
+            $customFieldSerializer = new CustomFieldSerializer();
+            try {
+                // Email is required.
+                $customFields[] = $customFieldSerializer->createCustomField(
+                    CustomFieldSerializer::CUSTOM_FIELD_EMAIL,
+                    $customFieldSerializer->getCustomFieldValue($organizationAsArray['CUSTOMFIELDS'], 'ORGANISATION_FIELD_2')
+                );
+
+                // Tax is optional and can throw an CustomFieldNotFound exception.
+                $customFields[] = $customFieldSerializer->createCustomField(
+                    CustomFieldSerializer::CUSTOM_FIELD_TAX_NUMBER,
+                    $customFieldSerializer->getCustomFieldValue($organizationAsArray['CUSTOMFIELDS'], 'ORGANISATION_FIELD_1')
+                );
+            } catch (CustomFieldNotFound $customFieldNotFound) {
+            }
+            $organizationAsArray['CUSTOMFIELDS'] = $customFields;
+
             $this->insightlyClient->organizations()->update(
-                (new OrganizationSerializer())->fromInsightlyArray($postedOrganisation->toInsightly())
+                (new OrganizationSerializer())->fromInsightlyArray($organizationAsArray)
             );
         }
 
