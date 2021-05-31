@@ -292,6 +292,14 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_manage_organizations(): void
     {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
         $expectedOrganization = new Organization(
             new Name('Anonymous'),
             new Address(
@@ -302,7 +310,10 @@ class InsightlyClientTest extends TestCase
             new Email('account@anonymous.com')
         );
 
-        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+        $this->organizationId = $this->insightlyClient->organizations()->createWithContact(
+            $expectedOrganization,
+            $this->contactId
+        );
 
         sleep(1);
 
@@ -311,6 +322,9 @@ class InsightlyClientTest extends TestCase
             $expectedOrganization->withId($this->organizationId),
             $actualProject
         );
+
+        $actualLinkedContactId = $this->insightlyClient->organizations()->getLinkedContactId($this->organizationId);
+        $this->assertEquals($this->contactId, $actualLinkedContactId);
     }
 
     /**
@@ -318,6 +332,14 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_manage_organizations_with_tax_number(): void
     {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
         $expectedOrganization = (new Organization(
             new Name('Anonymous'),
             new Address(
@@ -328,7 +350,10 @@ class InsightlyClientTest extends TestCase
             new Email('account@anonymous.com')
         ))->withTaxNumber(new TaxNumber('BE123456789'));
 
-        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+        $this->organizationId = $this->insightlyClient->organizations()->createWithContact(
+            $expectedOrganization,
+            $this->contactId
+        );
 
         sleep(1);
 
@@ -344,6 +369,14 @@ class InsightlyClientTest extends TestCase
      */
     public function it_can_update_organizations(): void
     {
+        $this->contactId = $this->insightlyClient->contacts()->create(
+            new Contact(
+                new FirstName('Jane'),
+                new LastName('Doe'),
+                new Email('jane.doe@anonymous.com')
+            )
+        );
+
         $expectedOrganization = new Organization(
             new Name('Anonymous'),
             new Address(
@@ -354,7 +387,10 @@ class InsightlyClientTest extends TestCase
             new Email('account@anonymous.com')
         );
 
-        $this->organizationId = $this->insightlyClient->organizations()->create($expectedOrganization);
+        $this->organizationId = $this->insightlyClient->organizations()->createWithContact(
+            $expectedOrganization,
+            $this->contactId
+        );
 
         $expectedUpdatedOrganization = (new Organization(
             new Name('Anonymous - update'),
@@ -390,7 +426,7 @@ class InsightlyClientTest extends TestCase
             )
         );
 
-        $this->organizationId = $this->insightlyClient->organizations()->create(
+        $this->organizationId = $this->insightlyClient->organizations()->createWithContact(
             new Organization(
                 new Name('Anonymous'),
                 new Address(
@@ -399,7 +435,8 @@ class InsightlyClientTest extends TestCase
                     'Nowhere town'
                 ),
                 new Email('account@anonymous.com')
-            )
+            ),
+            $this->contactId
         );
 
         $expectedProject = (new Project(
