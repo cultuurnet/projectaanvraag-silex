@@ -124,4 +124,15 @@ final class OrganizationResource
 
         return ($this->organizationSerializer->fromInsightlyArray($organizationAsArray[0]));
     }
+    private function linkContact(Id $organizationId, Id $contactId): void
+    {
+        $request = new Request(
+            'POST',
+            'Organizations/' . $organizationId->getValue() . '/Links',
+            [],
+            json_encode((new LinkSerializer())->contactIdToLink($contactId))
+        );
+
+        $this->insightlyClient->sendRequest($request);
+    }
 }
