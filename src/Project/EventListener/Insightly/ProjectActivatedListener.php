@@ -77,6 +77,13 @@ final class ProjectActivatedListener
         }
 
         $insightlyOpportunityId = new Id($project->getOpportunityIdInsightly());
+
+        $linkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId);
+        if (!$linkedContactId) {
+            $this->logger->error('Opportunity with id ' . $insightlyOpportunityId->getValue() . ' has no linked contact.');
+            return;
+        }
+
         $this->insightlyClient->opportunities()->updateStage($insightlyOpportunityId, OpportunityStage::closed());
         $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::won());
 
@@ -95,10 +102,7 @@ final class ProjectActivatedListener
             $insightlyProject = $insightlyProject->withCoupon(new Coupon($projectActivated->getUsedCoupon()));
         }
 
-        $projectId = $this->insightlyClient->projects()->createWithContact(
-            $insightlyProject,
-            $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
-        );
+        $projectId = $this->insightlyClient->projects()->createWithContact($insightlyProject, $linkedContactId);
         $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
 
         $this->logger->debug(

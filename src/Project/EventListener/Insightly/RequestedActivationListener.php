@@ -84,13 +84,19 @@ final class RequestedActivationListener
         $this->insightlyClient->opportunities()->updateStage($insightlyOpportunityId, OpportunityStage::request());
         $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::won());
 
+        $linkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId);
+        if (!$linkedContactId) {
+            $this->logger->error('Opportunity with id ' . $insightlyOpportunityId->getValue() . ' has no linked contact.');
+            return;
+        }
+
         try {
             $organization = $this->getExistingOrganization($requestedActivation);
         } catch (RecordNotFound $recordNotFound) {
             $this->logger->debug('No existing organization found, creating a new one.');
 
             $organization = $this->createOrganizationObject($requestedActivation);
-            $organizationId = $this->insightlyClient->organizations()->create($organization);
+            $organizationId = $this->insightlyClient->organizations()->createWithContact($organization, $linkedContactId);
             $organization = $organization->withId($organizationId);
         }
 
@@ -106,7 +112,7 @@ final class RequestedActivationListener
 
         $projectId = $this->insightlyClient->projects()->createWithContact(
             $insightlyProject,
-            $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId)
+            $linkedContactId
         );
         $this->insightlyClient->projects()->linkOrganization($projectId, $organization->getId());
         $this->insightlyClient->projects()->linkOpportunity($projectId, $insightlyOpportunityId);
