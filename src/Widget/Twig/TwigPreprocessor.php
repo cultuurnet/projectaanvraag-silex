@@ -587,7 +587,7 @@ class TwigPreprocessor
             if ($bookingInfo->getUrl()) {
                 $variables['booking_info']['url'] = [
                    'url' => $bookingInfo->getUrl(),
-                   'label' => ($this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode) !== '') ? $this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode, $event->getMainLanguage()) : $bookingInfo->getUrl(),
+                   'label' => ($this->translateStringWithFallback($bookingInfo->getUrlLabel(), $langcode, $event->getMainLanguage())) ?: $bookingInfo->getUrl(),
                 ];
             }
         }
