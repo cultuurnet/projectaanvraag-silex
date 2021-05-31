@@ -7,6 +7,7 @@ namespace CultuurNet\ProjectAanvraag\Integrations\Insightly\Resources;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Exceptions\RecordNotFound;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\CustomFieldSerializer;
+use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\LinkSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\Serializers\OrganizationSerializer;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Email;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\Id;
@@ -32,7 +33,7 @@ final class OrganizationResource
         $this->organizationSerializer = new OrganizationSerializer();
     }
 
-    public function create(Organization $organization): Id
+    public function createWithContact(Organization $organization, Id $contactId): Id
     {
         $request = new Request(
             'POST',
@@ -44,7 +45,11 @@ final class OrganizationResource
         $response = $this->insightlyClient->sendRequest($request);
 
         $organizationAsArray = json_decode($response->getBody()->getContents(), true);
-        return new Id($organizationAsArray['ORGANISATION_ID']);
+        $projectId = new Id($organizationAsArray['ORGANISATION_ID']);
+
+        $this->linkContact($projectId, $contactId);
+
+        return $projectId;
     }
 
     public function update(Organization $organization): void
