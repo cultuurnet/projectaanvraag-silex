@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag;
 
 use CultuurNet\ProjectAanvraag\Console\Command\CacheClearCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
+use CultuurNet\ProjectAanvraag\Console\Command\MigrateInsightlyIds;
 use CultuurNet\ProjectAanvraag\Console\Command\SyncConsumersCommand;
 use CultuurNet\ProjectAanvraag\WidgetMigration\Console\Command\MigrateCommand;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
@@ -77,6 +78,8 @@ class ConsoleApplication extends ApplicationBase
 
         // Widget commands
         $consoleApp->add(new MigrateCommand());
+
+        $consoleApp->add(new MigrateInsightlyIds());
 
         // Doctrine helperset
         $em = $this['orm.em'];
