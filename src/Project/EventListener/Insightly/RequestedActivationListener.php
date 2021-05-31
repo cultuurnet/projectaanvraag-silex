@@ -85,6 +85,10 @@ final class RequestedActivationListener
         $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::won());
 
         $linkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId);
+        if (!$linkedContactId) {
+            $this->logger->error('Opportunity with id ' . $insightlyOpportunityId->getValue() . ' has no linked contact.');
+            return;
+        }
 
         try {
             $organization = $this->getExistingOrganization($requestedActivation);
