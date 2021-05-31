@@ -124,6 +124,21 @@ final class OrganizationResource
 
         return ($this->organizationSerializer->fromInsightlyArray($organizationAsArray[0]));
     }
+
+    public function getLinkedContactId(Id $id): Id
+    {
+        $request = new Request(
+            'GET',
+            'Organizations/' . $id->getValue()
+        );
+
+        $response = $this->insightlyClient->sendRequest($request);
+
+        $organizationAsArray = json_decode($response->getBody()->getContents(), true);
+
+        return (new LinkSerializer())->contactIdFromLinks($organizationAsArray['LINKS']);
+    }
+
     private function linkContact(Id $organizationId, Id $contactId): void
     {
         $request = new Request(
