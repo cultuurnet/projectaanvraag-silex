@@ -555,7 +555,6 @@ final class SearchResults extends WidgetTypeBase
             );
         }
 
-        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'lg')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
