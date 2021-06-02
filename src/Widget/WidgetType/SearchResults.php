@@ -647,7 +647,6 @@ final class SearchResults extends WidgetTypeBase
      */
     public function renderDetail($preferredLanguage)
     {
-
         if (!$this->request->query->has('cdbid')) {
             return '';
         }
