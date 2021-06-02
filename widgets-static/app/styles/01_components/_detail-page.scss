@@ -207,6 +207,12 @@ ul.cnw_searchresult-detail-articles {
   margin-bottom: 0px;
 }
 
+.cf-status[title]:after {
+  content: '\f059';
+  font-family: CnWFontAwesome;
+  margin-left: 5px;
+}
+
 /* end styling for article links */
 
 
