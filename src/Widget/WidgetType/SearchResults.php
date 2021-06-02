@@ -665,6 +665,12 @@ final class SearchResults extends WidgetTypeBase
         $query->addParameter(new AddressCountry('*'));
         $query->addParameter(AvailableTo::wildcard());
         $query->addParameter(AvailableFrom::wildcard());
+
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'lg')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
+        
         $this->searchResult = $this->searchClient->searchEvents($query);
 
         $events = $this->searchResult->getMember()->getItems();
