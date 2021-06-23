@@ -72,7 +72,10 @@
         "test": "vendor/bin/phpunit",
         "test:integrations:insightly": "vendor/bin/phpunit --configuration phpunit.integrations.insightly.xml",
         "phpstan": "vendor/bin/phpstan",
-        "phpcs": "vendor/bin/phpcs --standard=phpcs-ruleset.xml app/ src/ test/",
+        "phpcs": [
+            "vendor/bin/phpcs --config-set installed_paths vendor/escapestudios/symfony2-coding-standard",
+            "vendor/bin/phpcs --standard=phpcs-ruleset.xml app/ src/ test/"
+        ],
         "ci": [
             "composer validate",
             "composer phpcs",
