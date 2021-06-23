@@ -12,7 +12,7 @@ use CultuurNet\ProjectAanvraag\Integrations\Insightly\ValueObjects\TaxNumber;
 final class CustomFieldSerializer
 {
     private const CUSTOM_FIELD_INTEGRATION_TYPE = 'Product__c';
-    private const CUSTOM_FIELD_COUPON = 'Coupon_field__c';
+    private const CUSTOM_FIELD_COUPON = 'Coupon__c';
     public const CUSTOM_FIELD_EMAIL = 'Email_boekhouding__c';
     public const CUSTOM_FIELD_TAX_NUMBER = 'BTW_nummer__c';
 
