@@ -82,7 +82,7 @@ final class RequestedActivationListener
 
         $insightlyOpportunityId = new Id($project->getOpportunityIdInsightly());
         $this->insightlyClient->opportunities()->updateStage($insightlyOpportunityId, OpportunityStage::request());
-        $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::won());
+        $this->insightlyClient->opportunities()->updateState($insightlyOpportunityId, OpportunityState::open());
 
         $linkedContactId = $this->insightlyClient->opportunities()->getLinkedContactId($insightlyOpportunityId);
         if (!$linkedContactId) {
