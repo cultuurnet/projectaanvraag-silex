@@ -2,17 +2,19 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
-use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\AddressCountry;
-use CultuurNet\SearchV3\Parameter\Query;
-use CultuurNet\SearchV3\Parameter\AvailableTo;
+use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\AvailableFrom;
+use CultuurNet\SearchV3\Parameter\AvailableTo;
+use CultuurNet\SearchV3\Parameter\CalendarSummary;
+use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchQueryInterface;
-use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
+use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
 
 use Pimple\Container;
 
@@ -282,6 +284,10 @@ final class Tips extends WidgetTypeBase
             $query->addParameter(new AvailableTo('*'));
             $query->addParameter(new AvailableFrom('*'));
         }
+
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
 
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
