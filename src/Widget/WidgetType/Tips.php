@@ -281,8 +281,8 @@ final class Tips extends WidgetTypeBase
             // Disable default filters, except workflowstatus
             $query->addParameter(new AudienceType('*'));
             $query->addParameter(new AddressCountry('*'));
-            $query->addParameter(new AvailableTo('*'));
-            $query->addParameter(new AvailableFrom('*'));
+            $query->addParameter(AvailableTo::wildcard());
+            $query->addParameter(AvailableFrom::wildcard());
         }
 
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
