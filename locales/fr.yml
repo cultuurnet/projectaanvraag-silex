@@ -20,8 +20,8 @@ event_detail_share: Partagez cette page
 event_detail_show_all_dates: Afficher toutes les dates
 event_detail_show_less_dates: Afficher moins de dates
 event_price_free: gratuit
-facets_show: Montrer les raffinements
-facets_hide: Masquer les raffinements
+facets_show: Affiner la sélection
+facets_hide: Masquer la sélection
 pager_first: Première
 pager_previous: Précédente
 pager_next: Suivante
