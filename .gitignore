@@ -7,7 +7,6 @@ config.yml
 /log
 /cache
 /web/xhprof
-/web/widgets/layout
 
 widgets-static/node_modules
 widgets-static/.tmp
