@@ -12,6 +12,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectCreated;
 use CultuurNet\ProjectAanvraag\User\UserInterface as UitIdUserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class CreateProjectCommandHandler
@@ -49,13 +50,19 @@ class CreateProjectCommandHandler
      */
     private $integrationTypeStorage;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         MessageBusSupportingMiddleware $eventBus,
         EntityManagerInterface $entityManager,
         \ICultureFeed $cultureFeedTest,
         \ICultureFeed $cultureFeed,
         UitIdUserInterface $user,
-        IntegrationTypeStorageInterface $integrationTypeStorage
+        IntegrationTypeStorageInterface $integrationTypeStorage,
+        LoggerInterface $logger
     ) {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
@@ -63,6 +70,7 @@ class CreateProjectCommandHandler
         $this->cultureFeed = $cultureFeed;
         $this->user = $user;
         $this->integrationTypeStorage = $integrationTypeStorage;
+        $this->logger = $logger;
     }
 
     /**
@@ -72,6 +80,8 @@ class CreateProjectCommandHandler
      */
     public function handle(CreateProject $createProject)
     {
+        $this->logger->debug('Start handling CreateProject for ' . $createProject->getName());
+
         $integrationTypeId = $createProject->getIntegrationType();
         $integrationType = $this->integrationTypeStorage->load($integrationTypeId);
         if (!$integrationType) {
@@ -142,8 +152,11 @@ class CreateProjectCommandHandler
         /**
          * 5. Dispatch the ProjectCreated event
          */
+
         $projectCreated = new ProjectCreated($project, $localUser, $createProject->getCouponToUse());
         $this->eventBus->handle($projectCreated);
+
+        $this->logger->debug('Finished handling CreateProject for ' . $createProject->getName());
     }
 
     /**
