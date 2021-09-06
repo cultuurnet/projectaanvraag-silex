@@ -157,6 +157,7 @@ handlers:
             - culturefeed
             - uitid_user_session_data_complete
             - integration_types.storage
+            - insightly_logger
 
     activate_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\ActivateProject
