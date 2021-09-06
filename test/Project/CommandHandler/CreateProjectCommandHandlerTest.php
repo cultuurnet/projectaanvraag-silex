@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class CreateProjectCommandHandlerTest extends TestCase
@@ -80,7 +81,17 @@ class CreateProjectCommandHandlerTest extends TestCase
         $this->user->nick = 'test';
 
         $this->commandHandler = $this->getMockBuilder(CreateProjectCommandHandler::class)
-            ->setConstructorArgs([$this->eventBus, $this->entityManager, $this->cultureFeedTest, $this->cultureFeed, $this->user, $integrationTypeStorage])
+            ->setConstructorArgs(
+                [
+                    $this->eventBus,
+                    $this->entityManager,
+                    $this->cultureFeedTest,
+                    $this->cultureFeed,
+                    $this->user,
+                    $integrationTypeStorage,
+                    $this->createMock(LoggerInterface::class),
+                ]
+            )
             ->setMethods(['generatePassword'])
             ->getMock();
     }
