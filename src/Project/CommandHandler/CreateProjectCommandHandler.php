@@ -80,6 +80,8 @@ class CreateProjectCommandHandler
      */
     public function handle(CreateProject $createProject)
     {
+        $this->logger->debug('Start handling CreateProject for ' . $createProject->getName());
+
         $integrationTypeId = $createProject->getIntegrationType();
         $integrationType = $this->integrationTypeStorage->load($integrationTypeId);
         if (!$integrationType) {
@@ -150,8 +152,11 @@ class CreateProjectCommandHandler
         /**
          * 5. Dispatch the ProjectCreated event
          */
+
         $projectCreated = new ProjectCreated($project, $localUser, $createProject->getCouponToUse());
         $this->eventBus->handle($projectCreated);
+
+        $this->logger->debug('Finished handling CreateProject for ' . $createProject->getName());
     }
 
     /**
