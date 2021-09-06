@@ -71,6 +71,8 @@ final class ProjectCreatedListener
 
     public function handle(ProjectCreated $projectCreated): void
     {
+        $this->logger->debug('Start handling ProjectCreated for ' . $projectCreated->getProject()->getName());
+
         if (!$this->useNewInsightlyInstance) {
             $this->logger->debug('Not using new Insightly instance');
             return;
@@ -133,6 +135,8 @@ final class ProjectCreatedListener
         }
 
         $this->entityManager->flush();
+
+        $this->logger->debug('Finished handling ProjectCreated for ' . $projectCreated->getProject()->getName());
     }
 
     private function createContactObject(UserInterface $user): Contact
