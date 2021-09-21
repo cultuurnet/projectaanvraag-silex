@@ -153,8 +153,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var $context = jQuery(context);
         var $facilityToggle = jQuery(context).find('a.cnw_facility-toggle');
+
         if ($facilityToggle.length > 0) {
             $facilityToggle.bind('click', function(e) {
+                $facilityToggle.attr('aria-expanded', function (i, attr) { return attr === 'true' ? 'false' : 'true'} )
+
                 var $fullFacilities = jQuery(this).parent().find('.cnw_full-facilities');
                 $fullFacilities.toggleClass("show");
                 e.preventDefault();
