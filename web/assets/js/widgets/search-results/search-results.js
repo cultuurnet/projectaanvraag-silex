@@ -180,9 +180,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var $eventDates = jQuery(context).find('ul.cnw-event-date-info');
         var $eventDateItems = $eventDates.find('li');
         var $eventDateToggler = jQuery(context).find('.cnw-event-date-info-toggle');
+
         if ($eventDatesContainer && $eventDates && $eventDateItems.length > maxDatesVisible) {
          $eventDateToggler.removeClass('cnw_hidden'); 
          $eventDateToggler.bind('click', function(e){
+            $eventDateToggler.attr('aria-expanded', function (i, attr) { return attr === 'true' ? 'false' : 'true'} )
+
             e.preventDefault();
             $eventDates.toggleClass('open');
             $(this).toggleClass('open');
