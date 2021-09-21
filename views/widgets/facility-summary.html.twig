@@ -6,9 +6,11 @@
         {% for facility in event.facilities %}
         <li>
           {% if facility.present %}
-              <i class="cnw-fa cnw-fa-check-square"></i>
+            <i class="cnw-fa cnw-fa-check-square"></i>
+            <span class="sr-only">Aanwezig</span>
           {% else %}
             <i class="cnw-fa cnw-fa-times"></i>
+            <span class="sr-only">Niet aanwezig</span>
           {% endif %}
           {{ facility.label }}</li>
         {% endfor %}
