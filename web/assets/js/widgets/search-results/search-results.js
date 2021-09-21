@@ -132,10 +132,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var $context = jQuery(context);
         var $summaryToggle = jQuery(context).find('a.cnw_detail-summary-toggle');
+
         if ($summaryToggle.length > 0) {
             var $fullDescription = $context.find('.cnw_detail-full-description');
             $fullDescription.hide();
             $summaryToggle.bind('click', function(e) {
+                $summaryToggle.attr('aria-expanded', function (i, attr) { return attr === 'true' ? 'false' : 'true'} )
+
                 jQuery(this).hide();
                 $context.find('.cnw_detail-short-summary').hide();
                 $fullDescription.show();
@@ -153,8 +156,11 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var $context = jQuery(context);
         var $facilityToggle = jQuery(context).find('a.cnw_facility-toggle');
+
         if ($facilityToggle.length > 0) {
             $facilityToggle.bind('click', function(e) {
+                $facilityToggle.attr('aria-expanded', function (i, attr) { return attr === 'true' ? 'false' : 'true'} )
+
                 var $fullFacilities = jQuery(this).parent().find('.cnw_full-facilities');
                 $fullFacilities.toggleClass("show");
                 e.preventDefault();
@@ -174,9 +180,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var $eventDates = jQuery(context).find('ul.cnw-event-date-info');
         var $eventDateItems = $eventDates.find('li');
         var $eventDateToggler = jQuery(context).find('.cnw-event-date-info-toggle');
+
         if ($eventDatesContainer && $eventDates && $eventDateItems.length > maxDatesVisible) {
          $eventDateToggler.removeClass('cnw_hidden'); 
          $eventDateToggler.bind('click', function(e){
+            $eventDateToggler.attr('aria-expanded', function (i, attr) { return attr === 'true' ? 'false' : 'true'} )
+
             e.preventDefault();
             $eventDates.toggleClass('open');
             $(this).toggleClass('open');

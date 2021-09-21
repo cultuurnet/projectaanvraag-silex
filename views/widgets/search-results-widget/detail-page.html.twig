@@ -90,7 +90,7 @@
                           {{ event.summary | raw }}
                       </div>
 
-                      <a href="#" class="cnw_detail-summary-toggle">{{ 'event_read_more'| transTo(preferredLanguage) }}</a>
+                      <a href="#" class="cnw_detail-summary-toggle" aria-expanded="false">{{ 'event_read_more'| transTo(preferredLanguage) }}</a>
 
                     {% endif %}
 
@@ -130,7 +130,7 @@
                     </dt>
                     <dd class="cnw-event-date-container">
                         {{ event.when_details | raw }}
-                        <a href="#" class="cnw-event-date-info-toggle cnw_hidden">
+                        <a href="#" class="cnw-event-date-info-toggle cnw_hidden" aria-expanded="false">
                             <span>{{ 'event_detail_show_all_dates'| transTo(preferredLanguage) }}</span>
                             <span>{{ 'event_detail_show_less_dates'| transTo(preferredLanguage) }}</span>
                         </a>

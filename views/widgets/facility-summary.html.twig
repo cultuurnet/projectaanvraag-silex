@@ -1,14 +1,16 @@
 <div class="cnw_searchresult-facilities">
   {% if event.facilities|length > 0 %}
-    <a href="#" class="cnw_facility-toggle">Minstens één voorziening <i class="cnw-fa cnw-fa-question-circle"></i></a>
+    <a href="#" class="cnw_facility-toggle" aria-expanded="false">Minstens één voorziening <i class="cnw-fa cnw-fa-question-circle"></i></a>
     <div class="cnw_full-facilities">
       <ul class="cnw_searchresult-facilities-list">
         {% for facility in event.facilities %}
         <li>
           {% if facility.present %}
-              <i class="cnw-fa cnw-fa-check-square"></i>
+            <i class="cnw-fa cnw-fa-check-square"></i>
+            <span class="sr-only">Aanwezig</span>
           {% else %}
             <i class="cnw-fa cnw-fa-times"></i>
+            <span class="sr-only">Niet aanwezig</span>
           {% endif %}
           {{ facility.label }}</li>
         {% endfor %}
