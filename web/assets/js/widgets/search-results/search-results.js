@@ -132,10 +132,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         var $context = jQuery(context);
         var $summaryToggle = jQuery(context).find('a.cnw_detail-summary-toggle');
+
         if ($summaryToggle.length > 0) {
             var $fullDescription = $context.find('.cnw_detail-full-description');
             $fullDescription.hide();
             $summaryToggle.bind('click', function(e) {
+                $summaryToggle.attr('aria-expanded', function (i, attr) { return attr === 'true' ? 'false' : 'true'} )
+
                 jQuery(this).hide();
                 $context.find('.cnw_detail-short-summary').hide();
                 $fullDescription.show();
