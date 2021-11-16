@@ -522,6 +522,7 @@ class TwigPreprocessor
                 $priceName = $priceInfo->getName();
                 $translatedPriceName = $this->translateStringWithFallback($priceName, $preferredLanguage, $event->getMainLanguage());
                 $priceAmount = $priceInfo->getPrice() > 0 ? '&euro; ' . (float) $priceInfo->getPrice() : $this->translator->trans('event_price_free', [], 'messages', $preferredLanguage);
+                $priceAmount = str_replace('.', ',', $priceAmount);
                 if ($priceInfo->getCategory() !== 'base') {
                     $prices[] = $translatedPriceName . ': ' . $priceAmount;
                 } else {
@@ -540,12 +541,13 @@ class TwigPreprocessor
                     foreach ($cardSystem->distributionKeys as $key) {
                         foreach ($key->conditions as $condition) {
                             if ($condition->definition == $condition::DEFINITION_KANSARM && $key->tariff > 0) {
+                                $tariff = str_replace('.', ',', $key->tariff);
                                 $cardSystemName = $cardSystem->name == 'HELA' ? 'UiTPAS' : $cardSystem->name;
                                 if ($condition->value == $condition::VALUE_MY_CARDSYSTEM) {
-                                    $prices[] = 'Kansentarief voor ' . $cardSystemName . ': &euro; ' . $key->tariff;
+                                    $prices[] = 'Kansentarief voor ' . $cardSystemName . ': &euro; ' . $tariff;
                                 }
                                 if ($condition->value == $condition::VALUE_AT_LEAST_ONE_CARDSYSTEM) {
-                                    $prices[] = 'Kansentarief voor UiTPAS gebruikers uit een andere stad of gemeente: &euro; ' . $key->tariff;
+                                    $prices[] = 'Kansentarief voor UiTPAS gebruikers uit een andere stad of gemeente: &euro; ' . $tariff;
                                 }
                             }
                         }
@@ -554,10 +556,6 @@ class TwigPreprocessor
             }
         } catch (\Exception $e) {
             // Silent fail.
-        }
-
-        foreach ($prices as $key => $price) {
-            $prices[$key] = str_replace('.', ',', $price);
         }
 
         if (count($prices)) {
