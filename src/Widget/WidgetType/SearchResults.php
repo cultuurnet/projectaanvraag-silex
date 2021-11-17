@@ -101,6 +101,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  },
  *                  "position":"left"
  *              },
+ *              "videos":{
+ *                  "enabled":true
+ *              },
  *              "labels":{
  *                  "enabled":false,
  *                  "limit_labels":{
@@ -195,6 +198,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "type":"uit"
  *                  },
  *                  "position":"left"
+ *              },
+ *              "videos":{
+ *                  "enabled":true
  *              },
  *              "labels":{
  *                  "enabled":false,
@@ -386,6 +392,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "type":"string"
  *                  },
  *                  "position":"string"
+ *              },
+ *              "videos":{
+ *                  "enabled":"boolean"
  *              },
  *              "facilities":{
  *                  "enabled":"boolean",
