@@ -199,6 +199,10 @@ class TwigPreprocessor
             $variables['copyright'] = $event->getMainMediaObject()->getCopyrightHolder();
         }
 
+        if ($event->getVideos() && count($event->getVideos()) > 0) {
+            $variables['videos'] = $event->getVideos();
+        }
+
         $variables['summary'] = strip_tags($variables['description']);
         if (!empty($settings['description']['characters'])) {
             $originalSummary = $variables['summary'];
