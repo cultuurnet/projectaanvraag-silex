@@ -276,6 +276,16 @@
                   {% include 'widgets/search-results-widget/articles.html.twig' with { 'articles': articles } %}
                 {% endif %}
 
+                {% if settings.videos.enabled and event.videos %}
+                    {% if 'youtube' in event.videos[0].embedUrl %}
+                        <iframe width="560" height="315" src="{{ event.videos[0].embedUrl }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    {% endif %}
+                    {% if 'vimeo' in event.videos[0].embedUrl %}
+                        <iframe src="{{ event.videos[0].embedUrl }}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    {% endif %}
+                {% endif %}
+
+
                 {% if settings.back_button.enabled %}
                     <div class="cnw_searchresult-detail-back-button">
                         <a href="{{ event.back_link }}">&laquo; {{ settings.back_button.label }}</a>
