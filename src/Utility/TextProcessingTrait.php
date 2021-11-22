@@ -204,7 +204,7 @@ trait TextProcessingTrait
         $return = trim($return);
         $len = strlen($return);
         $lastChar = substr($return, $len - 1, 1);
-        if (!preg_match('/[a-zA-Z0-9]/', $lastChar)) {
+        if (!preg_match('/[a-zA-Z0-9>]/', $lastChar)) {
             $return = substr_replace($return, '', $len - 1, 1);
         }
         // Add closing tags:
