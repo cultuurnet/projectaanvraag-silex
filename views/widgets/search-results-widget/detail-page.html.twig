@@ -272,6 +272,19 @@
 
                 </dl>
 
+                {% if settings.videos.enabled and event.videos|length > 0 %}
+                    {% if 'youtube' in event.videos[0].embedUrl %}
+                    <div class="cnw_searchresult-detail-video-wrapper">
+                        <iframe src="{{ event.videos[0].embedUrl }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    {% endif %}
+                    {% if 'vimeo' in event.videos[0].embedUrl %}
+                    <div class="cnw_searchresult-detail-video-wrapper">
+                        <iframe src="{{ event.videos[0].embedUrl }}" title="Vimeo video player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    {% endif %}
+                {% endif %}
+
                 {% if settings.articles.enabled and articles %}
                   {% include 'widgets/search-results-widget/articles.html.twig' with { 'articles': articles } %}
                 {% endif %}
