@@ -1,7 +1,5 @@
 .cnw_searchresult-detail {
-
   .cnw_detail-summary {
-
     margin-bottom: 1rem;
 
     &.has-cnw-icon {
@@ -42,7 +40,6 @@
   }
 
   &-info {
-
     dt {
       @include make-col-ready();
       @include make-col(3);
@@ -57,9 +54,7 @@
       @include media-breakpoint-down(xs) {
         @include make-col(10);
       }
-
     }
-
   }
 
   @include media-breakpoint-down(md) {
@@ -87,33 +82,32 @@
 
   ul.cnw-event-date-info {
     // only show first 5 upcomping dates
-    li:nth-child(n+6){
+    li:nth-child(n + 6) {
       display: none;
     }
 
-    &.open li{
+    &.open li {
       display: block;
     }
   }
 
   // styling for show all date toggler
   a.cnw-event-date-info-toggle {
-    span:nth-child(n+2) {
+    span:nth-child(n + 2) {
       display: none;
     }
 
-    &.open{
-      span:first-child(){
+    &.open {
+      span:first-child() {
         display: none;
       }
-      span:nth-child(n+2) {
+      span:nth-child(n + 2) {
         display: initial;
       }
     }
   }
 
   .cnw_uitpas-promotions {
-
     &-block-title {
       font-size: 1.2em;
       font-weight: 700;
@@ -126,7 +120,6 @@
       padding: 0;
       list-style: none;
     }
-
   }
 
   .cnw_searchresult-detail-price-info {
@@ -140,17 +133,16 @@
   .cnw-share {
     margin-right: 15px;
   }
-
 }
 
 .cnw_searchresult-detail .cnw_img_responsive {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .cf-period {
   .cf-meta {
     &:after {
-      content: ' ';
+      content: " ";
     }
   }
 }
@@ -179,7 +171,7 @@
   vertical-align: top;
 }
 
-html .cnw_searchresult-price-info p{
+html .cnw_searchresult-price-info p {
   margin-bottom: 0;
 }
 
@@ -208,11 +200,32 @@ ul.cnw_searchresult-detail-articles {
 }
 
 .cf-status[title]:after {
-  content: '\f059';
+  content: "\f059";
   font-family: CnWFontAwesome;
   margin-left: 5px;
 }
 
+.cnw_searchresult-detail-video-wrapper {
+  margin-bottom: 10px;
+
+  iframe {
+    width: 560px;
+    height: 315px;
+  }
+
+  @include media-breakpoint-down(xs) {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
 /* end styling for article links */
-
-

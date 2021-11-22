@@ -272,19 +272,21 @@
 
                 </dl>
 
+                {% if settings.videos.enabled and event.videos|length > 0 %}
+                    {% if 'youtube' in event.videos[0].embedUrl %}
+                    <div class="cnw_searchresult-detail-video-wrapper">
+                        <iframe src="{{ event.videos[0].embedUrl }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="cnw_searchresult-detail-video-wrapper">
+                        <iframe class="cnw_searchresult-detail-video" src="https://player.vimeo.com/video/510225700?h=c2f94aa858" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
+
                 {% if settings.articles.enabled and articles %}
                   {% include 'widgets/search-results-widget/articles.html.twig' with { 'articles': articles } %}
                 {% endif %}
-
-                {% if settings.videos.enabled and event.videos|length > 0 %}
-                    {% if 'youtube' in event.videos[0].embedUrl %}
-                        <iframe class="cnw_searchresult-detail-video" width="560" height="315" src="{{ event.videos[0].embedUrl }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    {% endif %}
-                    {% if 'vimeo' in event.videos[0].embedUrl %}
-                        <iframe class="cnw_searchresult-detail-video" src="{{ event.videos[0].embedUrl }}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                    {% endif %}
-                {% endif %}
-
 
                 {% if settings.back_button.enabled %}
                     <div class="cnw_searchresult-detail-back-button">
