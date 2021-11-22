@@ -280,7 +280,7 @@
                     {% endif %}
                     {% if 'vimeo' in event.videos[0].embedUrl %}
                     <div class="cnw_searchresult-detail-video-wrapper">
-                        <iframe src="{{ event.videos[0].embedUrl }}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                        <iframe src="{{ event.videos[0].embedUrl }}" title="Vimeo video player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     {% endif %}
                 {% endif %}
