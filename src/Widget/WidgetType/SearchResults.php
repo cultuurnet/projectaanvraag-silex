@@ -101,9 +101,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  },
  *                  "position":"left"
  *              },
- *              "videos":{
- *                  "enabled":true
- *              },
  *              "labels":{
  *                  "enabled":false,
  *                  "limit_labels":{
