@@ -1,0 +1,34 @@
+activities: Aktivitäten
+event_age_range: Von %min_age% jaar bis %max_age% Jahre.
+event_age_range_no_min: Von 0 Jahren bis zu %max_age% Jahren.
+event_age_range_min: Von %min_age% Jahre.
+event_expired: Diese Veranstaltung ist beendet
+event_full_date: %date% um %hour% Stunden
+event_read_more: Mehr lesen
+event_directions: Wie komme ich hierher?
+event_detail_contact: Kontakt
+event_detail_info: Infos
+event_detail_member_specific: Speziell für Mitglieder
+event_detail_phone: Anruf
+event_detail_price: Preis
+event_detail_labels: Bezeichnungen
+event_detail_languages: Sprachen
+event_detail_language_icons: Sprachsymbole
+event_detail_links: Links
+event_detail_reservations: Reservierungen
+event_detail_share: Diese Seite weitergeben
+event_detail_show_all_dates: Alle Daten anzeigen
+event_detail_show_less_dates: Weniger Daten anzeigen
+event_price_free: frei
+facets_show: Verfeinerungen anzeigen
+facets_hide: Verfeinerungen ausblenden
+pager_first: Erste
+pager_previous: Zurück
+pager_next: Weiter
+pager_last: Zuletzt
+search_results_counter: Ergebnisse gefunden
+search_results_exclude_long_term: Langfristige Reihen ausblenden
+search_results_exclude_permanent: Permanente Ergebnisse ausblenden
+search_resutls_remove_all_filters: Alle Filter entfernen
+search_results_searched_label: 'Sie suchten nach:'
+warning_no_city_selected: Wählen Sie eine gültige Gemeinde oder Region
