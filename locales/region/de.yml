@@ -535,7 +535,7 @@ nis-nis-25112: Wavre + Untergemeinden
 nis-25112A: Wavre
 nis-25112B: Bierges (Wavre)
 nis-25112C: Limal (Wavre)
-nis-30000: Flandre-Occidentale
+nis-30000: Provinz Westflandern
 reg-brugge: Regio Brügge
 nis-31005: Brügge + lokale Behörden
 nis-31005A: Brügge (Brügge)
@@ -613,7 +613,7 @@ nis-37012A: Ruiselede (Ruiselede)
 nis-37020: Ardooie + Untergemeinden
 nis-37020A: Ardooie (Ardooie)
 nis-37020B: Koolskamp (Ardooie)
-reg-leiestreek-west-vlaanderen: Leiestreek Flandre-Occidentale (Regio)
+reg-leiestreek-west-vlaanderen: Leiestreek Provinz Westflandern (Regio)
 nis-36007: Ingelmunster + Untergemeinden
 nis-36007A: Ingelmunster (Ingelmunster)
 nis-36015: Roulers + Untergemeinden
@@ -849,7 +849,7 @@ nis-33037E: Zandvoorde (Zonnebeke)
 nis-33029: Wervicq + Untergemeinden
 nis-33029A: Wervicq (Wervicq)
 nis-33029B: Geluwe (Wervicq)
-nis-40000: Flandre-Orientale
+nis-40000: Provinz Ostflandern
 reg-gent: Regio Gand
 nis-44021: Gand + Untergemeinden
 nis-44021-Z: Gand (Gand)
@@ -866,7 +866,7 @@ nis-44021J-I: Sint-Denijs-Westrem (Gand)
 nis-44021K: Tronchiennes (Gand)
 nis-44021l: Mariakerke (Gand)
 nis-44021M: Wondelgem (Gand)
-reg-leiestreek-anderen: Leie Regio Flandre-Orientale (Regio)
+reg-leiestreek-anderen: Leie Regio (Regio)
 nis-44048: Nazareth + Untergemeinden
 nis-44048A: Nazareth (Nazareth)
 nis-44048B: Eke (Nazareth)
@@ -1117,7 +1117,7 @@ nis-44034C: Zeveneken (Lochristi)
 nis-44034D: Beervelde (Lochristi)
 nis-44045: Moerbeke + Untergemeinden
 nis-44045A: Moerbeke (Moerbeke)
-reg-scheldeland-oost-vlaanderen: Scheldeland Flandre-Orientale (Regio)
+reg-scheldeland-oost-vlaanderen: Scheldeland Provinz Ostlfandern (Regio)
 nis-41002: Alost + Untergemeinden
 nis-41002A: Alost (Alost)
 nis-41002B: Hofstade (Alost)
