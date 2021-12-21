@@ -318,12 +318,12 @@ final class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInte
                         }
                         break;
 
-                    case 'facility':
+                    case 'facilities':
                         $advancedQuery[] = 'terms.id:' . key($value);
 
                         $searchResultsActiveFilters[] = [
                           'label' => current($value),
-                          'name' => 'facets[' . $this->index . '][facility][' . key($value) . ']',
+                          'name' => 'facets[' . $this->index . '][facilities][' . key($value) . ']',
                           'is_default' => false,
                         ];
                         break;
@@ -384,8 +384,8 @@ final class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInte
         if ($this->settings['filters']['where'] && isset($facetParameters['where'])) {
             $activeOptions['where'] = $facetParameters['where'];
         }
-        if (isset($this->settings['filters']['facilities']) && isset($facetParameters['facility'])) {
-            $activeOptions['facility'] = $facetParameters['facility'];
+        if ($this->settings['filters']['facilities'] && isset($facetParameters['facilities'])) {
+            $activeOptions['facilities'] = $facetParameters['facilities'];
         }
 
         // For group filter, check per filter what options are active.
