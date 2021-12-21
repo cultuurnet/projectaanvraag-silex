@@ -495,10 +495,8 @@ class TwigPreprocessor
         switch (strtolower($publisher)) {
             case 'uit':
                 return 'UiTinVlaanderen';
-                break;
             case 'uitmetvlieg':
                 return 'Vlieg';
-                break;
             default:
                 return $publisher;
         }
