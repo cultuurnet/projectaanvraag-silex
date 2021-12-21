@@ -431,7 +431,7 @@ class TwigPreprocessor
                 $utmParams = '?utm_source=' . urlencode($referer) . '&utm_medium=referral&utm_campaign=editorial-tools';
                 $article['campaign_url'] = $article['url'] . $utmParams;
                 $article['text'] =  $this->createSummary($article['text'], $maxChars, $ellipsis);
-                $publisher = $article['publisher'];
+                $publisher = $this->formatPublisherLabel($article['publisher']);
                 $showPublisher = in_array($publisher, $settings['publishers']);
                 if (!$settings['limit_publishers'] || ($settings['limit_publishers'] && $showPublisher)) {
                    // only add articles of allowed publishers to array
@@ -465,6 +465,7 @@ class TwigPreprocessor
             $publisherInArray = in_array($publisher, $publishers);
             if (!$limitPublishers || $showPublisher) {
                 $publishers[] = $publisher;
+                $publishers[] = $this->formatPublisherLabel($publisher);
             }
         }
         $publishers = array_unique($publishers);
@@ -483,6 +484,25 @@ class TwigPreprocessor
         }
 
         return $label;
+    }
+
+    /**
+     * Format the publisher name for the UI
+     * @param string $publisher
+     * @return string
+     */    
+    public function formatPublisherLabel($publisher) 
+    {
+        switch(strtolower($publisher)) {
+            case 'uit':
+                return 'UiTinVlaanderen';
+                break;
+            case 'uitmetvlieg':
+                return 'Vlieg';
+                break;
+            default:
+                return $publisher;
+        }
     }
 
     /**
