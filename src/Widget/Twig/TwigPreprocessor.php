@@ -489,10 +489,10 @@ class TwigPreprocessor
      * Format the publisher name for the UI
      * @param string $publisher
      * @return string
-     */    
-    public function formatPublisherLabel($publisher) 
+     */
+    public function formatPublisherLabel($publisher)
     {
-        switch(strtolower($publisher)) {
+        switch (strtolower($publisher)) {
             case 'uit':
                 return 'UiTinVlaanderen';
                 break;
