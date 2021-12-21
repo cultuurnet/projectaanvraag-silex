@@ -464,7 +464,6 @@ class TwigPreprocessor
             $showPublisher = in_array($publisher, $settings['publishers']);
             $publisherInArray = in_array($publisher, $publishers);
             if (!$limitPublishers || $showPublisher) {
-                $publishers[] = $publisher;
                 $publishers[] = $this->formatPublisherLabel($publisher);
             }
         }
