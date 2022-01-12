@@ -288,7 +288,7 @@ final class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInte
 
                         $searchResultsActiveFilters[] = [
                             'label' => current($value),
-                            'name' => 'facets[' . $this->index . '][what][' . key($value) . ']',
+                            'name' => 'facets[' . $this->index . '][theme][' . key($value) . ']',
                             'is_default' => false,
                         ];
                         break;
