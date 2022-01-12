@@ -45,12 +45,16 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
                             CultuurnetWidgets.renderDetailPage(widgetId, widgetPageId).then(function(response) {
                                 $placeholder.html(response.data);
+                                var eventDetailLoaded = new Event('widget:eventDetailLoaded');
+                                window.dispatchEvent(eventDetailLoaded);
                                 CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
                             });
                         }
                         else {
                             CultuurnetWidgets.renderSearchResults(widgetId, widgetPageId).then(function(response) {
                                 $placeholder.html(response.data.search_results);
+                                var eventSearchResultsLoaded = new Event('widget:searchResultsLoaded');
+                                window.dispatchEvent(eventSearchResultsLoaded);
                                 CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
                                 for (var facet_id in response.data.facets) {
                                     var $facet_placeholder = jQuery(context).find('[data-widget-placeholder-id="' + facet_id + '"]');
