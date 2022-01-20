@@ -29,6 +29,8 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                         } else {
                           CultuurnetWidgets.renderWidget(jQuery(this).data('widget-placeholder-id'), widgetPageId).then(function(response) {
                               $placeholder.html(response.data);
+                              var eventDetailLoaded = new Event('widget:tipResultsLoaded');
+                              window.dispatchEvent(eventDetailLoaded);
                               CultuurnetWidgets.attachBehaviors($placeholder, widgetPageId);
                           });
                         }
