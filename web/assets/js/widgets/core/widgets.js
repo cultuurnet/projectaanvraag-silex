@@ -201,7 +201,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // Only render the widget if it's a known id.
         if (CultuurnetWidgetsSettings[widgetPageId].widgetMapping && CultuurnetWidgetsSettings[widgetPageId].widgetMapping.hasOwnProperty(widgetId)) {
-            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '?origin=' + origin);
+            return CultuurnetWidgets.apiRequest(CultuurnetWidgetsSettings[widgetPageId].apiUrl + '/render/' + CultuurnetWidgetsSettings[widgetPageId].widgetMapping[widgetId] + '/' + widgetId + '?origin=' + encodeURIComponent(origin));
         }
         else {
             deferred.reject('The given widget id was not found');
