@@ -5,7 +5,7 @@ var SNOWPLOW_JS_URL = 'https://unpkg.com/browse/@snowplow/javascript-tracker@3.1
 var WIDGET_PAGE_ID = Object.keys(CultuurnetWidgetsSettings)[0];
 var WIDGET_SETTINGS = CultuurnetWidgetsSettings[WIDGET_PAGE_ID];
 
-function initializeSnowPlow(p, l, o, w, i, n, g) {
+const initializeSnowPlow = (p, l, o, w, i, n, g) => {
   if (!p[i]) {
     p.GlobalSnowplowNamespace = p.GlobalSnowplowNamespace || [];
     p.GlobalSnowplowNamespace.push(i);
@@ -19,7 +19,19 @@ function initializeSnowPlow(p, l, o, w, i, n, g) {
     n.src = w;
     g.parentNode.insertBefore(n, g);
   }
-};
+}
+
+const trackClicks = () => {
+  const clickElements = document.querySelectorAll("[data-click-tracking-category]");
+
+  clickElements.forEach((clickElement) => {
+    clickElement.addEventListener('click', () => {
+      const category = clickElement.dataset.clickTrackingCategory;
+      const label = clickElement.dataset.clickTrackingLabel;
+      const action = clickElement.dataset.clickTrackingAction;
+    })
+  })
+}
 
 initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
@@ -29,21 +41,8 @@ window.snowplow('newTracker', 'sp1', SNOWPLOW_JS_URL, {
 
 window.snowplow('trackPageView');
 
-
-function trackClick() {
-  const clickElements = document.querySelectorAll("[data-click-tracking-category]");
-
-  clickElements.forEach(function(clickElement) {
-    clickElement.addEventListener('click', function() {
-      const category = clickElement.dataset.clickTrackingCategory;
-      const label = clickElement.dataset.clickTrackingLabel;
-      const action = clickElement.dataset.clickTrackingAction;
-    })
-  })
-}
-
-window.addEventListener('widget:searchResultsLoaded', (event) => {
-  trackClick();
+window.addEventListener('widget:searchResultsLoaded', () => {
+  trackClicks();
 })
 
 })(CultuurnetWidgets);
