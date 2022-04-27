@@ -29,6 +29,17 @@ const trackClicks = () => {
       const category = clickElement.dataset.clickTrackingCategory;
       const label = clickElement.dataset.clickTrackingLabel;
       const action = clickElement.dataset.clickTrackingAction;
+
+      window.snowplow('trackSelfDescribingEvent', {
+        event: {
+          // TODO get schema for click
+          schema: 'iglu:be.uitinvlaanderen/button_click/jsonschema/1-0-0', 
+          data: {
+            button_name: `${action}-${label}-${category}`
+          }
+        }
+      });
+      
     })
   })
 }
