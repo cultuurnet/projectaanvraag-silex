@@ -1,9 +1,9 @@
 (function (CultuurnetWidgets) {
 // TODO check when multiple widgets on same page? Only load snowplow once?
-var SNOWPLOW_JS_URL = 'https://unpkg.com/browse/@snowplow/javascript-tracker@3.1.6/dist/sp.js';
+const SNOWPLOW_JS_URL = 'https://unpkg.com/browse/@snowplow/javascript-tracker@3.1.6/dist/sp.js';
 
-var WIDGET_PAGE_ID = Object.keys(CultuurnetWidgetsSettings)[0];
-var WIDGET_SETTINGS = CultuurnetWidgetsSettings[WIDGET_PAGE_ID];
+const WIDGET_PAGE_ID = Object.keys(CultuurnetWidgetsSettings)[0];
+const WIDGET_SETTINGS = CultuurnetWidgetsSettings[WIDGET_PAGE_ID];
 
 const initializeSnowPlow = (p, l, o, w, i, n, g) => {
   if (!p[i]) {
@@ -20,6 +20,7 @@ const initializeSnowPlow = (p, l, o, w, i, n, g) => {
     g.parentNode.insertBefore(n, g);
   }
 }
+
 
 const trackClicks = () => {
   const clickElements = document.querySelectorAll("[data-click-tracking-category]");
@@ -46,11 +47,29 @@ const trackClicks = () => {
 
 initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
-window.snowplow('newTracker', 'sp1', SNOWPLOW_JS_URL, { 
-  appId: 'widgets ' + WIDGET_SETTINGS.consumerName
+window.snowplow('newTracker', 'widgets-tracker', SNOWPLOW_JS_URL, { 
+  appId: 'widgets',
+  platform: "web",
+	cookieDomain: null,
+	cookieName: 'sppubliq',
+	sessionCookieTimeout: 3600,
+	discoverRootDomain: true,
+	eventMethod: "post",
+  encodeBase64: true,
+	respectDoNotTrack: false,
+	userFingerprint: true,
+  postPath: '/publiq/t',
+	contexts: {
+		webPage: true,
+		performanceTiming: false,
+		gaCookies: true,
+		geolocation: false
+	}
 });
 
 window.snowplow('trackPageView');
+
+window.snowplow('enableLinkClickTracking');
 
 window.addEventListener('widget:searchResultsLoaded', () => {
   trackClicks();
