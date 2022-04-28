@@ -67,6 +67,13 @@ window.snowplow('newTracker', 'widgets-tracker', SNOWPLOW_JS_URL, {
 	}
 });
 
+window.snowplow("addGlobalContexts", {
+  schema: "iglu:be.uitinvlaanderen/widget_context/jsonschema/1-0-0",
+  data: {
+    widget_name: WIDGET_SETTINGS.consumerName,
+  },
+});
+
 window.snowplow('trackPageView');
 
 window.snowplow('enableLinkClickTracking');
