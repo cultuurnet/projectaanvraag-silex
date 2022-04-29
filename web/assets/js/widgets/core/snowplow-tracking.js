@@ -1,9 +1,34 @@
 (function (CultuurnetWidgets) {
+const STARTTIME = new Date();
 // TODO check when multiple widgets on same page? Only load snowplow once?
-const SNOWPLOW_JS_URL = 'https://unpkg.com/browse/@snowplow/javascript-tracker@3.1.6/dist/sp.js';
+const SNOWPLOW_JS_URL = 'https://www.uitinvlaanderen.be/js/sp.min.js';
 
 const WIDGET_PAGE_ID = Object.keys(CultuurnetWidgetsSettings)[0];
 const WIDGET_SETTINGS = CultuurnetWidgetsSettings[WIDGET_PAGE_ID];
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const cdbid = urlParams.get('cdbid');
+
+const getEnvironment = () => {
+  const apiUrl = WIDGET_SETTINGS.apiUrl;
+  if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.dev"))
+    return "dev";
+  if (apiUrl.startsWith("https://projectaanvraag-api-test.uitdatabank.be"))
+    return "test";
+  if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.be"))
+    return "prod";
+}
+
+
+const environment = getEnvironment()
+
+const getTimeSpentInSeconds = () => {
+  const endTime = new Date();
+  console.log('startTime', STARTTIME);
+  console.log('endTime', endTime);
+  return (endTime.getTime() - STARTTIME.getTime()) / 1000;
+}
 
 const initializeSnowPlow = (p, l, o, w, i, n, g) => {
   if (!p[i]) {
@@ -71,6 +96,9 @@ window.snowplow("addGlobalContexts", {
   schema: "iglu:be.uitinvlaanderen/widget_context/jsonschema/1-0-0",
   data: {
     widget_name: WIDGET_SETTINGS.consumerName,
+    widget_page_id: WIDGET_SETTINGS.widgetPageId,
+    environment,
+    ...(cdbid && { cdbid }),
   },
 });
 
@@ -81,5 +109,14 @@ window.snowplow('enableLinkClickTracking');
 window.addEventListener('widget:searchResultsLoaded', () => {
   trackClicks();
 })
+
+window.addEventListener('widget:eventDetailLoaded', () => {
+  trackClicks();
+})
+
+window.addEventListener('beforeunload', event => {
+  const timeSpent = getTimeSpentInSeconds();
+});
+
 
 })(CultuurnetWidgets);
