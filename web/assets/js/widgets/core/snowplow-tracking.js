@@ -1,22 +1,4 @@
 (function (CultuurnetWidgets) {
-
-
-const environment = getEnvironment()
-
-const getTimeSpentInSeconds = () => {
-  const endTime = new Date();
-  console.log('startTime', STARTTIME);
-  console.log('endTime', endTime);
-  return (endTime.getTime() - STARTTIME.getTime()) / 1000;
-}
-
-const initializeSnowPlow = (p, l, o, w, i, n, g) => {
-  if (!p[i]) {
-    p.GlobalSnowplowNamespace = p.GlobalSnowplowNamespace || [];
-    p.GlobalSnowplowNamespace.push(i);
-    p[i] = function () {
-      (p[i].q = p[i].q || []).push(arguments);
-    };
   const STARTTIME = new Date();
   // TODO check when multiple widgets on same page? Only load snowplow once?
   const SNOWPLOW_JS_URL =
