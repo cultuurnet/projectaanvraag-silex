@@ -180,7 +180,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
         // Add current querystring to the URL.
         var searchParams = new URLSearchParams(window.location.search);
-        searchParams.append(origin, window.location.href);
+        searchParams.append('origin', window.location.href);
 
         params.data = searchParams.toString();
 
