@@ -6,6 +6,10 @@ use CultuurNet\ProjectAanvraag\ConverterInterface;
 use CultuurNet\SearchV3\SearchQuery;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\Parameter\AddressCountry;
+use CultuurNet\SearchV3\Parameter\AudienceType;
+use CultuurNet\SearchV3\Parameter\AvailableTo;
+use CultuurNet\SearchV3\Parameter\AvailableFrom;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -38,6 +42,10 @@ class OfferCbidConverter implements ConverterInterface
         $query->addParameter(
             new Query($cdbid)
         );
+        $query->addParameter(new AudienceType('*'));
+        $query->addParameter(new AddressCountry('*'));
+        $query->addParameter(AvailableTo::wildcard());
+        $query->addParameter(AvailableFrom::wildcard());
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);
         $items = $result->getMember()->getItems();
