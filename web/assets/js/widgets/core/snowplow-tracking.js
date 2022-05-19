@@ -7,12 +7,39 @@
   const WIDGET_PAGE_ID = Object.keys(CultuurnetWidgetsSettings)[0];
   const WIDGET_SETTINGS = CultuurnetWidgetsSettings[WIDGET_PAGE_ID];
 
-  console.log({WIDGET_PAGE_ID});
-  console.log({WIDGET_SETTINGS});
-
   const queryString = window.location.search;
+  const decodedQueryString = decodeURI(queryString);
   const urlParams = new URLSearchParams(queryString);
   const cdbid = urlParams.get("cdbid");
+  const pageType = cdbid ? 'event_page' : 'search_page';
+
+  const usedSearchTerms= queryString.includes('search-form');
+  const usedSearchFacets = queryString.includes('facets');
+
+
+  // Used to get search terms from the url 
+  // E.g. ?search-form[bf058f96-7493-1aa4-be08-1ef14047d70b][when]=tomorrow
+  const getSearchTerm = (termType) => {
+    const searchTerm =  usedSearchTerms && decodedQueryString.includes( `[${termType}]=`) ? decodedQueryString.split( `[${termType}]=`)[1] : '';
+    return searchTerm.includes('&') ? searchTerm.split('&')[0] : searchTerm;
+  }
+
+  const getSearchFacet = (facetType) => {
+    const searchFacetQueryPart = usedSearchFacets && decodedQueryString.includes(`[${facetType}][`) ? decodedQueryString.split(`[${facetType}][`)[1] : '';
+    if (!searchFacetQueryPart) {
+      return '';
+    }
+    const searchFacet = searchFacetQueryPart.split(']=')[1];
+    return searchFacet.includes('&') ? searchFacet.split('&')[0] : searchFacet;
+  }
+
+  const searchTermWhat = getSearchTerm('what');
+  const searchTermWhere = getSearchTerm('where');
+  const searchTermWhen = getSearchTerm('when');
+  
+  const searchFacetWhat = getSearchFacet('what');
+  const searchFacetWhere = getSearchFacet('where');
+  const searchFacetWhen = getSearchFacet('when');
 
   const viewedEventTeasers = new Set();
 
@@ -49,7 +76,6 @@
     }
   };
 
-  // rename to trackButtonClicks
   const trackButtonClicks = () => {
     const clickElements = document.querySelectorAll(
       "[data-click-tracking-category]"
@@ -101,6 +127,7 @@
     data: {
       name: WIDGET_SETTINGS.consumerName,
       page_id: WIDGET_SETTINGS.widgetPageId,
+      page_type: pageType,
     },
   });
   
