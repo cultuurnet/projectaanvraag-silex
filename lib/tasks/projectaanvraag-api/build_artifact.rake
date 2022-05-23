@@ -16,7 +16,7 @@ namespace 'projectaanvraag-api' do
 
     system("fpm -s dir -t deb -n #{artifact_name} -v #{version} -a all -p pkg \
       --prefix /var/www/projectaanvraag-api \
-      -x ".git*" -x pkg -x config.dist.yml \
+      -x '.git*' -x pkg -x config.dist.yml \
       --config-files /var/www/projectaanvraag-api/config.yml \
       --config-files /var/www/projectaanvraag-api/user_roles.yml \
       --config-files /var/www/projectaanvraag-api/integration_types.yml \
