@@ -1,6 +1,5 @@
 (function (CultuurnetWidgets) {
   const STARTTIME = new Date();
-  // TODO check when multiple widgets on same page? Only load snowplow once?
   const SNOWPLOW_JS_URL =
     "https://cdn.jsdelivr.net/npm/@snowplow/javascript-tracker@3.1.6/dist/sp.min.js";
 
@@ -110,7 +109,7 @@
     sessionCookieTimeout: 3600,
     discoverRootDomain: true,
     eventMethod: "post",
-    encodeBase64: true, // TODO check if encoding can always be enabled. 
+    encodeBase64: true,
     respectDoNotTrack: false,
     userFingerprint: true,
     postPath: "/publiq/t",
@@ -126,8 +125,20 @@
     schema: "iglu:be.uitinvlaanderen/widget_context/jsonschema/1-0-0",
     data: {
       name: WIDGET_SETTINGS.consumerName,
+      title: WIDGET_SETTINGS.widgetPageTitle,
+      language: WIDGET_SETTINGS.language,
       page_id: WIDGET_SETTINGS.widgetPageId,
       page_type: pageType,
+      search_terms: {
+        what: searchTermWhat,
+        when: searchTermWhen,
+        where: searchTermWhere
+      },
+      search_facets: {
+        what: searchFacetWhat,
+        where: searchFacetWhere,
+        when: searchFacetWhen
+      }
     },
   });
   
@@ -162,11 +173,18 @@
         },
       },
     });
-    console.log("timeSpent", timeSpent);
-    console.log(viewedEventTeasers);
-    // TODO send viewedEventTeasers to snowplow
-    // Use same event as timeSpent or seperate event?
+
+    window.snowplow("trackSelfDescribingEvent", {
+      event: {
+        schema: "iglu:be.general/event_impressions/jsonschema/1-0-0",
+        data: {
+          event_impressions: viewedEventTeasers,
+        },
+      },
+    });
   });
+
+
 
 
   const observer = new window.IntersectionObserver(
