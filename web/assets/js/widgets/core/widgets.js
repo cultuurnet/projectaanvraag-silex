@@ -179,7 +179,22 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         params = params || {};
 
         // Add current querystring to the URL.
-        params.data = window.location.search.substring(1);
+        var searchParams = new URLSearchParams(window.location.search);
+        var cdbid = searchParams.get('cdbid');
+        var origin = window.location.origin;
+        var pathname = window.location.pathname;
+
+        if (pathname) {
+            origin = origin + pathname;
+        }
+
+        if (cdbid) {
+            origin = origin + '?cdbid=' + cdbid ;
+        }
+
+        searchParams.append('origin', origin);
+
+        params.data = searchParams.toString();
 
         if (typeof params.dataType == 'undefined') {
             params.dataType = 'jsonp';
