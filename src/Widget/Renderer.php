@@ -197,6 +197,7 @@ class Renderer implements RendererInterface
         );
 
         $this->attachJavascript('CultuurnetWidgets.loadSettings(' . json_encode($this->settings) . ')', 'inline');
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/snowplow-tracking.js');
 
         return '<div class="cultuurnet-widgets" data-widget-page-id="' . $widgetPage->getId() . '"></div>';
     }
