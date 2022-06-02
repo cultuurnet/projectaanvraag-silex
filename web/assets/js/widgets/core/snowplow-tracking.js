@@ -10,35 +10,40 @@
   const decodedQueryString = decodeURI(queryString);
   const urlParams = new URLSearchParams(queryString);
   const cdbid = urlParams.get("cdbid");
-  const pageType = cdbid ? 'event_page' : 'search_page';
+  const pageType = cdbid ? "event_page" : "search_page";
 
-  const usedSearchTerms= queryString.includes('search-form');
-  const usedSearchFacets = queryString.includes('facets');
+  const usedSearchTerms = queryString.includes("search-form");
+  const usedSearchFacets = queryString.includes("facets");
 
-
-  // Used to get search terms from the url 
+  // Used to get search terms from the url
   // E.g. ?search-form[bf058f96-7493-1aa4-be08-1ef14047d70b][when]=tomorrow
   const getSearchTerm = (termType) => {
-    const searchTerm =  usedSearchTerms && decodedQueryString.includes( `[${termType}]=`) ? decodedQueryString.split( `[${termType}]=`)[1] : '';
-    return searchTerm.includes('&') ? searchTerm.split('&')[0] : searchTerm;
-  }
+    const searchTerm =
+      usedSearchTerms && decodedQueryString.includes(`[${termType}]=`)
+        ? decodedQueryString.split(`[${termType}]=`)[1]
+        : "";
+    return searchTerm.includes("&") ? searchTerm.split("&")[0] : searchTerm;
+  };
 
   const getSearchFacet = (facetType) => {
-    const searchFacetQueryPart = usedSearchFacets && decodedQueryString.includes(`[${facetType}][`) ? decodedQueryString.split(`[${facetType}][`)[1] : '';
+    const searchFacetQueryPart =
+      usedSearchFacets && decodedQueryString.includes(`[${facetType}][`)
+        ? decodedQueryString.split(`[${facetType}][`)[1]
+        : "";
     if (!searchFacetQueryPart) {
-      return '';
+      return "";
     }
-    const searchFacet = searchFacetQueryPart.split(']=')[1];
-    return searchFacet.includes('&') ? searchFacet.split('&')[0] : searchFacet;
-  }
+    const searchFacet = searchFacetQueryPart.split("]=")[1];
+    return searchFacet.includes("&") ? searchFacet.split("&")[0] : searchFacet;
+  };
 
-  const searchTermWhat = getSearchTerm('what');
-  const searchTermWhere = getSearchTerm('where');
-  const searchTermWhen = getSearchTerm('when');
-  
-  const searchFacetWhat = getSearchFacet('what');
-  const searchFacetWhere = getSearchFacet('where');
-  const searchFacetWhen = getSearchFacet('when');
+  const searchTermWhat = getSearchTerm("what");
+  const searchTermWhere = getSearchTerm("where");
+  const searchTermWhen = getSearchTerm("when");
+
+  const searchFacetWhat = getSearchFacet("what");
+  const searchFacetWhere = getSearchFacet("where");
+  const searchFacetWhen = getSearchFacet("when");
 
   const viewedEventTeasers = new Set();
 
@@ -132,16 +137,16 @@
       search_terms: {
         what: searchTermWhat,
         when: searchTermWhen,
-        where: searchTermWhere
+        where: searchTermWhere,
       },
       search_facets: {
         what: searchFacetWhat,
         where: searchFacetWhere,
-        when: searchFacetWhen
-      }
+        when: searchFacetWhen,
+      },
     },
   });
-  
+
   window.snowplow("addGlobalContexts", {
     schema: "iglu:be.general/app_env/jsonschema/1-0-0",
     data: {
@@ -184,23 +189,20 @@
     });
   });
 
-
-
-
   const observer = new window.IntersectionObserver(
     ([entry]) => {
-      if (entry.isIntersecting) {
-        const readMoreButton = entry.target.getElementsByClassName(
-          "cnw_btn__card-readmore"
-        );
-        if (readMoreButton[0]) {
-          const uri = readMoreButton[0].href;
-          const url = new URL(uri);
-          const cdbid = url.searchParams.get("cdbid");
-          viewedEventTeasers.add(cdbid);
-        }
-        return;
-      }
+      if (!entry.isIntersecting) return;
+
+      const readMoreButton = entry.target.getElementsByClassName(
+        "cnw_btn__card-readmore"
+      );
+
+      if (!readMoreButton[0]) return;
+
+      const uri = readMoreButton[0].href;
+      const url = new URL(uri);
+      const cdbid = url.searchParams.get("cdbid");
+      viewedEventTeasers.add(cdbid);
     },
     {
       root: null,
@@ -212,6 +214,8 @@
     const eventTeaserBlocks = document.getElementsByClassName(
       "cnw_searchresult--block"
     );
-    Object.values(eventTeaserBlocks).forEach((eventTeaserBlock) => observer.observe(eventTeaserBlock));
+    Object.values(eventTeaserBlocks).forEach((eventTeaserBlock) =>
+      observer.observe(eventTeaserBlock)
+    );
   };
 })(CultuurnetWidgets);
