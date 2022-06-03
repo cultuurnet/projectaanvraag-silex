@@ -208,7 +208,7 @@
       const uri = readMoreButton[0].href;
       const url = new URL(uri);
       const cdbid = url.searchParams.get("cdbid");
-      viewedEventTeasers.add(cdbid);
+      viewedEventTeasers.add({event_id: cdbid});
     },
     {
       root: null,
