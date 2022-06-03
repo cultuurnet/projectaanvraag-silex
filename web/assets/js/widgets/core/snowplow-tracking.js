@@ -175,6 +175,7 @@
   window.addEventListener("beforeunload", (event) => {
     const timeSpent = getTimeSpentInSeconds();
     const activeSeconds = Math.round(timeSpent);
+    console.log({activeSeconds});
 
     window.snowplow("trackSelfDescribingEvent", {
       event: {
@@ -184,6 +185,8 @@
         },
       },
     });
+
+    console.log({viewedEventTeasers});
 
     window.snowplow("trackSelfDescribingEvent", {
       event: {
