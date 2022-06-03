@@ -187,7 +187,7 @@
 
     window.snowplow("trackSelfDescribingEvent", {
       event: {
-        schema: "iglu:be.widgets/event_impressions/jsonschema/1-0-0",
+        schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
         data: {
           event_impressions: viewedEventTeasers,
         },
