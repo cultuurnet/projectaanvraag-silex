@@ -174,12 +174,13 @@
 
   window.addEventListener("beforeunload", (event) => {
     const timeSpent = getTimeSpentInSeconds();
+    const activeSeconds = Math.round(timeSpent);
 
     window.snowplow("trackSelfDescribingEvent", {
       event: {
         schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
         data: {
-          active_seconds: timeSpent,
+          active_seconds: activeSeconds,
         },
       },
     });
