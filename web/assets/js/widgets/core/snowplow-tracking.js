@@ -126,8 +126,8 @@
     },
   });
 
-  window.snowplow("addGlobalContexts", {
-    schema: "iglu:be.uitinvlaanderen/widget_context/jsonschema/1-0-0",
+  const GLOBAL_WIDGET_CONTEXT = {
+    schema: "iglu:be.widgets/widget_context/jsonschema/1-0-0",
     data: {
       name: WIDGET_SETTINGS.consumerName,
       title: WIDGET_SETTINGS.widgetPageTitle,
@@ -145,14 +145,19 @@
         when: searchFacetWhen,
       },
     },
-  });
+  };
 
-  window.snowplow("addGlobalContexts", {
+  const GLOBAL_ENVIRONMENT_CONTEXT = {
     schema: "iglu:be.general/app_env/jsonschema/1-0-0",
     data: {
       environment,
     },
-  });
+  };
+
+  window.snowplow("addGlobalContexts", [
+    GLOBAL_WIDGET_CONTEXT,
+    GLOBAL_ENVIRONMENT_CONTEXT,
+  ]);
 
   window.snowplow("trackPageView");
 
@@ -181,7 +186,7 @@
 
     window.snowplow("trackSelfDescribingEvent", {
       event: {
-        schema: "iglu:be.general/event_impressions/jsonschema/1-0-0",
+        schema: "iglu:be.widgets/event_impressions/jsonschema/1-0-0",
         data: {
           event_impressions: viewedEventTeasers,
         },
