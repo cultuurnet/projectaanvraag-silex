@@ -189,7 +189,7 @@
       event: {
         schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
         data: {
-          event_impressions: viewedEventTeasers,
+          event_impressions: [...viewedEventTeasers],
         },
       },
     });
