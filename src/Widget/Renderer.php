@@ -136,6 +136,7 @@ class Renderer implements RendererInterface
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/settings-loader.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/placeholder-load.js');
         $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/tracking.js');
+        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/snowplow-tracking.js');
 
         $widgetMapping = [];
         $rows = $widgetPage->getRows();
@@ -197,7 +198,6 @@ class Renderer implements RendererInterface
         );
 
         $this->attachJavascript('CultuurnetWidgets.loadSettings(' . json_encode($this->settings) . ')', 'inline');
-        $this->attachJavascript(WWW_ROOT . '/assets/js/widgets/core/snowplow-tracking.js');
 
         return '<div class="cultuurnet-widgets" data-widget-page-id="' . $widgetPage->getId() . '"></div>';
     }
