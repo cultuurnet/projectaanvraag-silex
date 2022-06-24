@@ -147,6 +147,7 @@
           where: searchFacetWhere,
           when: searchFacetWhen,
         },
+        cdbid
       },
     };
 
