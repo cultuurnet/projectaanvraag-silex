@@ -83,6 +83,10 @@
       }
     };
 
+    const stringToPascalCase = (value) => {
+      return value.split(" ").join("-");
+    };
+
     const trackButtonClicks = () => {
       const clickElements = document.querySelectorAll(
         "[data-click-tracking-category]"
@@ -94,11 +98,16 @@
           const label = clickElement.dataset.clickTrackingLabel;
           const action = clickElement.dataset.clickTrackingAction;
 
+          const buttonName = [category, label, action]
+            .filter((item) => typeof item !== "undefined")
+            .map((item) => stringToPascalCase(item))
+            .join("-");
+
           window.snowplow("trackSelfDescribingEvent", {
             event: {
               schema: "iglu:be.general/button_click/jsonschema/1-0-0",
               data: {
-                button_name: `${action}-${label}-${category}`,
+                button_name: buttonName,
               },
             },
           });
@@ -226,7 +235,10 @@
       threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
 
     const trackViewedEventTeasers = () => {
       const eventTeasersBlocks = document.querySelectorAll(
