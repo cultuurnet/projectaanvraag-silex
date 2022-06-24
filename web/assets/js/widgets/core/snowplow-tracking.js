@@ -172,14 +172,18 @@
       trackViewedEventTeasers();
     });
 
+    window.addEventListener("widget:tipResultsLoaded", () => {
+      trackButtonClicks();
+      trackViewedEventTeasers();
+    });
+
     window.addEventListener("widget:eventDetailLoaded", () => {
       trackButtonClicks();
     });
 
-    window.addEventListener("beforeunload", (event) => {
+    window.addEventListener("beforeunload", () => {
       const timeSpent = getTimeSpentInSeconds();
       const activeSeconds = Math.round(timeSpent);
-      console.log({ activeSeconds });
 
       window.snowplow("trackSelfDescribingEvent", {
         event: {
@@ -200,33 +204,36 @@
       });
     });
 
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
-        const readMoreButton = entry.target.getElementsByClassName(
+        const readMoreButtons = entry.target.getElementsByClassName(
           "cnw_btn__card-readmore"
         );
 
-        if (!readMoreButton[0]) return;
+        if (!readMoreButtons[0]) return;
 
-        const uri = readMoreButton[0].href;
+        const uri = readMoreButtons[0].href;
         const url = new URL(uri);
         const cdbidOfEventTeaser = url.searchParams.get("cdbid");
         viewedEventTeasers.add({ event_id: cdbidOfEventTeaser });
-      },
-      {
-        root: null,
-        threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
-      }
-    );
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     const trackViewedEventTeasers = () => {
-      const eventTeaserBlocks = document.getElementsByClassName(
-        "cnw_searchresult--block"
+      const eventTeasersBlocks = document.querySelectorAll(
+        ".cnw_searchresult--block"
       );
-      Object.values(eventTeaserBlocks).forEach((eventTeaserBlock) =>
-        observer.observe(eventTeaserBlock)
+      Array.from(eventTeasersBlocks).forEach((target) =>
+        observer.observe(target)
       );
     };
   };
