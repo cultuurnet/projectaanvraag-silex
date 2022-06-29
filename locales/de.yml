@@ -6,6 +6,7 @@ event_expired: Diese Veranstaltung ist beendet
 event_full_date: %date% um %hour% Stunden
 event_read_more: Mehr lesen
 event_directions: Wie komme ich hierher?
+event_online: Online
 event_detail_contact: Kontakt
 event_detail_info: Infos
 event_detail_member_specific: Speziell für Mitglieder
