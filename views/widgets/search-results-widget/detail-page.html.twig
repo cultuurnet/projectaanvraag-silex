@@ -6,7 +6,7 @@
         <div class="cnw_col-4 {% if settings.image.position == 'right' %} cnw_flex-md-last{% endif %}">
             <img src="{{ event.image }}" alt="{{ event.name }}" class="cnw_img_responsive {{ settings.image.position }}">
             {% if event.copyright %}
-            <p class="cnw_copyright">{{ '&copy;' }} {{event.copyright}}</p>
+            <p class="cnw_copyright">{{ '&copy;' }}&nbsp;{{event.copyright}}</p>
             {% endif %}
         </div>
     {% endif %}
@@ -101,7 +101,7 @@
                         {% if event.where.address %}
                         <br/>
                         {{ event.where.address.street }}<br/>
-                        {{ event.where.address.postalcode }} {{ event.where.address.city }}
+                        {{ event.where.address.postalcode }}&nbsp;{{ event.where.address.city }}
                         {% if settings.map %}
                             <br/>
                             <a href="{{ event.directions_link }} " target="_blank">{{ 'event_directions'| transTo(preferredLanguage) }}</a>

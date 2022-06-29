@@ -99,11 +99,11 @@
                             <i class="cnw-fa cnw-fa-map-marker"></i>
                         </div>
                         <div class="list-item-content">
-                            {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
+                            {{ event.where.name }}{% if event.where.address %},&nbsp;{{ event.where.address.postalcode }}&nbsp;{{ event.where.address.city }}{% endif %}
                         </div>
                      {% else %}
                         <div class="list-item-content">
-                            {{ event.where.name }}{% if event.where.address %}, {{ event.where.address.postalcode }} {{ event.where.address.city }}{% endif %}
+                            {{ event.where.name }}{% if event.where.address %},&nbsp;{{ event.where.address.postalcode }}&nbsp;{{ event.where.address.city }}{% endif %}
                         </div>
                      {% endif %}
                      </div>
