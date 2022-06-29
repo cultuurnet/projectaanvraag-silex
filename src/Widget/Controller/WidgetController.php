@@ -332,8 +332,8 @@ class WidgetController
     public function getRegionAutocompleteResult(Request $request, $searchString, $language = 'nl')
     {
         $matches = $this->regionService->getAutocompletResults($searchString, $language);
-        // Sort $matches according levenshtein distance
-        $matches = $this->regionService->sortByLevenshtein($matches, $searchString);
+        // Sort the matches on nis which was added as key of the matches array.
+        \ksort($matches);
 
         // Return 10 matches
         $response = new JsonResponse(array_slice($matches, 0, 10));
