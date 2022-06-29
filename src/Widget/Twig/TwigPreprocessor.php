@@ -165,6 +165,8 @@ class TwigPreprocessor
             'name' => $this->translateStringWithFallback($event->getName(), $langcode, $event->getMainLanguage()),
             'description' => $this->translateStringWithFallback($event->getDescription(), $langcode, $event->getMainLanguage()),
             'where' => $event->getLocation() ? $this->preprocessPlace($event->getLocation(), $langcode) : null,
+            'attendanceMode' => $event->getAttendanceMode(),
+            'onlineUrl' => $event->getOnlineUrl(),
             'when_summary' => $this->formatEventDatesSummary($event, $langcode),
             'expired' => ($event->getEndDate() ? $event->getEndDate()->format('Y-m-d H:i:s') < date('Y-m-d H:i:s') : false),
             'organizer' => $this->translateOrganizerName($event, $langcode),
