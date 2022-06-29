@@ -96,7 +96,9 @@ class RegionService
     }
 
     /**
-     * Sort items according to Levenshtein distance
+     * Sort items according to Levenshtein distance, the higher the match the higher the value.
+     * But usort sorts by default from small to large, first item has a smaller value.
+     * So the high Levenshtein values need to get before the smaller onces and therefore they need to return -1
      *
      * @param  $matches
      * @param  $searchString
@@ -109,7 +111,7 @@ class RegionService
             function ($a, $b) use ($searchString) {
                     $levA = levenshtein($searchString, $a);
                     $levB = levenshtein($searchString, $b);
-                    return $levA === $levB ? 0 : ($levA > $levB ? 1 : -1);
+                    return $levA === $levB ? 0 : ($levA > $levB ? -1 : 1);
             }
         );
         return $matches;
