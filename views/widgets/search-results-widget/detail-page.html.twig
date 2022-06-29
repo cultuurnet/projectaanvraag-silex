@@ -97,15 +97,19 @@
                         <i class="cnw-fa cnw-fa-map-marker"></i>
                     </dt>
                     <dd>
-                        {{ event.where.name }}
-                        {% if event.where.address %}
-                        <br/>
-                        {{ event.where.address.street }}<br/>
-                        {{ event.where.address.postalcode }}&nbsp;{{ event.where.address.city }}
-                        {% if settings.map %}
-                            <br/>
-                            <a href="{{ event.directions_link }} " target="_blank">{{ 'event_directions'| transTo(preferredLanguage) }}</a>
-                        {% endif %}
+                        {% if event.attendanceMode is same as('online') %}
+                            {{ 'event_online' | transTo(preferredLanguage) }}
+                        {% else %}
+                            {{ event.where.name }}
+                            {% if event.where.address %}
+                                <br/>
+                                {{ event.where.address.street }}<br/>
+                                {{ event.where.address.postalcode }}&nbsp;{{ event.where.address.city }}
+                                {% if settings.map %}
+                                    <br/>
+                                    <a href="{{ event.directions_link }} " target="_blank">{{ 'event_directions'| transTo(preferredLanguage) }}</a>
+                                {% endif %}
+                            {% endif %}
                         {% endif %}
                     </dd>
                     {% endif %}
