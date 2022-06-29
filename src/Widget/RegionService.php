@@ -48,7 +48,7 @@ class RegionService
                     }
                 }
                 if (strpos(strtolower($translatedRegion), $searchString) !== false) {
-                    $matches[] = $translatedRegion;
+                    $matches[$region->key] = $translatedRegion;
                 }
             }
         }
