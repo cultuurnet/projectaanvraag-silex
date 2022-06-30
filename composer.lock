@@ -258,16 +258,16 @@
         },
         {
             "name": "cultuurnet/search-v3",
-            "version": "v1.3.3",
+            "version": "v1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "dc30d0343c9db9f470b27ebf4b110e968dd842fd"
+                "reference": "053f02c84d9a759b0c75ff9878a1e43fa9875056"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/dc30d0343c9db9f470b27ebf4b110e968dd842fd",
-                "reference": "dc30d0343c9db9f470b27ebf4b110e968dd842fd",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/053f02c84d9a759b0c75ff9878a1e43fa9875056",
+                "reference": "053f02c84d9a759b0c75ff9878a1e43fa9875056",
                 "shasum": ""
             },
             "require": {
@@ -299,11 +299,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "support": {
-                "issues": "https://github.com/cultuurnet/search-v3/issues",
-                "source": "https://github.com/cultuurnet/search-v3/tree/v1.3.3"
-            },
-            "time": "2021-11-17T12:41:53+00:00"
+            "time": "2022-06-29T07:51:50+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -4304,6 +4300,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
+            "abandoned": "symfony/error-handler",
             "time": "2017-07-28T15:22:55+00:00"
         },
         {
@@ -4908,6 +4905,7 @@
                 "symfony",
                 "words"
             ],
+            "abandoned": "EnglishInflector from the String component",
             "time": "2017-04-12T14:13:17+00:00"
         },
         {
