@@ -83,8 +83,8 @@
       }
     };
 
-    const stringToPascalCase = (value) => {
-      return value.split(" ").join("-");
+    const stringToKebabCase = (value) => {
+      return value.split(" ").join("-").toLowerCase();
     };
 
     const trackButtonClicks = () => {
@@ -100,7 +100,7 @@
 
           const buttonName = [category, label, action]
             .filter((item) => typeof item !== "undefined")
-            .map((item) => stringToPascalCase(item))
+            .map((item) => stringToKebabCase(item))
             .join("-");
 
           window.snowplow("trackSelfDescribingEvent", {
