@@ -193,22 +193,22 @@
       const timeSpent = getTimeSpentInSeconds();
       const activeSeconds = Math.round(timeSpent);
 
-      window.snowplow("trackSelfDescribingEvent", {
-        event: {
-          schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
-          data: {
-            active_seconds: activeSeconds,
-          },
-        },
-      });
+      const pageUnloadContext = {
+        schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
+        data: {
+          active_seconds: activeSeconds,
+        }
+      }
+
+      const eventImpressionsContext =  {
+        schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
+        data: {
+          event_impressions: [...viewedEventTeasers],
+        }
+      }
 
       window.snowplow("trackSelfDescribingEvent", {
-        event: {
-          schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
-          data: {
-            event_impressions: [...viewedEventTeasers],
-          },
-        },
+        contexts: [pageUnloadContext, eventImpressionsContext]
       });
     });
 
