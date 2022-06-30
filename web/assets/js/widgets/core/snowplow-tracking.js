@@ -117,8 +117,7 @@
 
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
-    // TODO check with Hanne to change sp.uitinvlaanderen to sp.projectaanvraag-api.be
-    window.snowplow("newTracker", "widgets-tracker", "sp.uitinvlaanderen.be", {
+    window.snowplow("newTracker", "widgets-tracker", "sneeuwploeg.uitdatabank.be", {
       appId: "widgets",
       platform: "web",
       cookieDomain: null,
