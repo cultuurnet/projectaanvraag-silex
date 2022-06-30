@@ -117,25 +117,30 @@
 
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
-    window.snowplow("newTracker", "widgets-tracker", "sneeuwploeg.uitdatabank.be", {
-      appId: "widgets",
-      platform: "web",
-      cookieDomain: null,
-      cookieName: "sppubliq",
-      sessionCookieTimeout: 3600,
-      discoverRootDomain: true,
-      eventMethod: "post",
-      encodeBase64: true,
-      respectDoNotTrack: false,
-      userFingerprint: true,
-      postPath: "/publiq/t",
-      contexts: {
-        webPage: true,
-        performanceTiming: false,
-        gaCookies: true,
-        geolocation: false,
-      },
-    });
+    window.snowplow(
+      "newTracker",
+      "widgets-tracker",
+      "sneeuwploeg.uitdatabank.be",
+      {
+        appId: "widgets",
+        platform: "web",
+        cookieDomain: null,
+        cookieName: "sppubliq",
+        sessionCookieTimeout: 3600,
+        discoverRootDomain: true,
+        eventMethod: "post",
+        encodeBase64: true,
+        respectDoNotTrack: false,
+        userFingerprint: true,
+        postPath: "/publiq/t",
+        contexts: {
+          webPage: true,
+          performanceTiming: false,
+          gaCookies: true,
+          geolocation: false,
+        },
+      }
+    );
 
     const GLOBAL_WIDGET_CONTEXT = {
       schema: "iglu:be.widgets/widget_context/jsonschema/1-0-0",
@@ -197,18 +202,18 @@
         schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
         data: {
           active_seconds: activeSeconds,
-        }
-      }
+        },
+      };
 
-      const eventImpressionsContext =  {
+      const eventImpressionsContext = {
         schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
         data: {
           event_impressions: [...viewedEventTeasers],
-        }
-      }
+        },
+      };
 
       window.snowplow("trackSelfDescribingEvent", {
-        contexts: [pageUnloadContext, eventImpressionsContext]
+        contexts: [pageUnloadContext, eventImpressionsContext],
       });
     });
 
