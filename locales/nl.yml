@@ -6,6 +6,8 @@ event_expired: Dit evenement is afgelopen
 event_full_date: %date% om %hour% uur
 event_read_more: Lees meer 
 event_directions: hoe geraak ik hier?
+event_online: Online
+event_online_participation: Online deelname
 event_detail_contact: Contact
 event_detail_info: Info
 event_detail_member_specific: Specifiek voor leden
