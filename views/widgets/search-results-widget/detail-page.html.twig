@@ -304,7 +304,7 @@
 
                 {% if settings.back_button.enabled %}
                     <div class="cnw_searchresult-detail-back-button">
-                        <a href="{{ event.back_link }}">&laquo; {{ settings.back_button.label }}</a>
+                        <a href="{{ event.back_link }}" data-click-tracking-category="detail" data-click-tracking-action="back to agenda">&laquo; {{ settings.back_button.label }}</a>
                     </div>
                 {% endif %}
 

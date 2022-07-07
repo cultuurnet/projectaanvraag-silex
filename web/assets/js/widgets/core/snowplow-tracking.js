@@ -83,6 +83,10 @@
       }
     };
 
+    const stringToKebabCase = (value) => {
+      return value.split(" ").join("-").toLowerCase();
+    };
+
     const trackButtonClicks = () => {
       const clickElements = document.querySelectorAll(
         "[data-click-tracking-category]"
@@ -94,11 +98,16 @@
           const label = clickElement.dataset.clickTrackingLabel;
           const action = clickElement.dataset.clickTrackingAction;
 
+          const buttonName = [category, label, action]
+            .filter((item) => typeof item !== "undefined")
+            .map((item) => stringToKebabCase(item))
+            .join("-");
+
           window.snowplow("trackSelfDescribingEvent", {
             event: {
               schema: "iglu:be.general/button_click/jsonschema/1-0-0",
               data: {
-                button_name: `${action}-${label}-${category}`,
+                button_name: buttonName,
               },
             },
           });
@@ -108,26 +117,30 @@
 
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
-    // TODO check with Hanne to change sp.uitinvlaanderen to sp.projectaanvraag-api.be
-    window.snowplow("newTracker", "widgets-tracker", "sp.uitinvlaanderen.be", {
-      appId: "widgets",
-      platform: "web",
-      cookieDomain: null,
-      cookieName: "sppubliq",
-      sessionCookieTimeout: 3600,
-      discoverRootDomain: true,
-      eventMethod: "post",
-      encodeBase64: true,
-      respectDoNotTrack: false,
-      userFingerprint: true,
-      postPath: "/publiq/t",
-      contexts: {
-        webPage: true,
-        performanceTiming: false,
-        gaCookies: true,
-        geolocation: false,
-      },
-    });
+    window.snowplow(
+      "newTracker",
+      "widgets-tracker",
+      "sneeuwploeg.uitdatabank.be",
+      {
+        appId: "widgets",
+        platform: "web",
+        cookieDomain: null,
+        cookieName: "sppubliq",
+        sessionCookieTimeout: 3600,
+        discoverRootDomain: true,
+        eventMethod: "post",
+        encodeBase64: true,
+        respectDoNotTrack: false,
+        userFingerprint: true,
+        postPath: "/publiq/t",
+        contexts: {
+          webPage: true,
+          performanceTiming: false,
+          gaCookies: true,
+          geolocation: false,
+        },
+      }
+    );
 
     const GLOBAL_WIDGET_CONTEXT = {
       schema: "iglu:be.widgets/widget_context/jsonschema/1-0-0",
@@ -147,6 +160,7 @@
           where: searchFacetWhere,
           when: searchFacetWhen,
         },
+        cdbid,
       },
     };
 
@@ -171,61 +185,71 @@
       trackViewedEventTeasers();
     });
 
+    window.addEventListener("widget:tipResultsLoaded", () => {
+      trackButtonClicks();
+      trackViewedEventTeasers();
+    });
+
     window.addEventListener("widget:eventDetailLoaded", () => {
       trackButtonClicks();
     });
 
-    window.addEventListener("beforeunload", (event) => {
+    window.addEventListener("beforeunload", () => {
       const timeSpent = getTimeSpentInSeconds();
       const activeSeconds = Math.round(timeSpent);
-      console.log({ activeSeconds });
+
+      const pageUnloadContext = {
+        schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
+        data: {
+          active_seconds: activeSeconds,
+        },
+      };
+
+      const eventImpressionsContext = {
+        schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
+        data: {
+          event_impressions: [...viewedEventTeasers],
+        },
+      };
 
       window.snowplow("trackSelfDescribingEvent", {
-        event: {
-          schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
-          data: {
-            active_seconds: activeSeconds,
-          },
-        },
-      });
-
-      window.snowplow("trackSelfDescribingEvent", {
-        event: {
-          schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
-          data: {
-            event_impressions: [...viewedEventTeasers],
-          },
-        },
+        contexts: [pageUnloadContext, eventImpressionsContext],
       });
     });
 
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
-        const readMoreButton = entry.target.getElementsByClassName(
+        const readMoreButtons = entry.target.getElementsByClassName(
           "cnw_btn__card-readmore"
         );
 
-        if (!readMoreButton[0]) return;
+        if (!readMoreButtons[0]) return;
 
-        const uri = readMoreButton[0].href;
+        const uri = readMoreButtons[0].href;
         const url = new URL(uri);
         const cdbidOfEventTeaser = url.searchParams.get("cdbid");
         viewedEventTeasers.add({ event_id: cdbidOfEventTeaser });
-      },
-      {
-        root: null,
-        threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
-      }
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
     );
 
     const trackViewedEventTeasers = () => {
-      const eventTeaserBlocks = document.getElementsByClassName(
-        "cnw_searchresult--block"
+      const eventTeasersBlocks = document.querySelectorAll(
+        ".cnw_searchresult--block"
       );
-      Object.values(eventTeaserBlocks).forEach((eventTeaserBlock) =>
-        observer.observe(eventTeaserBlock)
+      Array.from(eventTeasersBlocks).forEach((target) =>
+        observer.observe(target)
       );
     };
   };
