@@ -153,6 +153,34 @@
 
     window.snowplow("enableLinkClickTracking");
 
+    const trackButtonClicks = () => {
+      const clickElements = document.querySelectorAll(
+        "[data-click-tracking-category]"
+      );
+
+      clickElements.forEach((clickElement) => {
+        clickElement.addEventListener("click", () => {
+          const category = clickElement.dataset.clickTrackingCategory;
+          const label = clickElement.dataset.clickTrackingLabel;
+          const action = clickElement.dataset.clickTrackingAction;
+
+          const buttonName = [category, label, action]
+            .filter((item) => typeof item !== "undefined")
+            .map((item) => stringToKebabCase(item))
+            .join("-");
+
+          window.snowplow("trackSelfDescribingEvent", {
+            event: {
+              schema: "iglu:be.general/button_click/jsonschema/1-0-0",
+              data: {
+                button_name: buttonName,
+              },
+            },
+          });
+        });
+      });
+    };
+
     window.addEventListener("widget:searchResultsLoaded", () => {
       trackButtonClicks();
       trackViewedEventTeasers();
