@@ -87,40 +87,34 @@
       return value.split(" ").join("-").toLowerCase();
     };
 
-
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
-    window.snowplow(
-      "newTracker",
-      "widgets-tracker",
-      "sneeuwploeg.uitdatabank.be",
-      {
-        appId: "widgets",
-        platform: "web",
-        cookieDomain: null,
-        cookieName: "sppubliq",
-        sessionCookieTimeout: 3600,
-        discoverRootDomain: true,
-        eventMethod: "post",
-        encodeBase64: true,
-        respectDoNotTrack: false,
-        userFingerprint: true,
-        postPath: "/publiq/t",
-        contexts: {
-          webPage: true,
-          performanceTiming: false,
-          gaCookies: true,
-          geolocation: false,
-        },
-      }
-    );
+    window.snowplow("newTracker", "widgets-tracker", "sp.uitinvlaanderen.be", {
+      appId: "widgets",
+      platform: "web",
+      cookieDomain: null,
+      cookieName: "sppubliq",
+      sessionCookieTimeout: 3600,
+      discoverRootDomain: true,
+      eventMethod: "post",
+      encodeBase64: true,
+      respectDoNotTrack: false,
+      userFingerprint: true,
+      postPath: "/publiq/t",
+      contexts: {
+        webPage: true,
+        performanceTiming: false,
+        gaCookies: true,
+        geolocation: false,
+      },
+    });
 
     const GLOBAL_WIDGET_CONTEXT = {
       schema: "iglu:be.widgets/widget_context/jsonschema/1-0-0",
       data: {
         name: WIDGET_SETTINGS.consumerName,
         title: WIDGET_SETTINGS.widgetPageTitle,
-        language: WIDGET_SETTINGS.language,
+        language: WIDGET_SETTINGS.language ?? '',
         page_id: WIDGET_SETTINGS.widgetPageId,
         page_type: pageType,
         search_terms: {
@@ -133,9 +127,11 @@
           where: searchFacetWhere,
           when: searchFacetWhen,
         },
-        cdbid,
+        cdbid: cdbid ?? "",
       },
     };
+
+    console.log({ GLOBAL_WIDGET_CONTEXT });
 
     const GLOBAL_ENVIRONMENT_CONTEXT = {
       schema: "iglu:be.general/app_env/jsonschema/1-0-0",
@@ -199,22 +195,22 @@
       const timeSpent = getTimeSpentInSeconds();
       const activeSeconds = Math.round(timeSpent);
 
-      const pageUnloadContext = {
-        schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
-        data: {
-          active_seconds: activeSeconds,
+      window.snowplow("trackSelfDescribingEvent", {
+        event: {
+          schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
+          data: {
+            active_seconds: activeSeconds,
+          },
         },
-      };
-
-      const eventImpressionsContext = {
-        schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
-        data: {
-          event_impressions: [...viewedEventTeasers],
-        },
-      };
+      });
 
       window.snowplow("trackSelfDescribingEvent", {
-        context: [pageUnloadContext, eventImpressionsContext],
+        event: {
+          schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
+          data: {
+            event_impressions: [...viewedEventTeasers],
+          },
+        },
       });
     });
 
