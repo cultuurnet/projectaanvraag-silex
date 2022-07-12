@@ -11,9 +11,7 @@
     const decodedQueryString = decodeURI(queryString);
     const urlParams = new URLSearchParams(queryString);
     const cdbid = urlParams.get("cdbid");
-    console.log({ cdbid });
     const pageType = cdbid ? "event_page" : "search_page";
-    console.log({ pageType });
 
     const usedSearchTerms = queryString.includes("search-form");
     const usedSearchFacets = queryString.includes("facets");
@@ -117,7 +115,7 @@
     );
 
     const GLOBAL_WIDGET_CONTEXT = {
-      schema: "iglu:be.widgets/widget_context/jsonschema/1-0-1",
+      schema: "iglu:be.widgets/widget_context/jsonschema/1-0-2",
       data: {
         name: WIDGET_SETTINGS.consumerName,
         title: WIDGET_SETTINGS.widgetPageTitle,
@@ -149,6 +147,8 @@
       GLOBAL_WIDGET_CONTEXT,
       GLOBAL_ENVIRONMENT_CONTEXT,
     ]);
+
+    consolge.log({GLOBAL_WIDGET_CONTEXT});
 
     window.snowplow("trackPageView");
 
@@ -206,7 +206,6 @@
             .map((item) => stringToKebabCase(item))
             .join("-");
 
-          console.log({ buttonName });
           window.snowplow("trackSelfDescribingEvent", {
             event: {
               schema: "iglu:be.general/button_click/jsonschema/1-0-0",
