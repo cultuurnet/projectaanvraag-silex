@@ -11,6 +11,7 @@
     const decodedQueryString = decodeURI(queryString);
     const urlParams = new URLSearchParams(queryString);
     const cdbid = urlParams.get("cdbid");
+    console.log({ cdbid });
     const pageType = cdbid ? "event_page" : "search_page";
 
     const usedSearchTerms = queryString.includes("search-form");
@@ -110,7 +111,7 @@
     });
 
     const GLOBAL_WIDGET_CONTEXT = {
-      schema: "iglu:be.widgets/widget_context/jsonschema/1-0-0",
+      schema: "iglu:be.widgets/widget_context/jsonschema/1-0-1",
       data: {
         name: WIDGET_SETTINGS.consumerName,
         title: WIDGET_SETTINGS.widgetPageTitle,
@@ -127,7 +128,7 @@
           where: searchFacetWhere,
           when: searchFacetWhen,
         },
-        ...(cdbid && { cdbid }),
+        cdbid: cdbid ?? "",
       },
     };
 
@@ -247,7 +248,5 @@
         },
       });
     });
-
-
   };
 })(CultuurnetWidgets);
