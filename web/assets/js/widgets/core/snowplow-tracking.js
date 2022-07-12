@@ -148,8 +148,6 @@
       GLOBAL_ENVIRONMENT_CONTEXT,
     ]);
 
-    consolge.log({GLOBAL_WIDGET_CONTEXT});
-
     window.snowplow("trackPageView");
 
     window.snowplow("enableLinkClickTracking");
