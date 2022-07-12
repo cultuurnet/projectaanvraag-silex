@@ -114,7 +114,7 @@
       data: {
         name: WIDGET_SETTINGS.consumerName,
         title: WIDGET_SETTINGS.widgetPageTitle,
-        language: WIDGET_SETTINGS.language ?? '',
+        language: WIDGET_SETTINGS.language ?? "",
         page_id: WIDGET_SETTINGS.widgetPageId,
         page_type: pageType,
         search_terms: {
@@ -127,11 +127,9 @@
           where: searchFacetWhere,
           when: searchFacetWhen,
         },
-        cdbid: cdbid ?? "",
+        ...(cdbid && { cdbid }),
       },
     };
-
-    console.log({ GLOBAL_WIDGET_CONTEXT });
 
     const GLOBAL_ENVIRONMENT_CONTEXT = {
       schema: "iglu:be.general/app_env/jsonschema/1-0-0",
@@ -148,6 +146,42 @@
     window.snowplow("trackPageView");
 
     window.snowplow("enableLinkClickTracking");
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const readMoreButtons = entry.target.getElementsByClassName(
+          "cnw_btn__card-readmore"
+        );
+
+        if (!readMoreButtons[0]) return;
+
+        const uri = readMoreButtons[0].href;
+        const url = new URL(uri);
+        const cdbidOfEventTeaser = url.searchParams.get("cdbid");
+        viewedEventTeasers.add({ event_id: cdbidOfEventTeaser });
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
+
+    const trackViewedEventTeasers = () => {
+      const eventTeasersBlocks = document.querySelectorAll(
+        ".cnw_searchresult--block"
+      );
+      Array.from(eventTeasersBlocks).forEach((target) =>
+        observer.observe(target)
+      );
+    };
 
     const trackButtonClicks = () => {
       const clickElements = document.querySelectorAll(
@@ -214,40 +248,6 @@
       });
     });
 
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
 
-        const readMoreButtons = entry.target.getElementsByClassName(
-          "cnw_btn__card-readmore"
-        );
-
-        if (!readMoreButtons[0]) return;
-
-        const uri = readMoreButtons[0].href;
-        const url = new URL(uri);
-        const cdbidOfEventTeaser = url.searchParams.get("cdbid");
-        viewedEventTeasers.add({ event_id: cdbidOfEventTeaser });
-      });
-    };
-
-    const observerOptions = {
-      root: null,
-      threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
-    };
-
-    const observer = new IntersectionObserver(
-      observerCallback,
-      observerOptions
-    );
-
-    const trackViewedEventTeasers = () => {
-      const eventTeasersBlocks = document.querySelectorAll(
-        ".cnw_searchresult--block"
-      );
-      Array.from(eventTeasersBlocks).forEach((target) =>
-        observer.observe(target)
-      );
-    };
   };
 })(CultuurnetWidgets);
