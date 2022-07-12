@@ -13,6 +13,7 @@
     const cdbid = urlParams.get("cdbid");
     console.log({ cdbid });
     const pageType = cdbid ? "event_page" : "search_page";
+    console.log({ pageType });
 
     const usedSearchTerms = queryString.includes("search-form");
     const usedSearchFacets = queryString.includes("facets");
@@ -90,25 +91,30 @@
 
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
-    window.snowplow("newTracker", "widgets-tracker", "sp.uitinvlaanderen.be", {
-      appId: "widgets",
-      platform: "web",
-      cookieDomain: null,
-      cookieName: "sppubliq",
-      sessionCookieTimeout: 3600,
-      discoverRootDomain: true,
-      eventMethod: "post",
-      encodeBase64: true,
-      respectDoNotTrack: false,
-      userFingerprint: true,
-      postPath: "/publiq/t",
-      contexts: {
-        webPage: true,
-        performanceTiming: false,
-        gaCookies: true,
-        geolocation: false,
-      },
-    });
+    window.snowplow(
+      "newTracker",
+      "widgets-tracker",
+      "sneeuwploeg.uitdatabank.be",
+      {
+        appId: "widgets",
+        platform: "web",
+        cookieDomain: null,
+        cookieName: "sppubliq",
+        sessionCookieTimeout: 3600,
+        discoverRootDomain: true,
+        eventMethod: "post",
+        encodeBase64: true,
+        respectDoNotTrack: false,
+        userFingerprint: true,
+        postPath: "/publiq/t",
+        contexts: {
+          webPage: true,
+          performanceTiming: false,
+          gaCookies: true,
+          geolocation: false,
+        },
+      }
+    );
 
     const GLOBAL_WIDGET_CONTEXT = {
       schema: "iglu:be.widgets/widget_context/jsonschema/1-0-1",
@@ -200,11 +206,12 @@
             .map((item) => stringToKebabCase(item))
             .join("-");
 
+          console.log({ buttonName });
           window.snowplow("trackSelfDescribingEvent", {
             event: {
               schema: "iglu:be.general/button_click/jsonschema/1-0-0",
               data: {
-                button_name: buttonName,
+                button_name: buttonName ?? "",
               },
             },
           });
