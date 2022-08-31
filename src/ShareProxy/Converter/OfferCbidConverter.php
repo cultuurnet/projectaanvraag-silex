@@ -39,9 +39,7 @@ class OfferCbidConverter implements ConverterInterface
     {
         // Retrieve event corresponding to ID.
         $query = new SearchQuery(true);
-        $query->addParameter(
-            new Query($cdbid)
-        );
+        $query->addParameter(new Query('id:'.$cdbid ));
         $query->addParameter(new AudienceType('*'));
         $query->addParameter(new AddressCountry('*'));
         $query->addParameter(AvailableTo::wildcard());
