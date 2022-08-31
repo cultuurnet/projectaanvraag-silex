@@ -12,7 +12,7 @@ trait TextProcessingTrait
      * @param bool $ellipsis
      * @return bool|string
      */
-    public function createSummary($text, $size = 300, $ellipsis = false)
+    public function createSummary($text, $size = 300, $ellipsis = false, $withBreakPoints = false)
     {
 
         // If the size is zero, the entire body is the summary.
@@ -57,22 +57,24 @@ trait TextProcessingTrait
         // If the first paragraph is too long, split at the end of a sentence.
         $breakPoints[] = ['. ' => 1, '! ' => 1, '? ' => 1, '。' => 0, '؟ ' => 1];
 
-        // Iterate over the groups of break points until a break point is found.
-        foreach ($breakPoints as $points) {
-            // Look for each break point, starting at the end of the summary.
-            foreach ($points as $point => $offset) {
-                // The summary is already reversed, but the break point isn't.
-                $rpos = strpos($reversed, strrev($point));
-                if ($rpos !== false) {
-                    $minRpos = min($rpos + $offset, $minRpos);
+        if ($withBreakPoints) {
+            // Iterate over the groups of break points until a break point is found.
+            foreach ($breakPoints as $points) {
+                // Look for each break point, starting at the end of the summary.
+                foreach ($points as $point => $offset) {
+                    // The summary is already reversed, but the break point isn't.
+                    $rpos = strpos($reversed, strrev($point));
+                    if ($rpos !== false) {
+                        $minRpos = min($rpos + $offset, $minRpos);
+                    }
                 }
-            }
 
-            // If a break point was found in this group, slice and stop searching.
-            if ($minRpos !== $maxRpos) {
-                // Don't slice with length 0. Length must be <0 to slice from RHS.
-                $summary = ($minRpos === 0) ? $summary : substr($summary, 0, 0 - $minRpos);
-                break;
+                // If a break point was found in this group, slice and stop searching.
+                if ($minRpos !== $maxRpos) {
+                    // Don't slice with length 0. Length must be <0 to slice from RHS.
+                    $summary = ($minRpos === 0) ? $summary : substr($summary, 0, 0 - $minRpos);
+                    break;
+                }
             }
         }
 
