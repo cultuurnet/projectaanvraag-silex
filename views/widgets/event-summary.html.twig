@@ -96,7 +96,11 @@
                     {% if settings_items.where.label is not empty %}
                         <div class="list-item-aside">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.where.label }}</em>
-                            <i class="cnw-fa cnw-fa-map-marker"></i>
+                            {% if event.attendanceMode is same as('online') %}
+                                <i class="cnw-fa cnw-fa-video-camera"></i>
+                            {% else %}
+                                <i class="cnw-fa cnw-fa-map-marker"></i>
+                            {% endif %}
                         </div>
                         <div class="list-item-content">
                             {% if event.attendanceMode is same as('online') %}
