@@ -80,28 +80,25 @@
 }
 
 .cnw_sticker--vlieg {
-  background-image: url(../images/vlieg--sticker.png);
-  background-position: 50% 50%;
+  background-image: url(../images/vlieg--sticker-yellow.svg);
   background-repeat: no-repeat;
 
   display: block;
   height: 40px;
   width: 40px;
-  border-radius: 100%;
 
-  box-shadow: 2px 3px 3px #9591af;
   margin-bottom: 20px;
 
 
   .cnw_txt{
-    background-color: #41DD6C;
+    background-color: #44444C;
     color: white;
     border-radius: 150%;
 
     display: inline-block;
     position: relative;
     bottom: -30px;
-    right: -20px;
+    right: -30px;
     font-size: 0.7rem;
     font-weight: bold;
     width: 22px;
