@@ -94,11 +94,7 @@
                     {% if settings.where.enabled and event.where %}
                     <dt>
                         <em class="cnw_searchresult-detail-label">{{ settings.where.label }}</em>
-                        {% if event.attendanceMode is same as('online') %}
-                            <i class="cnw-fa cnw-fa-video-camera"></i>
-                        {% else %}
-                            <i class="cnw-fa cnw-fa-map-marker"></i>
-                        {% endif %}
+                        <i class="cnw-fa cnw-fa-map-marker"></i>
                     </dt>
                     <dd>
                         {% if event.attendanceMode is same as('online') %}
