@@ -15,7 +15,7 @@ pipeline {
         }
 
         stage('Setup and build') {
-            agent { label 'ubuntu' && '16.04' && 'php7.1' }
+            agent { label 'ubuntu && 16.04 && php7.1' }
             environment {
                 GIT_SHORT_COMMIT = build.shortCommitRef()
                 ARTIFACT_VERSION = "${env.PIPELINE_VERSION}" + '+sha.' + "${env.GIT_SHORT_COMMIT}"
@@ -110,7 +110,7 @@ pipeline {
         }
 
         stage('Tag release') {
-            agent { label 'ubuntu' && '16.04' }
+            agent { label 'ubuntu && 16.04' }
             steps {
                 copyArtifacts filter: 'pkg/*.deb', projectName: env.JOB_NAME, flatten: true, selector: specific(env.BUILD_NUMBER)
                 tagRelease commitHash: artifact.metadata(artifactFilter: '*.deb', field: 'git-ref')
