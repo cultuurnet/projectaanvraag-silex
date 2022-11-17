@@ -199,6 +199,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                                  "query" : "terms.id:3.34.0.0.0"
  *                              }
  *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Neurodiverse personen",
+ *                          "placeholder" : "Neurodiverse personen",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                   "label" : "Prikkelarm aanbod",
+ *                                   "query" : "terms.id:H28fcfRKFQAQs00K9NF9hh"
+ *                              },
+ *                              {
+ *                                   "label" : "Afspraken en voorspelbaarheid",
+ *                                   "query" : "terms.id:4Vz9eZf0cnQmtfqcGGnNMF"
+ *                              }
+ *                          }
  *                      }
  *                  }
  *              }
