@@ -1,5 +1,3 @@
-- id: '3.35.0.0.0'
-  label: '1 begeleider gratis'
 - id: '3.28.0.0.0'
   label: 'Alternatieve ingang'
 - id: '3.23.2.0.0'
@@ -40,7 +38,5 @@
   label: 'Ringleiding'
 - id: '3.33.0.0.0'
   label: 'Tolken Vlaamse Gebarentaal'
-- id: '3.17.2.0.0'
-  label: 'Voelstoelen'
 - id: '3.34.0.0.0'
   label: 'Vereenvoudigde informatie'

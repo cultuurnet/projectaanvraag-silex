@@ -83,10 +83,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                          "default_option" : "",
  *                          "options" : {
  *                              {
- *                                  "label" : "1 begeleider gratis",
- *                                  "query" : "terms.id:3.35.0.0.0"
- *                              },
- *                              {
  *                                  "label" : "Alternatieve ingang",
  *                                  "query" : "terms.id:3.28.0.0.0"
  *                              },
@@ -189,10 +185,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                              {
  *                                  "label" : "Tolken Vlaamse Gebarentaal",
  *                                  "query" : "terms.id:3.33.0.0.0"
- *                              },
- *                              {
- *                                  "label" : "Voelstoelen",
- *                                  "query" : "terms.id:3.17.2.0.0"
  *                              }
  *                          }
  *                      },
