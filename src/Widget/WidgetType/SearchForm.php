@@ -83,10 +83,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                          "default_option" : "",
  *                          "options" : {
  *                              {
- *                                  "label" : "1 begeleider gratis",
- *                                  "query" : "terms.id:3.35.0.0.0"
- *                              },
- *                              {
  *                                  "label" : "Alternatieve ingang",
  *                                  "query" : "terms.id:3.28.0.0.0"
  *                              },
@@ -189,10 +185,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                              {
  *                                  "label" : "Tolken Vlaamse Gebarentaal",
  *                                  "query" : "terms.id:3.33.0.0.0"
- *                              },
- *                              {
- *                                  "label" : "Voelstoelen",
- *                                  "query" : "terms.id:3.17.2.0.0"
  *                              }
  *                          }
  *                      },
@@ -205,6 +197,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                              {
  *                                  "label" : "Vereenvoudigde informatie",
  *                                  "query" : "terms.id:3.34.0.0.0"
+ *                              }
+ *                          }
+ *                      },
+ *                      {
+ *                          "label" : "Neurodiverse personen",
+ *                          "placeholder" : "Neurodiverse personen",
+ *                          "type" : "select_multiple",
+ *                          "default_option" : "",
+ *                          "options" : {
+ *                              {
+ *                                   "label" : "Prikkelarm aanbod",
+ *                                   "query" : "terms.id:H28fcfRKFQAQs00K9NF9hh"
+ *                              },
+ *                              {
+ *                                   "label" : "Afspraken en voorspelbaarheid",
+ *                                   "query" : "terms.id:4Vz9eZf0cnQmtfqcGGnNMF"
  *                              }
  *                          }
  *                      }
