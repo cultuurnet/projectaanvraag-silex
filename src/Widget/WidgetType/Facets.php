@@ -335,13 +335,16 @@ final class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInte
                             if (isset($extraFilters[$groupKey])) {
                                 $options = $extraFilters[$groupKey]['options'];
                                 foreach ($extraGroup as $key => $extra) {
-                                    $advancedQuery[] = '(' . $options[$key]['query'] . ')';
+                                    // Check if it's a valid filter.
+                                    if (isset($options[$key]['query'])) {
+                                        $advancedQuery[] = '(' . $options[$key]['query'] . ')';
 
-                                    $searchResultsActiveFilters[] = [
-                                        'label' => $options[$key]['label'],
-                                        'name' => 'facets[' . $this->index . '][custom][' . $groupKey . '][' . $key . ']',
-                                        'is_default' => false,
-                                    ];
+                                        $searchResultsActiveFilters[] = [
+                                            'label' => $options[$key]['label'],
+                                            'name' => 'facets[' . $this->index . '][custom][' . $groupKey . '][' . $key . ']',
+                                            'is_default' => false,
+                                        ];
+                                    }
                                 }
                             }
                         }
