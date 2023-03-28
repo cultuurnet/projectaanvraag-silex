@@ -103,6 +103,9 @@ use Pimple\Container;
  *              "reservation_information":{
  *                  "enabled":false
  *              }
+ *          },
+ *          "search_params" : {
+ *              "country": "BE",
  *          }
  *      },
  *      allowedSettings = {
