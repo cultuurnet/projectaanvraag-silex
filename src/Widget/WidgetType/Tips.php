@@ -289,6 +289,12 @@ final class Tips extends WidgetTypeBase
             $query->addParameter(AvailableFrom::wildcard());
         }
 
+        $addressCountry = !empty($this->settings['search_params']['country']) ? $this->settings['search_params']['country']: 'BE';
+
+        if ($addressCountry !== '') {
+            $query->addParameter(new AddressCountry($addressCountry));
+        }
+
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
