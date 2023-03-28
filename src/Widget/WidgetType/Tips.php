@@ -284,7 +284,6 @@ final class Tips extends WidgetTypeBase
             $query->addParameter(new Query('id:' . implode(' OR id:', $cdbids)));
             // Disable default filters, except workflowstatus
             $query->addParameter(new AudienceType('*'));
-            $query->addParameter(new AddressCountry('*'));
             $query->addParameter(AvailableTo::wildcard());
             $query->addParameter(AvailableFrom::wildcard());
         }
