@@ -190,7 +190,8 @@ use Pimple\Container;
  *          },
  *          "search_params" : {
  *              "query": "string",
- *              "private": "boolean"
+ *              "private": "boolean",
+ *              "country": "string",
  *          }
  *      }
  * )
