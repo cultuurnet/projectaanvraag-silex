@@ -5,7 +5,7 @@ event_age_range_min: De %min_age% ans.
 event_expired: Cet événement est terminé
 event_full_date: %date% à %hour%
 event_read_more: Lire plus
-event_directions: comment arriver ici?
+event_directions: comment arriver ici ?
 event_online: En ligne
 event_online_participation: Participation en ligne
 event_detail_contact: Contactez-nous
@@ -32,5 +32,5 @@ search_results_counter: résultats trouvés
 search_results_exclude_long_term: Masquer les séries de longue durée
 search_results_exclude_permanent: Masquer les vues permanentes
 search_resutls_remove_all_filters: Supprimer tous les filtres
-search_results_searched_label: 'Vous avez recherché: '
+search_results_searched_label: 'Vous avez recherché : '
 warning_no_city_selected: Choisissez une commune ou une région valide
