@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # setup config & key files
-DIR="../appconfig/files/udb3/docker/projectaanvraag/"
+DIR="../appconfig/files/projectaanvraag/docker/"
 if [ -d "$DIR" ]; then
   cp -R "$DIR"/* .
   # needed because it is hidden
