@@ -1,0 +1,69 @@
+version: "3.5"
+
+services:
+
+  php:
+    build: docker/php
+    container_name: projectaanvraag
+    volumes:
+      - .:/var/www/html:cached
+    working_dir: /var/www/html
+    ports:
+      - '8500:80'
+    networks:
+      projectaanvraag:
+        aliases:
+          - projectaanvraag.uitdatabank.dev
+
+  mysql:
+    image: 'mysql/mysql-server:8.0'
+    container_name: mysql.projectaanvraag
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - 'projectaanvraag-mysql:/var/lib/mysql'
+    ports:
+      - '3306:3306'
+    networks:
+      projectaanvraag:
+        aliases:
+          - mysql.projectaanvraag
+
+  redis:
+    image: 'redis:alpine'
+    container_name: redis.projectaanvraag
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'projectaanvraag-redis:/data'
+    networks:
+      - projectaanvraag
+    healthcheck:
+      test: [ 'CMD', 'redis-cli', 'ping' ]
+      retries: 3
+      timeout: 5s
+
+  mongodb:
+    image: 'mongo:3.4.24'
+    container_name: mongodb.projectaanvraag
+    ports:
+      - '${FORWARD_REDIS_PORT:-27017}:27017'
+    volumes:
+      - 'projectaanvraag-redis:/data/db'
+    networks:
+      - projectaanvraag
+
+networks:
+  projectaanvraag:
+    driver: bridge
+
+volumes:
+  projectaanvraag-redis:
+    driver: local
+  projectaanvraag-mysql:
+    driver: local
+  projectaanvraag-mongodb:
+    driver: local
