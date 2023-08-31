@@ -4,6 +4,7 @@ services:
 
   php:
     build: docker/php
+    hostname: 'projectaanvraag.local'
     container_name: projectaanvraag
     volumes:
       - .:/var/www/html:cached
@@ -13,11 +14,11 @@ services:
     networks:
       projectaanvraag:
         aliases:
-          - projectaanvraag.uitdatabank.dev
+          - projectaanvraag
 
   mysql:
     image: 'mysql/mysql-server:8.0'
-    container_name: mysql.projectaanvraag
+    container_name: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -30,7 +31,7 @@ services:
     networks:
       projectaanvraag:
         aliases:
-          - mysql.projectaanvraag
+          - mysql
 
   redis:
     image: 'redis:alpine'
@@ -53,6 +54,16 @@ services:
       - '${FORWARD_REDIS_PORT:-27017}:27017'
     volumes:
       - 'projectaanvraag-redis:/data/db'
+    networks:
+      - projectaanvraag
+
+  rabbitmq:
+    image: public.ecr.aws/y2o7k5u2/udb3/rabbitmq:latest
+    hostname: 'rabbitdocker'
+    container_name: rabbitmq.projectaanvraag
+    ports:
+      - 5672:5672
+      - 15672:15672
     networks:
       - projectaanvraag
 
