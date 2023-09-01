@@ -21,6 +21,10 @@ Start the docker containers with the following command. Make sure to execute thi
 $ make up
 ```
 
+### RabbitMQ
+
+Create an exchange called `main_exchange` on host `udb3-vagrant` by accessing the RabbitMQ management interface on http://host.docker.internal:15672/ 
+
 ### Migrations & Composer packages
 
 To install all composer packages & migrate the database, run the following command:
