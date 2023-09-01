@@ -22,7 +22,7 @@ test:
 	docker exec -it php.projectaanvraag composer test
 
 migrate:
-	docker exec -it php.projectaanvraag ./vendor/bin/doctrine-dbal migrations:migrate --no-interaction
+	docker exec -it php.projectaanvraag ./bin/console orm:schema-tool:create
 
 bash:
 	docker exec -it php.projectaanvraag bash
