@@ -7,25 +7,25 @@ down:
 	docker-compose down
 
 install:
-	docker exec -it projectaanvraag composer install
+	docker exec -it php.projectaanvraag composer install
 
 ci:
-	docker exec -it projectaanvraag composer ci
+	docker exec -it php.projectaanvraag composer ci
 
 stan:
-	docker exec -it projectaanvraag composer phpstan
+	docker exec -it php.projectaanvraag composer phpstan
 
 cs:
-	docker exec -it projectaanvraag composer cs
+	docker exec -it php.projectaanvraag composer cs
 
 test:
-	docker exec -it projectaanvraag composer test
+	docker exec -it php.projectaanvraag composer test
 
 migrate:
-	docker exec -it php.uitdatabank ./vendor/bin/doctrine-dbal migrations:migrate --no-interaction
+	docker exec -it php.projectaanvraag ./vendor/bin/doctrine-dbal migrations:migrate --no-interaction
 
 bash:
-	docker exec -it projectaanvraag bash
+	docker exec -it php.projectaanvraag bash
 
 config:
 	sh ./docker/config.sh
