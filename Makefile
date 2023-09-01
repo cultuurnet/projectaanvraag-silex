@@ -1,4 +1,4 @@
-.PHONY: up down install ci stan cs cs-fix test migrate config init feature
+.PHONY: up down install ci stan cs cs-fix test migrate config init feature cache-clear
 
 up:
 	docker-compose up -d
@@ -29,5 +29,8 @@ bash:
 
 config:
 	sh ./docker/config.sh
+
+cache-clear:
+	docker exec -it php.projectaanvraag ./bin/console projectaanvraag:cache-clear
 
 init: install migrate
