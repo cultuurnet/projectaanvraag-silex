@@ -12,7 +12,7 @@ RUN docker-php-ext-configure pcntl --enable-pcntl && docker-php-ext-install pcnt
 
 RUN docker-php-ext-configure gd && docker-php-ext-install gd
 
-RUN pecl install -o -f redis &&  rm -rf /tmp/pear &&  docker-php-ext-enable redis
+RUN pecl install -o -f redis &&  rm -rf /tmp/pear && docker-php-ext-enable redis
 
 RUN pecl install -o -f mongodb &&  docker-php-ext-enable mongodb
 
@@ -25,4 +25,8 @@ RUN a2enmod rewrite
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/web
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
