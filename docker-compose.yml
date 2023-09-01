@@ -53,7 +53,7 @@ services:
     ports:
       - '${FORWARD_REDIS_PORT:-27017}:27017'
     volumes:
-      - 'projectaanvraag-redis:/data/db'
+      - 'projectaanvraag-mongodb:/data/db'
     networks:
       - projectaanvraag
 
