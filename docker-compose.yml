@@ -48,7 +48,7 @@ services:
       timeout: 5s
 
   mongodb:
-    image: 'mongo:3.4.24'
+    image: 'mongo:3.6'
     container_name: mongodb.projectaanvraag
     ports:
       - '${FORWARD_REDIS_PORT:-27017}:27017'
