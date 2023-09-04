@@ -28,16 +28,23 @@ class ConsumeCommand extends Command
     protected $connectionId;
 
     /**
+     * @var boolean
+     */
+    protected $useDelay;
+
+    /**
      * ConsumeCommand constructor.
      * @param null|string $name
      * @param $connectionId
      * @param $consumerId
+     * @param bool $useDelay
      */
-    public function __construct($name, $connectionId, $consumerId)
+    public function __construct($name, $connectionId, $consumerId, $useDelay = true)
     {
         parent::__construct($name);
         $this->connectionId = $connectionId;
         $this->consumerId = $consumerId;
+        $this->useDelay = $useDelay;
     }
 
     /**
@@ -73,7 +80,11 @@ class ConsumeCommand extends Command
         $channel = $connection->channel();
 
         // Declare the exchange
-        $channel->exchange_declare('main_exchange', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
+        if ($this->useDelay) {
+            $channel->exchange_declare('main_exchange', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
+        } else {
+            $channel->exchange_declare('main_exchange', 'topic', false, true, false);
+        }
 
         // Declare the main queue
         $channel->queue_declare('projectaanvraag', false, true, false, false, false, new AMQPTable(['routing_keys' => ['asynchronous_commands']]));
