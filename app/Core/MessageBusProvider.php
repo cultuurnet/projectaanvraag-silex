@@ -115,17 +115,42 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
 
         $pimple['publisher'] = function (Container $pimple) {
             $producer = new Producer($pimple['rabbit.connection']);
+            $useDelay = !empty($pimple['config']['rabbitmq']['use_delay']) || $pimple['config']['rabbitmq']['use_delay'];
+            if ($useDelay) {
+                $producer->setExchangeOptions(
+                    [
+                        'declare' => true,
+                        'name' => 'main_exchange',
+                        'type' => 'x-delayed-message',
+                        'durable' => true,
+                        'arguments' => new AMQPTable(
+                            [
+                                'x-delayed-type' => 'direct',
+                            ]
+                        ),
+                    ]
+                );
+            } else {
+                $producer->setExchangeOptions(
+                    [
+                        'declare' => true,
+                        'name' => 'main_exchange',
+                        'type' => 'topic',
+                        'durable' => true,
+                    ]
+                );
+            }
             $producer->setExchangeOptions(
                 [
                     'declare' => true,
                     'name' => 'main_exchange',
-                    'type' => 'x-delayed-message',
+                    'type' => 'topic',
                     'durable' => true,
-                    'arguments' => new AMQPTable(
+                    /*'arguments' => new AMQPTable(
                         [
                             'x-delayed-type' => 'direct',
                         ]
-                    ),
+                    ),*/
                 ]
             );
 
