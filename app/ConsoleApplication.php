@@ -71,7 +71,9 @@ class ConsoleApplication extends ApplicationBase
         $consoleApp = $this['console'];
 
         $consoleApp->add(new CacheClearCommand());
-        $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer'));
+
+        $useDelay = !empty($this['config']['rabbitmq']['use_delay']) || $this['config']['rabbitmq']['use_delay'];
+        $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer', $useDelay));
 
         // Sync culturefeed consumers with local DB
         $consoleApp->add(new SyncConsumersCommand());
