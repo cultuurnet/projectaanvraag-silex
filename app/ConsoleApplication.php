@@ -72,8 +72,8 @@ class ConsoleApplication extends ApplicationBase
 
         $consoleApp->add(new CacheClearCommand());
 
-        $useDelay = !empty($this['config']['rabbitmq']['use_delay']) || $this['config']['rabbitmq']['use_delay'];
-        $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer', $useDelay));
+        $disableDelay = !empty($this['config']['rabbitmq']['disable_delay']) || $this['config']['rabbitmq']['disable_delay'];
+        $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer', $disableDelay));
 
         // Sync culturefeed consumers with local DB
         $consoleApp->add(new SyncConsumersCommand());
