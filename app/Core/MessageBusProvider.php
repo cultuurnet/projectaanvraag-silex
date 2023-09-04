@@ -115,8 +115,8 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
 
         $pimple['publisher'] = function (Container $pimple) {
             $producer = new Producer($pimple['rabbit.connection']);
-            $useDelay = !empty($pimple['config']['rabbitmq']['use_delay']) || $pimple['config']['rabbitmq']['use_delay'];
-            if ($useDelay) {
+            $disableDelay = !empty($pimple['config']['rabbitmq']['disable_delay']) || $pimple['config']['rabbitmq']['disable_delay'];
+            if (!$disableDelay) {
                 $producer->setExchangeOptions(
                     [
                         'declare' => true,
