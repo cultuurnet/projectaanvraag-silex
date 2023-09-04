@@ -60,6 +60,8 @@ services:
   rabbitmq:
     image: public.ecr.aws/y2o7k5u2/udb3/rabbitmq:latest
     hostname: 'rabbitdocker'
+    volumes:
+      - 'projectaanvraag-rabbitmq:/var/lib/rabbitmq/mnesia'
     container_name: rabbitmq.projectaanvraag
     ports:
       - 5672:5672
@@ -77,4 +79,6 @@ volumes:
   projectaanvraag-mysql:
     driver: local
   projectaanvraag-mongodb:
+    driver: local
+  projectaanvraag-rabbitmq:
     driver: local
