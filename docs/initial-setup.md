@@ -4,8 +4,10 @@
 
 All source code is available on the [GitHub project page](https://github.com/cultuurnet/uitpas-beheer-silex).
 
+## Setup with Docker (in progress - preferred)
+See our separate [docker](../docker.md) guide.
 
-## Setup with Vagrant (in progress)
+## Setup with Vagrant (in progress - deprecated)
 
 CultuurNet Vlaanderen vzw offers a ready-to-go setup with 
 [Vagrant](https://www.vagrantup.com/) which resembles the test and production

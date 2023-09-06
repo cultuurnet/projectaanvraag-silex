@@ -10,7 +10,7 @@ services:
       - .:/var/www/html:cached
     working_dir: /var/www/html
     ports:
-      - '8000:80'
+      - '${FORWARD_PHP_PORT:-8000}:80'
     networks:
       projectaanvraag:
         aliases:
@@ -27,7 +27,7 @@ services:
     volumes:
       - 'projectaanvraag-mysql:/var/lib/mysql'
     ports:
-      - '3306:3306'
+      - '${FORWARD_DB_PORT:-3306}:3306'
     networks:
       projectaanvraag:
         aliases:
@@ -51,7 +51,7 @@ services:
     image: 'mongo:3.6'
     container_name: mongodb.projectaanvraag
     ports:
-      - '${FORWARD_REDIS_PORT:-27017}:27017'
+      - '${FORWARD_MONGODB_PORT:-27017}:27017'
     volumes:
       - 'projectaanvraag-mongodb:/data/db'
     networks:
@@ -64,8 +64,8 @@ services:
       - 'projectaanvraag-rabbitmq:/var/lib/rabbitmq/mnesia'
     container_name: rabbitmq.projectaanvraag
     ports:
-      - 5672:5672
-      - 15672:15672
+      - '${FORWARD_RABBITMQ_PORT:-5672}:5672'
+      - '${FORWARD_RABBITMQ_MANAGEMENT_PORT:-15672}:15672'
     networks:
       - projectaanvraag
 
