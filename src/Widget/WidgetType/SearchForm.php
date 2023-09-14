@@ -576,7 +576,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         if (!empty($advancedQuery)) {
             $searchResultsQueryAlter->setActiveFilters($searchResultsActiveFilters);
             $searchResultsQueryAlter->getSearchQuery()->addParameter(
-                new Query(implode($advancedQuery, ' AND '))
+                new Query(implode(' AND ', $advancedQuery))
             );
         }
     }
