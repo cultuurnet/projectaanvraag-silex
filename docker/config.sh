@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # setup config & key files
-DIR="../appconfig/files/projectaanvraag/docker/"
+DIR="../appconfig/files/projectaanvraag/docker/silex/"
 if [ -d "$DIR" ]; then
   cp -R "$DIR"/* .
   # needed because it is hidden
