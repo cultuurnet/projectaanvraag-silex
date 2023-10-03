@@ -247,9 +247,9 @@
         event: {
           schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
           data: {
-            event_impressions: [...viewedEventTeasers].map((id) => {
-              event_id: id;
-            }),
+            event_impressions: [...viewedEventTeasers].map((id) => ({
+              event_id: id,
+            })),
           },
         },
       });
