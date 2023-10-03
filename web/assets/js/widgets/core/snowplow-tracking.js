@@ -165,7 +165,7 @@
         const uri = readMoreButtons[0].href;
         const url = new URL(uri);
         const cdbidOfEventTeaser = url.searchParams.get("cdbid");
-        viewedEventTeasers.add({ event_id: cdbidOfEventTeaser });
+        viewedEventTeasers.add(cdbidOfEventTeaser);
       });
     };
 
@@ -247,7 +247,9 @@
         event: {
           schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
           data: {
-            event_impressions: [...viewedEventTeasers],
+            event_impressions: [...viewedEventTeasers].map((id) => {
+              event_id: id;
+            }),
           },
         },
       });
