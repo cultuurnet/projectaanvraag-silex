@@ -140,19 +140,6 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                     ]
                 );
             }
-            $producer->setExchangeOptions(
-                [
-                    'declare' => true,
-                    'name' => 'main_exchange',
-                    'type' => 'topic',
-                    'durable' => true,
-                    /*'arguments' => new AMQPTable(
-                        [
-                            'x-delayed-type' => 'direct',
-                        ]
-                    ),*/
-                ]
-            );
 
             $producer->setQueueOptions(
                 [
