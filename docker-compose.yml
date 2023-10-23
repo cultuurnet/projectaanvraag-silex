@@ -10,7 +10,7 @@ services:
       - .:/var/www/html:cached
     working_dir: /var/www/html
     ports:
-      - '8000:80'
+      - '80:80'
     networks:
       projectaanvraag:
         aliases:
