@@ -119,13 +119,8 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                 [
                     'declare' => true,
                     'name' => 'main_exchange',
-                    'type' => 'x-delayed-message',
+                    'type' => 'topic',
                     'durable' => true,
-                    'arguments' => new AMQPTable(
-                        [
-                            'x-delayed-type' => 'direct',
-                        ]
-                    ),
                 ]
             );
 
