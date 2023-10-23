@@ -73,7 +73,7 @@ class ConsumeCommand extends Command
         $channel = $connection->channel();
 
         // Declare the exchange
-        $channel->exchange_declare('main_exchange', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
+        $channel->exchange_declare('main_exchange', 'x-delayed-message', false, true, false, false, false);
 
         // Declare the main queue
         $channel->queue_declare('projectaanvraag', false, true, false, false, false, new AMQPTable(['routing_keys' => ['asynchronous_commands']]));
