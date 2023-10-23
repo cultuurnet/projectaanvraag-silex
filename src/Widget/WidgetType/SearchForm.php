@@ -319,11 +319,11 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         $this->regionService = $regionService;
 
         if (!empty($this->settings['header']['body']) && $this->request) {
-            $this->settings['header']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl(), $this->settings['header']['body']);
+            $this->settings['header']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . ':' . $this->request->getPort() . $this->request->getBaseUrl(), $this->settings['header']['body']);
         }
 
         if (!empty($this->settings['footer']['body']) && $this->request) {
-            $this->settings['footer']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl(), $this->settings['footer']['body']);
+            $this->settings['footer']['body'] = str_replace('{{ base_url }}', $this->request->getScheme() . '://' . $this->request->getHost() . ':' . $this->request->getPort() . $this->request->getBaseUrl(), $this->settings['footer']['body']);
         }
     }
 
@@ -351,7 +351,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                 'settings_footer' => $this->settings['footer'],
                 'settings_fields' => $this->settings['fields'],
                 'defaults' => $this->getDefaults(),
-                'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
+                'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . ':' . $this->request->getPort() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
                 'preferredLanguage' => ($preferredLanguage) ?: 'nl',
             ]
         );

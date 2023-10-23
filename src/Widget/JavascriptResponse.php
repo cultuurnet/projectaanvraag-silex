@@ -110,7 +110,7 @@ class JavascriptResponse extends Response
         $cssPath = 'widgets/layout/' . $this->widgetPage->getId() . '.css';
         $cssMinify->minify(WWW_ROOT . '/' . $cssPath);
 
-        $cssUrl = $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/' . $cssPath;
+        $cssUrl = $this->request->getScheme() . '://' . $this->request->getHost() . ':' . $this->request->getPort() . $this->request->getBaseUrl() . '/' . $cssPath;
 
         $cssFont = "https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800";
 
