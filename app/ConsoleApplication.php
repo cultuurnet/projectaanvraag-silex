@@ -74,7 +74,7 @@ class ConsoleApplication extends ApplicationBase
 
         $disableDelay = $this['config']['rabbitmq']['disable_delay'] ?? false;
         $exchange = $this['config']['rabbitmq']['exchange'];
-        $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection','rabbit.consumer', $exchange, $disableDelay));
+        $consoleApp->add(new ConsumeCommand('projectaanvraag:consumer', 'rabbit.connection', 'rabbit.consumer', $exchange, $disableDelay));
 
         // Sync culturefeed consumers with local DB
         $consoleApp->add(new SyncConsumersCommand());
