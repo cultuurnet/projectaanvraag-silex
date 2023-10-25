@@ -28,6 +28,11 @@ class ConsumeCommand extends Command
     protected $connectionId;
 
     /**
+     * @var string
+     */
+    protected $exchange;
+
+    /**
      * @var boolean
      */
     protected $disableDelay;
@@ -37,13 +42,15 @@ class ConsumeCommand extends Command
      * @param null|string $name
      * @param $connectionId
      * @param $consumerId
+     * @param $exchange
      * @param bool $disableDelay
      */
-    public function __construct($name, $connectionId, $consumerId, $disableDelay = false)
+    public function __construct($name, $connectionId, $consumerId, $exchange, $disableDelay = false)
     {
         parent::__construct($name);
         $this->connectionId = $connectionId;
         $this->consumerId = $consumerId;
+        $this->exchange = $exchange;
         $this->disableDelay = $disableDelay;
     }
 
@@ -81,16 +88,16 @@ class ConsumeCommand extends Command
 
         // Declare the exchange
         if (!$this->disableDelay) {
-            $channel->exchange_declare('main_exchange', 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
+            $channel->exchange_declare($this->exchange, 'x-delayed-message', false, true, false, false, false, new AMQPTable(['x-delayed-type' => 'direct']));
         } else {
-            $channel->exchange_declare('main_exchange', 'topic', false, true, false);
+            $channel->exchange_declare($this->exchange, 'topic', false, true, false);
         }
 
         // Declare the main queue
         $channel->queue_declare('projectaanvraag', false, true, false, false, false, new AMQPTable(['routing_keys' => ['asynchronous_commands']]));
 
         // Bind the queue to the async_commands exchange
-        $channel->queue_bind('projectaanvraag', 'main_exchange', 'asynchronous_commands');
+        $channel->queue_bind('projectaanvraag', $this->exchange, 'asynchronous_commands');
 
         $output->writeln(' [*] Waiting for messages. To exit press CTRL+C');
 
