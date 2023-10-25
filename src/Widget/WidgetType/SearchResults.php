@@ -614,7 +614,7 @@ final class SearchResults extends WidgetTypeBase
         }
 
         foreach ($allActiveFilterNames as $activeFilterName) {
-            $mergedActiveFilters[] = ['value'=>'','label' => join($labels[$activeFilterName], " en "),'is_default'=>false, 'name' => $activeFilterName];
+            $mergedActiveFilters[] = ['value'=>'','label' => join(" en ", $labels[$activeFilterName]),'is_default'=>false, 'name' => $activeFilterName];
         }
 
         $allActiveFilters = $mergedActiveFilters;
