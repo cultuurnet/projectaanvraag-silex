@@ -120,7 +120,7 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                 $producer->setExchangeOptions(
                     [
                         'declare' => true,
-                        'name' => 'main_exchange',
+                        'name' => $pimple['config']['rabbitmq']['exchange'],
                         'type' => 'x-delayed-message',
                         'durable' => true,
                         'arguments' => new AMQPTable(
@@ -134,7 +134,7 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                 $producer->setExchangeOptions(
                     [
                         'declare' => true,
-                        'name' => 'main_exchange',
+                        'name' => $pimple['config']['rabbitmq']['exchange'],
                         'type' => 'topic',
                         'durable' => true,
                     ]
@@ -169,7 +169,7 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                 )
             );
 
-            $channel->queue_bind('projectaanvraag_failed', 'main_exchange', 'projectaanvraag_failed');
+            $channel->queue_bind('projectaanvraag_failed', $pimple['config']['rabbitmq']['exchange'], 'projectaanvraag_failed');
 
             // Resolvers.
             $routingKeyResolver = new AsyncCommandRoutingKeyResolver();
