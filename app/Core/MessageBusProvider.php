@@ -115,19 +115,31 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
 
         $pimple['publisher'] = function (Container $pimple) {
             $producer = new Producer($pimple['rabbit.connection']);
-            $producer->setExchangeOptions(
-                [
-                    'declare' => true,
-                    'name' => 'main_exchange',
-                    'type' => 'x-delayed-message',
-                    'durable' => true,
-                    'arguments' => new AMQPTable(
-                        [
-                            'x-delayed-type' => 'direct',
-                        ]
-                    ),
-                ]
-            );
+            $disableDelay = $pimple['config']['rabbitmq']['disable_delay'] ?? false;
+            if (!$disableDelay) {
+                $producer->setExchangeOptions(
+                    [
+                        'declare' => true,
+                        'name' => $pimple['config']['rabbitmq']['exchange'],
+                        'type' => 'x-delayed-message',
+                        'durable' => true,
+                        'arguments' => new AMQPTable(
+                            [
+                                'x-delayed-type' => 'direct',
+                            ]
+                        ),
+                    ]
+                );
+            } else {
+                $producer->setExchangeOptions(
+                    [
+                        'declare' => true,
+                        'name' => $pimple['config']['rabbitmq']['exchange'],
+                        'type' => 'topic',
+                        'durable' => true,
+                    ]
+                );
+            }
 
             $producer->setQueueOptions(
                 [
@@ -157,7 +169,7 @@ class MessageBusProvider implements ServiceProviderInterface, EventListenerProvi
                 )
             );
 
-            $channel->queue_bind('projectaanvraag_failed', 'main_exchange', 'projectaanvraag_failed');
+            $channel->queue_bind('projectaanvraag_failed', $pimple['config']['rabbitmq']['exchange'], 'projectaanvraag_failed');
 
             // Resolvers.
             $routingKeyResolver = new AsyncCommandRoutingKeyResolver();

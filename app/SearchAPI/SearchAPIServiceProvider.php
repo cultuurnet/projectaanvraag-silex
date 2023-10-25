@@ -20,6 +20,7 @@ class SearchAPIServiceProvider extends APIServiceProviderBase
                     'base_uri' => $pimple['search_api.base_url'],
                     'headers' => [
                         'X-Api-Key' => $pimple['search_api.api_key'],
+                        'X-Client-Properties' => 'cluster|widgets, cluster|snowplow',
                     ],
                     'handler' => $this->getHandlerStack('search_api', $pimple),
                 ]

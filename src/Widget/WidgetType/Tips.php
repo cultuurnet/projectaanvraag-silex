@@ -103,6 +103,9 @@ use Pimple\Container;
  *              "reservation_information":{
  *                  "enabled":false
  *              }
+ *          },
+ *          "search_params" : {
+ *              "country": "BE",
  *          }
  *      },
  *      allowedSettings = {
@@ -190,7 +193,8 @@ use Pimple\Container;
  *          },
  *          "search_params" : {
  *              "query": "string",
- *              "private": "boolean"
+ *              "private": "boolean",
+ *              "country": "string",
  *          }
  *      }
  * )
@@ -280,9 +284,14 @@ final class Tips extends WidgetTypeBase
             $query->addParameter(new Query('id:' . implode(' OR id:', $cdbids)));
             // Disable default filters, except workflowstatus
             $query->addParameter(new AudienceType('*'));
-            $query->addParameter(new AddressCountry('*'));
             $query->addParameter(AvailableTo::wildcard());
             $query->addParameter(AvailableFrom::wildcard());
+        }
+
+        $addressCountry = !empty($this->settings['search_params']['country']) ? $this->settings['search_params']['country']: 'BE';
+
+        if ($addressCountry !== '') {
+            $query->addParameter(new AddressCountry($addressCountry));
         }
 
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
