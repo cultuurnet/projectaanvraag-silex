@@ -83,58 +83,43 @@
       }
     };
 
-    const trackButtonClicks = () => {
-      const clickElements = document.querySelectorAll(
-        "[data-click-tracking-category]"
-      );
-
-      clickElements.forEach((clickElement) => {
-        clickElement.addEventListener("click", () => {
-          const category = clickElement.dataset.clickTrackingCategory;
-          const label = clickElement.dataset.clickTrackingLabel;
-          const action = clickElement.dataset.clickTrackingAction;
-
-          window.snowplow("trackSelfDescribingEvent", {
-            event: {
-              schema: "iglu:be.general/button_click/jsonschema/1-0-0",
-              data: {
-                button_name: `${action}-${label}-${category}`,
-              },
-            },
-          });
-        });
-      });
+    const stringToKebabCase = (value) => {
+      return value.split(" ").join("-").toLowerCase();
     };
 
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
 
-    // TODO check with Hanne to change sp.uitinvlaanderen to sp.projectaanvraag-api.be
-    window.snowplow("newTracker", "widgets-tracker", "sp.uitinvlaanderen.be", {
-      appId: "widgets",
-      platform: "web",
-      cookieDomain: null,
-      cookieName: "sppubliq",
-      sessionCookieTimeout: 3600,
-      discoverRootDomain: true,
-      eventMethod: "post",
-      encodeBase64: true,
-      respectDoNotTrack: false,
-      userFingerprint: true,
-      postPath: "/publiq/t",
-      contexts: {
-        webPage: true,
-        performanceTiming: false,
-        gaCookies: true,
-        geolocation: false,
-      },
-    });
+    window.snowplow(
+      "newTracker",
+      "widgets-tracker",
+      "sneeuwploeg.uitdatabank.be",
+      {
+        appId: "widgets",
+        platform: "web",
+        cookieDomain: null,
+        cookieName: "sppubliq",
+        sessionCookieTimeout: 3600,
+        discoverRootDomain: true,
+        eventMethod: "post",
+        encodeBase64: true,
+        respectDoNotTrack: false,
+        userFingerprint: true,
+        postPath: "/publiq/t",
+        contexts: {
+          webPage: true,
+          performanceTiming: false,
+          gaCookies: true,
+          geolocation: false,
+        },
+      }
+    );
 
     const GLOBAL_WIDGET_CONTEXT = {
-      schema: "iglu:be.widgets/widget_context/jsonschema/1-0-0",
+      schema: "iglu:be.widgets/widget_context/jsonschema/1-0-2",
       data: {
         name: WIDGET_SETTINGS.consumerName,
         title: WIDGET_SETTINGS.widgetPageTitle,
-        language: WIDGET_SETTINGS.language,
+        language: WIDGET_SETTINGS.language ?? "",
         page_id: WIDGET_SETTINGS.widgetPageId,
         page_type: pageType,
         search_terms: {
@@ -147,6 +132,7 @@
           where: searchFacetWhere,
           when: searchFacetWhen,
         },
+        cdbid: cdbid ?? "",
       },
     };
 
@@ -166,7 +152,76 @@
 
     window.snowplow("enableLinkClickTracking");
 
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const readMoreButtons = entry.target.getElementsByClassName(
+          "cnw_btn__card-readmore"
+        );
+
+        if (!readMoreButtons[0]) return;
+
+        const uri = readMoreButtons[0].href;
+        const url = new URL(uri);
+        const cdbidOfEventTeaser = url.searchParams.get("cdbid");
+        viewedEventTeasers.add(cdbidOfEventTeaser);
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
+
+    const trackViewedEventTeasers = () => {
+      const eventTeasersBlocks = document.querySelectorAll(
+        ".cnw_searchresult--block"
+      );
+      Array.from(eventTeasersBlocks).forEach((target) =>
+        observer.observe(target)
+      );
+    };
+
+    const trackButtonClicks = () => {
+      const clickElements = document.querySelectorAll(
+        "[data-click-tracking-category]"
+      );
+
+      clickElements.forEach((clickElement) => {
+        clickElement.addEventListener("click", () => {
+          const category = clickElement.dataset.clickTrackingCategory;
+          const label = clickElement.dataset.clickTrackingLabel;
+          const action = clickElement.dataset.clickTrackingAction;
+
+          const buttonName = [category, label, action]
+            .filter((item) => typeof item !== "undefined")
+            .map((item) => stringToKebabCase(item))
+            .join("-");
+
+          window.snowplow("trackSelfDescribingEvent", {
+            event: {
+              schema: "iglu:be.general/button_click/jsonschema/1-0-0",
+              data: {
+                button_name: buttonName ?? "",
+              },
+            },
+          });
+        });
+      });
+    };
+
     window.addEventListener("widget:searchResultsLoaded", () => {
+      trackButtonClicks();
+      trackViewedEventTeasers();
+    });
+
+    window.addEventListener("widget:tipResultsLoaded", () => {
       trackButtonClicks();
       trackViewedEventTeasers();
     });
@@ -175,10 +230,9 @@
       trackButtonClicks();
     });
 
-    window.addEventListener("beforeunload", (event) => {
+    window.addEventListener("beforeunload", () => {
       const timeSpent = getTimeSpentInSeconds();
       const activeSeconds = Math.round(timeSpent);
-      console.log({ activeSeconds });
 
       window.snowplow("trackSelfDescribingEvent", {
         event: {
@@ -193,40 +247,12 @@
         event: {
           schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
           data: {
-            event_impressions: [...viewedEventTeasers],
+            event_impressions: [...viewedEventTeasers].map((id) => ({
+              event_id: id,
+            })),
           },
         },
       });
     });
-
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-
-        const readMoreButton = entry.target.getElementsByClassName(
-          "cnw_btn__card-readmore"
-        );
-
-        if (!readMoreButton[0]) return;
-
-        const uri = readMoreButton[0].href;
-        const url = new URL(uri);
-        const cdbidOfEventTeaser = url.searchParams.get("cdbid");
-        viewedEventTeasers.add({ event_id: cdbidOfEventTeaser });
-      },
-      {
-        root: null,
-        threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
-      }
-    );
-
-    const trackViewedEventTeasers = () => {
-      const eventTeaserBlocks = document.getElementsByClassName(
-        "cnw_searchresult--block"
-      );
-      Object.values(eventTeaserBlocks).forEach((eventTeaserBlock) =>
-        observer.observe(eventTeaserBlock)
-      );
-    };
   };
 })(CultuurnetWidgets);

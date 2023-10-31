@@ -160,8 +160,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "description":{
  *                  "enabled":true,
- *                  "characters":200,
- *                  "label":"",
+ *                  "characters":200
  *              },
  *              "when":{
  *                  "enabled":true,
@@ -349,6 +348,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "icon_museumpass":{
  *                  "enabled":"boolean"
+ *              },
+ *              "description":{
+ *                  "enabled":"boolean",
+ *                  "characters":"integer"
  *              },
  *              "when":{
  *                  "enabled":"boolean",
@@ -611,7 +614,7 @@ final class SearchResults extends WidgetTypeBase
         }
 
         foreach ($allActiveFilterNames as $activeFilterName) {
-            $mergedActiveFilters[] = ['value'=>'','label' => join($labels[$activeFilterName], " en "),'is_default'=>false, 'name' => $activeFilterName];
+            $mergedActiveFilters[] = ['value'=>'','label' => join(" en ", $labels[$activeFilterName]),'is_default'=>false, 'name' => $activeFilterName];
         }
 
         $allActiveFilters = $mergedActiveFilters;

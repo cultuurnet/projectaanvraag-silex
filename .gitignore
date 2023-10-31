@@ -1,6 +1,7 @@
 /vendor
 /pkg
 .bundle
+.env
 config.yml
 /user_roles.yml
 /integration_types.yml

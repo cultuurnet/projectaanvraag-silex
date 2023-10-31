@@ -117,6 +117,7 @@
                     {% if event.onlineUrl is not empty%}
                         <dt>
                             <em class="cnw_searchresult-detail-label">{{ 'event_online_participation' | transTo(preferredLanguage) }}</em>
+                            <i class="cnw-fa cnw-fa-video-camera"></i>
                         </dt>
                         <dd>
                             <a href="{{ event.onlineUrl }}" target="_blank">{{ event.onlineUrl }}</a>
@@ -304,7 +305,7 @@
 
                 {% if settings.back_button.enabled %}
                     <div class="cnw_searchresult-detail-back-button">
-                        <a href="{{ event.back_link }}">&laquo; {{ settings.back_button.label }}</a>
+                        <a href="{{ event.back_link }}" data-click-tracking-category="detail" data-click-tracking-action="back to agenda">&laquo; {{ settings.back_button.label }}</a>
                     </div>
                 {% endif %}
 

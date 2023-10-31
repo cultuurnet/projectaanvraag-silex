@@ -22,6 +22,7 @@ class CssStatsServiceProvider implements ServiceProviderInterface
                 [
                     'timeout' => $app['css_stats.timeout'] ?? 5,
                     'connect_timeout' => $app['css_stats.connect_timeout'] ?? 1,
+                    'ssl.certificate_authority' => get_cfg_var('openssl.cafile'),
                     'curl.options' => [
                         CURLOPT_TIMEOUT => $app['css_stats.timeout'],
                         CURLOPT_CONNECTTIMEOUT => $app['css_stats.connect_timeout'],

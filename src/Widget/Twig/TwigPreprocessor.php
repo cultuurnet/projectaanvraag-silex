@@ -211,7 +211,7 @@ class TwigPreprocessor
             $originalSummary = $variables['summary'];
             $variables['summary'] = $this->createSummary($variables['summary'], $settings['description']['characters']);
             if (strlen($variables['summary']) < strlen($originalSummary)) {
-                $variables['summary'] .= substr($variables['summary'], -1) === '.' ? '..' : '..';
+                $variables['summary'] .= substr($variables['summary'], -1) === '.' ? '..' : '...';
             }
         }
 
