@@ -1,4 +1,4 @@
-.PHONY: up down install ci stan cs cs-fix test migrate config init feature cache-clear
+.PHONY: up down install ci stan cs cs-fix test migrate config init feature cache-clear migrate-update
 
 up:
 	docker-compose up -d
@@ -23,6 +23,9 @@ test:
 
 migrate:
 	docker exec -it php.projectaanvraag ./bin/console orm:schema-tool:create
+
+migrate-update:
+	docker exec -it php.projectaanvraag ./bin/console orm:schema-tool:update --force
 
 bash:
 	docker exec -it php.projectaanvraag bash

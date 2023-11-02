@@ -161,6 +161,13 @@ class Project implements ProjectInterface
     protected $description;
 
     /**
+     * @ORM\Column(name="platform_uuid", type="string", length=255, nullable=true)
+     * @var string
+     * @Type("string")
+     */
+    protected $platformUuid;
+
+    /**
      * @var string
      * @Type("string")
      */
@@ -446,6 +453,24 @@ class Project implements ProjectInterface
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlatformUuid()
+    {
+        return $this->platformUuid;
+    }
+
+    /**
+     * @param string $platformUuid
+     * @return Project
+     */
+    public function setPlatformUuid($platformUuid)
+    {
+        $this->platformUuid = $platformUuid;
         return $this;
     }
 
