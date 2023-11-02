@@ -22,6 +22,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
+use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -110,6 +111,37 @@ final class ProjectController
          * Dispatch create project command
          */
         $this->commandBus->handle(new CreateProject($postedProject->name, $postedProject->summary, $postedProject->integrationType, $coupon));
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws MissingRequiredFieldsException
+     */
+    public function importProject($uuid, Request $request)
+    {
+        $postedProject = json_decode($request->getContent());
+
+        $this->validateRequiredFields(
+            ['name', 'summary', 'integrationType', 'termsAndConditions', 'testApiKeySapi3', 'liveApiKeySapi3'],
+            $postedProject
+        );
+
+        /**
+         * Dispatch create project command
+         */
+        $this->commandBus->handle(
+            new ImportProject(
+                $postedProject->name,
+                $postedProject->summary,
+                $postedProject->integrationType,
+                $uuid,
+                $postedProject->testApiKeySapi3,
+                $postedProject->liveApiKeySapi3
+            )
+        );
 
         return new JsonResponse();
     }
