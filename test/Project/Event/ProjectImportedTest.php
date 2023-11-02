@@ -19,8 +19,8 @@ class ProjectImportedTest extends TestCase
         $user = $this->createMock(UserInterface::class);
 
         $projectImported = new ProjectImported($project, $user);
-        $projectImported->setProject($project);
 
-        $this->assertInstanceOf(ProjectInterface::class, $projectImported->getProject(), 'The project is correctly returned');
+        $this->assertEquals($project, $projectImported->getProject());
+        $this->assertEquals($user, $projectImported->getUser());
     }
 }
