@@ -17,6 +17,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
+use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectService;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
@@ -174,6 +175,39 @@ class ProjectControllerTest extends TestCase
         $this->expectException(MissingRequiredFieldsException::class);
 
         $this->controller->createProject($this->request);
+    }
+
+    public function testImportProject()
+    {
+        $platformUuid = '158cb996-916e-4ee6-8534-e46683555e8c';
+
+        $formData = $this->formData;
+        $formData->testApiKeySapi3 = 'a77f461f-3837-49bc-b2a6-1a8f57bf30d6';
+        $formData->liveApiKeySapi3 = 'de808573-cfc4-4990-b91b-cf5673b913ac';
+
+        $this->request
+            ->expects($this->any())
+            ->method('getContent')
+            ->willReturn(json_encode($this->formData));
+
+        $this->couponValidator->expects($this->never())
+            ->method('validateCoupon');
+
+        $importProject = new ImportProject(
+            $this->formData->name,
+            $this->formData->summary,
+            $this->formData->integrationType,
+            $platformUuid,
+            $this->formData->testApiKeySapi3,
+            $this->formData->liveApiKeySapi3
+        );
+        $this->messageBus
+            ->expects($this->once())
+            ->method('handle')
+            ->with($importProject);
+
+        $response = $this->controller->importProject($platformUuid, $this->request);
+        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
     }
 
     /**

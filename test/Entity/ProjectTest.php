@@ -87,8 +87,8 @@ class ProjectTest extends TestCase
         $project->setTotalWidgets(3);
         $this->assertEquals(3, $project->getTotalWidgets());
 
-        $project->setCoupon('my-coupon');
-        $this->assertEquals('my-coupon', $project->getCoupon());
+        $project->setPlatformUuid('a050bfea-d45a-48b7-9645-1c07ccb42037');
+        $this->assertEquals('a050bfea-d45a-48b7-9645-1c07ccb42037', $project->getPlatformUuid());
     }
 
     /**
