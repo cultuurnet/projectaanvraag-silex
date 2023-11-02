@@ -4,49 +4,29 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\User;
-use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageInterface;
-use CultuurNet\ProjectAanvraag\PasswordGeneratorTrait;
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
 use CultuurNet\ProjectAanvraag\Project\Event\ProjectImported;
-use CultuurNet\ProjectAanvraag\User\UserInterface as UitIdUserInterface;
+use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class ImportProjectCommandHandler
 {
-
-    use PasswordGeneratorTrait;
-
     /**
      * @var MessageBusSupportingMiddleware
      */
-    protected $eventBus;
+    private $eventBus;
 
     /**
      * @var EntityManagerInterface
      */
-    protected $entityManager;
+    private $entityManager;
 
     /**
-     * @var \ICultureFeed
-     */
-    protected $cultureFeedTest;
-
-    /**
-     * @var \ICultureFeed
-     */
-    protected $cultureFeed;
-
-    /**
-     * @var UitIdUserInterface
+     * @var UserInterface
      */
     protected $user;
-
-    /**
-     * @var IntegrationTypeStorageInterface
-     */
-    private $integrationTypeStorage;
 
     /**
      * @var LoggerInterface
@@ -56,27 +36,16 @@ class ImportProjectCommandHandler
     public function __construct(
         MessageBusSupportingMiddleware $eventBus,
         EntityManagerInterface $entityManager,
-        \ICultureFeed $cultureFeedTest,
-        \ICultureFeed $cultureFeed,
-        UitIdUserInterface $user,
-        IntegrationTypeStorageInterface $integrationTypeStorage,
+        UserInterface $user,
         LoggerInterface $logger
     ) {
         $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
-        $this->cultureFeedTest = $cultureFeedTest;
-        $this->cultureFeed = $cultureFeed;
         $this->user = $user;
-        $this->integrationTypeStorage = $integrationTypeStorage;
         $this->logger = $logger;
     }
 
-    /**
-     * Handle the command
-     * @param ImportProject $importProject
-     * @throws \Throwable
-     */
-    public function handle(ImportProject $importProject)
+    public function handle(ImportProject $importProject): void
     {
         $this->logger->debug('Start handling ImportProject for ' . $importProject->getName());
 
