@@ -129,7 +129,7 @@ final class ProjectController
                 $uuid,
                 $postedProject->name,
                 $postedProject->summary,
-                $postedProject->integrationType,
+                $postedProject->groupId,
                 $postedProject->testApiKeySapi3,
                 $postedProject->liveApiKeySapi3
             )
