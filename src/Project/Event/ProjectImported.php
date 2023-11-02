@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Event;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
 use CultuurNet\ProjectAanvraag\Entity\UserInterface;
+use JMS\Serializer\Annotation\Type;
 
 class ProjectImported extends AbstractProjectEvent
 {
