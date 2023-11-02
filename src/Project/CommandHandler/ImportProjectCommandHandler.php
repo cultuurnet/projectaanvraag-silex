@@ -95,7 +95,7 @@ class ImportProjectCommandHandler
         $project->setPlatformUuid($importProject->getPlatformUuid());
 
         $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
-        $project->setLiveApiKeySapi3($importProject->getTestApiKeySapi3());
+        $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
 
         // Save the project to the local database.
         $this->entityManager->persist($project);
