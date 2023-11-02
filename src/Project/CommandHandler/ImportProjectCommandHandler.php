@@ -80,27 +80,17 @@ class ImportProjectCommandHandler
     {
         $this->logger->debug('Start handling ImportProject for ' . $importProject->getName());
 
-        $integrationTypeId = $importProject->getIntegrationType();
-        $integrationType = $this->integrationTypeStorage->load($integrationTypeId);
-        if (!$integrationType) {
-            throw new \RuntimeException("Cannot import project for unknown integration type ({$integrationTypeId}).");
-        }
-
-        // Prepare project.
         $project = new Project();
         $project->setName($importProject->getName());
         $project->setDescription($importProject->getDescription());
-        $project->setGroupId($importProject->getIntegrationType());
+        $project->setGroupId($importProject->getGroupId());
         $project->setUserId($this->user->id);
         $project->setPlatformUuid($importProject->getPlatformUuid());
-
         $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
         $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
 
-        // Save the project to the local database.
         $this->entityManager->persist($project);
 
-        // Create a local user if needed.
         $localUser = $this->entityManager->getRepository('ProjectAanvraag:User')->find($project->getUserId());
         if (empty($localUser)) {
             $newUser = new User($this->user->id);
@@ -110,9 +100,6 @@ class ImportProjectCommandHandler
 
         $this->entityManager->flush();
 
-        /**
-         *  4. Add additional user info
-         */
         $localUser->setFirstName($this->user->givenName);
         $localUser->setLastName($this->user->familyName);
         $localUser->setEmail($this->user->mbox);
@@ -122,30 +109,5 @@ class ImportProjectCommandHandler
         $this->eventBus->handle($projectImported);
 
         $this->logger->debug('Finished handling ImportProject for ' . $importProject->getName());
-    }
-
-    /**
-     * Create a user on test if that user does not exist yet.
-     */
-    private function createTestUser($nick, $email)
-    {
-        $searchQuery = new \CultureFeed_SearchUsersQuery();
-        $searchQuery->mbox = $email;
-        $searchQuery->mboxIncludePrivate = true;
-        /** @var \CultureFeed_ResultSet $result */
-        $result = $this->cultureFeedTest->searchUsers($searchQuery);
-
-        // The user already exists?
-        if ($result->total > 0) {
-            return $result->objects[0]->id;
-        }
-
-        $user = new \CultureFeed_User();
-        $user->mbox = $email;
-        $user->nick = $nick;
-        $user->password = $this->generatePassword();
-        $user->status = \CultureFeed_User::STATUS_PRIVATE;
-
-        return $this->cultureFeedTest->createUser($user);
     }
 }

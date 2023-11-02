@@ -112,7 +112,7 @@ class ProjectControllerTest extends TestCase
         $this->formData = new \stdClass();
         $this->formData->name = 'name';
         $this->formData->summary = 'summary';
-        $this->formData->integrationType = 'integrationType';
+        $this->formData->integrationType = 2;
         $this->formData->termsAndConditions = 'termsAndConditions';
     }
 
@@ -182,6 +182,7 @@ class ProjectControllerTest extends TestCase
         $platformUuid = '158cb996-916e-4ee6-8534-e46683555e8c';
 
         $formData = $this->formData;
+        $formData->groupId = $formData->integrationType;
         $formData->testApiKeySapi3 = 'a77f461f-3837-49bc-b2a6-1a8f57bf30d6';
         $formData->liveApiKeySapi3 = 'de808573-cfc4-4990-b91b-cf5673b913ac';
 
@@ -194,10 +195,10 @@ class ProjectControllerTest extends TestCase
             ->method('validateCoupon');
 
         $importProject = new ImportProject(
+            $platformUuid,
             $this->formData->name,
             $this->formData->summary,
             $this->formData->integrationType,
-            $platformUuid,
             $this->formData->testApiKeySapi3,
             $this->formData->liveApiKeySapi3
         );

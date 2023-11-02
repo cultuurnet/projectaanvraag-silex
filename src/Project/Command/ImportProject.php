@@ -17,7 +17,7 @@ class ImportProject
     /**
      * @var int
      */
-    private $integrationType;
+    private $groupId;
 
     /**
      * @var string
@@ -34,69 +34,48 @@ class ImportProject
      */
     private $liveApiKeySapi3;
 
-    /**
-     * ImportProject constructor.
-     * @param $name
-     * @param $description
-     * @param int $integrationType
-     * @param string $platformUuid
-     * @param string $testApiKeySapi3
-     * @param string $liveApiKeySapi3
-     */
-    public function __construct($name, $description, $integrationType, $platformUuid, $testApiKeySapi3, $liveApiKeySapi3)
-    {
+    public function __construct(
+        string $platformUuid,
+        string $name,
+        string $description,
+        int $groupId,
+        string $testApiKeySapi3,
+        string $liveApiKeySapi3
+    ) {
         $this->name = $name;
         $this->description = $description;
-        $this->integrationType = $integrationType;
+        $this->groupId = $groupId;
         $this->platformUuid = $platformUuid;
         $this->testApiKeySapi3 = $testApiKeySapi3;
         $this->liveApiKeySapi3 = $liveApiKeySapi3;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return int
-     */
-    public function getIntegrationType()
+    public function getGroupId(): int
     {
-        return $this->integrationType;
+        return $this->groupId;
     }
 
-    /**
-     * @return string
-     */
-    public function getPlatformUuid()
+    public function getPlatformUuid(): string
     {
         return $this->platformUuid;
     }
 
-    /**
-     * @return string
-     */
-    public function getTestApiKeySapi3()
+    public function getTestApiKeySapi3(): string
     {
         return $this->testApiKeySapi3;
     }
 
-    /**
-     * @return string
-     */
-    public function getLiveApiKeySapi3()
+    public function getLiveApiKeySapi3(): string
     {
         return $this->liveApiKeySapi3;
     }

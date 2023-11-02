@@ -115,29 +115,21 @@ final class ProjectController
         return new JsonResponse();
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     * @throws MissingRequiredFieldsException
-     */
-    public function importProject($uuid, Request $request)
+    public function importProject(string $uuid, Request $request): JsonResponse
     {
         $postedProject = json_decode($request->getContent());
 
         $this->validateRequiredFields(
-            ['name', 'summary', 'integrationType', 'termsAndConditions', 'testApiKeySapi3', 'liveApiKeySapi3'],
+            ['name', 'summary', 'groupId', 'testApiKeySapi3', 'liveApiKeySapi3'],
             $postedProject
         );
 
-        /**
-         * Dispatch create project command
-         */
         $this->commandBus->handle(
             new ImportProject(
+                $uuid,
                 $postedProject->name,
                 $postedProject->summary,
                 $postedProject->integrationType,
-                $uuid,
                 $postedProject->testApiKeySapi3,
                 $postedProject->liveApiKeySapi3
             )
