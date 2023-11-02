@@ -80,6 +80,7 @@ class ImportProjectCommandHandlerTest extends TestCase
         $project->setPlatformUuid($importProject->getPlatformUuid());
         $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
         $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
+        $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
 
         $this->logger->expects($this->exactly(2))
             ->method('debug');
