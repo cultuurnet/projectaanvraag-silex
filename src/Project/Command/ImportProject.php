@@ -7,6 +7,11 @@ class ImportProject
     /**
      * @var string
      */
+    private $userId;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -36,18 +41,25 @@ class ImportProject
 
     public function __construct(
         string $platformUuid,
+        string $userId,
         string $name,
         string $description,
         int $groupId,
         string $testApiKeySapi3,
         string $liveApiKeySapi3
     ) {
+        $this->platformUuid = $platformUuid;
+        $this->userId = $userId;
         $this->name = $name;
         $this->description = $description;
         $this->groupId = $groupId;
-        $this->platformUuid = $platformUuid;
         $this->testApiKeySapi3 = $testApiKeySapi3;
         $this->liveApiKeySapi3 = $liveApiKeySapi3;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
     }
 
     public function getName(): string

@@ -164,7 +164,6 @@ handlers:
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\ImportProjectCommandHandler
         arguments:
             - orm.em
-            - uitid_user_session_data_complete
             - insightly_logger
 
     activate_project_handler:

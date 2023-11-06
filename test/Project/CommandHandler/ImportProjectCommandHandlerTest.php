@@ -22,11 +22,6 @@ class ImportProjectCommandHandlerTest extends TestCase
     private $entityManager;
 
     /**
-     * @var User
-     */
-    private $user;
-
-    /**
      * @var LoggerInterface & MockObject
      */
     private $logger;
@@ -41,14 +36,8 @@ class ImportProjectCommandHandlerTest extends TestCase
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
-        $this->user = new User();
-        $this->user->id = 123;
-        $this->user->mbox = 'test@test.be';
-        $this->user->nick = 'test';
-
         $this->importProjectCommandHandler = new ImportProjectCommandHandler(
             $this->entityManager,
-            $this->user,
             $this->logger
         );
     }
@@ -57,6 +46,7 @@ class ImportProjectCommandHandlerTest extends TestCase
     {
         $importProject = new ImportProject(
             '0d228560-8cc6-4303-8fd1-c404e6fd79fd',
+            'auth0|39f6bc3d-2ba9-4587-8602-4a00a2b6667d',
             'Imported widget project',
             'This is a widget project imported from publiq-platform',
             24378,
@@ -68,7 +58,7 @@ class ImportProjectCommandHandlerTest extends TestCase
         $project->setName($importProject->getName());
         $project->setDescription($importProject->getDescription());
         $project->setGroupId($importProject->getGroupId());
-        $project->setUserId($this->user->id);
+        $project->setUserId($importProject->getUserId());
         $project->setPlatformUuid($importProject->getPlatformUuid());
         $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
         $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
@@ -80,17 +70,6 @@ class ImportProjectCommandHandlerTest extends TestCase
         $this->entityManager->expects($this->once())
             ->method('persist')
             ->with($project);
-
-        $repository = $this->createMock(EntityRepository::class);
-        $repository->expects($this->once())
-            ->method('find')
-            ->with($this->user->id)
-            ->willReturn(new UserEntity(123));
-
-        $this->entityManager->expects($this->once())
-            ->method('getRepository')
-            ->with('ProjectAanvraag:User')
-            ->willReturn($repository);
 
         $this->importProjectCommandHandler->handle($importProject);
     }

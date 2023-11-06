@@ -17,22 +17,15 @@ class ImportProjectCommandHandler
     private $entityManager;
 
     /**
-     * @var UserInterface
-     */
-    protected $user;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        UserInterface $user,
         LoggerInterface $logger
     ) {
         $this->entityManager = $entityManager;
-        $this->user = $user;
         $this->logger = $logger;
     }
 
@@ -44,7 +37,7 @@ class ImportProjectCommandHandler
         $project->setName($importProject->getName());
         $project->setDescription($importProject->getDescription());
         $project->setGroupId($importProject->getGroupId());
-        $project->setUserId($this->user->id);
+        $project->setUserId($importProject->getUserId());
         $project->setPlatformUuid($importProject->getPlatformUuid());
         $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
         $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
@@ -52,19 +45,7 @@ class ImportProjectCommandHandler
 
         $this->entityManager->persist($project);
 
-        $localUser = $this->entityManager->getRepository('ProjectAanvraag:User')->find($project->getUserId());
-        if (empty($localUser)) {
-            $newUser = new User($this->user->id);
-            $this->entityManager->persist($newUser);
-            $localUser = clone $newUser; // Cloning for unit tests.
-        }
-
         $this->entityManager->flush();
-
-        $localUser->setFirstName($this->user->givenName);
-        $localUser->setLastName($this->user->familyName);
-        $localUser->setEmail($this->user->mbox);
-        $localUser->setNick($this->user->nick);
 
         $this->logger->debug('Finished handling ImportProject for ' . $importProject->getName());
     }
