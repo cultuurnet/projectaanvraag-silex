@@ -2,35 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\Address;
-use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
-use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
-use CultuurNet\ProjectAanvraag\Entity\Project;
-use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
-use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Contact;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyClient;
-use CultuurNet\ProjectAanvraag\Integrations\Insightly\PipelineStages;
-use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
-use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
-use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
-use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
-use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
-use CultuurNet\ProjectAanvraag\Project\ProjectService;
-use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
-use GuzzleHttp\ClientInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ImportProjectControllerTest extends TestCase
 {
