@@ -31,7 +31,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class ProjectController
 {
-    use ProjectControllerTrait;
+    use validateRequiredFieldsTraits;
 
     /**
      * @var MessageBusSupportingMiddleware

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ImportProjectController
 {
-    use ProjectControllerTrait;
+    use validateRequiredFieldsTraits;
 
     /**
      * @var MessageBusSupportingMiddleware
