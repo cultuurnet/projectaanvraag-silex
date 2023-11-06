@@ -4,7 +4,7 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 
-trait validateRequiredFieldsTraits
+trait ValidateRequiredFieldsTrait
 {
     /**
      * Validate if all required fields are in the data.
