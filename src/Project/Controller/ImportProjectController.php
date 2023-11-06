@@ -25,7 +25,7 @@ class ImportProjectController
     {
         $postedProject = json_decode($request->getContent());
 
-        $this->validateRequiredFields(
+        $this->validate(
             ['userId', 'name', 'summary', 'groupId', 'testApiKeySapi3', 'liveApiKeySapi3'],
             $postedProject
         );

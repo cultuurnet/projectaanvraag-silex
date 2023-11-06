@@ -95,7 +95,7 @@ final class ProjectController
     {
         $postedProject = json_decode($request->getContent());
 
-        $this->validateRequiredFields(
+        $this->validate(
             ['name', 'summary', 'integrationType', 'termsAndConditions'],
             $postedProject
         );
@@ -184,7 +184,7 @@ final class ProjectController
             $this->couponValidator->validateCoupon($postedData->coupon);
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
-            $this->validateRequiredFields(
+            $this->validate(
                 ['name', 'street', 'postal', 'city'],
                 $postedData
             );
@@ -224,7 +224,7 @@ final class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
         $data = json_decode($request->getContent());
 
-        $this->validateRequiredFields(['contentFilter'], $data);
+        $this->validate(['contentFilter'], $data);
 
         $this->projectService->updateContentFilter($project, $data->contentFilter);
 
@@ -260,7 +260,7 @@ final class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
 
         $postedData = json_decode($request->getContent());
-        $this->validateRequiredFields(
+        $this->validate(
             ['name', 'addresses'],
             $postedData
         );

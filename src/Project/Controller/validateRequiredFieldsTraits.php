@@ -11,7 +11,7 @@ trait validateRequiredFieldsTraits
      * @param \stdClass $data
      * @throws MissingRequiredFieldsException
      */
-    private function validateRequiredFields($requiredFields, \stdClass $data = null)
+    private function validate($requiredFields, \stdClass $data = null)
     {
         $emptyFields = [];
         foreach ($requiredFields as $field) {
