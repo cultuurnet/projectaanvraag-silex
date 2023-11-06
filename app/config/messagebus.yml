@@ -163,7 +163,6 @@ handlers:
         command: CultuurNet\ProjectAanvraag\Project\Command\ImportProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\ImportProjectCommandHandler
         arguments:
-            - event_bus
             - orm.em
             - uitid_user_session_data_complete
             - insightly_logger

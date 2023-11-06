@@ -13,15 +13,9 @@ use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class ImportProjectCommandHandlerTest extends TestCase
 {
-    /**
-     * @var MessageBusSupportingMiddleware & MockObject
-     */
-    private $eventBus;
-
     /**
      * @var EntityManagerInterface & MockObject
      */
@@ -44,7 +38,6 @@ class ImportProjectCommandHandlerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->eventBus = $this->createMock(MessageBusSupportingMiddleware::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
@@ -54,7 +47,6 @@ class ImportProjectCommandHandlerTest extends TestCase
         $this->user->nick = 'test';
 
         $this->importProjectCommandHandler = new ImportProjectCommandHandler(
-            $this->eventBus,
             $this->entityManager,
             $this->user,
             $this->logger
@@ -99,9 +91,6 @@ class ImportProjectCommandHandlerTest extends TestCase
             ->method('getRepository')
             ->with('ProjectAanvraag:User')
             ->willReturn($repository);
-
-        $this->eventBus->expects($this->once())
-            ->method('handle');
 
         $this->importProjectCommandHandler->handle($importProject);
     }

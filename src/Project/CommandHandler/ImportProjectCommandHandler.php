@@ -5,19 +5,12 @@ namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Entity\User;
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
-use CultuurNet\ProjectAanvraag\Project\Event\ProjectImported;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 
 class ImportProjectCommandHandler
 {
-    /**
-     * @var MessageBusSupportingMiddleware
-     */
-    private $eventBus;
-
     /**
      * @var EntityManagerInterface
      */
@@ -34,12 +27,10 @@ class ImportProjectCommandHandler
     private $logger;
 
     public function __construct(
-        MessageBusSupportingMiddleware $eventBus,
         EntityManagerInterface $entityManager,
         UserInterface $user,
         LoggerInterface $logger
     ) {
-        $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->user = $user;
         $this->logger = $logger;
@@ -74,9 +65,6 @@ class ImportProjectCommandHandler
         $localUser->setLastName($this->user->familyName);
         $localUser->setEmail($this->user->mbox);
         $localUser->setNick($this->user->nick);
-
-        $projectImported = new ProjectImported($project, $localUser);
-        $this->eventBus->handle($projectImported);
 
         $this->logger->debug('Finished handling ImportProject for ' . $importProject->getName());
     }
