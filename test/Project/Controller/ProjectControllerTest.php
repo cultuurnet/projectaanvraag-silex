@@ -177,40 +177,6 @@ class ProjectControllerTest extends TestCase
         $this->controller->createProject($this->request);
     }
 
-    public function testImportProject()
-    {
-        $platformUuid = '158cb996-916e-4ee6-8534-e46683555e8c';
-
-        $formData = $this->formData;
-        $formData->groupId = $formData->integrationType;
-        $formData->testApiKeySapi3 = 'a77f461f-3837-49bc-b2a6-1a8f57bf30d6';
-        $formData->liveApiKeySapi3 = 'de808573-cfc4-4990-b91b-cf5673b913ac';
-
-        $this->request
-            ->expects($this->any())
-            ->method('getContent')
-            ->willReturn(json_encode($this->formData));
-
-        $this->couponValidator->expects($this->never())
-            ->method('validateCoupon');
-
-        $importProject = new ImportProject(
-            $platformUuid,
-            $this->formData->name,
-            $this->formData->summary,
-            $this->formData->integrationType,
-            $this->formData->testApiKeySapi3,
-            $this->formData->liveApiKeySapi3
-        );
-        $this->messageBus
-            ->expects($this->once())
-            ->method('handle')
-            ->with($importProject);
-
-        $response = $this->controller->importProject($platformUuid, $this->request);
-        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
-    }
-
     /**
      * Test getProjects
      */

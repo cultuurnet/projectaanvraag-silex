@@ -7,9 +7,6 @@ use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
-use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Address as AddressEntity;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
@@ -34,6 +31,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class ProjectController
 {
+    use ProjectControllerTrait;
+
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -111,29 +110,6 @@ final class ProjectController
          * Dispatch create project command
          */
         $this->commandBus->handle(new CreateProject($postedProject->name, $postedProject->summary, $postedProject->integrationType, $coupon));
-
-        return new JsonResponse();
-    }
-
-    public function importProject(string $uuid, Request $request): JsonResponse
-    {
-        $postedProject = json_decode($request->getContent());
-
-        $this->validateRequiredFields(
-            ['name', 'summary', 'groupId', 'testApiKeySapi3', 'liveApiKeySapi3'],
-            $postedProject
-        );
-
-        $this->commandBus->handle(
-            new ImportProject(
-                $uuid,
-                $postedProject->name,
-                $postedProject->summary,
-                $postedProject->groupId,
-                $postedProject->testApiKeySapi3,
-                $postedProject->liveApiKeySapi3
-            )
-        );
 
         return new JsonResponse();
     }
@@ -356,25 +332,6 @@ final class ProjectController
         }
 
         return $project;
-    }
-
-    /**
-     * Validate if all required fields are in the data.
-     * @param \stdClass $data
-     * @throws MissingRequiredFieldsException
-     */
-    private function validateRequiredFields($requiredFields, \stdClass $data = null)
-    {
-        $emptyFields = [];
-        foreach ($requiredFields as $field) {
-            if (empty($data->$field)) {
-                $emptyFields[] = $field;
-            }
-        }
-
-        if (!empty($emptyFields)) {
-            throw new MissingRequiredFieldsException('Some required fields are missing: ' . implode(', ', $emptyFields));
-        }
     }
 
     /**
