@@ -33,7 +33,10 @@ class ImportProjectCommandHandler
     {
         $this->logger->debug('Start handling ImportProject for ' . $importProject->getName());
 
-        $project = new Project();
+        $project = $this->entityManager->getRepository('ProjectAanvraag:Project')->findOneBy(['platform_uuid' => $importProject->getPlatformUuid()]);
+        if ($project === null) {
+            $project = new Project();
+        }
         $project->setName($importProject->getName());
         $project->setDescription($importProject->getDescription());
         $project->setGroupId($importProject->getGroupId());
