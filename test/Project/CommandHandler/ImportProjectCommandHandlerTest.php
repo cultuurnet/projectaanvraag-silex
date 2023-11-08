@@ -27,6 +27,11 @@ class ImportProjectCommandHandlerTest extends TestCase
     private $logger;
 
     /**
+     * @var EntityRepository & MockObject
+     */
+    private $projectRepository;
+
+    /**
      * @var ImportProjectCommandHandler
      */
     private $importProjectCommandHandler;
@@ -40,10 +45,23 @@ class ImportProjectCommandHandlerTest extends TestCase
             $this->entityManager,
             $this->logger
         );
+
+        $this->projectRepository = $this->createMock(EntityRepository::class);
+
+        $this->entityManager
+            ->expects($this->any())
+            ->method('getRepository')
+            ->with('ProjectAanvraag:Project')
+            ->willReturn($this->projectRepository);
     }
 
-    public function testHandle(): void
+    public function testHandleNewImport(): void
     {
+        $this->projectRepository->expects($this->once())
+            ->method('findOneBy')
+            ->with(['platform_uuid' => '0d228560-8cc6-4303-8fd1-c404e6fd79fd'])
+            ->willReturn(null);
+
         $importProject = new ImportProject(
             '0d228560-8cc6-4303-8fd1-c404e6fd79fd',
             'auth0|39f6bc3d-2ba9-4587-8602-4a00a2b6667d',
