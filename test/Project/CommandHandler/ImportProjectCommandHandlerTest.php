@@ -59,7 +59,7 @@ class ImportProjectCommandHandlerTest extends TestCase
     {
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')
-            ->with(['platform_uuid' => '0d228560-8cc6-4303-8fd1-c404e6fd79fd'])
+            ->with(['platformUuid' => '0d228560-8cc6-4303-8fd1-c404e6fd79fd'])
             ->willReturn(null);
 
         $importProject = new ImportProject(
@@ -128,7 +128,7 @@ class ImportProjectCommandHandlerTest extends TestCase
 
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')
-            ->with(['platform_uuid' => '0d228560-8cc6-4303-8fd1-c404e6fd79fd'])
+            ->with(['platformUuid' => '0d228560-8cc6-4303-8fd1-c404e6fd79fd'])
             ->willReturn($projectToBeUpdated);
 
         $this->logger->expects($this->exactly(2))
