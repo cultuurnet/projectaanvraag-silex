@@ -29,7 +29,8 @@ class ProjectControllerProvider implements ControllerProviderInterface
 
         $app['import_project_controller'] = function (Application $app) {
             return new ImportProjectController(
-                $app['command_bus']
+                $app['command_bus'],
+                $app['project_repository']
             );
         };
 
