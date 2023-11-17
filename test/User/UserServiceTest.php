@@ -4,6 +4,7 @@ namespace CultuurNet\ProjectAanvraag\User;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class UserServiceTest extends TestCase
 {
@@ -39,7 +40,11 @@ class UserServiceTest extends TestCase
             ->method('getRolesByUserId')
             ->willReturn(['administrator']);
 
-        $userService = new UserService($this->cultureFeed, $this->userRoleStorage);
+        $userService = new UserService(
+            $this->cultureFeed,
+            $this->userRoleStorage,
+            $this->createMock(Session::class)
+        );
         $user = $userService->getUser(1);
 
         $this->assertInstanceOf(User::class, $user);
