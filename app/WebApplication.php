@@ -9,6 +9,7 @@ use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeControllerProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\ProjectAanvraag\Security\UiTIDSecurityServiceProvider;
+use CultuurNet\ProjectAanvraag\Session\SessionControllerProvider;
 use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
 use CultuurNet\ProjectAanvraag\Voter\ProjectVoter;
 use CultuurNet\ProjectAanvraag\Widget\WidgetAPIControllerProvider;
@@ -112,6 +113,7 @@ class WebApplication extends ApplicationBase
                         new Path('^/event/', 'GET'),
                         new Path('^/upload', 'POST'),
                         new Path('^/project/.*$', 'POST'),
+                        new Path('^/session/.*$', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
@@ -153,6 +155,7 @@ class WebApplication extends ApplicationBase
         $this->mount('project', new ProjectControllerProvider());
         $this->mount('integration-types', new IntegrationTypeControllerProvider());
         $this->mount('coupons', new CouponControllerProvider());
+        $this->mount('session', new SessionControllerProvider());
 
         $this->mount('uitid', new UserControllerProvider());
         $this->mount(
