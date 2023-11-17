@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Session\Controller;
 
+use CultuurNet\Auth\Session;
 use CultuurNet\Auth\TokenCredentials;
 use CultuurNet\Auth\User;
 use CultuurNet\UiTIDProvider\User\UserSessionServiceInterface;
 use Guzzle\Http\Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 final class SessionController
@@ -36,7 +38,7 @@ final class SessionController
      * @param Request $request
      * @return JsonResponse
      */
-    public function createSession(Request $request): JsonResponse
+    public function createSession(Request $request): RedirectResponse
     {
         // Get the JWT
         $tokenString = $request->get('idToken');
@@ -46,14 +48,17 @@ final class SessionController
         $userFromPlatform = json_decode($response->getBody(true), true);
 
         // Create a session
+
         $this->userSessionService->setMinimalUserInfo(
+
             new User(
-                $userFromPlatform['id'],
-                new TokenCredentials($userFromPlatform['token'], $userFromPlatform['secret'])
+                $tokenString,
+                new TokenCredentials('idToken', $tokenString)
+                //$userFromPlatform['id'],
+                //new TokenCredentials($userFromPlatform['token'], $userFromPlatform['secret'])
             )
         );
-
         // Redirect to widget builder
-        return new JsonResponse();
+        return new RedirectResponse('http://localhost:9999');
     }
 }
