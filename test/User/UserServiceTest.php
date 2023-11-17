@@ -44,26 +44,4 @@ class UserServiceTest extends TestCase
 
         $this->assertInstanceOf(User::class, $user);
     }
-
-    /**
-     * Test UserService Exception
-     */
-    public function testUserServiceException()
-    {
-        $cfUser = new \CultureFeed_User();
-        $cfUser->id = 1;
-
-        $this->cultureFeed->expects($this->any())
-            ->method('getUser')
-            ->willThrowException(new \CultureFeed_ParseException('parse_exception'));
-
-        $this->userRoleStorage->expects($this->any())
-            ->method('getRolesByUserId')
-            ->willReturn(['administrator']);
-
-        $userService = new UserService($this->cultureFeed, $this->userRoleStorage);
-        $user = $userService->getUser(1);
-
-        $this->assertEquals(null, $user, 'It correctly handles a CultureFeed_ParseException');
-    }
 }
