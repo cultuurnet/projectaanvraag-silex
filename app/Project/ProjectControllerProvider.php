@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Project;
 
 use CultuurNet\ProjectAanvraag\Project\Controller\ImportProjectController;
+use CultuurNet\ProjectAanvraag\Project\Controller\OpenProjectController;
 use CultuurNet\ProjectAanvraag\Project\Controller\ProjectController;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
@@ -34,12 +35,18 @@ class ProjectControllerProvider implements ControllerProviderInterface
             );
         };
 
+        $app['open_project_controller'] = function (Application $app) {
+            return new OpenProjectController(
+                $app['session'],
+                'http://host.docker.internal:81/api/token/'
+            );
+        };
+
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
         $controllers->get('/', 'project_controller:getProjects');
         $controllers->get('/{id}', 'project_controller:getProject');
         $controllers->post('/', 'project_controller:createProject');
-        $controllers->post('/{uuid}', 'import_project_controller:importProject');
         $controllers->delete('/{id}', 'project_controller:deleteProject');
         $controllers->post('/{id}/request-activation', 'project_controller:requestActivation');
         $controllers->get('/{id}/activate', 'project_controller:activateProject');
@@ -47,6 +54,9 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $controllers->put('/{id}/content-filter', 'project_controller:updateContentFilter');
         $controllers->get('/{id}/organisation', 'project_controller:getOrganisation');
         $controllers->put('/{id}/organisation', 'project_controller:updateOrganisation');
+
+        $controllers->post('/{uuid}', 'import_project_controller:importProject');
+        $controllers->get('/{id}/widget/', 'open_project_controller:openProject');
 
         return $controllers;
     }
