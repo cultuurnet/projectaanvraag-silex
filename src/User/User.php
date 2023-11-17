@@ -96,4 +96,12 @@ class User extends UiTIDUser implements UserInterface
 
         return $new;
     }
+
+    public static function fromPlatformUser(string $id, string $nick)
+    {
+        $new = new self();
+        $new->id = $id;
+        $new->nick = $nick;
+        return $new;
+    }
 }
