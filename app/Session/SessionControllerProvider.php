@@ -16,8 +16,8 @@ final class SessionControllerProvider implements ControllerProviderInterface
         $app['session_controller'] = function (Application $app) {
             return new SessionController(
                 $app['uitid_user_session_service'],
-                'http://host.docker.internal:81/api/validateUser'
-                // 'http://localhost:81/api/validateUser'
+                'http://host.docker.internal:81/api/user'
+                 //'http://localhost:81/api/validateUser'
             );
         };
 
