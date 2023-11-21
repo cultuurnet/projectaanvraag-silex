@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
+use CultuurNet\Auth\TokenCredentials;
+use CultuurNet\Auth\User;
+use CultuurNet\UiTIDProvider\User\UserSessionService;
 use Guzzle\Http\Client;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +33,12 @@ final class OpenProjectController
     public function openProject(Request $request, string $id): RedirectResponse
     {
         $tokenString = $request->get('idToken');
+        (new UserSessionService($this->session))->setMinimalUserInfo(
+            new User(
+                $tokenString,
+                new TokenCredentials('token', 'secret')
+            )
+        );
         $client = new Client();
         $request = $client->get($this->platformUrl . $tokenString);
         $response = $request->send();
