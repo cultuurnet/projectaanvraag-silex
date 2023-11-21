@@ -39,6 +39,6 @@ final class OpenProjectController
         }
 
         $this->session->set('id_token', $tokenString);
-        return new RedirectResponse('http://localhost:4200/project/' . $id);
+        return new RedirectResponse('http://host.docker.internal:4200/project/' . $id);
     }
 }
