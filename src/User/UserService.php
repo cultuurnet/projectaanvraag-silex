@@ -47,6 +47,7 @@ class UserService extends UiTIDUserService
                 // Cast to a User object that can be safely encoded to json and add the user roles.
                 $user = User::fromCultureFeedUser($cfUser);
             } catch (\Exception $e) {
+
                 $idToken = $this->session->get('id_token');
 
                 $client = new Client();
