@@ -18,7 +18,8 @@ class UserServiceProvider extends UiTIDUserServiceProvider
                 new UserService(
                     $pimple['culturefeed'],
                     $pimple['user_role.storage'],
-                    $pimple['session']
+                    $pimple['session'],
+                    $pimple['config']['platform_host']
                 )
             );
 

@@ -18,14 +18,21 @@ class UserService extends UiTIDUserService
      */
     private $session;
 
+    /**
+     * @var string
+     */
+    private $platformUrl;
+
     public function __construct(
         \CultureFeed $cultureFeed,
         UserRoleStorageInterface $userRoleStorage,
-        Session $session
+        Session $session,
+        string $platformUrl
     ) {
         parent::__construct($cultureFeed);
         $this->userRoleStorage = $userRoleStorage;
         $this->session = $session;
+        $this->platformUrl = $platformUrl;
     }
 
     /**
@@ -44,7 +51,7 @@ class UserService extends UiTIDUserService
 
                 $client = new Client();
                 $request = $client->get(
-                    'http://host.docker.internal:81/api/token/' . $idToken
+                    $this->platformUrl . '/api/token/' . $idToken
                 );
                 $response = $request->send();
                 $userFromPlatform = json_decode($response->getBody(true), true);

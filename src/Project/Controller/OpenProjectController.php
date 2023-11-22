@@ -24,10 +24,16 @@ final class OpenProjectController
      */
     private $platformUrl;
 
-    public function __construct(Session $session, string $platformUrl)
+    /*
+     * @var string
+     */
+    private $widgetUrl;
+
+    public function __construct(Session $session, string $platformUrl, string $widgetUrl)
     {
         $this->session = $session;
         $this->platformUrl = $platformUrl;
+        $this->widgetUrl = $widgetUrl;
     }
 
     public function openProject(Request $request, string $id): RedirectResponse
@@ -40,7 +46,7 @@ final class OpenProjectController
             )
         );
         $client = new Client();
-        $request = $client->get($this->platformUrl . $tokenString);
+        $request = $client->get($this->platformUrl . '/api/token/' . $tokenString);
         $response = $request->send();
 
         if ($response->getStatusCode() !== 200) {
@@ -48,6 +54,6 @@ final class OpenProjectController
         }
 
         $this->session->set('id_token', $tokenString);
-        return new RedirectResponse('http://host.docker.internal:4200/project/' . $id);
+        return new RedirectResponse($this->widgetUrl . '/project/' . $id);
     }
 }

@@ -38,7 +38,8 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $app['open_project_controller'] = function (Application $app) {
             return new OpenProjectController(
                 $app['session'],
-                'http://host.docker.internal:81/api/token/'
+                $app['config']['platform_host'],
+                $app['config']['widget_host']
             );
         };
 
