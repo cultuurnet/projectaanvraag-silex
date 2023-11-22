@@ -43,10 +43,32 @@ class UserServiceTest extends TestCase
         $userService = new UserService(
             $this->cultureFeed,
             $this->userRoleStorage,
-            $this->createMock(Session::class)
+            $this->createMock(Session::class),
+            'http://platform.example'
         );
         $user = $userService->getUser(1);
 
         $this->assertInstanceOf(User::class, $user);
+    }
+
+    public function testUiTidV2Service()
+    {
+        $this->cultureFeed->expects($this->any())
+            ->method('getUser')
+            ->willThrowException(new \Exception());
+
+        $session = $this->createMock(Session::class);
+
+        $session->expects($this->once())
+            ->method('get')
+            ->with(['id_token'])
+            ->willReturn('dummyToken');
+
+        $userService = new UserService(
+            $this->cultureFeed,
+            $this->userRoleStorage,
+            $session,
+            'http://platform.example'
+        );
     }
 }
