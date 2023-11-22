@@ -15,10 +15,14 @@ use Symfony\Component\HttpFoundation\Session\Session;
 final class OpenProjectController
 {
     /**
+     * @var UserSessionService
+     */
+    private $userSessionService;
+
+    /**
      * @var Session
      */
     private $session;
-
     /**
      * @var string
      */
@@ -29,8 +33,9 @@ final class OpenProjectController
      */
     private $widgetUrl;
 
-    public function __construct(Session $session, string $platformUrl, string $widgetUrl)
+    public function __construct(UserSessionService $userSessionService, Session $session, string $platformUrl, string $widgetUrl)
     {
+        $this->userSessionService = $userSessionService;
         $this->session = $session;
         $this->platformUrl = $platformUrl;
         $this->widgetUrl = $widgetUrl;
@@ -39,12 +44,7 @@ final class OpenProjectController
     public function openProject(Request $request, string $id): RedirectResponse
     {
         $tokenString = $request->get('idToken');
-        (new UserSessionService($this->session))->setMinimalUserInfo(
-            new User(
-                $tokenString,
-                new TokenCredentials('token', 'secret')
-            )
-        );
+
         $client = new Client();
         $request = $client->get($this->platformUrl . '/api/token/' . $tokenString);
         $response = $request->send();
@@ -52,6 +52,13 @@ final class OpenProjectController
         if ($response->getStatusCode() !== 200) {
             throw new \Exception('Invalid token');
         }
+
+        $this->userSessionService->setMinimalUserInfo(
+            new User(
+                $tokenString,
+                new TokenCredentials('token', 'secret')
+            )
+        );
 
         $this->session->set('id_token', $tokenString);
         return new RedirectResponse($this->widgetUrl . '/project/' . $id);

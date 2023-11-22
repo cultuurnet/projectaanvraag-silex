@@ -37,6 +37,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
 
         $app['open_project_controller'] = function (Application $app) {
             return new OpenProjectController(
+                $app['uitid_user_session_service'],
                 $app['session'],
                 $app['config']['platform_host'],
                 $app['config']['widget_host']
