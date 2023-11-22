@@ -23,16 +23,23 @@ class UserService extends UiTIDUserService
      */
     private $platformUrl;
 
+    /*
+     * @var Client
+     */
+    private $client;
+
     public function __construct(
         \CultureFeed $cultureFeed,
         UserRoleStorageInterface $userRoleStorage,
         Session $session,
-        string $platformUrl
+        string $platformUrl,
+        Client $client
     ) {
         parent::__construct($cultureFeed);
         $this->userRoleStorage = $userRoleStorage;
         $this->session = $session;
         $this->platformUrl = $platformUrl;
+        $this->client = $client;
     }
 
     /**
@@ -47,11 +54,9 @@ class UserService extends UiTIDUserService
                 // Cast to a User object that can be safely encoded to json and add the user roles.
                 $user = User::fromCultureFeedUser($cfUser);
             } catch (\Exception $e) {
-
                 $idToken = $this->session->get('id_token');
 
-                $client = new Client();
-                $request = $client->get(
+                $request = $this->client->get(
                     $this->platformUrl . '/api/token/' . $idToken
                 );
                 $response = $request->send();
