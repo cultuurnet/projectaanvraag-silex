@@ -2,11 +2,10 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
 use Doctrine\ORM\EntityRepository;
+use GuzzleHttp\Psr7\Response;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ImportProjectController
@@ -29,7 +28,7 @@ class ImportProjectController
         $this->projectRepository = $projectRepository;
     }
 
-    public function importProject(string $uuid, Request $request): JsonResponse
+    public function importProject(string $uuid, Request $request): Response
     {
         $postedProject = json_decode($request->getContent());
 
@@ -50,9 +49,6 @@ class ImportProjectController
             )
         );
 
-        /** @var Project $project */
-        $project = $this->projectRepository->findOneBy(['platformUuid' => $uuid]);
-
-        return new JsonResponse(['databaseId' => $project->getId()]);
+        return new Response();
     }
 }
