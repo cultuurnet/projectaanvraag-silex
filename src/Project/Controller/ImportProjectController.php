@@ -3,9 +3,8 @@
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
-use Doctrine\ORM\EntityRepository;
-use GuzzleHttp\Psr7\Response;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ImportProjectController
@@ -17,18 +16,12 @@ class ImportProjectController
      */
     private $commandBus;
 
-    /**
-     * @var EntityRepository
-     */
-    protected $projectRepository;
-
-    public function __construct(MessageBusSupportingMiddleware $commandBus, EntityRepository $projectRepository)
+    public function __construct(MessageBusSupportingMiddleware $commandBus)
     {
         $this->commandBus = $commandBus;
-        $this->projectRepository = $projectRepository;
     }
 
-    public function importProject(string $uuid, Request $request): Response
+    public function importProject(string $uuid, Request $request): JsonResponse
     {
         $postedProject = json_decode($request->getContent());
 
@@ -49,6 +42,6 @@ class ImportProjectController
             )
         );
 
-        return new Response();
+        return new JsonResponse();
     }
 }
