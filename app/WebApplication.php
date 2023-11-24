@@ -113,7 +113,7 @@ class WebApplication extends ApplicationBase
                         new Path('^/event/', 'GET'),
                         new Path('^/upload', 'POST'),
                         new Path('^/project/.*$', 'POST'),
-                        new Path('^/project/[0-9]*/widget/.*$', 'GET'),
+                        new Path('^/project/[A-z0-9\-]*/widget/.*$', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
