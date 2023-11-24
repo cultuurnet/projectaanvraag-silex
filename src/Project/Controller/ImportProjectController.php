@@ -2,9 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
-use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
-use Doctrine\ORM\EntityRepository;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,15 +16,9 @@ class ImportProjectController
      */
     private $commandBus;
 
-    /**
-     * @var EntityRepository
-     */
-    protected $projectRepository;
-
-    public function __construct(MessageBusSupportingMiddleware $commandBus, EntityRepository $projectRepository)
+    public function __construct(MessageBusSupportingMiddleware $commandBus)
     {
         $this->commandBus = $commandBus;
-        $this->projectRepository = $projectRepository;
     }
 
     public function importProject(string $uuid, Request $request): JsonResponse
@@ -50,9 +42,6 @@ class ImportProjectController
             )
         );
 
-        /** @var Project $project */
-        $project = $this->projectRepository->findOneBy(['platformUuid' => $uuid]);
-
-        return new JsonResponse(['databaseId' => $project->getId()]);
+        return new JsonResponse();
     }
 }

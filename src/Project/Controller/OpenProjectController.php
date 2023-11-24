@@ -6,7 +6,9 @@ namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
 use CultuurNet\Auth\TokenCredentials;
 use CultuurNet\Auth\User;
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\UiTIDProvider\User\UserSessionService;
+use Doctrine\ORM\EntityRepository;
 use Guzzle\Http\Client;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,20 +25,32 @@ final class OpenProjectController
      * @var Session
      */
     private $session;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $projectRepository;
+
     /**
      * @var string
      */
     private $platformUrl;
 
-    /*
+    /**
      * @var string
      */
     private $widgetUrl;
 
-    public function __construct(UserSessionService $userSessionService, Session $session, string $platformUrl, string $widgetUrl)
-    {
+    public function __construct(
+        UserSessionService $userSessionService,
+        Session $session,
+        EntityRepository $projectRepository,
+        string $platformUrl,
+        string $widgetUrl
+    ) {
         $this->userSessionService = $userSessionService;
         $this->session = $session;
+        $this->projectRepository = $projectRepository;
         $this->platformUrl = $platformUrl;
         $this->widgetUrl = $widgetUrl;
     }
@@ -60,7 +74,10 @@ final class OpenProjectController
             )
         );
 
+        /** @var Project $project */
+        $project = $this->projectRepository->findOneBy(['platformUuid' => $id]);
+
         $this->session->set('id_token', $tokenString);
-        return new RedirectResponse($this->widgetUrl . '/project/' . $id);
+        return new RedirectResponse($this->widgetUrl . '/project/' . $project->getId());
     }
 }

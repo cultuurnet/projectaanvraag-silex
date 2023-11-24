@@ -29,16 +29,14 @@ class ProjectControllerProvider implements ControllerProviderInterface
         };
 
         $app['import_project_controller'] = function (Application $app) {
-            return new ImportProjectController(
-                $app['command_bus'],
-                $app['project_repository']
-            );
+            return new ImportProjectController($app['command_bus']);
         };
 
         $app['open_project_controller'] = function (Application $app) {
             return new OpenProjectController(
                 $app['uitid_user_session_service'],
                 $app['session'],
+                $app['project_repository'],
                 $app['config']['platform_host'],
                 $app['config']['widget_host']
             );
