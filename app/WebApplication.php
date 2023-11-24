@@ -15,6 +15,7 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetAPIControllerProvider;
 use CultuurNet\ProjectAanvraag\Widget\WidgetControllerProvider;
 use CultuurNet\ProjectAanvraag\Upload\UploadControllerProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyControllerProvider;
+use CultuurNet\UiTIDProvider\Auth\AuthControllerProvider;
 use CultuurNet\UiTIDProvider\Security\MultiPathRequestMatcher;
 use CultuurNet\UiTIDProvider\Security\Path;
 use CultuurNet\UiTIDProvider\User\UserControllerProvider;
@@ -112,6 +113,7 @@ class WebApplication extends ApplicationBase
                         new Path('^/event/', 'GET'),
                         new Path('^/upload', 'POST'),
                         new Path('^/project/.*$', 'POST'),
+                        new Path('^/project/[0-9]*/widget/.*$', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
@@ -155,34 +157,16 @@ class WebApplication extends ApplicationBase
         $this->mount('coupons', new CouponControllerProvider());
 
         $this->mount('uitid', new UserControllerProvider());
-        $this->mount(
-            'culturefeed/oauth',
-            new \CultuurNet\UiTIDProvider\Auth\AuthControllerProvider()
-        );
+        $this->mount('culturefeed/oauth', new AuthControllerProvider());
 
-        $this->mount(
-            'widgets',
-            new WidgetAPIControllerProvider()
-        );
+        $this->mount('widgets', new WidgetAPIControllerProvider());
 
-        $this->mount(
-            'widgets',
-            new WidgetControllerProvider()
-        );
+        $this->mount('widgets', new WidgetControllerProvider());
 
-        $this->mount(
-            null,
-            new UploadControllerProvider()
-        );
+        $this->mount(null, new UploadControllerProvider());
 
-        $this->mount(
-            null,
-            new HomeControllerProvider()
-        );
+        $this->mount(null, new HomeControllerProvider());
 
-        $this->mount(
-            null,
-            new ShareProxyControllerProvider()
-        );
+        $this->mount(null, new ShareProxyControllerProvider());
     }
 }

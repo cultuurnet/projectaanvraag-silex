@@ -2,8 +2,12 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
+use Guzzle\Http\Client;
+use Guzzle\Http\Message\Request;
+use Guzzle\Http\Message\Response;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class UserServiceTest extends TestCase
 {
@@ -17,10 +21,16 @@ class UserServiceTest extends TestCase
      */
     protected $cultureFeed;
 
+    /*
+     * @var string
+     */
+    private $platformHost;
+
     public function setUp()
     {
         $this->userRoleStorage = $this->createMock(UserRoleStorageInterface::class);
         $this->cultureFeed = $this->createMock(\CultureFeed::class);
+        $this->platformHost = 'http://platform.example';
     }
 
     /**
@@ -39,31 +49,73 @@ class UserServiceTest extends TestCase
             ->method('getRolesByUserId')
             ->willReturn(['administrator']);
 
-        $userService = new UserService($this->cultureFeed, $this->userRoleStorage);
+        $userService = new UserService(
+            $this->cultureFeed,
+            $this->userRoleStorage,
+            $this->createMock(Session::class),
+            $this->platformHost,
+            $this->createMock(Client::class)
+        );
         $user = $userService->getUser(1);
 
         $this->assertInstanceOf(User::class, $user);
     }
 
     /**
-     * Test UserService Exception
+     * Test UitIdV2
      */
-    public function testUserServiceException()
+    public function testUiTidV2Service()
     {
-        $cfUser = new \CultureFeed_User();
-        $cfUser->id = 1;
+        $session = $this->createMock(Session::class);
+        $client = $this->createMock(Client::class);
+        $dummyToken = 'dummyToken';
+        $request = $this->createMock(Request::class);
 
         $this->cultureFeed->expects($this->any())
             ->method('getUser')
-            ->willThrowException(new \CultureFeed_ParseException('parse_exception'));
+            ->willThrowException(new \Exception());
 
         $this->userRoleStorage->expects($this->any())
             ->method('getRolesByUserId')
             ->willReturn(['administrator']);
 
-        $userService = new UserService($this->cultureFeed, $this->userRoleStorage);
-        $user = $userService->getUser(1);
+        $session->expects($this->once())
+            ->method('get')
+            ->with('id_token')
+            ->willReturn($dummyToken);
 
-        $this->assertEquals(null, $user, 'It correctly handles a CultureFeed_ParseException');
+        $client->expects($this->once())
+            ->method('get')
+            ->with($this->platformHost . '/api/token/' . $dummyToken)
+            ->willReturn(
+                $request
+            );
+
+        $request->expects($this->once())
+            ->method('send')
+            ->willReturn(
+                new Response(
+                    200,
+                    null,
+                    json_encode(
+                        [
+                            'sub' => 'auth0|123',
+                            'nickname' => 'NickN',
+                        ]
+                    )
+                )
+            );
+
+        $userService = new UserService(
+            $this->cultureFeed,
+            $this->userRoleStorage,
+            $session,
+            $this->platformHost,
+            $client
+        );
+
+        $user = $userService->getUser($dummyToken);
+
+        $this->assertInstanceOf(User::class, $user);
     }
 }

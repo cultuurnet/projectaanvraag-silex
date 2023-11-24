@@ -2,7 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\Project\Controller;
 
+use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
+use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -22,6 +24,11 @@ class ImportProjectControllerTest extends TestCase
     private $messageBus;
 
     /**
+     * @var EntityRepository & MockObject
+     */
+    private $projectRepository;
+
+    /**
      * @var Request & MockObject
      */
     private $request;
@@ -32,8 +39,11 @@ class ImportProjectControllerTest extends TestCase
 
         $this->request = $this->createMock(Request::class);
 
+        $this->projectRepository = $this->createMock(EntityRepository::class);
+
         $this->controller = new ImportProjectController(
-            $this->messageBus
+            $this->messageBus,
+            $this->projectRepository
         );
     }
 
@@ -69,7 +79,13 @@ class ImportProjectControllerTest extends TestCase
             ->method('handle')
             ->with($importProject);
 
+        $this->projectRepository
+            ->expects($this->once())
+            ->method('findOneBy')
+            ->with(['platformUuid' => $platformUuid])
+            ->willReturn((new Project())->setId(123));
+
         $response = $this->controller->importProject($platformUuid, $this->request);
-        $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
+        $this->assertEquals(new JsonResponse(['databaseId' => 123]), $response, 'It correctly handles the request');
     }
 }
