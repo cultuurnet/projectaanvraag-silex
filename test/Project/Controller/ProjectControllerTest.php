@@ -111,7 +111,7 @@ class ProjectControllerTest extends TestCase
         $this->formData = new \stdClass();
         $this->formData->name = 'name';
         $this->formData->summary = 'summary';
-        $this->formData->integrationType = 'integrationType';
+        $this->formData->integrationType = 2;
         $this->formData->termsAndConditions = 'termsAndConditions';
     }
 

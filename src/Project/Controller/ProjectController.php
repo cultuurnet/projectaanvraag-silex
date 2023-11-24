@@ -7,9 +7,6 @@ use CultuurNet\ProjectAanvraag\Core\Exception\MissingRequiredFieldsException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponValidatorInterface;
 use CultuurNet\ProjectAanvraag\Entity\Project;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyClientInterface;
-use CultuurNet\ProjectAanvraag\Insightly\Item\ContactInfo;
-use CultuurNet\ProjectAanvraag\Insightly\Item\EntityList;
-use CultuurNet\ProjectAanvraag\Insightly\Item\Address as AddressEntity;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Link;
 use CultuurNet\ProjectAanvraag\Insightly\Item\Organisation;
 use CultuurNet\ProjectAanvraag\Insightly\Parser\OrganisationParser;
@@ -22,6 +19,7 @@ use CultuurNet\ProjectAanvraag\Project\Command\ActivateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\BlockProject;
 use CultuurNet\ProjectAanvraag\Project\Command\CreateProject;
 use CultuurNet\ProjectAanvraag\Project\Command\DeleteProject;
+use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
 use CultuurNet\ProjectAanvraag\Project\Command\RequestActivation;
 use CultuurNet\ProjectAanvraag\Project\ProjectServiceInterface;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
@@ -33,6 +31,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class ProjectController
 {
+    use ValidateRequiredFieldsTrait;
+
     /**
      * @var MessageBusSupportingMiddleware
      */
@@ -95,7 +95,7 @@ final class ProjectController
     {
         $postedProject = json_decode($request->getContent());
 
-        $this->validateRequiredFields(
+        $this->validate(
             ['name', 'summary', 'integrationType', 'termsAndConditions'],
             $postedProject
         );
@@ -184,7 +184,7 @@ final class ProjectController
             $this->couponValidator->validateCoupon($postedData->coupon);
             $this->commandBus->handle(new ActivateProject($project, $postedData->coupon));
         } else {
-            $this->validateRequiredFields(
+            $this->validate(
                 ['name', 'street', 'postal', 'city'],
                 $postedData
             );
@@ -224,7 +224,7 @@ final class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
         $data = json_decode($request->getContent());
 
-        $this->validateRequiredFields(['contentFilter'], $data);
+        $this->validate(['contentFilter'], $data);
 
         $this->projectService->updateContentFilter($project, $data->contentFilter);
 
@@ -260,7 +260,7 @@ final class ProjectController
         $project = $this->getProjectWithAccessCheck($id, 'edit');
 
         $postedData = json_decode($request->getContent());
-        $this->validateRequiredFields(
+        $this->validate(
             ['name', 'addresses'],
             $postedData
         );
@@ -332,25 +332,6 @@ final class ProjectController
         }
 
         return $project;
-    }
-
-    /**
-     * Validate if all required fields are in the data.
-     * @param \stdClass $data
-     * @throws MissingRequiredFieldsException
-     */
-    private function validateRequiredFields($requiredFields, \stdClass $data = null)
-    {
-        $emptyFields = [];
-        foreach ($requiredFields as $field) {
-            if (empty($data->$field)) {
-                $emptyFields[] = $field;
-            }
-        }
-
-        if (!empty($emptyFields)) {
-            throw new MissingRequiredFieldsException('Some required fields are missing: ' . implode(', ', $emptyFields));
-        }
     }
 
     /**

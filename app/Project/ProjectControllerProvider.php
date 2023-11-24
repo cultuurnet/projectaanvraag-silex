@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
+use CultuurNet\ProjectAanvraag\Project\Controller\ImportProjectController;
 use CultuurNet\ProjectAanvraag\Project\Controller\ProjectController;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
@@ -26,11 +27,18 @@ class ProjectControllerProvider implements ControllerProviderInterface
             );
         };
 
+        $app['import_project_controller'] = function (Application $app) {
+            return new ImportProjectController(
+                $app['command_bus']
+            );
+        };
+
         /* @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
         $controllers->get('/', 'project_controller:getProjects');
         $controllers->get('/{id}', 'project_controller:getProject');
         $controllers->post('/', 'project_controller:createProject');
+        $controllers->post('/{uuid}', 'import_project_controller:importProject');
         $controllers->delete('/{id}', 'project_controller:deleteProject');
         $controllers->post('/{id}/request-activation', 'project_controller:requestActivation');
         $controllers->get('/{id}/activate', 'project_controller:activateProject');

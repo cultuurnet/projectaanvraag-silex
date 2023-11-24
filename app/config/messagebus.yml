@@ -159,6 +159,13 @@ handlers:
             - integration_types.storage
             - insightly_logger
 
+    import_project_handler:
+        command: CultuurNet\ProjectAanvraag\Project\Command\ImportProject
+        class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\ImportProjectCommandHandler
+        arguments:
+            - orm.em
+            - insightly_logger
+
     activate_project_handler:
         command: CultuurNet\ProjectAanvraag\Project\Command\ActivateProject
         class: \CultuurNet\ProjectAanvraag\Project\CommandHandler\ActivateProjectCommandHandler
