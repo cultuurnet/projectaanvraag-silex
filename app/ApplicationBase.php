@@ -13,6 +13,7 @@ use CultuurNet\ProjectAanvraag\CssStats\CssStatsServiceProvider;
 use CultuurNet\ProjectAanvraag\Insightly\InsightlyServiceProvider as LegacyInsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\Integrations\Insightly\InsightlyServiceProvider;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeStorageServiceProvider;
+use CultuurNet\ProjectAanvraag\Platform\PlatformServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\CuratorenAPI\CuratorenAPIServiceProvider;
@@ -94,6 +95,8 @@ class ApplicationBase extends SilexApplication
      */
     protected function registerProviders()
     {
+        $this->register(new PlatformServiceProvider());
+
         $this->register(
             new CacheProvider(),
             [

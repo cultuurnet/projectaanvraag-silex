@@ -2,9 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
+use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use CultuurNet\UiTIDProvider\User\UserService as UiTIDUserService;
-use Guzzle\Http\Client;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class UserService extends UiTIDUserService
 {
@@ -14,32 +13,18 @@ class UserService extends UiTIDUserService
     protected $userRoleStorage;
 
     /**
-     * @var Session
+     * @var PlatformClientInterface
      */
-    private $session;
-
-    /**
-     * @var string
-     */
-    private $platformUrl;
-
-    /*
-     * @var Client
-     */
-    private $client;
+    private $platformClient;
 
     public function __construct(
         \CultureFeed $cultureFeed,
         UserRoleStorageInterface $userRoleStorage,
-        Session $session,
-        string $platformUrl,
-        Client $client
+        PlatformClientInterface $platformClient
     ) {
         parent::__construct($cultureFeed);
         $this->userRoleStorage = $userRoleStorage;
-        $this->session = $session;
-        $this->platformUrl = $platformUrl;
-        $this->client = $client;
+        $this->platformClient = $platformClient;
     }
 
     /**
@@ -54,13 +39,7 @@ class UserService extends UiTIDUserService
                 // Cast to a User object that can be safely encoded to json and add the user roles.
                 $user = User::fromCultureFeedUser($cfUser);
             } catch (\Exception $e) {
-                $idToken = $this->session->get('id_token');
-
-                $request = $this->client->get(
-                    $this->platformUrl . '/api/token/' . $idToken
-                );
-                $response = $request->send();
-                $userFromPlatform = json_decode($response->getBody(true), true);
+                $userFromPlatform = $this->platformClient->getCurrentUser();
 
                 $user = User::fromPlatformUser(
                     $userFromPlatform['sub'],

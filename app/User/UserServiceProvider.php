@@ -2,9 +2,9 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
+use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use CultuurNet\UiTIDProvider\User\CachedUserService;
 use CultuurNet\UiTIDProvider\User\UserServiceProvider as UiTIDUserServiceProvider;
-use Guzzle\Http\Client;
 use Pimple\Container;
 
 class UserServiceProvider extends UiTIDUserServiceProvider
@@ -19,9 +19,7 @@ class UserServiceProvider extends UiTIDUserServiceProvider
                 new UserService(
                     $pimple['culturefeed'],
                     $pimple['user_role.storage'],
-                    $pimple['session'],
-                    $pimple['config']['platform_host'],
-                    new Client()
+                    $pimple[PlatformClientInterface::class]
                 )
             );
 
