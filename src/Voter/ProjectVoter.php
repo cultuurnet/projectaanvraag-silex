@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Voter;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -14,6 +15,16 @@ class ProjectVoter extends Voter
     const EDIT = 'edit';
     const ACTIVATE = 'activate';
     const BLOCK = 'block';
+
+    /**
+     * @var PlatformClientInterface
+     */
+    private $platformClient;
+
+    public function __construct(PlatformClientInterface $platformClient)
+    {
+        $this->platformClient = $platformClient;
+    }
 
     /**
      * @param string $attribute
@@ -32,7 +43,13 @@ class ProjectVoter extends Voter
         }
 
         // Allow users to only view and edit their own projects
-        return (self::EDIT === $attribute || self::VIEW === $attribute) && $project->getUserId() === $user->id;
+        $hasAccess = (self::EDIT === $attribute || self::VIEW === $attribute) && $project->getUserId() === $user->id;
+
+        if (!$hasAccess) {
+            $hasAccess = $this->platformClient->hasAccessOnIntegration($project->getPlatformUuid());
+        }
+
+        return $hasAccess;
     }
 
     /**

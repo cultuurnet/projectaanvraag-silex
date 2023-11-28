@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\Voter;
 
 use CultuurNet\ProjectAanvraag\Entity\ProjectInterface;
+use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use CultuurNet\ProjectAanvraag\User\User;
 use CultuurNet\ProjectAanvraag\User\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,6 +23,11 @@ class ProjectVoterTest extends TestCase
     protected $project;
 
     /**
+     * @var PlatformClientInterface & MockObject
+     */
+    private $platformClient;
+
+    /**
      * @var ProjectVoter
      */
     protected $voter;
@@ -32,7 +38,9 @@ class ProjectVoterTest extends TestCase
 
         $this->project = $this->createMock(ProjectInterface::class);
 
-        $this->voter = new ProjectVoter();
+        $this->platformClient = $this->createMock(PlatformClientInterface::class);
+
+        $this->voter = new ProjectVoter($this->platformClient);
     }
 
     /**
@@ -49,8 +57,17 @@ class ProjectVoterTest extends TestCase
             ->will($this->returnValue(false));
 
         $this->token->expects($this->any())
-        ->method('getUser')
-        ->will($this->returnValue($user));
+            ->method('getUser')
+            ->will($this->returnValue($user));
+
+        $this->project->expects($this->once())
+            ->method('getPlatformUuid')
+            ->will($this->returnValue('platform_uuid'));
+
+        $this->platformClient->expects($this->once())
+            ->method('hasAccessOnIntegration')
+            ->with('platform_uuid')
+            ->willReturn(false);
 
         $vote = $this->voter->vote($this->token, $this->project, ['edit']);
         $this->assertEquals(-1, $vote, 'It correctly votes on the subject and denies editing');
