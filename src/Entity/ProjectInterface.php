@@ -178,6 +178,17 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     /**
      * @return string
      */
+    public function getPlatformUuid();
+
+    /**
+     * @param string $platformUuid
+     * @return ProjectInterface
+     */
+    public function setPlatformUuid($platformUuid);
+
+    /**
+     * @return string
+     */
     public function getCoupon();
 
     /**
