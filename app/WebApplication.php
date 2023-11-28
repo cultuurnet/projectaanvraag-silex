@@ -133,7 +133,10 @@ class WebApplication extends ApplicationBase
                 new AuthenticatedVoter($this['security.trust_resolver']),
 
                 // Custom voters
-                new ProjectVoter($this[PlatformClientInterface::class]),
+                new ProjectVoter(
+                    $this[PlatformClientInterface::class],
+                    isset($this['config']['check_access_on_platform']) ? $this['config']['check_access_on_platform'] : false
+                ),
                 new ImportVoter(),
             ];
         };

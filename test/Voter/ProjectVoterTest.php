@@ -40,7 +40,7 @@ class ProjectVoterTest extends TestCase
 
         $this->platformClient = $this->createMock(PlatformClientInterface::class);
 
-        $this->voter = new ProjectVoter($this->platformClient);
+        $this->voter = new ProjectVoter($this->platformClient, true);
     }
 
     /**

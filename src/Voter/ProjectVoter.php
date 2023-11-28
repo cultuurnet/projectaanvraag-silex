@@ -21,9 +21,14 @@ class ProjectVoter extends Voter
      */
     private $platformClient;
 
-    public function __construct(PlatformClientInterface $platformClient)
-    {
+    private $checkAccessOnPlatform;
+
+    public function __construct(
+        PlatformClientInterface $platformClient,
+        bool $checkAccessOnPlatform
+    ) {
         $this->platformClient = $platformClient;
+        $this->checkAccessOnPlatform = $checkAccessOnPlatform;
     }
 
     /**
@@ -45,7 +50,7 @@ class ProjectVoter extends Voter
         // Allow users to only view and edit their own projects
         $hasAccess = (self::EDIT === $attribute || self::VIEW === $attribute) && $project->getUserId() === $user->id;
 
-        if (!$hasAccess) {
+        if (!$hasAccess && $this->checkAccessOnPlatform) {
             $hasAccess = $this->platformClient->hasAccessOnIntegration($project->getPlatformUuid());
         }
 
