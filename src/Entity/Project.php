@@ -162,7 +162,7 @@ class Project implements ProjectInterface
 
     /**
      * @ORM\Column(name="platform_uuid", type="string", length=255, nullable=true)
-     * @var string
+     * @var ?string
      * @Type("string")
      */
     protected $platformUuid;
