@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
+use CultuurNet\ProjectAanvraag\Platform\PlatformClient;
+use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use CultuurNet\ProjectAanvraag\Project\Controller\ImportProjectController;
 use CultuurNet\ProjectAanvraag\Project\Controller\OpenProjectController;
 use CultuurNet\ProjectAanvraag\Project\Controller\ProjectController;
@@ -34,10 +36,8 @@ class ProjectControllerProvider implements ControllerProviderInterface
 
         $app['open_project_controller'] = function (Application $app) {
             return new OpenProjectController(
-                $app['uitid_user_session_service'],
-                $app['session'],
                 $app['project_repository'],
-                $app['config']['platform_host'],
+                $app[PlatformClientInterface::class],
                 $app['config']['widget_host']
             );
         };

@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Core\Exception\ValidationException;
 use CultuurNet\ProjectAanvraag\Coupon\CouponControllerProvider;
 use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeControllerProvider;
+use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\ProjectAanvraag\Security\UiTIDSecurityServiceProvider;
 use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
@@ -132,7 +133,10 @@ class WebApplication extends ApplicationBase
                 new AuthenticatedVoter($this['security.trust_resolver']),
 
                 // Custom voters
-                new ProjectVoter(),
+                new ProjectVoter(
+                    $this[PlatformClientInterface::class],
+                    isset($this['config']['check_access_on_platform']) ? $this['config']['check_access_on_platform'] : false
+                ),
                 new ImportVoter(),
             ];
         };

@@ -2,6 +2,8 @@
 
 namespace CultuurNet\ProjectAanvraag\User;
 
+use CultuurNet\ProjectAanvraag\Platform\PlatformClient;
+use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use Guzzle\Http\Client;
 use Guzzle\Http\Message\Request;
 use Guzzle\Http\Message\Response;
@@ -14,27 +16,38 @@ class UserServiceTest extends TestCase
     /**
      * @var UserRoleStorageInterface & MockObject
      */
-    protected $userRoleStorage;
+    private $userRoleStorage;
 
     /**
      * @var \CultureFeed & MockObject
      */
-    protected $cultureFeed;
+    private $cultureFeed;
 
-    /*
-     * @var string
+    /**
+     * @var PlatformClientInterface & MockObject
      */
-    private $platformHost;
+    private $platformClient;
+
+    /**
+     * @var UserService
+     */
+    private $userService;
 
     public function setUp()
     {
         $this->userRoleStorage = $this->createMock(UserRoleStorageInterface::class);
         $this->cultureFeed = $this->createMock(\CultureFeed::class);
-        $this->platformHost = 'http://platform.example';
+        $this->platformClient = $this->createMock(PlatformClientInterface::class);
+
+        $this->userService = new UserService(
+            $this->cultureFeed,
+            $this->userRoleStorage,
+            $this->platformClient
+        );
     }
 
     /**
-     * Test UserService
+     * Test UiTiD v1
      */
     public function testUserService()
     {
@@ -49,27 +62,20 @@ class UserServiceTest extends TestCase
             ->method('getRolesByUserId')
             ->willReturn(['administrator']);
 
-        $userService = new UserService(
-            $this->cultureFeed,
-            $this->userRoleStorage,
-            $this->createMock(Session::class),
-            $this->platformHost,
-            $this->createMock(Client::class)
-        );
-        $user = $userService->getUser(1);
+        $this->platformClient->expects($this->never())
+            ->method('getCurrentUser');
+
+        $user = $this->userService->getUser(1);
 
         $this->assertInstanceOf(User::class, $user);
     }
 
     /**
-     * Test UitIdV2
+     * Test UiTiD v2
      */
     public function testUiTidV2Service()
     {
-        $session = $this->createMock(Session::class);
-        $client = $this->createMock(Client::class);
         $dummyToken = 'dummyToken';
-        $request = $this->createMock(Request::class);
 
         $this->cultureFeed->expects($this->any())
             ->method('getUser')
@@ -79,42 +85,16 @@ class UserServiceTest extends TestCase
             ->method('getRolesByUserId')
             ->willReturn(['administrator']);
 
-        $session->expects($this->once())
-            ->method('get')
-            ->with('id_token')
-            ->willReturn($dummyToken);
-
-        $client->expects($this->once())
-            ->method('get')
-            ->with($this->platformHost . '/api/token/' . $dummyToken)
+        $this->platformClient->expects($this->once())
+            ->method('getCurrentUser')
             ->willReturn(
-                $request
+                [
+                    'sub' => 1,
+                    'nickname' => 'test',
+                ]
             );
 
-        $request->expects($this->once())
-            ->method('send')
-            ->willReturn(
-                new Response(
-                    200,
-                    null,
-                    json_encode(
-                        [
-                            'sub' => 'auth0|123',
-                            'nickname' => 'NickN',
-                        ]
-                    )
-                )
-            );
-
-        $userService = new UserService(
-            $this->cultureFeed,
-            $this->userRoleStorage,
-            $session,
-            $this->platformHost,
-            $client
-        );
-
-        $user = $userService->getUser($dummyToken);
+        $user = $this->userService->getUser($dummyToken);
 
         $this->assertInstanceOf(User::class, $user);
     }
