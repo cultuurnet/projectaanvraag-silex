@@ -60,7 +60,7 @@ class ProjectVoterTest extends TestCase
             ->method('getUser')
             ->will($this->returnValue($user));
 
-        $this->project->expects($this->once())
+        $this->project->expects($this->exactly(2))
             ->method('getPlatformUuid')
             ->will($this->returnValue('platform_uuid'));
 
