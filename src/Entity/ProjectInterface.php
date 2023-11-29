@@ -176,7 +176,7 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     public function setDescription($description);
 
     /**
-     * @return string
+     * @return ?string
      */
     public function getPlatformUuid();
 

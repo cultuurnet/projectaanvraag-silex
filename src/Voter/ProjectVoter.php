@@ -50,7 +50,7 @@ class ProjectVoter extends Voter
         // Allow users to only view and edit their own projects
         $hasAccess = (self::EDIT === $attribute || self::VIEW === $attribute) && $project->getUserId() === $user->id;
 
-        if (!$hasAccess && $this->checkAccessOnPlatform) {
+        if (!$hasAccess && $this->checkAccessOnPlatform && $project->getPlatformUuid() !== null) {
             $hasAccess = $this->platformClient->hasAccessOnIntegration($project->getPlatformUuid());
         }
 
