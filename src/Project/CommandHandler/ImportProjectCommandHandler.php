@@ -34,15 +34,15 @@ class ImportProjectCommandHandler
         $project = $this->entityManager->getRepository('ProjectAanvraag:Project')->findOneBy(['platformUuid' => $importProject->getPlatformUuid()]);
         if ($project === null) {
             $project = new Project();
+            $project->setUserId($importProject->getUserId());
+            $project->setGroupId($importProject->getGroupId());
+            $project->setPlatformUuid($importProject->getPlatformUuid());
+            $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
+            $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
+            $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
         }
         $project->setName($importProject->getName());
         $project->setDescription($importProject->getDescription());
-        $project->setGroupId($importProject->getGroupId());
-        $project->setUserId($importProject->getUserId());
-        $project->setPlatformUuid($importProject->getPlatformUuid());
-        $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
-        $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
-        $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
 
         $this->entityManager->persist($project);
 
