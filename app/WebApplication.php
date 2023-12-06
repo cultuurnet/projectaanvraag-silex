@@ -8,6 +8,7 @@ use CultuurNet\ProjectAanvraag\Coupon\CouponControllerProvider;
 use CultuurNet\ProjectAanvraag\ErrorHandler\JsonErrorHandler;
 use CultuurNet\ProjectAanvraag\IntegrationType\IntegrationTypeControllerProvider;
 use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
+use CultuurNet\ProjectAanvraag\Platform\PlatformControllerProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectControllerProvider;
 use CultuurNet\ProjectAanvraag\Security\UiTIDSecurityServiceProvider;
 use CultuurNet\ProjectAanvraag\Voter\ImportVoter;
@@ -115,6 +116,7 @@ class WebApplication extends ApplicationBase
                         new Path('^/upload', 'POST'),
                         new Path('^/project/.*$', 'POST'),
                         new Path('^/project/[A-z0-9\-]*/widget/.*$', 'GET'),
+                        new Path('^/platform/logout/', 'GET'),
                         new Path('^.*$', 'OPTIONS'),
                     ]
                 ),
@@ -157,6 +159,7 @@ class WebApplication extends ApplicationBase
     protected function mountControllers()
     {
         $this->mount('project', new ProjectControllerProvider());
+        $this->mount('platform', new PlatformControllerProvider());
         $this->mount('integration-types', new IntegrationTypeControllerProvider());
         $this->mount('coupons', new CouponControllerProvider());
 
