@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\Platform\Controller;
 use CultuurNet\UiTIDProvider\User\UserSessionService;
 use Guzzle\Http\Message\Response;
 use Symfony\Component\HttpFoundation\Request;
+
 class PlatformController
 {
     /**
