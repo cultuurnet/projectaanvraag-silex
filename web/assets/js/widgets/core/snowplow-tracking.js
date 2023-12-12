@@ -228,6 +228,7 @@
 
     window.addEventListener("widget:eventDetailLoaded", () => {
       trackButtonClicks();
+      trackViewedEventTeasers();
     });
 
     window.addEventListener("beforeunload", () => {
