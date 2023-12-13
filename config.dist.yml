@@ -1,3 +1,4 @@
+locale: nl
 cors:
   origins:
     - http://localhost:9999/
