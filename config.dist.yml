@@ -124,12 +124,12 @@ css_stats:
 
 widget_host: http://widgetbeheer.uitdatabank.dev
 
-platform_host: http://projectaanvraag-api.uitdatabank.be
+platform_host: http://projectaanvraag-api.uitdatabank.dev
 check_access_on_platform: true
 
 legacy_host: http://v2-widgets.uitdatabank.be
 
-app_host: http://projectaanvraag.uitdatabank.be
+app_host: http://projectaanvraag.uitdatabank.dev
 
 social_host: http://social.uit.be
 
