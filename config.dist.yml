@@ -136,6 +136,7 @@ css_stats:
 
 # Google tag manager code
 google_tag_manager:
+platform_host: http://projectaanvraag-api.uitdatabank.be
 
 # App-URL
 app_host: "http://projectaanvraag.uitdatabank.be"
