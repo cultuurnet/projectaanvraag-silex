@@ -1,15 +1,7 @@
-# Default locale
-locale: nl
-# Cross-origin resource sharing related settings.
 cors:
-  # Allowed origins. Add one entry for each domain allowed to access the application.
-  # Always include the protocol (http or https) and if not default for the
-  # protocol, also the port number!
   origins:
-    - http://localhost:9000/
-    - http://localhost:9000
-
-# Database settings
+    - http://localhost:9999/
+    - http://localhost:9999
 database:
   default:
     driver: pdo_mysql
@@ -23,8 +15,6 @@ database:
     user:
     password:
     dbname:
-
-# Mongodb settings
 mongodb:
   default:
     host:
@@ -32,46 +22,72 @@ mongodb:
     user:
     password:
     dbname:
-
-# UiTID related settings.
 uitid:
   test:
     consumer:
       key:
       secret:
-    base_url: https://acc2.uitid.be/uitid/rest/
+    base_url: https://acc.uitid.be/uitid/rest/
   live:
     consumer:
       key:
       secret:
-    base_url: https://www.uitid.be/uitid/rest/
-
-# debug settings
-debug: false
-
-# Rabbit MQ settings
+    base_url: https://acc.uitid.be/uitid/rest/
+debug: true
 rabbitmq:
   host:
   port:
   user:
   password:
   vhost: /
-  # Time in miliseconds before retrying a message
   exchange: main_exchange_no_delay
   failed_message_delay: 3600000 # 1 hour
-
+  disable_delay: true
 integrations:
   insightly:
     host: https://api.insight.ly/v3.1/
     api_key:
-
-# Insightly settings
+    pipelines:
+      opportunities:
+        id: 949820
+        stages:
+          test: 3894948
+          request: 3894949
+          information: 3894950
+          offer: 3894951
+          closed: 3894952
+      projects:
+        id: 949819
+        stages:
+          test: 3894944
+          start: 3894945
+          evaluation: 3894946
+          live: 3894947
+          ended: 3936051
 insightly:
   host: https://api.insight.ly/v3.1
   api_key:
   project_config:
+    categories:
+      22678: 4345627 # widgets
+      22679: 4345628 # culturefeed
+      22677: 4345629 # api
+    pipeline: 293730
+    stages:
+      test: 942747
+      aanvraag: 942748
+      offerte: 942749
+      bestelbon: 942750
+      factuur: 942751
+      live_met_abonnement: 942752
+      live_met_coupon: 942753
+    custom_fields:
+      vat: ''
+      live_key: PROJECT_FIELD_1
+      test_key: PROJECT_FIELD_2
+      payment: ORGANISATION_FIELD_2
+      coupon: ''
 
-# Search API settings
 search_api:
   test:
     base_url: https://search-acc.uitdatabank.be
@@ -79,69 +95,63 @@ search_api:
   live:
     base_url: https://search.uitdatabank.be
     api_key:
-  region-list: # location of the region export
-  cache:
-    enabled: true
-    backend: filesystem # supported cache: filesystem or redis
-    ttl: 3600
-
-# Curatoren API settings
-curatoren_api:
-  test:
-    base_url: https://curator-acc.uitdatabank.be/
-  live:
-    base_url: https://curator-acc.uitdatabank.be/
   cache:
     enabled: true
     backend: redis
     ttl: 3600
+  region-list: https://search-acc.uitdatabank.be/autocomplete.json
 
-# Article Linker
-articlelinker_api:
-  test:
-    base_url: https://articlelinker-acc.uitdatabank.be/
-  live:
-    base_url: https://articlelinker.uitdatabank.be/
-  cache:
-    enabled: true
-    backend: redis
-    ttl: 3600
-
-# Annotation settings
 annotations:
   cache:
     enabled: true
-    backend: filesystem # supported cache: filesystem or redis
-
-# ODM and ORM settings
+    backend: redis
 odm_orm:
-  proxies_dir: /var/www/projectaanvraag-api/cache/proxies
-  hydrator_dir: /var/www/projectaanvraag-api/cache/hydrators
+  proxies_dir: /var/www/html/cache/proxies
+  hydrator_dir: /var/www/html/cache/hydrators
   cache:
     enabled: true
-    backend: filesystem
-
-# Global cache settings
+    backend: redis
 cache:
   redis:
-    host:
+    host: redis
     port: 6379
 
-# Legacy widget host settings
-legacy_host: http://tools.uitdatabank.be
+google_tag_manager: GTM-JQ4G
 
-# CSS stats settings
 css_stats:
   timeout: 5
   connect_timeout: 1
 
-# Google tag manager code
-google_tag_manager:
-platform_host: http://projectaanvraag-api.uitdatabank.be
+widget_host: http://widgetbeheer.uitdatabank.dev
 
-# App-URL
-app_host: "http://projectaanvraag.uitdatabank.be"
-social_host: "http://social.uit.be"
+platform_host: http://projectaanvraag-api.uitdatabank.be
+check_access_on_platform: true
+
+legacy_host: http://v2-widgets.uitdatabank.be
+
+app_host: http://projectaanvraag.uitdatabank.be
+
+social_host: http://social.uit.be
+
+articlelinker_api:
+  test:
+    base_url: https://articlelinker-acc.uitdatabank.be
+  live:
+    base_url: https://articlelinker-acc.uitdatabank.be
+  cache:
+    enabled: true
+    backend: redis
+    ttl: 3600
+
+curatoren_api:
+  test:
+    base_url: https://io-acc.uitdatabank.be
+  live:
+    base_url: https://io-acc.uitdatabank.be
+  cache:
+    enabled: true
+    backend: redis
+    ttl: 3600
 
 features:
-  new_insightly_instance: false
+  new_insightly_instance: true
