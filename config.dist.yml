@@ -106,8 +106,8 @@ annotations:
     enabled: true
     backend: redis
 odm_orm:
-  proxies_dir: /var/www/html/cache/proxies
-  hydrator_dir: /var/www/html/cache/hydrators
+  proxies_dir: /var/www/projectaanvraag-api/cache/proxies
+  hydrator_dir: /var/www/projectaanvraag-api/cache/hydrators
   cache:
     enabled: true
     backend: redis
