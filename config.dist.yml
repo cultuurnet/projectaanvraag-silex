@@ -57,6 +57,7 @@ rabbitmq:
   password:
   vhost: /
   # Time in miliseconds before retrying a message
+  exchange: main_exchange_no_delay
   failed_message_delay: 3600000 # 1 hour
 
 integrations:
