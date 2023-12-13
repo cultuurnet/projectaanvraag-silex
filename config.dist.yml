@@ -34,7 +34,7 @@ uitid:
       key:
       secret:
     base_url: https://acc.uitid.be/uitid/rest/
-debug: true
+debug: false
 rabbitmq:
   host:
   port:
