@@ -23,7 +23,7 @@ $ make up
 
 ### RabbitMQ
 
-Create an exchange called `main_exchange_no_delay` on host `udb3-vagrant` by accessing the RabbitMQ management interface on http://host.docker.internal:15672/ 
+Create an exchange called `main_exchange_no_delay` on host `udb3-vagrant` by accessing the RabbitMQ management interface on http://host.docker.internal:15673/ 
 
 ### Migrations & Composer packages
 
