@@ -40,6 +40,9 @@ class UserService extends UiTIDUserService
                 $user = User::fromCultureFeedUser($cfUser);
             } catch (\Exception $e) {
                 $userFromPlatform = $this->platformClient->getCurrentUser();
+                if (empty($userFromPlatform)) {
+                    return null;
+                }
 
                 $user = User::fromPlatformUser(
                     $userFromPlatform['sub'],
