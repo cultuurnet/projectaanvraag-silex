@@ -2,7 +2,6 @@
 
 namespace CultuurNet\ProjectAanvraag\Project;
 
-use CultuurNet\ProjectAanvraag\Platform\PlatformClient;
 use CultuurNet\ProjectAanvraag\Platform\PlatformClientInterface;
 use CultuurNet\ProjectAanvraag\Project\Controller\ImportProjectController;
 use CultuurNet\ProjectAanvraag\Project\Controller\OpenProjectController;
@@ -56,7 +55,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $controllers->put('/{id}/organisation', 'project_controller:updateOrganisation');
 
         $controllers->post('/{uuid}', 'import_project_controller:importProject');
-        $controllers->get('/{id}/widget/', 'open_project_controller:openProject');
+        $controllers->get('/{uuid}/widget/', 'open_project_controller:openProject');
 
         return $controllers;
     }

@@ -37,7 +37,7 @@ final class OpenProjectController
         $this->widgetUrl = $widgetUrl;
     }
 
-    public function openProject(Request $request, string $id): RedirectResponse
+    public function openProject(Request $request, string $uuid): RedirectResponse
     {
         $tokenString = $request->get('idToken');
         if (!$this->platformClient->validateToken($tokenString)) {
@@ -45,9 +45,9 @@ final class OpenProjectController
         }
 
         /** @var Project $project */
-        $project = $this->projectRepository->findOneBy(['platformUuid' => $id]);
+        $project = $this->projectRepository->findOneBy(['platformUuid' => $uuid]);
         if ($project === null) {
-            throw new \Exception('Project not found with platformUuid ' . $id . ' not found');
+            throw new \Exception('Project not found with platformUuid ' . $uuid . ' not found');
         }
 
         return new RedirectResponse($this->widgetUrl . '/project/' . $project->getId());
