@@ -25,6 +25,10 @@ $ make up
 
 Create an exchange called `main_exchange_no_delay` on host `udb3-vagrant` by accessing the RabbitMQ management interface on http://host.docker.internal:15673/ 
 
+To login on the rabbit mq interface you can use the following credentials:
+- user: `vagrant`
+- pw: `vagrant`
+
 ### Migrations & Composer packages
 
 To install all composer packages & migrate the database, run the following command:
