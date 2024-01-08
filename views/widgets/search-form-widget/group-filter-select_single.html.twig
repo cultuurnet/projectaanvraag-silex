@@ -1,10 +1,10 @@
 <div class="cnw_form-group">
     {% if label %}
-        <label for="{{ label | lower | replace({' ': '-'}) }}">
+        <label>
            {{ label }}
         </label>
     {% endif %}
-    <select id="{{ label | lower | replace({' ': '-'}) }}" class="cnw_form-control" name="{{ name }}" data-default-value="{{ default_option }}">
+    <select class="cnw_form-control" name="{{ name }}" data-default-value="{{ default_option }}">
         {% if placeholder %}
             <option value="" {% if -1 == default_option %} selected{% endif %}>{{ placeholder }}</option>
         {% endif %}

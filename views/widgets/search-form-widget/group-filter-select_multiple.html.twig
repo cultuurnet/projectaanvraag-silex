@@ -1,8 +1,8 @@
 <div class="cnw_form-check">
     <span class="cnw_form-check--label">{{  label }}</span>
     {% for option_key, option in options %}
-        <label for="{{ option.label | lower| replace({' ': '-'}) }}" class="form-check-label">
-            <input id="{{ option.label | lower| replace({' ': '-'}) }}" type="checkbox" name="{{ name }}" value="{{ option_key }}">
+        <label class="form-check-label">
+            <input type="checkbox" name="{{ name }}" value="{{ option_key }}">
             {{ option.label }}
         </label>
     {% endfor %}
