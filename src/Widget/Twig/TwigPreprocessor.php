@@ -677,7 +677,7 @@ class TwigPreprocessor
 
             if ($isRegionType) {
                 usort(
-                    $options, 
+                    $options,
                     function ($a, $b) {
                         return $a['name'] <=> $b['name'];
                     }
