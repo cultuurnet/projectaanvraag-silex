@@ -368,6 +368,17 @@ class TwigPreprocessor
             }
         }
 
+        
+        if ($variables['uitx'] && !empty($settings['icon_uitx'])) {
+
+                $variables['uitx_disclaimer'] = $this->twig->render(
+                    'widgets/search-results-widget/uitx-disclaimer.html.twig',
+                );
+           
+        }
+
+
+
         // Load 'kansentarief' via culturefeed.
         if (!empty($settings['price_information'])) {
             $this->preprocessPriceInfo($event, $variables, $langcode);

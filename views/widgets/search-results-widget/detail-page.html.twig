@@ -224,6 +224,15 @@
 
                     {% endif %}
 
+                    {% if settings.uitx_disclaimer and event.uitx %}
+
+                        <dt>UiTX</dt>
+                        <dd>
+                            {{ event.uitx_disclaimer | raw }}
+                        </dd>
+
+                    {% endif %}
+
                     {% if settings.contact_information and event.links %}
                     <dt>
                         <em class="cnw_searchresult-detail-label">{{ 'event_detail_links'| transTo(preferredLanguage) }}</em>
