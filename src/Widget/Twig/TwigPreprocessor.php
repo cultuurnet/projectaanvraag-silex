@@ -368,7 +368,6 @@ class TwigPreprocessor
             }
         }
 
-        
         if ($variables['uitx'] && !empty($settings['icon_uitx'])) {
 
             $referer = parse_url($this->request->server->get('HTTP_REFERER'), PHP_URL_HOST);
@@ -382,8 +381,6 @@ class TwigPreprocessor
                 );
            
         }
-
-
 
         // Load 'kansentarief' via culturefeed.
         if (!empty($settings['price_information'])) {
