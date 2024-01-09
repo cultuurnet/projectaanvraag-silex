@@ -50,6 +50,9 @@ use Pimple\Container;
  *              "icon_museumpass":{
  *                  "enabled":true
  *              },
+ *              "icon_uitx":{
+ *                  "enabled":true
+ *              },
  *              "description":{
  *                  "enabled":true,
  *                  "characters":200
@@ -134,6 +137,9 @@ use Pimple\Container;
  *                  "enabled":"boolean"
  *              },
  *              "icon_museumpass":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "icon_uitx":{
  *                  "enabled":"boolean"
  *              },
  *              "description":{
