@@ -188,6 +188,7 @@ class TwigPreprocessor
             $url = Url::factory($image);
             $query = $url->getQuery();
             $query['crop'] = $image === $defaultImage ? 'auto' : 'edges';
+            $query['fit'] = 'clip';
             $query['scale'] = 'both';
             $query['height'] = $settings['image']['height'];
             $query['width'] = $settings['image']['width'];
