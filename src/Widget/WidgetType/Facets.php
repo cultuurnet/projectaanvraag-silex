@@ -42,7 +42,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *                          },
  *                          {
  *                              "label": "Voor kinderen",
- *                              "query": "(typicalAgeRange:[* TO 11] AND allAges:false) OR labels:"ook voor kinderen")"
+ *                              "query": "(typicalAgeRange:[* TO 11] AND allAges:false) OR labels:ook voor kinderen"
  *                          },
  *                          {
  *                              "label": "Gratis activiteiten",
