@@ -89,6 +89,8 @@
 
   margin-bottom: 20px;
 
+  float: left;
+
 
   .cnw_txt{
     background-color: #44444C;
@@ -111,6 +113,7 @@
   display: block;
   width:45px;
   border: none;
+  float: right;
 
   .uit-logo-bg {
     stop-color : #F0B32C;
@@ -122,11 +125,13 @@
 
 .cnw_sticker--museumpas {
   display: block;
-  width: 45px;
+  width: 55px;
+  float: right;
 }
 
 .cnw_sticker--uitx {
   display: block;
+  width: 108px;
 }
 
 .cnw_searchresult__options {
