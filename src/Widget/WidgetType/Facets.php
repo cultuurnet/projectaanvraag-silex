@@ -357,7 +357,7 @@ final class Facets extends WidgetTypeBase implements AlterSearchResultsQueryInte
         // Add advanced query string to API request.
         if (!empty($advancedQuery)) {
             $searchQuery->addParameter(
-                new Query(implode($advancedQuery, ' AND '))
+                new Query(implode(' AND ', $advancedQuery))
             );
 
             if ($searchResultsQueryAlter) {
