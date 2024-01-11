@@ -13,10 +13,10 @@
                 <div class="cnw_col">
                     {% if settings_fields.type.keyword_search.enabled %}
                         <div class="cnw_form-group cnw_zoek-wat">
-                            <label for="{{ settings_fields.type.keyword_search.label | lower | replace({' ': '-'}) }}">
+                            <label for="{{ settings_fields.type.keyword_search.label  | lower | replace({' ': '-'}) }}-{{ id }}">
                                 {{  settings_fields.type.keyword_search.label }}
                             </label>
-                            <input id="{{ settings_fields.type.keyword_search.label | lower | replace({' ': '-'}) }}" type="text" class="cnw_form-control" name="search-form[{{ id }}][what]" placeholder="{{  settings_fields.type.keyword_search.placeholder }}">
+                            <input id="{{ settings_fields.type.keyword_search.label   | lower | replace({' ': '-'}) }}-{{ id }}" type="text" class="cnw_form-control" name="search-form[{{ id }}][what]" placeholder="{{  settings_fields.type.keyword_search.placeholder }}">
                         </div>
                     {% endif %}
 
@@ -32,10 +32,10 @@
                 <div class="cnw_col">
                     {% if  settings_fields.location.keyword_search.enabled %}
                         <div class="cnw_form-group cnw_zoek-waar">
-                            <label for="{{ settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}" class="cnw_form-control-label">
+                            <label for="{{ settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}-{{id}}" class="cnw_form-control-label">
                                 {{  settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}
                             </label>
-                            <input id="{{ settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}" type="text" class="cnw_form-control cnw_form-autocomplete" id="where-{{ id }}" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}" data-autocomplete-path="{{ when_autocomplete_path }}" data-autocomplete-language="{{ preferredLanguage }}">
+                            <input id="{{ settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}-{{id}}" type="text" class="cnw_form-control cnw_form-autocomplete" id="where-{{ id }}" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}" data-autocomplete-path="{{ when_autocomplete_path }}" data-autocomplete-language="{{ preferredLanguage }}">
                             <p class="cnw_form-control-feedback element-invisible">{{ 'warning_no_city_selected' | transTo(preferredLanguage) }}</p>
                         </div>
                     {% endif %}
@@ -52,10 +52,10 @@
                 <div class="cnw_col">
                     {%  if  settings_fields.time.date_search.enabled %}
                         <div class="cnw_form-group cnw_zoek-wanneer">
-                            <label for="{{ settings_fields.time.date_search.label | lower | replace({' ': '-'}) }}">
+                            <label for="{{ settings_fields.time.date_search.label | lower | replace({' ': '-'}) }}-{{id}}">
                                 {{  settings_fields.time.date_search.label }}
                             </label>
-                            <select id="{{ settings_fields.time.date_search.label | lower | replace({' ': '-'}) }}" class="cnw_form-control cnw_form-control-date" name="search-form[{{ id }}][when]" data-default-value="{{ defaults.when }}">
+                            <select id="{{ settings_fields.time.date_search.label | lower | replace({' ': '-'}) }}-{{id}}" class="cnw_form-control cnw_form-control-date" name="search-form[{{ id }}][when]" data-default-value="{{ defaults.when }}">
                                 {% if settings_fields.time.date_search.placeholder %}
                                     <option value="">{{ settings_fields.time.date_search.placeholder }}</option>
                                 {% endif %}
@@ -85,16 +85,16 @@
                             {% if settings_fields.time.date_search.options.custom_date %}
                                 <div class="cnw_form-custom-date"{% if defaults.when != 'custom_date' %} style="display: none;" {% endif %}>
                                     <div class="cnw_form-custom-date-group cnw_form-custom-date-group-start">
-                                        <label for="{{ 'from' | transTo(preferredLanguage, 'when') | lower | replace({' ': '-'}) }}">
+                                        <label for="{{ 'from' | transTo(preferredLanguage, 'when') | lower | replace({' ': '-'}) }}-{{id}}">
                                             {{ 'from'| transTo(preferredLanguage, 'when') }}
                                         </label>
-                                        <input id="{{ 'from' | transTo(preferredLanguage, 'when') | lower | replace({' ': '-'}) }}" type="text" class="cnw_form-control cnw_col cnw_form-date-start" name="search-form[{{ id }}][date-start]" autocomplete="off"/>
+                                        <input id="{{ 'from' | transTo(preferredLanguage, 'when') | lower | replace({' ': '-'}) }}-{{id}}" type="text" class="cnw_form-control cnw_col cnw_form-date-start" name="search-form[{{ id }}][date-start]" autocomplete="off"/>
                                     </div>
                                     <div class="cnw_form-custom-date-group cnw_form-custom-date-group-end">
-                                        <label for="{{ 'to'| transTo(preferredLanguage, 'when') | lower | replace({' ': '-'})  }}">
+                                        <label for="{{ 'to'| transTo(preferredLanguage, 'when') | lower | replace({' ': '-'})  }}-{{id}}">
                                             {{ 'to'| transTo(preferredLanguage, 'when') }}
                                         </label>
-                                        <input id="{{ 'to'| transTo(preferredLanguage, 'when') | lower | replace({' ': '-'})  }}" type="text" class="cnw_form-control cnw_col  cnw_form-date-end" name="search-form[{{ id }}][date-end]" autocomplete="off"/>
+                                        <input id="{{ 'to'| transTo(preferredLanguage, 'when') | lower | replace({' ': '-'})  }}-{{id}}" type="text" class="cnw_form-control cnw_col  cnw_form-date-end" name="search-form[{{ id }}][date-end]" autocomplete="off"/>
                                     </div>
                                 </div>
                             {% endif %}
