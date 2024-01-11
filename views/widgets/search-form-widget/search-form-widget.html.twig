@@ -33,7 +33,7 @@
                     {% if  settings_fields.location.keyword_search.enabled %}
                         <div class="cnw_form-group cnw_zoek-waar">
                             <label for="{{ settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}-{{id}}" class="cnw_form-control-label">
-                                {{  settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}
+                                {{  settings_fields.location.keyword_search.label }}
                             </label>
                             <input id="{{ settings_fields.location.keyword_search.label | lower | replace({' ': '-'}) }}-{{id}}" type="text" class="cnw_form-control cnw_form-autocomplete" id="where-{{ id }}" name="search-form[{{ id }}][where]" placeholder="{{  settings_fields.location.keyword_search.placeholder }}" data-autocomplete-path="{{ when_autocomplete_path }}" data-autocomplete-language="{{ preferredLanguage }}">
                             <p class="cnw_form-control-feedback element-invisible">{{ 'warning_no_city_selected' | transTo(preferredLanguage) }}</p>
