@@ -177,6 +177,7 @@ class TwigPreprocessor
             'hidden_labels' => $event->getHiddenLabels() ?? [],
             'vlieg' => $this->isVliegEvent($event),
             'uitpas' => $this->isUitpasEvent($event),
+            'uitx' => $this->isUitxEvent($event),
             'museumpas' => $this->isMuseumpasEvent($event),
             'facilities' => $this->getFacilitiesWithPresentInformation($event),
             'typeId' => (count($event->getTermsByDomain('eventtype')) > 0) ? $event->getTermsByDomain('eventtype')[0]->getId() : null,
@@ -365,6 +366,18 @@ class TwigPreprocessor
             } catch (\Exception $e) {
                // Silent fail.
             }
+        }
+
+        if ($variables['uitx'] && !empty($settings['icon_uitx'])) {
+            $referer = parse_url($this->request->server->get('HTTP_REFERER'), PHP_URL_HOST);
+            $utmSource= urlencode($referer);
+
+                $variables['uitx_disclaimer'] = $this->twig->render(
+                    'widgets/search-results-widget/uitx-disclaimer.html.twig',
+                    [
+                        'utmSource' => $utmSource,
+                    ]
+                );
         }
 
         // Load 'kansentarief' via culturefeed.
@@ -892,6 +905,29 @@ class TwigPreprocessor
         if ($labels) {
             foreach ($labels as $label) {
                 if (stripos($label, 'uitpas') !== false || stripos($label, 'paspartoe') !== false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if event is considered an "UiTX" event.
+     *
+     * @param \CultuurNet\SearchV3\ValueObjects\Event $event
+     * @return bool
+     */
+    protected function isUitxEvent(Event $event)
+    {
+
+        $labels = array_merge($event->getLabels(), $event->getHiddenLabels());
+
+        // Check for label values containing "jongerentip".
+        if ($labels) {
+            foreach ($labels as $label) {
+                if (stripos($label, 'jongerentip') !== false) {
                     return true;
                 }
             }
