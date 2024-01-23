@@ -240,7 +240,7 @@
                           <p>{{ 'event_detail_phone'| transTo(preferredLanguage) }} <strong>{{ event.booking_info.phone }}</strong></p>
                       {% endif %}
                       {% if (event.booking_info.email is defined) %}
-                          <p>{{ event.booking_info.email }}</p>
+                          <p><a href="mailto:{{event.booking_info.email}}">{{ event.booking_info.email }}</a></p>
                       {% endif %}
                       {% if (event.booking_info.url is defined) %}
                           <p><a href="{{ event.booking_info.url.url }}" target="_blank" data-click-tracking-category="detail" data-click-tracking-action="ticket" data-click-tracking-label="{{ event.name }}">{{ event.booking_info.url.label }}</a> </p>
