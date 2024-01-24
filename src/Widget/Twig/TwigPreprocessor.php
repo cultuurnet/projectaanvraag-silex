@@ -869,24 +869,28 @@ class TwigPreprocessor
     protected function isVliegEvent(Event $event)
     {
         $range = $event->getTypicalAgeRange();
-        $labels = $event->getLabels();
-        $labels = array_merge($labels, $event->getHiddenLabels());
+        $labels = array_merge($event->getLabels(), $event->getHiddenLabels());
+        $hasVliegLabel = count(array_intersect($labels, ['ook voor kinderen'])) > 0;
 
         // Check age range if there is one.
         if ($range) {
+            // Return false if allAges
+            if ($range === '0-' && !$hasVliegLabel) {
+                return false;
+            }
             // Check for empty range values.
             if ($range !== '-') {
                 // Explode range on dash.
                 $explRange = explode('-', $range);
-                // Check min age and return it if it's lower than 12.
-                if ($explRange[0] < 12) {
+                // Both min age and max age should be lower than 12
+                if ($explRange[0] < 12 && $explRange[1] < 12) {
                     return "$explRange[0]+";
                 }
             }
         }
 
         // Check for certain labels that also determine "Vlieg" events.
-        return ($labels && count(array_intersect($labels, ['ook voor kinderen', 'uit met vlieg'])) > 0 ? '0+' : false);
+        return  $hasVliegLabel ? '0+' : false;
     }
 
     /**
