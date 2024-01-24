@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94964f3889d9bb82b296c6f0488e6e80",
+    "content-hash": "3dd35c5517da9b0d5a5541242c7704e2",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -258,16 +258,16 @@
         },
         {
             "name": "cultuurnet/search-v3",
-            "version": "v1.3.5",
+            "version": "v1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "053f02c84d9a759b0c75ff9878a1e43fa9875056"
+                "reference": "2083507248c8638078f69579883f231c85526c53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/053f02c84d9a759b0c75ff9878a1e43fa9875056",
-                "reference": "053f02c84d9a759b0c75ff9878a1e43fa9875056",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/2083507248c8638078f69579883f231c85526c53",
+                "reference": "2083507248c8638078f69579883f231c85526c53",
                 "shasum": ""
             },
             "require": {
@@ -299,7 +299,7 @@
                 }
             ],
             "description": "Cultuurnet search service for version 3",
-            "time": "2022-06-29T07:51:50+00:00"
+            "time": "2024-01-24T15:28:36+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -7530,12 +7530,12 @@
             "version": "2.9.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
                 "reference": "2acf168de78487db620ab4bc524135a13cfe6745"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/2acf168de78487db620ab4bc524135a13cfe6745",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/2acf168de78487db620ab4bc524135a13cfe6745",
                 "reference": "2acf168de78487db620ab4bc524135a13cfe6745",
                 "shasum": ""
             },
