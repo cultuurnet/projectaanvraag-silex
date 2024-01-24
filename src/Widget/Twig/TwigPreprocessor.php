@@ -568,33 +568,6 @@ class TwigPreprocessor
             }
         }
 
-        try {
-            $query = new \CultureFeed_Uitpas_Event_Query_SearchEventsOptions();
-            $query->cdbid = $event->getCdbid();
-            $uitpasEvents = $this->cultureFeed->uitpas()->searchEvents($query);
-            if (count($uitpasEvents->objects) > 0) {
-                $uitpasEvent = $uitpasEvents->objects[0];
-                foreach ($uitpasEvent->cardSystems as $cardSystem) {
-                    foreach ($cardSystem->distributionKeys as $key) {
-                        foreach ($key->conditions as $condition) {
-                            if ($condition->definition == $condition::DEFINITION_KANSARM && $key->tariff > 0) {
-                                $tariff = str_replace('.', ',', $key->tariff);
-                                $cardSystemName = $cardSystem->name == 'HELA' ? 'UiTPAS' : $cardSystem->name;
-                                if ($condition->value == $condition::VALUE_MY_CARDSYSTEM) {
-                                    $prices[] = 'Kansentarief voor ' . $cardSystemName . ': &euro; ' . $tariff;
-                                }
-                                if ($condition->value == $condition::VALUE_AT_LEAST_ONE_CARDSYSTEM) {
-                                    $prices[] = 'Kansentarief voor UiTPAS gebruikers uit een andere stad of gemeente: &euro; ' . $tariff;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (\Exception $e) {
-            // Silent fail.
-        }
-
         if (count($prices)) {
             $variables['price'] = '<p>' . implode('</p><p>', array_unique($prices)) . '</p>';
         }
