@@ -881,14 +881,14 @@ class TwigPreprocessor
             // Check for empty range values.
             if ($range !== '-') {
                 // Explode range on dash.
-                $explRange = explode('-', $range);
+                $expRange = explode('-', $range);
                 // Max age should be lower than 12
                 if (isset($expRange[1]) && $expRange > 11) {
-                    return false
+                    return false;
                 }
                 // Min age should be lower than 12
-                if ($explRange[0] < 12) {
-                    return "$explRange[0]+";
+                if ($expRange[0] < 12) {
+                    return "$expRange[0]+";
                 }
             }
         }
