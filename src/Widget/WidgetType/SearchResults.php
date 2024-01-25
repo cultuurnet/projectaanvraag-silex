@@ -9,6 +9,7 @@ use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\AddressCountry;
 use CultuurNet\SearchV3\Parameter\CalendarSummary;
 use CultuurNet\SearchV3\Parameter\CalendarType;
+use CultuurNet\SearchV3\Parameter\EmbedUitpasPrices;
 use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\AvailableTo;
@@ -685,6 +686,9 @@ final class SearchResults extends WidgetTypeBase
         $query->addParameter(new AddressCountry('*'));
         $query->addParameter(AvailableTo::wildcard());
         $query->addParameter(AvailableFrom::wildcard());
+
+        // New parameter for uitpas prices
+        $query->addParameter(new EmbedUitpasPrices());
 
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'lg')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
