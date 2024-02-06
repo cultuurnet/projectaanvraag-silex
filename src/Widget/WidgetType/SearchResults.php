@@ -65,7 +65,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true
  *              },
  *              "icon_uitx":{
- *                  "enabled":true
+ *                  "enabled":false
  *              },
  *              "description":{
  *                  "enabled":true,
@@ -162,7 +162,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true
  *              },
  *              "icon_uitx":{
- *                  "enabled":true
+ *                  "enabled":false
  *              },
  *              "description":{
  *                  "enabled":true,

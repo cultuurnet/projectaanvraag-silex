@@ -82,7 +82,7 @@
                     "enabled": true
                   },
                   "icon_uitx": {
-                    "enabled": true
+                    "enabled": false
                   },
                   "description": {
                     "enabled": true,
@@ -150,7 +150,7 @@
                   "label": "Museumpas"
                 },
                 "icon_uitx": {
-                  "show": true,
+                  "show": false,
                   "label": "UiTX"
                 },
                 "description": {
@@ -215,7 +215,7 @@
                   "label": "Museumpas logo"
                 },
                 "icon_uitx": {
-                  "show": true,
+                  "show": false,
                   "label": "UiTX logo"
                 },
                 "description": {
