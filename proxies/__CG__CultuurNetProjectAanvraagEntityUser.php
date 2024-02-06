@@ -83,7 +83,7 @@ class User extends \CultuurNet\ProjectAanvraag\Entity\User implements \Doctrine\
                 $existingProperties = get_object_vars($proxy);
 
                 foreach ($proxy->__getLazyProperties() as $property => $defaultValue) {
-                    if ( ! array_key_exists($property, $existingProperties)) {
+                    if ( ! property_exists($property, $existingProperties)) {
                         $proxy->$property = $defaultValue;
                     }
                 }
