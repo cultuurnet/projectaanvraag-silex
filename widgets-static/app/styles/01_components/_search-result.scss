@@ -36,16 +36,23 @@
 */
 
 .cnw_stickers {
-  display: block;
+  display: flex;
   float: right;
+  width: 150px;
+  flex-wrap: wrap;
+
+  &--detail {
+    width: auto;
+  }
+
   padding-right: 10px;
   @include media-breakpoint-down(xs) {
     float: none;
-    display: flex;
-    .cnw_sticker {
-      margin-right: 10px;
-    }
+    width: auto;
+  }
 
+  .cnw_sticker:not(:last-child) {
+    margin-right: 12px;
   }
 
 }
@@ -81,16 +88,14 @@
 
 .cnw_sticker--vlieg {
   background-image: url(../images/vlieg--sticker-yellow.svg);
+  background-size: contain;
   background-repeat: no-repeat;
 
   display: block;
-  height: 40px;
-  width: 40px;
+  height: 28px;
+  width: 28px;
 
   margin-bottom: 20px;
-
-  float: left;
-
 
   .cnw_txt{
     background-color: #44444C;
@@ -99,21 +104,19 @@
 
     display: inline-block;
     position: relative;
-    bottom: -30px;
-    right: -30px;
-    font-size: 0.7rem;
+    bottom: -20px;
+    right: -20px;
+    font-size: 0.55rem;
     font-weight: bold;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     text-align: center;
-    line-height: 200%;
+    line-height: 20px;
   }
 }
 .cnw_sticker--uitpas {
-  display: block;
   width:45px;
   border: none;
-  float: right;
 
   .uit-logo-bg {
     stop-color : #F0B32C;
@@ -124,13 +127,10 @@
 }
 
 .cnw_sticker--museumpas {
-  display: block;
-  width: 55px;
-  float: right;
+  width: 40px;
 }
 
 .cnw_sticker--uitx {
-  display: block;
   width: 75px;
 }
 
