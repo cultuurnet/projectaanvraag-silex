@@ -883,7 +883,7 @@ class TwigPreprocessor
                 // Explode range on dash.
                 $expRange = explode('-', $range);
                 // Max age should be lower than 12
-                if (isset($expRange[1]) && $expRange > 11) {
+                if (isset($expRange[1]) && $expRange[0] > 11) {
                     return false;
                 }
                 // Min age should be lower than 12
