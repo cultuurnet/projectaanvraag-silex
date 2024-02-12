@@ -40,7 +40,7 @@
   float: right;
   width: 150px;
   flex-wrap: wrap;
-  justify-content: right;
+  justify-content: flex-end;
 
   &--detail {
     width: auto;
@@ -48,7 +48,7 @@
 
   padding-right: 10px;
   @include media-breakpoint-down(xs) {
-    justify-content: left;
+    justify-content: flex-start;
     float: none;
     width: auto;
   }
