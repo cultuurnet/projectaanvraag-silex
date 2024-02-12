@@ -40,6 +40,7 @@
   float: right;
   width: 150px;
   flex-wrap: wrap;
+  justify-content: right;
 
   &--detail {
     width: auto;
@@ -47,11 +48,12 @@
 
   padding-right: 10px;
   @include media-breakpoint-down(xs) {
+    justify-content: left;
     float: none;
     width: auto;
   }
 
-  .cnw_sticker:not(:last-child) {
+  .cnw_sticker {
     margin-right: 12px;
   }
 
