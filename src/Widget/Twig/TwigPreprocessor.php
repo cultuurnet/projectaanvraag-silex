@@ -364,7 +364,7 @@ class TwigPreprocessor
             $organizerId = $event->getOrganizer()->getCdbid();
 
             try {
-                $uitpasPromotions = $this->uitpasClient()->searchRewards($organizerId);
+                $uitpasPromotions = $this->uitpasClient->searchRewards($organizerId);
                 $variables['uitpas_promotions'] = $this->twig->render(
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
