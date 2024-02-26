@@ -84,6 +84,18 @@ search_api:
     backend: filesystem # supported cache: filesystem or redis
     ttl: 3600
 
+# Uitpas API Settings
+uitpas_api:
+  test:
+    base_url: https://api-test.uitpas.be
+  live:
+    base_url: https://api.uitpas.be
+  cache:
+    enabled: true
+    backend: redis
+    ttl: 3600
+
+
 # Curatoren API settings
 curatoren_api:
   test:
