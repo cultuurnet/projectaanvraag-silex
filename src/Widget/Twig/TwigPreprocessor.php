@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
+use CultuurNet\ProjectAanvraag\Uitpas\UitpasClient;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryLanguage;
 use CultuurNet\SearchV3\ValueObjects\Event;
@@ -70,6 +71,12 @@ class TwigPreprocessor
     protected $curatorenClient;
 
     /**
+     * @var UitpasClient
+     */
+    protected $uitpasClient;
+
+
+    /**
      * @var array
      */
     private $fallbackImages;
@@ -87,7 +94,8 @@ class TwigPreprocessor
         FilterForKeyWithFallback $translateWithFallback,
         TranslateTerm $translateTerm,
         TranslatorInterface $translator,
-        CuratorenClient $curatorenClient
+        CuratorenClient $curatorenClient,
+        UitpasClient $uitpasClient
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -97,6 +105,7 @@ class TwigPreprocessor
         $this->translateTerm = $translateTerm;
         $this->translator = $translator;
         $this->curatorenClient = $curatorenClient;
+        $this->uitpasClient = $uitpasClient;
         $this->fallbackImages = [];
     }
 
@@ -352,8 +361,10 @@ class TwigPreprocessor
             $promotionsQuery->unexpired = true;
             $organizerName = $this->translateOrganizerName($event, $langcode);
 
+            $organizerId = $event->getOrganizer()->getCdbid();
+
             try {
-                $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
+                $uitpasPromotions = $this->uitpasClient()->searchRewards($organizerId);
                 $variables['uitpas_promotions'] = $this->twig->render(
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
