@@ -52,7 +52,7 @@ use Pimple\Container;
  *                  "enabled":true
  *              },
  *              "icon_uitx":{
- *                  "enabled":true
+ *                  "enabled":false
  *              },
  *              "description":{
  *                  "enabled":true,

@@ -5799,16 +5799,16 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v3.4.23",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "f7acdaf9d89da91822d06d7d91216254af44815d"
+                "reference": "de91817e436ac4fb27c58c05d6063c9214d6f37c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/f7acdaf9d89da91822d06d7d91216254af44815d",
-                "reference": "f7acdaf9d89da91822d06d7d91216254af44815d",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/de91817e436ac4fb27c58c05d6063c9214d6f37c",
+                "reference": "de91817e436ac4fb27c58c05d6063c9214d6f37c",
                 "shasum": ""
             },
             "require": {
@@ -5885,7 +5885,7 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-02-23T15:06:07+00:00"
+            "time": "2019-04-12T13:39:20+00:00"
         },
         {
             "name": "symfony/yaml",
