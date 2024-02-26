@@ -192,7 +192,7 @@ class ApplicationBase extends SilexApplication
                 'uitpas_api.cache.backend' => $this['config']['uitpas_api']['cache']['backend'],
                 'uitpas_api.cache.ttl' => $this['config']['uitpas_api']['cache']['ttl'],
             ]
-            );
+        );
 
         // Curatoren API
         $this->register(
