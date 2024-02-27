@@ -42,8 +42,8 @@ class UitpasClient implements UitpasClientInterface
                 'status' => 'ACTIVE',
                 'type' => 'POINTS',
                 'sort[creationDate]' => 'desc',
-                'limit' => $limit
-            ], 
+                'limit' => $limit,
+            ],
         ];
 
         $result = $this->client->request('GET', 'rewards', $options);
