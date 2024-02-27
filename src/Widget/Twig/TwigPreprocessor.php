@@ -368,7 +368,7 @@ class TwigPreprocessor
                 $variables['uitpas_promotions'] = $this->twig->render(
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
-                        'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
+                        'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions['member']),
                         'organizerName' => $organizerName,
                         'organizerUrlName' => $this->formatOrganizerUrlName($organizerName),
                         'organizerId' => $promotionsQuery->balieConsumerKey,
@@ -530,16 +530,16 @@ class TwigPreprocessor
 
     /**
      * Preprocess the uitpas promotions.
-     * @param \CultureFeed_ResultSet $resultSet
+     * @param array $rawPromotions
      */
-    public function preprocessUitpasPromotions(\CultureFeed_ResultSet $resultSet)
+    public function preprocessUitpasPromotions($rawPromotions)
     {
         $promotions = [];
-        /** @var \CultureFeed_Uitpas_Passholder_PointsPromotion $object */
-        foreach ($resultSet->objects as $object) {
+
+        foreach ($rawPromotions as $promotion) {
             $promotions[] = [
-                'title' => $object->title,
-                'points' => $object->points,
+                'title' => $promotion['title'],
+                'points' => $promotion['points'],
             ];
         }
 
