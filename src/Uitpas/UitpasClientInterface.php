@@ -28,7 +28,8 @@ interface UitpasClientInterface
      * Perform a search on uitpas rewards.
      *
      * @param String $organizerdId
+     * @param Int $limit
      * @return Array
      */
-    public function searchRewards(String $organizerId);
+    public function searchRewards(String $organizerId, Int $limit);
 }

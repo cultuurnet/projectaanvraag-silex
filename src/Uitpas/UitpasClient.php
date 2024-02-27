@@ -34,10 +34,16 @@ class UitpasClient implements UitpasClientInterface
         return $this->client;
     }
 
-    public function searchRewards(String $organizerId)
+    public function searchRewards(String $organizerId, Int $limit)
     {
         $options = [
-          'query' => ['organizerId' => $organizerId],
+          'query' => [
+                'organizerId' => $organizerId,
+                'status' => 'ACTIVE',
+                'type' => 'POINTS',
+                'sort[creationDate]' => 'desc',
+                'limit' => $limit
+            ], 
         ];
 
         $result = $this->client->request('GET', 'rewards', $options);

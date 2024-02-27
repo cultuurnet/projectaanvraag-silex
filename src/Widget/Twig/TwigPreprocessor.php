@@ -353,25 +353,20 @@ class TwigPreprocessor
         }
 
         $variables['uitpas_promotions'] = '';
-        // Load Uitpas promotions via culturefeed.
         if ($variables['uitpas'] && !empty($settings['uitpas_benefits']) && $event->getOrganizer()) {
-            $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
-            $promotionsQuery->max = 4;
-            $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
-            $promotionsQuery->unexpired = true;
             $organizerName = $this->translateOrganizerName($event, $langcode);
 
             $organizerId = $event->getOrganizer()->getCdbid();
 
             try {
-                $uitpasPromotions = $this->uitpasClient->searchRewards($organizerId);
+                $uitpasPromotions = $this->uitpasClient->searchRewards($organizerId, 4);
                 $variables['uitpas_promotions'] = $this->twig->render(
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
                         'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions['member']),
                         'organizerName' => $organizerName,
                         'organizerUrlName' => $this->formatOrganizerUrlName($organizerName),
-                        'organizerId' => $promotionsQuery->balieConsumerKey,
+                        'organizerId' => $organizerId,
                     ]
                 );
             } catch (\Exception $e) {
