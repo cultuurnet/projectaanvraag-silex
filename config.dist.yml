@@ -88,8 +88,10 @@ search_api:
 uitpas_api:
   test:
     base_url: https://api-test.uitpas.be
+    x_client_id: ''
   live:
     base_url: https://api.uitpas.be
+    x_client_id: ''
   cache:
     enabled: true
     backend: redis

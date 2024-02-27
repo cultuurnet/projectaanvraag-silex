@@ -20,6 +20,7 @@ class UitpasAPIServiceProvider extends APIServiceProviderBase
                     'headers' => [
                         'Content-type' => 'application/json; charset=utf-8',
                         'Accept' => 'application/ld+json',
+                        'x-client-id' => $pimple['uitpas_api.x_client_id'],
                     ],
                     'handler' => $this->getHandlerStack('uitpas_api', $pimple),
                 ]
@@ -36,6 +37,7 @@ class UitpasAPIServiceProvider extends APIServiceProviderBase
             $config['base_uri'] = $pimple['uitpas_api_test.base_url'];
             $headers = $config['headers'] ?? [];
             $config['headers'] = $headers;
+            $config['headers']['x-client-id'] = $pimple['uitpas_api_test.x_client_id'];
 
             $uitpasClient->setClient(new \GuzzleHttp\Client($config));
 

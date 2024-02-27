@@ -187,7 +187,9 @@ class ApplicationBase extends SilexApplication
             new UitpasAPIServiceProvider(),
             [
                 'uitpas_api.base_url' => $this['config']['uitpas_api']['live']['base_url'],
+                'uitpas_api.x_client_id' => $this['config']['uitpas_api']['live']['x_client_id'],
                 'uitpas_api_test.base_url' => $this['config']['uitpas_api']['test']['base_url'],
+                'uitpas_api_test.x_client_id' => $this['config']['uitpas_api']['test']['x_client_id'],
                 'uitpas_api.cache.enabled' => $this['config']['uitpas_api']['cache']['enabled'],
                 'uitpas_api.cache.backend' => $this['config']['uitpas_api']['cache']['backend'],
                 'uitpas_api.cache.ttl' => $this['config']['uitpas_api']['cache']['ttl'],
