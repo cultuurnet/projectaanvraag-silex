@@ -118,6 +118,16 @@
       margin: 0 0 10px 0;
       padding: 0;
       list-style: none;
+
+      li a {
+        color: #40404a;
+      }
+
+      li:not(:first-child) {
+        margin-top: 6px;
+      }
+    }
+
     &-points-badge {
       background-color:#40404a;
       border-radius:3px;
