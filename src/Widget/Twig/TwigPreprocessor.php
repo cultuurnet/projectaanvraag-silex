@@ -540,6 +540,7 @@ class TwigPreprocessor
             $promotions[] = [
                 'title' => $promotion['title'],
                 'points' => $promotion['points'],
+                'benefitURL' => 'https://www.uitpas.be/voordelen-zoeken#/voordelen/' . $promotion['id'],
             ];
         }
 
