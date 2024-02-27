@@ -4,7 +4,7 @@
 
     <ul>
     {% for promotion in promotions %}
-        <li>{{ promotion.title }}</li>
+        <li><span class="cnw_uitpas-promotions-points-badge">{{ promotion.points }} &nbsp; {{ promotion.points == 1 ? 'punt' : 'punten' }}</span> <a href="{{ promotion.benefitURL }}" target="_blank">{{ promotion.title }}</a></li>
     {% endfor %}
     </ul>
 
