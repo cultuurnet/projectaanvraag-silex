@@ -9,39 +9,34 @@ use Pimple\Container;
 
 class UitpasAPIServiceProvider extends APIServiceProviderBase
 {
-    public function register(Container $pimple)
-    {
 
-        $pimple['uitpas_api'] = function (Container $pimple) {
+        public function register(Container $pimple)
+        {
+            $pimple['uitpas_api'] = function (Container $pimple) {
+                return new UitpasClient(new Client($this->getConfig($pimple)));
+            };
+    
+            $pimple['uitpas_api_test'] = function (Container $pimple) {
+                $config = $this->getConfig($pimple);
+                $config['base_uri'] = $pimple['uitpas_api_test.base_url'];
+                $config['headers']['x-client-id'] = $pimple['uitpas_api_test.x_client_id'];
+    
+                return new UitpasClient(new Client($config));
+            };
+        }
 
-            $guzzleClient = new Client(
-                [
-                    'base_uri' => $pimple['uitpas_api.base_url'],
-                    'headers' => [
-                        'Content-type' => 'application/json; charset=utf-8',
-                        'Accept' => 'application/ld+json',
-                        'x-client-id' => $pimple['uitpas_api.x_client_id'],
-                    ],
-                    'handler' => $this->getHandlerStack('uitpas_api', $pimple),
-                ]
-            );
+        private function getConfig(Container $pimple)
+        {
+            return [
+                'base_uri' => $pimple['uitpas_api.base_url'],
+                'headers' => [
+                    'Content-type' => 'application/json; charset=utf-8',
+                    'Accept' => 'application/ld+json',
+                    'x-client-id' => $pimple['uitpas_api.x_client_id'],
+                ],
+                'handler' => $this->getHandlerStack('uitpas_api', $pimple),
+            ];
+        }
 
-            return new UitpasClient($guzzleClient);
-        };
-
-        $pimple['uitpas_api_test'] = function (Container $pimple) {
-
-            $uitpasClient = clone $pimple['uitpas_api'];
-
-            $config = $uitpasClient->getClient()->getConfig();
-            $config['base_uri'] = $pimple['uitpas_api_test.base_url'];
-            $headers = $config['headers'] ?? [];
-            $config['headers'] = $headers;
-            $config['headers']['x-client-id'] = $pimple['uitpas_api_test.x_client_id'];
-
-            $uitpasClient->setClient(new \GuzzleHttp\Client($config));
-
-            return $uitpasClient;
-        };
-    }
+    
 }
