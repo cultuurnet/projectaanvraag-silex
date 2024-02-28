@@ -13,26 +13,22 @@ class UitpasAPIServiceProvider extends APIServiceProviderBase
     public function register(Container $pimple)
     {
         $pimple['uitpas_api'] = function (Container $pimple) {
-            return new UitpasClient(new Client($this->getConfig($pimple)));
+            return new UitpasClient(new Client($this->getConfig($pimple, false)));
         };
-    
+
         $pimple['uitpas_api_test'] = function (Container $pimple) {
-            $config = $this->getConfig($pimple);
-            $config['base_uri'] = $pimple['uitpas_api_test.base_url'];
-            $config['headers']['x-client-id'] = $pimple['uitpas_api_test.x_client_id'];
-    
-            return new UitpasClient(new Client($config));
+            return new UitpasClient(new Client($this->getConfig($pimple, true)));
         };
     }
 
-    private function getConfig(Container $pimple)
+    private function getConfig(Container $pimple, bool $test): array
     {
         return [
-            'base_uri' => $pimple['uitpas_api.base_url'],
+            'base_uri' => $test ? $pimple['uitpas_api_test.base_url'] : $pimple['uitpas_api.base_url'],
             'headers' => [
                 'Content-type' => 'application/json; charset=utf-8',
                 'Accept' => 'application/ld+json',
-                'x-client-id' => $pimple['uitpas_api.x_client_id'],
+                'x-client-id' => $test ? $pimple['uitpas_api_test.x_client_id'] : $pimple['uitpas_api.x_client_id'],
             ],
             'handler' => $this->getHandlerStack('uitpas_api', $pimple),
         ];
