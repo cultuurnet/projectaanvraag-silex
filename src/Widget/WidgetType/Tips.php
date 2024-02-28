@@ -10,6 +10,7 @@ use CultuurNet\SearchV3\Parameter\AudienceType;
 use CultuurNet\SearchV3\Parameter\AvailableFrom;
 use CultuurNet\SearchV3\Parameter\AvailableTo;
 use CultuurNet\SearchV3\Parameter\CalendarSummary;
+use CultuurNet\SearchV3\Parameter\EmbedUitpasPrices;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
@@ -292,6 +293,7 @@ final class Tips extends WidgetTypeBase
             $query->addParameter(new AudienceType('*'));
             $query->addParameter(AvailableTo::wildcard());
             $query->addParameter(AvailableFrom::wildcard());
+            $query->addParameter(new EmbedUitpasPrices());
         }
 
         $addressCountry = !empty($this->settings['search_params']['country']) ? $this->settings['search_params']['country']: 'BE';
