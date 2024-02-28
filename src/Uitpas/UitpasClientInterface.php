@@ -9,21 +9,6 @@ use GuzzleHttp\ClientInterface;
  */
 interface UitpasClientInterface
 {
-
-    /**
-     * Set the guzzle client.
-     *
-     * @param ClientInterface $client
-     */
-    public function setClient(ClientInterface $client);
-
-    /**
-     * Return the current client.
-     *
-     * @return ClientInterface $client
-     */
-    public function getClient();
-
     /**
      * Perform a search on uitpas rewards.
      *
