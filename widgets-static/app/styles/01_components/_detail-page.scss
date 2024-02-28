@@ -118,6 +118,30 @@
       margin: 0 0 10px 0;
       padding: 0;
       list-style: none;
+
+      li {
+        display: flex;
+      }
+
+      li a {
+        color: #40404a;
+        margin-left: 12px;
+      }
+
+      li:not(:first-child) {
+        margin-top: 6px;
+      }
+    }
+
+    &-points-badge {
+      background-color:#40404a;
+      border-radius:3px;
+      color:#fff;
+      display:inline-block;
+      padding:1px .325rem;
+      display: flex;
+      justify-content: center;
+      min-width: 5rem;
     }
   }
 

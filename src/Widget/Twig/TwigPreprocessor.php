@@ -6,6 +6,7 @@ use CultuurNet\ProjectAanvraag\Utility\TextProcessingTrait;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
+use CultuurNet\ProjectAanvraag\Uitpas\UitpasClient;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryLanguage;
 use CultuurNet\SearchV3\ValueObjects\Event;
@@ -70,6 +71,12 @@ class TwigPreprocessor
     protected $curatorenClient;
 
     /**
+     * @var UitpasClient
+     */
+    protected $uitpasClient;
+
+
+    /**
      * @var array
      */
     private $fallbackImages;
@@ -87,7 +94,8 @@ class TwigPreprocessor
         FilterForKeyWithFallback $translateWithFallback,
         TranslateTerm $translateTerm,
         TranslatorInterface $translator,
-        CuratorenClient $curatorenClient
+        CuratorenClient $curatorenClient,
+        UitpasClient $uitpasClient
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -97,6 +105,7 @@ class TwigPreprocessor
         $this->translateTerm = $translateTerm;
         $this->translator = $translator;
         $this->curatorenClient = $curatorenClient;
+        $this->uitpasClient = $uitpasClient;
         $this->fallbackImages = [];
     }
 
@@ -344,23 +353,20 @@ class TwigPreprocessor
         }
 
         $variables['uitpas_promotions'] = '';
-        // Load Uitpas promotions via culturefeed.
         if ($variables['uitpas'] && !empty($settings['uitpas_benefits']) && $event->getOrganizer()) {
-            $promotionsQuery = new \CultureFeed_Uitpas_Passholder_Query_SearchPromotionPointsOptions();
-            $promotionsQuery->max = 4;
-            $promotionsQuery->balieConsumerKey = $event->getOrganizer()->getCdbid();
-            $promotionsQuery->unexpired = true;
             $organizerName = $this->translateOrganizerName($event, $langcode);
 
+            $organizerId = $event->getOrganizer()->getCdbid();
+
             try {
-                $uitpasPromotions = $this->cultureFeed->uitpas()->getPromotionPoints($promotionsQuery);
+                $uitpasPromotions = $this->uitpasClient->searchRewards($organizerId, 4);
                 $variables['uitpas_promotions'] = $this->twig->render(
                     'widgets/search-results-widget/uitpas-promotions.html.twig',
                     [
-                        'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions),
+                        'promotions' => $this->preprocessUitpasPromotions($uitpasPromotions['member']),
                         'organizerName' => $organizerName,
                         'organizerUrlName' => $this->formatOrganizerUrlName($organizerName),
-                        'organizerId' => $promotionsQuery->balieConsumerKey,
+                        'organizerId' => $organizerId,
                     ]
                 );
             } catch (\Exception $e) {
@@ -519,16 +525,17 @@ class TwigPreprocessor
 
     /**
      * Preprocess the uitpas promotions.
-     * @param \CultureFeed_ResultSet $resultSet
+     * @param array $rawPromotions
      */
-    public function preprocessUitpasPromotions(\CultureFeed_ResultSet $resultSet)
+    public function preprocessUitpasPromotions($rawPromotions)
     {
         $promotions = [];
-        /** @var \CultureFeed_Uitpas_Passholder_PointsPromotion $object */
-        foreach ($resultSet->objects as $object) {
+
+        foreach ($rawPromotions as $promotion) {
             $promotions[] = [
-                'title' => $object->title,
-                'points' => $object->points,
+                'title' => $promotion['title'],
+                'points' => $promotion['points'],
+                'benefitURL' => 'https://www.uitpas.be/voordelen-zoeken#/voordelen/' . $promotion['id'],
             ];
         }
 

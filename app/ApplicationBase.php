@@ -17,6 +17,7 @@ use CultuurNet\ProjectAanvraag\Platform\PlatformServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\CuratorenAPI\CuratorenAPIServiceProvider;
+use CultuurNet\ProjectAanvraag\UitpasAPI\UitpasAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\ArticleLinkerAPI\ArticleLinkerAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserServiceProvider;
@@ -178,6 +179,20 @@ class ApplicationBase extends SilexApplication
                 'search_api.cache.enabled' => $this['config']['search_api']['cache']['enabled'],
                 'search_api.cache.backend' => $this['config']['search_api']['cache']['backend'],
                 'search_api.cache.ttl' => $this['config']['search_api']['cache']['ttl'],
+            ]
+        );
+
+        // Uitpas API
+        $this->register(
+            new UitpasAPIServiceProvider(),
+            [
+                'uitpas_api.base_url' => $this['config']['uitpas_api']['live']['base_url'],
+                'uitpas_api.x_client_id' => $this['config']['uitpas_api']['live']['x_client_id'],
+                'uitpas_api_test.base_url' => $this['config']['uitpas_api']['test']['base_url'],
+                'uitpas_api_test.x_client_id' => $this['config']['uitpas_api']['test']['x_client_id'],
+                'uitpas_api.cache.enabled' => $this['config']['uitpas_api']['cache']['enabled'],
+                'uitpas_api.cache.backend' => $this['config']['uitpas_api']['cache']['backend'],
+                'uitpas_api.cache.ttl' => $this['config']['uitpas_api']['cache']['ttl'],
             ]
         );
 
