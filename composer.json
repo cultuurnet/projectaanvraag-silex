@@ -11,7 +11,7 @@
         "cweagans/composer-patches": "^1.7",
         "df/silex-doctrine-mongodb-odm-provider": "^1.0",
         "dflydev/doctrine-orm-service-provider": "^2.0",
-        "doctrine/dbal": "~2.2",
+        "doctrine/dbal": "~2.13",
         "doctrine/mongodb": "1.4.*",
         "doctrine/mongodb-odm": "1.1.*",
         "guzzlehttp/guzzle": "^6.3",
