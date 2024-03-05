@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7ecf097570eb0ddbe086d2f52f9dc9f",
+    "content-hash": "d9c623a5509480cf565865599c5dbb33",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -2079,23 +2079,23 @@
         },
         {
             "name": "jdesrosiers/silex-cors-provider",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jdesrosiers/silex-cors-provider.git",
-                "reference": "ce97ca190046e2ea5cbb2d26b89e1cb13c2eda8c"
+                "reference": "e526603977d7105ca90ce385636d4d10644d32f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jdesrosiers/silex-cors-provider/zipball/ce97ca190046e2ea5cbb2d26b89e1cb13c2eda8c",
-                "reference": "ce97ca190046e2ea5cbb2d26b89e1cb13c2eda8c",
+                "url": "https://api.github.com/repos/jdesrosiers/silex-cors-provider/zipball/e526603977d7105ca90ce385636d4d10644d32f7",
+                "reference": "e526603977d7105ca90ce385636d4d10644d32f7",
                 "shasum": ""
             },
             "require": {
                 "silex/silex": "~2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*",
+                "phpunit/phpunit": "5.*",
                 "symfony/browser-kit": "2.3.*"
             },
             "type": "library",
@@ -2125,7 +2125,7 @@
                 "sharing",
                 "silex"
             ],
-            "time": "2018-03-25T18:22:39+00:00"
+            "time": "2020-03-28T22:39:28+00:00"
         },
         {
             "name": "jms/metadata",
