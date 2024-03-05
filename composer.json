@@ -22,6 +22,7 @@
         "ml/json-ld": "^1.2",
         "mongodb/mongodb": "1.1.*",
         "predis/predis": "^1.1",
+        "sentry/sentry": "^4.6",
         "silex/silex": "~2.0",
         "simple-bus/jms-serializer-bridge": "^1.0",
         "simple-bus/rabbitmq-bundle-bridge": "^3.0",
