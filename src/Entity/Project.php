@@ -583,6 +583,7 @@ class Project implements ProjectInterface
     public function setContentFilter($contentFilter)
     {
         $this->contentFilter = $contentFilter;
+        return $this;
     }
 
     /**

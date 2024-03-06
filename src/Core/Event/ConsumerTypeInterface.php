@@ -7,14 +7,7 @@ interface ConsumerTypeInterface
     const CONSUMER_TYPE_LIVE = 'live';
     const CONSUMER_TYPE_TEST = 'test';
 
-    /**
-     * @return string
-     */
-    public function getType();
+    public function getType(): string;
 
-    /**
-     * @param string $type
-     * @return QueueConsumers
-     */
-    public function setType($type);
+    public function setType(string $type): ?QueueConsumers;
 }
