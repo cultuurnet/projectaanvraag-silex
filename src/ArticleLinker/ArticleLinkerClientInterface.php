@@ -3,6 +3,7 @@
 namespace CultuurNet\ProjectAanvraag\ArticleLinker;
 
 use GuzzleHttp\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Provides an interface for search clients on the curatoren api
@@ -29,7 +30,7 @@ interface ArticleLinkerClientInterface
      *
      * @param String $url
      * @param String $cdbid
-     * @return Array
+     * @return ResponseInterface
      */
     public function linkArticle(String $url, String $cdbid);
 }
