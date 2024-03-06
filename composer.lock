@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "69177bfc8af0c09b4dba2b8dfc013ee5",
+    "content-hash": "6666c5c192345e176d750d7ff8f6cb5e",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -7880,20 +7880,20 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.100",
+            "version": "1.10.59",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "48236ddf823547081b2b153d1cd2994b784328c3"
+                "reference": "e607609388d3a6d418a50a49f7940e8086798281"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/48236ddf823547081b2b153d1cd2994b784328c3",
-                "reference": "48236ddf823547081b2b153d1cd2994b784328c3",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e607609388d3a6d418a50a49f7940e8086798281",
+                "reference": "e607609388d3a6d418a50a49f7940e8086798281",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0"
+                "php": "^7.2|^8.0"
             },
             "conflict": {
                 "phpstan/phpstan-shim": "*"
@@ -7903,11 +7903,6 @@
                 "phpstan.phar"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.12-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -7918,6 +7913,10 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
             "funding": [
                 {
                     "url": "https://github.com/ondrejmirtes",
@@ -7932,7 +7931,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-01T09:52:08+00:00"
+            "time": "2024-02-20T13:59:13+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

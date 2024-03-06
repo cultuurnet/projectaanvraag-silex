@@ -57,7 +57,7 @@
     },
     "require-dev": {
         "escapestudios/symfony2-coding-standard": "^2.9",
-        "phpstan/phpstan": "^0.12.85",
+        "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^7.5",
         "squizlabs/php_codesniffer": "^2.7"
     },
