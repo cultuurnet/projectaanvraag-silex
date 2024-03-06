@@ -662,7 +662,6 @@ class Project implements ProjectInterface
         $json['created'] = $this->created->getTimestamp();
         $json['updated'] = $this->updated->getTimestamp();
 
-        // @@phpstan-ignore-next-line
         unset($json['groupId']);
 
         return $json;

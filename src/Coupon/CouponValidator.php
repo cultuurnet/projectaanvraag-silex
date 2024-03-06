@@ -31,7 +31,7 @@ class CouponValidator implements CouponValidatorInterface
     {
         /** @var CouponInterface $couponEntity */
         $couponEntity = $this->couponRepository->find($coupon);
-        if (empty($couponEntity)) {
+        if ($couponEntity === null) {
             throw new InvalidCouponException();
         }
 

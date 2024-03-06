@@ -48,7 +48,7 @@ class WidgetPageConverter implements ConverterInterface
             ]
         );
 
-        if (empty($page)) {
+        if ($page === null) {
             throw new NotFoundHttpException('The widget page was not found');
         }
 
