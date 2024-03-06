@@ -30,7 +30,7 @@ interface ArticleLinkerClientInterface
      *
      * @param String $url
      * @param String $cdbid
-     * @return ResponseInterface
+     * @return void
      */
     public function linkArticle(String $url, String $cdbid);
 }
