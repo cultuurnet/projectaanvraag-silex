@@ -17,6 +17,7 @@ use CultuurNet\ProjectAanvraag\Platform\PlatformServiceProvider;
 use CultuurNet\ProjectAanvraag\Project\ProjectProvider;
 use CultuurNet\ProjectAanvraag\SearchAPI\SearchAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\CuratorenAPI\CuratorenAPIServiceProvider;
+use CultuurNet\ProjectAanvraag\Sentry\SentryServiceProvider;
 use CultuurNet\ProjectAanvraag\UitpasAPI\UitpasAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\ArticleLinkerAPI\ArticleLinkerAPIServiceProvider;
 use CultuurNet\ProjectAanvraag\User\UserRoleServiceProvider;
@@ -71,6 +72,8 @@ class ApplicationBase extends SilexApplication
             $this->register(new YamlConfigServiceProvider(__DIR__ . '/../config.yml'));
             file_put_contents($this['cache_directory'] . '/config.php', '<?php return ' . var_export($this['config'], true) . ';');
         }
+
+        $this->register(new SentryServiceProvider());
 
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
