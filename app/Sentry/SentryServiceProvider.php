@@ -13,10 +13,12 @@ final class SentryServiceProvider implements ServiceProviderInterface
 
     public function register(Container $app)
     {
-        init([
-            'dsn' => $app['config']['sentry']['dsn'],
-            'environment' => $app['config']['sentry']['environment'],
-        ]);
+        init(
+            [
+                'dsn' => $app['config']['sentry']['dsn'],
+                'environment' => $app['config']['sentry']['environment'],
+            ]
+        );
         ErrorHandler::registerOnceErrorHandler();
     }
 }
