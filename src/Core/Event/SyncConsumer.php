@@ -40,14 +40,15 @@ class SyncConsumer extends AbstractRetryableMessage implements ConsumerTypeInter
         $this->consumerData['groups'] = implode(",", $consumer->group);
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setType($type)
+    public function setType(string $type): ?QueueConsumers
     {
         $this->type = $type;
+        return null;
     }
 
     /**

@@ -47,17 +47,15 @@ class SearchResultsQueryAlterListener
             return;
         }
 
-        if (!empty($widgetPages)) {
-            foreach ($widgetPages as $widgetPage) {
-                $rows = $widgetPage->getRows();
-                $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
-                /** @var LayoutInterface $row */
-                foreach ($rows as $row) {
-                    $widgets = $row->getWidgets();
-                    foreach ($widgets as $widget) {
-                        if ($widget instanceof AlterSearchResultsQueryInterface) {
-                            $widget->alterSearchResultsQuery($searchResultsQueryAlter, $preferredLanguage);
-                        }
+        foreach ($widgetPages as $widgetPage) {
+            $rows = $widgetPage->getRows();
+            $preferredLanguage = (!empty($widgetPage->getLanguage())) ? $widgetPage->getLanguage() : 'nl';
+            /** @var LayoutInterface $row */
+            foreach ($rows as $row) {
+                $widgets = $row->getWidgets();
+                foreach ($widgets as $widget) {
+                    if ($widget instanceof AlterSearchResultsQueryInterface) {
+                        $widget->alterSearchResultsQuery($searchResultsQueryAlter, $preferredLanguage);
                     }
                 }
             }

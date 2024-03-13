@@ -34,7 +34,7 @@ class ArticleLinkerClient implements ArticleLinkerClientInterface
         return $this->client;
     }
 
-    public function linkArticle(String $url, String $cdbid)
+    public function linkArticle(String $url, String $cdbid): void
     {
         $data = [
           'url' => $url,

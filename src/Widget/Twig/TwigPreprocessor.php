@@ -427,9 +427,8 @@ class TwigPreprocessor
                     return $fallbackImage['image'];
                 }
             }
-
-            return '';
         }
+        return '';
     }
 
     /**
@@ -945,9 +944,8 @@ class TwigPreprocessor
                     }
                 }
             }
-
-            return false;
         }
+        return false;
     }
 
 

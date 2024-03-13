@@ -322,7 +322,7 @@ final class ProjectController
     {
         $project = $this->projectService->loadProject($id);
 
-        if (empty($project)) {
+        if ($project === null) {
             throw new NotFoundHttpException('The project was not found');
         }
 

@@ -118,7 +118,7 @@ class ProjectService implements ProjectServiceInterface
         /** @var Project $project */
         $project = $this->projectRepository->findOneBy($criteria);
 
-        if (empty($project)) {
+        if ($project === null) {
             return;
         }
 
