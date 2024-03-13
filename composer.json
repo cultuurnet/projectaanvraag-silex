@@ -25,7 +25,7 @@
         "silex/silex": "~2.0",
         "simple-bus/jms-serializer-bridge": "^1.0",
         "simple-bus/rabbitmq-bundle-bridge": "^3.0",
-        "symfony/browser-kit": "^3.1",
+        "symfony/browser-kit": "^3.4",
         "symfony/css-selector": "3.2.*",
         "symfony/debug": "3.2.*",
         "symfony/dom-crawler": "3.2.*",
@@ -33,7 +33,7 @@
         "symfony/inflector": "3.2.*",
         "symfony/monolog-bridge": "3.2.*",
         "symfony/property-access": "3.2.*",
-        "symfony/twig-bridge": "^3.3"
+        "symfony/twig-bridge": "^3.4"
     },
     "extra": {
         "patches": {
