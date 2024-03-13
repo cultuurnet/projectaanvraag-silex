@@ -7,3 +7,5 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # TEMP: disable dependabot PR's, till code is cleaned a bit more
+    open-pull-requests-limit: 0
