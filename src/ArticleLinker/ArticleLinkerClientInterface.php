@@ -25,12 +25,5 @@ interface ArticleLinkerClientInterface
      */
     public function getClient();
 
-    /**
-     * Link an article.
-     *
-     * @param String $url
-     * @param String $cdbid
-     * @return void
-     */
-    public function linkArticle(String $url, String $cdbid);
+    public function linkArticle(String $url, String $cdbid): void;
 }
