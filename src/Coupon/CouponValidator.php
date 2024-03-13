@@ -27,7 +27,7 @@ class CouponValidator implements CouponValidatorInterface
         $this->couponRepository = $repository;
     }
 
-    public function validateCoupon($coupon)
+    public function validateCoupon($coupon): void
     {
         /** @var CouponInterface $couponEntity */
         $couponEntity = $this->couponRepository->find($coupon);
