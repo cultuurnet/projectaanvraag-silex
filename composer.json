@@ -15,7 +15,7 @@
         "doctrine/mongodb": "1.4.*",
         "doctrine/mongodb-odm": "1.1.*",
         "guzzlehttp/guzzle": "^6.5",
-        "jdesrosiers/silex-cors-provider": "~1.0",
+        "jdesrosiers/silex-cors-provider": "~1.6",
         "kevinrob/guzzle-cache-middleware": "^3.2",
         "knplabs/console-service-provider": "^2.0",
         "matthiasmullie/minify": "^1.3",
