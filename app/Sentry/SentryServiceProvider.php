@@ -9,8 +9,6 @@ use function Sentry\init;
 
 final class SentryServiceProvider implements ServiceProviderInterface
 {
-
-
     public function register(Container $app)
     {
         init(
