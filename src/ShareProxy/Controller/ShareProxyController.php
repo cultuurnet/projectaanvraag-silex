@@ -5,6 +5,7 @@ namespace CultuurNet\ProjectAanvraag\ShareProxy\Controller;
 use CultuurNet\ProjectAanvraag\Widget\RendererInterface;
 use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\SearchV3\SearchClient;
+use CultuurNet\SearchV3\ValueObjects\Offer;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -70,7 +71,7 @@ class ShareProxyController
     /**
      * Social share proxy page.
      *
-     * @param object $offer
+     * @param Offer $offer
      * @return string
      */
     public function socialShareProxy($offer)
@@ -82,7 +83,7 @@ class ShareProxyController
             'share-proxy/share-proxy.html.twig',
             [
                 'name' => $offer->getName()->getValueForLanguage($langcode),
-                'description' => $offer->getDescription()->getValueForLanguage($langcode),
+                'description' => $offer->getDescription() !== null ? $offer->getDescription()->getValueForLanguage($langcode) : '',
                 'image' => $offer->getImage(),
                 'url' => $originUrl,
                 'request_url' => $this->request->getUri(),
