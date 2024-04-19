@@ -344,7 +344,9 @@ class TwigPreprocessor
             // Share links
             $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
             $shareQuery = $shareUrl->getQuery();
-            $shareQuery['origin'] = $_GET['origin'];
+            if (isset($_GET['origin'])) {
+                $shareQuery['origin'] = $_GET['origin'];
+            }
 
             $variables['share_links'] = [
                 'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
