@@ -55,6 +55,7 @@ class ProjectControllerProvider implements ControllerProviderInterface
         $controllers->put('/{id}/organisation', 'project_controller:updateOrganisation');
 
         $controllers->post('/{uuid}', 'import_project_controller:importProject');
+        $controllers->post('/{uuid}/', 'import_project_controller:importProject');
         $controllers->get('/{uuid}/widget/', 'open_project_controller:openProject');
 
         return $controllers;
