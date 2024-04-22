@@ -47,6 +47,7 @@ class ImportProjectControllerTest extends TestCase
         $formData->groupId = 2;
         $formData->testApiKeySapi3 = 'a77f461f-3837-49bc-b2a6-1a8f57bf30d6';
         $formData->liveApiKeySapi3 = 'de808573-cfc4-4990-b91b-cf5673b913ac';
+        $formData->state = 'active';
 
         $this->request
             ->expects($this->any())
@@ -60,7 +61,8 @@ class ImportProjectControllerTest extends TestCase
             $formData->summary,
             $formData->groupId,
             $formData->testApiKeySapi3,
-            $formData->liveApiKeySapi3
+            $formData->liveApiKeySapi3,
+            $formData->state
         );
         $this->messageBus
             ->expects($this->once())
