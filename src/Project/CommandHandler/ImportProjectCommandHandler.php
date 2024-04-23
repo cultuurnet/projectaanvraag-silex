@@ -39,10 +39,10 @@ class ImportProjectCommandHandler
             $project->setPlatformUuid($importProject->getPlatformUuid());
             $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
             $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
-            $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
         }
         $project->setName($importProject->getName());
         $project->setDescription($importProject->getDescription());
+        $project->setStatus($importProject->getState());
 
         $this->entityManager->persist($project);
 

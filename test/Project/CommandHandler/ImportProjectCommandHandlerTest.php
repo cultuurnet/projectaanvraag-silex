@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace CultuurNet\ProjectAanvraag\Project\CommandHandler;
 
 use CultuurNet\ProjectAanvraag\Entity\Project;
-use CultuurNet\ProjectAanvraag\Entity\User as UserEntity;
 use CultuurNet\ProjectAanvraag\Project\Command\ImportProject;
-use CultuurNet\ProjectAanvraag\User\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -69,7 +67,8 @@ class ImportProjectCommandHandlerTest extends TestCase
             'This is a widget project imported from publiq-platform',
             24378,
             'SAPI3 test key',
-            'SAPI3 live key'
+            'SAPI3 live key',
+            'active'
         );
 
         $project = new Project();
@@ -80,7 +79,7 @@ class ImportProjectCommandHandlerTest extends TestCase
         $project->setPlatformUuid($importProject->getPlatformUuid());
         $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
         $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
-        $project->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
+        $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
 
         $this->logger->expects($this->exactly(2))
             ->method('debug');
@@ -101,7 +100,8 @@ class ImportProjectCommandHandlerTest extends TestCase
             'This is a widget project imported from publiq-platform',
             24378,
             'SAPI3 test key',
-            'SAPI3 live key'
+            'SAPI3 live key',
+            'active'
         );
 
         $projectToBeUpdated = new Project();
@@ -124,7 +124,7 @@ class ImportProjectCommandHandlerTest extends TestCase
         $updatedProject->setPlatformUuid($importProject->getPlatformUuid());
         $updatedProject->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
         $updatedProject->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
-        $updatedProject->setStatus(Project::PROJECT_STATUS_APPLICATION_SENT);
+        $updatedProject->setStatus(Project::PROJECT_STATUS_ACTIVE);
 
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')
