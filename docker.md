@@ -7,7 +7,8 @@
 ## Configure
 
 ### Configuration setup
-To get or update the configuration files, run the following command in the root of the project
+To get or update the configuration files, run the following command in the root of the project.
+This command will also try to add `host.docker.internal` to your `/etc/hosts` file. This requires `sudo` privileges.
 ```
 $ make config
 ```
