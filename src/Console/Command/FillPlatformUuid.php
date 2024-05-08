@@ -66,6 +66,7 @@ final class FillPlatformUuid extends Command
                 continue;
             }
 
+            $project->setPlatformUuid($platformUuid);
             $output->writeln('Fixing project ' . $project->getId() . ' with platform uuid ' . $platformUuid);
             $entityManager->persist($project);
         }
