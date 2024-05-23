@@ -151,6 +151,8 @@ class WidgetController
         $project = $this->projectConverter->convert($widgetPage->getProjectId());
 
         if ($cdbid && $request->headers->get('referer')) {
+            var_dump($request->query);
+            die();
             $url = $request->headers->get('referer');
 
             $cdbidsArr = explode(' ', $cdbid);
