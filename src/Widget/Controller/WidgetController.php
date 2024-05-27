@@ -148,13 +148,11 @@ class WidgetController
      */
     public function renderWidget(Request $request, WidgetPageInterface $widgetPage, $widgetId, $cdbid = '')
     {
+
         $project = $this->projectConverter->convert($widgetPage->getProjectId());
 
-        if ($cdbid && $request->headers->get('referer')) {
-            var_dump($request->query);
-            die();
-            $url = $request->headers->get('referer');
-
+        if ($cdbid && $request->query->get('origin')) {
+            $url = $request->query->get('origin');
             $cdbidsArr = explode(' ', $cdbid);
             foreach ($cdbidsArr as $id) {
                 $this->commandBus->handle(new CreateArticleLink($url, $id));
