@@ -4,6 +4,8 @@
     const SNOWPLOW_JS_URL =
       "https://cdn.jsdelivr.net/npm/@snowplow/javascript-tracker@3.1.6/dist/sp.min.js";
 
+    const SNOWPLOW_TRACKER_NAME = "widgets-tracker";
+
     const WIDGET_PAGE_ID = Object.keys(CultuurnetWidgetsSettings)[0];
     const WIDGET_SETTINGS = CultuurnetWidgetsSettings[WIDGET_PAGE_ID];
 
@@ -91,7 +93,7 @@
 
     window.snowplow(
       "newTracker",
-      "widgets-tracker",
+      SNOWPLOW_TRACKER_NAME,
       "sneeuwploeg.uitdatabank.be",
       {
         appId: "widgets",
@@ -146,11 +148,11 @@
     window.snowplow("addGlobalContexts", [
       GLOBAL_WIDGET_CONTEXT,
       GLOBAL_ENVIRONMENT_CONTEXT,
-    ]);
+    ], [SNOWPLOW_TRACKER_NAME]);
 
-    window.snowplow("trackPageView");
+    window.snowplow("trackPageView", [SNOWPLOW_TRACKER_NAME]);
 
-    window.snowplow("enableLinkClickTracking");
+    window.snowplow("enableLinkClickTracking", [SNOWPLOW_TRACKER_NAME]);
 
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
@@ -211,7 +213,7 @@
                 button_name: buttonName ?? "",
               },
             },
-          });
+          }, [SNOWPLOW_TRACKER_NAME]);
         });
       });
     };
@@ -242,7 +244,7 @@
             active_seconds: activeSeconds,
           },
         },
-      });
+      }, [SNOWPLOW_TRACKER_NAME]);
 
       window.snowplow("trackSelfDescribingEvent", {
         event: {
@@ -253,7 +255,7 @@
             })),
           },
         },
-      });
+      }, [SNOWPLOW_TRACKER_NAME]);
     });
   };
 })(CultuurnetWidgets);
