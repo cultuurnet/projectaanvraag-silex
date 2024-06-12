@@ -89,9 +89,9 @@
       return value.split(" ").join("-").toLowerCase();
     };
 
-    initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
+    initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "widgetSnowplow");
 
-    window.snowplow(
+    window.widgetSnowplow(
       "newTracker",
       SNOWPLOW_TRACKER_NAME,
       "sneeuwploeg.uitdatabank.be",
@@ -145,14 +145,14 @@
       },
     };
 
-    window.snowplow("addGlobalContexts", [
+    window.widgetSnowplow("addGlobalContexts", [
       GLOBAL_WIDGET_CONTEXT,
       GLOBAL_ENVIRONMENT_CONTEXT,
     ], [SNOWPLOW_TRACKER_NAME]);
 
-    window.snowplow("trackPageView", [SNOWPLOW_TRACKER_NAME]);
+    window.widgetSnowplow("trackPageView", [SNOWPLOW_TRACKER_NAME]);
 
-    window.snowplow("enableLinkClickTracking", [SNOWPLOW_TRACKER_NAME]);
+    window.widgetSnowplow("enableLinkClickTracking", [SNOWPLOW_TRACKER_NAME]);
 
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
@@ -206,7 +206,7 @@
             .map((item) => stringToKebabCase(item))
             .join("-");
 
-          window.snowplow("trackSelfDescribingEvent", {
+          window.widgetSnowplow("trackSelfDescribingEvent", {
             event: {
               schema: "iglu:be.general/button_click/jsonschema/1-0-0",
               data: {
@@ -237,7 +237,7 @@
       const timeSpent = getTimeSpentInSeconds();
       const activeSeconds = Math.round(timeSpent);
 
-      window.snowplow("trackSelfDescribingEvent", {
+      window.widgetSnowplow("trackSelfDescribingEvent", {
         event: {
           schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
           data: {
@@ -246,7 +246,7 @@
         },
       }, [SNOWPLOW_TRACKER_NAME]);
 
-      window.snowplow("trackSelfDescribingEvent", {
+      window.widgetSnowplow("trackSelfDescribingEvent", {
         event: {
           schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
           data: {
