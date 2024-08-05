@@ -116,4 +116,17 @@ class RegionService
         );
         return $matches;
     }
+
+    public function asortByLevenshtein($matches, $searchString)
+    {
+        uasort(
+            $matches,
+            function ($a, $b) use ($searchString) {
+                $levA = levenshtein($searchString, $a);
+                $levB = levenshtein($searchString, $b);
+                return $levA === $levB ? 0 : ($levA > $levB ? 1 : -1); // Omgekeerde volgorde
+            }
+        );
+        return $matches;
+    }
 }
