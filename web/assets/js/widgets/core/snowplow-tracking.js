@@ -4,6 +4,8 @@
     const SNOWPLOW_JS_URL =
       "https://cdn.jsdelivr.net/npm/@snowplow/javascript-tracker@3.1.6/dist/sp.min.js";
 
+    const SNOWPLOW_TRACKER_NAME = "widgets-tracker";
+
     const WIDGET_PAGE_ID = Object.keys(CultuurnetWidgetsSettings)[0];
     const WIDGET_SETTINGS = CultuurnetWidgetsSettings[WIDGET_PAGE_ID];
 
@@ -87,11 +89,11 @@
       return value.split(" ").join("-").toLowerCase();
     };
 
-    initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "snowplow");
+    initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "widgetSnowplow");
 
-    window.snowplow(
+    window.widgetSnowplow(
       "newTracker",
-      "widgets-tracker",
+      SNOWPLOW_TRACKER_NAME,
       "sneeuwploeg.uitdatabank.be",
       {
         appId: "widgets",
@@ -143,14 +145,14 @@
       },
     };
 
-    window.snowplow("addGlobalContexts", [
+    window.widgetSnowplow("addGlobalContexts", [
       GLOBAL_WIDGET_CONTEXT,
       GLOBAL_ENVIRONMENT_CONTEXT,
-    ]);
+    ], [SNOWPLOW_TRACKER_NAME]);
 
-    window.snowplow("trackPageView");
+    window.widgetSnowplow("trackPageView", [SNOWPLOW_TRACKER_NAME]);
 
-    window.snowplow("enableLinkClickTracking");
+    window.widgetSnowplow("enableLinkClickTracking", [SNOWPLOW_TRACKER_NAME]);
 
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
@@ -204,14 +206,14 @@
             .map((item) => stringToKebabCase(item))
             .join("-");
 
-          window.snowplow("trackSelfDescribingEvent", {
+          window.widgetSnowplow("trackSelfDescribingEvent", {
             event: {
               schema: "iglu:be.general/button_click/jsonschema/1-0-0",
               data: {
                 button_name: buttonName ?? "",
               },
             },
-          });
+          }, [SNOWPLOW_TRACKER_NAME]);
         });
       });
     };
@@ -235,16 +237,16 @@
       const timeSpent = getTimeSpentInSeconds();
       const activeSeconds = Math.round(timeSpent);
 
-      window.snowplow("trackSelfDescribingEvent", {
+      window.widgetSnowplow("trackSelfDescribingEvent", {
         event: {
           schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
           data: {
             active_seconds: activeSeconds,
           },
         },
-      });
+      }, [SNOWPLOW_TRACKER_NAME]);
 
-      window.snowplow("trackSelfDescribingEvent", {
+      window.widgetSnowplow("trackSelfDescribingEvent", {
         event: {
           schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
           data: {
@@ -253,7 +255,7 @@
             })),
           },
         },
-      });
+      }, [SNOWPLOW_TRACKER_NAME]);
     });
   };
 })(CultuurnetWidgets);
