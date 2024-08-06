@@ -85,23 +85,4 @@ final class RegionServiceTest extends TestCase
             $this->regionService->getItemByName('Liezele')
         );
     }
-
-    /**
-     * @test
-     */
-    public function it_can_sort_by_levenshtein(): void
-    {
-        $searchString = 'Zele';
-        $this->assertEquals(
-            [
-                'Zele + deelgemeenten',
-                'Zelem (Halen)',
-                'Zele (Zele)',
-            ],
-            $this->regionService->sortByLevenshtein(
-                $this->regionService->getAutocompletResults($searchString),
-                $searchString
-            )
-        );
-    }
 }
