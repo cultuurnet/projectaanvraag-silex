@@ -65,7 +65,6 @@ final class RegionServiceTest extends TestCase
      */
     public function it_can_get_an_item_by_name(): void
     {
-        var_dump($this->regionService->getItemByName('Liezele (Puurs-Sint-Amands)'));
         $this->assertEquals(
             (object) [
                 'name' => 'Liezele (Puurs-Sint-Amands)',
