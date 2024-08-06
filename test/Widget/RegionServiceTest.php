@@ -12,7 +12,7 @@ final class RegionServiceTest extends TestCase
     public function setUp(): void
     {
         $this->regionService = new RegionService(
-            './test/Widget/autocompletemini.json',
+            './test/Widget/regions_sample.json',
             new Translator('nl')
         );
     }
