@@ -56,6 +56,10 @@ class RegionService
                 if (strpos(strtolower($translatedRegion), '(' . $searchString) !== false) {
                     $matches[$region->key] = $translatedRegion;
                 }
+                // This is done to add informal municipality names without prefixes like Saint
+                if (strpos(strtolower($translatedRegion), '-' . $searchString) !== false) {
+                    $matches[$region->key] = $translatedRegion;
+                }
             }
         }
 
