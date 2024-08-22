@@ -63,6 +63,21 @@ final class RegionServiceTest extends TestCase
     /**
      * @test
      */
+    public function it_will_match_with_informal_names(): void
+    {
+        $this->assertEquals(
+            [
+                'nis-21012' => 'Sint-Jans-Molenbeek + deelgemeenten',
+                'nis-21012A' => 'Sint-Jans-Molenbeek (Sint-Jans-Molenbeek)',
+                'nis-24008C' => 'Molenbeek-Wersbeek (Bekkevoort)',
+            ],
+            $this->regionService->getAutocompletResults('Molenbeek')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_can_get_an_item_by_name(): void
     {
         $this->assertEquals(

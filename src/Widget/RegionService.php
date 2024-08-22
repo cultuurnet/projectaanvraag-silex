@@ -47,13 +47,18 @@ class RegionService
                         $translatedRegion = $region->name;
                     }
                 }
+                $compareString = strtolower($translatedRegion);
                 // This is done to find cities & towns with short names which also match lots of other cities & towns
                 // e.g., Zele or Egem
-                if (strpos(strtolower($translatedRegion), $searchString) === 0) {
+                if (strpos($compareString, $searchString) === 0) {
                     $matches[$region->key] = $translatedRegion;
                 }
                 // This is done to add the submunicipalities when searching for a municipality.
-                if (strpos(strtolower($translatedRegion), '(' . $searchString) !== false) {
+                if (strpos($compareString, '(' . $searchString) !== false) {
+                    $matches[$region->key] = $translatedRegion;
+                }
+                // This is done to add informal municipality names without prefixes like Saint
+                if (strpos($compareString, '-' . $searchString) !== false) {
                     $matches[$region->key] = $translatedRegion;
                 }
             }
