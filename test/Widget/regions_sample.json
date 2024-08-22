@@ -4,12 +4,36 @@
     "key":"nis-12030D"
   },
   {
+    "name": "Sint-Jans-Molenbeek + deelgemeenten",
+    "key": "nis-21012"
+  },
+  {
+    "name": "Sint-Jans-Molenbeek (Sint-Jans-Molenbeek)",
+    "key": "nis-21012A"
+  },
+  {
     "name":"Vollezele (Galmaarden)",
     "key":"nis-23023B"
   },
   {
     "name":"Mazenzele (Opwijk)",
     "key":"nis-23060B"
+  },
+  {
+    "name": "Bekkevoort + deelgemeenten",
+    "key": "nis-24008"
+  },
+  {
+    "name": "Bekkevoort (Bekkevoort)",
+    "key": "nis-24008A"
+  },
+  {
+    "name": "Assent (Bekkevoort)",
+    "key": "nis-24008B"
+  },
+  {
+    "name": "Molenbeek-Wersbeek (Bekkevoort)",
+    "key": "nis-24008C"
   },
   {
     "name":"Gentinnes (Chastre)",
