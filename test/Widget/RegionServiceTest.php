@@ -63,7 +63,7 @@ final class RegionServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_match_with_informal_names()
+    public function it_does_not_match_with_informal_names(): void
     {
         $this->assertEquals(
             [
