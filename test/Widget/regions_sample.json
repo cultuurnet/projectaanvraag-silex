@@ -1,0 +1,234 @@
+[
+  {
+    "name":"Liezele (Puurs-Sint-Amands)",
+    "key":"nis-12030D"
+  },
+  {
+    "name": "Sint-Jans-Molenbeek + deelgemeenten",
+    "key": "nis-21012"
+  },
+  {
+    "name": "Sint-Jans-Molenbeek (Sint-Jans-Molenbeek)",
+    "key": "nis-21012A"
+  },
+  {
+    "name":"Vollezele (Galmaarden)",
+    "key":"nis-23023B"
+  },
+  {
+    "name":"Mazenzele (Opwijk)",
+    "key":"nis-23060B"
+  },
+  {
+    "name": "Bekkevoort + deelgemeenten",
+    "key": "nis-24008"
+  },
+  {
+    "name": "Bekkevoort (Bekkevoort)",
+    "key": "nis-24008A"
+  },
+  {
+    "name": "Assent (Bekkevoort)",
+    "key": "nis-24008B"
+  },
+  {
+    "name": "Molenbeek-Wersbeek (Bekkevoort)",
+    "key": "nis-24008C"
+  },
+  {
+    "name":"Gentinnes (Chastre)",
+    "key":"nis-25117D"
+  },
+  {
+    "name":"Dudzele (Brugge)",
+    "key":"nis-31005C"
+  },
+  {
+    "name":"Zwevezele (Wingene)",
+    "key":"nis-37018B"
+  },
+  {
+    "name":"Dadizele (Moorslede)",
+    "key":"nis-36012B"
+  },
+  {
+    "name":"Voormezele (Ieper)",
+    "key":"nis-33011J"
+  },
+  {
+    "name":"Regio Gent",
+    "key":"reg-gent"
+  },
+  {
+    "name":"Gent + deelgemeenten",
+    "key":"nis-44021"
+  },
+  {
+    "name":"Gent (Gent)",
+    "key":"nis-44021-Z"
+  },
+  {
+    "name":"Mendonk (Gent)",
+    "key":"nis-44021D-II"
+  },
+  {
+    "name":"Desteldonk (Gent)",
+    "key":"nis-44021D-III"
+  },
+  {
+    "name":"Oostakker (Gent)",
+    "key":"nis-44021D-IV"
+  },
+  {
+    "name":"Sint-Kruis-Winkel (Gent)",
+    "key":"nis-44021D-I"
+  },
+  {
+    "name":"Sint-Amandsberg (Gent)",
+    "key":"nis-44021E"
+  },
+  {
+    "name":"Gentbrugge (Gent)",
+    "key":"nis-44021F"
+  },
+  {
+    "name":"Zwijnaarde (Gent)",
+    "key":"nis-44021H"
+  },
+  {
+    "name":"Ledeberg (Gent)",
+    "key":"nis-44021G"
+  },
+  {
+    "name":"Afsnee (Gent)",
+    "key":"nis-44021J-II"
+  },
+  {
+    "name":"Sint-Denijs-Westrem (Gent)",
+    "key":"nis-44021J-I"
+  },
+  {
+    "name":"Drongen (Gent)",
+    "key":"nis-44021K"
+  },
+  {
+    "name":"Mariakerke (Gent)",
+    "key":"nis-44021L"
+  },
+  {
+    "name":"Wondelgem (Gent)",
+    "key":"nis-44021M"
+  },
+  {
+    "name":"Onkerzele (Geraardsbergen)",
+    "key":"nis-41018C"
+  },
+  {
+    "name":"Vlierzele (Sint-Lievens-Houtem)",
+    "key":"nis-41063D"
+  },
+  {
+    "name":"Herzele + deelgemeenten",
+    "key":"nis-41027"
+  },
+  {
+    "name":"Herzele (Herzele)",
+    "key":"nis-41027A"
+  },
+  {
+    "name":"Borsbeke (Herzele)",
+    "key":"nis-41027C"
+  },
+  {
+    "name":"Hillegem (Herzele)",
+    "key":"nis-41027B"
+  },
+  {
+    "name":"Ressegem (Herzele)",
+    "key":"nis-41027D"
+  },
+  {
+    "name":"Sint-Antelinks (Herzele)",
+    "key":"nis-41027F"
+  },
+  {
+    "name":"Steenhuize-Wijnhuize (Herzele)",
+    "key":"nis-41027G"
+  },
+  {
+    "name":"Sint-Lievens-Esse (Herzele)",
+    "key":"nis-41027H"
+  },
+  {
+    "name":"Woubrechtegem (Herzele)",
+    "key":"nis-41027E"
+  },
+  {
+    "name":"Oosterzele + deelgemeenten",
+    "key":"nis-44052"
+  },
+  {
+    "name":"Balegem (Oosterzele)",
+    "key":"nis-44052B"
+  },
+  {
+    "name":"Oosterzele (Oosterzele)",
+    "key":"nis-44052A"
+  },
+  {
+    "name":"Scheldewindeke (Oosterzele)",
+    "key":"nis-44052C"
+  },
+  {
+    "name":"Moortsele (Oosterzele)",
+    "key":"nis-44052D"
+  },
+  {
+    "name":"Landskouter (Oosterzele)",
+    "key":"nis-44052E"
+  },
+  {
+    "name":"Gijzenzele (Oosterzele)",
+    "key":"nis-44052F"
+  },
+  {
+    "name":"Wanzele (Lede)",
+    "key":"nis-41034B"
+  },
+  {
+    "name":"Zele + deelgemeenten",
+    "key":"nis-42028"
+  },
+  {
+    "name":"Zele (Zele)",
+    "key":"nis-42028A"
+  },
+  {
+    "name":"Elzele + deelgemeenten",
+    "key":"nis-51017"
+  },
+  {
+    "name":"Wodecq (Elzele)",
+    "key":"nis-51017B"
+  },
+  {
+    "name":"Ellezelles (Elzele)",
+    "key":"nis-51017A"
+  },
+  {
+    "name":"Lahamaide (Elzele)",
+    "key":"nis-51017C"
+  },
+  {
+    "name":"Hermalle-sous-Argenteau (Oupeye)",
+    "key":"nis-62079C"
+  },
+  {
+    "name":"Argenteau (Wezet)",
+    "key":"nis-62108C"
+  },
+  {
+    "name":"Zelem (Halen)",
+    "key":"nis-71020B"
+  }
+]

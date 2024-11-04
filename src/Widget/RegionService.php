@@ -47,7 +47,18 @@ class RegionService
                         $translatedRegion = $region->name;
                     }
                 }
-                if (strpos(strtolower($translatedRegion), $searchString) !== false) {
+                $compareString = strtolower($translatedRegion);
+                // This is done to find cities & towns with short names which also match lots of other cities & towns
+                // e.g., Zele or Egem
+                if (strpos($compareString, $searchString) === 0) {
+                    $matches[$region->key] = $translatedRegion;
+                }
+                // This is done to add the submunicipalities when searching for a municipality.
+                if (strpos($compareString, '(' . $searchString) !== false) {
+                    $matches[$region->key] = $translatedRegion;
+                }
+                // This is done to add informal municipality names without prefixes like Saint
+                if (strpos($compareString, '-' . $searchString) !== false) {
                     $matches[$region->key] = $translatedRegion;
                 }
             }
@@ -93,27 +104,5 @@ class RegionService
                 return $matchedRegion;
             }
         }
-    }
-
-    /**
-     * Sort items according to Levenshtein distance, the higher the match the higher the value.
-     * But usort sorts by default from small to large, first item has a smaller value.
-     * So the high Levenshtein values need to get before the smaller onces and therefore they need to return -1
-     *
-     * @param  $matches
-     * @param  $searchString
-     * @return $matches
-     */
-    public function sortByLevenshtein($matches, $searchString)
-    {
-        usort(
-            $matches,
-            function ($a, $b) use ($searchString) {
-                    $levA = levenshtein($searchString, $a);
-                    $levB = levenshtein($searchString, $b);
-                    return $levA === $levB ? 0 : ($levA > $levB ? -1 : 1);
-            }
-        );
-        return $matches;
     }
 }
