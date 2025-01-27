@@ -52,17 +52,80 @@
 
     const viewedEventTeasers = new Set();
 
+    // Schema configuration by environment and event type
+    // Schema versions can be different per environment
+    const SCHEMA_CONFIG = {
+      dev: {
+        widget_context: {
+          name: "be.widgets/widget_context",
+          version: "2-0-0"
+        },
+        button_click: {
+          name: "be.general/button_click",
+          version: "1-0-0"
+        },
+        page_unload: {
+          name: "be.general/page_unload",
+          version: "1-0-0"
+        },
+        impressions: {
+          name: "be.widgets/impressions",
+          version: "1-0-0"
+        },
+        app_env: {
+          name: "be.general/app_env",
+          version: "1-0-0"
+        }
+      },
+      prod: {
+        widget_context: {
+          name: "be.widgets/widget_context",
+          version: "1-0-2"
+        },
+        button_click: {
+          name: "be.general/button_click",
+          version: "1-0-0"
+        },
+        page_unload: {
+          name: "be.general/page_unload",
+          version: "1-0-0"
+        },
+        impressions: {
+          name: "be.widgets/impressions",
+          version: "1-0-0"
+        },
+        app_env: {
+          name: "be.general/app_env",
+          version: "1-0-0"
+        }
+      }
+    };
+
+    // Helper function to get schema URL
+    const getSchemaUrl = (eventType, environment) => {
+      const schema = SCHEMA_CONFIG[environment][eventType];
+      return `iglu:${schema.name}/jsonschema/${schema.version}`;
+    };
+
     const getEnvironment = () => {
       const apiUrl = WIDGET_SETTINGS.apiUrl;
       if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.dev"))
-        return "dev";
-      if (apiUrl.startsWith("https://projectaanvraag-api-test.uitdatabank.be"))
-        return "test";
+        return {
+          name: "dev",
+          collector: "sneeuwploeg-dev.uitdatabank.be"
+        };
       if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.be"))
-        return "prod";
+        return {
+          name: "prod",
+          collectors: [
+            "sneeuwploeg.uitdatabank.be", // old collector
+            "sneeuwploeg-prd.uitdatabank.be" // new collector
+          ]
+        };
     };
 
-    const environment = getEnvironment();
+    const environmentConfig = getEnvironment();
+    const environment = environmentConfig.name;
 
     const getTimeSpentInSeconds = () => {
       const endTime = new Date();
@@ -91,68 +154,267 @@
 
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "widgetSnowplow");
 
-    window.widgetSnowplow(
-      "newTracker",
-      SNOWPLOW_TRACKER_NAME,
-      "sneeuwploeg.uitdatabank.be",
-      {
-        appId: "widgets",
-        platform: "web",
-        cookieDomain: null,
-        cookieName: "sppubliq",
-        sessionCookieTimeout: 3600,
-        discoverRootDomain: true,
-        eventMethod: "post",
-        encodeBase64: true,
-        respectDoNotTrack: false,
-        userFingerprint: true,
-        postPath: "/publiq/t",
-        contexts: {
-          webPage: true,
-          performanceTiming: false,
-          gaCookies: true,
-          geolocation: false,
+    // Initialize trackers based on environment
+    if (environment === "dev") {
+      window.widgetSnowplow(
+        "newTracker",
+        "widgets-tracker-dev",
+        environmentConfig.collector,
+        {
+          appId: "widgets",
+          platform: "web",
+          cookieDomain: null,
+          cookieName: "sppubliq",
+          sessionCookieTimeout: 3600,
+          discoverRootDomain: true,
+          eventMethod: "post",
+          encodeBase64: true,
+          respectDoNotTrack: false,
+          userFingerprint: true,
+          postPath: "/publiq/t",
+          contexts: {
+            webPage: true,
+            performanceTiming: false,
+            gaCookies: true,
+            geolocation: false,
+          },
+        }
+      );
+    } else {
+      // Production environment - dual tracking
+      environmentConfig.collectors.forEach((collector, index) => {
+        window.widgetSnowplow(
+          "newTracker",
+          `widgets-tracker-${index}`,
+          collector,
+          {
+            appId: "widgets",
+            platform: "web",
+            cookieDomain: null,
+            cookieName: `sppubliq`,
+            sessionCookieTimeout: 3600,
+            discoverRootDomain: true,
+            eventMethod: "post",
+            encodeBase64: true,
+            respectDoNotTrack: false,
+            userFingerprint: true,
+            postPath: "/publiq/t",
+            contexts: {
+              webPage: true,
+              performanceTiming: false,
+              gaCookies: true,
+              geolocation: false,
+            },
+          }
+        );
+      });
+    }
+
+    // Event data collectors by environment
+    // These functions gather all required data for each event type in each environment
+    // Input data for each event might be different per environment (depends on schema version)
+    const EVENT_DATA_COLLECTORS = {
+      dev: {
+        page_unload: () => {
+          const timeSpent = getTimeSpentInSeconds();
+          return {
+            activeSeconds: Math.round(timeSpent),
+          };
         },
+        button_click: (category, label, action) => {
+          const buttonName = [category, label, action]
+            .filter((item) => typeof item !== "undefined")
+            .map((item) => stringToKebabCase(item))
+            .join("-");
+          
+          return {
+            buttonName,
+          };
+        },
+        widget_context: () => ({
+          consumerName: WIDGET_SETTINGS.consumerName,
+          widgetPageTitle: WIDGET_SETTINGS.widgetPageTitle,
+          language: WIDGET_SETTINGS.language,
+          widgetPageId: WIDGET_SETTINGS.widgetPageId,
+          pageType,
+          searchTerms: {
+            what: searchTermWhat,
+            when: searchTermWhen,
+            where: searchTermWhere,
+          },
+          searchFacets: {
+            what: searchFacetWhat,
+            where: searchFacetWhere,
+            when: searchFacetWhen,
+          },
+          cdbid,
+        }),
+        impressions: () => ({
+          eventImpressions: [...viewedEventTeasers].map((id) => ({
+            event_id: id,
+          }))
+        }),
+        app_env: () => ({
+          environment,
+        })
+      },
+      prod: {
+        page_unload: () => {
+          const timeSpent = getTimeSpentInSeconds();
+          return {
+            activeSeconds: Math.round(timeSpent)
+          };
+        },
+        button_click: (category, label, action) => {
+          const buttonName = [category, label, action]
+            .filter((item) => typeof item !== "undefined")
+            .map((item) => stringToKebabCase(item))
+            .join("-");
+          buttonName = buttonName ?? "";
+          return {
+            buttonName
+          };
+        },
+        widget_context: () => ({
+          consumerName: WIDGET_SETTINGS.consumerName,
+          widgetPageTitle: WIDGET_SETTINGS.widgetPageTitle,
+          language: WIDGET_SETTINGS.language,
+          widgetPageId: WIDGET_SETTINGS.widgetPageId,
+          pageType,
+          searchTerms: {
+            what: searchTermWhat,
+            when: searchTermWhen,
+            where: searchTermWhere,
+          },
+          searchFacets: {
+            what: searchFacetWhat,
+            where: searchFacetWhere,
+            when: searchFacetWhen,
+          },
+          cdbid
+        }),
+        impressions: () => ({
+          eventImpressions: [...viewedEventTeasers].map((id) => ({
+            event_id: id
+          }))
+        }),
+        app_env: () => ({
+          environment
+        })
       }
-    );
-
-    const GLOBAL_WIDGET_CONTEXT = {
-      schema: "iglu:be.widgets/widget_context/jsonschema/1-0-2",
-      data: {
-        name: WIDGET_SETTINGS.consumerName,
-        title: WIDGET_SETTINGS.widgetPageTitle,
-        language: WIDGET_SETTINGS.language ?? "",
-        page_id: WIDGET_SETTINGS.widgetPageId,
-        page_type: pageType,
-        search_terms: {
-          what: searchTermWhat,
-          when: searchTermWhen,
-          where: searchTermWhere,
-        },
-        search_facets: {
-          what: searchFacetWhat,
-          where: searchFacetWhere,
-          when: searchFacetWhen,
-        },
-        cdbid: cdbid ?? "",
-      },
     };
 
-    const GLOBAL_ENVIRONMENT_CONTEXT = {
-      schema: "iglu:be.general/app_env/jsonschema/1-0-0",
-      data: {
-        environment,
+    // Event builders that format the collected data according to each schema
+    const EVENT_BUILDERS = {
+      dev: {
+        page_unload: (data) => ({
+          schema: getSchemaUrl('page_unload', 'dev'),
+          data: {
+            active_seconds: data.activeSeconds,
+            user: data.user
+          }
+        }),
+        button_click: (data) => ({
+          schema: getSchemaUrl('button_click', 'dev'),
+          data: {
+            button_name: data.buttonName,
+            clicked_at: data.timestamp
+          }
+        }),
+        widget_context: (data) => ({
+          schema: getSchemaUrl('widget_context', 'dev'),
+          data: {
+            name: data.consumerName,
+            title: data.widgetPageTitle,
+            language: data.language ?? "",
+            page_id: data.widgetPageId,
+            page_type: data.pageType,
+            search_terms: data.searchTerms,
+            search_facets: data.searchFacets,
+            cdbid: data.cdbid ?? "",
+            schema_version: data.schemaVersion
+          }
+        }),
+        impressions: (data) => ({
+          schema: getSchemaUrl('impressions', 'dev'),
+          data: {
+            event_impressions: data.eventImpressions
+          }
+        }),
+        app_env: (data) => ({
+          schema: getSchemaUrl('app_env', 'dev'),
+          data: {
+            environment: data.environment,
+            version: data.version
+          }
+        })
       },
+      prod: {
+        page_unload: (data) => ({
+          schema: getSchemaUrl('page_unload', 'prod'),
+          data: {
+            active_seconds: data.activeSeconds
+          }
+        }),
+        button_click: (data) => ({
+          schema: getSchemaUrl('button_click', 'prod'),
+          data: {
+            button_name: data.buttonName
+          }
+        }),
+        widget_context: (data) => ({
+          schema: getSchemaUrl('widget_context', 'prod'),
+          data: {
+            name: data.consumerName,
+            title: data.widgetPageTitle,
+            language: data.language ?? "",
+            page_id: data.widgetPageId,
+            page_type: data.pageType,
+            search_terms: data.searchTerms,
+            search_facets: data.searchFacets,
+            cdbid: data.cdbid ?? ""
+          }
+        }),
+        impressions: (data) => ({
+          schema: getSchemaUrl('impressions', 'prod'),
+          data: {
+            event_impressions: data.eventImpressions
+          }
+        }),
+        app_env: (data) => ({
+          schema: getSchemaUrl('app_env', 'prod'),
+          data: {
+            environment: data.environment
+          }
+        })
+      }
     };
+
+    const buildEventData = (eventType, ...args) => {
+      const collectedData = EVENT_DATA_COLLECTORS[environment][eventType](...args);
+      return EVENT_BUILDERS[environment][eventType](collectedData);
+    };
+
+    const GLOBAL_WIDGET_CONTEXT = buildEventData('widget_context');
+    const GLOBAL_ENVIRONMENT_CONTEXT = buildEventData('app_env');
+
+    const getTrackerNames = () => {
+      if (environment === "dev") {
+        return ["widgets-tracker-dev"];
+      }
+      return environmentConfig.collectors.map((_, index) => `widgets-tracker-${index}`);
+    };
+
+    const trackerNames = getTrackerNames();
 
     window.widgetSnowplow("addGlobalContexts", [
       GLOBAL_WIDGET_CONTEXT,
       GLOBAL_ENVIRONMENT_CONTEXT,
-    ], [SNOWPLOW_TRACKER_NAME]);
+    ], trackerNames);
 
-    window.widgetSnowplow("trackPageView", [SNOWPLOW_TRACKER_NAME]);
+    window.widgetSnowplow("trackPageView", trackerNames);
 
-    window.widgetSnowplow("enableLinkClickTracking", [SNOWPLOW_TRACKER_NAME]);
+    window.widgetSnowplow("enableLinkClickTracking", trackerNames);
 
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
@@ -201,19 +463,11 @@
           const label = clickElement.dataset.clickTrackingLabel;
           const action = clickElement.dataset.clickTrackingAction;
 
-          const buttonName = [category, label, action]
-            .filter((item) => typeof item !== "undefined")
-            .map((item) => stringToKebabCase(item))
-            .join("-");
-
-          window.widgetSnowplow("trackSelfDescribingEvent", {
-            event: {
-              schema: "iglu:be.general/button_click/jsonschema/1-0-0",
-              data: {
-                button_name: buttonName ?? "",
-              },
-            },
-          }, [SNOWPLOW_TRACKER_NAME]);
+          window.widgetSnowplow(
+            "trackSelfDescribingEvent", 
+            buildEventData('button_click', category, label, action),
+            trackerNames
+          );
         });
       });
     };
@@ -234,28 +488,17 @@
     });
 
     window.addEventListener("beforeunload", () => {
-      const timeSpent = getTimeSpentInSeconds();
-      const activeSeconds = Math.round(timeSpent);
+      window.widgetSnowplow(
+        "trackSelfDescribingEvent", 
+        buildEventData('page_unload'),
+        trackerNames
+      );
 
-      window.widgetSnowplow("trackSelfDescribingEvent", {
-        event: {
-          schema: "iglu:be.general/page_unload/jsonschema/1-0-0",
-          data: {
-            active_seconds: activeSeconds,
-          },
-        },
-      }, [SNOWPLOW_TRACKER_NAME]);
-
-      window.widgetSnowplow("trackSelfDescribingEvent", {
-        event: {
-          schema: "iglu:be.widgets/impressions/jsonschema/1-0-0",
-          data: {
-            event_impressions: [...viewedEventTeasers].map((id) => ({
-              event_id: id,
-            })),
-          },
-        },
-      }, [SNOWPLOW_TRACKER_NAME]);
+      window.widgetSnowplow(
+        "trackSelfDescribingEvent", 
+        buildEventData('impressions'),
+        trackerNames
+      );
     });
   };
 })(CultuurnetWidgets);
