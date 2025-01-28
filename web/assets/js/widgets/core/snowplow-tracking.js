@@ -101,31 +101,34 @@
       }
     };
 
-    // Helper function to get schema URL
-    const getSchemaUrl = (eventType, environment) => {
-      const schema = SCHEMA_CONFIG[environment][eventType];
-      return `iglu:${schema.name}/jsonschema/${schema.version}`;
-    };
-
     const getEnvironment = () => {
       const apiUrl = WIDGET_SETTINGS.apiUrl;
       if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.dev"))
         return {
           name: "dev",
-          collector: "sneeuwploeg-dev.uitdatabank.be"
+          collector: "sneeuwploeg-dev.uitdatabank.be",
+          snowplowBackendEnvironment: "dev"  // Maps to dev Snowplow backend
+        };
+      if (apiUrl.startsWith("https://projectaanvraag-api-test.uitdatabank.be"))
+        return {
+          name: "test",
+          collector: "sneeuwploeg-dev.uitdatabank.be", // Use dev collector
+          snowplowBackendEnvironment: "dev"  // Test frontend maps to dev Snowplow backend
         };
       if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.be"))
         return {
           name: "prod",
           collectors: [
-            "sneeuwploeg.uitdatabank.be", // old collector
+            "sneeuwploeg.uitdatabank.be",    // old collector
             "sneeuwploeg-prd.uitdatabank.be" // new collector
-          ]
+          ],
+          snowplowBackendEnvironment: "prod"  // Maps to prod Snowplow backend
         };
     };
 
     const environmentConfig = getEnvironment();
     const environment = environmentConfig.name;
+    const snowplowBackendEnvironment = environmentConfig.snowplowBackendEnvironment;
 
     const getTimeSpentInSeconds = () => {
       const endTime = new Date();
@@ -154,61 +157,51 @@
 
     initializeSnowPlow(window, document, "script", SNOWPLOW_JS_URL, "widgetSnowplow");
 
-    // Initialize trackers based on environment
-    if (environment === "dev") {
-      window.widgetSnowplow(
-        "newTracker",
-        "widgets-tracker-dev",
-        environmentConfig.collector,
-        {
-          appId: "widgets",
-          platform: "web",
-          cookieDomain: null,
-          cookieName: "sppubliq",
-          sessionCookieTimeout: 3600,
-          discoverRootDomain: true,
-          eventMethod: "post",
-          encodeBase64: true,
-          respectDoNotTrack: false,
-          userFingerprint: true,
-          postPath: "/publiq/t",
-          contexts: {
-            webPage: true,
-            performanceTiming: false,
-            gaCookies: true,
-            geolocation: false,
-          },
-        }
-      );
-    } else {
-      // Production environment - dual tracking
-      environmentConfig.collectors.forEach((collector, index) => {
+    // Common tracker configuration
+    const getTrackerConfig = () => ({
+      appId: "widgets",
+      platform: "web",
+      cookieDomain: null,
+      cookieName: "sppubliq",  // Same cookie name for all trackers
+      sessionCookieTimeout: 3600,
+      discoverRootDomain: true,
+      eventMethod: "post",
+      encodeBase64: true,
+      respectDoNotTrack: false,
+      userFingerprint: true,
+      postPath: "/publiq/t",
+      contexts: {
+        webPage: true,
+        performanceTiming: false,
+        gaCookies: true,
+        geolocation: false,
+      }
+    });
+
+    // Initialize tracker(s) based on environment
+    const initializeTrackers = () => {
+      if (environment === "prod") {
+        // Production environment - dual tracking with identical configuration
+        environmentConfig.collectors.forEach((collector, index) => {
+          window.widgetSnowplow(
+            "newTracker",
+            `widgets-tracker-${index}`,
+            collector,
+            getTrackerConfig()
+          );
+        });
+      } else {
+        // Dev/Test environments - single tracker
         window.widgetSnowplow(
           "newTracker",
-          `widgets-tracker-${index}`,
-          collector,
-          {
-            appId: "widgets",
-            platform: "web",
-            cookieDomain: null,
-            cookieName: `sppubliq`,
-            sessionCookieTimeout: 3600,
-            discoverRootDomain: true,
-            eventMethod: "post",
-            encodeBase64: true,
-            respectDoNotTrack: false,
-            userFingerprint: true,
-            postPath: "/publiq/t",
-            contexts: {
-              webPage: true,
-              performanceTiming: false,
-              gaCookies: true,
-              geolocation: false,
-            },
-          }
+          `widgets-tracker-${environment}`, // Use specific environment name in tracker
+          environmentConfig.collector,
+          getTrackerConfig()
         );
-      });
-    }
+      }
+    };
+
+    initializeTrackers();
 
     // Event data collectors by environment
     // These functions gather all required data for each event type in each environment
@@ -257,6 +250,10 @@
         app_env: () => ({
           environment,
         })
+      },
+      test: {
+        // Test environment uses same collectors as dev
+        ...EVENT_DATA_COLLECTORS.dev
       },
       prod: {
         page_unload: () => {
@@ -348,6 +345,10 @@
             version: data.version
           }
         })
+      },
+      test: {
+        // Test environment uses same builders as dev
+        ...EVENT_BUILDERS.dev
       },
       prod: {
         page_unload: (data) => ({
@@ -500,5 +501,10 @@
         trackerNames
       );
     });
+
+    const getSchemaUrl = (eventType) => {
+      const schema = SCHEMA_CONFIG[snowplowBackendEnvironment][eventType];
+      return `iglu:${schema.name}/jsonschema/${schema.version}`;
+    };
   };
 })(CultuurnetWidgets);
