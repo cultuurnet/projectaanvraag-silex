@@ -118,10 +118,7 @@
       if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.be"))
         return {
           name: "prod",
-          collectors: [
-            "sneeuwploeg.uitdatabank.be",    // old collector
-            "sneeuwploeg-prd.uitdatabank.be" // new collector
-          ],
+          collector: "sneeuwploeg-prd.uitdatabank.be", // Single production collector
           snowplowBackendEnvironment: "prod"  // Maps to prod Snowplow backend
         };
     };
@@ -180,25 +177,12 @@
 
     // Initialize tracker(s) based on environment
     const initializeTrackers = () => {
-      if (environment === "prod") {
-        // Production environment - dual tracking with identical configuration
-        environmentConfig.collectors.forEach((collector, index) => {
-          window.widgetSnowplow(
-            "newTracker",
-            `widgets-tracker-${index}`,
-            collector,
-            getTrackerConfig()
-          );
-        });
-      } else {
-        // Dev/Test environments - single tracker
-        window.widgetSnowplow(
-          "newTracker",
-          `widgets-tracker-${environment}`, // Use specific environment name in tracker
-          environmentConfig.collector,
-          getTrackerConfig()
-        );
-      }
+      window.widgetSnowplow(
+        "newTracker",
+        `widgets-tracker-${environment}`, // Use specific environment name in tracker
+        environmentConfig.collector,
+        getTrackerConfig()
+      );
     };
 
     initializeTrackers();
@@ -400,10 +384,7 @@
     const GLOBAL_ENVIRONMENT_CONTEXT = buildEventData('app_env');
 
     const getTrackerNames = () => {
-      if (environment === "dev") {
-        return ["widgets-tracker-dev"];
-      }
-      return environmentConfig.collectors.map((_, index) => `widgets-tracker-${index}`);
+      return [`widgets-tracker-${environment}`];
     };
 
     const trackerNames = getTrackerNames();
