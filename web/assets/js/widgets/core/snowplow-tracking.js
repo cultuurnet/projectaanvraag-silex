@@ -118,7 +118,7 @@
       if (apiUrl.startsWith("https://projectaanvraag-api.uitdatabank.be"))
         return {
           name: "prod",
-          collector: "sneeuwploeg-prd.uitdatabank.be", // Single production collector
+          collector: "sneeuwploeg-prd.uitdatabank.be", 
           snowplowBackendEnvironment: "prod"  // Maps to prod Snowplow backend
         };
     };
@@ -159,7 +159,7 @@
       appId: "widgets",
       platform: "web",
       cookieDomain: null,
-      cookieName: "sppubliq",  // Same cookie name for all trackers
+      cookieName: "sppubliq",  
       sessionCookieTimeout: 3600,
       discoverRootDomain: true,
       eventMethod: "post",
@@ -179,7 +179,7 @@
     const initializeTrackers = () => {
       window.widgetSnowplow(
         "newTracker",
-        `widgets-tracker-${environment}`, // Use specific environment name in tracker
+        `widgets-tracker-${environment}`, 
         environmentConfig.collector,
         getTrackerConfig()
       );
