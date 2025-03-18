@@ -64,6 +64,11 @@
 
     const environment = getEnvironment();
 
+    const collectorDomain =
+      environment === "prod"
+        ? "sneeuwploeg.uitdatabank.be"
+        : "sp-dev.uitdatabank.be";
+
     const getTimeSpentInSeconds = () => {
       const endTime = new Date();
       return (endTime.getTime() - STARTTIME.getTime()) / 1000;
@@ -94,7 +99,7 @@
     window.widgetSnowplow(
       "newTracker",
       SNOWPLOW_TRACKER_NAME,
-      "sneeuwploeg.uitdatabank.be",
+      collectorDomain,
       {
         appId: "widgets",
         platform: "web",
