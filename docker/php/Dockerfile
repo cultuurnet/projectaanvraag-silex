@@ -14,7 +14,7 @@ RUN docker-php-ext-configure gd && docker-php-ext-install gd
 
 RUN pecl install -o -f redis &&  rm -rf /tmp/pear && docker-php-ext-enable redis
 
-RUN pecl install -o -f mongodb &&  docker-php-ext-enable mongodb
+RUN pecl install -o -f mongodb-1.9.2 &&  docker-php-ext-enable mongodb
 
 RUN curl https://getcomposer.org/download/1.10.22/composer.phar -o /usr/local/bin/composer && chmod +x /usr/local/bin/composer
 
