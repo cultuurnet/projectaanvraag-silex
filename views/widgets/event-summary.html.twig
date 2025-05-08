@@ -19,7 +19,7 @@
 
     <div class="{% if settings_items.image.enabled %}cnw_col-9 {% else %} cnw_col-12{% endif %}">
         <div class="cnw_card-block ">
-            <h2 class="cnw_card-title">
+            <h2 class="cnw_card-title" data-detail-link="{{ event.detail_link }}">
                 {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
                 <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="title">{{ event.name }}</a>
                 {% else %}
