@@ -166,10 +166,12 @@
         const cardTitle = entry.target.getElementsByClassName(
           "cnw_card-title"
         );
-
         if (!cardTitle[0]) return;
 
-        const url = new URL(cardTitle[0].dataset.detailLink);
+        const detailLink = cardTitle[0].dataset.detailLink;
+        if (!detailLink) return;
+
+        const url = new URL(detailLink);
         const cdbidOfEventTeaser = url.searchParams.get("cdbid");
         viewedEventTeasers.add(cdbidOfEventTeaser);
       });
