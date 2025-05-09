@@ -14,7 +14,6 @@ use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\SearchV3\ValueObjects\PagedCollection;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
-use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 
 /**
  * Provides the facets widget type.
@@ -42,7 +41,7 @@ use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
  *                          },
  *                          {
  *                              "label": "Voor kinderen",
- *                              "query": "(typicalAgeRange:[* TO 11] AND allAges:false) OR labels:ook voor kinderen"
+ *                              "query": "labels:ook voor kinderen"
  *                          },
  *                          {
  *                              "label": "Gratis activiteiten",

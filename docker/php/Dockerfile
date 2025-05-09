@@ -14,7 +14,7 @@ RUN docker-php-ext-configure gd && docker-php-ext-install gd
 
 RUN pecl install -o -f redis &&  rm -rf /tmp/pear && docker-php-ext-enable redis
 
-RUN pecl install -o -f mongodb &&  docker-php-ext-enable mongodb
+RUN pecl install -o -f mongodb-1.9.2 &&  docker-php-ext-enable mongodb
 
 RUN curl https://getcomposer.org/download/1.10.22/composer.phar -o /usr/local/bin/composer && chmod +x /usr/local/bin/composer
 
@@ -25,6 +25,11 @@ RUN a2enmod rewrite
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/web
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+COPY custom-apache.conf /etc/apache2/conf-available/custom-apache.conf
+RUN a2enconf custom-apache
+
+RUN echo "Include conf-available/custom-apache.conf" >> /etc/apache2/apache2.conf
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
