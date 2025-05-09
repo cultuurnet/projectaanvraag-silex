@@ -127,9 +127,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
-                if (value) {
-                    paramsToSubmit[$field.attr('name')] = encodeURIComponent(value);
-                }
+                paramsToSubmit[$field.attr('name')] = encodeURIComponent(value);
             }
             // Radios => Only submit the checked radios.
             else if ($field.is(':radio')) {
