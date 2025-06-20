@@ -15,7 +15,7 @@ pipeline {
         }
 
         stage('Setup and build') {
-            agent { label 'ubuntu && 16.04 && php7.1' }
+            agent { label 'ubuntu && 20.04 && php7.4' }
             environment {
                 GIT_SHORT_COMMIT = build.shortCommitRef()
                 ARTIFACT_VERSION = "${env.PIPELINE_VERSION}" + '+sha.' + "${env.GIT_SHORT_COMMIT}"
@@ -28,12 +28,12 @@ pipeline {
                 }
                 stage('Build') {
                     steps {
-                        sh label: 'Build binaries', script: 'bundle exec rake projectaanvraag-api:build'
+                        sh label: 'Build binaries', script: 'bundle exec rake build'
                     }
                 }
                 stage('Build artifact') {
                     steps {
-                        sh label: 'Build artifact', script: "bundle exec rake projectaanvraag-api:build_artifact ARTIFACT_VERSION=${env.ARTIFACT_VERSION}"
+                        sh label: 'Build artifact', script: "bundle exec rake build_artifact ARTIFACT_VERSION=${env.ARTIFACT_VERSION}"
                         archiveArtifacts artifacts: "pkg/*${env.ARTIFACT_VERSION}*.deb", onlyIfSuccessful: true
                     }
                 }
@@ -61,24 +61,24 @@ pipeline {
         }
 
         stage('Deploy to development') {
-            agent any
+            agent { label 'ubuntu && 20.04' }
             options { skipDefaultCheckout() }
             environment {
                 APPLICATION_ENVIRONMENT = 'development'
             }
             steps {
-                publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'xenial'
+                publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'focal'
             }
         }
 
         stage('Deploy to testing') {
-            agent any
+            agent { label 'ubuntu && 20.04' }
             options { skipDefaultCheckout() }
             environment {
                 APPLICATION_ENVIRONMENT = 'testing'
             }
             steps {
-                publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'xenial'
+                publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'focal'
                 triggerDeployment nodeName: 'projectaanvraag-web-test02'
             }
             post {
@@ -90,13 +90,13 @@ pipeline {
 
         stage('Deploy to production') {
             input { message "Deploy to Production?" }
-            agent any
+            agent { label 'ubuntu && 20.04' }
             options { skipDefaultCheckout() }
             environment {
                 APPLICATION_ENVIRONMENT = 'production'
             }
             steps {
-                publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'xenial'
+                publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'focal'
                 triggerDeployment nodeName: 'projectaanvraag-web-prod02'
             }
             post {
@@ -110,7 +110,7 @@ pipeline {
         }
 
         stage('Tag release') {
-            agent { label 'ubuntu && 16.04' }
+            agent any
             steps {
                 copyArtifacts filter: 'pkg/*.deb', projectName: env.JOB_NAME, flatten: true, selector: specific(env.BUILD_NUMBER)
                 tagRelease commitHash: artifact.metadata(artifactFilter: '*.deb', field: 'git-ref')
