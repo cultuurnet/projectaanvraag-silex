@@ -21,7 +21,7 @@ task :build_artifact do |task|
 
   system("fpm -s dir -t deb -n #{artifact_name} -v #{version} -a all -p pkg \
     --prefix /var/www/projectaanvraag-api \
-    -x '.git*' -x pkg -x '*.dist.yml' -x Jenkinsfile \
+    -x '.git*' -x pkg -x '*.dist.yml' -x Jenkinsfile -x 'Gemfile*' -x 'docker*' \
     --config-files /var/www/projectaanvraag-api/config.yml \
     --config-files /var/www/projectaanvraag-api/user_roles.yml \
     --config-files /var/www/projectaanvraag-api/integration_types.yml \
