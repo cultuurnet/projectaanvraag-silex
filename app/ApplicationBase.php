@@ -262,8 +262,6 @@ class ApplicationBase extends SilexApplication
             'mongodb://' . $mongdbConfig['default']['host'] . ':' . $mongdbConfig['default']['port'],
             [
                 [
-                    'username' => $mongdbConfig['default']['user'],
-                    'password' => $mongdbConfig['default']['password'],
                     'db' => $mongdbConfig['default']['dbname'],
                 ],
             ]
