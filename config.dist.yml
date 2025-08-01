@@ -29,8 +29,6 @@ mongodb:
   default:
     host:
     port:
-    user:
-    password:
     dbname:
 
 # UiTID related settings.
