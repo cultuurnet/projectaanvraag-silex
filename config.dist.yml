@@ -17,12 +17,6 @@ database:
     user:
     password:
     dbname:
-  legacy_widgets:
-    driver: pdo_mysql
-    host:
-    user:
-    password:
-    dbname:
 
 # Mongodb settings
 mongodb:
