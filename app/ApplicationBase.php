@@ -26,7 +26,6 @@ use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
 use CultuurNet\ProjectAanvraag\Widget\Translation\TranslationTwigExtension;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
-use CultuurNet\ProjectAanvraag\WidgetMigration\WidgetMigrationProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
 use DF\DoctrineMongoDbOdm\Silex\Provider\DoctrineMongoDbOdmProvider;
@@ -322,8 +321,6 @@ class ApplicationBase extends SilexApplication
                 'google_tag_manager' => $this['config']['google_tag_manager'],
             ]
         );
-
-        $this->register(new WidgetMigrationProvider());
 
         $this->register(new MessageBusProvider());
 
