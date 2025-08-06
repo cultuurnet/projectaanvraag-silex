@@ -22,8 +22,6 @@ subscribers:
             - queue_consumers_listener
         CultuurNet\ProjectAanvraag\Core\Event\SyncConsumer:
             - sync_consumer_listener
-        CultuurNet\ProjectAanvraag\WidgetMigration\Event\QueueWidgetMigration:
-            - queue_widget_migration_listener
         CultuurNet\ProjectAanvraag\ArticleLinker\Event\ArticleLinkCreated:
             - articleLink_created_listener
 
@@ -245,15 +243,3 @@ handlers:
               - mongodbodm.dm
               - widget_repository
               - uitid_user_session_data_complete
-
-    migrate_widget_page_handler:
-              command: CultuurNet\ProjectAanvraag\Widget\Command\MigrateWidgetPage
-              class: \CultuurNet\ProjectAanvraag\Widget\CommandHandler\MigrateWidgetPageCommandHandler
-              arguments:
-                  - event_bus
-                  - widgets_migration_logger
-                  - mongodbodm.dm
-                  - legacy_widgets_db
-                  - orm.em
-                  - project_repository
-                  - widget_layout_manager
