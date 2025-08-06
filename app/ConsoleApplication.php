@@ -7,7 +7,6 @@ use CultuurNet\ProjectAanvraag\Console\Command\ConsumeCommand;
 use CultuurNet\ProjectAanvraag\Console\Command\FillPlatformUuid;
 use CultuurNet\ProjectAanvraag\Console\Command\MigrateInsightlyIds;
 use CultuurNet\ProjectAanvraag\Console\Command\SyncConsumersCommand;
-use CultuurNet\ProjectAanvraag\WidgetMigration\Console\Command\MigrateCommand;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
@@ -81,8 +80,6 @@ class ConsoleApplication extends ApplicationBase
         $consoleApp->add(new SyncConsumersCommand());
 
         // Widget commands
-        $consoleApp->add(new MigrateCommand());
-
         $consoleApp->add(new MigrateInsightlyIds());
 
         $consoleApp->add(new FillPlatformUuid());
