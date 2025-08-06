@@ -126,14 +126,6 @@ listeners:
             - project_repository
             - orm.em
             - insightly.project_config
-    queue_widget_migration_listener:
-        class: \CultuurNet\ProjectAanvraag\WidgetMigration\EventListener\QueueWidgetMigrationEventListener
-        arguments:
-            - legacy_widgets_db
-            - orm.em
-            - project_repository
-            - event_bus
-            - command_bus
 
     widget_search_results_query_alter_listener:
         class: \CultuurNet\ProjectAanvraag\Widget\EventListener\SearchResultsQueryAlterListener
