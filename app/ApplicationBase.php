@@ -256,12 +256,12 @@ class ApplicationBase extends SilexApplication
         );
 
         // Mongodb.
-        $mongdbConfig = $this['config']['mongodb'];
+        $mongodbConfig = $this['config']['mongodb'];
         $client = new Client(
-            'mongodb://' . $mongdbConfig['default']['host'] . ':' . $mongdbConfig['default']['port'],
+            'mongodb://' . $mongodbConfig['default']['host'] . ':' . $mongodbConfig['default']['port'],
             [
                 [
-                    'db' => $mongdbConfig['default']['dbname'],
+                    'db' => $mongodbConfig['default']['dbname'],
                 ],
             ]
         );
@@ -283,7 +283,7 @@ class ApplicationBase extends SilexApplication
                 'mongodbodm.hydrator_dir' => $this['config']['odm_orm']['hydrator_dir'],
                 'mongodbodm.auto_generate_hydrators' => Configuration::AUTOGENERATE_FILE_NOT_EXISTS,
                 "mongodbodm.dm.options" => [
-                    "database" => "widgets",
+                    "database" => $mongodbConfig['default']['dbname'],
                     "mappings" => [
                         [
                             "type" => "annotation",
