@@ -7,7 +7,7 @@ if ! grep -q "host.docker.internal" /etc/hosts; then
 fi
 
 # setup config & key files
-DIR="../appconfig/files/projectaanvraag/docker/silex/"
+DIR="../appconfig/templates/docker/projectaanvraag/api/"
 if [ -d "$DIR" ]; then
   cp -R "$DIR"/* .
   # needed because it is hidden
