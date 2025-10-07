@@ -58,7 +58,7 @@ class RegionService
 
                 // We compare the strings in multiple ways and give a score based on the kind of match, to avoid that
                 // when you search for cities or towns with short names you first get a lot of irrelevant matches that
-                // also contain that name or even that they are completely ommited because of a visual limit in the FE.
+                // also contain that name or even that they are completely omitted because of a visual limit in the FE.
                 // (E.g. Zele or Egem)
                 // @see https://jira.publiq.be/browse/WID-575
                 // @see https://jira.publiq.be/browse/WID-588
@@ -74,7 +74,7 @@ class RegionService
 
                 // Exact matches with a known suffix / prefix like `Regio X`, `X + deelgemeenten`, ... get the 2nd
                 // highest score. (Keep in mind that everything is already converted to lowercase)
-                // Otherwise "Provincie Antwerpen" would get buried by all subminicipalities of Antwerpen
+                // Otherwise "Provincie Antwerpen" would get buried by all submunicipalities of Antwerpen
                 if ($compareString === 'regio ' . $searchString ||
                     $compareString === $searchString . ' + deelgemeenten' ||
                     $compareString === 'provincie ' . $searchString) {
