@@ -22,7 +22,7 @@ final class RegionServiceTest extends TestCase
      */
     public function it_will_show_submunicipalities(): void
     {
-        $this->assertAutocompleteMatches(
+        $this->assertSame(
             [
                 'nis-44021' => 'Gent + deelgemeenten',
                 'reg-gent' => 'Regio Gent',
@@ -53,7 +53,7 @@ final class RegionServiceTest extends TestCase
      */
     public function it_will_find_match_the_start_of_a_city_name()
     {
-        $this->assertAutocompleteMatches(
+        $this->assertSame(
             [
                 'nis-42028' => 'Zele + deelgemeenten',
                 'nis-42028A' => 'Zele (Zele)',
@@ -98,7 +98,7 @@ final class RegionServiceTest extends TestCase
      */
     public function it_will_find_match_provinces()
     {
-        $this->assertAutocompleteMatches(
+        $this->assertSame(
             [
                 'nis-60000' => 'Provincie Luik',
                 'nis-62063' => 'Luik + deelgemeenten',
@@ -114,7 +114,7 @@ final class RegionServiceTest extends TestCase
      */
     public function it_will_match_with_informal_names(): void
     {
-        $this->assertAutocompleteMatches(
+        $this->assertSame(
             [
                 'nis-24008C' => 'Molenbeek-Wersbeek (Bekkevoort)',
                 'nis-21012' => 'Sint-Jans-Molenbeek + deelgemeenten',
@@ -147,15 +147,5 @@ final class RegionServiceTest extends TestCase
             null,
             $this->regionService->getItemByName('Liezele')
         );
-    }
-
-    /**
-     * First asserts that the keys and values of the two arrays are the same, and then asserts that the order of the
-     * values is as expected
-     */
-    private function assertAutocompleteMatches(array $expected, array $actual): void
-    {
-        $this->assertEquals($expected, $actual);
-        $this->assertEquals(array_values($expected), array_values($actual));
     }
 }
