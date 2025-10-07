@@ -125,8 +125,9 @@ class RegionService
         uasort(
             $matches,
             function ($a, $b) {
-                // Reverse the result using *-1 so higher scores are sorted before lower scores (instead of after)
-                return ($a['score'] <=> $b['score']) * -1;
+                // Reverse the comparison so that matches with a higher score are sorted before matches with a lower
+                // score
+                return $b['score'] <=> $a['score'];
             }
         );
 
