@@ -50,7 +50,7 @@ class RegionService
                 $compareString = strtolower($translatedRegion);
                 // This is done to find cities & towns with short names which also match lots of other cities & towns
                 // e.g., Zele or Egem
-                if (strpos($compareString, $searchString) === 0) {
+                if (strpos($compareString, $searchString) !== false) {
                     $matches[$region->key] = $translatedRegion;
                 }
                 // This is done to add the submunicipalities when searching for a municipality.
