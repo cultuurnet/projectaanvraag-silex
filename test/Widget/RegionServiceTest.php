@@ -22,17 +22,18 @@ final class RegionServiceTest extends TestCase
      */
     public function it_will_show_submunicipalities(): void
     {
-        $this->assertEquals(
+        $this->assertAutocompleteMatches(
             [
-                'nis-25117D' => 'Gentinnes (Chastre)',
                 'nis-44021' => 'Gent + deelgemeenten',
+                'reg-gent' => 'Regio Gent',
                 'nis-44021-Z' => 'Gent (Gent)',
-                'nis-44021D-II' => 'Mendonk (Gent)',
+                'nis-25117D' => 'Gentinnes (Chastre)',
+                'nis-44021F' => 'Gentbrugge (Gent)',
                 'nis-44021D-III' => 'Desteldonk (Gent)',
                 'nis-44021D-IV' => 'Oostakker (Gent)',
                 'nis-44021D-I' => 'Sint-Kruis-Winkel (Gent)',
                 'nis-44021E' => 'Sint-Amandsberg (Gent)',
-                'nis-44021F' => 'Gentbrugge (Gent)',
+                'nis-44021D-II' => 'Mendonk (Gent)',
                 'nis-44021H' => 'Zwijnaarde (Gent)',
                 'nis-44021G' => 'Ledeberg (Gent)',
                 'nis-44021J-II' => 'Afsnee (Gent)',
@@ -40,6 +41,8 @@ final class RegionServiceTest extends TestCase
                 'nis-44021K' => 'Drongen (Gent)',
                 'nis-44021L' => 'Mariakerke (Gent)',
                 'nis-44021M' => 'Wondelgem (Gent)',
+                'nis-62079C' => 'Hermalle-sous-Argenteau (Oupeye)',
+                'nis-62108C' => 'Argenteau (Wezet)',
             ],
             $this->regionService->getAutocompletResults('Gent')
         );
@@ -50,11 +53,41 @@ final class RegionServiceTest extends TestCase
      */
     public function it_will_find_match_the_start_of_a_city_name()
     {
-        $this->assertEquals(
+        $this->assertAutocompleteMatches(
             [
                 'nis-42028' => 'Zele + deelgemeenten',
                 'nis-42028A' => 'Zele (Zele)',
                 'nis-71020B' => 'Zelem (Halen)',
+                'nis-41027E' => 'Woubrechtegem (Herzele)',
+                'nis-51017C' => 'Lahamaide (Elzele)',
+                'nis-51017A' => 'Ellezelles (Elzele)',
+                'nis-51017B' => 'Wodecq (Elzele)',
+                'nis-51017' => 'Elzele + deelgemeenten',
+                'nis-41034B' => 'Wanzele (Lede)',
+                'nis-44052F' => 'Gijzenzele (Oosterzele)',
+                'nis-44052E' => 'Landskouter (Oosterzele)',
+                'nis-44052D' => 'Moortsele (Oosterzele)',
+                'nis-44052C' => 'Scheldewindeke (Oosterzele)',
+                'nis-44052A' => 'Oosterzele (Oosterzele)',
+                'nis-44052B' => 'Balegem (Oosterzele)',
+                'nis-44052' => 'Oosterzele + deelgemeenten',
+                'nis-12030D' => 'Liezele (Puurs-Sint-Amands)',
+                'nis-23023B' => 'Vollezele (Galmaarden)',
+                'nis-41027G' => 'Steenhuize-Wijnhuize (Herzele)',
+                'nis-41027F' => 'Sint-Antelinks (Herzele)',
+                'nis-41027D' => 'Ressegem (Herzele)',
+                'nis-41027B' => 'Hillegem (Herzele)',
+                'nis-41027C' => 'Borsbeke (Herzele)',
+                'nis-41027A' => 'Herzele (Herzele)',
+                'nis-41027' => 'Herzele + deelgemeenten',
+                'nis-41063D' => 'Vlierzele (Sint-Lievens-Houtem)',
+                'nis-41018C' => 'Onkerzele (Geraardsbergen)',
+                'nis-33011J' => 'Voormezele (Ieper)',
+                'nis-36012B' => 'Dadizele (Moorslede)',
+                'nis-37018B' => 'Zwevezele (Wingene)',
+                'nis-31005C' => 'Dudzele (Brugge)',
+                'nis-23060B' => 'Mazenzele (Opwijk)',
+                'nis-41027H' => 'Sint-Lievens-Esse (Herzele)',
             ],
             $this->regionService->getAutocompletResults('Zele')
         );
@@ -65,11 +98,11 @@ final class RegionServiceTest extends TestCase
      */
     public function it_will_match_with_informal_names(): void
     {
-        $this->assertEquals(
+        $this->assertAutocompleteMatches(
             [
+                'nis-24008C' => 'Molenbeek-Wersbeek (Bekkevoort)',
                 'nis-21012' => 'Sint-Jans-Molenbeek + deelgemeenten',
                 'nis-21012A' => 'Sint-Jans-Molenbeek (Sint-Jans-Molenbeek)',
-                'nis-24008C' => 'Molenbeek-Wersbeek (Bekkevoort)',
             ],
             $this->regionService->getAutocompletResults('Molenbeek')
         );
@@ -98,5 +131,15 @@ final class RegionServiceTest extends TestCase
             null,
             $this->regionService->getItemByName('Liezele')
         );
+    }
+
+    /**
+     * First asserts that the keys and values of the two arrays are the same, and then asserts that the order of the
+     * values is as expected
+     */
+    private function assertAutocompleteMatches(array $expected, array $actual): void
+    {
+        $this->assertEquals($expected, $actual);
+        $this->assertEquals(array_values($expected), array_values($actual));
     }
 }
