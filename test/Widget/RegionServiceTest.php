@@ -96,6 +96,22 @@ final class RegionServiceTest extends TestCase
     /**
      * @test
      */
+    public function it_will_find_match_provinces()
+    {
+        $this->assertAutocompleteMatches(
+            [
+                'nis-60000' => 'Provincie Luik',
+                'nis-62063' => 'Luik + deelgemeenten',
+                'nis-62063-Z' => 'Liège (Luik)',
+                'nis-62063E' => 'Bressoux (Luik)',
+            ],
+            $this->regionService->getAutocompletResults('Luik')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_will_match_with_informal_names(): void
     {
         $this->assertAutocompleteMatches(

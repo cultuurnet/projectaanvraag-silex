@@ -230,5 +230,25 @@
   {
     "name":"Zelem (Halen)",
     "key":"nis-71020B"
+  },
+  {
+    "name": "Provincie Luik",
+    "key": "nis-60000"
+  },
+  {
+    "name": "Provincie Luik",
+    "key": "nis-60000"
+  },
+  {
+    "name": "Luik + deelgemeenten",
+    "key": "nis-62063"
+  },
+  {
+    "name": "Liège (Luik)",
+    "key": "nis-62063-Z"
+  },
+  {
+    "name": "Bressoux (Luik)",
+    "key": "nis-62063E"
   }
 ]
