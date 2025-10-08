@@ -24,8 +24,8 @@ final class RegionServiceTest extends TestCase
     {
         $this->assertSame(
             [
-                'nis-44021' => 'Gent + deelgemeenten',
                 'reg-gent' => 'Regio Gent',
+                'nis-44021' => 'Gent + deelgemeenten',
                 'nis-44021-Z' => 'Gent (Gent)',
                 'nis-25117D' => 'Gentinnes (Chastre)',
                 'nis-44021F' => 'Gentbrugge (Gent)',
