@@ -332,8 +332,6 @@ class WidgetController
     public function getRegionAutocompleteResult(Request $request, $searchString, $language = 'nl')
     {
         $matches = $this->regionService->getAutocompletResults($searchString, $language);
-        // Sort the matches on nis which was added as key of the matches array.
-        ksort($matches);
 
         // Return 10 matches
         $response = new JsonResponse(array_slice($matches, 0, 10));
