@@ -1,6 +1,10 @@
 pipeline {
     agent none
 
+    options {
+        disableRestartFromStage()
+    }
+
     environment {
         PIPELINE_VERSION = build.pipelineVersion()
         REPOSITORY_NAME  = 'projectaanvraag-api'
@@ -79,7 +83,7 @@ pipeline {
             }
             steps {
                 publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'focal'
-                triggerDeployment nodeName: 'projectaanvraag-web-test02'
+                triggerDeployment nodeName: 'projectaanvraag-web-test01'
             }
             post {
                 always {
@@ -97,7 +101,7 @@ pipeline {
             }
             steps {
                 publishAptlySnapshot snapshotName: "${env.REPOSITORY_NAME}-${env.PIPELINE_VERSION}", publishTarget: "${env.REPOSITORY_NAME}-${env.APPLICATION_ENVIRONMENT}", distributions: 'focal'
-                triggerDeployment nodeName: 'projectaanvraag-web-prod02'
+                triggerDeployment nodeName: 'projectaanvraag-web-prod01'
             }
             post {
                 always {
