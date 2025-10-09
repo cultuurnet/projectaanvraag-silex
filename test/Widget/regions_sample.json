@@ -246,5 +246,29 @@
   {
     "name": "Bressoux (Luik)",
     "key": "nis-62063E"
+  },
+  {
+    "name": "Limburg + deelgemeenten",
+    "key": "nis-63046"
+  },
+  {
+    "name": "Limbourg (Limburg)",
+    "key": "nis-63046A"
+  },
+  {
+    "name": "Bilstain (Limburg)",
+    "key": "nis-63046B"
+  },
+  {
+    "name": "Go\u00e9 (Limburg)",
+    "key": "nis-63046C"
+  },
+  {
+    "name": "Provincie Limburg",
+    "key": "nis-70000"
+  },
+  {
+    "name": "Regio Limburgse Kempen",
+    "key": "reg-limburgse-kempen"
   }
 ]

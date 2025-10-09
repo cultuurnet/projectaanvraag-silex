@@ -24,8 +24,8 @@ final class RegionServiceTest extends TestCase
     {
         $this->assertSame(
             [
-                'nis-44021' => 'Gent + deelgemeenten',
                 'reg-gent' => 'Regio Gent',
+                'nis-44021' => 'Gent + deelgemeenten',
                 'nis-44021-Z' => 'Gent (Gent)',
                 'nis-25117D' => 'Gentinnes (Chastre)',
                 'nis-44021F' => 'Gentbrugge (Gent)',
@@ -96,7 +96,7 @@ final class RegionServiceTest extends TestCase
     /**
      * @test
      */
-    public function it_will_find_match_provinces()
+    public function it_will_find_provinces()
     {
         $this->assertSame(
             [
@@ -106,6 +106,24 @@ final class RegionServiceTest extends TestCase
                 'nis-62063E' => 'Bressoux (Luik)',
             ],
             $this->regionService->getAutocompletResults('Luik')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_puts_provinces_above_municipalities_with_the_same_name()
+    {
+        $this->assertSame(
+            [
+                'nis-70000' => 'Provincie Limburg',
+                'nis-63046' => 'Limburg + deelgemeenten',
+                'nis-63046A' => 'Limbourg (Limburg)',
+                'nis-63046B' => 'Bilstain (Limburg)',
+                'nis-63046C' => 'Goé (Limburg)',
+                'reg-limburgse-kempen' => 'Regio Limburgse Kempen',
+            ],
+            $this->regionService->getAutocompletResults('Limburg')
         );
     }
 

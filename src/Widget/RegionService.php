@@ -10,8 +10,10 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class RegionService
 {
-    private const SCORE_EXACT = 6; // Exact match
-    private const SCORE_EXACT_SUFFIX_PREFIX = 5; // Matches like `Regio X`, `Provincie X`, or `X + deelgemeenten` for search string `X`
+    private const SCORE_EXACT = 8; // Exact match
+    private const SCORE_PROVINCE = 7; // Exact match with "Provincie X"
+    private const SCORE_REGION = 6; // Exact match with "Regio X"
+    private const SCORE_TOWN_WITH_SUBMUNICIPALITIES = 5; // Exact match with "X + deelgemeenten"
     private const SCORE_TYPEAHEAD_COMPLETE = 4; // Typeahead match with a whitespace afterward, e.g. `Zele (Zele)` for search string `Zele`
     private const SCORE_TYPEAHEAD_PARTIAL = 3; // Typeahead match with a non-whitespace character afterward, e.g. `Zelem (Halen)` for search string `Zele`
     private const SCORE_SUBSTRING = 2; // If the search string is not at the start but after a ( or -, e.g. `Hypothetical example (Zele)` for search string `Zele`
@@ -72,14 +74,31 @@ class RegionService
                     continue;
                 }
 
-                // Exact matches with a known suffix / prefix like `Regio X`, `X + deelgemeenten`, ... get the 2nd
-                // highest score. (Keep in mind that everything is already converted to lowercase)
-                // Otherwise "Provincie Antwerpen" would get buried by all submunicipalities of Antwerpen
-                if ($compareString === 'regio ' . $searchString ||
-                    $compareString === $searchString . ' + deelgemeenten' ||
-                    $compareString === 'provincie ' . $searchString) {
+                // Next we look for exact matches with common prefixes/suffixes like
+                // "Provincie", "Regio", and "+ deelgemeenten"
+                // We give each one a slightly different score to avoid that province names that are also names of towns
+                // get mixed up in a weird order, for example we want to AVOID:
+                // 1. Limburg + deelgemeenten (= town in Wallonia)
+                // 2. Provincie Limburg (= Flemish province)
+                // 3. Limbourg (Limburg) (= earlier town in Wallonia)
+                // 4. Bilstain (Limburg) (= submunicipality in earlier town in Wallonia)
+                if ($compareString === 'provincie ' . $searchString) {
                     $matches[$region->key] = [
-                        'score' => self::SCORE_EXACT_SUFFIX_PREFIX,
+                        'score' => self::SCORE_PROVINCE,
+                        'name'  => $translatedRegion,
+                    ];
+                    continue;
+                }
+                if ($compareString === 'regio ' . $searchString) {
+                    $matches[$region->key] = [
+                        'score' => self::SCORE_REGION,
+                        'name'  => $translatedRegion,
+                    ];
+                    continue;
+                }
+                if ($compareString === $searchString . ' + deelgemeenten') {
+                    $matches[$region->key] = [
+                        'score' => self::SCORE_TOWN_WITH_SUBMUNICIPALITIES,
                         'name'  => $translatedRegion,
                     ];
                     continue;
