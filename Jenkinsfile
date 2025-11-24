@@ -24,24 +24,13 @@ pipeline {
                 GIT_SHORT_COMMIT = build.shortCommitRef()
                 ARTIFACT_VERSION = "${env.PIPELINE_VERSION}" + '+sha.' + "${env.GIT_SHORT_COMMIT}"
             }
-            stages {
-                stage('Setup') {
-                    steps {
-                        sh label: 'Install rubygems', script: 'bundle install --deployment'
-                    }
-                }
-                stage('Build') {
-                    steps {
-                        sh label: 'Build binaries', script: 'bundle exec rake build'
-                    }
-                }
-                stage('Build artifact') {
-                    steps {
-                        sh label: 'Build artifact', script: "bundle exec rake build_artifact ARTIFACT_VERSION=${env.ARTIFACT_VERSION}"
-                        archiveArtifacts artifacts: "pkg/*${env.ARTIFACT_VERSION}*.deb", onlyIfSuccessful: true
-                    }
-                }
+                        steps {
+                sh label: 'Install rubygems', script: 'bundle install --deployment'
+                sh label: 'Build binaries', script: 'bundle exec rake build'
+                sh label: 'Build artifact', script: "bundle exec rake build_artifact ARTIFACT_VERSION=${env.ARTIFACT_VERSION}"
+                archiveArtifacts artifacts: "pkg/*${env.ARTIFACT_VERSION}*.deb", onlyIfSuccessful: true
             }
+
             post {
                 cleanup {
                     cleanWs()
@@ -114,6 +103,8 @@ pipeline {
         }
 
         stage('Tag release') {
+            options { skipDefaultCheckout() }
+
             agent any
             steps {
                 copyArtifacts filter: 'pkg/*.deb', projectName: env.JOB_NAME, flatten: true, selector: specific(env.BUILD_NUMBER)
