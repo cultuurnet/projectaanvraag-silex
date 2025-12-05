@@ -40,8 +40,8 @@ class UserServiceTest extends TestCase
         $this->platformClient = $this->createMock(PlatformClientInterface::class);
 
         $this->userService = new UserService(
-            $this->userRoleStorage,
             $this->cultureFeed,
+            $this->userRoleStorage,
             $this->platformClient
         );
     }
