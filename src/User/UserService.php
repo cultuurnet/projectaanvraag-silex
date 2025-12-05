@@ -19,11 +19,9 @@ class UserService extends UiTIDUserService
     private $platformClient;
 
     public function __construct(
-        \CultureFeed $cultureFeed,
         UserRoleStorageInterface $userRoleStorage,
         PlatformClientInterface $platformClient
     ) {
-        parent::__construct($cultureFeed);
         $this->userRoleStorage = $userRoleStorage;
         $this->platformClient = $platformClient;
     }

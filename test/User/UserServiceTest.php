@@ -19,11 +19,6 @@ class UserServiceTest extends TestCase
     private $userRoleStorage;
 
     /**
-     * @var \CultureFeed & MockObject
-     */
-    private $cultureFeed;
-
-    /**
      * @var PlatformClientInterface & MockObject
      */
     private $platformClient;
@@ -36,11 +31,9 @@ class UserServiceTest extends TestCase
     public function setUp()
     {
         $this->userRoleStorage = $this->createMock(UserRoleStorageInterface::class);
-        $this->cultureFeed = $this->createMock(\CultureFeed::class);
         $this->platformClient = $this->createMock(PlatformClientInterface::class);
 
         $this->userService = new UserService(
-            $this->cultureFeed,
             $this->userRoleStorage,
             $this->platformClient
         );
