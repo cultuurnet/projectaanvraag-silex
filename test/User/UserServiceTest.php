@@ -47,39 +47,11 @@ class UserServiceTest extends TestCase
     }
 
     /**
-     * Test UiTiD v1
-     */
-    public function testUserService()
-    {
-        $cfUser = new \CultureFeed_User();
-        $cfUser->id = 1;
-
-        $this->cultureFeed->expects($this->any())
-            ->method('getUser')
-            ->willReturn($cfUser);
-
-        $this->userRoleStorage->expects($this->any())
-            ->method('getRolesByUserId')
-            ->willReturn(['administrator']);
-
-        $this->platformClient->expects($this->never())
-            ->method('getCurrentUser');
-
-        $user = $this->userService->getUser(1);
-
-        $this->assertInstanceOf(User::class, $user);
-    }
-
-    /**
      * Test UiTiD v2
      */
     public function testUiTidV2Service()
     {
         $dummyToken = 'dummyToken';
-
-        $this->cultureFeed->expects($this->any())
-            ->method('getUser')
-            ->willThrowException(new \Exception());
 
         $this->userRoleStorage->expects($this->any())
             ->method('getRolesByUserId')
