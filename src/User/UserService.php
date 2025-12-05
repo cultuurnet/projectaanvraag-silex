@@ -52,4 +52,13 @@ class UserService extends UiTIDUserService
             return null;
         }
     }
+
+    /**
+     * @param $username
+     * @return User|null
+     */
+    public function getUserByUsername($username)
+    {
+        return null;
+    }
 }
