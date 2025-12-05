@@ -153,12 +153,6 @@ class CreateProjectCommandHandlerTest extends TestCase
             ->with($cultureFeedConsumer)
             ->willReturn($culturefeedTestconsumer);
 
-        // It should add user as admin.
-        $this->cultureFeedTest
-            ->expects($this->once())
-            ->method('addServiceConsumerAdmin')
-            ->with($culturefeedTestconsumer->consumerKey, $uid);
-
         // It should create a live consumer.
         $this->cultureFeed
             ->expects($this->once())
@@ -210,69 +204,6 @@ class CreateProjectCommandHandlerTest extends TestCase
     {
 
         $this->setupHandleTest('testuserid');
-
-        // It should search for a user on test.
-        $searchQuery = new \CultureFeed_SearchUsersQuery();
-        $searchQuery->mbox = 'test@test.be';
-        $searchQuery->mboxIncludePrivate = true;
-        $result = new \CultureFeed_ResultSet();
-        $result->total = 0;
-        $this->cultureFeedTest
-            ->expects($this->once())
-            ->method('searchUsers')
-            ->with($searchQuery)
-            ->willReturn($result);
-
-        // It should add a new test user.
-        $this->commandHandler
-            ->expects($this->once())
-            ->method('generatePassword')
-            ->willReturn('password');
-
-        $newUser = new \CultureFeed_User();
-        $newUser->mbox = 'test@test.be';
-        $newUser->nick = 'test';
-        $newUser->password = 'password';
-        $newUser->status = \CultureFeed_User::STATUS_PRIVATE;
-        $this->cultureFeedTest
-            ->expects($this->once())
-            ->method('createUser')
-            ->with($newUser)
-            ->willReturn('testuserid');
-
-        $createProject = new CreateProject('Project name', 'Project description', 123, 'coupon');
-        $this->commandHandler->handle($createProject);
-    }
-
-    /**
-     * Test the command handler when test user does not exist yet.
-     */
-    public function testHandleNewTestUser()
-    {
-
-        $this->setupHandleTest(20);
-
-        $searchQuery = new \CultureFeed_SearchUsersQuery();
-        $searchQuery->mbox = 'test@test.be';
-        $searchQuery->mboxIncludePrivate = true;
-        $result = new \CultureFeed_ResultSet();
-        $user = new \stdClass();
-        $user->id = '20';
-        $result->total = 1;
-        $result->objects = [
-            $user,
-        ];
-
-        // It should find a user and never create a user.
-        $this->cultureFeedTest
-            ->expects($this->once())
-            ->method('searchUsers')
-            ->with($searchQuery)
-            ->willReturn($result);
-
-        $this->cultureFeedTest
-            ->expects($this->never())
-            ->method('createUser');
 
         $createProject = new CreateProject('Project name', 'Project description', 123, 'coupon');
         $this->commandHandler->handle($createProject);

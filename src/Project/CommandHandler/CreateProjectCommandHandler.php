@@ -160,48 +160,17 @@ class CreateProjectCommandHandler
     }
 
     /**
-     * Create a user on test if that user does not exist yet.
-     */
-    private function createTestUser($nick, $email)
-    {
-        $searchQuery = new \CultureFeed_SearchUsersQuery();
-        $searchQuery->mbox = $email;
-        $searchQuery->mboxIncludePrivate = true;
-        /** @var \CultureFeed_ResultSet $result */
-        $result = $this->cultureFeedTest->searchUsers($searchQuery);
-
-        // The user already exists?
-        if ($result->total > 0) {
-            return $result->objects[0]->id;
-        }
-
-        $user = new \CultureFeed_User();
-        $user->mbox = $email;
-        $user->nick = $nick;
-        $user->password = $this->generatePassword();
-        $user->status = \CultureFeed_User::STATUS_PRIVATE;
-
-        return $this->cultureFeedTest->createUser($user);
-    }
-
-    /**
      * Create the test consumer, and add the user as admin.
      * @param CreateProject $createProject
      */
     private function createTestConsumer(CreateProject $createProject, IntegrationType $integrationType)
     {
-        // Make sure the user also exists on test.
-        $uid = $this->createTestUser($this->user->getUsername(), $this->user->mbox);
-
         // Create test consumer.
         $createConsumer = new \CultureFeed_Consumer();
         $createConsumer->name = $createProject->getName();
         $createConsumer->description = $createProject->getDescription();
         $createConsumer->group = $integrationType->getUitIdPermissionGroups();
         $cultureFeedConsumer = $this->cultureFeedTest->createServiceConsumer($createConsumer);
-
-        // Add the user as service consumer admin.
-        $this->cultureFeedTest->addServiceConsumerAdmin($cultureFeedConsumer->consumerKey, $uid);
 
         // Add uitpas permission to consumer
         $this->cultureFeedTest->addUitpasPermission($cultureFeedConsumer, $integrationType->getUitPasPermissionGroups());
