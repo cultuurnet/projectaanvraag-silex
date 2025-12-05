@@ -17,6 +17,7 @@ class UserServiceProvider extends UiTIDUserServiceProvider
         $pimple['uitid_user_service'] = function (Container $pimple) {
             $service = new CachedUserService(
                 new UserService(
+                    $pimple['culturefeed'],
                     $pimple['user_role.storage'],
                     $pimple[PlatformClientInterface::class]
                 )
