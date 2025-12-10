@@ -82,6 +82,11 @@ class TwigPreprocessor
     private $fallbackImages;
 
     /**
+     * bool
+     */
+    private $disableSocialSharing;
+
+    /**
      * TwigPreprocessor constructor.
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
@@ -95,7 +100,8 @@ class TwigPreprocessor
         TranslateTerm $translateTerm,
         TranslatorInterface $translator,
         CuratorenClient $curatorenClient,
-        UitpasClient $uitpasClient
+        UitpasClient $uitpasClient,
+        bool $disableSocialSharing
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -106,6 +112,7 @@ class TwigPreprocessor
         $this->translator = $translator;
         $this->curatorenClient = $curatorenClient;
         $this->uitpasClient = $uitpasClient;
+        $this->disableSocialSharing = $disableSocialSharing;
         $this->fallbackImages = [];
     }
 
@@ -341,17 +348,19 @@ class TwigPreprocessor
                 $variables['language_switcher'][$langcodeItem] = '<a href="' . $url->__toString() . '">' . strtoupper($langcodeItem) . '</a>';
             }
 
-            // Share links
-            $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
-            $shareQuery = $shareUrl->getQuery();
-            if (isset($_GET['origin'])) {
-                $shareQuery['origin'] = $_GET['origin'];
-            }
+            if (!$this->disableSocialSharing) {
+                // Share links
+                $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
+                $shareQuery = $shareUrl->getQuery();
+                if (isset($_GET['origin'])) {
+                    $shareQuery['origin'] = $_GET['origin'];
+                }
 
-            $variables['share_links'] = [
-                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
-                'twitter' => 'https://twitter.com/intent/tweet?text='  . urlencode($shareUrl->__toString()),
-            ];
+                $variables['share_links'] = [
+                    'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
+                    'twitter' => 'https://twitter.com/intent/tweet?text=' . urlencode($shareUrl->__toString()),
+                ];
+            }
         }
 
         $variables['uitpas_promotions'] = '';

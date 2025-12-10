@@ -84,7 +84,8 @@ class WidgetServiceProvider implements ServiceProviderInterface
                 ),
                 $pimple['translator'],
                 $pimple['curatoren_api'],
-                $pimple['uitpas_api']
+                $pimple['uitpas_api'],
+                $pimple['config']['features']['disable_social_sharing']
             );
         };
 
