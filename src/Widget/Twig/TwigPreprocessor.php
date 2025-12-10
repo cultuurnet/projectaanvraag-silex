@@ -348,19 +348,18 @@ class TwigPreprocessor
                 $variables['language_switcher'][$langcodeItem] = '<a href="' . $url->__toString() . '">' . strtoupper($langcodeItem) . '</a>';
             }
 
-            if (!$this->disableSocialSharing) {
-                // Share links
-                $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
-                $shareQuery = $shareUrl->getQuery();
-                if (isset($_GET['origin'])) {
-                    $shareQuery['origin'] = $_GET['origin'];
-                }
-
-                $variables['share_links'] = [
-                    'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
-                    'twitter' => 'https://twitter.com/intent/tweet?text=' . urlencode($shareUrl->__toString()),
-                ];
+            $variables['show_share_link'] = $this->disableSocialSharing ? false : $settings['share_buttons'];
+            // Share links
+            $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
+            $shareQuery = $shareUrl->getQuery();
+            if (isset($_GET['origin'])) {
+                $shareQuery['origin'] = $_GET['origin'];
             }
+
+            $variables['share_links'] = [
+                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
+                'twitter' => 'https://twitter.com/intent/tweet?text=' . urlencode($shareUrl->__toString()),
+            ];
         }
 
         $variables['uitpas_promotions'] = '';
