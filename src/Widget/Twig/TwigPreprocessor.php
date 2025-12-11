@@ -348,7 +348,7 @@ class TwigPreprocessor
                 $variables['language_switcher'][$langcodeItem] = '<a href="' . $url->__toString() . '">' . strtoupper($langcodeItem) . '</a>';
             }
 
-            //$variables['show_share_links'] = $this->disableSocialSharing ? false : $settings['share_buttons'];
+            $variables['show_share_links'] = $this->disableSocialSharing ? false : $settings['share_buttons'];
             // Share links
             $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
             $shareQuery = $shareUrl->getQuery();
