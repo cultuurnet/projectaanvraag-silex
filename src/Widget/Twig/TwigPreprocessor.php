@@ -348,7 +348,6 @@ class TwigPreprocessor
                 $variables['language_switcher'][$langcodeItem] = '<a href="' . $url->__toString() . '">' . strtoupper($langcodeItem) . '</a>';
             }
 
-            $variables['show_share_links'] = true; //$this->disableSocialSharing ? false : $settings['share_buttons'];
             // Share links
             $shareUrl = Url::factory($this->socialHost . '/event/' . $event->getCdbid());
             $shareQuery = $shareUrl->getQuery();
@@ -356,10 +355,12 @@ class TwigPreprocessor
                 $shareQuery['origin'] = $_GET['origin'];
             }
 
-            $variables['share_links'] = [
-                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
-                'twitter' => 'https://twitter.com/intent/tweet?text=' . urlencode($shareUrl->__toString()),
-            ];
+            if ($this->disableSocialSharing) {
+                $variables['share_links'] = [
+                    'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
+                    'twitter' => 'https://twitter.com/intent/tweet?text=' . urlencode($shareUrl->__toString()),
+                ];
+            }
         }
 
         $variables['uitpas_promotions'] = '';
