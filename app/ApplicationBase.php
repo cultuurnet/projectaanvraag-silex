@@ -77,6 +77,8 @@ class ApplicationBase extends SilexApplication
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
 
+        $this['disable_social_sharing'] = $this['config']['features']['disable_social_sharing'];
+
         /**
          * PHP error reporting
          */
