@@ -293,7 +293,7 @@
 
 
 
-                    {% if event.show_share_links and event.share_links %}
+                    {% if settings.share_buttons and event.share_links %}
                         <dt>
                           <em class="cnw_searchresult-detail-label">{{ 'event_detail_share'| transTo(preferredLanguage) }}</em>
                           <i class="cnw-fa cnw-fa-share-alt"></i>
