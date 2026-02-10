@@ -42,6 +42,16 @@ class ImportProject
     /**
      * @var string
      */
+    private $testClientId;
+
+    /**
+     * @var string
+     */
+    private $liveClientId;
+
+    /**
+     * @var string
+     */
     private $state;
 
     public function __construct(
@@ -97,6 +107,16 @@ class ImportProject
     public function getLiveApiKeySapi3(): string
     {
         return $this->liveApiKeySapi3;
+    }
+
+    public function getTestClientId(): string
+    {
+        return $this->testClientId;
+    }
+
+    public function getLiveClientId(): string
+    {
+        return $this->liveClientId;
     }
 
     public function getState(): string
