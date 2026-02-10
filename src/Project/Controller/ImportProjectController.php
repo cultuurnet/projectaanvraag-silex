@@ -26,7 +26,7 @@ class ImportProjectController
         $postedProject = json_decode($request->getContent());
 
         $this->validate(
-            ['userId', 'name', 'summary', 'groupId', 'testApiKeySapi3', 'liveApiKeySapi3', 'state'],
+            ['userId', 'name', 'summary', 'groupId', 'testApiKeySapi3', 'liveApiKeySapi3', 'testClientId', 'liveClientId', 'state'],
             $postedProject
         );
 
@@ -39,6 +39,8 @@ class ImportProjectController
                 $postedProject->groupId,
                 $postedProject->testApiKeySapi3,
                 $postedProject->liveApiKeySapi3,
+                $postedProject->testClientId,
+                $postedProject->liveClientId,
                 $postedProject->state
             )
         );

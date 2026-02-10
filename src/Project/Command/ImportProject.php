@@ -62,6 +62,8 @@ class ImportProject
         int $groupId,
         string $testApiKeySapi3,
         string $liveApiKeySapi3,
+        string $testClientId,
+        string $liveClientId,
         string $state
     ) {
         $this->platformUuid = $platformUuid;
@@ -71,6 +73,8 @@ class ImportProject
         $this->groupId = $groupId;
         $this->testApiKeySapi3 = $testApiKeySapi3;
         $this->liveApiKeySapi3 = $liveApiKeySapi3;
+        $this->testClientId = $testClientId;
+        $this->liveClientId = $liveClientId;
         $this->state = $state;
     }
 
