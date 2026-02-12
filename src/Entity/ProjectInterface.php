@@ -68,16 +68,10 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
 
     public function getLiveClientId();
 
-    /**
-     * @param string $liveClientId
-     */
     public function setLiveClientId(string $liveClientId);
 
     public function getTestClientId();
 
-    /**
-     * @param string $testClientId
-     */
     public function setTestClientId(string $testClientId);
 
     /**
