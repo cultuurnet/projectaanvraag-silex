@@ -176,6 +176,7 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new SearchAPIServiceProvider(),
             [
+                'search_api.use_client_ids' => $this['config']['search_api']['use_client_ids'] ?? false,
                 'search_api.base_url' => $this['config']['search_api']['live']['base_url'],
                 'search_api.api_key' => $this['config']['search_api']['live']['api_key'],
                 'search_api_test.base_url' => $this['config']['search_api']['test']['base_url'],
