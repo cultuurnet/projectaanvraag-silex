@@ -15,13 +15,18 @@ class SearchAPIServiceProvider extends APIServiceProviderBase
 
         $pimple['search_api'] = function (Container $pimple) {
 
+            $headers = [];
+            if ($pimple['search_api.use_client_ids']) {
+                $headers['X-Client-Id'] = $pimple['search_api.client_id'];
+            } else {
+                $headers['X-Api-Key'] = $pimple['search_api.api_key'];
+            }
+            $headers['X-Client-Properties'] = 'cluster|widgets, cluster|snowplow';
+
             $guzzleClient = new Client(
                 [
                     'base_uri' => $pimple['search_api.base_url'],
-                    'headers' => [
-                        'X-Api-Key' => $pimple['search_api.api_key'],
-                        'X-Client-Properties' => 'cluster|widgets, cluster|snowplow',
-                    ],
+                    'headers' => $headers,
                     'handler' => $this->getHandlerStack('search_api', $pimple),
                 ]
             );
@@ -36,7 +41,11 @@ class SearchAPIServiceProvider extends APIServiceProviderBase
             $config = $searchClient->getClient()->getConfig();
             $config['base_uri'] = $pimple['search_api_test.base_url'];
             $headers = $config['headers'] ?? [];
-            $headers['X-Api-Key'] = $pimple['search_api_test.api_key'];
+            if ($pimple['search_api.use_client_ids']) {
+                $headers['X-Client-Id'] = $pimple['search_api_test.client_id'];
+            } else {
+                $headers['X-Api-Key'] = $pimple['search_api_test.api_key'];
+            }
             $config['headers'] = $headers;
 
             $searchClient->setClient(new \GuzzleHttp\Client($config));

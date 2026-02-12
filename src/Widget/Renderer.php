@@ -62,6 +62,11 @@ class Renderer implements RendererInterface
     protected $curatorenClientTest;
 
     /**
+     * @var bool
+     */
+    protected $useClientIds;
+
+    /**
      * @var array
      */
     private $jsFiles = [];
@@ -82,7 +87,7 @@ class Renderer implements RendererInterface
      * @param $googleTagManagerId
      * @param ProjectServiceInterface $projectService
      */
-    public function __construct(WidgetPluginManager $widgetPluginManager, $googleTagManagerId, EntityRepository $projectRepository, SearchClientInterface $searchClient, SearchClientInterface $searchClientTest, CuratorenClient $curatorenClient, CuratorenClient $curatorenClientTest)
+    public function __construct(WidgetPluginManager $widgetPluginManager, $googleTagManagerId, EntityRepository $projectRepository, SearchClientInterface $searchClient, SearchClientInterface $searchClientTest, CuratorenClient $curatorenClient, CuratorenClient $curatorenClientTest, bool $useClientIds)
     {
         $this->widgetPluginManager = $widgetPluginManager;
         $this->googleTagManagerId = $googleTagManagerId;
@@ -91,6 +96,7 @@ class Renderer implements RendererInterface
         $this->searchClientTest = $searchClientTest;
         $this->curatorenClient = $curatorenClient;
         $this->curatorenClientTest = $curatorenClientTest;
+        $this->useClientIds = $useClientIds;
     }
 
     public function addSettings(array $settings)
@@ -105,16 +111,22 @@ class Renderer implements RendererInterface
         // If a project is not live yet. We should use the test api + test key.
         if ($project->getStatus() !== ProjectInterface::PROJECT_STATUS_ACTIVE) {
             $apiKey = $project->getTestApiKeySapi3();
+            $clientId = $project->getTestClientId();
             $config = $this->searchClientTest->getClient()->getConfig();
             $curatorenConfig =  $this->curatorenClientTest->getClient()->getConfig();
         } else {
             $config = $this->searchClient->getClient()->getConfig();
             $apiKey = $project->getLiveApiKeySapi3();
+            $clientId = $project->getLiveClientId();
             $curatorenConfig =  $this->curatorenClient->getClient()->getConfig();
         }
 
         $headers = $config['headers'] ?? [];
-        $headers['X-Api-Key'] = $apiKey;
+        if ($this->useClientIds) {
+            $headers['X-Client-Id'] = $clientId;
+        } else {
+            $headers['X-Api-Key'] = $apiKey;
+        }
         $config['headers'] = $headers;
 
         $this->searchClient->setClient(new \GuzzleHttp\Client($config));
