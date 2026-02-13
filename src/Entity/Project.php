@@ -154,6 +154,20 @@ class Project implements ProjectInterface
     protected $testApiKeySapi3;
 
     /**
+     * @ORM\Column(name="live_client_id", type="string", length=255, nullable=true)
+     * @var ?string
+     * @Type("string")
+     */
+    protected $liveClientId;
+
+    /**
+     * @ORM\Column(name="test_client_id", type="string", length=255, nullable=true)
+     * @var ?string
+     * @Type("string")
+     */
+    protected $testClientId;
+
+    /**
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      * @var string
      * @Type("string")
@@ -309,6 +323,42 @@ class Project implements ProjectInterface
     public function setTestApiKeySapi3(string $testApiKeySapi3): Project
     {
         $this->testApiKeySapi3 = $testApiKeySapi3;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLiveClientId()
+    {
+        return $this->liveClientId;
+    }
+
+    /**
+     * @param string $liveClientId
+     * @return Project
+     */
+    public function setLiveClientId(string $liveClientId)
+    {
+        $this->liveClientId = $liveClientId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTestClientId()
+    {
+        return $this->testClientId;
+    }
+
+    /**
+     * @param string $testApiKeySapi3
+     * @return Project
+     */
+    public function setTestClientId(string $testClientId): Project
+    {
+        $this->testClientId = $testClientId;
         return $this;
     }
 

@@ -42,6 +42,16 @@ class ImportProject
     /**
      * @var string
      */
+    private $testClientId;
+
+    /**
+     * @var string
+     */
+    private $liveClientId;
+
+    /**
+     * @var string
+     */
     private $state;
 
     public function __construct(
@@ -52,6 +62,8 @@ class ImportProject
         int $groupId,
         string $testApiKeySapi3,
         string $liveApiKeySapi3,
+        string $testClientId,
+        string $liveClientId,
         string $state
     ) {
         $this->platformUuid = $platformUuid;
@@ -61,6 +73,8 @@ class ImportProject
         $this->groupId = $groupId;
         $this->testApiKeySapi3 = $testApiKeySapi3;
         $this->liveApiKeySapi3 = $liveApiKeySapi3;
+        $this->testClientId = $testClientId;
+        $this->liveClientId = $liveClientId;
         $this->state = $state;
     }
 
@@ -97,6 +111,16 @@ class ImportProject
     public function getLiveApiKeySapi3(): string
     {
         return $this->liveApiKeySapi3;
+    }
+
+    public function getTestClientId(): string
+    {
+        return $this->testClientId;
+    }
+
+    public function getLiveClientId(): string
+    {
+        return $this->liveClientId;
     }
 
     public function getState(): string

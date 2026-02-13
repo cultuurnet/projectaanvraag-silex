@@ -66,7 +66,7 @@ class WidgetServiceProvider implements ServiceProviderInterface
 
             /** @var RequestContext $requestContext */
             $requestContext = $pimple['request_context'];
-            $renderer = new Renderer($pimple['widget_layout_manager'], $pimple['google_tag_manager'], $pimple['project_repository'], $pimple['search_api'], $pimple['search_api_test'], $pimple['curatoren_api'], $pimple['curatoren_api_test']);
+            $renderer = new Renderer($pimple['widget_layout_manager'], $pimple['google_tag_manager'], $pimple['project_repository'], $pimple['search_api'], $pimple['search_api_test'], $pimple['curatoren_api'], $pimple['curatoren_api_test'], $pimple['search_api.use_client_ids'] ?? false);
             $renderer->addSettings(['apiUrl' => $requestContext->getScheme() . '://' . $requestContext->getHost() . $requestContext->getBaseUrl() . '/widgets/api']);
 
             return $renderer;

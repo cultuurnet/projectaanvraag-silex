@@ -68,6 +68,8 @@ class ImportProjectCommandHandlerTest extends TestCase
             24378,
             'SAPI3 test key',
             'SAPI3 live key',
+            'Test client id',
+            'Live client id',
             'active'
         );
 
@@ -79,6 +81,8 @@ class ImportProjectCommandHandlerTest extends TestCase
         $project->setPlatformUuid($importProject->getPlatformUuid());
         $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
         $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
+        $project->setTestClientId($importProject->getTestClientId());
+        $project->setLiveClientId($importProject->getLiveClientId());
         $project->setStatus(Project::PROJECT_STATUS_ACTIVE);
 
         $this->logger->expects($this->exactly(2))
@@ -101,6 +105,8 @@ class ImportProjectCommandHandlerTest extends TestCase
             24378,
             'SAPI3 test key',
             'SAPI3 live key',
+            'Test client id',
+            'Live client id',
             'active'
         );
 

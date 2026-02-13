@@ -39,6 +39,8 @@ class ImportProjectCommandHandler
             $project->setPlatformUuid($importProject->getPlatformUuid());
             $project->setTestApiKeySapi3($importProject->getTestApiKeySapi3());
             $project->setLiveApiKeySapi3($importProject->getLiveApiKeySapi3());
+            $project->setTestClientId($importProject->getTestClientId());
+            $project->setLiveClientId($importProject->getLiveClientId());
         }
         $project->setName($importProject->getName());
         $project->setDescription($importProject->getDescription());

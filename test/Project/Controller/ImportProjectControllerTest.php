@@ -47,6 +47,8 @@ class ImportProjectControllerTest extends TestCase
         $formData->groupId = 2;
         $formData->testApiKeySapi3 = 'a77f461f-3837-49bc-b2a6-1a8f57bf30d6';
         $formData->liveApiKeySapi3 = 'de808573-cfc4-4990-b91b-cf5673b913ac';
+        $formData->testClientId = '550e8400-e29b-41d4-a716-446655440000';
+        $formData->liveClientId = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
         $formData->state = 'active';
 
         $this->request
@@ -62,6 +64,8 @@ class ImportProjectControllerTest extends TestCase
             $formData->groupId,
             $formData->testApiKeySapi3,
             $formData->liveApiKeySapi3,
+            $formData->testClientId,
+            $formData->liveClientId,
             $formData->state
         );
         $this->messageBus

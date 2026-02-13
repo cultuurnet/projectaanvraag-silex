@@ -39,6 +39,8 @@ class ImportProjectController
                 $postedProject->groupId,
                 $postedProject->testApiKeySapi3,
                 $postedProject->liveApiKeySapi3,
+                $postedProject->testClientId,
+                $postedProject->liveClientId,
                 $postedProject->state
             )
         );

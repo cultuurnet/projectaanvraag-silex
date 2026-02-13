@@ -62,11 +62,17 @@ interface ProjectInterface extends EntityInterface, \JsonSerializable
     public function getTestApiKeySapi3();
 
     /**
-     * Set the test search api 3 key.
-     *
-     * @param string $liveApiKeySapi3
+     * @param string $testApiKeySapi3
      */
     public function setTestApiKeySapi3(string $testApiKeySapi3);
+
+    public function getLiveClientId();
+
+    public function setLiveClientId(string $liveClientId);
+
+    public function getTestClientId();
+
+    public function setTestClientId(string $testClientId);
 
     /**
      * @return int
