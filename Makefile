@@ -1,10 +1,11 @@
 .PHONY: up down install ci stan cs cs-fix test migrate config init feature cache-clear migrate-update
 
 up:
-	docker-compose up -d
+	docker network inspect platform > /dev/null 2>&1 || docker network create platform
+	docker compose up -d
 
 down:
-	docker-compose down
+	docker compose down
 
 install:
 	docker exec -it php.projectaanvraag composer install
