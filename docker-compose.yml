@@ -1,5 +1,4 @@
 services:
-
   php:
     build: docker/php
     hostname: 'projectaanvraag.local'
@@ -13,7 +12,21 @@ services:
       projectaanvraag:
         aliases:
           - projectaanvraag
-
+    healthcheck:
+      test: curl http://127.0.0.1:80/
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
   mysql:
     image: 'mysql/mysql-server:8.0'
     container_name: mysql.projectaanvraag
@@ -25,17 +38,20 @@ services:
     volumes:
       - 'projectaanvraag-mysql:/var/lib/mysql'
     ports:
-      - '3307:3306'
+      - '${FORWARD_MYSQL_PORT:-3306}:3306'
     networks:
       projectaanvraag:
         aliases:
           - mysql
-
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+      retries: 3
+      timeout: 5s
   redis:
     image: 'redis:alpine'
     container_name: redis.projectaanvraag
     ports:
-      - '${FORWARD_REDIS_PORT:-6380}:6379'
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
     volumes:
       - 'projectaanvraag-redis:/data'
     networks:
@@ -44,17 +60,19 @@ services:
       test: [ 'CMD', 'redis-cli', 'ping' ]
       retries: 3
       timeout: 5s
-
   mongodb:
     image: 'mongo:3.6'
     container_name: mongodb.projectaanvraag
     ports:
-      - '${FORWARD_REDIS_PORT:-27018}:27017'
+      - '${FORWARD_MONGODB_PORT:-27017}:27017'
     volumes:
       - 'projectaanvraag-mongodb:/data/db'
     networks:
       - projectaanvraag
-
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongodb:27017/test --quiet
+      retries: 3
+      timeout: 5s
   rabbitmq:
     image: public.ecr.aws/y2o7k5u2/udb3/rabbitmq:latest
     hostname: 'rabbitdocker'
@@ -62,10 +80,14 @@ services:
       - 'projectaanvraag-rabbitmq:/var/lib/rabbitmq/mnesia'
     container_name: rabbitmq.projectaanvraag
     ports:
-      - 5673:5672
-      - 15673:15672
+      - '${FORWARD_RABBITMQ_PORT:-5672}:5672'
+      - '${FORWARD_RABBITMQ_ADMIN_PORT:-15672}:15672'
     networks:
       - projectaanvraag
+    healthcheck:
+      test: [ 'CMD', 'rabbitmqctl', 'node_health_check' ]
+      retries: 3
+      timeout: 5s
 
 networks:
   projectaanvraag:
