@@ -1,8 +1,7 @@
 services:
   php:
     build: docker/php
-    hostname: 'projectaanvraag.local'
-    container_name: php.projectaanvraag
+    container_name: projectaanvraag.publiq
     volumes:
       - .:/var/www/html:cached
     working_dir: /var/www/html
@@ -11,7 +10,7 @@ services:
     networks:
       projectaanvraag:
         aliases:
-          - projectaanvraag
+          - projectaanvraag.publiq.local
     healthcheck:
       test: curl http://127.0.0.1:80/
       start_period: 5s
@@ -29,7 +28,7 @@ services:
         condition: service_healthy
   mysql:
     image: 'mysql/mysql-server:8.0'
-    container_name: mysql.projectaanvraag
+    container_name: mysql-projectaanvraag.publiq
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -42,48 +41,54 @@ services:
     networks:
       projectaanvraag:
         aliases:
-          - mysql
+          - mysql-projectaanvraag.publiq.local
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
       retries: 3
       timeout: 5s
   redis:
     image: 'redis:alpine'
-    container_name: redis.projectaanvraag
+    container_name: redis-projectaanvraag.publiq
     ports:
       - '${FORWARD_REDIS_PORT:-6379}:6379'
     volumes:
       - 'projectaanvraag-redis:/data'
     networks:
-      - projectaanvraag
+      projectaanvraag:
+        aliases:
+          - redis-projectaanvraag.publiq.local
     healthcheck:
       test: [ 'CMD', 'redis-cli', 'ping' ]
       retries: 3
       timeout: 5s
   mongodb:
     image: 'mongo:3.6'
-    container_name: mongodb.projectaanvraag
+    container_name: mongodb-projectaanvraag.publiq
     ports:
       - '${FORWARD_MONGODB_PORT:-27017}:27017'
     volumes:
       - 'projectaanvraag-mongodb:/data/db'
     networks:
-      - projectaanvraag
+      projectaanvraag:
+        aliases:
+          - mongodb-projectaanvraag.publiq.local
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo mongodb:27017/test --quiet
       retries: 3
       timeout: 5s
   rabbitmq:
     image: public.ecr.aws/y2o7k5u2/udb3/rabbitmq:latest
+    container_name: rabbitmq-projectaanvraag.publiq
     hostname: 'rabbitdocker'
     volumes:
       - 'projectaanvraag-rabbitmq:/var/lib/rabbitmq/mnesia'
-    container_name: rabbitmq.projectaanvraag
     ports:
       - '${FORWARD_RABBITMQ_PORT:-5672}:5672'
       - '${FORWARD_RABBITMQ_ADMIN_PORT:-15672}:15672'
     networks:
-      - projectaanvraag
+      projectaanvraag:
+        aliases:
+          - rabbitmq-projectaanvraag.publiq.local
     healthcheck:
       test: [ 'CMD', 'rabbitmqctl', 'node_health_check' ]
       retries: 3
