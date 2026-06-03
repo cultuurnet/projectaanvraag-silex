@@ -1,16 +1,9 @@
 services:
-  php:
-    build: docker/php
-    container_name: projectaanvraag.publiq
+  projectaanvraag-base-php-7-4:
+    build: docker/php7.4
     volumes:
       - .:/var/www/html:cached
     working_dir: /var/www/html
-    ports:
-      - '80:80'
-    networks:
-      projectaanvraag:
-        aliases:
-          - projectaanvraag.publiq.local
     healthcheck:
       test: curl http://127.0.0.1:80/
       start_period: 5s
@@ -26,6 +19,16 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+  projectaanvraag:
+    container_name: projectaanvraag.publiq
+    networks:
+      projectaanvraag:
+        aliases:
+          - projectaanvraag.publiq.local
+    extends:
+      service: projectaanvraag-base-php-7-4
+    ports:
+      - '80:80'
   mysql:
     image: 'mysql/mysql-server:8.0'
     container_name: mysql-projectaanvraag.publiq
