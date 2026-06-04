@@ -1,0 +1,34 @@
+{
+  "rabbit_version": "3.12.12",
+  "users": [
+    {
+      "name": "vagrant",
+      "password_hash": "AAAAAArEZ2uEqnyIzjs0Zo+RYmZuBoDO8fiGPCtextk66iww",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {"name": "udb3-vagrant"}
+  ],
+  "permissions": [
+    {
+      "user": "vagrant",
+      "vhost": "udb3-vagrant",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "exchanges": [
+    {"name": "main_exchange_no_delay", "vhost": "udb3-vagrant", "type": "topic", "durable": true, "auto_delete": false, "internal": false, "arguments": {}}
+  ],
+  "queues": [
+    {"name": "projectaanvraag", "vhost": "udb3-vagrant", "durable": true, "auto_delete": false, "arguments": {}},
+    {"name": "projectaanvraag_failed", "vhost": "udb3-vagrant", "durable": true, "auto_delete": false, "arguments": {}}
+  ],
+  "bindings": [
+    {"source": "main_exchange_no_delay", "vhost": "udb3-vagrant", "destination": "projectaanvraag", "destination_type": "queue", "routing_key": "asynchronous_commands", "arguments": {}},
+    {"source": "main_exchange_no_delay", "vhost": "udb3-vagrant", "destination": "projectaanvraag_failed", "destination_type": "queue", "routing_key": "asynchronous_commands", "arguments": {}}
+  ]
+}

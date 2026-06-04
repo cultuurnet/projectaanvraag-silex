@@ -80,22 +80,22 @@ services:
       retries: 3
       timeout: 5s
   rabbitmq:
-    image: public.ecr.aws/y2o7k5u2/udb3/rabbitmq:latest
+    image: rabbitmq:3.12.12-management
     container_name: rabbitmq-projectaanvraag.publiq
-    hostname: 'rabbitdocker'
-    volumes:
-      - 'projectaanvraag-rabbitmq:/var/lib/rabbitmq/mnesia'
     ports:
       - '${FORWARD_RABBITMQ_PORT:-5672}:5672'
       - '${FORWARD_RABBITMQ_ADMIN_PORT:-15672}:15672'
+    volumes:
+      - ./docker/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
     networks:
       projectaanvraag:
         aliases:
           - rabbitmq-projectaanvraag.publiq.local
     healthcheck:
       test: [ 'CMD', 'rabbitmqctl', 'node_health_check' ]
-      retries: 3
-      timeout: 5s
+      retries: 5
+      timeout: 10s
 
 networks:
   projectaanvraag:
