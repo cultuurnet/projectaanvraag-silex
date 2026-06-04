@@ -1,18 +1,33 @@
 #!/bin/sh
 
-# Add host.docker.internal to /etc/hosts
-if ! grep -q "host.docker.internal" /etc/hosts; then
-  echo "host.docker.internal has to be in your hosts-file, to add you need sudo privileges"
-  sudo sh -c 'echo "127.0.0.1 host.docker.internal" >> /etc/hosts'
+UPDATE_HOSTS=${HAS_SUDO:-true}
+
+HOSTS="projectaanvraag.publiq.local"
+
+if [ "$UPDATE_HOSTS" = "true" ]; then
+  MISSING_HOSTS=""
+
+  set -- $HOSTS
+  for HOST; do
+    if ! grep -q "$HOST" /etc/hosts; then
+      MISSING_HOSTS="$MISSING_HOSTS $HOST"
+    fi
+  done
+
+  set -- $MISSING_HOSTS
+  for MISSING_HOST; do
+    echo "$MISSING_HOST has to be in your hosts-file, to add you need sudo privileges"
+    sudo sh -c "echo \"\n127.0.0.1 $MISSING_HOST\" >> /etc/hosts"
+  done
 fi
 
-# setup config & key files
-DIR="../appconfig/templates/docker/projectaanvraag/api/"
+APPCONFIG_ROOTDIR=${APPCONFIG:-'../appconfig'}
+
+DIR="${APPCONFIG_ROOTDIR}/templates/docker/platform"
 if [ -d "$DIR" ]; then
   cp -R "$DIR"/* .
-  # needed because it is hidden
-  cp "$DIR"/.env .
+  cp "${DIR}/.env" .env
 else
-  echo "Error: missing appconfig see docker.md prerequisites to fix this."
+  echo "Error: missing appconfig. The appconfig repository must be cloned at ${APPCONFIG_ROOTDIR}."
   exit 1
 fi
