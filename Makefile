@@ -1,4 +1,10 @@
-.PHONY: up down install ci stan cs cs-fix test migrate config init feature cache-clear migrate-update
+.PHONY: up down restart destroy install ci stan cs test migrate bash config init cache-clear migrate-update
+
+ifeq ($(CI),true)
+DOCKER_COMPOSE_OPTIONS = -u 451:451 -T
+else
+DOCKER_COMPOSE_OPTIONS = -T
+endif
 
 up:
 	docker network inspect platform > /dev/null 2>&1 || docker network create platform
@@ -7,34 +13,39 @@ up:
 down:
 	docker compose down
 
+restart: down up
+
+destroy:
+	docker compose down -v
+
 install:
-	docker exec -it php.projectaanvraag composer install
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag composer install
 
 ci:
-	docker exec -it php.projectaanvraag composer ci
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag composer ci
 
 stan:
-	docker exec -it php.projectaanvraag composer phpstan
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag composer phpstan
 
 cs:
-	docker exec -it php.projectaanvraag composer cs
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag composer cs
 
 test:
-	docker exec -it php.projectaanvraag composer test
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag composer test
 
 migrate:
-	docker exec -it php.projectaanvraag ./bin/console orm:schema-tool:create
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag ./bin/console orm:schema-tool:create
 
 migrate-update:
-	docker exec -it php.projectaanvraag ./bin/console orm:schema-tool:update --force
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag ./bin/console orm:schema-tool:update --force
 
 bash:
-	docker exec -it php.projectaanvraag bash
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag bash
 
 config:
 	sh ./docker/config.sh
 
 cache-clear:
-	docker exec -it php.projectaanvraag ./bin/console projectaanvraag:cache-clear
+	docker compose exec $(DOCKER_COMPOSE_OPTIONS) projectaanvraag ./bin/console projectaanvraag:cache-clear
 
 init: install migrate
