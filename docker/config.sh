@@ -23,7 +23,7 @@ fi
 
 APPCONFIG_ROOTDIR=${APPCONFIG:-'../appconfig'}
 
-DIR="${APPCONFIG_ROOTDIR}/templates/docker/platform"
+DIR="${APPCONFIG_ROOTDIR}/templates/docker/projectaanvraag/api"
 if [ -d "$DIR" ]; then
   cp -R "$DIR"/* .
   cp "${DIR}/.env" .env

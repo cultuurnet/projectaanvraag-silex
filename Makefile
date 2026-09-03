@@ -7,7 +7,7 @@ DOCKER_COMPOSE_OPTIONS = -T
 endif
 
 up:
-	docker network inspect platform > /dev/null 2>&1 || docker network create platform
+	docker network inspect platform > /dev/null 2>&1 || docker network create platform --label com.docker.compose.network=publiq-platform --label com.docker.compose.project=publiq-platform
 	docker compose up -d
 
 down:

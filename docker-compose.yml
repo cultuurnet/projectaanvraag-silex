@@ -28,7 +28,7 @@ services:
     extends:
       service: projectaanvraag-base-php-7-4
     ports:
-      - '80:80'
+      - '1080:80'
   mysql:
     image: 'mysql/mysql-server:8.0'
     container_name: mysql-projectaanvraag.publiq
@@ -40,7 +40,7 @@ services:
     volumes:
       - 'projectaanvraag-mysql:/var/lib/mysql'
     ports:
-      - '${FORWARD_MYSQL_PORT:-3306}:3306'
+      - '${FORWARD_MYSQL_PORT:-13306}:3306'
     networks:
       projectaanvraag:
         aliases:
@@ -53,7 +53,7 @@ services:
     image: 'redis:alpine'
     container_name: redis-projectaanvraag.publiq
     ports:
-      - '${FORWARD_REDIS_PORT:-6379}:6379'
+      - '${FORWARD_REDIS_PORT:-16379}:6379'
     volumes:
       - 'projectaanvraag-redis:/data'
     networks:
