@@ -30,12 +30,12 @@ class ImportProject
     protected $platformUuid;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $testApiKeySapi3;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $liveApiKeySapi3;
 
@@ -60,8 +60,8 @@ class ImportProject
         string $name,
         string $description,
         int $groupId,
-        string $testApiKeySapi3,
-        string $liveApiKeySapi3,
+        ?string $testApiKeySapi3,
+        ?string $liveApiKeySapi3,
         string $testClientId,
         string $liveClientId,
         string $state
@@ -103,12 +103,12 @@ class ImportProject
         return $this->platformUuid;
     }
 
-    public function getTestApiKeySapi3(): string
+    public function getTestApiKeySapi3(): ?string
     {
         return $this->testApiKeySapi3;
     }
 
-    public function getLiveApiKeySapi3(): string
+    public function getLiveApiKeySapi3(): ?string
     {
         return $this->liveApiKeySapi3;
     }
