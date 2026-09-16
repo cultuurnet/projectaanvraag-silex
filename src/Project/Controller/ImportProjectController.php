@@ -12,12 +12,6 @@ class ImportProjectController
     use ValidateRequiredFieldsTrait;
 
     /**
-     * The platform only syncs widget integrations, so the integration type is always "Widgets".
-     * See the 24378 entry in integration_types.yml.
-     */
-    private const WIDGETS_INTEGRATION_TYPE_ID = 24378;
-
-    /**
      * @var MessageBusSupportingMiddleware
      */
     private $commandBus;
@@ -32,7 +26,7 @@ class ImportProjectController
         $postedProject = json_decode($request->getContent());
 
         $this->validate(
-            ['userId', 'name', 'summary', 'testClientId', 'liveClientId', 'state'],
+            ['userId', 'name', 'summary', 'groupId', 'testClientId', 'liveClientId', 'state'],
             $postedProject
         );
 
@@ -42,7 +36,7 @@ class ImportProjectController
                 $postedProject->userId,
                 $postedProject->name,
                 $postedProject->summary,
-                (int) ($postedProject->groupId ?? self::WIDGETS_INTEGRATION_TYPE_ID),
+                $postedProject->groupId,
                 $postedProject->testApiKeySapi3 ?? null,
                 $postedProject->liveApiKeySapi3 ?? null,
                 $postedProject->testClientId,

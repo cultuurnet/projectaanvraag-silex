@@ -41,7 +41,6 @@ class ImportProjectControllerTest extends TestCase
     public function testImportProject()
     {
         $formData = $this->formData();
-        $formData->groupId = 2;
         $formData->testApiKeySapi3 = 'a77f461f-3837-49bc-b2a6-1a8f57bf30d6';
         $formData->liveApiKeySapi3 = 'de808573-cfc4-4990-b91b-cf5673b913ac';
 
@@ -68,7 +67,7 @@ class ImportProjectControllerTest extends TestCase
         $this->assertEquals(new JsonResponse(), $response, 'It correctly handles the request');
     }
 
-    public function testImportProjectWithoutGroupIdAndApiKeys()
+    public function testImportProjectWithoutApiKeys()
     {
         $formData = $this->formData();
         $formData->testApiKeySapi3 = null;
@@ -81,7 +80,7 @@ class ImportProjectControllerTest extends TestCase
             $formData->userId,
             $formData->name,
             $formData->summary,
-            24378,
+            $formData->groupId,
             null,
             null,
             $formData->testClientId,
@@ -94,7 +93,7 @@ class ImportProjectControllerTest extends TestCase
             ->with($importProject);
 
         $response = $this->controller->importProject(self::PLATFORM_UUID, $this->request);
-        $this->assertEquals(new JsonResponse(), $response, 'It defaults to the widgets integration type');
+        $this->assertEquals(new JsonResponse(), $response, 'It accepts a payload without api keys');
     }
 
     public function testImportProjectWithoutApiKeyProperties()
@@ -108,7 +107,7 @@ class ImportProjectControllerTest extends TestCase
             $formData->userId,
             $formData->name,
             $formData->summary,
-            24378,
+            $formData->groupId,
             null,
             null,
             $formData->testClientId,
@@ -150,6 +149,7 @@ class ImportProjectControllerTest extends TestCase
             'userId' => ['userId'],
             'name' => ['name'],
             'summary' => ['summary'],
+            'groupId' => ['groupId'],
             'testClientId' => ['testClientId'],
             'liveClientId' => ['liveClientId'],
             'state' => ['state'],
@@ -162,6 +162,7 @@ class ImportProjectControllerTest extends TestCase
         $formData->name = 'name';
         $formData->summary = 'summary';
         $formData->userId = 'auth0|39f6bc3d-2ba9-4587-8602-4a00a2b6667d';
+        $formData->groupId = 2;
         $formData->testClientId = '550e8400-e29b-41d4-a716-446655440000';
         $formData->liveClientId = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
         $formData->state = 'active';
