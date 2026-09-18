@@ -355,12 +355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "e70ebdf00629f2ce3b424aa8fa5cd30ef547c50c"
+                "reference": "f6b6a3a67adb26ce0e8d0e68c4d10385d3718e36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/e70ebdf00629f2ce3b424aa8fa5cd30ef547c50c",
-                "reference": "e70ebdf00629f2ce3b424aa8fa5cd30ef547c50c",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/f6b6a3a67adb26ce0e8d0e68c4d10385d3718e36",
+                "reference": "f6b6a3a67adb26ce0e8d0e68c4d10385d3718e36",
                 "shasum": ""
             },
             "require": {
@@ -395,7 +395,7 @@
                 "issues": "https://github.com/cultuurnet/search-v3/issues",
                 "source": "https://github.com/cultuurnet/search-v3/tree/WID-627-new-BOA-fields"
             },
-            "time": "2026-09-18T09:16:36+00:00"
+            "time": "2026-09-18T13:08:47+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
