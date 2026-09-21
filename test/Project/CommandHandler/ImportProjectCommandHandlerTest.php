@@ -149,7 +149,7 @@ class ImportProjectCommandHandlerTest extends TestCase
         $this->importProjectCommandHandler->handle($importProject);
     }
 
-    public function testHandleNewImportWithoutApiKeys(): void
+    public function testHandleCreateImportWithoutApiKeys(): void
     {
         $this->projectRepository->expects($this->once())
             ->method('findOneBy')
