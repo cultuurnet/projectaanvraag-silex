@@ -307,18 +307,18 @@
 
                 </dl>
 
-                {% if settings.faq is defined and settings.faq.enabled and event.faq is defined and event.faq is not empty %}
+                {% if settings.faq is defined and settings.faq.enabled and event.faqs is defined and event.faqs is not empty %}
                     <p class="cnw_searchresult-detail-block-title">{{ 'event_detail_faq'| transTo(preferredLanguage) }}</p>
 
-                    <div class="cnw_searchresult-detail-faq">
-                        {% for item in event.faq %}
+                    <div class="cnw_searchresult-detail-faqs">
+                        {% for faq in event.faqs %}
                             <details class="cnw_searchresult-detail-faq-item" name="cnw_faq-{{ event.id }}">
                                 <summary class="cnw_searchresult-detail-faq-question">
                                     <i class="cnw-fa cnw-fa-angle-down" aria-hidden="true"></i>
-                                    <span>{{ item.question }}</span>
+                                    <span>{{ faq.question }}</span>
                                 </summary>
                                 <div class="cnw_searchresult-detail-faq-answer">
-                                    {{ item.answer|raw }}
+                                    {{ faq.answer|raw }}
                                 </div>
                             </details>
                         {% endfor %}

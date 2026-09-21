@@ -327,7 +327,7 @@ class TwigPreprocessor
         $this->preprocessBookingInfo($event, $langcode, $variables);
 
         // Frequently asked questions.
-        $variables['faq'] = $this->preprocessFaq($event, $langcode);
+        $variables['faqs'] = $this->preprocessFaqs($event, $langcode);
 
         // Contact info.
         $variables['contact_info'] = [];
@@ -629,22 +629,22 @@ class TwigPreprocessor
      * @param Event $event
      * @return array
      */
-    public function preprocessFaq(Event $event, string $langcode)
+    public function preprocessFaqs(Event $event, string $langcode)
     {
-        $faq = [];
+        $faqs = [];
         foreach ($event->getFaqs() as $translatedFaq) {
-            $item = $this->translateFaq($translatedFaq, $langcode, $event->getMainLanguage());
-            if (!$item instanceof Faq || !$item->getQuestion() || !$item->getAnswer()) {
+            $faq = $this->translateFaq($translatedFaq, $langcode, $event->getMainLanguage());
+            if (!$faq instanceof Faq || !$faq->getQuestion() || !$faq->getAnswer()) {
                 continue;
             }
 
-            $faq[] = [
-                'question' => strip_tags($item->getQuestion()),
-                'answer' => $this->filterXss(str_replace("\n", "<br/>", $item->getAnswer())),
+            $faqs[] = [
+                'question' => strip_tags($faq->getQuestion()),
+                'answer' => $this->filterXss(str_replace("\n", "<br/>", $faq->getAnswer())),
             ];
         }
 
-        return $faq;
+        return $faqs;
     }
 
     /**
