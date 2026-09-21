@@ -291,7 +291,7 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @return string|null
+     * @return ?string
      */
     public function getLiveApiKeySapi3()
     {
@@ -299,7 +299,7 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @param string|null $liveApiKeySapi3
+     * @param ?string $liveApiKeySapi3
      * @return Project
      */
     public function setLiveApiKeySapi3(?string $liveApiKeySapi3)
@@ -309,7 +309,7 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @return string|null
+     * @return ?string
      */
     public function getTestApiKeySapi3()
     {
@@ -317,7 +317,7 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @param string|null $testApiKeySapi3
+     * @param ?string $testApiKeySapi3
      * @return Project
      */
     public function setTestApiKeySapi3(?string $testApiKeySapi3): Project
