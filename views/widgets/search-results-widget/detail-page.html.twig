@@ -21,6 +21,7 @@
                 {% if settings.icon_vlieg.enabled and event.vlieg %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
                         <span class="cnw_txt">{{ event.vlieg }}</span>
+                        {% if event.vlieg != '0+' %}<span class="cnw_txt">{{ event.vlieg }}</span>{% endif %}
                     </span>
                 {% endif %}
                 {% if settings.icon_museumpass.enabled and event.museumpas %}
