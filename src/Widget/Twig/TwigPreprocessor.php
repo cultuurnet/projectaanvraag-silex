@@ -17,7 +17,7 @@ use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
 use CultuurNet\SearchV3\ValueObjects\Term;
 use CultuurNet\SearchV3\ValueObjects\TranslatedAddress;
-use CultuurNet\SearchV3\ValueObjects\TranslatedFaq;
+use CultuurNet\SearchV3\ValueObjects\TranslatedFaqs;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -632,8 +632,8 @@ class TwigPreprocessor
     public function preprocessFaqs(Event $event, string $langcode)
     {
         $faqs = [];
-        foreach ($event->getFaqs() as $translatedFaq) {
-            $faq = $this->translateFaq($translatedFaq, $langcode, $event->getMainLanguage());
+        foreach ($event->getFaqs() as $translatedFaqs) {
+            $faq = $this->translateFaqs($translatedFaqs, $langcode, $event->getMainLanguage());
             if (!$faq instanceof Faq || !$faq->getQuestion() || !$faq->getAnswer()) {
                 continue;
             }
@@ -1034,9 +1034,9 @@ class TwigPreprocessor
         return $this->filterForKeyWithFallback->__invoke($translatedString->getValues(), $preferredLanguage, $mainLanguage);
     }
 
-    protected function translateFaq(TranslatedFaq $translatedFaq, string $preferredLanguage, $mainLanguage = 'nl')
+    protected function translateFaqs(TranslatedFaqs $translatedFaqs, string $preferredLanguage, $mainLanguage = 'nl')
     {
-        return $this->filterForKeyWithFallback->__invoke($translatedFaq->getFaqs(), $preferredLanguage, $mainLanguage);
+        return $this->filterForKeyWithFallback->__invoke($translatedFaqs->getFaqs(), $preferredLanguage, $mainLanguage);
     }
 
     protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage, $mainLanguage = 'nl')
