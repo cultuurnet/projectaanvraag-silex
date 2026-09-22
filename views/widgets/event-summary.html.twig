@@ -19,22 +19,9 @@
 
     <div class="{% if settings_items.image.enabled %}cnw_col-9 {% else %} cnw_col-12{% endif %}">
         <div class="cnw_card-block ">
-            <h2 class="cnw_card-title" data-detail-link="{{ event.detail_link }}">
-                {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
-                <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="title">{{ event.name }}</a>
-                {% else %}
-                {{ event.name }}
-                {% endif %}
-                {% if settings_items.editorial_label is defined and settings_items.editorial_label.enabled and event.editorial_label %}
-                  <span class="cnw_badge cnw_badge-default cnw_badge-editorial">
-                    <i class="cnw-fa cnw-fa-heart"></i>{{ event.editorial_label }}
-                  </span>
-                {% endif %}
-            </h2>
             <span class="cnw_stickers ">
                 {% if settings_items.icon_vlieg.enabled and event.vlieg %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
-                        <span class="cnw_txt">{{ event.vlieg }}</span>
                         {% if event.vlieg != '0+' %}<span class="cnw_txt">{{ event.vlieg }}</span>{% endif %}
                     </span>
                 {% endif %}
@@ -85,7 +72,18 @@
                     </span>
                 {% endif %}
             </span>
-
+            <h2 class="cnw_card-title" data-detail-link="{{ event.detail_link }}">
+                {% if settings_general.detail_link.enabled is not defined or settings_general.detail_link.enabled %}
+                <a href="{{ event.detail_link }}" data-click-tracking-category="detail" data-click-tracking-action="{{ click_tracking_action }}" data-click-tracking-label="title">{{ event.name }}</a>
+                {% else %}
+                {{ event.name }}
+                {% endif %}
+                {% if settings_items.editorial_label is defined and settings_items.editorial_label.enabled and event.editorial_label %}
+                  <span class="cnw_badge cnw_badge-default cnw_badge-editorial">
+                    <i class="cnw-fa cnw-fa-heart"></i>{{ event.editorial_label }}
+                  </span>
+                {% endif %}
+            </h2>
             <p class="cnw_card-description">
             {% if settings_items.type.enabled and event.type.0 is defined %}
                 <span class="cnw_badge cnw_badge-default" >
