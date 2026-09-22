@@ -139,7 +139,7 @@ class Project implements ProjectInterface
      * The search api 3 key for this project.
      *
      * @ORM\Column(name="live_search_api3_key", type="string", length=255, nullable=true)
-     * @var string
+     * @var ?string
      * @Type("string")
      */
     protected $liveApiKeySapi3;
@@ -148,7 +148,7 @@ class Project implements ProjectInterface
      * The search api 3 key for this project.
      *
      * @ORM\Column(name="test_search_api3_key", type="string", length=255, nullable=true)
-     * @var string
+     * @var ?string
      * @Type("string")
      */
     protected $testApiKeySapi3;
@@ -291,7 +291,7 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @return string
+     * @return ?string
      */
     public function getLiveApiKeySapi3()
     {
@@ -299,17 +299,17 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @param string $liveApiKeySapi3
+     * @param ?string $liveApiKeySapi3
      * @return Project
      */
-    public function setLiveApiKeySapi3(string $liveApiKeySapi3)
+    public function setLiveApiKeySapi3(?string $liveApiKeySapi3)
     {
         $this->liveApiKeySapi3 = $liveApiKeySapi3;
         return $this;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
     public function getTestApiKeySapi3()
     {
@@ -317,10 +317,10 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @param string $testApiKeySapi3
+     * @param ?string $testApiKeySapi3
      * @return Project
      */
-    public function setTestApiKeySapi3(string $testApiKeySapi3): Project
+    public function setTestApiKeySapi3(?string $testApiKeySapi3): Project
     {
         $this->testApiKeySapi3 = $testApiKeySapi3;
         return $this;
@@ -353,7 +353,7 @@ class Project implements ProjectInterface
     }
 
     /**
-     * @param string $testApiKeySapi3
+     * @param string $testClientId
      * @return Project
      */
     public function setTestClientId(string $testClientId): Project
