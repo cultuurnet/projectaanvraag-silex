@@ -38,7 +38,7 @@
 .cnw_stickers {
   display: flex;
   float: right;
-  width: 150px;
+  width: auto;
   flex-wrap: wrap;
   justify-content: flex-end;
 
@@ -62,6 +62,15 @@
 @include media-breakpoint-down(xs) {
   .cnw_searchresult--block .cnw_stickers  {
     margin-bottom: 0.5rem;
+  }
+
+  .cnw_card-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cnw_card-title {
+    order: -1;
   }
 }
 
@@ -92,28 +101,25 @@
   background-image: url(../images/vlieg--sticker-yellow.svg);
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: left center;
 
   display: block;
-  height: 28px;
-  width: 28px;
+  height: 29px;
+  line-height: 29px;
 
-  margin-bottom: 20px;
+  padding-left: 29px;
+  border-radius: 4px;
+  overflow: hidden;
 
   .cnw_txt{
-    background-color: #44444C;
-    color: white;
-    border-radius: 150%;
+    background-color: #FFEC87;
+    color: #40404A;
 
     display: inline-block;
-    position: relative;
-    bottom: -20px;
-    right: -20px;
-    font-size: 0.55rem;
-    font-weight: bold;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
+    vertical-align: top;
+    padding: 0 6px;
+    font-size: 14px;
+    font-weight: 600;
   }
 }
 .cnw_sticker--uitpas {

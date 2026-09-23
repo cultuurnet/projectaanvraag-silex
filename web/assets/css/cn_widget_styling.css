@@ -14790,7 +14790,7 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   display: -ms-flexbox;
   display: flex;
   float: right;
-  width: 150px;
+  width: auto;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   -webkit-box-pack: end;
@@ -14821,6 +14821,20 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   .cnw_searchresult--block .cnw_stickers {
     margin-bottom: 0.5rem;
   }
+  .cnw_card-block {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .cnw_card-title {
+    -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+            order: -1;
+  }
 }
 
 .cnw_stickers--mini {
@@ -14849,26 +14863,23 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   background-image: url(../images/vlieg--sticker-yellow.svg);
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: left center;
   display: block;
-  height: 28px;
-  width: 28px;
-  margin-bottom: 20px;
+  height: 29px;
+  line-height: 29px;
+  padding-left: 29px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .cnw_sticker--vlieg .cnw_txt {
-  background-color: #44444C;
-  color: white;
-  border-radius: 150%;
+  background-color: #FFEC87;
+  color: #40404A;
   display: inline-block;
-  position: relative;
-  bottom: -20px;
-  right: -20px;
-  font-size: 0.55rem;
-  font-weight: bold;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
+  vertical-align: top;
+  padding: 0 6px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .cnw_sticker--uitpas {
@@ -15231,6 +15242,23 @@ html .cnw_w label {
 .cnw_searchresult-detail .cnw_sticker--vlieg {
   margin-top: 10px;
   float: right;
+}
+
+@media (max-width: 575px) {
+  .cnw_searchresult-detail .cnw_block-system {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .cnw_searchresult-detail .cnw_page-title {
+    -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+            order: -1;
+  }
 }
 
 .cnw_searchresult-detail-link {
