@@ -696,7 +696,7 @@ final class SearchResults extends WidgetTypeBase
         // New parameter for uitpas prices
         $query->addParameter(new EmbedUitpasPrices());
 
-        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'lg')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'xl')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));

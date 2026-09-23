@@ -845,7 +845,7 @@ class TwigPreprocessor
 
         return $event->getCalendarSummary()->getSummary(
             new CalendarSummaryLanguage($langcode),
-            new CalendarSummaryFormat('html', 'lg')
+            new CalendarSummaryFormat('html', 'xl')
         );
     }
 
