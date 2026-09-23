@@ -56,6 +56,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "theme":{
  *                  "enabled": true
  *              },
+ *              "children_only":{
+ *                  "enabled":false
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -141,6 +144,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              },
  *              "theme":{
  *                  "enabled":true
+ *              },
+ *              "children_only":{
+ *                  "enabled":false
  *              },
  *              "map":false,
  *              "price_information":true,
@@ -253,6 +259,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "theme":{
  *                  "enabled":"boolean"
  *              },
+ *              "children_only":{
+ *                  "enabled":"boolean"
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":"boolean"
  *              },
@@ -339,6 +348,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean"
  *              },
  *              "theme":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "children_only":{
  *                  "enabled":"boolean"
  *              },
  *              "map":"boolean",
