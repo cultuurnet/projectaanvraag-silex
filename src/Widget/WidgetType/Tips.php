@@ -42,6 +42,9 @@ use Pimple\Container;
  *              "theme":{
  *                  "enabled":true
  *              },
+ *              "children_only":{
+ *                  "enabled":false
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -129,6 +132,9 @@ use Pimple\Container;
  *                  "enabled":"boolean"
  *              },
  *              "theme":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "children_only":{
  *                  "enabled":"boolean"
  *              },
  *              "icon_vlieg":{
