@@ -205,6 +205,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "videos":{
  *                  "enabled":true
  *              },
+ *              "faq":{
+ *                  "enabled":true
+ *              },
  *              "labels":{
  *                  "enabled":false,
  *                  "limit_labels":{
@@ -407,6 +410,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "position":"string"
  *              },
  *              "videos":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "faq":{
  *                  "enabled":"boolean"
  *              },
  *              "facilities":{
@@ -690,7 +696,7 @@ final class SearchResults extends WidgetTypeBase
         // New parameter for uitpas prices
         $query->addParameter(new EmbedUitpasPrices());
 
-        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'lg')));
+        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'xl')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));

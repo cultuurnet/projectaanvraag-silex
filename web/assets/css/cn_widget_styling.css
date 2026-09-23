@@ -15280,6 +15280,37 @@ html .cnw_w label {
   margin-top: 0.25em;
 }
 
+.cnw_searchresult-detail-faqs {
+  margin-bottom: 1rem;
+}
+
+.cnw_searchresult-detail-faq-question {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.9em 0;
+  border-bottom: 1px solid #ddd;
+  list-style: none;
+}
+
+.cnw_searchresult-detail-faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.cnw_searchresult-detail-faq-item .cnw_searchresult-detail-faq-question i.cnw-fa {
+  display: inline-block;
+}
+
+.cnw_searchresult-detail-faq-item[open] .cnw_searchresult-detail-faq-question i.cnw-fa {
+  transform: rotate(180deg);
+}
+
+.cnw_searchresult-detail-faq-answer {
+  padding: 0.75em 0 1.25em;
+}
+
 .cnw_searchresult-detail-info dt {
   position: relative;
   width: 100%;
