@@ -78,6 +78,11 @@
                           </span>
                       {% endfor %}
                 {% endif %}
+                {% if settings.children_only is defined and settings.children_only.enabled and event.children_only %}
+                    <span class="cnw_badge cnw_badge-default">
+                        {{ 'event_children_only' | transTo(preferredLanguage) }}
+                    </span>
+                {% endif %}
                 </p>
 
                 <div class="cnw_detail-summary">

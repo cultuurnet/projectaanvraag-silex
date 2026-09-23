@@ -2,6 +2,7 @@ activities: Aktivitäten
 event_age_range: Von %min_age% jaar bis %max_age% Jahre.
 event_age_range_no_min: Von 0 Jahren bis zu %max_age% Jahren.
 event_age_range_min: Von %min_age% Jahre.
+event_children_only: Nur für Kinder
 event_expired: Diese Veranstaltung ist beendet
 event_full_date: %date% um %hour% Stunden
 event_read_more: Mehr lesen
