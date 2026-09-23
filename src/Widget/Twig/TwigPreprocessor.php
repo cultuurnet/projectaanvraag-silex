@@ -12,10 +12,12 @@ use CultuurNet\SearchV3\ValueObjects\CalendarSummaryLanguage;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
+use CultuurNet\SearchV3\ValueObjects\Faq;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
 use CultuurNet\SearchV3\ValueObjects\Term;
 use CultuurNet\SearchV3\ValueObjects\TranslatedAddress;
+use CultuurNet\SearchV3\ValueObjects\TranslatedFaqs;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -324,6 +326,9 @@ class TwigPreprocessor
         // Booking information.
         $this->preprocessBookingInfo($event, $langcode, $variables);
 
+        // Frequently asked questions.
+        $variables['faqs'] = $this->preprocessFaqs($event, $langcode);
+
         // Contact info.
         $variables['contact_info'] = [];
         $variables['links'] = [];
@@ -616,6 +621,30 @@ class TwigPreprocessor
                 ];
             }
         }
+    }
+
+    /**
+     * Preprocess the frequently asked questions for sending to a template.
+     *
+     * @param Event $event
+     * @return array
+     */
+    public function preprocessFaqs(Event $event, string $langcode)
+    {
+        $faqs = [];
+        foreach ($event->getFaqs() as $translatedFaqs) {
+            $faq = $this->translateFaqs($translatedFaqs, $langcode, $event->getMainLanguage());
+            if (!$faq instanceof Faq || !$faq->getQuestion() || !$faq->getAnswer()) {
+                continue;
+            }
+
+            $faqs[] = [
+                'question' => strip_tags($faq->getQuestion()),
+                'answer' => $this->filterXss(str_replace("\n", "<br/>", $faq->getAnswer())),
+            ];
+        }
+
+        return $faqs;
     }
 
     /**
@@ -1003,6 +1032,11 @@ class TwigPreprocessor
             return '';
         }
         return $this->filterForKeyWithFallback->__invoke($translatedString->getValues(), $preferredLanguage, $mainLanguage);
+    }
+
+    protected function translateFaqs(TranslatedFaqs $translatedFaqs, string $preferredLanguage, $mainLanguage = 'nl')
+    {
+        return $this->filterForKeyWithFallback->__invoke($translatedFaqs->getFaqs(), $preferredLanguage, $mainLanguage);
     }
 
     protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage, $mainLanguage = 'nl')

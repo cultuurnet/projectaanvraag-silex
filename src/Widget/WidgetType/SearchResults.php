@@ -205,6 +205,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "videos":{
  *                  "enabled":true
  *              },
+ *              "faq":{
+ *                  "enabled":true
+ *              },
  *              "labels":{
  *                  "enabled":false,
  *                  "limit_labels":{
@@ -407,6 +410,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "position":"string"
  *              },
  *              "videos":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "faq":{
  *                  "enabled":"boolean"
  *              },
  *              "facilities":{
