@@ -63,6 +63,15 @@
   .cnw_searchresult--block .cnw_stickers  {
     margin-bottom: 0.5rem;
   }
+
+  .cnw_card-block {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cnw_card-title {
+    order: -1;
+  }
 }
 
 .cnw_stickers--mini {

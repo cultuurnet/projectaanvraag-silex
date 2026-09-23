@@ -14821,6 +14821,20 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   .cnw_searchresult--block .cnw_stickers {
     margin-bottom: 0.5rem;
   }
+  .cnw_card-block {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .cnw_card-title {
+    -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+            order: -1;
+  }
 }
 
 .cnw_stickers--mini {
@@ -15228,6 +15242,23 @@ html .cnw_w label {
 .cnw_searchresult-detail .cnw_sticker--vlieg {
   margin-top: 10px;
   float: right;
+}
+
+@media (max-width: 575px) {
+  .cnw_searchresult-detail .cnw_block-system {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .cnw_searchresult-detail .cnw_page-title {
+    -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+            order: -1;
+  }
 }
 
 .cnw_searchresult-detail-link {
