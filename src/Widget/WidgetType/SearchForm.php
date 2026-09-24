@@ -362,6 +362,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                 'defaults' => $this->getDefaults(),
                 'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
                 'preferredLanguage' => ($preferredLanguage) ?: 'nl',
+                'age_filter_options' => $this->getAgeFilterOptions(($preferredLanguage) ?: 'nl'),
             ]
         );
     }
@@ -479,9 +480,15 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
      */
     private function getSelectedAges($activeValue): array
     {
-        $ages = array_unique(array_filter(array_map('intval', explode('|', (string) $activeValue)), function ($age) {
-            return $age >= self::AGE_FILTER_MIN_AGE && $age <= self::AGE_FILTER_MAX_AGE;
-        }));
+        $ages = [];
+        foreach (explode('|', (string) $activeValue) as $value) {
+            $age = (int) $value;
+            if ($age < self::AGE_FILTER_MIN_AGE || $age > self::AGE_FILTER_MAX_AGE || in_array($age, $ages, true)) {
+                continue;
+            }
+
+            $ages[] = $age;
+        }
 
         sort($ages);
 
