@@ -1,4 +1,12 @@
 activities: Aktivitäten
+age_filter_label: Alter
+age_filter_placeholder: Für wen?
+age_filter_confirm: Bestätigen
+age_filter_mode_age: Alter
+age_filter_mode_birth_year: Geburtsjahr
+age_filter_legend_age: Alter Ihres Kindes/Ihrer Kinder
+age_filter_legend_birth_year: Geburtsjahr Ihres Kindes/Ihrer Kinder
+age_filter_years: '%age% Jahre'
 event_age_range: Von %min_age% jaar bis %max_age% Jahre.
 event_age_range_no_min: Von 0 Jahren bis zu %max_age% Jahren.
 event_age_range_min: Von %min_age% Jahre.

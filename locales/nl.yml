@@ -1,4 +1,12 @@
 activities: activiteiten
+age_filter_label: Leeftijd
+age_filter_placeholder: Voor wie?
+age_filter_confirm: Bevestigen
+age_filter_mode_age: Leeftijd
+age_filter_mode_birth_year: Geboortejaar
+age_filter_legend_age: Leeftijd van je kind(eren)
+age_filter_legend_birth_year: Geboortejaar van je kind(eren)
+age_filter_years: '%age% jaar'
 event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
 event_age_range_no_min: Vanaf 0 jaar tot en met %max_age% jaar.
 event_age_range_min: Vanaf %min_age% jaar.
