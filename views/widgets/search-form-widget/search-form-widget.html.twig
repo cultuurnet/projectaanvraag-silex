@@ -110,12 +110,17 @@
                 </div>
             {% endif %}
 
-            {% if settings_fields.extra.group_filters.enabled or (settings_fields.facility_filters is defined and settings_fields.facility_filters.enabled) %}
+            {% set age_filter_enabled = settings_fields.extra.age_filter is defined and settings_fields.extra.age_filter.enabled %}
+            {% if settings_fields.extra.group_filters.enabled or age_filter_enabled or (settings_fields.facility_filters is defined and settings_fields.facility_filters.enabled) %}
                 <div class="cnw_col">
                     {% if  settings_fields.extra.group_filters.enabled %}
                         {% for key, filter in  settings_fields.extra.group_filters.filters %}
                             {% include 'widgets/search-form-widget/group-filter-' ~ filter.type ~  '.html.twig' with {'label':filter.label, 'placeholder':filter.placeholder, 'name': 'search-form[' ~ id ~ '][custom][3][' ~ key ~ ']', 'options':filter.options, 'default_option': defaults[3].group_filters[key]} %}
                         {% endfor %}
+                    {% endif %}
+
+                    {% if age_filter_enabled %}
+                        {% include 'widgets/search-form-widget/age-filter.html.twig' %}
                     {% endif %}
 
                     {% if  settings_fields.facility_filters.enabled %}
