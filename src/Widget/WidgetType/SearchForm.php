@@ -386,44 +386,23 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         return $this->render('', $preferredLanguage);
     }
 
-    /**
-     * Check if the age filter is enabled in the extra options.
-     *
-     * @return bool
-     */
     private function ageFilterEnabled(): bool
     {
         return !empty($this->settings['fields']['extra']['age_filter']['enabled']);
     }
 
-    /**
-     * Format a single age as a translated label.
-     *
-     * @param int $age
-     * @param string $preferredLanguage
-     * @return string
-     */
     private function formatAge(int $age, string $preferredLanguage): string
     {
         return str_replace('%age%', (string) $age, $this->twigPreprocessor->translateLabel('age_filter_years', 'messages', $preferredLanguage));
     }
 
-    /**
-     * Get the year a child of the given age was born in.
-     *
-     * @param int $age
-     * @return int
-     */
     private function birthYear(int $age): int
     {
         return (int) (new \DateTime('now', new \DateTimeZone('CET')))->format('Y') - $age;
     }
 
     /**
-     * Get the selectable ages, labelled both as an age and as a year of birth.
-     *
-     * @param string $preferredLanguage
-     * @return array
+     * @return array<int, array{age: int, age_label: string, birth_year_label: string}>
      */
     private function getAgeFilterOptions(string $preferredLanguage): array
     {
@@ -444,12 +423,8 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
     }
 
     /**
-     * Build the query and the label for the selected ages.
-     *
-     * @param array $ages
-     * @param bool $byBirthYear
-     * @param string $preferredLanguage
-     * @return array
+     * @param int[] $ages
+     * @return array{query: string, label: string}
      */
     private function buildAgeFilter(array $ages, bool $byBirthYear, string $preferredLanguage): array
     {
@@ -473,10 +448,8 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
     }
 
     /**
-     * Get the submitted ages, keeping only the ones the filter offers.
-     *
-     * @param $activeValue
-     * @return array
+     * @param mixed $activeValue
+     * @return int[]
      */
     private function getSelectedAges($activeValue): array
     {
