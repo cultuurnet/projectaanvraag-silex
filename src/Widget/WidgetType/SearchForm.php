@@ -393,7 +393,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
 
     private function formatAge(int $age, string $preferredLanguage): string
     {
-        return str_replace('%age%', (string) $age, $this->twigPreprocessor->translateLabel('age_filter_years', 'messages', $preferredLanguage));
+        return $this->twigPreprocessor->translateLabel('age_filter_years', 'messages', $preferredLanguage, ['%age%' => $age]);
     }
 
     private function birthYear(int $age): int
