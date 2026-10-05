@@ -1099,15 +1099,8 @@ class TwigPreprocessor
         return $translation;
     }
 
-    /**
-     * @param $preferredLanguage
-     * @param string $type
-     * @param $preferredLanguage
-     * @return mixed|string
-     */
-    public function translateLabel(string $label, string $type, $preferredLanguage = 'nl')
+    public function translateLabel(string $label, string $type, $preferredLanguage = 'nl', array $parameters = []): string
     {
-        $translation = $this->translator->trans($label, [], $type, $preferredLanguage);
-        return $translation;
+        return $this->translator->trans($label, $parameters, $type, $preferredLanguage);
     }
 }
