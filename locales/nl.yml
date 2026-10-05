@@ -10,6 +10,8 @@ event_directions: hoe geraak ik hier?
 event_online: Online
 event_online_participation: Online deelname
 event_detail_contact: Contact
+event_detail_departure_places: Begeleid vervoer
+event_detail_departure_places_description: 'Deze locaties brengen kinderen rechtstreeks naar de activiteit:'
 event_detail_faq: Veelgestelde vragen
 event_detail_info: Info
 event_detail_member_specific: Specifiek voor leden
