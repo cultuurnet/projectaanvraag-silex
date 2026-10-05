@@ -190,6 +190,7 @@ class TwigPreprocessor
             'organizer' => $this->translateOrganizerName($event, $langcode),
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
+            'children_only' => $event->isChildrenOnly(),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
             'hidden_labels' => $event->getHiddenLabels() ?? [],
