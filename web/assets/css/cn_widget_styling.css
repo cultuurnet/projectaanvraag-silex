@@ -15280,6 +15280,30 @@ html .cnw_w label {
   margin-top: 0.25em;
 }
 
+.cnw_searchresult-detail-departure-places-description {
+  margin-bottom: 1em;
+}
+
+.cnw_searchresult-detail-departure-places {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.cnw_searchresult-detail-departure-place {
+  margin-bottom: 0.75em;
+}
+
+.cnw_searchresult-detail-departure-place-name {
+  display: block;
+  font-weight: 600;
+}
+
+.cnw_searchresult-detail-departure-place-address {
+  display: block;
+  color: #636c72;
+}
+
 .cnw_searchresult-detail-faqs {
   margin-bottom: 1rem;
 }
