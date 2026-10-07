@@ -628,9 +628,8 @@ class TwigPreprocessor
      * Preprocess the departure places for sending to a template.
      *
      * @param Place[] $departurePlaces
-     * @return array
      */
-    public function preprocessDeparturePlaces(array $departurePlaces, string $langcode)
+    public function preprocessDeparturePlaces(array $departurePlaces, string $langcode): array
     {
         $places = [];
         foreach ($departurePlaces as $departurePlace) {
