@@ -10,6 +10,8 @@ event_directions: how do I get here?
 event_online: Online
 event_online_participation: Online participation
 event_detail_contact: Contact
+event_detail_departure_places: Guided transport
+event_detail_departure_places_description: 'These locations take children directly to the activity:'
 event_detail_faq: Frequently asked questions
 event_detail_info: Info
 event_detail_member_specific: Exclusively for members

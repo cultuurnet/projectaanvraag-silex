@@ -311,6 +311,23 @@
 
                 </dl>
 
+                {% if settings.departure_places is defined and settings.departure_places.enabled and event.departure_places is defined and event.departure_places is not empty %}
+                    <p class="cnw_searchresult-detail-block-title">{{ 'event_detail_departure_places'| transTo(preferredLanguage) }}</p>
+
+                    <p class="cnw_searchresult-detail-departure-places-description">{{ 'event_detail_departure_places_description'| transTo(preferredLanguage) }}</p>
+
+                    <ul class="cnw_searchresult-detail-departure-places">
+                        {% for departurePlace in event.departure_places %}
+                            <li class="cnw_searchresult-detail-departure-place">
+                                <span class="cnw_searchresult-detail-departure-place-name">{{ departurePlace.name }}</span>
+                                {% if departurePlace.address is not empty %}
+                                    <span class="cnw_searchresult-detail-departure-place-address">{{ departurePlace.address.street }}, {{ departurePlace.address.postalcode }} {{ departurePlace.address.city }}</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
                 {% if settings.faq is defined and settings.faq.enabled and event.faqs is defined and event.faqs is not empty %}
                     <p class="cnw_searchresult-detail-block-title">{{ 'event_detail_faq'| transTo(preferredLanguage) }}</p>
 

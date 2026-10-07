@@ -21,6 +21,7 @@ use CultuurNet\SearchV3\SearchQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
 use CultuurNet\SearchV3\ValueObjects\PagedCollection;
+use CultuurNet\SearchV3\ValueObjects\Place;
 use Pimple\Container;
 use SimpleBus\Message\Bus\Middleware\MessageBusSupportingMiddleware;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -209,6 +210,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "position":"left"
  *              },
  *              "videos":{
+ *                  "enabled":true
+ *              },
+ *              "departure_places":{
  *                  "enabled":true
  *              },
  *              "faq":{
@@ -422,6 +426,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "position":"string"
  *              },
  *              "videos":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "departure_places":{
  *                  "enabled":"boolean"
  *              },
  *              "faq":{
@@ -734,6 +741,13 @@ final class SearchResults extends WidgetTypeBase
             'preferredLanguage' => $preferredLanguage,
         ];
 
+        if (!empty($this->settings['detail_page']['departure_places']['enabled'])) {
+            $variables['event']['departure_places'] = $this->twigPreprocessor->preprocessDeparturePlaces(
+                $this->searchDeparturePlaces($events[0]->getDeparturePlaces()),
+                $langcode
+            );
+        }
+
         if (!empty($this->settings['detail_page']['articles']['enabled'])) {
             $articles = $this->curatorenClient->searchArticles($this->request->query->get('cdbid'));
             $articleSettings = $this->settings['detail_page']['articles'];
@@ -745,5 +759,40 @@ final class SearchResults extends WidgetTypeBase
             'widgets/search-results-widget/detail-page.html.twig',
             $variables
         );
+    }
+
+    /**
+     * Resolve the departure place ids of an event to their full place data.
+     *
+     * @param string[] $departurePlaces
+     * @return Place[]
+     */
+    private function searchDeparturePlaces(array $departurePlaces)
+    {
+        if ($departurePlaces === []) {
+            return [];
+        }
+
+        $ids = array_map('basename', $departurePlaces);
+
+        $query = new SearchQuery(true);
+        $query->addParameter(new Query('id:(' . implode(' OR ', $ids) . ')'));
+        $query->addParameter(new AddressCountry('*'));
+        $query->setLimit(count($ids));
+
+        $places = [];
+        foreach ($this->searchClient->searchPlaces($query)->getMember()->getItems() as $place) {
+            $places[$place->getCdbid()] = $place;
+        }
+
+        // The search results are not returned in the order the event lists them.
+        $orderedPlaces = [];
+        foreach ($ids as $id) {
+            if (isset($places[$id])) {
+                $orderedPlaces[] = $places[$id];
+            }
+        }
+
+        return $orderedPlaces;
     }
 }
