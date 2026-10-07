@@ -769,7 +769,7 @@ final class SearchResults extends WidgetTypeBase
      */
     private function searchDeparturePlaces(array $departurePlaces)
     {
-        if (empty($departurePlaces)) {
+        if ($departurePlaces === []) {
             return [];
         }
 
