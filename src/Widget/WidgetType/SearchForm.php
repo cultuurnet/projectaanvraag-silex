@@ -72,6 +72,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "group_filters": {
  *                      "enabled": false
  *                  },
+ *                  "age_filter": {
+ *                      "enabled": false
+ *                  },
  *              },
  *              "facility_filters": {
  *                  "enabled": false,
@@ -268,7 +271,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
  *              "extra": {
- *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter",
+ *                  "age_filter": {
+ *                      "enabled": "boolean"
+ *                  }
  *              },
  *              "facility_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *          },
@@ -280,6 +286,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQueryInterface
 {
+    private const AGE_FILTER_MIN_AGE = 2;
+
+    private const AGE_FILTER_MAX_AGE = 12;
 
     /**
      * @var null|\Symfony\Component\HttpFoundation\Request
@@ -353,6 +362,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                 'defaults' => $this->getDefaults(),
                 'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
                 'preferredLanguage' => ($preferredLanguage) ?: 'nl',
+                'age_filter_options' => $this->getAgeFilterOptions(($preferredLanguage) ?: 'nl'),
             ]
         );
     }
@@ -367,9 +377,95 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
             $this->renderer->attachCss(WWW_ROOT . '/assets/vendor/pickaday/pickaday.css');
         }
 
+        if ($this->ageFilterEnabled()) {
+            $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/age-filter.js');
+        }
+
         $this->renderer->attachJavascript(__DIR__ . '/../../../web/assets/js/widgets/search-form/search-form.js');
 
         return $this->render('', $preferredLanguage);
+    }
+
+    private function ageFilterEnabled(): bool
+    {
+        return !empty($this->settings['fields']['extra']['age_filter']['enabled']);
+    }
+
+    private function formatAge(int $age, string $preferredLanguage): string
+    {
+        return $this->twigPreprocessor->translateLabel('age_filter_years', 'messages', $preferredLanguage, ['%age%' => $age]);
+    }
+
+    private function birthYear(int $age): int
+    {
+        return (int) (new \DateTime('now', new \DateTimeZone('CET')))->format('Y') - $age;
+    }
+
+    /**
+     * @return array<int, array{age: int, age_label: string, birth_year_label: string}>
+     */
+    private function getAgeFilterOptions(string $preferredLanguage): array
+    {
+        if (!$this->ageFilterEnabled()) {
+            return [];
+        }
+
+        $options = [];
+        for ($age = self::AGE_FILTER_MIN_AGE; $age <= self::AGE_FILTER_MAX_AGE; $age++) {
+            $options[] = [
+                'age' => $age,
+                'age_label' => $this->formatAge($age, $preferredLanguage),
+                'birth_year_label' => (string) $this->birthYear($age),
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param int[] $ages
+     * @return array{query: string, label: string}
+     */
+    private function buildAgeFilter(array $ages, bool $byBirthYear, string $preferredLanguage): array
+    {
+        $queries = [];
+        $labels = [];
+        foreach ($ages as $age) {
+            if ($byBirthYear) {
+                $birthYear = $this->birthYear($age);
+                $queries[] = 'birthdateRange:[' . $birthYear . '-01-01 TO ' . $birthYear . '-12-31]';
+                $labels[] = (string) $birthYear;
+            } else {
+                $queries[] = 'typicalAgeRange:[' . $age . ' TO ' . $age . ']';
+                $labels[] = $this->formatAge($age, $preferredLanguage);
+            }
+        }
+
+        return [
+            'query' => '(' . implode(' OR ', $queries) . ')',
+            'label' => implode(', ', $labels),
+        ];
+    }
+
+    /**
+     * @param mixed $activeValue
+     * @return int[]
+     */
+    private function getSelectedAges($activeValue): array
+    {
+        $ages = [];
+        foreach (explode('|', (string) $activeValue) as $value) {
+            $age = (int) $value;
+            if ($age < self::AGE_FILTER_MIN_AGE || $age > self::AGE_FILTER_MAX_AGE || in_array($age, $ages, true)) {
+                continue;
+            }
+
+            $ages[] = $age;
+        }
+
+        sort($ages);
+
+        return $ages;
     }
 
     /**
@@ -569,6 +665,20 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                         'is_default' => false,
                     ];
                     $advancedQuery[] = 'regions:' . $region->key;
+                }
+            } elseif ($key === 'age' && $this->ageFilterEnabled()) {
+                $ages = $this->getSelectedAges($activeValue);
+                if (!empty($ages)) {
+                    $byBirthYear = isset($activeFilters['age-mode']) && $activeFilters['age-mode'] === 'birth-year';
+                    $ageFilter = $this->buildAgeFilter($ages, $byBirthYear, $preferredLanguage);
+
+                    $advancedQuery[] = $ageFilter['query'];
+
+                    $searchResultsActiveFilters[] = [
+                        'label' => $ageFilter['label'],
+                        'name' => 'search-form[' . $this->id . '][age]',
+                        'is_default' => false,
+                    ];
                 }
             }
         }

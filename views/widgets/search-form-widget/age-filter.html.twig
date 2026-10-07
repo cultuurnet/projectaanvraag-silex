@@ -1,0 +1,33 @@
+<div class="cnw_form-group cnw_age-filter">
+    <label for="age-filter-{{ id }}">{{ 'age_filter_label' | transTo(preferredLanguage) }}</label>
+    <button type="button" id="age-filter-{{ id }}" class="cnw_form-control cnw_age-filter-trigger" aria-haspopup="dialog" aria-expanded="false" data-placeholder="{{ 'age_filter_placeholder' | transTo(preferredLanguage) }}">
+        <span class="cnw_age-filter-summary">{{ 'age_filter_placeholder' | transTo(preferredLanguage) }}</span>
+        <i class="cnw-fa cnw-fa-angle-down" aria-hidden="true"></i>
+    </button>
+    <input type="hidden" class="cnw_age-filter-mode-input" name="search-form[{{ id }}][age-mode]" value="age">
+
+    <div class="cnw_age-filter-dropdown" role="dialog" aria-label="{{ 'age_filter_label' | transTo(preferredLanguage) }}" style="display: none;">
+        <div class="cnw_age-filter-modes--holder">
+            <div class="cnw_age-filter-modes">
+                <button type="button" class="cnw_btn cnw_age-filter-mode" data-age-filter-mode="birth-year">{{ 'age_filter_mode_birth_year' | transTo(preferredLanguage) }}</button>
+                <button type="button" class="cnw_btn cnw_age-filter-mode cnw_age-filter-mode--active" data-age-filter-mode="age">{{ 'age_filter_mode_age' | transTo(preferredLanguage) }}</button>
+            </div>
+        </div>
+
+        <div class="cnw_form-check">
+            <span class="cnw_form-check--label" data-age-label="{{ 'age_filter_legend_age' | transTo(preferredLanguage) }}" data-birth-year-label="{{ 'age_filter_legend_birth_year' | transTo(preferredLanguage) }}">{{ 'age_filter_legend_age' | transTo(preferredLanguage) }}</span>
+            <div class="cnw_age-filter-options">
+                {% for option in age_filter_options %}
+                    <label class="cnw_age-filter-option">
+                        <input type="checkbox" name="search-form[{{ id }}][age]" value="{{ option.age }}">
+                        <span class="cnw_age-filter-option-label" data-age-label="{{ option.age_label }}" data-birth-year-label="{{ option.birth_year_label }}">{{ option.age_label }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="cnw_age-filter-confirm--holder">
+            <button type="button" class="cnw_btn cnw_age-filter-confirm">{{ 'age_filter_confirm' | transTo(preferredLanguage) }}</button>
+        </div>
+    </div>
+</div>
