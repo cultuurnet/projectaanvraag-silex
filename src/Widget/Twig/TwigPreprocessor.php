@@ -940,23 +940,33 @@ class TwigPreprocessor
             $values[] = $subEvent->hasOvernightStay();
         }
 
-        $withOvernightStay = in_array(true, $values, true);
-        $withoutOvernightStay = in_array(false, $values, true);
-        $notSet = in_array(null, $values, true);
-
-        if ($withOvernightStay && !$withoutOvernightStay && !$notSet) {
-            $key = 'event_overnight_stay_with';
-        } elseif ($withoutOvernightStay && !$withOvernightStay && !$notSet) {
-            $key = 'event_overnight_stay_without';
-        } elseif ($withOvernightStay) {
-            $key = 'event_overnight_stay_partly_with';
-        } elseif ($withoutOvernightStay) {
-            $key = 'event_overnight_stay_partly_without';
-        } else {
+        $key = $this->getOvernightStayKey($values);
+        if ($key === null) {
             return null;
         }
 
         return $this->translator->trans($key, [], 'messages', $langcode);
+    }
+
+    private function getOvernightStayKey(array $values): ?string
+    {
+        $withOvernightStay = in_array(true, $values, true);
+        $withoutOvernightStay = in_array(false, $values, true);
+        $notSet = in_array(null, $values, true);
+
+        if (!$withOvernightStay && !$withoutOvernightStay) {
+            return null;
+        }
+
+        if ($withOvernightStay) {
+            return !$withoutOvernightStay && !$notSet
+                ? 'event_overnight_stay_with'
+                : 'event_overnight_stay_partly_with';
+        }
+
+        return !$notSet
+            ? 'event_overnight_stay_without'
+            : 'event_overnight_stay_partly_without';
     }
 
     /**
