@@ -191,6 +191,7 @@ class TwigPreprocessor
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'children_only' => $event->isChildrenOnly(),
+            'overnight_stay' => $this->formatOvernightStay($event, $langcode),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
             'hidden_labels' => $event->getHiddenLabels() ?? [],
@@ -930,6 +931,32 @@ class TwigPreprocessor
 
         // Check for certain labels that also determine "Vlieg" events.
         return  $hasVliegLabel ? '0+' : false;
+    }
+
+    protected function formatOvernightStay(Event $event, string $langcode): ?string
+    {
+        $values = [];
+        foreach ($event->getSubEvents() ?: [$event] as $subEvent) {
+            $values[] = $subEvent->hasOvernightStay();
+        }
+
+        $withOvernightStay = in_array(true, $values, true);
+        $withoutOvernightStay = in_array(false, $values, true);
+        $notSet = in_array(null, $values, true);
+
+        if ($withOvernightStay && !$withoutOvernightStay && !$notSet) {
+            $key = 'event_overnight_stay_with';
+        } elseif ($withoutOvernightStay && !$withOvernightStay && !$notSet) {
+            $key = 'event_overnight_stay_without';
+        } elseif ($withOvernightStay) {
+            $key = 'event_overnight_stay_partly_with';
+        } elseif ($withoutOvernightStay) {
+            $key = 'event_overnight_stay_partly_without';
+        } else {
+            return null;
+        }
+
+        return $this->translator->trans($key, [], 'messages', $langcode);
     }
 
     /**
