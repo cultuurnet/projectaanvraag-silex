@@ -3,6 +3,10 @@ event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
 event_age_range_no_min: Vanaf 0 jaar tot en met %max_age% jaar.
 event_age_range_min: Vanaf %min_age% jaar.
 event_children_only: Alleen voor kinderen
+event_overnight_stay_with: Met overnachting
+event_overnight_stay_without: Zonder overnachting
+event_overnight_stay_partly_with: Deels met overnachting
+event_overnight_stay_partly_without: Deels zonder overnachting
 event_expired: Dit evenement is afgelopen
 event_full_date: %date% om %hour% uur
 event_read_more: Lees meer 
