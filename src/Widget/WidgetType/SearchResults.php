@@ -60,6 +60,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "children_only":{
  *                  "enabled":false
  *              },
+ *              "overnight":{
+ *                  "enabled":false
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":true
  *              },
@@ -147,6 +150,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":true
  *              },
  *              "children_only":{
+ *                  "enabled":false
+ *              },
+ *              "overnight":{
  *                  "enabled":false
  *              },
  *              "map":false,
@@ -266,6 +272,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *              "children_only":{
  *                  "enabled":"boolean"
  *              },
+ *              "overnight":{
+ *                  "enabled":"boolean"
+ *              },
  *              "icon_vlieg":{
  *                  "enabled":"boolean"
  *              },
@@ -355,6 +364,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  "enabled":"boolean"
  *              },
  *              "children_only":{
+ *                  "enabled":"boolean"
+ *              },
+ *              "overnight":{
  *                  "enabled":"boolean"
  *              },
  *              "map":"boolean",
