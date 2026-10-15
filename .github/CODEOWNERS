@@ -4,8 +4,8 @@
 * @LucWollants @JonasVHG @grubolsch
 
 # Jenkins / deployment owners
-Gemfile* @willaerk @vincentjanv
-Jenkinsfile @willaerk @vincentjanv
-Rakefile @willaerk @vincentjanv
-lib/ @willaerk @vincentjanv
+Gemfile* @cultuurnet/infra-team
+Jenkinsfile @cultuurnet/infra-team
+Rakefile @cultuurnet/infra-team
+lib/ @cultuurnet/infra-team
 

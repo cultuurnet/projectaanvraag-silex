@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2bc6378e9c20d532044f599c82e2638",
+    "content-hash": "351acd2981274753f7b5b3eeade6ff84",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -351,16 +351,16 @@
         },
         {
             "name": "cultuurnet/search-v3",
-            "version": "v1.3.9",
+            "version": "v1.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "91c09b420175e8e2346ab2cadc315f98695f93e8"
+                "reference": "fac2087919580e584806baaaf3823c2f064d092e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/91c09b420175e8e2346ab2cadc315f98695f93e8",
-                "reference": "91c09b420175e8e2346ab2cadc315f98695f93e8",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/fac2087919580e584806baaaf3823c2f064d092e",
+                "reference": "fac2087919580e584806baaaf3823c2f064d092e",
                 "shasum": ""
             },
             "require": {
@@ -393,9 +393,9 @@
             "description": "Cultuurnet search service for version 3",
             "support": {
                 "issues": "https://github.com/cultuurnet/search-v3/issues",
-                "source": "https://github.com/cultuurnet/search-v3/tree/v1.3.9"
+                "source": "https://github.com/cultuurnet/search-v3/tree/v1.3.10"
             },
-            "time": "2026-09-22T07:42:15+00:00"
+            "time": "2026-10-07T12:06:29+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
