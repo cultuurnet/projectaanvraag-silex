@@ -1,6 +1,6 @@
 activities: activiteiten
 age_filter_label: Leeftijd
-age_filter_placeholder: Voor wie?
+age_filter_placeholder: Selecteer een leeftijdsgroep
 age_filter_confirm: Bevestigen
 age_filter_mode_age: Leeftijd
 age_filter_mode_birth_year: Geboortejaar
