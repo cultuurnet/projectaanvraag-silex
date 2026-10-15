@@ -396,13 +396,13 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         return $this->twigPreprocessor->translateLabel('age_filter_years', 'messages', $preferredLanguage, ['%age%' => $age]);
     }
 
-    private function birthYear(int $age): int
+    private function currentYear(): int
     {
-        return (int) (new \DateTime('now', new \DateTimeZone('CET')))->format('Y') - $age;
+        return (int) (new \DateTime('now', new \DateTimeZone('CET')))->format('Y');
     }
 
     /**
-     * @return array<int, array{age: int, age_label: string, birth_year_label: string}>
+     * @return array<int, array{age: int, age_label: string, birth_year: int}>
      */
     private function getAgeFilterOptions(string $preferredLanguage): array
     {
@@ -415,7 +415,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
             $options[] = [
                 'age' => $age,
                 'age_label' => $this->formatAge($age, $preferredLanguage),
-                'birth_year_label' => (string) $this->birthYear($age),
+                'birth_year' => $this->currentYear() - $age,
             ];
         }
 
@@ -423,49 +423,24 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
     }
 
     /**
-     * @param int[] $ages
-     * @return array{query: string, label: string}
-     */
-    private function buildAgeFilter(array $ages, bool $byBirthYear, string $preferredLanguage): array
-    {
-        $queries = [];
-        $labels = [];
-        foreach ($ages as $age) {
-            if ($byBirthYear) {
-                $birthYear = $this->birthYear($age);
-                $queries[] = 'birthdateRange:[' . $birthYear . '-01-01 TO ' . $birthYear . '-12-31]';
-                $labels[] = (string) $birthYear;
-            } else {
-                $queries[] = 'typicalAgeRange:[' . $age . ' TO ' . $age . ']';
-                $labels[] = $this->formatAge($age, $preferredLanguage);
-            }
-        }
-
-        return [
-            'query' => '(' . implode(' OR ', $queries) . ')',
-            'label' => implode(', ', $labels),
-        ];
-    }
-
-    /**
      * @param mixed $activeValue
      * @return int[]
      */
-    private function getSelectedAges($activeValue): array
+    private function getSelectedNumbers($activeValue, int $min, int $max): array
     {
-        $ages = [];
+        $numbers = [];
         foreach (explode('|', (string) $activeValue) as $value) {
-            $age = (int) $value;
-            if ($age < self::AGE_FILTER_MIN_AGE || $age > self::AGE_FILTER_MAX_AGE || in_array($age, $ages, true)) {
+            $number = (int) $value;
+            if ($number < $min || $number > $max || in_array($number, $numbers, true)) {
                 continue;
             }
 
-            $ages[] = $age;
+            $numbers[] = $number;
         }
 
-        sort($ages);
+        sort($numbers);
 
-        return $ages;
+        return $numbers;
     }
 
     /**
@@ -667,16 +642,36 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                     $advancedQuery[] = 'regions:' . $region->key;
                 }
             } elseif ($key === 'age' && $this->ageFilterEnabled()) {
-                $ages = $this->getSelectedAges($activeValue);
-                if (!empty($ages)) {
-                    $byBirthYear = isset($activeFilters['age-mode']) && $activeFilters['age-mode'] === 'birth-year';
-                    $ageFilter = $this->buildAgeFilter($ages, $byBirthYear, $preferredLanguage);
+                $queries = [];
+                $labels = [];
+                foreach ($this->getSelectedNumbers($activeValue, self::AGE_FILTER_MIN_AGE, self::AGE_FILTER_MAX_AGE) as $age) {
+                    $queries[] = 'typicalAgeRange:[' . $age . ' TO ' . $age . ']';
+                    $labels[] = $this->formatAge($age, $preferredLanguage);
+                }
 
-                    $advancedQuery[] = $ageFilter['query'];
-
+                if (!empty($queries)) {
+                    $advancedQuery[] = '(' . implode(' OR ', $queries) . ')';
                     $searchResultsActiveFilters[] = [
-                        'label' => $ageFilter['label'],
+                        'label' => implode(', ', $labels),
                         'name' => 'search-form[' . $this->id . '][age]',
+                        'is_default' => false,
+                    ];
+                }
+            } elseif ($key === 'birth-year' && $this->ageFilterEnabled()) {
+                $queries = [];
+                $labels = [];
+                $minBirthYear = $this->currentYear() - self::AGE_FILTER_MAX_AGE;
+                $maxBirthYear = $this->currentYear() - self::AGE_FILTER_MIN_AGE;
+                foreach ($this->getSelectedNumbers($activeValue, $minBirthYear, $maxBirthYear) as $birthYear) {
+                    $queries[] = 'birthdateRange:[' . $birthYear . '-01-01 TO ' . $birthYear . '-12-31]';
+                    $labels[] = $birthYear;
+                }
+
+                if (!empty($queries)) {
+                    $advancedQuery[] = '(' . implode(' OR ', $queries) . ')';
+                    $searchResultsActiveFilters[] = [
+                        'label' => implode(', ', $labels),
+                        'name' => 'search-form[' . $this->id . '][birth-year]',
                         'is_default' => false,
                     ];
                 }

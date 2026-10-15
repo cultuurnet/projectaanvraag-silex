@@ -30,7 +30,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var $trigger = $ageFilter.find('.cnw_age-filter-trigger');
         var $dropdown = $ageFilter.find('.cnw_age-filter-dropdown');
         var $modeButtons = $ageFilter.find('.cnw_age-filter-mode');
-        var $modeField = $ageFilter.find('.cnw_age-filter-mode-input');
+        var $options = $ageFilter.find('.cnw_age-filter-options');
 
         var toggleDropdown = function(visible) {
             $dropdown.toggle(visible);
@@ -59,25 +59,28 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 jQuery(this).text(jQuery(this).data(mode + '-label'));
             });
 
-            $modeField.val(mode);
+            $options.hide();
+            $options.filter('[data-age-filter-options="' + mode + '"]').show();
+
             CultuurnetWidgets.updateAgeFilterSummary($ageFilter);
         };
 
         $modeButtons.bind('click', function() {
-            var mode = jQuery(this).data('age-filter-mode');
+            var $modeButton = jQuery(this);
 
-            if (mode !== $modeField.val()) {
+            if (!$modeButton.hasClass('cnw_age-filter-mode--active')) {
                 $ageFilter.find(':checkbox').prop('checked', false);
             }
 
-            applyMode(mode);
+            applyMode($modeButton.data('age-filter-mode'));
         });
 
         $ageFilter.find(':checkbox').bind('change', function() {
             CultuurnetWidgets.updateAgeFilterSummary($ageFilter);
         });
 
-        applyMode($modeField.val());
+        var birthYearSelected = $options.filter('[data-age-filter-options="birth-year"]').find(':checkbox:checked').length > 0;
+        applyMode(birthYearSelected ? 'birth-year' : 'age');
     };
 
     /**
