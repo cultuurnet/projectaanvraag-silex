@@ -15253,10 +15253,6 @@ html .cnw_w label {
   text-overflow: ellipsis;
 }
 
-.cnw_age-filter-trigger[aria-expanded="true"] .cnw-fa-angle-down:before {
-  content: "\f106";
-}
-
 .cnw_age-filter .cnw_age-filter-trigger:focus {
   border-color: #5cb3fd;
   outline: none;
