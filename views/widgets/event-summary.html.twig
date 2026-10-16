@@ -87,7 +87,7 @@
             <p class="cnw_card-description">
             {% if settings_items.type.enabled and event.type.0 is defined %}
                 <span class="cnw_badge cnw_badge-default" >
-                    <i class="cnw-fa cnw-fa-tags" aria-hidden="true"></i>
+                    {% include 'widgets/event-type-icon.html.twig' with { 'type_id': event.typeId } %}
                     {{ event.typeId | transTo(preferredLanguage, 'eventtype') }}
                 </span>
             {% endif %}
