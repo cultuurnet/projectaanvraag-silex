@@ -11,6 +11,10 @@ event_age_range: De %min_age% ans à %max_age% ans.
 event_age_range_no_min: De 0 ans à %max_age% ans.
 event_age_range_min: De %min_age% ans.
 event_children_only: Uniquement pour enfants
+event_overnight_stay_with: Avec nuitée
+event_overnight_stay_without: Sans nuitée
+event_overnight_stay_partly_with: En partie avec nuitée
+event_overnight_stay_partly_without: En partie sans nuitée
 event_expired: Cet événement est terminé
 event_full_date: %date% à %hour%
 event_read_more: Lire plus
