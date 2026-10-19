@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "351acd2981274753f7b5b3eeade6ff84",
+    "content-hash": "8376640a163db8c5d4ecf3d06e950f88",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -351,16 +351,16 @@
         },
         {
             "name": "cultuurnet/search-v3",
-            "version": "v1.3.10",
+            "version": "dev-WID-631",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "fac2087919580e584806baaaf3823c2f064d092e"
+                "reference": "6140f4699b17bdb6d0f9756eeb95fb9919cd136c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/fac2087919580e584806baaaf3823c2f064d092e",
-                "reference": "fac2087919580e584806baaaf3823c2f064d092e",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/6140f4699b17bdb6d0f9756eeb95fb9919cd136c",
+                "reference": "6140f4699b17bdb6d0f9756eeb95fb9919cd136c",
                 "shasum": ""
             },
             "require": {
@@ -393,9 +393,9 @@
             "description": "Cultuurnet search service for version 3",
             "support": {
                 "issues": "https://github.com/cultuurnet/search-v3/issues",
-                "source": "https://github.com/cultuurnet/search-v3/tree/v1.3.10"
+                "source": "https://github.com/cultuurnet/search-v3/tree/WID-631"
             },
-            "time": "2026-10-07T12:06:29+00:00"
+            "time": "2026-10-19T09:26:08+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
@@ -9385,6 +9385,7 @@
     "stability-flags": {
         "cultuurnet/auth": 20,
         "cultuurnet/culturefeed-php": 20,
+        "cultuurnet/search-v3": 20,
         "cultuurnet/silex-uitid-provider": 20
     },
     "prefer-stable": true,
