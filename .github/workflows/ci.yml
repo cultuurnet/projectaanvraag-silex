@@ -17,7 +17,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: intl, bcmath
-          tools: composer:v1
+          tools: composer:v2
 
       - name: Check PHP Version
         run: php -v

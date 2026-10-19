@@ -77,6 +77,8 @@ class ApplicationBase extends SilexApplication
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
 
+        $this['disable_social_sharing'] = $this['config']['features']['disable_social_sharing'];
+
         /**
          * PHP error reporting
          */
@@ -174,10 +176,13 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new SearchAPIServiceProvider(),
             [
+                'search_api.use_client_ids' => $this['config']['search_api']['use_client_ids'] ?? false,
                 'search_api.base_url' => $this['config']['search_api']['live']['base_url'],
                 'search_api.api_key' => $this['config']['search_api']['live']['api_key'],
+                'search_api.client_id' => $this['config']['search_api']['live']['client_id'],
                 'search_api_test.base_url' => $this['config']['search_api']['test']['base_url'],
                 'search_api_test.api_key' => $this['config']['search_api']['test']['api_key'],
+                'search_api_test.client_id' => $this['config']['search_api']['test']['client_id'],
                 'search_api.cache.enabled' => $this['config']['search_api']['cache']['enabled'],
                 'search_api.cache.backend' => $this['config']['search_api']['cache']['backend'],
                 'search_api.cache.ttl' => $this['config']['search_api']['cache']['ttl'],

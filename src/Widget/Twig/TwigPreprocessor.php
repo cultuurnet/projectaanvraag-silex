@@ -12,10 +12,12 @@ use CultuurNet\SearchV3\ValueObjects\CalendarSummaryLanguage;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use CultuurNet\SearchV3\ValueObjects\FacetResult;
 use CultuurNet\SearchV3\ValueObjects\FacetResultItem;
+use CultuurNet\SearchV3\ValueObjects\Faq;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use CultuurNet\SearchV3\ValueObjects\Place;
 use CultuurNet\SearchV3\ValueObjects\Term;
 use CultuurNet\SearchV3\ValueObjects\TranslatedAddress;
+use CultuurNet\SearchV3\ValueObjects\TranslatedFaqs;
 use CultuurNet\SearchV3\ValueObjects\TranslatedString;
 use Guzzle\Http\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -82,6 +84,11 @@ class TwigPreprocessor
     private $fallbackImages;
 
     /**
+     * bool
+     */
+    private $disableSocialSharing;
+
+    /**
      * TwigPreprocessor constructor.
      * @param \Twig_Environment $twig
      * @param RequestContext $requestContext
@@ -95,7 +102,8 @@ class TwigPreprocessor
         TranslateTerm $translateTerm,
         TranslatorInterface $translator,
         CuratorenClient $curatorenClient,
-        UitpasClient $uitpasClient
+        UitpasClient $uitpasClient,
+        bool $disableSocialSharing
     ) {
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
@@ -106,6 +114,7 @@ class TwigPreprocessor
         $this->translator = $translator;
         $this->curatorenClient = $curatorenClient;
         $this->uitpasClient = $uitpasClient;
+        $this->disableSocialSharing = $disableSocialSharing;
         $this->fallbackImages = [];
     }
 
@@ -181,6 +190,8 @@ class TwigPreprocessor
             'organizer' => $this->translateOrganizerName($event, $langcode),
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
+            'children_only' => $event->isChildrenOnly(),
+            'overnight_stay' => $this->formatOvernightStay($event, $langcode),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
             'hidden_labels' => $event->getHiddenLabels() ?? [],
@@ -317,6 +328,9 @@ class TwigPreprocessor
         // Booking information.
         $this->preprocessBookingInfo($event, $langcode, $variables);
 
+        // Frequently asked questions.
+        $variables['faqs'] = $this->preprocessFaqs($event, $langcode);
+
         // Contact info.
         $variables['contact_info'] = [];
         $variables['links'] = [];
@@ -348,10 +362,12 @@ class TwigPreprocessor
                 $shareQuery['origin'] = $_GET['origin'];
             }
 
-            $variables['share_links'] = [
-                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
-                'twitter' => 'https://twitter.com/intent/tweet?text='  . urlencode($shareUrl->__toString()),
-            ];
+            if (!$this->disableSocialSharing) {
+                $variables['share_links'] = [
+                    'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl->__toString()),
+                    'twitter' => 'https://twitter.com/intent/tweet?text=' . urlencode($shareUrl->__toString()),
+                ];
+            }
         }
 
         $variables['uitpas_promotions'] = '';
@@ -610,6 +626,45 @@ class TwigPreprocessor
     }
 
     /**
+     * Preprocess the departure places for sending to a template.
+     *
+     * @param Place[] $departurePlaces
+     */
+    public function preprocessDeparturePlaces(array $departurePlaces, string $langcode): array
+    {
+        $places = [];
+        foreach ($departurePlaces as $departurePlace) {
+            $places[] = $this->preprocessPlace($departurePlace, $langcode);
+        }
+
+        return $places;
+    }
+
+    /**
+     * Preprocess the frequently asked questions for sending to a template.
+     *
+     * @param Event $event
+     * @return array
+     */
+    public function preprocessFaqs(Event $event, string $langcode)
+    {
+        $faqs = [];
+        foreach ($event->getFaqs() as $translatedFaqs) {
+            $faq = $this->translateFaqs($translatedFaqs, $langcode, $event->getMainLanguage());
+            if (!$faq instanceof Faq || !$faq->getQuestion() || !$faq->getAnswer()) {
+                continue;
+            }
+
+            $faqs[] = [
+                'question' => strip_tags($faq->getQuestion()),
+                'answer' => $this->filterXss(str_replace("\n", "<br/>", $faq->getAnswer())),
+            ];
+        }
+
+        return $faqs;
+    }
+
+    /**
      * Preprocess facet for sending to a template (and check if one is active).
      *
      * @param FacetResult $facetResult
@@ -807,7 +862,7 @@ class TwigPreprocessor
 
         return $event->getCalendarSummary()->getSummary(
             new CalendarSummaryLanguage($langcode),
-            new CalendarSummaryFormat('html', 'lg')
+            new CalendarSummaryFormat('html', 'xl')
         );
     }
 
@@ -876,6 +931,42 @@ class TwigPreprocessor
 
         // Check for certain labels that also determine "Vlieg" events.
         return  $hasVliegLabel ? '0+' : false;
+    }
+
+    protected function formatOvernightStay(Event $event, string $langcode): ?string
+    {
+        $values = [];
+        foreach ($event->getSubEvents() ?: [$event] as $subEvent) {
+            $values[] = $subEvent->hasOvernightStay();
+        }
+
+        $key = $this->getOvernightStayKey($values);
+        if ($key === null) {
+            return null;
+        }
+
+        return $this->translator->trans($key, [], 'messages', $langcode);
+    }
+
+    private function getOvernightStayKey(array $values): ?string
+    {
+        $withOvernightStay = in_array(true, $values, true);
+        $withoutOvernightStay = in_array(false, $values, true);
+        $notSet = in_array(null, $values, true);
+
+        if (!$withOvernightStay && !$withoutOvernightStay) {
+            return null;
+        }
+
+        if ($withOvernightStay) {
+            return !$withoutOvernightStay && !$notSet
+                ? 'event_overnight_stay_with'
+                : 'event_overnight_stay_partly_with';
+        }
+
+        return !$notSet
+            ? 'event_overnight_stay_without'
+            : 'event_overnight_stay_partly_without';
     }
 
     /**
@@ -996,6 +1087,11 @@ class TwigPreprocessor
         return $this->filterForKeyWithFallback->__invoke($translatedString->getValues(), $preferredLanguage, $mainLanguage);
     }
 
+    protected function translateFaqs(TranslatedFaqs $translatedFaqs, string $preferredLanguage, $mainLanguage = 'nl')
+    {
+        return $this->filterForKeyWithFallback->__invoke($translatedFaqs->getFaqs(), $preferredLanguage, $mainLanguage);
+    }
+
     protected function translateAddress(TranslatedAddress $translatedAddress, string $prefferedLanguage, $mainLanguage = 'nl')
     {
         $invoke = $this->filterForKeyWithFallback->__invoke($translatedAddress->getAddresses(), $prefferedLanguage, $mainLanguage);
@@ -1055,15 +1151,8 @@ class TwigPreprocessor
         return $translation;
     }
 
-    /**
-     * @param $preferredLanguage
-     * @param string $type
-     * @param $preferredLanguage
-     * @return mixed|string
-     */
-    public function translateLabel(string $label, string $type, $preferredLanguage = 'nl')
+    public function translateLabel(string $label, string $type, $preferredLanguage = 'nl', array $parameters = []): string
     {
-        $translation = $this->translator->trans($label, [], $type, $preferredLanguage);
-        return $translation;
+        return $this->translator->trans($label, $parameters, $type, $preferredLanguage);
     }
 }

@@ -19,11 +19,6 @@ class UserServiceTest extends TestCase
     private $userRoleStorage;
 
     /**
-     * @var \CultureFeed & MockObject
-     */
-    private $cultureFeed;
-
-    /**
      * @var PlatformClientInterface & MockObject
      */
     private $platformClient;
@@ -36,38 +31,12 @@ class UserServiceTest extends TestCase
     public function setUp()
     {
         $this->userRoleStorage = $this->createMock(UserRoleStorageInterface::class);
-        $this->cultureFeed = $this->createMock(\CultureFeed::class);
         $this->platformClient = $this->createMock(PlatformClientInterface::class);
 
         $this->userService = new UserService(
-            $this->cultureFeed,
             $this->userRoleStorage,
             $this->platformClient
         );
-    }
-
-    /**
-     * Test UiTiD v1
-     */
-    public function testUserService()
-    {
-        $cfUser = new \CultureFeed_User();
-        $cfUser->id = 1;
-
-        $this->cultureFeed->expects($this->any())
-            ->method('getUser')
-            ->willReturn($cfUser);
-
-        $this->userRoleStorage->expects($this->any())
-            ->method('getRolesByUserId')
-            ->willReturn(['administrator']);
-
-        $this->platformClient->expects($this->never())
-            ->method('getCurrentUser');
-
-        $user = $this->userService->getUser(1);
-
-        $this->assertInstanceOf(User::class, $user);
     }
 
     /**
@@ -76,10 +45,6 @@ class UserServiceTest extends TestCase
     public function testUiTidV2Service()
     {
         $dummyToken = 'dummyToken';
-
-        $this->cultureFeed->expects($this->any())
-            ->method('getUser')
-            ->willThrowException(new \Exception());
 
         $this->userRoleStorage->expects($this->any())
             ->method('getRolesByUserId')

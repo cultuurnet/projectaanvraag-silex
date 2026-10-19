@@ -19,6 +19,17 @@
     float: right;
   }
 
+  @include media-breakpoint-down(xs) {
+    .cnw_block-system {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cnw_page-title {
+      order: -1;
+    }
+  }
+
   &-link {
     white-space: nowrap;
     overflow: hidden;
