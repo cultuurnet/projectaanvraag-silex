@@ -15028,6 +15028,7 @@ p span.cnw_badge {
 .cnw_searchresult--block .cnw_searchresult-detail-label,
 .cnw_searchresult-detail .cnw_searchresult-detail-label {
   display: inline-block;
+  font-style: normal;
 }
 
 .cnw_searchresult--block.labels-as-icons .cnw_searchresult-detail-label,
