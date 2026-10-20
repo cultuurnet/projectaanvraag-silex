@@ -191,6 +191,7 @@ class TwigPreprocessor
             'age_range' => ($event->getTypicalAgeRange() ? $this->formatAgeRange($event->getTypicalAgeRange(), $langcode) : null),
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'children_only' => $event->isChildrenOnly(),
+            'overnight_stay' => $this->formatOvernightStay($event, $langcode),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
             'hidden_labels' => $event->getHiddenLabels() ?? [],
@@ -932,6 +933,42 @@ class TwigPreprocessor
         return  $hasVliegLabel ? '0+' : false;
     }
 
+    protected function formatOvernightStay(Event $event, string $langcode): ?string
+    {
+        $values = [];
+        foreach ($event->getSubEvents() ?: [$event] as $subEvent) {
+            $values[] = $subEvent->hasOvernightStay();
+        }
+
+        $key = $this->getOvernightStayKey($values);
+        if ($key === null) {
+            return null;
+        }
+
+        return $this->translator->trans($key, [], 'messages', $langcode);
+    }
+
+    private function getOvernightStayKey(array $values): ?string
+    {
+        $withOvernightStay = in_array(true, $values, true);
+        $withoutOvernightStay = in_array(false, $values, true);
+        $notSet = in_array(null, $values, true);
+
+        if (!$withOvernightStay && !$withoutOvernightStay) {
+            return null;
+        }
+
+        if ($withOvernightStay) {
+            return !$withoutOvernightStay && !$notSet
+                ? 'event_overnight_stay_with'
+                : 'event_overnight_stay_partly_with';
+        }
+
+        return !$notSet
+            ? 'event_overnight_stay_without'
+            : 'event_overnight_stay_partly_without';
+    }
+
     /**
      * Check if event is considered an "Uitpas" event.
      *
@@ -1114,15 +1151,8 @@ class TwigPreprocessor
         return $translation;
     }
 
-    /**
-     * @param $preferredLanguage
-     * @param string $type
-     * @param $preferredLanguage
-     * @return mixed|string
-     */
-    public function translateLabel(string $label, string $type, $preferredLanguage = 'nl')
+    public function translateLabel(string $label, string $type, $preferredLanguage = 'nl', array $parameters = []): string
     {
-        $translation = $this->translator->trans($label, [], $type, $preferredLanguage);
-        return $translation;
+        return $this->translator->trans($label, $parameters, $type, $preferredLanguage);
     }
 }

@@ -104,6 +104,11 @@
                     {{ 'event_children_only' | transTo(preferredLanguage) }}
                 </span>
             {% endif %}
+            {% if settings_items.overnight is defined and settings_items.overnight.enabled and event.overnight_stay %}
+                <span class="cnw_badge cnw_badge-default">
+                    {{ event.overnight_stay }}
+                </span>
+            {% endif %}
             </p>
 
             {% if settings_items.description.enabled %}
