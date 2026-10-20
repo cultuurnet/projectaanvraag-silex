@@ -14962,8 +14962,12 @@ p.cnw_card-description {
 p span.cnw_badge {
   font-family: "Open Sans" !important;
   font-weight: 100;
-  background-color: #a5a5a5;
+  background-color: #767676;
   font-size: 85%;
+}
+
+p span.cnw_badge a {
+  color: #fff;
 }
 
 .cnw_w .cnw_searchresult__counter-text {
@@ -14998,8 +15002,8 @@ p span.cnw_badge {
 
 .cnw_searchresult .cnw_badge-editorial {
   background-color: transparent;
-  border: 1px solid gray;
-  color: gray;
+  border: 1px solid #767676;
+  color: #767676;
   font-size: 0.6em;
   padding: 0.5em 0.5em;
   margin-left: 10px;
