@@ -12,7 +12,7 @@ A Silex 2.0 microframework application that serves as the API backend for the pr
 - **Database**: Doctrine ORM (MySQL) + MongoDB ODM
 - **Messaging**: RabbitMQ for asynchronous event handling
 - **Architecture**: CQRS with SimpleBus (Command Bus + Event Bus)
-- **PHP**: Minimum 5.6, prefer PHP 7
+- **PHP**: 7.4 (no PHP 8+ features, see `docs/coding-guidelines.md`)
 
 ## Essential Commands
 
