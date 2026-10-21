@@ -68,11 +68,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled": false
  *                  }
  *              },
- *              "extra": {
- *                  "group_filters": {
+ *              "age": {
+ *                  "age_filter": {
  *                      "enabled": false
  *                  },
- *                  "age_filter": {
+ *                  "group_filters": {
+ *                      "enabled": false
+ *                  }
+ *              },
+ *              "extra": {
+ *                  "group_filters": {
  *                      "enabled": false
  *                  },
  *              },
@@ -270,11 +275,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  },
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
- *              "extra": {
- *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter",
+ *              "age": {
  *                  "age_filter": {
  *                      "enabled": "boolean"
- *                  }
+ *                  },
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *              },
+ *              "extra": {
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
  *              "facility_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *          },
@@ -308,6 +316,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         'location',
         'time',
         'extra',
+        'age',
         'facility_filters',
     ];
 
@@ -388,7 +397,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
 
     private function ageFilterEnabled(): bool
     {
-        return !empty($this->settings['fields']['extra']['age_filter']['enabled']);
+        return !empty($this->settings['fields']['age']['age_filter']['enabled']);
     }
 
     private function formatAge(int $age, string $preferredLanguage): string

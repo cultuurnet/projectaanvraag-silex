@@ -83,7 +83,7 @@ class SearchFormAgeFilterTest extends TestCase
                     'footer' => [],
                     'fields' => [
                         'time' => ['date_search' => ['enabled' => false]],
-                        'extra' => ['age_filter' => ['enabled' => true]],
+                        'age' => ['age_filter' => ['enabled' => true]],
                     ],
                 ],
             ],
