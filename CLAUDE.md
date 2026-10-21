@@ -51,7 +51,7 @@ make migrate-update                           # Docker: update schema, note this
 ```bash
 ./bin/console projectaanvraag:consumer     # Run RabbitMQ consumer (required for async events)
 ./bin/console projectaanvraag:cache-clear  # Clear application cache
-./bin/console sync-consumers live test     # Sync local consumers with CultureFeed API
+./bin/console projectaanvraag:sync-consumers live test     # Sync local consumers with CultureFeed API
 ```
 
 ## Architecture
