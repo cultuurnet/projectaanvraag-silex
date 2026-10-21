@@ -1,4 +1,4 @@
-#CLAUDE.md
+# CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -12,7 +12,7 @@ A Silex 2.0 microframework application that serves as the API backend for the pr
 - **Database**: Doctrine ORM (MySQL) + MongoDB ODM
 - **Messaging**: RabbitMQ for asynchronous event handling
 - **Architecture**: CQRS with SimpleBus (Command Bus + Event Bus)
-- **PHP**: Minimum 5.6, prefer PHP 7
+- **PHP**: 7.4 (no PHP 8+ features, see `docs/coding-guidelines.md`)
 
 ## Essential Commands
 
@@ -51,7 +51,7 @@ make migrate-update                           # Docker: update schema, note this
 ```bash
 ./bin/console projectaanvraag:consumer     # Run RabbitMQ consumer (required for async events)
 ./bin/console projectaanvraag:cache-clear  # Clear application cache
-./bin/console sync-consumers live test     # Sync local consumers with CultureFeed API
+./bin/console projectaanvraag:sync-consumers live test     # Sync local consumers with CultureFeed API
 ```
 
 ## Architecture
@@ -59,7 +59,7 @@ make migrate-update                           # Docker: update schema, note this
 ### Command/Event Bus Pattern
 The application uses SimpleBus for CQRS architecture:
 
-1. **Controllers** (`src/Controller/`, `app/*/`)
+1. **Controllers** (`app/*/`)
    - Accept HTTP requests
    - Call command bus or services
    - Contain NO business logic
