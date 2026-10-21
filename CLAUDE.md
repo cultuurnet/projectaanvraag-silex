@@ -59,7 +59,7 @@ make migrate-update                           # Docker: update schema, note this
 ### Command/Event Bus Pattern
 The application uses SimpleBus for CQRS architecture:
 
-1. **Controllers** (`src/Controller/`, `app/*/`)
+1. **Controllers** (`app/*/`)
    - Accept HTTP requests
    - Call command bus or services
    - Contain NO business logic
