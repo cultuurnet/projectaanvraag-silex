@@ -24,6 +24,10 @@ make install             # Install composer dependencies
 make bash                # Enter PHP container shell
 make config              # Set up configuration files
 make init                # Full setup: install + migrate
+make ci                  # Run full CI suite in the container (composer ci)
+make stan                # Run static analysis in the container (composer phpstan)
+make test                # Run tests in the container (composer test)
+make cache-clear         # Clear application cache in the container
 ```
 
 ### Testing & Quality
@@ -133,8 +137,8 @@ $this->entityManager->flush();
 
 - **Main config**: `config.yml` (copy from `config.dist.yml` for setup)
 - **Message bus**: `app/config/messagebus.yml` - register all command/event handlers here
-- **Integration types**: `integration_types.yml`
-- **User roles**: `user_roles.yml`
+- **Integration types**: `integration_types.yml` (copy from `integration_types.dist.yml` for setup)
+- **User roles**: `user_roles.yml` (copy from `user_roles.dist.yml` for setup)
 - **Facilities**: `facilities.yml`
 
 ## RabbitMQ Integration
