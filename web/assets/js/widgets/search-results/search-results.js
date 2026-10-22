@@ -178,7 +178,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var maxDatesVisible = 5; // define how many upcoming dates to show by default
         var $eventDatesContainer = jQuery(context).find('.cnw-event-date-container');
         var $eventDates = jQuery(context).find('ul.cnw-event-date-info');
-        var $eventDateItems = $eventDates.find('li');
+        var $eventDateItems = $eventDates.children('li');
         var $eventDateToggler = jQuery(context).find('.cnw-event-date-info-toggle');
 
         if ($eventDatesContainer && $eventDates && $eventDateItems.length > maxDatesVisible) {
