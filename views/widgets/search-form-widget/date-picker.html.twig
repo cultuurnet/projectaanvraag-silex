@@ -33,7 +33,7 @@
             <div class="cnw_form-check">
                 <span class="cnw_form-check--label">{{ 'date_picker_days' | transTo(preferredLanguage) }}</span>
                 <div class="cnw_date-picker-days" data-every-day="{{ 'date_picker_every_day' | transTo(preferredLanguage) }}">
-                    {% for day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] %}
+                    {% for day in weekdays %}
                         <label class="cnw_date-picker-day">
                             <input type="checkbox" name="search-form[{{ id }}][days]" value="{{ day }}">
                             <span class="cnw_date-picker-day-label">{{ day | transTo(preferredLanguage, 'when') }}</span>

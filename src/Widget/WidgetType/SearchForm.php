@@ -372,6 +372,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                 'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
                 'preferredLanguage' => ($preferredLanguage) ?: 'nl',
                 'age_filter_options' => $this->getAgeFilterOptions(($preferredLanguage) ?: 'nl'),
+                'weekdays' => self::WEEKDAYS,
             ]
         );
     }
