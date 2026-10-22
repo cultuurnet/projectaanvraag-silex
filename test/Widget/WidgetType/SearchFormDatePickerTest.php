@@ -36,6 +36,11 @@ class SearchFormDatePickerTest extends TestCase
                 ['recurringOnDayOfWeek' => 'monday,sunday'],
                 ['monday, sunday'],
             ],
+            'every day' => [
+                ['days' => 'monday|tuesday|wednesday|thursday|friday|saturday|sunday'],
+                ['recurringOnDayOfWeek' => 'monday,tuesday,wednesday,thursday,friday,saturday,sunday'],
+                ['date_picker_every_day'],
+            ],
             'days with times' => [
                 ['days' => 'wednesday', 'time-from' => '13:00', 'time-to' => '17:00'],
                 ['recurringOnDayOfWeek' => 'wednesday', 'recurringOnLocalTimeFrom' => 1300, 'recurringOnLocalTimeTo' => 1700],

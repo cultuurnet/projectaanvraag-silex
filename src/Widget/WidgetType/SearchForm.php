@@ -674,8 +674,12 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                     $searchQuery->addParameter(new RecurringOnDayOfWeek(...$days));
 
                     $labels = [];
-                    foreach ($days as $day) {
-                        $labels[] = $this->twigPreprocessor->translateLabel($day, 'when', $preferredLanguage);
+                    if ($days === self::WEEKDAYS) {
+                        $labels[] = $this->twigPreprocessor->translateLabel('date_picker_every_day', 'messages', $preferredLanguage);
+                    } else {
+                        foreach ($days as $day) {
+                            $labels[] = $this->twigPreprocessor->translateLabel($day, 'when', $preferredLanguage);
+                        }
                     }
 
                     $timeFrom = $this->parseLocalTime($activeFilters['time-from'] ?? '');
