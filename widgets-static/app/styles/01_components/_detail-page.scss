@@ -91,12 +91,18 @@
   }
 
   ul.cnw-event-date-info {
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
     // only show first 5 upcomping dates
-    li:nth-child(n + 6) {
+    > li:nth-child(n + 6) {
       display: none;
     }
 
-    &.open li {
+    &.open > li {
       display: block;
     }
   }
