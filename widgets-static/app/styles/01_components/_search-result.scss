@@ -202,7 +202,7 @@ p.cnw_card-description {
 p span.cnw_badge {
   font-family: $font-family-sans-serif !important;
   font-weight: 100;
-  background-color: #767676;
+  background-color: $badge-default-bg;
   font-size: 85%;
 
   a {
@@ -249,8 +249,8 @@ p span.cnw_badge {
 
   .cnw_badge-editorial {
     background-color: transparent;
-    border: 1px solid #767676;
-    color: #767676;
+    border: 1px solid $badge-default-bg;
+    color: $badge-default-bg;
     font-size: 0.6em;
     padding: 0.5em 0.5em;
     margin-left: 10px;
