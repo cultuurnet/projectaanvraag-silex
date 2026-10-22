@@ -7,6 +7,13 @@ age_filter_mode_birth_year: Year of birth
 age_filter_legend_age: Age of your child(ren)
 age_filter_legend_birth_year: Year of birth of your child(ren)
 age_filter_years: '%age% years'
+date_picker_confirm: Confirm
+date_picker_show_holidays: Show weekends, holidays and public holidays
+date_picker_mode_date: Date
+date_picker_mode_weekly: Weekly
+date_picker_days: Choose one or more days
+date_picker_time: Choose a time
+date_picker_every_day: Every day
 event_age_range: From %min_age% years to %max_age% years.
 event_age_range_no_min: From 0 years to %max_age% years.
 event_age_range_min: From %min_age% years.
@@ -16,7 +23,7 @@ event_overnight_stay_without: Day-only
 event_overnight_stay_partly_with: Partly with overnight stay
 event_overnight_stay_partly_without: Partly without overnight stay
 event_expired: This event has ended
-event_full_date: %date% at %hour%
+event_full_date: '%date% at %hour%'
 event_read_more: Read more
 event_directions: how do I get here?
 event_online: Online
