@@ -616,7 +616,6 @@ final class SearchResults extends WidgetTypeBase
 
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
-        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
 
         // Sort by score when query contains boosting elements.
         if ($boostQuery) {
@@ -730,7 +729,6 @@ final class SearchResults extends WidgetTypeBase
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('html', 'xl')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
-        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
         
         $this->searchResult = $this->searchClient->searchEvents($query);
 
