@@ -15,6 +15,12 @@ event_overnight_stay_with: With overnight stay
 event_overnight_stay_without: Day-only
 event_overnight_stay_partly_with: Partly with overnight stay
 event_overnight_stay_partly_without: Partly without overnight stay
+event_hours_activity: Activity
+event_hours_childcare: Childcare
+event_hours_childcare_before: Childcare before
+event_hours_childcare_after: Childcare after
+event_hours_from: 'from %time%'
+event_hours_until: 'until %time%'
 event_expired: This event has ended
 event_full_date: %date% at %hour%
 event_read_more: Read more
