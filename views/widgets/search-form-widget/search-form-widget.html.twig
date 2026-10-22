@@ -50,7 +50,9 @@
 
             {% if settings_fields.time.date_search.enabled or settings_fields.time.group_filters.enabled %}
                 <div class="cnw_col">
-                    {%  if  settings_fields.time.date_search.enabled %}
+                    {% if settings_fields.time.date_search.enabled and settings_fields.time.date_search.type is defined and settings_fields.time.date_search.type == 'date_picker' %}
+                        {% include 'widgets/search-form-widget/date-picker.html.twig' %}
+                    {% elseif settings_fields.time.date_search.enabled %}
                         <div class="cnw_form-group cnw_zoek-wanneer">
                             <label for="{{ settings_fields.time.date_search.label | lower | replace({' ': '-'}) }}-{{id}}">
                                 {{  settings_fields.time.date_search.label }}

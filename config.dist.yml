@@ -76,6 +76,10 @@ search_api:
     backend: filesystem # supported cache: filesystem or redis
     ttl: 3600
 
+# Holidays API settings
+holidays_api:
+  url:
+
 # Uitpas API Settings
 uitpas_api:
   test:

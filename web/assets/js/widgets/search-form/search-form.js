@@ -151,7 +151,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                 var defaultValue = $field.data('default-value');
                 if (value === "") {
                     if (defaultValue != 'placeholder' && defaultValue != -1) {
-                        paramsToSubmit[$field.attr('name')] = value;
+                        paramsToSubmit[$field.attr('name')] = 'delete-param';
                     }
                 }
                 else {
