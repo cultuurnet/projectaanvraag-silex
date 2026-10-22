@@ -15891,11 +15891,17 @@ input:checked + .cnw_date-picker-day-label {
   list-style: none;
 }
 
-.cnw_searchresult-detail ul.cnw-event-date-info li:nth-child(n + 6) {
+.cnw_searchresult-detail ul.cnw-event-date-info ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cnw_searchresult-detail ul.cnw-event-date-info > li:nth-child(n + 6) {
   display: none;
 }
 
-.cnw_searchresult-detail ul.cnw-event-date-info.open li {
+.cnw_searchresult-detail ul.cnw-event-date-info.open > li {
   display: block;
 }
 
