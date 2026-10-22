@@ -477,7 +477,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
     {
         $defaults = [];
         if ($this->settings['fields']['time']['date_search']['enabled'] && !$this->datePickerEnabled()) {
-            $defaults['when'] =$this->settings['fields']['time']['date_search']['default_option'];
+            $defaults['when'] = $this->settings['fields']['time']['date_search']['default_option'];
         }
 
         foreach ($this->groupFilterTypes as $typeKey => $type) {
