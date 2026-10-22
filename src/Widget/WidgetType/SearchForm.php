@@ -73,11 +73,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled": false
  *                  }
  *              },
- *              "extra": {
- *                  "group_filters": {
+ *              "age": {
+ *                  "age_filter": {
  *                      "enabled": false
  *                  },
- *                  "age_filter": {
+ *                  "group_filters": {
+ *                      "enabled": false
+ *                  }
+ *              },
+ *              "extra": {
+ *                  "group_filters": {
  *                      "enabled": false
  *                  },
  *              },
@@ -277,11 +282,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  },
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
- *              "extra": {
- *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter",
+ *              "age": {
  *                  "age_filter": {
  *                      "enabled": "boolean"
- *                  }
+ *                  },
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *              },
+ *              "extra": {
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
  *              "facility_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *          },
@@ -317,6 +325,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         'location',
         'time',
         'extra',
+        'age',
         'facility_filters',
     ];
 
@@ -332,6 +341,11 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
      */
     public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, RequestStack $requestStack, RegionService $regionService)
     {
+        $fields = $configuration['settings']['fields'] ?? [];
+        if (!isset($fields['age']) && isset($fields['extra']['age_filter'])) {
+            $configuration['settings']['fields']['age']['age_filter'] = $fields['extra']['age_filter'];
+        }
+
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->request = $requestStack->getCurrentRequest();
         $this->regionService = $regionService;
@@ -415,7 +429,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
 
     private function ageFilterEnabled(): bool
     {
-        return !empty($this->settings['fields']['extra']['age_filter']['enabled']);
+        return !empty($this->settings['fields']['age']['age_filter']['enabled']);
     }
 
     private function formatAge(int $age, string $preferredLanguage): string
