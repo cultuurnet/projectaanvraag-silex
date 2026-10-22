@@ -30,14 +30,24 @@ class ImportProject
     protected $platformUuid;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $testApiKeySapi3;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $liveApiKeySapi3;
+
+    /**
+     * @var string
+     */
+    private $testClientId;
+
+    /**
+     * @var string
+     */
+    private $liveClientId;
 
     /**
      * @var string
@@ -50,8 +60,10 @@ class ImportProject
         string $name,
         string $description,
         int $groupId,
-        string $testApiKeySapi3,
-        string $liveApiKeySapi3,
+        ?string $testApiKeySapi3,
+        ?string $liveApiKeySapi3,
+        string $testClientId,
+        string $liveClientId,
         string $state
     ) {
         $this->platformUuid = $platformUuid;
@@ -61,6 +73,8 @@ class ImportProject
         $this->groupId = $groupId;
         $this->testApiKeySapi3 = $testApiKeySapi3;
         $this->liveApiKeySapi3 = $liveApiKeySapi3;
+        $this->testClientId = $testClientId;
+        $this->liveClientId = $liveClientId;
         $this->state = $state;
     }
 
@@ -89,14 +103,24 @@ class ImportProject
         return $this->platformUuid;
     }
 
-    public function getTestApiKeySapi3(): string
+    public function getTestApiKeySapi3(): ?string
     {
         return $this->testApiKeySapi3;
     }
 
-    public function getLiveApiKeySapi3(): string
+    public function getLiveApiKeySapi3(): ?string
     {
         return $this->liveApiKeySapi3;
+    }
+
+    public function getTestClientId(): string
+    {
+        return $this->testClientId;
+    }
+
+    public function getLiveClientId(): string
+    {
+        return $this->liveClientId;
     }
 
     public function getState(): string

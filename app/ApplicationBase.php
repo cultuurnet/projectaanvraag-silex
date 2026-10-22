@@ -26,7 +26,6 @@ use CultuurNet\ProjectAanvraag\Widget\ODM\Types\PageRows;
 use CultuurNet\ProjectAanvraag\Widget\Translation\TranslationTwigExtension;
 use CultuurNet\ProjectAanvraag\Widget\WidgetServiceProvider;
 use CultuurNet\ProjectAanvraag\ShareProxy\ShareProxyServiceProvider;
-use CultuurNet\ProjectAanvraag\WidgetMigration\WidgetMigrationProvider;
 use CultuurNet\UiTIDProvider\Auth\AuthServiceProvider;
 use DF\DoctrineMongoDb\Silex\Provider\DoctrineMongoDbProvider;
 use DF\DoctrineMongoDbOdm\Silex\Provider\DoctrineMongoDbOdmProvider;
@@ -77,6 +76,8 @@ class ApplicationBase extends SilexApplication
 
         // Enable debug if requested.
         $this['debug'] = $this['config']['debug'] === true;
+
+        $this['disable_social_sharing'] = $this['config']['features']['disable_social_sharing'];
 
         /**
          * PHP error reporting
@@ -175,10 +176,13 @@ class ApplicationBase extends SilexApplication
         $this->register(
             new SearchAPIServiceProvider(),
             [
+                'search_api.use_client_ids' => $this['config']['search_api']['use_client_ids'] ?? false,
                 'search_api.base_url' => $this['config']['search_api']['live']['base_url'],
                 'search_api.api_key' => $this['config']['search_api']['live']['api_key'],
+                'search_api.client_id' => $this['config']['search_api']['live']['client_id'],
                 'search_api_test.base_url' => $this['config']['search_api']['test']['base_url'],
                 'search_api_test.api_key' => $this['config']['search_api']['test']['api_key'],
+                'search_api_test.client_id' => $this['config']['search_api']['test']['client_id'],
                 'search_api.cache.enabled' => $this['config']['search_api']['cache']['enabled'],
                 'search_api.cache.backend' => $this['config']['search_api']['cache']['backend'],
                 'search_api.cache.ttl' => $this['config']['search_api']['cache']['ttl'],
@@ -257,14 +261,12 @@ class ApplicationBase extends SilexApplication
         );
 
         // Mongodb.
-        $mongdbConfig = $this['config']['mongodb'];
+        $mongodbConfig = $this['config']['mongodb'];
         $client = new Client(
-            'mongodb://' . $mongdbConfig['default']['host'] . ':' . $mongdbConfig['default']['port'],
+            'mongodb://' . $mongodbConfig['default']['host'] . ':' . $mongodbConfig['default']['port'],
             [
                 [
-                    'username' => $mongdbConfig['default']['user'],
-                    'password' => $mongdbConfig['default']['password'],
-                    'db' => $mongdbConfig['default']['dbname'],
+                    'db' => $mongodbConfig['default']['dbname'],
                 ],
             ]
         );
@@ -286,7 +288,7 @@ class ApplicationBase extends SilexApplication
                 'mongodbodm.hydrator_dir' => $this['config']['odm_orm']['hydrator_dir'],
                 'mongodbodm.auto_generate_hydrators' => Configuration::AUTOGENERATE_FILE_NOT_EXISTS,
                 "mongodbodm.dm.options" => [
-                    "database" => "widgets",
+                    "database" => $mongodbConfig['default']['dbname'],
                     "mappings" => [
                         [
                             "type" => "annotation",
@@ -324,8 +326,6 @@ class ApplicationBase extends SilexApplication
                 'google_tag_manager' => $this['config']['google_tag_manager'],
             ]
         );
-
-        $this->register(new WidgetMigrationProvider());
 
         $this->register(new MessageBusProvider());
 

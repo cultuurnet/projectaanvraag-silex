@@ -15,12 +15,10 @@
         <div class="cnw_region cnw_region-content">
 
             <section class="cnw_block cnw_block-system cnw_clearfix">
-                <h1 class="cnw_page-title">{{ event.name }}</h1>
-
-            <span class="cnw_stickers cnw_stickers--detail">
+                <span class="cnw_stickers cnw_stickers--detail">
                 {% if settings.icon_vlieg.enabled and event.vlieg %}
                     <span class="cnw_sticker cnw_sticker--vlieg">
-                        <span class="cnw_txt">{{ event.vlieg }}</span>
+                        {% if event.vlieg != '0+' %}<span class="cnw_txt">{{ event.vlieg }}</span>{% endif %}
                     </span>
                 {% endif %}
                 {% if settings.icon_museumpass.enabled and event.museumpas %}
@@ -63,6 +61,7 @@
                     </span>
                 {% endif %}
             </span>
+                <h1 class="cnw_page-title">{{ event.name }}</h1>
 
                 <p class="cnw_card-description">
                 {% if settings.type.enabled and event.typeId is defined %}
@@ -78,6 +77,16 @@
                               {{ theme }}
                           </span>
                       {% endfor %}
+                {% endif %}
+                {% if settings.children_only is defined and settings.children_only.enabled and event.children_only %}
+                    <span class="cnw_badge cnw_badge-default">
+                        {{ 'event_children_only' | transTo(preferredLanguage) }}
+                    </span>
+                {% endif %}
+                {% if settings.overnight is defined and settings.overnight.enabled and event.overnight_stay %}
+                    <span class="cnw_badge cnw_badge-default">
+                        {{ event.overnight_stay }}
+                    </span>
                 {% endif %}
                 </p>
 
@@ -306,6 +315,41 @@
 
 
                 </dl>
+
+                {% if settings.departure_places is defined and settings.departure_places.enabled and event.departure_places is defined and event.departure_places is not empty %}
+                    <p class="cnw_searchresult-detail-block-title">{{ 'event_detail_departure_places'| transTo(preferredLanguage) }}</p>
+
+                    <p class="cnw_searchresult-detail-departure-places-description">{{ 'event_detail_departure_places_description'| transTo(preferredLanguage) }}</p>
+
+                    <ul class="cnw_searchresult-detail-departure-places">
+                        {% for departurePlace in event.departure_places %}
+                            <li class="cnw_searchresult-detail-departure-place">
+                                <span class="cnw_searchresult-detail-departure-place-name">{{ departurePlace.name }}</span>
+                                {% if departurePlace.address is not empty %}
+                                    <span class="cnw_searchresult-detail-departure-place-address">{{ departurePlace.address.street }}, {{ departurePlace.address.postalcode }} {{ departurePlace.address.city }}</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if settings.faq is defined and settings.faq.enabled and event.faqs is defined and event.faqs is not empty %}
+                    <p class="cnw_searchresult-detail-block-title">{{ 'event_detail_faq'| transTo(preferredLanguage) }}</p>
+
+                    <div class="cnw_searchresult-detail-faqs">
+                        {% for faq in event.faqs %}
+                            <details class="cnw_searchresult-detail-faq-item" name="cnw_faq-{{ event.id }}">
+                                <summary class="cnw_searchresult-detail-faq-question">
+                                    <i class="cnw-fa cnw-fa-angle-down" aria-hidden="true"></i>
+                                    <span>{{ faq.question }}</span>
+                                </summary>
+                                <div class="cnw_searchresult-detail-faq-answer">
+                                    {{ faq.answer|raw }}
+                                </div>
+                            </details>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
                 {% if settings.videos.enabled and event.videos|length > 0 %}
                     {% if 'youtube' in event.videos[0].embedUrl %}

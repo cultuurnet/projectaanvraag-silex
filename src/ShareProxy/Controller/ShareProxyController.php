@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Widget\WidgetPageEntityDeserializer;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\ValueObjects\Offer;
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -50,6 +51,11 @@ class ShareProxyController
      */
     protected $debugMode;
 
+    /**
+     * @var bool
+     */
+    protected $disableSocialSharing;
+
     public function __construct(
         RendererInterface $renderer,
         DocumentRepository $widgetRepository,
@@ -57,7 +63,8 @@ class ShareProxyController
         WidgetPageEntityDeserializer $widgetPageEntityDeserializer,
         \Twig_Environment $twig,
         RequestStack $requestStack,
-        bool $debugMode
+        bool $debugMode,
+        bool $disableSocialSharing
     ) {
         $this->renderer = $renderer;
         $this->widgetRepository = $widgetRepository;
@@ -66,16 +73,20 @@ class ShareProxyController
         $this->twig = $twig;
         $this->request = $requestStack->getCurrentRequest();
         $this->debugMode = $debugMode;
+        $this->disableSocialSharing = $disableSocialSharing;
     }
 
     /**
      * Social share proxy page.
      *
      * @param Offer $offer
-     * @return string
+     * @return mixed
      */
     public function socialShareProxy($offer)
     {
+        if ($this->disableSocialSharing) {
+            return new Response('', 404);
+        }
         $langcode = 'nl';
         // Get origin url.
         $originUrl = ($this->request->query->get('origin') ? $this->request->query->get('origin') : '');

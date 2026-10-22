@@ -14790,7 +14790,7 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   display: -ms-flexbox;
   display: flex;
   float: right;
-  width: 150px;
+  width: auto;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   -webkit-box-pack: end;
@@ -14821,6 +14821,20 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   .cnw_searchresult--block .cnw_stickers {
     margin-bottom: 0.5rem;
   }
+  .cnw_card-block {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .cnw_card-title {
+    -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+            order: -1;
+  }
 }
 
 .cnw_stickers--mini {
@@ -14849,26 +14863,23 @@ a.cnw_badge:focus, a.cnw_badge:hover {
   background-image: url(../images/vlieg--sticker-yellow.svg);
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: left center;
   display: block;
-  height: 28px;
-  width: 28px;
-  margin-bottom: 20px;
+  height: 29px;
+  line-height: 29px;
+  padding-left: 29px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .cnw_sticker--vlieg .cnw_txt {
-  background-color: #44444C;
-  color: white;
-  border-radius: 150%;
+  background-color: #FFEC87;
+  color: #40404A;
   display: inline-block;
-  position: relative;
-  bottom: -20px;
-  right: -20px;
-  font-size: 0.55rem;
-  font-weight: bold;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
+  vertical-align: top;
+  padding: 0 6px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .cnw_sticker--uitpas {
@@ -15213,6 +15224,145 @@ html .cnw_w label {
   margin-bottom: 0.7rem;
 }
 
+.cnw_col:has(.cnw_age-filter) {
+  min-width: 0;
+}
+
+.cnw_age-filter {
+  position: relative;
+}
+
+.cnw_age-filter-trigger {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cnw_age-filter-summary {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cnw_age-filter .cnw_age-filter-trigger:focus {
+  border-color: #5cb3fd;
+  outline: none;
+}
+
+.cnw_age-filter .cnw_btn:focus {
+  outline: none;
+}
+
+.cnw_age-filter-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 6777;
+  width: 480px;
+  min-width: 100%;
+  margin-top: 4px;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 3px;
+  -webkit-box-shadow: 1px 0px 20px 5px #dadfe6;
+          box-shadow: 1px 0px 20px 5px rgb(218, 223, 230);
+}
+
+.cnw_age-filter-modes--holder {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.cnw_age-filter-modes {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  background-color: #f4f4f7;
+  border-radius: 2rem;
+}
+
+.cnw_age-filter-mode {
+  background-color: transparent;
+  border-radius: 2rem;
+}
+
+.cnw_age-filter-mode--active {
+  background-color: #0275d8;
+  color: white;
+  font-weight: bold;
+}
+
+.cnw_age-filter-confirm--holder {
+  text-align: right;
+}
+
+.cnw_age-filter-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.cnw_age-filter-option {
+  margin: 0 0.375rem 0.375rem 0;
+}
+
+.cnw_age-filter-option input {
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+}
+
+.cnw_age-filter-option-label {
+  display: block;
+  min-width: 68px;
+  padding: 0.25rem 0.375rem;
+  text-align: center;
+  border: 1px solid #e1e1e1;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+input:focus + .cnw_age-filter-option-label {
+  border-color: #5cb3fd;
+}
+
+input:focus:not(:focus-visible) + .cnw_age-filter-option-label {
+  border-color: #e1e1e1;
+}
+
+input:checked + .cnw_age-filter-option-label {
+  background-color: #0275d8;
+  border-color: #0275d8;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .cnw_age-filter-dropdown {
+    width: auto;
+  }
+}
+
+.cnw_side-col .cnw_age-filter-dropdown {
+  width: auto;
+}
+
 .cnw_searchresult-detail .cnw_detail-summary {
   margin-bottom: 1rem;
 }
@@ -15233,6 +15383,23 @@ html .cnw_w label {
   float: right;
 }
 
+@media (max-width: 575px) {
+  .cnw_searchresult-detail .cnw_block-system {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .cnw_searchresult-detail .cnw_page-title {
+    -webkit-box-ordinal-group: 0;
+        -ms-flex-order: -1;
+            order: -1;
+  }
+}
+
 .cnw_searchresult-detail-link {
   white-space: nowrap;
   overflow: hidden;
@@ -15250,6 +15417,61 @@ html .cnw_w label {
   padding-bottom: 0.9em;
   margin-bottom: 1em;
   margin-top: 0.25em;
+}
+
+.cnw_searchresult-detail-departure-places-description {
+  margin-bottom: 1em;
+}
+
+.cnw_searchresult-detail-departure-places {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.cnw_searchresult-detail-departure-place {
+  margin-bottom: 0.75em;
+}
+
+.cnw_searchresult-detail-departure-place-name {
+  display: block;
+  font-weight: 600;
+}
+
+.cnw_searchresult-detail-departure-place-address {
+  display: block;
+  color: #636c72;
+}
+
+.cnw_searchresult-detail-faqs {
+  margin-bottom: 1rem;
+}
+
+.cnw_searchresult-detail-faq-question {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.9em 0;
+  border-bottom: 1px solid #ddd;
+  list-style: none;
+}
+
+.cnw_searchresult-detail-faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.cnw_searchresult-detail-faq-item .cnw_searchresult-detail-faq-question i.cnw-fa {
+  display: inline-block;
+}
+
+.cnw_searchresult-detail-faq-item[open] .cnw_searchresult-detail-faq-question i.cnw-fa {
+  transform: rotate(180deg);
+}
+
+.cnw_searchresult-detail-faq-answer {
+  padding: 0.75em 0 1.25em;
 }
 
 .cnw_searchresult-detail-info dt {

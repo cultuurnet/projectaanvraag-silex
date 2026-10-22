@@ -1,7 +1,20 @@
 activities: activities
+age_filter_label: Age
+age_filter_placeholder: For whom?
+age_filter_confirm: Confirm
+age_filter_mode_age: Age
+age_filter_mode_birth_year: Year of birth
+age_filter_legend_age: Age of your child(ren)
+age_filter_legend_birth_year: Year of birth of your child(ren)
+age_filter_years: '%age% years'
 event_age_range: From %min_age% years to %max_age% years.
 event_age_range_no_min: From 0 years to %max_age% years.
 event_age_range_min: From %min_age% years.
+event_children_only: Children only
+event_overnight_stay_with: With overnight stay
+event_overnight_stay_without: Day-only
+event_overnight_stay_partly_with: Partly with overnight stay
+event_overnight_stay_partly_without: Partly without overnight stay
 event_expired: This event has ended
 event_full_date: %date% at %hour%
 event_read_more: Read more
@@ -9,6 +22,9 @@ event_directions: how do I get here?
 event_online: Online
 event_online_participation: Online participation
 event_detail_contact: Contact
+event_detail_departure_places: Guided transport
+event_detail_departure_places_description: 'These locations take children directly to the activity:'
+event_detail_faq: Frequently asked questions
 event_detail_info: Info
 event_detail_member_specific: Exclusively for members
 event_detail_phone: Call to

@@ -127,9 +127,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
 
             // Text field => Just submit the entered value.
             if ($field.is(':text')) {
-                if (value) {
-                    paramsToSubmit[$field.attr('name')] = encodeURIComponent(value);
-                }
+                paramsToSubmit[$field.attr('name')] = encodeURIComponent(value);
             }
             // Radios => Only submit the checked radios.
             else if ($field.is(':radio')) {
@@ -139,17 +137,13 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
                   paramsToSubmit[$field.attr('name')] = 'delete-param';
                 }
             }
-            // Checkboxes
+            // Checkboxes => Submit the checked values separated by a pipe, delete the param when none is checked.
             else if ($field.is(':checkbox')) {
-                // Checked checkboxes => add a separator per value.
-                if ($field.is(':checked')) {
-                    if (typeof paramsToSubmit[$field.attr('name')] != 'undefined') {
-                        paramsToSubmit[$field.attr('name')] = (paramsToSubmit[$field.attr('name')] + '|' + value);
-                    }
-                    else {
-                        paramsToSubmit[$field.attr('name')] = value;
-                    }
-                }
+                var checkedValues = $form.find(':checkbox[name="' + $field.attr('name') + '"]:checked').map(function() {
+                    return jQuery(this).val();
+                }).get();
+
+                paramsToSubmit[$field.attr('name')] = checkedValues.length ? checkedValues.join('|') : 'delete-param';
             }
             // Other input => Submit the value if it is different than the default value.
             else {

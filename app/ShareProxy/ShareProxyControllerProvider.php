@@ -22,7 +22,8 @@ class ShareProxyControllerProvider implements ControllerProviderInterface
                 $app['widget_page_deserializer'],
                 $app['twig'],
                 $app['request_stack'],
-                $app['debug']
+                $app['debug'],
+                $app['disable_social_sharing']
             );
         };
 

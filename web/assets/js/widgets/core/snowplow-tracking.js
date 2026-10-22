@@ -163,14 +163,15 @@
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
-        const readMoreButtons = entry.target.getElementsByClassName(
-          "cnw_btn__card-readmore"
+        const cardTitle = entry.target.getElementsByClassName(
+          "cnw_card-title"
         );
+        if (!cardTitle[0]) return;
 
-        if (!readMoreButtons[0]) return;
+        const detailLink = cardTitle[0].dataset.detailLink;
+        if (!detailLink) return;
 
-        const uri = readMoreButtons[0].href;
-        const url = new URL(uri);
+        const url = new URL(detailLink);
         const cdbidOfEventTeaser = url.searchParams.get("cdbid");
         viewedEventTeasers.add(cdbidOfEventTeaser);
       });

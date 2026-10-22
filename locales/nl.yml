@@ -1,7 +1,20 @@
 activities: activiteiten
+age_filter_label: Leeftijd
+age_filter_placeholder: Selecteer een leeftijdsgroep
+age_filter_confirm: Bevestigen
+age_filter_mode_age: Leeftijd
+age_filter_mode_birth_year: Geboortejaar
+age_filter_legend_age: Leeftijd van je kind(eren)
+age_filter_legend_birth_year: Geboortejaar van je kind(eren)
+age_filter_years: '%age% jaar'
 event_age_range: Vanaf %min_age% jaar tot %max_age% jaar.
 event_age_range_no_min: Vanaf 0 jaar tot en met %max_age% jaar.
 event_age_range_min: Vanaf %min_age% jaar.
+event_children_only: Alleen voor kinderen
+event_overnight_stay_with: Met overnachting
+event_overnight_stay_without: Zonder overnachting
+event_overnight_stay_partly_with: Deels met overnachting
+event_overnight_stay_partly_without: Deels zonder overnachting
 event_expired: Dit evenement is afgelopen
 event_full_date: %date% om %hour% uur
 event_read_more: Lees meer 
@@ -9,6 +22,9 @@ event_directions: hoe geraak ik hier?
 event_online: Online
 event_online_participation: Online deelname
 event_detail_contact: Contact
+event_detail_departure_places: Begeleid vervoer
+event_detail_departure_places_description: 'Deze locaties brengen kinderen rechtstreeks naar de activiteit:'
+event_detail_faq: Veelgestelde vragen
 event_detail_info: Info
 event_detail_member_specific: Specifiek voor leden
 event_detail_phone: Bel naar
