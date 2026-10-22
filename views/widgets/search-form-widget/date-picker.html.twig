@@ -1,0 +1,66 @@
+<div class="cnw_form-group cnw_date-picker" data-widget-id="{{ id }}" data-language="{{ preferredLanguage }}" data-school-holidays="{{ settings_fields.time.date_search.school_holidays ? 'true' : 'false' }}">
+    <label for="date-picker-{{ id }}">{{ settings_fields.time.date_search.label }}</label>
+    <button type="button" id="date-picker-{{ id }}" class="cnw_form-control cnw_date-picker-trigger" aria-haspopup="dialog" aria-expanded="false" data-placeholder="{{ settings_fields.time.date_search.placeholder }}">
+        <span class="cnw_date-picker-summary">{{ settings_fields.time.date_search.placeholder }}</span>
+        <i class="cnw-fa cnw-fa-calendar" aria-hidden="true"></i>
+    </button>
+
+    <input type="hidden" class="cnw_date-picker-when" name="search-form[{{ id }}][when]" value="">
+    <input type="hidden" class="cnw_date-picker-start" name="search-form[{{ id }}][date-start]" value="">
+    <input type="hidden" class="cnw_date-picker-end" name="search-form[{{ id }}][date-end]" value="">
+
+    <div class="cnw_date-picker-dropdown" role="dialog" aria-label="{{ settings_fields.time.date_search.label }}" style="display: none;">
+        <div class="cnw_date-picker-modes--holder">
+            <div class="cnw_date-picker-modes">
+                <button type="button" class="cnw_btn cnw_date-picker-mode cnw_date-picker-mode--active" data-date-picker-mode="date">{{ 'date_picker_mode_date' | transTo(preferredLanguage) }}</button>
+                <button type="button" class="cnw_btn cnw_date-picker-mode" data-date-picker-mode="weekly">{{ 'date_picker_mode_weekly' | transTo(preferredLanguage) }}</button>
+            </div>
+        </div>
+
+        <div class="cnw_date-picker-body" data-date-picker-panel="date">
+            <div class="cnw_date-picker-calendar">
+                <ul class="cnw_date-picker-holidays"></ul>
+            </div>
+
+            <div class="cnw_date-picker-quick-links">
+                {% for quick_link in ['today', 'tomorrow', 'thisweekend'] %}
+                    <button type="button" class="cnw_btn cnw_date-picker-quick-link" data-when="{{ quick_link }}">{{ quick_link | transTo(preferredLanguage, 'when') }}</button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="cnw_date-picker-weekly" data-date-picker-panel="weekly" style="display: none;">
+            <div class="cnw_form-check">
+                <span class="cnw_form-check--label">{{ 'date_picker_days' | transTo(preferredLanguage) }}</span>
+                <div class="cnw_date-picker-days" data-every-day="{{ 'date_picker_every_day' | transTo(preferredLanguage) }}">
+                    {% for day in weekdays %}
+                        <label class="cnw_date-picker-day">
+                            <input type="checkbox" name="search-form[{{ id }}][days]" value="{{ day }}">
+                            <span class="cnw_date-picker-day-label">{{ day | transTo(preferredLanguage, 'when') }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="cnw_form-check">
+                <span class="cnw_form-check--label">{{ 'date_picker_time' | transTo(preferredLanguage) }}</span>
+                <div class="cnw_date-picker-times">
+                    {% for time in ['from', 'to'] %}
+                        <label class="cnw_date-picker-time">
+                            <span>{{ time | transTo(preferredLanguage, 'when') | capitalize }}</span>
+                            <input type="time" name="search-form[{{ id }}][time-{{ time }}]">
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="cnw_date-picker-footer">
+            <label class="cnw_date-picker-holidays-toggle" data-date-picker-panel="date">
+                <input type="checkbox">
+                <span>{{ 'date_picker_show_holidays' | transTo(preferredLanguage) }}</span>
+            </label>
+            <button type="button" class="cnw_btn cnw_date-picker-confirm">{{ 'date_picker_confirm' | transTo(preferredLanguage) }}</button>
+        </div>
+    </div>
+</div>

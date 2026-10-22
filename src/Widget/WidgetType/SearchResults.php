@@ -14,6 +14,7 @@ use CultuurNet\SearchV3\Parameter\Id;
 use CultuurNet\SearchV3\Parameter\Query;
 use CultuurNet\SearchV3\Parameter\AvailableTo;
 use CultuurNet\SearchV3\Parameter\AvailableFrom;
+use CultuurNet\SearchV3\Parameter\WorkflowStatus;
 use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
 use CultuurNet\SearchV3\SearchClient;
 use CultuurNet\SearchV3\SearchQuery;
@@ -790,6 +791,14 @@ final class SearchResults extends WidgetTypeBase
         $query = new SearchQuery(true);
         $query->addParameter(new Query('id:(' . implode(' OR ', $ids) . ')'));
         $query->addParameter(new AddressCountry('*'));
+        $workflowStatuses = [
+            WorkflowStatus::STATUS_DRAFT,
+            WorkflowStatus::STATUS_READY_FOR_VALIDATION,
+            WorkflowStatus::STATUS_APPROVED,
+        ];
+        $query->addParameter(new WorkflowStatus(implode(',', $workflowStatuses)));
+        $query->addParameter(AvailableFrom::wildcard());
+        $query->addParameter(AvailableTo::wildcard());
         $query->setLimit(count($ids));
 
         $places = [];
