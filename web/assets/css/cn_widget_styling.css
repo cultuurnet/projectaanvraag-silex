@@ -14962,7 +14962,7 @@ p.cnw_card-description {
 p span.cnw_badge {
   font-family: "Open Sans" !important;
   font-weight: 100;
-  background-color: #767676;
+  background-color: #636c72;
   font-size: 85%;
 }
 
@@ -15004,8 +15004,8 @@ p span.cnw_badge a {
 
 .cnw_searchresult .cnw_badge-editorial {
   background-color: transparent;
-  border: 1px solid #767676;
-  color: #767676;
+  border: 1px solid #636c72;
+  color: #636c72;
   font-size: 0.6em;
   padding: 0.5em 0.5em;
   margin-left: 10px;
@@ -15598,7 +15598,7 @@ input:checked + .cnw_date-picker-day-label {
   width: 2.25rem;
   height: 1.25rem;
   margin: 0 0.5rem 0 0;
-  background-color: #767676;
+  background-color: #636c72;
   border-radius: 1rem;
 }
 
