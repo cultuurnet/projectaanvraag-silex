@@ -58,7 +58,44 @@ class SearchFormAgeFilterTest extends TestCase
         ];
     }
 
-    private function createSearchForm(array $params): SearchForm
+    /**
+     * Test if widgets saved with the age filter under extra fall back to it until they have an age section.
+     *
+     * @dataProvider legacyAgeFilterProvider
+     */
+    public function testLegacyAgeFilter(array $fields, ?string $expectedQuery)
+    {
+        $searchResultsQueryAlter = new SearchResultsQueryAlter('1', new SearchQuery(), []);
+        $this->createSearchForm(['age' => '4'], $fields)->alterSearchResultsQuery($searchResultsQueryAlter);
+
+        $query = null;
+        foreach ($searchResultsQueryAlter->getSearchQuery()->getParameters() as $parameter) {
+            if ($parameter->getKey() === 'q') {
+                $query = $parameter->getValue();
+            }
+        }
+
+        $this->assertSame($expectedQuery, $query);
+    }
+
+    public function legacyAgeFilterProvider(): array
+    {
+        return [
+            'old widget with the age filter under extra' => [
+                ['extra' => ['age_filter' => ['enabled' => true]]],
+                '(typicalAgeRange:[4 TO 4])',
+            ],
+            'resaved widget with the age filter switched off' => [
+                [
+                    'age' => ['age_filter' => ['enabled' => false]],
+                    'extra' => ['age_filter' => ['enabled' => true]],
+                ],
+                null,
+            ],
+        ];
+    }
+
+    private function createSearchForm(array $params, array $fields = ['age' => ['age_filter' => ['enabled' => true]]]): SearchForm
     {
         $annotation = new WidgetType();
         $annotation->id = 'search-form';
@@ -81,10 +118,7 @@ class SearchFormAgeFilterTest extends TestCase
                     'general' => [],
                     'header' => [],
                     'footer' => [],
-                    'fields' => [
-                        'time' => ['date_search' => ['enabled' => false]],
-                        'age' => ['age_filter' => ['enabled' => true]],
-                    ],
+                    'fields' => ['time' => ['date_search' => ['enabled' => false]]] + $fields,
                 ],
             ],
             false,

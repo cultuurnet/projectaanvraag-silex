@@ -332,6 +332,11 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
      */
     public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, RequestStack $requestStack, RegionService $regionService)
     {
+        $fields = $configuration['settings']['fields'] ?? [];
+        if (!isset($fields['age']) && isset($fields['extra']['age_filter'])) {
+            $configuration['settings']['fields']['age']['age_filter'] = $fields['extra']['age_filter'];
+        }
+
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->request = $requestStack->getCurrentRequest();
         $this->regionService = $regionService;
