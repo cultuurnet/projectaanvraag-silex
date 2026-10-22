@@ -57,6 +57,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "label": "Wanneer",
  *                      "placeholder": "Kies een periode",
  *                      "type": "select",
+ *                      "school_holidays": false,
  *                      "options": {
  *                          "today": true,
  *                          "tomorrow": true,
@@ -262,6 +263,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "label": "string",
  *                      "placeholder": "string",
  *                      "type": "string",
+ *                      "school_holidays": "boolean",
  *                      "options": {
  *                          "today": "boolean",
  *                          "tomorrow": "boolean",

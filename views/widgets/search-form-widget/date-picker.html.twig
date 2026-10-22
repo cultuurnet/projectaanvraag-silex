@@ -1,4 +1,4 @@
-<div class="cnw_form-group cnw_date-picker" data-widget-id="{{ id }}" data-language="{{ preferredLanguage }}">
+<div class="cnw_form-group cnw_date-picker" data-widget-id="{{ id }}" data-language="{{ preferredLanguage }}" data-school-holidays="{{ settings_fields.time.date_search.school_holidays ? 'true' : 'false' }}">
     <label for="date-picker-{{ id }}">{{ settings_fields.time.date_search.label }}</label>
     <button type="button" id="date-picker-{{ id }}" class="cnw_form-control cnw_date-picker-trigger" aria-haspopup="dialog" aria-expanded="false" data-placeholder="{{ settings_fields.time.date_search.placeholder }}">
         <span class="cnw_date-picker-summary">{{ settings_fields.time.date_search.placeholder }}</span>

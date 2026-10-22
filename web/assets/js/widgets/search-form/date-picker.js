@@ -45,6 +45,7 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         var selection = { when: '', start: null, end: null };
         var holidays = [];
         var holidaysLoadedUntil = null;
+        var showSchoolHolidays = $datePicker.data('school-holidays') === true;
 
         var today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -54,6 +55,10 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
         };
 
         var renderHolidayQuickLinks = function() {
+            if (!showSchoolHolidays) {
+                return;
+            }
+
             $quickLinks.find('.cnw_date-picker-quick-link:not([data-when])').remove();
 
             holidays.filter(function(holiday) {
@@ -68,8 +73,12 @@ window.CultuurnetWidgets = window.CultuurnetWidgets || { behaviors: {} };
             });
         };
 
+        var shouldLoadHolidays = function() {
+            return showSchoolHolidays || $holidaysToggle.is(':checked');
+        };
+
         var loadHolidays = function(untilDate) {
-            if (!holidaysUrl || (holidaysLoadedUntil && untilDate <= holidaysLoadedUntil)) {
+            if (!holidaysUrl || !shouldLoadHolidays() || (holidaysLoadedUntil && untilDate <= holidaysLoadedUntil)) {
                 return;
             }
 
