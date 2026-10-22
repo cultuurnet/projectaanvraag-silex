@@ -36,10 +36,15 @@ class SearchFormDatePickerTest extends TestCase
                 ['recurringOnDayOfWeek' => 'monday,sunday'],
                 ['monday, sunday'],
             ],
-            'days with times in the wrong order' => [
-                ['days' => 'wednesday', 'time-from' => '17:00', 'time-to' => '13:00'],
+            'days with times' => [
+                ['days' => 'wednesday', 'time-from' => '13:00', 'time-to' => '17:00'],
                 ['recurringOnDayOfWeek' => 'wednesday', 'recurringOnLocalTimeFrom' => 1300, 'recurringOnLocalTimeTo' => 1700],
                 ['wednesday, 13:00 - 17:00'],
+            ],
+            'days with from after to' => [
+                ['days' => 'wednesday', 'time-from' => '22:00', 'time-to' => '02:00'],
+                ['recurringOnDayOfWeek' => 'wednesday'],
+                ['wednesday'],
             ],
             'invalid times' => [
                 ['days' => 'wednesday', 'time-from' => '25:00', 'time-to' => '9:30'],

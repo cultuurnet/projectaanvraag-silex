@@ -681,7 +681,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                     $timeFrom = $this->parseLocalTime($activeFilters['time-from'] ?? '');
                     $timeTo = $this->parseLocalTime($activeFilters['time-to'] ?? '');
                     if ($timeFrom && $timeTo && $timeFrom > $timeTo) {
-                        [$timeFrom, $timeTo] = [$timeTo, $timeFrom];
+                        $timeFrom = $timeTo = null;
                     }
 
                     $timeLabels = [];
