@@ -22,6 +22,12 @@ event_overnight_stay_with: Met overnachting
 event_overnight_stay_without: Zonder overnachting
 event_overnight_stay_partly_with: Deels met overnachting
 event_overnight_stay_partly_without: Deels zonder overnachting
+event_hours_activity: Activiteit
+event_hours_childcare: Opvang
+event_hours_childcare_before: Vooropvang
+event_hours_childcare_after: Naopvang
+event_hours_from: 'vanaf %time%'
+event_hours_until: 'tot %time%'
 event_expired: Dit evenement is afgelopen
 event_full_date: '%date% om %hour% uur'
 event_read_more: Lees meer 

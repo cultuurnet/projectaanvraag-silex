@@ -316,7 +316,6 @@ final class Tips extends WidgetTypeBase
 
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'sm')));
         $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'md')));
-        $query->addParameter(new CalendarSummary(new CalendarSummaryFormat('text', 'lg')));
 
         // Retrieve results from Search API.
         $result = $this->searchClient->searchEvents($query);

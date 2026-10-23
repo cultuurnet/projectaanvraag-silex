@@ -192,6 +192,7 @@ class TwigPreprocessor
             'audience' => ($event->getAudience() ? $event->getAudience()->getAudienceType() : null),
             'children_only' => $event->isChildrenOnly(),
             'overnight_stay' => $this->formatOvernightStay($event, $langcode),
+            'practical_hours' => $this->formatPracticalHours($event, $langcode),
             'themes' => $this->translateTerms($langcode, $event->getTermsByDomain('theme')),
             'labels' => $event->getLabels() ?? [],
             'hidden_labels' => $event->getHiddenLabels() ?? [],
@@ -841,13 +842,6 @@ class TwigPreprocessor
             );
         }
 
-        if ($event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE) {
-            return $event->getCalendarSummary()->getSummary(
-                new CalendarSummaryLanguage($langcode),
-                new CalendarSummaryFormat('text', 'lg')
-            );
-        }
-
         return $event->getCalendarSummary()->getSummary(
             new CalendarSummaryLanguage($langcode),
             new CalendarSummaryFormat('text', 'md')
@@ -967,6 +961,94 @@ class TwigPreprocessor
         return !$notSet
             ? 'event_overnight_stay_without'
             : 'event_overnight_stay_partly_without';
+    }
+
+    protected function formatPracticalHours(Event $event, string $langcode): array
+    {
+        if (!in_array($event->getCalendarType(), [Offer::CALENDAR_TYPE_SINGLE, Offer::CALENDAR_TYPE_MULTIPLE], true)) {
+            return [
+                'activity' => null,
+                'childcare' => null,
+            ];
+        }
+
+        $activityRanges = [];
+        $childcareStarts = [];
+        $childcareEnds = [];
+        foreach ($event->getSubEvents() ?: [$event] as $subEvent) {
+            if ($subEvent->getStartDate() && $subEvent->getEndDate()) {
+                $activityRanges[] = [
+                    $this->formatLocalTime($subEvent->getStartDate()),
+                    $this->formatLocalTime($subEvent->getEndDate()),
+                ];
+            }
+
+            $childcare = $subEvent->getChildcare();
+            if ($childcare && $childcare->getStart()) {
+                $childcareStarts[] = $childcare->getStart();
+            }
+
+            if ($childcare && $childcare->getEnd()) {
+                $childcareEnds[] = $childcare->getEnd();
+            }
+        }
+
+        return [
+            'activity' => $this->formatActivityHours($activityRanges),
+            'childcare' => $this->formatChildcareHours($childcareStarts, $childcareEnds, $langcode),
+        ];
+    }
+
+    private function formatActivityHours(array $ranges): ?string
+    {
+        if (empty($ranges)) {
+            return null;
+        }
+
+        $sameDayEnds = [];
+        $nextDayEnds = [];
+        foreach ($ranges as [$start, $end]) {
+            if ($end >= $start) {
+                $sameDayEnds[] = $end;
+            } else {
+                $nextDayEnds[] = $end;
+            }
+        }
+
+        $hours = min(array_column($ranges, 0)) . ' - ' . max($nextDayEnds ?: $sameDayEnds);
+
+        return $hours === '00:00 - 23:59' ? null : $hours;
+    }
+
+    private function formatChildcareHours(array $starts, array $ends, string $langcode): ?array
+    {
+        if ($starts && $ends) {
+            return [
+                'label' => 'event_hours_childcare',
+                'hours' => min($starts) . ' - ' . max($ends),
+            ];
+        }
+
+        if ($starts) {
+            return [
+                'label' => 'event_hours_childcare_before',
+                'hours' => $this->translator->trans('event_hours_from', ['%time%' => min($starts)], 'messages', $langcode),
+            ];
+        }
+
+        if ($ends) {
+            return [
+                'label' => 'event_hours_childcare_after',
+                'hours' => $this->translator->trans('event_hours_until', ['%time%' => max($ends)], 'messages', $langcode),
+            ];
+        }
+
+        return null;
+    }
+
+    private function formatLocalTime(\DateTime $date): string
+    {
+        return (clone $date)->setTimezone(new \DateTimeZone('Europe/Brussels'))->format('H:i');
     }
 
     /**
