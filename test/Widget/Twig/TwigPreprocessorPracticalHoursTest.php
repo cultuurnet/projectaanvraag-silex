@@ -118,19 +118,28 @@ class TwigPreprocessorPracticalHoursTest extends TestCase
                 null,
                 ['label' => 'event_hours_childcare', 'hours' => '08:00 - 17:00'],
             ],
-            'past midnight is left out of the end hour' => [
+            'past midnight is the latest end hour' => [
                 Offer::CALENDAR_TYPE_MULTIPLE,
                 [
                     ['2026-10-21T10:00:00+02:00', '2026-10-21T12:00:00+02:00', null, null],
                     ['2026-10-22T20:00:00+02:00', '2026-10-23T02:00:00+02:00', null, null],
                 ],
-                '10:00 - 12:00',
+                '10:00 - 02:00',
                 null,
             ],
-            'only past midnight has no activity hours' => [
+            'only past midnight' => [
                 Offer::CALENDAR_TYPE_SINGLE,
                 [['2026-10-21T20:00:00+02:00', '2026-10-22T02:00:00+02:00', null, null]],
+                '20:00 - 02:00',
                 null,
+            ],
+            'multiple past midnight uses latest next day end' => [
+                Offer::CALENDAR_TYPE_MULTIPLE,
+                [
+                    ['2026-10-21T21:00:00+02:00', '2026-10-22T01:00:00+02:00', null, null],
+                    ['2026-10-22T20:00:00+02:00', '2026-10-23T03:00:00+02:00', null, null],
+                ],
+                '20:00 - 03:00',
                 null,
             ],
             'periodic has no hours' => [

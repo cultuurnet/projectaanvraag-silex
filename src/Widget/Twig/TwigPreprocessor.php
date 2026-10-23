@@ -1001,18 +1001,21 @@ class TwigPreprocessor
 
     private function formatActivityHours(array $ranges): ?string
     {
-        $sameDayEnds = [];
-        foreach ($ranges as [$start, $end]) {
-            if ($end >= $start) {
-                $sameDayEnds[] = $end;
-            }
-        }
-
-        if (empty($sameDayEnds)) {
+        if (empty($ranges)) {
             return null;
         }
 
-        $hours = min(array_column($ranges, 0)) . ' - ' . max($sameDayEnds);
+        $sameDayEnds = [];
+        $nextDayEnds = [];
+        foreach ($ranges as [$start, $end]) {
+            if ($end >= $start) {
+                $sameDayEnds[] = $end;
+            } else {
+                $nextDayEnds[] = $end;
+            }
+        }
+
+        $hours = min(array_column($ranges, 0)) . ' - ' . max($nextDayEnds ?: $sameDayEnds);
 
         return $hours === '00:00 - 23:59' ? null : $hours;
     }
