@@ -26,8 +26,9 @@ event_hours_activity: Activité
 event_hours_childcare: Garderie
 event_hours_childcare_before: Garderie avant
 event_hours_childcare_after: Garderie après
-event_hours_from: 'de %time%'
-event_hours_until: 'à %time%'
+event_hours_from: 'à partir de %time%'
+event_hours_until: "jusqu'à %time%"
+event_hours_at: 'à %time%'
 event_expired: Cet événement est terminé
 event_full_date: '%date% à %hour%'
 event_read_more: Lire plus

@@ -28,6 +28,7 @@ event_hours_childcare_before: Frühbetreuung
 event_hours_childcare_after: Spätbetreuung
 event_hours_from: 'ab %time%'
 event_hours_until: 'bis %time%'
+event_hours_at: 'um %time%'
 event_expired: Diese Veranstaltung ist beendet
 event_full_date: '%date% um %hour% Stunden'
 event_read_more: Mehr lesen

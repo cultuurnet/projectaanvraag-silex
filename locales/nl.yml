@@ -28,6 +28,7 @@ event_hours_childcare_before: Vooropvang
 event_hours_childcare_after: Naopvang
 event_hours_from: 'vanaf %time%'
 event_hours_until: 'tot %time%'
+event_hours_at: 'om %time%'
 event_expired: Dit evenement is afgelopen
 event_full_date: '%date% om %hour% uur'
 event_read_more: Lees meer 

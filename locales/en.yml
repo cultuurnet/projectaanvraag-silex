@@ -28,6 +28,7 @@ event_hours_childcare_before: Childcare before
 event_hours_childcare_after: Childcare after
 event_hours_from: 'from %time%'
 event_hours_until: 'until %time%'
+event_hours_at: 'at %time%'
 event_expired: This event has ended
 event_full_date: '%date% at %hour%'
 event_read_more: Read more
