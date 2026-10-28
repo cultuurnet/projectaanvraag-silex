@@ -972,14 +972,16 @@ class TwigPreprocessor
             ];
         }
 
+        $subEvents = $event->getSubEvents() ?: [$event];
         $activityRanges = [];
         $childcareStarts = [];
         $childcareEnds = [];
-        foreach ($event->getSubEvents() ?: [$event] as $subEvent) {
+        foreach ($subEvents as $subEvent) {
             if ($subEvent->getStartDate() && $subEvent->getEndDate()) {
                 $activityRanges[] = [
                     $this->formatLocalTime($subEvent->getStartDate()),
                     $this->formatLocalTime($subEvent->getEndDate()),
+                    $subEvent->getEndDate()->getTimestamp() - $subEvent->getStartDate()->getTimestamp() < 86400,
                 ];
             }
 
@@ -993,31 +995,60 @@ class TwigPreprocessor
             }
         }
 
+        $isSeveralDays = $event->getCalendarType() === Offer::CALENDAR_TYPE_SINGLE
+            && count($activityRanges) === 1
+            && !$activityRanges[0][2];
+
         return [
-            'activity' => $this->formatActivityHours($activityRanges),
+            'activity' => $isSeveralDays
+                ? $this->formatSeveralDaysHours($subEvents[0], $langcode)
+                : $this->formatActivityHours($activityRanges, $langcode),
             'childcare' => $this->formatChildcareHours($childcareStarts, $childcareEnds, $langcode),
         ];
     }
 
-    private function formatActivityHours(array $ranges): ?string
+    private function formatSeveralDaysHours(Event $subEvent, string $langcode): ?string
     {
-        if (empty($ranges)) {
+        $start = $this->formatLocalTime($subEvent->getStartDate());
+        $end = $this->formatLocalTime($subEvent->getEndDate());
+        if ($start === '00:00' && $end === '23:59') {
             return null;
         }
 
+        return $this->formatLocalWeekday($subEvent->getStartDate(), $langcode) . ' ' . $start
+            . ' - ' . $this->formatLocalWeekday($subEvent->getEndDate(), $langcode) . ' ' . $end;
+    }
+
+    private function formatActivityHours(array $ranges, string $langcode): ?string
+    {
+        $starts = [];
         $sameDayEnds = [];
         $nextDayEnds = [];
-        foreach ($ranges as [$start, $end]) {
+        foreach ($ranges as [$start, $end, $withinADay]) {
             if ($end >= $start) {
+                $starts[] = $start;
                 $sameDayEnds[] = $end;
-            } else {
+            } elseif ($withinADay) {
+                $starts[] = $start;
                 $nextDayEnds[] = $end;
             }
         }
 
-        $hours = min(array_column($ranges, 0)) . ' - ' . max($nextDayEnds ?: $sameDayEnds);
+        if (!$starts) {
+            return null;
+        }
 
-        return $hours === '00:00 - 23:59' ? null : $hours;
+        $start = min($starts);
+        $end = max($nextDayEnds ?: $sameDayEnds);
+        if ($start === '00:00' && $end === '23:59') {
+            return null;
+        }
+
+        if ($start === $end) {
+            return $this->translator->trans('event_hours_at', ['%time%' => $start], 'messages', $langcode);
+        }
+
+        return $start . ' - ' . $end;
     }
 
     private function formatChildcareHours(array $starts, array $ends, string $langcode): ?array
@@ -1049,6 +1080,13 @@ class TwigPreprocessor
     private function formatLocalTime(\DateTime $date): string
     {
         return (clone $date)->setTimezone(new \DateTimeZone('Europe/Brussels'))->format('H:i');
+    }
+
+    private function formatLocalWeekday(\DateTime $date, string $langcode): string
+    {
+        $weekday = strtolower((clone $date)->setTimezone(new \DateTimeZone('Europe/Brussels'))->format('l'));
+
+        return $this->translator->trans($weekday . '_short', [], 'when', $langcode);
     }
 
     /**

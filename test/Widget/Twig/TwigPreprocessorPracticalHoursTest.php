@@ -23,7 +23,7 @@ class TwigPreprocessorPracticalHoursTest extends TestCase
     public function setUp()
     {
         $trans = function ($id, array $parameters) {
-            return $id . ' ' . $parameters['%time%'];
+            return isset($parameters['%time%']) ? $id . ' ' . $parameters['%time%'] : $id;
         };
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->method('trans')->willReturnCallback($trans);
@@ -141,6 +141,55 @@ class TwigPreprocessorPracticalHoursTest extends TestCase
                 ],
                 '20:00 - 03:00',
                 null,
+            ],
+            'only start time' => [
+                Offer::CALENDAR_TYPE_SINGLE,
+                [['2026-10-21T10:00:00+02:00', '2026-10-21T10:00:00+02:00', null, null]],
+                'event_hours_at 10:00',
+                null,
+            ],
+            'multiple with only start times on different hours' => [
+                Offer::CALENDAR_TYPE_MULTIPLE,
+                [
+                    ['2026-10-21T10:00:00+02:00', '2026-10-21T10:00:00+02:00', null, null],
+                    ['2026-10-22T14:00:00+02:00', '2026-10-22T14:00:00+02:00', null, null],
+                ],
+                '10:00 - 14:00',
+                null,
+            ],
+            'single over several days shows weekdays' => [
+                Offer::CALENDAR_TYPE_SINGLE,
+                [['2026-10-23T18:00:00+02:00', '2026-10-25T23:00:00+01:00', null, null]],
+                'friday_short 18:00 - sunday_short 23:00',
+                null,
+            ],
+            'single over several days with end before start shows weekdays' => [
+                Offer::CALENDAR_TYPE_SINGLE,
+                [['2026-10-19T14:00:00+02:00', '2026-10-23T12:00:00+02:00', null, null]],
+                'monday_short 14:00 - friday_short 12:00',
+                null,
+            ],
+            'single over several whole days has no activity hours' => [
+                Offer::CALENDAR_TYPE_SINGLE,
+                [['2026-10-23T00:00:00+02:00', '2026-10-25T23:59:59+01:00', null, null]],
+                null,
+                null,
+            ],
+            'multiple with a date over several days has no activity hours' => [
+                Offer::CALENDAR_TYPE_MULTIPLE,
+                [['2026-10-19T14:00:00+02:00', '2026-10-23T12:00:00+02:00', null, null]],
+                null,
+                null,
+            ],
+            'multiple ignores the start of a date over several days' => [
+                Offer::CALENDAR_TYPE_MULTIPLE,
+                [
+                    ['2026-10-22T10:00:00+02:00', '2026-10-23T02:00:00+02:00', '00:30', '15:15'],
+                    ['2026-10-27T10:00:00+01:00', '2026-10-31T02:00:00+01:00', '04:30', '04:45'],
+                    ['2026-11-01T04:00:00+01:00', '2026-11-11T02:00:00+01:00', '00:45', '15:15'],
+                ],
+                '10:00 - 02:00',
+                ['label' => 'event_hours_childcare', 'hours' => '00:30 - 15:15'],
             ],
             'periodic has no hours' => [
                 Offer::CALENDAR_TYPE_PERIODIC,
