@@ -16015,6 +16015,10 @@ html .cnw_searchresult-price-info p {
   margin-bottom: 0;
 }
 
+html .cnw_searchresult-detail-booking-info p {
+  margin-bottom: 0;
+}
+
 /* styling for article links */
 ul.cnw_searchresult-detail-articles {
   list-style: none;
