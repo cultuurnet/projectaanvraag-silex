@@ -7,6 +7,13 @@ age_filter_mode_birth_year: Année de naissance
 age_filter_legend_age: Âge de votre/vos enfant(s)
 age_filter_legend_birth_year: Année de naissance de votre/vos enfant(s)
 age_filter_years: '%age% ans'
+date_picker_confirm: Confirmer
+date_picker_show_holidays: Afficher les week-ends, vacances et jours fériés
+date_picker_mode_date: Date
+date_picker_mode_weekly: Hebdomadaire
+date_picker_days: Choisissez un ou plusieurs jours
+date_picker_time: Choisissez une heure
+date_picker_every_day: Tous les jours
 event_age_range: De %min_age% ans à %max_age% ans.
 event_age_range_no_min: De 0 ans à %max_age% ans.
 event_age_range_min: De %min_age% ans.
@@ -15,8 +22,15 @@ event_overnight_stay_with: Avec nuitée
 event_overnight_stay_without: Sans nuitée
 event_overnight_stay_partly_with: En partie avec nuitée
 event_overnight_stay_partly_without: En partie sans nuitée
+event_hours_activity: Activité
+event_hours_childcare: Garderie
+event_hours_childcare_before: Garderie avant
+event_hours_childcare_after: Garderie après
+event_hours_from: 'à partir de %time%'
+event_hours_until: "jusqu'à %time%"
+event_hours_at: 'à %time%'
 event_expired: Cet événement est terminé
-event_full_date: %date% à %hour%
+event_full_date: '%date% à %hour%'
 event_read_more: Lire plus
 event_directions: comment arriver ici ?
 event_online: En ligne

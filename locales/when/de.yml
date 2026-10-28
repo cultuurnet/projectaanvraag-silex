@@ -7,3 +7,17 @@ next30days: Nächste 30 Tage
 customdate: Benutzerdefiniertes Datum
 from: von
 to: zu
+monday: Montag
+tuesday: Dienstag
+wednesday: Mittwoch
+thursday: Donnerstag
+friday: Freitag
+saturday: Samstag
+sunday: Sonntag
+monday_short: Mo
+tuesday_short: Di
+wednesday_short: Mi
+thursday_short: Do
+friday_short: Fr
+saturday_short: Sa
+sunday_short: So

@@ -10,6 +10,9 @@ use CultuurNet\ProjectAanvraag\Widget\Twig\TwigPreprocessor;
 
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\SearchV3\Parameter\Query;
+use CultuurNet\SearchV3\Parameter\RecurringOnDayOfWeek;
+use CultuurNet\SearchV3\Parameter\RecurringOnLocalTimeFrom;
+use CultuurNet\SearchV3\Parameter\RecurringOnLocalTimeTo;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -53,6 +56,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled" : true,
  *                      "label": "Wanneer",
  *                      "placeholder": "Kies een periode",
+ *                      "type": "select",
+ *                      "school_holidays": false,
  *                      "options": {
  *                          "today": true,
  *                          "tomorrow": true,
@@ -68,11 +73,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled": false
  *                  }
  *              },
- *              "extra": {
- *                  "group_filters": {
+ *              "age": {
+ *                  "age_filter": {
  *                      "enabled": false
  *                  },
- *                  "age_filter": {
+ *                  "group_filters": {
+ *                      "enabled": false
+ *                  }
+ *              },
+ *              "extra": {
+ *                  "group_filters": {
  *                      "enabled": false
  *                  },
  *              },
@@ -257,6 +267,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                      "enabled" : "boolean",
  *                      "label": "string",
  *                      "placeholder": "string",
+ *                      "type": "string",
+ *                      "school_holidays": "boolean",
  *                      "options": {
  *                          "today": "boolean",
  *                          "tomorrow": "boolean",
@@ -270,11 +282,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *                  },
  *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
- *              "extra": {
- *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter",
+ *              "age": {
  *                  "age_filter": {
  *                      "enabled": "boolean"
- *                  }
+ *                  },
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
+ *              },
+ *              "extra": {
+ *                  "group_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *              },
  *              "facility_filters": "CultuurNet\ProjectAanvraag\Widget\Settings\GroupFilter"
  *          },
@@ -289,6 +304,8 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
     private const AGE_FILTER_MIN_AGE = 2;
 
     private const AGE_FILTER_MAX_AGE = 12;
+
+    private const WEEKDAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
     /**
      * @var null|\Symfony\Component\HttpFoundation\Request
@@ -308,6 +325,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         'location',
         'time',
         'extra',
+        'age',
         'facility_filters',
     ];
 
@@ -323,6 +341,11 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
      */
     public function __construct(array $pluginDefinition, array $configuration, bool $cleanup, \Twig_Environment $twig, TwigPreprocessor $twigPreprocessor, RendererInterface $renderer, RequestStack $requestStack, RegionService $regionService)
     {
+        $fields = $configuration['settings']['fields'] ?? [];
+        if (!isset($fields['age']) && isset($fields['extra']['age_filter'])) {
+            $configuration['settings']['fields']['age']['age_filter'] = $fields['extra']['age_filter'];
+        }
+
         parent::__construct($pluginDefinition, $configuration, $cleanup, $twig, $twigPreprocessor, $renderer);
         $this->request = $requestStack->getCurrentRequest();
         $this->regionService = $regionService;
@@ -363,6 +386,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                 'when_autocomplete_path' => $this->request->getScheme() . '://' . $this->request->getHost() . $this->request->getBaseUrl() . '/widgets/autocomplete/regions',
                 'preferredLanguage' => ($preferredLanguage) ?: 'nl',
                 'age_filter_options' => $this->getAgeFilterOptions(($preferredLanguage) ?: 'nl'),
+                'weekdays' => self::WEEKDAYS,
             ]
         );
     }
@@ -377,6 +401,10 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
             $this->renderer->attachCss(WWW_ROOT . '/assets/vendor/pickaday/pickaday.css');
         }
 
+        if ($this->datePickerEnabled()) {
+            $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/date-picker.js');
+        }
+
         if ($this->ageFilterEnabled()) {
             $this->renderer->attachJavascript(WWW_ROOT . '/assets/js/widgets/search-form/age-filter.js');
         }
@@ -386,9 +414,22 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
         return $this->render('', $preferredLanguage);
     }
 
+    private function datePickerEnabled(): bool
+    {
+        return !empty($this->settings['fields']['time']['date_search']['enabled'])
+            && ($this->settings['fields']['time']['date_search']['type'] ?? 'select') === 'date_picker';
+    }
+
+    private function parseLocalTime(string $time): ?\DateTime
+    {
+        $localTime = \DateTime::createFromFormat('!H:i', $time);
+
+        return $localTime && $localTime->format('H:i') === $time ? $localTime : null;
+    }
+
     private function ageFilterEnabled(): bool
     {
-        return !empty($this->settings['fields']['extra']['age_filter']['enabled']);
+        return !empty($this->settings['fields']['age']['age_filter']['enabled']);
     }
 
     private function formatAge(int $age, string $preferredLanguage): string
@@ -449,7 +490,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
     protected function getDefaults()
     {
         $defaults = [];
-        if ($this->settings['fields']['time']['date_search']['enabled']) {
+        if ($this->settings['fields']['time']['date_search']['enabled'] && !$this->datePickerEnabled()) {
             $defaults['when'] = $this->settings['fields']['time']['date_search']['default_option'];
         }
 
@@ -641,6 +682,46 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                     ];
                     $advancedQuery[] = 'regions:' . $region->key;
                 }
+            } elseif ($key === 'days' && $this->datePickerEnabled()) {
+                $days = array_values(array_intersect(self::WEEKDAYS, explode('|', $activeValue)));
+                if (!empty($days)) {
+                    $searchQuery = $searchResultsQueryAlter->getSearchQuery();
+                    $searchQuery->addParameter(new RecurringOnDayOfWeek(...$days));
+
+                    $labels = [];
+                    if ($days === self::WEEKDAYS) {
+                        $labels[] = $this->twigPreprocessor->translateLabel('date_picker_every_day', 'messages', $preferredLanguage);
+                    } else {
+                        foreach ($days as $day) {
+                            $labels[] = $this->twigPreprocessor->translateLabel($day, 'when', $preferredLanguage);
+                        }
+                    }
+
+                    $timeFrom = $this->parseLocalTime($activeFilters['time-from'] ?? '');
+                    $timeTo = $this->parseLocalTime($activeFilters['time-to'] ?? '');
+                    if ($timeFrom && $timeTo && $timeFrom > $timeTo) {
+                        $timeFrom = $timeTo = null;
+                    }
+
+                    $timeLabels = [];
+                    if ($timeFrom) {
+                        $searchQuery->addParameter(new RecurringOnLocalTimeFrom((int) $timeFrom->format('Hi')));
+                        $timeLabels[] = $timeFrom->format('H:i');
+                    }
+                    if ($timeTo) {
+                        $searchQuery->addParameter(new RecurringOnLocalTimeTo((int) $timeTo->format('Hi')));
+                        $timeLabels[] = $timeTo->format('H:i');
+                    }
+                    if (!empty($timeLabels)) {
+                        $labels[] = implode(' - ', $timeLabels);
+                    }
+
+                    $searchResultsActiveFilters[] = [
+                        'label' => implode(', ', $labels),
+                        'name' => 'search-form[' . $this->id . '][days]',
+                        'is_default' => false,
+                    ];
+                }
             } elseif ($key === 'age' && $this->ageFilterEnabled()) {
                 $queries = [];
                 $labels = [];
@@ -678,8 +759,9 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
             }
         }
 
+        $searchResultsQueryAlter->setActiveFilters($searchResultsActiveFilters);
+
         if (!empty($advancedQuery)) {
-            $searchResultsQueryAlter->setActiveFilters($searchResultsActiveFilters);
             $searchResultsQueryAlter->getSearchQuery()->addParameter(
                 new Query(implode(' AND ', $advancedQuery))
             );

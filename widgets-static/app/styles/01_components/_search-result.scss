@@ -202,8 +202,12 @@ p.cnw_card-description {
 p span.cnw_badge {
   font-family: $font-family-sans-serif !important;
   font-weight: 100;
-  background-color: #a5a5a5;
+  background-color: $badge-default-bg;
   font-size: 85%;
+
+  a {
+    color: $white;
+  }
 }
 
 .cnw_w .cnw_searchresult__counter-text {
@@ -240,13 +244,15 @@ p span.cnw_badge {
       font-size: 100%;
       margin: 0 10px;
       padding: 5px 10px;
+      line-height: 1.4;
+      white-space: normal;
     }
   }
 
   .cnw_badge-editorial {
     background-color: transparent;
-    border: 1px solid gray;
-    color: gray;
+    border: 1px solid $badge-default-bg;
+    color: $badge-default-bg;
     font-size: 0.6em;
     padding: 0.5em 0.5em;
     margin-left: 10px;
@@ -273,6 +279,7 @@ p span.cnw_badge {
 .cnw_searchresult--block .cnw_searchresult-detail-label,
 .cnw_searchresult-detail .cnw_searchresult-detail-label {
   display: inline-block;
+  font-style: normal;
 }
 .cnw_searchresult--block.labels-as-icons .cnw_searchresult-detail-label,
 .cnw_searchresult-detail.labels-as-icons .cnw_searchresult-detail-label{

@@ -183,6 +183,26 @@
                     </div>
                 {% endif %}
 
+                {% if settings_items.when.enabled and event.practical_hours.activity %}
+                    <div class="list-item">
+                        <div class="list-item-aside">
+                            <em class="cnw_searchresult-detail-label">{{ 'event_hours_activity' | transTo(preferredLanguage) }}</em>
+                            <i class="cnw-fa cnw-fa-clock-o"></i>
+                        </div>
+                        <div class="list-item-content">{{ event.practical_hours.activity }}</div>
+                    </div>
+                {% endif %}
+
+                {% if settings_items.when.enabled and event.practical_hours.childcare %}
+                    <div class="list-item">
+                        <div class="list-item-aside">
+                            <em class="cnw_searchresult-detail-label">{{ event.practical_hours.childcare.label | transTo(preferredLanguage) }}</em>
+                            <i class="cnw-fa cnw-fa-user-clock"></i>
+                        </div>
+                        <div class="list-item-content">{{ event.practical_hours.childcare.hours }}</div>
+                    </div>
+                {% endif %}
+
                 {% if settings_items.age.enabled and event.age_range %}
                     <div class="list-item">
                     {% if settings_items.age.label is not empty %}
