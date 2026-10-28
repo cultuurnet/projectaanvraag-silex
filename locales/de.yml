@@ -22,6 +22,13 @@ event_overnight_stay_with: Mit Übernachtung
 event_overnight_stay_without: Ohne Übernachtung
 event_overnight_stay_partly_with: Teilweise mit Übernachtung
 event_overnight_stay_partly_without: Teilweise ohne Übernachtung
+event_hours_activity: Aktivität
+event_hours_childcare: Betreuung
+event_hours_childcare_before: Frühbetreuung
+event_hours_childcare_after: Spätbetreuung
+event_hours_from: 'ab %time%'
+event_hours_until: 'bis %time%'
+event_hours_at: 'um %time%'
 event_expired: Diese Veranstaltung ist beendet
 event_full_date: '%date% um %hour% Stunden'
 event_read_more: Mehr lesen
