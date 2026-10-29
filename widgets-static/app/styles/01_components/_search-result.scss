@@ -264,14 +264,19 @@ p span.cnw_badge {
 }
 
 .cnw_searchresult--block .list-item i.cnw-fa,
+.cnw_searchresult--block .list-item svg.lucide,
 .cnw_searchresult-detail .list-item i.cnw-fa,
 .cnw_searchresult-detail i.cnw-fa{
   display: none;
+}
+.list-item svg.lucide {
+  font-size: 1.1em;
 }
 .cnw-share i.cnw-fa{
   display: inline-block;
 }
 .cnw_searchresult--block.labels-as-icons .list-item i.cnw-fa,
+.cnw_searchresult--block.labels-as-icons .list-item svg.lucide,
 .cnw_searchresult-detail.labels-as-icons .list-item i.cnw-fa,
 .cnw_searchresult-detail.labels-as-icons i.cnw-fa{
   display: inline-block;
@@ -289,7 +294,8 @@ p span.cnw_badge {
   .cnw_searchresult--block .cnw_searchresult-detail-label {
     @include hiddenClip;
   }
-  .cnw_searchresult--block .list-item i.cnw-fa {
+  .cnw_searchresult--block .list-item i.cnw-fa,
+  .cnw_searchresult--block .list-item svg.lucide {
     display: inline-block;
   }
   .cnw_searchresult-detail  i.cnw-fa {

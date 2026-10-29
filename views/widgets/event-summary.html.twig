@@ -106,6 +106,7 @@
             {% endif %}
             {% if settings_items.overnight is defined and settings_items.overnight.enabled and event.overnight_stay %}
                 <span class="cnw_badge cnw_badge-default">
+                    {% include 'widgets/lucide-icon.html.twig' with { 'icon': 'moon-star' } %}
                     {{ event.overnight_stay }}
                 </span>
             {% endif %}
@@ -197,7 +198,7 @@
                     <div class="list-item">
                         <div class="list-item-aside">
                             <em class="cnw_searchresult-detail-label">{{ event.practical_hours.childcare.label | transTo(preferredLanguage) }}</em>
-                            <i class="cnw-fa cnw-fa-user-clock"></i>
+                            {% include 'widgets/lucide-icon.html.twig' with { 'icon': 'clock-fading' } %}
                         </div>
                         <div class="list-item-content">{{ event.practical_hours.childcare.hours }}</div>
                     </div>
