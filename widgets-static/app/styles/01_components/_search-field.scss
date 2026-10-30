@@ -414,7 +414,7 @@ input:checked + .cnw_date-picker-day-label {
     width: 2.25rem;
     height: 1.25rem;
     margin: 0 0.5rem 0 0;
-    background-color: #767676;
+    background-color: $gray-light;
     border-radius: 1rem;
 
     &::before {
