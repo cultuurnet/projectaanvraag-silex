@@ -49,6 +49,61 @@
     margin-top: 0.25em;
   }
 
+  &-departure-places-description {
+    margin-bottom: 1em;
+  }
+
+  &-departure-places {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  &-departure-place {
+    margin-bottom: 0.75em;
+  }
+
+  &-departure-place-name {
+    display: block;
+    font-weight: 600;
+  }
+
+  &-departure-place-address {
+    display: block;
+    color: $gray-light;
+  }
+
+  &-faqs {
+    margin-bottom: 1rem;
+  }
+
+  &-faq-question {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.9em 0;
+    border-bottom: 1px solid #ddd;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &-faq-item .cnw_searchresult-detail-faq-question i.cnw-fa {
+    display: inline-block;
+  }
+
+  &-faq-item[open] .cnw_searchresult-detail-faq-question i.cnw-fa {
+    transform: rotate(180deg);
+  }
+
+  &-faq-answer {
+    padding: 0.75em 0 1.25em;
+  }
+
   &-info {
     dt {
       @include make-col-ready();
