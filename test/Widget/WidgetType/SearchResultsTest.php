@@ -47,7 +47,9 @@ class SearchResultsTest extends TestCase
         return [
             'numeric page' => ['2', 20],
             'first page' => ['0', 0],
-            'page with trailing characters' => ['2abc', 20],
+            'page with trailing characters' => ['2abc', 0],
+            'decimal page' => ['1.5', 0],
+            'array page' => [['2'], 0],
             'non-numeric page' => ['abc', 0],
             'negative page' => ['-3', 0],
         ];
