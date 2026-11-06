@@ -560,7 +560,7 @@ final class SearchResults extends WidgetTypeBase
             // Check for page query param.
             if (isset($searchResultOptions['page'])) {
                 // Set current page index.
-                $currentPageIndex = $searchResultOptions['page'];
+                $currentPageIndex = max(0, (int) $searchResultOptions['page']);
                 // Move start according to the active page.
                 $query->setStart($currentPageIndex * $resultsPerPage);
             }
