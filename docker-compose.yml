@@ -1,22 +1,37 @@
 services:
-
-  php:
-    build: docker/php
-    hostname: 'projectaanvraag.local'
-    container_name: php.projectaanvraag
+  projectaanvraag-base-php-7-4:
+    build: docker/php7.4
     volumes:
       - .:/var/www/html:cached
     working_dir: /var/www/html
-    ports:
-      - '80:80'
+    healthcheck:
+      test: curl http://127.0.0.1:80/
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+  projectaanvraag:
+    container_name: projectaanvraag.publiq
     networks:
       projectaanvraag:
         aliases:
-          - projectaanvraag
-
+          - projectaanvraag.publiq.local
+    extends:
+      service: projectaanvraag-base-php-7-4
+    ports:
+      - '1080:80'
   mysql:
     image: 'mysql/mysql-server:8.0'
-    container_name: mysql.projectaanvraag
+    container_name: mysql-projectaanvraag.publiq
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -25,51 +40,67 @@ services:
     volumes:
       - 'projectaanvraag-mysql:/var/lib/mysql'
     ports:
-      - '3307:3306'
+      - '${FORWARD_MYSQL_PORT:-13306}:3306'
     networks:
       projectaanvraag:
         aliases:
-          - mysql
-
+          - mysql-projectaanvraag.publiq.local
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+      retries: 3
+      timeout: 5s
   redis:
     image: 'redis:alpine'
-    container_name: redis.projectaanvraag
+    container_name: redis-projectaanvraag.publiq
     ports:
-      - '${FORWARD_REDIS_PORT:-6380}:6379'
+      - '${FORWARD_REDIS_PORT:-16379}:6379'
     volumes:
       - 'projectaanvraag-redis:/data'
     networks:
-      - projectaanvraag
+      projectaanvraag:
+        aliases:
+          - redis-projectaanvraag.publiq.local
     healthcheck:
       test: [ 'CMD', 'redis-cli', 'ping' ]
       retries: 3
       timeout: 5s
-
   mongodb:
     image: 'mongo:3.6'
-    container_name: mongodb.projectaanvraag
+    container_name: mongodb-projectaanvraag.publiq
     ports:
-      - '${FORWARD_REDIS_PORT:-27018}:27017'
+      - '${FORWARD_MONGODB_PORT:-27017}:27017'
     volumes:
       - 'projectaanvraag-mongodb:/data/db'
     networks:
-      - projectaanvraag
-
+      projectaanvraag:
+        aliases:
+          - mongodb-projectaanvraag.publiq.local
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongodb:27017/test --quiet
+      retries: 3
+      timeout: 5s
   rabbitmq:
-    image: public.ecr.aws/y2o7k5u2/udb3/rabbitmq:latest
-    hostname: 'rabbitdocker'
-    volumes:
-      - 'projectaanvraag-rabbitmq:/var/lib/rabbitmq/mnesia'
-    container_name: rabbitmq.projectaanvraag
+    image: rabbitmq:3.12.12-management
+    container_name: rabbitmq-projectaanvraag.publiq
     ports:
-      - 5673:5672
-      - 15673:15672
+      - '${FORWARD_RABBITMQ_PORT:-5672}:5672'
+      - '${FORWARD_RABBITMQ_ADMIN_PORT:-15672}:15672'
+    volumes:
+      - ./docker/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - ./docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
     networks:
-      - projectaanvraag
+      projectaanvraag:
+        aliases:
+          - rabbitmq-projectaanvraag.publiq.local
+    healthcheck:
+      test: [ 'CMD', 'rabbitmqctl', 'node_health_check' ]
+      retries: 5
+      timeout: 10s
 
 networks:
   projectaanvraag:
-    driver: bridge
+    name: platform
+    external: true
 
 volumes:
   projectaanvraag-redis:
