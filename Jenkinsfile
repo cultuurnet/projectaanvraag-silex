@@ -41,7 +41,12 @@ pipeline {
                 }
 
                 stage('Build artifact') {
-                    agent any
+                    agent {
+                        docker {
+                            image 'base_images/ruby:2.7'
+                            label 'docker'
+                        }
+                    }
                     environment {
                         GIT_SHORT_COMMIT = util.shortCommitRef()
                         ARTIFACT_VERSION = "${env.PIPELINE_VERSION}" + '+sha.' + "${env.GIT_SHORT_COMMIT}"
