@@ -41,7 +41,12 @@ pipeline {
                 }
 
                 stage('Build artifact') {
-                    agent { label 'ubuntu && 20.04' }
+                    agent {
+                        docker {
+                            image 'base_images/ruby:2.7'
+                            label 'docker'
+                        }
+                    }
                     environment {
                         GIT_SHORT_COMMIT = util.shortCommitRef()
                         ARTIFACT_VERSION = "${env.PIPELINE_VERSION}" + '+sha.' + "${env.GIT_SHORT_COMMIT}"
@@ -78,7 +83,7 @@ pipeline {
         }
 
         stage('Deploy to development') {
-            agent { label 'ubuntu && 20.04' }
+            agent any
             options { skipDefaultCheckout() }
             environment {
                 APPLICATION_ENVIRONMENT = 'development'
@@ -89,7 +94,7 @@ pipeline {
         }
 
         stage('Deploy to testing') {
-            agent { label 'ubuntu && 20.04' }
+            agent any
             options { skipDefaultCheckout() }
             environment {
                 APPLICATION_ENVIRONMENT = 'testing'
@@ -107,7 +112,7 @@ pipeline {
 
         stage('Deploy to production') {
             input { message "Deploy to Production?" }
-            agent { label 'ubuntu && 20.04' }
+            agent any
             options { skipDefaultCheckout() }
             environment {
                 APPLICATION_ENVIRONMENT = 'production'
