@@ -578,9 +578,10 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
 
                         if (isset($this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey])) {
                             $groupFilter = $this->settings['fields'][$type]['group_filters']['filters'][$groupFilterKey];
+                            $selectedQueries = [];
                             foreach ($selectedOptions as $selectedOption) {
                                 if (isset($groupFilter['options'][$selectedOption]) && !empty($groupFilter['options'][$selectedOption]['query'])) {
-                                    $advancedQuery[] = $groupFilter['options'][$selectedOption]['query'];
+                                    $selectedQueries[] = $groupFilter['options'][$selectedOption]['query'];
                                     $searchResultsActiveFilters[] = [
                                         'value' => $groupFilter['options'][$selectedOption]['query'],
                                         'label' => $groupFilter['options'][$selectedOption]['label'],
@@ -589,6 +590,12 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
 
                                     ];
                                 }
+                            }
+
+                            if (count($selectedQueries) === 1) {
+                                $advancedQuery[] = $selectedQueries[0];
+                            } elseif (count($selectedQueries) > 1) {
+                                $advancedQuery[] = '((' . implode(') OR (', $selectedQueries) . '))';
                             }
                         }
                     }
