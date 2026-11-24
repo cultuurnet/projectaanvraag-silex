@@ -17,6 +17,8 @@ date_picker_every_day: Jeden Tag
 event_age_range: Von %min_age% jaar bis %max_age% Jahre.
 event_age_range_no_min: Von 0 Jahren bis zu %max_age% Jahren.
 event_age_range_min: Von %min_age% Jahre.
+event_partial_age_match_age: 'Nur für Ihr Kind von %values% J.|Nur für Ihre Kinder von %values% J.'
+event_partial_age_match_birth_year: 'Nur für Ihr Kind aus %values%|Nur für Ihre Kinder aus %values%'
 event_children_only: Nur für Kinder
 event_overnight_stay_with: Mit Übernachtung
 event_overnight_stay_without: Ohne Übernachtung

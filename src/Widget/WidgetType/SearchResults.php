@@ -680,7 +680,7 @@ final class SearchResults extends WidgetTypeBase
             'widgets/search-results-widget/search-results-widget.html.twig',
             [
                 'result_count' => $this->searchResult->getTotalItems(),
-                'events' => $this->twigPreprocessor->preprocessEventList($this->searchResult->getMember()->getItems(), $preferredLanguage, $this->settings),
+                'events' => $this->twigPreprocessor->preprocessEventList($this->searchResult->getMember()->getItems(), $preferredLanguage, $this->settings, $searchResultsQueryAlter->getAgeFilter()),
                 'pager' => $pager,
                 'settings_items' => $this->settings['items'],
                 'settings_header' => $this->settings['header'],
