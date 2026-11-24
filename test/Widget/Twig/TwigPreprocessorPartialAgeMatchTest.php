@@ -10,6 +10,7 @@ use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\SearchV3\ValueObjects\BirthdateRange;
 use CultuurNet\SearchV3\ValueObjects\Event;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -29,9 +30,12 @@ class TwigPreprocessorPartialAgeMatchTest extends TestCase
             }
         );
 
-        $this->twigPreprocessor = new TwigPreprocessor(
+        $requestStack = new RequestStack();
+        $requestStack->push(new Request());
+
+        $constructorArguments = [
             $this->createMock(\Twig_Environment::class),
-            new RequestStack(),
+            $requestStack,
             $this->createMock(\CultureFeed::class),
             'https://social.example',
             $this->createMock(FilterForKeyWithFallback::class),
@@ -39,19 +43,25 @@ class TwigPreprocessorPartialAgeMatchTest extends TestCase
             $translator,
             $this->createMock(CuratorenClient::class),
             $this->createMock(UitpasClient::class),
-            false
-        );
+            false,
+        ];
+
+        $this->twigPreprocessor = $this->getMockBuilder(TwigPreprocessor::class)
+            ->setConstructorArgs($constructorArguments)
+            ->setMethods(['preprocessEvent'])
+            ->getMock();
+
+        $this->twigPreprocessor->method('preprocessEvent')->willReturn(['id' => 'event-id']);
     }
 
     /**
      * @dataProvider partialAgeMatchProvider
      */
-    public function testFormatPartialAgeMatch(AgeFilterSelection $ageFilter, Event $event, ?string $expectedLabel)
+    public function testPreprocessEventListAddsPartialAgeMatch(?AgeFilterSelection $ageFilter, Event $event, ?string $expectedLabel)
     {
-        $method = new \ReflectionMethod(TwigPreprocessor::class, 'formatPartialAgeMatch');
-        $method->setAccessible(true);
+        $preprocessedEvents = $this->twigPreprocessor->preprocessEventList([$event], 'nl', ['items' => []], $ageFilter);
 
-        $this->assertSame($expectedLabel, $method->invoke($this->twigPreprocessor, $event, $ageFilter, 'nl'));
+        $this->assertSame($expectedLabel, $preprocessedEvents[0]['partial_age_match']);
     }
 
     public function partialAgeMatchProvider(): array
@@ -62,6 +72,7 @@ class TwigPreprocessorPartialAgeMatchTest extends TestCase
             'consecutive suitable ages' => [AgeFilterSelection::fromAges([6, 7, 8, 14]), $this->createEventForAges('6-10'), 'event_partial_age_match_age (3): 6 - 8'],
             'suitable birth years' => [AgeFilterSelection::fromBirthYears([2012, 2017, 2018]), $this->createEventForBirthYears('2017-01-01', '2018-12-31'), 'event_partial_age_match_birth_year (2): 2017 - 2018'],
             'all ages suitable' => [AgeFilterSelection::fromAges([6, 8]), $this->createEventForAges('6-10'), null],
+            'no age filter' => [null, $this->createEventForAges('6-10'), null],
         ];
     }
 
