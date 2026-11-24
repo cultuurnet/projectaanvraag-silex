@@ -593,7 +593,7 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                             }
 
                             if (count($selectedQueries) === 1) {
-                                $advancedQuery[] = $selectedQueries[0];
+                                $advancedQuery[] = '(' . $selectedQueries[0] . ')';
                             } elseif (count($selectedQueries) > 1) {
                                 $advancedQuery[] = '((' . implode(') OR (', $selectedQueries) . '))';
                             }

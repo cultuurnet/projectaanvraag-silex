@@ -35,9 +35,9 @@ class SearchFormGroupFilterTest extends TestCase
     public function groupFilterProvider(): array
     {
         return [
-            'one option' => [[0 => '1'], 'b OR c'],
+            'one option' => [[0 => '1'], '(b OR c)'],
             'multiple options of one filter' => [[0 => '0|1'], '((a) OR (b OR c))'],
-            'options of different filters' => [[0 => '0', 1 => '0'], 'a AND d'],
+            'options of different filters' => [[0 => '0', 1 => '0'], '(a) AND (d)'],
         ];
     }
 
