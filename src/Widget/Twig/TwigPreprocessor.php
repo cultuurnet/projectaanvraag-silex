@@ -917,15 +917,11 @@ class TwigPreprocessor
      */
     private function formatNumberList(array $sortedNumbers): string
     {
-        $lowestNumber = reset($sortedNumbers);
-        $highestNumber = end($sortedNumbers);
-        $numbersAreConsecutive = $highestNumber - $lowestNumber === count($sortedNumbers) - 1;
+        $first = reset($sortedNumbers);
+        $last = end($sortedNumbers);
+        $isConsecutive = count($sortedNumbers) > 1 && $sortedNumbers === range($first, $last);
 
-        if (count($sortedNumbers) > 1 && $numbersAreConsecutive) {
-            return $lowestNumber . ' - ' . $highestNumber;
-        }
-
-        return implode(', ', $sortedNumbers);
+        return $isConsecutive ? $first . ' - ' . $last : implode(', ', $sortedNumbers);
     }
 
     /**
