@@ -15078,6 +15078,27 @@ p span.cnw_badge a {
   display: inline-block;
 }
 
+.cnw_partial-age-match-pill {
+  display: inline-flex;
+  -webkit-box-align: center;
+          align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  margin-left: 5px;
+  border: 1px solid #0275d8;
+  border-radius: 100px;
+  color: #0275d8;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.cnw_searchresult--block .list-item .cnw_partial-age-match-pill svg.lucide {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  font-size: inherit;
+}
+
 .cnw_searchresult--block.labels-as-icons .list-item i.cnw-fa,
 .cnw_searchresult--block.labels-as-icons .list-item svg.lucide,
 .cnw_searchresult-detail.labels-as-icons .list-item i.cnw-fa,

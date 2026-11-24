@@ -204,17 +204,23 @@
                     </div>
                 {% endif %}
 
-                {% if settings_items.age.enabled and event.age_range %}
+                {% if settings_items.age.enabled and (event.age_range or event.partial_age_match) %}
                     <div class="list-item">
                     {% if settings_items.age.label is not empty %}
                         <div class="list-item-aside">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.age.label }}</em>
                             <i class="cnw-fa cnw-fa-male"></i>
                         </div>
-                        <div class="list-item-content">{{ event.age_range }}</div>
-                    {% else %}
-                        <div class="list-item-content">{{ event.age_range }}</div>
                     {% endif %}
+                        <div class="list-item-content">
+                            {{ event.age_range }}
+                            {% if event.partial_age_match %}
+                                <span class="cnw_partial-age-match-pill">
+                                    {% include 'widgets/lucide-icon.html.twig' with { 'icon': 'message-square-warning' } %}
+                                    {{ event.partial_age_match }}
+                                </span>
+                            {% endif %}
+                        </div>
                     </div>
                 {% endif %}
 
