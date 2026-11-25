@@ -355,12 +355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cultuurnet/search-v3.git",
-                "reference": "063f25c2007bce46adcbb954cfd3af914e1f869e"
+                "reference": "ea3a7121d991cbb65900e8a0d3e1cf315d13421d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/063f25c2007bce46adcbb954cfd3af914e1f869e",
-                "reference": "063f25c2007bce46adcbb954cfd3af914e1f869e",
+                "url": "https://api.github.com/repos/cultuurnet/search-v3/zipball/ea3a7121d991cbb65900e8a0d3e1cf315d13421d",
+                "reference": "ea3a7121d991cbb65900e8a0d3e1cf315d13421d",
                 "shasum": ""
             },
             "require": {
@@ -395,7 +395,7 @@
                 "issues": "https://github.com/cultuurnet/search-v3/issues",
                 "source": "https://github.com/cultuurnet/search-v3/tree/main-php7"
             },
-            "time": "2026-10-22T09:16:08+00:00"
+            "time": "2026-11-25T13:52:11+00:00"
         },
         {
             "name": "cultuurnet/silex-uitid-provider",
