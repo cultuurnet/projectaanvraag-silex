@@ -205,7 +205,7 @@
                 {% endif %}
 
                 {% if settings_items.age.enabled and (event.age_range or event.partial_age_match) %}
-                    <div class="list-item">
+                    <div class="list-item{% if event.partial_age_match %} cnw_list-item--partial-age-match{% endif %}">
                     {% if settings_items.age.label is not empty %}
                         <div class="list-item-aside">
                             <em class="cnw_searchresult-detail-label">{{ settings_items.age.label }}</em>

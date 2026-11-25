@@ -286,6 +286,11 @@ p span.cnw_badge {
   color: $brand-primary;
   font-size: 0.875rem;
   line-height: 1.4;
+  vertical-align: middle;
+}
+.cnw_list-item--partial-age-match .list-item-aside,
+.cnw_list-item--partial-age-match .list-item-content {
+  vertical-align: baseline;
 }
 .cnw_searchresult--block .list-item .cnw_partial-age-match-pill svg.lucide {
   display: inline-block;
