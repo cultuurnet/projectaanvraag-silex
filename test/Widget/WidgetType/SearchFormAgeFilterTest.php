@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\AgeFilter\AgeFilterSelection;
 use CultuurNet\ProjectAanvraag\Widget\Annotation\WidgetType;
 use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RegionService;
@@ -19,7 +20,7 @@ class SearchFormAgeFilterTest extends TestCase
      *
      * @dataProvider ageFilterProvider
      */
-    public function testAlterSearchResultsQuery(array $params, ?string $expectedQuery, array $expectedLabels)
+    public function testAlterSearchResultsQuery(array $params, ?string $expectedQuery, array $expectedLabels, ?AgeFilterSelection $expectedAgeFilter)
     {
         $searchResultsQueryAlter = new SearchResultsQueryAlter('1', new SearchQuery(), []);
         $this->createSearchForm($params)->alterSearchResultsQuery($searchResultsQueryAlter);
@@ -33,27 +34,31 @@ class SearchFormAgeFilterTest extends TestCase
 
         $this->assertSame($expectedQuery, $query);
         $this->assertSame($expectedLabels, array_column($searchResultsQueryAlter->getActiveFilters(), 'label'));
+        $this->assertEquals($expectedAgeFilter, $searchResultsQueryAlter->getAgeFilter());
     }
 
     public function ageFilterProvider(): array
     {
-        $year = (int) date('Y');
+        $year = (int) (new \DateTime('now', new \DateTimeZone('CET')))->format('Y');
 
         return [
             'ages' => [
                 ['age' => '5|4|5'],
                 '(typicalAgeRange:[4 TO 4] OR typicalAgeRange:[5 TO 5])',
                 ['4 jaar, 5 jaar'],
+                AgeFilterSelection::fromAges([4, 5]),
             ],
             'birth years' => [
                 ['birth-year' => ($year - 4) . '|' . ($year - 5)],
                 '(birthdateRange:[' . ($year - 5) . '-01-01 TO ' . ($year - 5) . '-12-31] OR birthdateRange:[' . ($year - 4) . '-01-01 TO ' . ($year - 4) . '-12-31])',
                 [($year - 5) . ', ' . ($year - 4)],
+                AgeFilterSelection::fromBirthYears([$year - 5, $year - 4]),
             ],
             'values outside the 2-12 range' => [
                 ['age' => '1|13|foo', 'birth-year' => ($year - 1) . '|' . ($year - 13)],
                 null,
                 [],
+                null,
             ],
         ];
     }

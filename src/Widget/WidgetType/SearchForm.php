@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\WidgetType;
 
+use CultuurNet\ProjectAanvraag\Widget\AgeFilter\AgeFilterSelection;
 use CultuurNet\ProjectAanvraag\Widget\AlterSearchResultsQueryInterface;
 use CultuurNet\ProjectAanvraag\Widget\Event\SearchResultsQueryAlter;
 use CultuurNet\ProjectAanvraag\Widget\RegionService;
@@ -725,13 +726,15 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
             } elseif ($key === 'age' && $this->ageFilterEnabled()) {
                 $queries = [];
                 $labels = [];
-                foreach ($this->getSelectedNumbers($activeValue, self::AGE_FILTER_MIN_AGE, self::AGE_FILTER_MAX_AGE) as $age) {
+                $ages = $this->getSelectedNumbers($activeValue, self::AGE_FILTER_MIN_AGE, self::AGE_FILTER_MAX_AGE);
+                foreach ($ages as $age) {
                     $queries[] = 'typicalAgeRange:[' . $age . ' TO ' . $age . ']';
                     $labels[] = $this->formatAge($age, $preferredLanguage);
                 }
 
                 if (!empty($queries)) {
                     $advancedQuery[] = '(' . implode(' OR ', $queries) . ')';
+                    $searchResultsQueryAlter->setAgeFilter(AgeFilterSelection::fromAges($ages));
                     $searchResultsActiveFilters[] = [
                         'label' => implode(', ', $labels),
                         'name' => 'search-form[' . $this->id . '][age]',
@@ -743,13 +746,15 @@ final class SearchForm extends WidgetTypeBase implements AlterSearchResultsQuery
                 $labels = [];
                 $minBirthYear = $this->currentYear() - self::AGE_FILTER_MAX_AGE;
                 $maxBirthYear = $this->currentYear() - self::AGE_FILTER_MIN_AGE;
-                foreach ($this->getSelectedNumbers($activeValue, $minBirthYear, $maxBirthYear) as $birthYear) {
+                $birthYears = $this->getSelectedNumbers($activeValue, $minBirthYear, $maxBirthYear);
+                foreach ($birthYears as $birthYear) {
                     $queries[] = 'birthdateRange:[' . $birthYear . '-01-01 TO ' . $birthYear . '-12-31]';
                     $labels[] = $birthYear;
                 }
 
                 if (!empty($queries)) {
                     $advancedQuery[] = '(' . implode(' OR ', $queries) . ')';
+                    $searchResultsQueryAlter->setAgeFilter(AgeFilterSelection::fromBirthYears($birthYears));
                     $searchResultsActiveFilters[] = [
                         'label' => implode(', ', $labels),
                         'name' => 'search-form[' . $this->id . '][birth-year]',

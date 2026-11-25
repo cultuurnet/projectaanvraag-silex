@@ -7,6 +7,7 @@ use CultuurNet\ProjectAanvraag\Widget\Translation\Service\TranslateTerm;
 use CultuurNet\ProjectAanvraag\Widget\Translation\Service\FilterForKeyWithFallback;
 use CultuurNet\ProjectAanvraag\Curatoren\CuratorenClient;
 use CultuurNet\ProjectAanvraag\Uitpas\UitpasClient;
+use CultuurNet\ProjectAanvraag\Widget\AgeFilter\AgeFilterSelection;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryFormat;
 use CultuurNet\SearchV3\ValueObjects\CalendarSummaryLanguage;
 use CultuurNet\SearchV3\ValueObjects\Event;
@@ -127,13 +128,16 @@ class TwigPreprocessor
      *   Langcode of the result to show
      * @param array $detail_link_settings
      *   Settings for the links to a detail of every event.
+     * @param AgeFilterSelection|null $ageFilter
+     *   Ages or birth years selected in the age filter of the search form.
      * @return array
      */
-    public function preprocessEventList(array $events, $preferredLanguage, array $settings)
+    public function preprocessEventList(array $events, $preferredLanguage, array $settings, ?AgeFilterSelection $ageFilter = null)
     {
         $preprocessedEvents = [];
         foreach ($events as $event) {
             $preprocessedEvent = $this->preprocessEvent($event, $preferredLanguage, $settings['items']);
+            $preprocessedEvent['partial_age_match'] = $ageFilter ? $this->formatPartialAgeMatch($event, $ageFilter, $preferredLanguage) : null;
 
             $linkType = 'query';
             $detailUrl = $this->request->query->get('origin', '');
@@ -886,6 +890,38 @@ class TwigPreprocessor
 
         // Build range string according to language.
         return $this->translator->trans('event_age_range', ['%min_age%'=>$explRange[0], '%max_age%'=>$explRange[1]], 'messages', $langcode);
+    }
+
+    protected function formatPartialAgeMatch(Event $event, AgeFilterSelection $ageFilter, string $langcode): ?string
+    {
+        $currentYear = (int) (new \DateTime('now', new \DateTimeZone('CET')))->format('Y');
+        $suitableValues = $ageFilter->findPartialMatch($event, $currentYear);
+
+        if (empty($suitableValues)) {
+            return null;
+        }
+
+        $translationKey = $ageFilter->isBirthYears() ? 'event_partial_age_match_birth_year' : 'event_partial_age_match_age';
+
+        return $this->translator->transChoice(
+            $translationKey,
+            count($suitableValues),
+            ['%values%' => $this->formatNumberList($suitableValues)],
+            'messages',
+            $langcode
+        );
+    }
+
+    /**
+     * @param int[] $sortedNumbers
+     */
+    private function formatNumberList(array $sortedNumbers): string
+    {
+        $first = reset($sortedNumbers);
+        $last = end($sortedNumbers);
+        $isConsecutive = count($sortedNumbers) > 1 && $sortedNumbers === range($first, $last);
+
+        return $isConsecutive ? $first . ' - ' . $last : implode(', ', $sortedNumbers);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace CultuurNet\ProjectAanvraag\Widget\Event;
 
+use CultuurNet\ProjectAanvraag\Widget\AgeFilter\AgeFilterSelection;
 use CultuurNet\SearchV3\SearchQueryInterface;
 
 /**
@@ -24,6 +25,11 @@ class SearchResultsQueryAlter
      * @var array
      */
     private $activeFilters;
+
+    /**
+     * @var AgeFilterSelection|null
+     */
+    private $ageFilter;
 
     /**
      * SearchResultQueryAlter constructor.
@@ -69,6 +75,18 @@ class SearchResultsQueryAlter
     public function setActiveFilters(array $activeFilters)
     {
         $this->activeFilters = $activeFilters;
+        return $this;
+    }
+
+    public function getAgeFilter(): ?AgeFilterSelection
+    {
+        return $this->ageFilter;
+    }
+
+    public function setAgeFilter(AgeFilterSelection $ageFilter): self
+    {
+        $this->ageFilter = $ageFilter;
+
         return $this;
     }
 }

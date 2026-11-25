@@ -275,6 +275,29 @@ p span.cnw_badge {
 .cnw-share i.cnw-fa{
   display: inline-block;
 }
+.cnw_partial-age-match-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  margin-left: 5px;
+  border: 1px solid $brand-primary;
+  border-radius: 100px;
+  color: $brand-primary;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+.cnw_list-item--partial-age-match .list-item-aside,
+.cnw_list-item--partial-age-match .list-item-content {
+  vertical-align: baseline;
+}
+.cnw_searchresult--block .list-item .cnw_partial-age-match-pill svg.lucide {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  font-size: inherit;
+}
 .cnw_searchresult--block.labels-as-icons .list-item i.cnw-fa,
 .cnw_searchresult--block.labels-as-icons .list-item svg.lucide,
 .cnw_searchresult-detail.labels-as-icons .list-item i.cnw-fa,
